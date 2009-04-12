@@ -370,12 +370,12 @@ namespace Ecell
         /// </summary>
         public void LoadModel()
         {
-            string modelID = null;
             try
             {
                 foreach (string filename in m_info.Models)
                 {
                     // Load model
+                    string modelID = null;
                     EcellObject modelObj = null;
                     try
                     {
@@ -646,6 +646,15 @@ namespace Ecell
             string[] files = Directory.GetFiles(prjPath, "project.xml");
             if (files.Length <= 0)
                 Directory.Delete(prjPath, true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        public void LoadRevision(string name)
+        {
+
         }
 
         #region Methods for Save
@@ -927,6 +936,24 @@ namespace Ecell
             return stepper;
         }
 
+        /// <summary>
+        /// Get a list of Revisions
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetRevisions()
+        {
+            List<string> list = new List<string>();
+            if (m_info.ProjectPath == null)
+                return list;
+
+            // Get Revision names.
+            string[] temp = Directory.GetDirectories(m_info.ProjectPath, "Revision*");
+            foreach (string revision in temp)
+            {
+                list.Add(Path.GetFileName(revision));
+            }
+            return list;
+        }
         #endregion
 
         #region Add Object

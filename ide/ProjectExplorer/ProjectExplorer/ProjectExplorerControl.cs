@@ -16,15 +16,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     public partial class ProjectExplorerControl : EcellDockContent
     {
-        private bool m_isExpland = false;
+        #region Fields
         /// <summary>
-        /// Dictionary of tree node for Models.
+        /// 
         /// </summary>
-        private Dictionary<string, TreeNode> m_modelNodeDic = new Dictionary<string, TreeNode>();
+        private bool m_isExpland = false;
         /// <summary>
         /// Project tree node in TreeView
         /// </summary>
         private TreeNode m_prjNode;
+        /// <summary>
+        /// Model tree node in TreeView
+        /// </summary>
+        private TreeNode m_modelNode;
+        /// <summary>
+        /// Revision tree node in TreeView
+        /// </summary>
+        private TreeNode m_revisionNode;
         /// <summary>
         /// DM tree node in TreeView
         /// </summary>
@@ -49,11 +57,18 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// DataManager
         /// </summary>
         ProjectExplorer m_owner;
-
+        /// <summary>
+        /// 
+        /// </summary>
         System.Collections.IComparer m_nameSorter;
-
+        /// <summary>
+        /// 
+        /// </summary>
         System.Collections.IComparer m_typeSorter;
 
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -74,7 +89,428 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_propDict = new Dictionary<string, EcellData>();
             m_lastSelectedNode = null;
         }
+        #endregion
 
+        #region Methods for EcellPlugin
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public void DataAdd(List<EcellObject> data)
+        {
+            if (data == null)
+                return;
+            foreach (EcellObject obj in data)
+            {
+                if (obj.Type == Constants.xpathProject)
+                {
+                    CreateProjectNode(obj);
+                    continue;
+                }
+                else if (obj.Type == Constants.xpathModel)
+                {
+                    if (GetTargetModel(obj.ModelID) != null)
+                        continue;
+                    TreeNode node = new TreeNode(obj.ModelID);
+                    node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj.Type);
+                    node.SelectedImageIndex = node.ImageIndex;
+                    node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
+                    m_modelNode.Nodes.Add(node);
+                    continue;
+                }
+                else if (obj.Type == Constants.xpathProcess ||
+                    obj.Type == Constants.xpathVariable)
+                {
+                    if (obj.Key.EndsWith(Constants.headerSize))
+                        continue;
+                    TreeNode current = GetTargetModel(obj.ModelID);
+                    if (current == null)
+                        return;
+                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
+                    if (node == null)
+                    {
+                        node = GetTargetTreeNode(current, obj.ParentSystemID, null);
+                        TreeNode childNode = AddTreeNode(obj.LocalID, obj, node);
+                    }
+                }
+                else if (obj.Type == Constants.xpathSystem)
+                {
+                    TreeNode current = GetTargetModel(obj.ModelID);
+                    if (current == null)
+                        return;
+                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
+                    if (node == null)
+                    {
+                        if (obj.Key == "/")
+                        {
+                            node = AddTreeNode(obj.Key, obj, current);
+                        }
+                        else
+                        {
+                            TreeNode target = null;
+                            target = GetTargetTreeNode(current, obj.ParentSystemID, null);
+
+                            if (target != null)
+                            {
+                                node = AddTreeNode(obj.LocalID, obj, target);
+                            }
+                        }
+                    }
+                    if (node != null)
+                    {
+                        if (obj.Children == null)
+                            continue;
+                        foreach (EcellObject eo in obj.Children)
+                        {
+                            if (eo.Type != Constants.xpathVariable && eo.Type != Constants.xpathProcess)
+                                continue;
+                            if (eo.Key.EndsWith(Constants.headerSize))
+                                continue;
+                            string[] names = eo.Key.Split(new char[] { ':' });
+                            bool isHit = false;
+                            foreach (TreeNode tmp in node.Nodes)
+                            {
+                                TagData tag = (TagData)tmp.Tag;
+                                if (tmp.Text == names[names.Length - 1] &&
+                                    tag.m_type == eo.Type)
+                                {
+                                    isHit = true;
+                                    break;
+                                }
+                            }
+                            if (isHit == true)
+                                continue;
+
+                            TreeNode childNode = null;
+                            childNode = AddTreeNode(names[names.Length - 1], eo, node);
+                        }
+                    }
+                }
+            }
+            m_isExpland = false;
+            treeView1.ExpandAll();
+            treeView1.Sort();
+        }
+
+        /// <summary>
+        /// Create Project Node.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void CreateProjectNode(EcellObject obj)
+        {
+            // Create project node.
+            m_prjNode = new TreeNode(obj.ModelID);
+            treeView1.Nodes.Add(m_prjNode);
+
+            m_modelNode = new TreeNode(MessageResources.NameModel);
+            m_revisionNode = new TreeNode(MessageResources.NameRevisions);
+            m_paramNode = new TreeNode(MessageResources.NameParameters);
+            m_DMNode = new TreeNode(MessageResources.NameDMs);
+            m_logNode = new TreeNode(MessageResources.NameLogArchives);
+
+            m_modelNode.Tag = null;
+            m_revisionNode.Tag = null;
+            m_paramNode.Tag = null;
+            m_DMNode.Tag = null;
+            m_logNode.Tag = null;
+
+            m_prjNode.Nodes.Add(m_modelNode);
+            m_prjNode.Nodes.Add(m_revisionNode);
+            m_prjNode.Nodes.Add(m_paramNode);
+            m_prjNode.Nodes.Add(m_logNode);
+            m_prjNode.Nodes.Add(m_DMNode);
+
+            SetDMNodes();
+            SetRevisions();
+
+            SetLogEntry(m_logNode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetDMNodes()
+        {
+            List<string> fileList = m_owner.Environment.DataManager.GetDMNameList();
+            foreach (string d in fileList)
+            {
+                if (!Util.IsDMFile(d))
+                    continue;
+                TreeNode dNode = new TreeNode(d);
+                dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
+                dNode.SelectedImageIndex = dNode.ImageIndex;
+                dNode.Tag = d;
+                m_DMNode.Nodes.Add(dNode);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetRevisions()
+        {
+            m_revisionNode.Nodes.Clear();
+            List<string> revisionList = m_owner.Environment.DataManager.CurrentProject.GetRevisions();
+            foreach (string revision in revisionList)
+            {
+                TreeNode rNode = new TreeNode(revision);
+                rNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
+                rNode.SelectedImageIndex = rNode.ImageIndex;
+                rNode.Tag = revision;
+                m_revisionNode.Nodes.Add(rNode);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        public void DataChanged(string modelID, string key, string type, EcellObject data)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                string targetText = data.LocalID;
+
+                if (target.Text != targetText)
+                {
+                    target.Text = targetText;
+                    target.Name = targetText;
+                }
+                if (data.Logged)
+                {
+                    target.Text = target.Text + "[logged]";
+                }
+
+                if (key != data.Key)
+                {
+                    TreeNode change = GetTargetTreeNode(current, data.ParentSystemID, Constants.xpathSystem);
+                    if (change == null) return;
+                    target.Parent.Nodes.Remove(target);
+                    change.Nodes.Add(target);
+                    TagData tag = (TagData)target.Tag;
+                    tag.m_key = data.Key;
+                    target.Tag = tag;
+                    if (tag.m_type == Constants.xpathSystem)
+                    {
+                        IDChangeProvide(key, data.Key, target);
+                    }
+                    treeView1.Sort();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        public void DataDelete(string modelID, string key, string type)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                target.Remove();
+            }
+            return;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        public void AddSelect(string modelID, string key, string type)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            if (key == "")
+            {
+                treeView1.SelectNode(current, true, true);
+            }
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                treeView1.SelectNodes(target, false);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        public void RemoveSelect(string modelID, string key, string type)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            if (key == "")
+            {
+                treeView1.DeselectNode(current, false);
+                return;
+            }
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                treeView1.DeselectNode(target, false);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        private void SetLogEntry(TreeNode node)
+        {
+            List<string> logList = m_owner.Environment.DataManager.GetLogDataList();
+            Dictionary<string, TreeNode> nodeDic = new Dictionary<string, TreeNode>();
+            foreach (string name in logList)
+            {
+                string[] sep = name.Split(new char[] { ';' });
+                TreeNode n = new TreeNode(sep[1]);
+                n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
+                n.SelectedImageIndex = n.ImageIndex;
+                n.Tag = new TagData("", sep[2], Constants.xpathLog);
+
+                if (nodeDic.ContainsKey(sep[0]))
+                {
+                    nodeDic[sep[0]].Nodes.Add(n);
+                }
+                else
+                {
+                    TreeNode logNode = new TreeNode(sep[0]);
+                    logNode.Tag = null;
+                    node.Nodes.Add(logNode);
+                    nodeDic.Add(sep[0], logNode);
+                    logNode.Nodes.Add(n);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void RefreshLogEntry()
+        {
+            if (m_logNode == null)
+                return;
+            m_logNode.Nodes.Clear();
+            SetLogEntry(m_logNode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+            TreeNode paramsNode = null;
+            if (m_paramNode != null)
+            {
+                paramsNode = m_paramNode;
+            }
+            else
+            {
+                foreach (TreeNode project in treeView1.Nodes)
+                {
+                    if (project.Text.Equals(projectID))
+                    {
+                        paramsNode = new TreeNode(Constants.xpathParameters);
+                        paramsNode.Tag = null;
+                        project.Nodes.Add(paramsNode);
+                        m_paramNode = paramsNode;
+                        break;
+                    }
+                }
+                if (paramsNode == null)
+                {
+                    return;
+                }
+            }
+
+            foreach (TreeNode t in paramsNode.Nodes)
+            {
+                if (t.Text == parameterID) return;
+            }
+            TreeNode paramNode = new TreeNode(parameterID);
+            paramNode.Tag = parameterID;
+            paramNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathParameters);
+            paramNode.SelectedImageIndex = paramNode.ImageIndex;
+            paramsNode.Nodes.Add(paramNode);
+
+            return;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
+        public void ParameterDelete(string projectID, string parameterID)
+        {
+            TreeNode paramsNode = null;
+            if (m_paramNode != null)
+            {
+                paramsNode = m_paramNode;
+            }
+            else
+            {
+                foreach (TreeNode project in treeView1.Nodes)
+                {
+                    if (project.Text.Equals(projectID))
+                    {
+                        paramsNode = new TreeNode(Constants.xpathParameters);
+                        paramsNode.Tag = null;
+                        project.Nodes.Add(paramsNode);
+                        m_paramNode = paramsNode;
+                        break;
+                    }
+                }
+                if (paramsNode == null)
+                {
+                    return;
+                }
+            }
+            foreach (TreeNode t in paramsNode.Nodes)
+            {
+                if (t.Text == parameterID)
+                {
+                    paramsNode.Nodes.Remove(t);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
+        {
+            foreach (TreeNode project in treeView1.Nodes)
+            {
+                project.Remove();
+            }
+            m_modelNode = null;
+            m_paramNode = null;
+            m_logNode = null;
+            m_DMNode = null;
+        }
+
+        #endregion
+
+        #region Methods for Internal use.
         /// <summary>
         /// Show property window displayed the selected object.
         /// </summary>
@@ -84,7 +520,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             PropertyEditor.Show(m_owner.Environment, obj);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oList"></param>
+        /// <param name="fileList"></param>
         private void EnterDragMode(List<EcellObject> oList, List<string> fileList)
         {
             EcellDragObject dobj = null;
@@ -183,8 +623,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private EcellObject GetObjectFromNode(TreeNode node)
         {
             TagData t = node.Tag as TagData;
-            if (t == null) return null;
-
+            if (t == null)
+                return null;
             EcellObject obj = m_owner.Environment.DataManager.GetEcellObject(t.m_modelID, t.m_key, t.m_type);
             return obj;
         }
@@ -216,13 +656,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <returns>string(model name)</returns>
         internal string GetParentModelName(TreeNode src)
         {
-            if (src.Parent == null) return null;
+            if (src.Parent == null)
+                return null;
             TreeNode node = src;
 
             while (node != null)
             {
                 TagData tag = (TagData)node.Tag;
-                if (tag == null) return null;
+                if (tag == null)
+                    return null;
                 if (tag.m_type == Constants.xpathModel)
                 {
                     return node.Text;
@@ -240,17 +682,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         internal TreeNode GetTargetModel(string modelID)
         {
             string currentPrj = m_owner.Environment.DataManager.CurrentProjectID;
-            if (m_modelNodeDic.ContainsKey(currentPrj))
+            foreach (TreeNode node in m_modelNode.Nodes)
             {
-                TreeNode modelsNode = m_modelNodeDic[currentPrj];
-                foreach (TreeNode t in modelsNode.Nodes)
-                {
-                    TagData tag = t.Tag as TagData;
-                    if (tag.m_type == Constants.xpathModel && t.Text == modelID)
-                        return t;
-                }
+                TagData tag = node.Tag as TagData;
+                if (tag.m_type == Constants.xpathModel && node.Text == modelID)
+                    return node;
             }
-
             return null;
         }
 
@@ -264,10 +701,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         internal TreeNode GetTargetTreeNode(TreeNode current, string key, string type)
         {
             string[] keydata;
-            if (current.Nodes.Count <= 0) return null;
+            if (current.Nodes.Count <= 0)
+                return null;
 
             keydata = key.Split(new Char[] { '/' });
-            if (keydata.Length == 0) return null;
+            if (keydata.Length == 0)
+                return null;
 
             if (keydata[0].Contains(":"))
             {
@@ -322,12 +761,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
         private void DisplayDMEditor(string path)
         {
             DMEditor edit = new DMEditor(path, m_owner.Environment);
             using (edit) edit.ShowDialog();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
         private void DisplayDMWithApp(string path)
         {
             try
@@ -340,8 +787,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
-        #region Event
+        #endregion
 
+        #region Event
         /// <summary>
         /// The action of clicking [Compile] menu on popup menu.
         /// </summary>
@@ -353,7 +801,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             DMCompiler.Compile(path, m_owner.Environment);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewNewDm(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -381,6 +833,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewDMDisplay(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -389,6 +846,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             DisplayDMEditor(path);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewLogDisplayWithApp(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -401,6 +863,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             treeView1.ContextMenuStrip = null;
@@ -481,6 +948,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
@@ -517,366 +989,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        public void DataDelete(string modelID, string key, string type)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target != null)
-            {
-                target.Remove();
-            }
-            return;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target != null)
-            {
-                string targetText = data.LocalID;
 
-                if (target.Text != targetText)
-                {
-                    target.Text = targetText;
-                    target.Name = targetText;
-                }
-                if (data.Logged)
-                {
-                    target.Text = target.Text + "[logged]";
-                }
-
-                if (key != data.Key)
-                {
-                    TreeNode change = GetTargetTreeNode(current, data.ParentSystemID, Constants.xpathSystem);
-                    if (change == null) return;
-                    target.Parent.Nodes.Remove(target);
-                    change.Nodes.Add(target);
-                    TagData tag = (TagData)target.Tag;
-                    tag.m_key = data.Key;
-                    target.Tag = tag;
-                    if (tag.m_type == Constants.xpathSystem)
-                    {
-                        IDChangeProvide(key, data.Key, target);
-                    }
-                    treeView1.Sort();
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        public void AddSelect(string modelID, string key, string type)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            if (key == "")
-            {
-                treeView1.SelectNode(current, true, true);
-            }
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target != null)
-            {
-                treeView1.SelectNodes(target, false);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            if (key == "")
-            {
-                treeView1.DeselectNode(current, false);
-                return;
-            }
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target != null)
-            {
-                treeView1.DeselectNode(target, false);
-                return;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void DataAdd(List<EcellObject> data)
-        {
-            if (data == null)
-                return;
-            foreach (EcellObject obj in data)
-            {
-                if (obj.Type == Constants.xpathProject)
-                {
-                    m_prjNode = new TreeNode(obj.ModelID);
-                    treeView1.Nodes.Add(m_prjNode);                    
-                    TreeNode modelNode = new TreeNode(MessageResources.NameModel);
-                    modelNode.Tag = null;
-                    TreeNode paramNode = new TreeNode(MessageResources.NameParameters);
-                    paramNode.Tag = null;
-                    m_DMNode = new TreeNode(MessageResources.NameDMs);
-                    m_DMNode.Tag = null;
-                    m_logNode = new TreeNode(MessageResources.NameLogArchives);
-                    m_logNode.Tag = null;
-                    m_prjNode.Nodes.Add(modelNode);
-                    m_prjNode.Nodes.Add(paramNode);
-                    m_prjNode.Nodes.Add(m_logNode);
-                    m_prjNode.Nodes.Add(m_DMNode);
-                    m_modelNodeDic.Add(obj.ModelID, modelNode);
-                    m_paramNode = paramNode;
-
-                    List<string> fileList = m_owner.Environment.DataManager.GetDMNameList();
-                    foreach (string d in fileList)
-                    {
-                        if (!Util.IsDMFile(d)) continue;
-                        TreeNode dNode = new TreeNode(d);
-                        dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
-                        dNode.SelectedImageIndex = dNode.ImageIndex;
-                        dNode.Tag = d;
-                        m_DMNode.Nodes.Add(dNode);
-                    }
-
-                    SetLogEntry(m_logNode);
-
-                    continue;
-                }
-                else if (obj.Type == Constants.xpathModel)
-                {
-                    if (GetTargetModel(obj.ModelID) != null) continue;
-                    TreeNode node = new TreeNode(obj.ModelID);
-                    node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj.Type);
-                    node.SelectedImageIndex = node.ImageIndex;
-                    node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
-                    string currentPrj = m_owner.Environment.DataManager.CurrentProjectID;
-                    if (m_modelNodeDic.ContainsKey(currentPrj))
-                        m_modelNodeDic[currentPrj].Nodes.Add(node);
-                    continue;
-                }
-                else if (obj.Type == Constants.xpathProcess ||
-                    obj.Type == Constants.xpathVariable)
-                {
-                    if (obj.Key.EndsWith(Constants.headerSize))
-                        continue;
-                    TreeNode current = GetTargetModel(obj.ModelID);
-                    if (current == null)
-                        return;
-                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
-                    if (node == null)
-                    {
-                        node = GetTargetTreeNode(current, obj.ParentSystemID, null);
-                        TreeNode childNode = AddTreeNode(obj.LocalID, obj, node);
-                    }
-                }
-                else if (obj.Type == Constants.xpathSystem)
-                {
-                    TreeNode current = GetTargetModel(obj.ModelID);
-                    if (current == null) return;
-                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
-                    if (node == null)
-                    {
-                        if (obj.Key == "/")
-                        {
-                            node = AddTreeNode(obj.Key, obj, current);
-                        }
-                        else
-                        {
-                            TreeNode target = null;
-                            target = GetTargetTreeNode(current, obj.ParentSystemID, null);
-
-                            if (target != null)
-                            {
-                                node = AddTreeNode(obj.LocalID, obj, target);
-                            }
-                        }
-                    }
-                    if (node != null)
-                    {
-                        if (obj.Children == null) continue;
-                        foreach (EcellObject eo in obj.Children)
-                        {
-                            if (eo.Type != Constants.xpathVariable && eo.Type != Constants.xpathProcess) continue;
-                            if (eo.Key.EndsWith(Constants.headerSize)) continue;
-                            string[] names = eo.Key.Split(new char[] { ':' });
-                            bool isHit = false;
-                            foreach (TreeNode tmp in node.Nodes)
-                            {
-                                TagData tag = (TagData)tmp.Tag;
-                                if (tmp.Text == names[names.Length - 1] &&
-                                    tag.m_type == eo.Type)
-                                {
-                                    isHit = true;
-                                    break;
-                                }
-                            }
-                            if (isHit == true) continue;
-
-                            TreeNode childNode = null;
-                            childNode = AddTreeNode(names[names.Length - 1], eo, node);
-                        }
-                    }
-                }
-            }
-            m_isExpland = false;
-            treeView1.ExpandAll();
-            treeView1.Sort();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public void RefreshLogEntry()
-        {
-            if (m_logNode == null) return;
-            m_logNode.Nodes.Clear();
-            SetLogEntry(m_logNode);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        private void SetLogEntry(TreeNode node)
-        {
-            List<string> logList = m_owner.Environment.DataManager.GetLogDataList();
-            Dictionary<string, TreeNode> nodeDic = new Dictionary<string, TreeNode>();
-            foreach (string name in logList)
-            {
-                string[] sep = name.Split(new char[] { ';' });
-                TreeNode n = new TreeNode(sep[1]);
-                n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
-                n.SelectedImageIndex = n.ImageIndex;
-                n.Tag = new TagData("", sep[2], Constants.xpathLog);
-
-                if (nodeDic.ContainsKey(sep[0]))
-                {
-                    nodeDic[sep[0]].Nodes.Add(n);
-                }
-                else
-                {
-                    TreeNode logNode = new TreeNode(sep[0]);
-                    logNode.Tag = null;
-                    node.Nodes.Add(logNode);
-                    nodeDic.Add(sep[0], logNode);
-                    logNode.Nodes.Add(n);
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
-        public void ParameterAdd(string projectID, string parameterID) {
-            TreeNode paramsNode = null;
-            if (m_paramNode != null)
-            {
-                paramsNode = m_paramNode;
-            }
-            else
-            {
-                foreach (TreeNode project in treeView1.Nodes)
-                {
-                    if (project.Text.Equals(projectID))
-                    {
-                        paramsNode = new TreeNode(Constants.xpathParameters);
-                        paramsNode.Tag = null;
-                        project.Nodes.Add(paramsNode);
-                        m_paramNode = paramsNode;
-                        break;
-                    }
-                }
-                if (paramsNode == null)
-                {
-                    return;
-                }
-            }
-
-            foreach (TreeNode t in paramsNode.Nodes)
-            {
-                if (t.Text == parameterID) return;
-            }
-            TreeNode paramNode = new TreeNode(parameterID);
-            paramNode.Tag = parameterID;
-            paramNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathParameters);
-            paramNode.SelectedImageIndex = paramNode.ImageIndex;
-            paramsNode.Nodes.Add(paramNode);
-
-            return;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            TreeNode paramsNode = null;
-            if (m_paramNode != null)
-            {
-                paramsNode = m_paramNode;
-            }
-            else
-            {
-                foreach (TreeNode project in treeView1.Nodes)
-                {
-                    if (project.Text.Equals(projectID))
-                    {
-                        paramsNode = new TreeNode(Constants.xpathParameters);
-                        paramsNode.Tag = null;
-                        project.Nodes.Add(paramsNode);
-                        m_paramNode = paramsNode;
-                        break;
-                    }
-                }
-                if (paramsNode == null)
-                {
-                    return;
-                }
-            }
-            foreach (TreeNode t in paramsNode.Nodes)
-            {
-                if (t.Text == parameterID)
-                {
-                    paramsNode.Nodes.Remove(t);
-                    return;
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Clear()
-        {
-            foreach (TreeNode project in treeView1.Nodes)
-            {
-                project.Remove();
-            }
-            m_modelNodeDic.Clear();
-            m_paramNode = null;
-            m_logNode = null;
-            m_DMNode = null;
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -1096,6 +1209,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewCreateNewRevision(object sender, EventArgs e)
         {
             m_owner.DataManager.CreateNewRevision();
+            SetRevisions();
         }
         /// <summary>
         /// 
@@ -1126,6 +1240,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.Environment.DataManager.CurrentProject.Info.ProjectPath);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1136,7 +1251,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner.Environment.DataManager.CloseProject();
         }
 
-#region ShortCuts
+        #endregion
+
+        #region ShortCuts
         private void DeletedSelectionRow()
         {
             List<TagData> delList = new List<TagData>();
@@ -1175,6 +1292,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 #endregion
     }
 
+    #region Internal Classes
     /// <summary>
     /// Sort class by name of object.
     /// </summary>
@@ -1305,6 +1423,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             this.m_key = key;
             this.m_type = type;
         }
-        #endregion
     }
+
+    #endregion
+
 }

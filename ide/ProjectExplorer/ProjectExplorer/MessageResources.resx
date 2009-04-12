@@ -147,6 +147,9 @@
   <data name="NameParameters" xml:space="preserve">
     <value>Parameters</value>
   </data>
+  <data name="NameRevisions" xml:space="preserve">
+    <value>Revisions</value>
+  </data>
   <data name="NoticeNotFind" xml:space="preserve">
     <value>No entities are matched by the search condition.</value>
   </data>

@@ -151,6 +151,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Revisions に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameRevisions {
+            get {
+                return ResourceManager.GetString("NameRevisions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   No entities are matched by the search condition. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NoticeNotFind {

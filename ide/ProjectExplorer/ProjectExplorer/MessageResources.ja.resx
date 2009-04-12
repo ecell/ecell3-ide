@@ -144,6 +144,9 @@
   <data name="NameParameters" xml:space="preserve">
     <value>パラメータ</value>
   </data>
+  <data name="NameRevisions" xml:space="preserve">
+    <value>リビジョン</value>
+  </data>
   <data name="NoticeNotFind" xml:space="preserve">
     <value>検索条件に一致するエンティティが見つかりません。</value>
   </data>
