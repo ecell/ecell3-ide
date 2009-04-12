@@ -160,5 +160,15 @@ namespace Ecell.Job
         {
             return LocalJob.GetDefaultScript();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public override string GetData(string name)
+        {
+            return null;
+        }
     }
 }

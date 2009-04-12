@@ -168,7 +168,11 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public const string FilterECDFile = "Log File(*.ecd)|*.ecs|all(*.*)|*.*";
+        public const string FilterECDFile = "Log File(*.ecd)|*.ecd|all(*.*)|*.*";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string FilterLogFile = "Log File(*.ecd)|*.ecd|CSV File (*.csv)|*.csv|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the window setting file.
         /// </summary>

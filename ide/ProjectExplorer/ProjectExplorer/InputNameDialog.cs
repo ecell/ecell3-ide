@@ -55,6 +55,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (this.DialogResult == DialogResult.Cancel)
                 return;
 
+            if (String.IsNullOrEmpty(NameTextBox.Text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
+                e.Cancel = true;
+                return;
+            }
+
             if (m_owner != null)
             {
                 List<string> data = m_owner.DataManager.GetSimulationParameterIDs();
@@ -69,12 +76,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void NameTextBox_Validating(object sender, CancelEventArgs e)
         {
-            if (String.IsNullOrEmpty(NameTextBox.Text))
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
-                e.Cancel = true;
-                return;
-            }
+
         }
     }
 }

@@ -119,5 +119,12 @@ namespace Ecell.Job
         /// </summary>
         /// <returns>the script file name.</returns>
         public abstract string GetDefaultScript();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public abstract string GetData(string name);
     }
 }

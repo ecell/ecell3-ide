@@ -216,7 +216,7 @@ namespace Ecell.IDE
             {
                 EcellData d = obj.GetEcellData(prop);
                 Debug.Assert(d != null);
-                m_env.LoggerManager.AddLoggerEntry(model, key, type, d.EntityPath);
+//                m_env.LoggerManager.AddLoggerEntry(model, key, type, d.EntityPath);
                 d.Logged = true;
             }
             // modify changes

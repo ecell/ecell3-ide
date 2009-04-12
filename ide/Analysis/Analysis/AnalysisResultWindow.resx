@@ -856,6 +856,9 @@
         AD/wAAA/8AAAf/4AAH//8AB///+A/////P8=
 </value>
   </data>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
   <data name="$this.TabText" xml:space="preserve">
     <value>AnalysisResultWindow</value>
   </data>
@@ -878,6 +881,6 @@
     <value>AnalysisResultWindow</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

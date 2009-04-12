@@ -167,6 +167,22 @@ namespace Ecell.Job
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public override string GetData(string name)
+        {
+            Dictionary<string, object> data = GetProperty();
+            foreach (string pname in data.Keys)
+            {
+                if (pname.Equals(name))
+                    return data[pname].ToString();
+            }
+            return null;
+        }
     }
 
 }

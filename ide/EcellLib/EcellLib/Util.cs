@@ -1428,7 +1428,7 @@ namespace Ecell
         /// <returns>line style.</returns>
         public static DashStyle GetLine(int i)
         {
-            int j = i % 4;
+            int j = i / 3; // GetColorBrush.
             if (j == 0) return DashStyle.Solid;
             else if (j == 1) return DashStyle.Dash;
             else if (j == 2) return DashStyle.DashDot;

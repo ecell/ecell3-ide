@@ -1629,7 +1629,10 @@ namespace Ecell
             // Delete node.
             EcellObject node = GetEcellObject(model, key, type);
             if (node != null)
+            {
+                m_env.LoggerManager.NodeRemoved(node);
                 m_currentProject.DeleteEntity(node);
+            }
 
             // Update VariableReference.
             if (node is EcellVariable)

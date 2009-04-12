@@ -470,28 +470,32 @@ namespace Ecell
             }
         }
 
-        public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
+        public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, List<SaveLoggerProperty> saveList, string topdir)
         {
             File.AppendAllText(fileName, "\n# Save logging\n", enc);
             if (saveList == null)
                 return;
             foreach (SaveLoggerProperty s in saveList)
             {
+                string dir = topdir;
+                if (dir == null)
+                    dir = s.DirName;
                 File.AppendAllText(
                     fileName,
-                    "saveLoggerData(\"" + s.FullPath + "\",\"" + s.DirName + "\"," +
+                    "saveLoggerData(\"" + s.FullPath + "\",\"" + dir + "\"," +
                     s.Start + "," + s.End + ")\n",
                     enc);
             }
         }
 
-        public void WriteComponentPropertyUnix(string fileName, Encoding enc, int i, EcellObject obj, EcellData data)
+        public void WriteComponentPropertyUnix(string fileName, Encoding enc, int i, 
+            EcellObject obj, EcellData data)
         {
             string entName = obj.Type + i;
             File.AppendAllText(fileName,
-                entName + " = createEntityStub(" + obj.FullID + ")", enc);
+                entName + " = createEntityStub(" + obj.FullID + ")\n", enc);
             File.AppendAllText(fileName,
-                entName + ".setProperty( " + data.EntityPath + "," + data.Value.ToString() + ")",
+                entName + ".setProperty( " + data.EntityPath + "," + data.Value.ToString() + ")\n",
                 enc);
         }
     }

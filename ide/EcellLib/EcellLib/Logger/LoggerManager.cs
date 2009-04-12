@@ -125,7 +125,7 @@ namespace Ecell.Logger
             if (m != null)
             {
                 m_loggerList.Remove(m);
-            }
+            }             
             m_loggerList.Add(entry);
 
             if (LoggerChangedEvent != null)

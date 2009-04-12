@@ -224,11 +224,12 @@ namespace Ecell.Job
             {
                 try
                 {
-                    if (m_process == null)
+                    if (m_process != null)
                         m_process.Kill();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    System.Console.Write(ex.ToString());
                 }
                 this.Status = JobStatus.ERROR;
                 m_process = null;

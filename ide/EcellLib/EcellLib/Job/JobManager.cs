@@ -1085,7 +1085,7 @@ namespace Ecell.Job
                 writer.WriteSimulationForStepUnix(fileName, (int)(count), enc);
             else
                 writer.WriteSimulationForTimeUnix(fileName, count, enc);
-            writer.WriteLoggerSaveEntryUnix(fileName, enc, m_logList);
+            writer.WriteLoggerSaveEntryUnix(fileName, enc, m_logList, Proxy.GetData(GlobusJob.TOPDIR_NAME));
         }
 
         private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,
