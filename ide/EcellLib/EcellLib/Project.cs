@@ -648,27 +648,18 @@ namespace Ecell
                 Directory.Delete(prjPath, true);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        public void LoadRevision(string name)
-        {
-
-        }
-
         #region Methods for Save
         /// <summary>
         /// 
         /// </summary>
         public void Save()
         {
-            string oldPath = m_info.ProjectPath;
+            string oldPath = m_info.ProjectPath.Replace("\\","/");
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
             m_info.Save();
 
             // If the project path is changed, copy DMs and Revisions.
-            if (m_info.ProjectPath.Equals(oldPath))
+            if (Path.Equals(m_info.ProjectPath, oldPath))
                 return;
 
             // Copy DMs.
@@ -947,6 +938,7 @@ namespace Ecell
                 return list;
 
             // Get Revision names.
+            string revDir = Path.Combine(Util.GetBaseDir(), m_info.Name);
             string[] temp = Directory.GetDirectories(m_info.ProjectPath, "Revision*");
             foreach (string revision in temp)
             {

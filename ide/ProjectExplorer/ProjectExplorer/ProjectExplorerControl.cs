@@ -259,6 +259,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 rNode.Tag = revision;
                 m_revisionNode.Nodes.Add(rNode);
             }
+
+            // Set Current Revision
+            TreeNode current = new TreeNode(Constants.xpathLatest);
+            current.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
+            current.SelectedImageIndex = current.ImageIndex;
+            current.Tag = Constants.xpathLatest;
+            m_revisionNode.Nodes.Add(current);
+
         }
 
         /// <summary>
@@ -917,11 +925,19 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDM;
                 }
+                else if (e.Node == m_revisionNode)
+                {
+                    treeView1.ContextMenuStrip = contextMenuStripRevisions;
+                }
+                else if (e.Node.Parent == m_revisionNode)
+                {
+                    treeView1.ContextMenuStrip = contextMenuStripRevision;
+                }
                 else if (e.Node == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuSimulationSetCollection;
                 }
-                else if (e.Node.Parent != null && e.Node.Parent == m_paramNode)
+                else if (e.Node.Parent == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripSimulationSet;
                 }
@@ -1216,9 +1232,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        private void TreeViewLoadRevision(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null)
+                return;
+
+            m_owner.DataManager.LoadRevision(m_lastSelectedNode.Text);
+            SetRevisions();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewConfigureSimulationSet(object sender, EventArgs e)
         {
-            if (m_lastSelectedNode == null) return;
+            if (m_lastSelectedNode == null)
+                return;
             if (m_paramNode == m_lastSelectedNode.Parent)
             {
                 m_owner.Environment.PluginManager.SelectChanged(

@@ -531,6 +531,30 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Load Revision.
+        /// </summary>
+        /// <param name="revision"></param>
+        public void LoadRevision(string revision)
+        {
+            if (m_currentProject == null || m_currentProject.Info.ProjectPath == null)
+                return;
+
+            // Load Current Project.
+            string oldDir = m_currentProject.Info.ProjectPath;
+            string filename = Path.Combine(oldDir, Constants.fileProjectXML);
+            if (revision.Equals(Constants.xpathLatest))
+            {
+                LoadProject(filename);
+                return;
+            }
+
+            // Load previous revision.
+            string revDir = Path.Combine(oldDir, revision);
+            filename = Path.Combine(revDir, Constants.fileProjectXML);
+            LoadProject(filename);
+            m_currentProject.Info.ProjectPath = oldDir;
+        }
+        /// <summary>
         /// Saves the model using the model ID.
         /// </summary>
         /// <param name="modelID">The saved model ID</param>

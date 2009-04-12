@@ -493,7 +493,10 @@ namespace Ecell
         /// Reserved XML path name for VariableReferenceList.
         /// </summary>
         public const string xpathVRL = "VariableReferenceList";
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xpathLatest = "Latest";
         #endregion
 
         /// <summary>

@@ -44,7 +44,6 @@
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewRevisionOnModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.plotGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +62,10 @@
             this.zipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripRevisions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createNewRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripRevision = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.loadRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             addADMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +78,8 @@
             this.contextMenuSimulationSetCollection.SuspendLayout();
             this.contextMenuStripSimulationSet.SuspendLayout();
             this.contextMenuStripProject.SuspendLayout();
+            this.contextMenuStripRevisions.SuspendLayout();
+            this.contextMenuStripRevision.SuspendLayout();
             this.SuspendLayout();
             // 
             // compileToolStripMenuItem
@@ -126,6 +131,7 @@
             resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Environment = null;
             this.treeView1.HideSelection = false;
+            this.treeView1.IsDrag = false;
             this.treeView1.Name = "treeView1";
             this.treeView1.TabStop = false;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeDoubleClick);
@@ -152,8 +158,7 @@
             // contextMenuStripModel
             // 
             this.contextMenuStripModel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportModelToolStripMenuItem,
-            this.createNewRevisionOnModelToolStripMenuItem});
+            this.exportModelToolStripMenuItem});
             this.contextMenuStripModel.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripModel, "contextMenuStripModel");
             // 
@@ -162,12 +167,6 @@
             this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
             resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
             this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.TreeViewExportModel);
-            // 
-            // createNewRevisionToolStripMenuItem
-            // 
-            this.createNewRevisionOnModelToolStripMenuItem.Name = "createNewRevisionOnModelToolStripMenuItem";
-            resources.ApplyResources(this.createNewRevisionOnModelToolStripMenuItem, "createNewRevisionOnModelToolStripMenuItem");
-            this.createNewRevisionOnModelToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
             // 
             // contextMenuStripLog
             // 
@@ -258,7 +257,7 @@
             this.contextMenuStripProject.Name = "contextMenuStripProject";
             resources.ApplyResources(this.contextMenuStripProject, "contextMenuStripProject");
             // 
-            // createNewRevisionToolStripMenuItem1
+            // createNewRevisionOnProjectToolStripMenuItem
             // 
             this.createNewRevisionOnProjectToolStripMenuItem.Name = "createNewRevisionOnProjectToolStripMenuItem";
             resources.ApplyResources(this.createNewRevisionOnProjectToolStripMenuItem, "createNewRevisionOnProjectToolStripMenuItem");
@@ -281,6 +280,32 @@
             resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCloseProject);
             // 
+            // contextMenuStripRevisions
+            // 
+            this.contextMenuStripRevisions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createNewRevisionMenuItem});
+            this.contextMenuStripRevisions.Name = "contextMenuStripModel";
+            resources.ApplyResources(this.contextMenuStripRevisions, "contextMenuStripRevisions");
+            // 
+            // createNewRevisionMenuItem
+            // 
+            this.createNewRevisionMenuItem.Name = "createNewRevisionMenuItem";
+            this.createNewRevisionMenuItem.Click += new System.EventHandler(TreeViewCreateNewRevision);
+            resources.ApplyResources(this.createNewRevisionMenuItem, "createNewRevisionMenuItem");
+            // 
+            // contextMenuStripRevision
+            // 
+            this.contextMenuStripRevision.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadRevisionMenuItem});
+            this.contextMenuStripRevision.Name = "contextMenuStripModel";
+            resources.ApplyResources(this.contextMenuStripRevision, "contextMenuStripRevision");
+            // 
+            // loadRevisionMenuItem
+            // 
+            this.loadRevisionMenuItem.Name = "loadRevisionMenuItem";
+            this.loadRevisionMenuItem.Click += new System.EventHandler(TreeViewLoadRevision);
+            resources.ApplyResources(this.loadRevisionMenuItem, "loadRevisionMenuItem");
+            // 
             // ProjectExplorerControl
             // 
             resources.ApplyResources(this, "$this");
@@ -297,6 +322,8 @@
             this.contextMenuSimulationSetCollection.ResumeLayout(false);
             this.contextMenuStripSimulationSet.ResumeLayout(false);
             this.contextMenuStripProject.ResumeLayout(false);
+            this.contextMenuStripRevisions.ResumeLayout(false);
+            this.contextMenuStripRevision.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -308,25 +335,28 @@
         public Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView treeView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripDM;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripDMCollection;
-        private System.Windows.Forms.ToolStripButton toolStripButtonSortByType;
-        private System.Windows.Forms.ToolStripButton toolStripButtonSortByName;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripModel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLog;
+        private System.Windows.Forms.ContextMenuStrip contextMenuSimulationSetCollection;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripSimulationSet;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripProject;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripRevisions;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripRevision;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSortByType;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSortByName;
+        private System.Windows.Forms.ToolStripMenuItem createNewRevisionMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadRevisionMenuItem;
         private System.Windows.Forms.ToolStripMenuItem plotGraphToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuSimulationSetCollection;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripSimulationSet;
         private System.Windows.Forms.SaveFileDialog m_saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem addSimulationSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copySimulationSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSimulationSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportModelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createNewRevisionOnModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem configureSimulationSetToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripProject;
         private System.Windows.Forms.ToolStripMenuItem createNewRevisionOnProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zipToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
