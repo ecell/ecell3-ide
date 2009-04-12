@@ -59,11 +59,11 @@ namespace Ecell.Job
             if (s_optDic == null)
             {
                 s_optDic = new Dictionary<string, object>();
-                s_optDic.Add(GlobusJob.SERVER_NAME, "cm-3250.biointegra.jp");
+                s_optDic.Add(GlobusJob.SERVER_NAME, "cm1-3250.biointegra.jp");
                 s_optDic.Add(GlobusJob.PROVIDER_NAME, "gt4");
                 s_optDic.Add(GlobusJob.SCRIPT_NAME, "/usr/local/bin/ecell3-sesiion");
                 s_optDic.Add(GlobusJob.TOPDIR_NAME, "/work");
-                s_optDic.Add(GlobusJob.PASSWORD, "XXXX");
+                s_optDic.Add(GlobusJob.PASSWORD, "gm2Rocks");
             }
         }
 
@@ -73,7 +73,10 @@ namespace Ecell.Job
         /// <returns>Return Job.</returns>
         public override Job CreateJob()
         {
-            return new GlobusJob();
+            Job j = new GlobusJob();
+            j.Param = m_optDic;
+
+            return j;
         }
 
         /// <summary>

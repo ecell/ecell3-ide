@@ -191,15 +191,23 @@ namespace Ecell.Job
 
             try
             {
-                // not implements
                 // 初期化
                 cmd = "grid-proxy-init";
                 m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
+                m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
+                m_process.StandardInput.Flush();
 
+                string cogdir = System.Environment.GetEnvironmentVariable("COG_HOME");
+                string curdir = System.Environment.CurrentDirectory + "\\";
+                Uri u1 = new Uri(curdir);
+                Uri u2 = new Uri(cogdir);
+                string relativePath = u1.MakeRelativeUri(u2).ToString();
+                relativePath = relativePath.Replace('/', '\\');
+                Console.WriteLine(relativePath);
                 // 実行ディレクトリを作成
                 // cog-job-submit -e /bin/mkdir -args $ROOT/$JobID -p $Provider -s $Server           
-                cmd = "cog-job-submit";
+                cmd = relativePath + "\\bin\\cogrun";
                 argument = " -e /bin/mkdir -args \"-p " + Param[GlobusJob.TOPDIR_NAME].ToString()
                     + "/" + this.Machine + "/" + this.JobID + "\"" 
                     + " -p " + Param[GlobusJob.PROVIDER_NAME].ToString()
@@ -208,9 +216,12 @@ namespace Ecell.Job
                 m_process.StandardInput.Flush();
 
                 string dFileName = JobID + ".ess";
-                File.Copy(ScriptFile, dFileName);
-                string sModelName = Path.GetFileNameWithoutExtension(ScriptFile) + ".eml";
+                File.Delete(dFileName); 
+                File.Copy(Argument, dFileName);
+                string sModelName = Path.GetDirectoryName(Argument) + "/" +  Path.GetFileNameWithoutExtension(Argument) + ".eml";
                 string dModelName = JobID + ".eml";
+                File.Delete(dModelName);
+                File.Copy(sModelName, dModelName);
 
                 // grid-ftpでサーバにスクリプトを持っていく
                 // cog-file-transfer -s file://tmp/$jobfile -d gsiftp://$Server/$ROOT/$JobID
@@ -288,6 +299,9 @@ namespace Ecell.Job
                 cmd = "grid-proxy-init";
                 m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
+                m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
+                m_process.StandardInput.Flush();
+
 
                 // grid-ftpでログをサーバから持ってくる
                 // cog-file-transfer -s gsiftp://$Server/$ROOT/$JobID/$logfile -d $ROOT/$JobID

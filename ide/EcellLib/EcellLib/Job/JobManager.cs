@@ -778,7 +778,7 @@ namespace Ecell.Job
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 if (m_env.PluginManager.Status != ProjectStatus.Analysis)
                     return new Dictionary<int, ExecuteParameter>();
-                int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                 if (this.Proxy.IsIDE() == true)
                 {
@@ -848,7 +848,7 @@ namespace Ecell.Job
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 if (m_env.PluginManager.Status != ProjectStatus.Analysis)
                     return new Dictionary<int, ExecuteParameter>();
-                int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
                     CreateLocalScript(topDir, dirName, fileName, writer, 
@@ -1002,7 +1002,7 @@ namespace Ecell.Job
                     List<string> extFileList = ExtractExtFileList(m_logList);
                     if (m_env.PluginManager.Status != ProjectStatus.Analysis)
                         return new Dictionary<int, ExecuteParameter>();
-                    int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                    int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                     if (this.Proxy.IsIDE())
                     {

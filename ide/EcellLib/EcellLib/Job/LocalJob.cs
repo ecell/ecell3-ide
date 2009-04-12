@@ -72,11 +72,12 @@ namespace Ecell.Job
         {
             try
             {
+                string pArgument = "\"" + Argument + "\"";
                 Process p = new Process();
                 p.StartInfo.FileName = ScriptFile;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.Arguments = @Argument;
+                p.StartInfo.Arguments = @pArgument;
                 p.StartInfo.WorkingDirectory = Util.GetAnalysisDir();
                 p.StartInfo.RedirectStandardError = true;
                 p.StartInfo.RedirectStandardOutput = true;
