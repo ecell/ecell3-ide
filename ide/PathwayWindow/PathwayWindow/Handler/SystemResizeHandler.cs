@@ -101,7 +101,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_obj.ResetPosition();
             ValidateSystem();
             m_obj.RefreshView();
-            UpdateResizeHandle();
+            Update();
             m_canvas.NotifyResetSelect();
             ClearSurroundState();
         }
@@ -261,7 +261,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 }
 
                 // Fire DataChanged for child in system.!
-                UpdateResizeHandle();
+                Update();
                 m_canvas.NotifyResetSelect();
                 ClearSurroundState();
 

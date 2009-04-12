@@ -127,7 +127,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 base.Offset = value;
-                m_resizeHandler.UpdateResizeHandle();
+                m_resizeHandler.Update();
             }
         }
 
@@ -167,6 +167,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
         }
         #endregion
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public override void Dispose()
+        {
+            m_resizeHandler.Hide();
+            base.Dispose();
+        }
 
         /// <summary>
         /// Refresh Text contents of this object.
@@ -215,7 +224,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void RefreshView()
         {
             base.RefreshView();
-            m_resizeHandler.UpdateResizeHandle();
+            m_resizeHandler.Update();
         }
 
         private void m_tbox_LostFocus(object sender, EventArgs e)

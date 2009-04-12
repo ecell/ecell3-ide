@@ -122,7 +122,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 base.Offset = value;
-                m_resizeHandler.UpdateResizeHandle();
+                m_resizeHandler.Update();
             }
         }
 
@@ -196,6 +196,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Dispose
+        /// </summary>
+        public override void Dispose()
+        {
+            m_resizeHandler.Hide();
+            base.Dispose();
+        }
+
+        /// <summary>
         /// Add child to this system.
         /// </summary>
         /// <param name="child">child</param>
@@ -227,7 +236,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             SetNewPath();
             base.RefreshView();
-            m_resizeHandler.UpdateResizeHandle();
+            m_resizeHandler.Update();
         }
 
         private void SetNewPath()

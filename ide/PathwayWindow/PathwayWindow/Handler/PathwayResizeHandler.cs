@@ -162,9 +162,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Show resize handles for resizing system.
         /// </summary>
-        private void ShowResizeHandles()
+        public void Show()
         {
-            UpdateResizeHandle();
+            Update();
             foreach (PNode node in m_resizeHandles)
                 m_canvas.ControlLayer.AddChild(node);
         }
@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Hide resize handles for resizing system.
         /// </summary>
-        private void HideResizeHandles()
+        public void Hide()
         {
             foreach (PNode handle in m_resizeHandles)
                 if (handle.Parent == m_canvas.ControlLayer)
@@ -182,7 +182,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Reset reside handles' positions.
         /// </summary>
-        public void UpdateResizeHandle()
+        public void Update()
         {
             PointF gp = m_obj.PointF;
             float x = gp.X;
@@ -318,7 +318,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             else if (pos == ResizeHandle.E || pos == ResizeHandle.W)
                 handle.OffsetY = m_obj.Y + m_obj.Height / 2f;
             ResizeObject(x, y, width, height);
-            UpdateResizeHandle();
+            Update();
         }
 
         /// <summary>
@@ -329,9 +329,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         void Object_VisibleChanged(object sender, PPropertyEventArgs e)
         {
             if (m_obj.Visible && m_obj.Selected)
-                ShowResizeHandles();
+                Show();
             else
-                HideResizeHandles();
+                Hide();
         }
 
         #endregion
