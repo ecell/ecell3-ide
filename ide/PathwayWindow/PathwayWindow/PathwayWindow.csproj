@@ -116,7 +116,7 @@
     <Compile Include="Components\ComponentItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Components\ComponentSettingPage.cs">
+    <Compile Include="Components\ComponentSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
@@ -266,13 +266,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>ComponentItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Components\ComponentSettingPage.ja.resx">
+    <EmbeddedResource Include="Components\ComponentSettingsPage.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ComponentSettingPage.cs</DependentUpon>
+      <DependentUpon>ComponentSettingsPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Components\ComponentSettingPage.resx">
+    <EmbeddedResource Include="Components\ComponentSettingsPage.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ComponentSettingPage.cs</DependentUpon>
+      <DependentUpon>ComponentSettingsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\PropertyDialogItems.resx">
       <DependentUpon>PropertyDialogItems.cs</DependentUpon>

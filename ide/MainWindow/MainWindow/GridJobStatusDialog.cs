@@ -58,9 +58,12 @@ namespace Ecell.IDE.MainWindow
         /// Constructor.
         /// </summary>
         public GridJobStatusDialog(IJobManager manager)
+            : base()
         {
+            InitializeComponent();
+
             m_manager = manager;
-            InitializeComponent();               
+
             JobGridView.CellDoubleClick += new DataGridViewCellEventHandler(JobGridViewDoubleClick);
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;

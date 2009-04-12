@@ -40,13 +40,13 @@ namespace Ecell.IDE
     /// <summary>
     /// PropertyDialogTabPage for PropertyDialog
     /// </summary>
-    public partial class PropertyDialogPage : UserControl, IPropertyItem
+    public class PropertyDialogPage : UserControl, IPropertyItem
     {
         /// <summary>
         /// 
         /// </summary>
         [Browsable(true)]
-        [EditorBrowsable(0)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override string Text
         {
             get { return base.Text; }

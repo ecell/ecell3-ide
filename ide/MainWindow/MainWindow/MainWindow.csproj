@@ -140,9 +140,6 @@
     <Compile Include="JobManagerDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="JobManagerDialog.Designer.cs">
-      <DependentUpon>JobManagerDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="JobMessageDialog.cs">
       <SubType>Form</SubType>
     </Compile>
