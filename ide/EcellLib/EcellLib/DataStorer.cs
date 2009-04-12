@@ -218,22 +218,29 @@ namespace Ecell
         private static EcellValue GetValueFromDMM(DMDescriptorKeeper dmm, string type, string className, string name)
         {
             EcellValue value = null;
-            if (dmm.ContainsDescriptor(type, className))
+            try
             {
-                DMDescriptor desc = dmm.GetDMDescriptor(type, className);
-                if (desc.ContainsProperty(name))
+                if (dmm.ContainsDescriptor(type, className))
                 {
-                    PropertyDescriptor prop = desc[name];
-                    value = new EcellValue(prop.DefaultValue);
+                    DMDescriptor desc = dmm.GetDMDescriptor(type, className);
+                    if (desc.ContainsProperty(name))
+                    {
+                        PropertyDescriptor prop = desc[name];
+                        value = new EcellValue(prop.DefaultValue);
+                    }
+                    else
+                    {
+                        value = new EcellValue(0.0);
+                    }
                 }
                 else
                 {
-                    value = new EcellValue(0.0);
+                    value = new EcellValue("");
                 }
             }
-            else
+            catch(Exception e)
             {
-                value = new EcellValue("");
+                Trace.WriteLine(e.StackTrace);
             }
             return value;
         }
