@@ -193,11 +193,12 @@ namespace Ecell.Job
         /// <summary>
         /// Regist the jobs.
         /// </summary>
+        /// <param name="job"></param>
         /// <param name="script">Script file name.</param>
         /// <param name="arg">Argument of script file.</param>
         /// <param name="extFile">Extra file list of script file.</param>
         /// <returns>the status of job.</returns>
-        int RegisterJob(string script, string arg, List<string> extFile);
+        int RegisterJob(Job job, string script, string arg, List<string> extFile);
         /// <summary>
         /// Run the jobs.
         /// </summary>

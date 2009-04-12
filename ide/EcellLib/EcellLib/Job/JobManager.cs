@@ -291,11 +291,12 @@ namespace Ecell.Job
         /// <param name="arg">Argument of script file.</param>
         /// <param name="extFile">Extra file list of script file.</param>
         /// <returns>the status of job.</returns>
-        public int RegisterJob(string script, string arg, List<string> extFile)
+        public int RegisterJob(Job job, string script, string arg, List<string> extFile)
         {
             if (m_proxy == null)
                 return -1;
-            Job job = m_proxy.CreateJob();
+            if (job == null)
+                job = m_proxy.CreateJob();
 
             job.ScriptFile = script;
             job.Argument = arg;
@@ -769,8 +770,15 @@ namespace Ecell.Job
             {
                 Dictionary<string, double> paramDic = setparam[i].ParamDic;
 
-                string dirName = topDir + "/" + i;
-                string fileName = topDir + "/" + i + ".ess";
+                Job job = Proxy.CreateJob();
+                string dirName = topDir + "/" + job.JobID;
+                string fileName = topDir + "/" + job.JobID + ".ess";
+                string modelFileName = topDir + "/" + job.JobID + ".eml";
+
+                List<string> extFileList = ExtractExtFileList(m_logList);
+                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                    return new Dictionary<int, ExecuteParameter>();
+                int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
 
                 if (this.Proxy.IsIDE() == true)
                 {
@@ -779,16 +787,12 @@ namespace Ecell.Job
                 }
                 else
                 {
-                    CreateUnixScript(topDir, dirName, fileName, writer,
+                    CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                         modelName, count, isStep, paramDic);
                 }
 
-                List<string> extFileList = ExtractExtFileList(m_logList);
-                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
-                    return new Dictionary<int, ExecuteParameter>();
-                int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
-                m_parameterDic.Add(job, new ExecuteParameter(paramDic));
-                resList.Add(job, new ExecuteParameter(paramDic));
+                m_parameterDic.Add(jobid, new ExecuteParameter(paramDic));
+                resList.Add(jobid, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
             Run();
@@ -835,9 +839,16 @@ namespace Ecell.Job
                     paramDic.Add(p.Key, data);
                 }
 
-                string dirName = topDir + "/" + i;
-                string fileName = topDir + "/" + i + ".ess";
+                Job job = Proxy.CreateJob();
 
+                string dirName = topDir + "/" + job.JobID;
+                string fileName = topDir + "/" + job.JobID + ".ess";
+                string modelFileName = topDir + "/" + job.JobID + ".eml";
+
+                List<string> extFileList = ExtractExtFileList(m_logList);
+                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                    return new Dictionary<int, ExecuteParameter>();
+                int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
                     CreateLocalScript(topDir, dirName, fileName, writer, 
@@ -845,16 +856,11 @@ namespace Ecell.Job
                 }
                 else
                 {
-                    CreateUnixScript(topDir, dirName, fileName, writer,
+                    CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                         modelName, count, isStep, paramDic);
                 }
-
-                List<string> extFileList = ExtractExtFileList(m_logList);
-                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
-                    return new Dictionary<int, ExecuteParameter>();
-                int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
-                m_parameterDic.Add(job, new ExecuteParameter(paramDic));
-                resList.Add(job, new ExecuteParameter(paramDic));
+                m_parameterDic.Add(jobid, new ExecuteParameter(paramDic));
+                resList.Add(jobid, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
             Run();
@@ -947,9 +953,6 @@ namespace Ecell.Job
                 for (double yd = y.Min; yd <= y.Max; yd += y.Step)
                 {
                     paramDic.Clear();
-                    string dirName = topDir + "/" + i + "-" + j;
-                    string fileName = topDir + "/" + i + "-" + j + ".ess";
-
                     foreach (EcellObject sysObj in sysList)
                     {
                         if (sysObj.Value != null)
@@ -991,6 +994,16 @@ namespace Ecell.Job
                         }
                     }
 
+                    Job job = Proxy.CreateJob();
+                    string dirName = topDir + "/" + job.JobID;
+                    string fileName = topDir + "/" + job.JobID + ".ess";
+                    string modelFileName = topDir + "/" + job.JobID + ".eml";
+
+                    List<string> extFileList = ExtractExtFileList(m_logList);
+                    if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                        return new Dictionary<int, ExecuteParameter>();
+                    int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+
                     if (this.Proxy.IsIDE())
                     {
                         CreateLocalScript(topDir, dirName, fileName, writer, 
@@ -998,16 +1011,11 @@ namespace Ecell.Job
                     }
                     else
                     {
-                        CreateUnixScript(topDir, dirName, fileName, writer, 
+                        CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer, 
                             modelName, count, isStep, paramDic);
                     }
-
-                    List<string> extFileList = ExtractExtFileList(m_logList);
-                    if (m_env.PluginManager.Status != ProjectStatus.Analysis)
-                        return new Dictionary<int, ExecuteParameter>();
-                    int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
-                    m_parameterDic.Add(job, new ExecuteParameter(paramDic));
-                    resList.Add(job, new ExecuteParameter(paramDic));
+                    m_parameterDic.Add(jobid, new ExecuteParameter(paramDic));
+                    resList.Add(jobid, new ExecuteParameter(paramDic));
                     Application.DoEvents();
                     j++;
                 }
@@ -1017,8 +1025,8 @@ namespace Ecell.Job
             return resList;
         }
 
-        private void CreateUnixScript(string topDir, string dirName, string fileName, ScriptWriter writer,
-            string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
+        private void CreateUnixScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
+            ScriptWriter writer, string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
         {
             List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
 
@@ -1029,10 +1037,14 @@ namespace Ecell.Job
                 Directory.CreateDirectory(dirName);
             }
 
+            List<string> modelList = new List<string>();
+            modelList.Add(modelName);
+            m_env.DataManager.ExportModel(modelList, modelFile);
+            
             writer.ClearScriptInfo();
             File.WriteAllText(fileName, "", enc);
 
-            writer.WriteModelEntryUnix(fileName, enc, modelName);
+            writer.WriteModelEntryUnix(fileName, enc, jobID);
             foreach (EcellObject sysObj in sysList)
             {
                 foreach (string path in paramDic.Keys)
@@ -1082,7 +1094,8 @@ namespace Ecell.Job
                 writer.WriteSimulationForStepUnix(fileName, (int)(count), enc);
             else
                 writer.WriteSimulationForTimeUnix(fileName, count, enc);
-            writer.WriteLoggerSaveEntryUnix(fileName, enc, m_logList, Proxy.GetData(GlobusJob.TOPDIR_NAME));
+            writer.WriteLoggerSaveEntryUnix(fileName, enc, jobID, 
+                m_logList, Proxy.GetData(GlobusJob.TOPDIR_NAME));
         }
 
         private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,

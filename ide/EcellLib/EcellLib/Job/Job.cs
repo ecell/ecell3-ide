@@ -219,6 +219,7 @@ namespace Ecell.Job
             this.m_processId = -1;
             this.m_scriptFile = "";
             this.m_status = JobStatus.NONE;
+            this.m_machine = Environment.MachineName;
         }
 
         /// <summary>

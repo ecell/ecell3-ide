@@ -107,11 +107,12 @@ namespace Ecell.Job
                 // 実行
                 // cog-job-submit -e $script -args $ROOT/$JobID/$jobfile -p $provider -s $server
                 cmd = "cog-job-submit";
-                argument = " -e " + Param[GlobusJob.SCRIPT_NAME].ToString() + " -args "
-                + Param[GlobusJob.TOPDIR_NAME].ToString() + "/" + this.Machine + "/"
-                + this.JobID + "/" + ScriptFile
-                + " -p " + Param[GlobusJob.PROVIDER_NAME]
-                + " -s " + Param[GlobusJob.SERVER_NAME];
+                argument = " -e " + Param[GlobusJob.SCRIPT_NAME].ToString() 
+                    + " -args \"" + ScriptFile + "\""
+                    + " -p " + Param[GlobusJob.PROVIDER_NAME]
+                    + " -s " + Param[GlobusJob.SERVER_NAME]
+                    + "-target \"" + Param[GlobusJob.TOPDIR_NAME].ToString() + "/" 
+                    + this.Machine + "/" + this.JobID + "\"";
                 m_process.StandardInput.WriteLine(cmd + argument);
                 m_process.StandardInput.Flush();
             }
@@ -199,19 +200,29 @@ namespace Ecell.Job
                 // 実行ディレクトリを作成
                 // cog-job-submit -e /bin/mkdir -args $ROOT/$JobID -p $Provider -s $Server           
                 cmd = "cog-job-submit";
-                argument = " -e /bin/mkdir -args " + Param[GlobusJob.TOPDIR_NAME].ToString()
-                    + "/" + this.Machine + "/" + this.JobID
+                argument = " -e /bin/mkdir -args \"-p " + Param[GlobusJob.TOPDIR_NAME].ToString()
+                    + "/" + this.Machine + "/" + this.JobID + "\"" 
                     + " -p " + Param[GlobusJob.PROVIDER_NAME].ToString()
                     + " -s " + Param[GlobusJob.SERVER_NAME];
                 m_process.StandardInput.WriteLine(cmd + argument);
                 m_process.StandardInput.Flush();
 
-                string dFileName = JobID + ".py";
-                File.Copy(Argument, dFileName);
+                string dFileName = JobID + ".ess";
+                File.Copy(ScriptFile, dFileName);
+                string sModelName = Path.GetFileNameWithoutExtension(ScriptFile) + ".eml";
+                string dModelName = JobID + ".eml";
+
                 // grid-ftpでサーバにスクリプトを持っていく
                 // cog-file-transfer -s file://tmp/$jobfile -d gsiftp://$Server/$ROOT/$JobID
                 cmd = "cog-file-transfer";
                 argument = " -s file://tmp/" + dFileName + " -d gsiftp://"
+                + Param[GlobusJob.SERVER_NAME].ToString() + "/"
+                + this.Machine + "/" + this.JobID + "/";
+                m_process.StandardInput.WriteLine(cmd + argument);
+                m_process.StandardInput.Flush();
+
+                cmd = "cog-file-transfer";
+                argument = " -s file://tmp/" + dModelName + " -d gsiftp://"
                 + Param[GlobusJob.SERVER_NAME].ToString() + "/"
                 + this.Machine + "/" + this.JobID + "/";
                 m_process.StandardInput.WriteLine(cmd + argument);
@@ -269,7 +280,8 @@ namespace Ecell.Job
                     return result;
 
                 string fileName = key.Replace("/", "_");
-                fileName = fileName + ".csv";
+                fileName = fileName.Replace(":", "_");
+                fileName = fileName + ".ecd";
 
                 // 初期化
                 // grid-proxy-init

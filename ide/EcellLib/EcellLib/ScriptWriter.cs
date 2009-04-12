@@ -474,10 +474,10 @@ namespace Ecell
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="enc"></param>
-        /// <param name="modelName"></param>
-        public void WriteModelEntryUnix(string fileName, Encoding enc, string modelName)
+        /// <param name="jobid"></param>
+        public void WriteModelEntryUnix(string fileName, Encoding enc, int jobid)
         {
-            File.AppendAllText(fileName, "loadModel(\"" + modelName + ".eml\")\n", enc);
+            File.AppendAllText(fileName, "loadModel(\"" + jobid + ".eml\")\n", enc);
             
         }
 
@@ -504,14 +504,15 @@ namespace Ecell
         /// <param name="enc"></param>
         /// <param name="saveList"></param>
         /// <param name="topdir"></param>
-        public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, List<SaveLoggerProperty> saveList, string topdir)
+        public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, int jobID,
+            List<SaveLoggerProperty> saveList, string topdir)
         {
             File.AppendAllText(fileName, "\n# Save logging\n", enc);
             if (saveList == null)
                 return;
             foreach (SaveLoggerProperty s in saveList)
             {
-                string dir = topdir;
+                string dir = topdir + "/" + Environment.MachineName + "/" + jobID;
                 if (dir == null)
                     dir = s.DirName;
                 File.AppendAllText(
