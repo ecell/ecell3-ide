@@ -87,7 +87,7 @@ namespace Ecell
             Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
 
             WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs(null));
-            DynamicModuleManager dmm = _env.DynamicModuleManager;
+            DMDescriptorKeeper dmm = _env.DMDescriptorKeeper;
             EcellObject eo = EcellObject.CreateObject("Model", "/", EcellObject.SYSTEM, EcellObject.SYSTEM, new List<EcellData>());
             Dictionary<string, double> initialCondition = new Dictionary<string, double>();
             methodInfo.Invoke(dataStorer, new object[] { simulator, dmm, eo, initialCondition });
@@ -106,7 +106,7 @@ namespace Ecell
             MethodInfo methodInfo = type.GetMethod("GetValueFromDMM", BindingFlags.NonPublic | BindingFlags.Static);
             Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
 
-            DynamicModuleManager dmm = _env.DynamicModuleManager;
+            DMDescriptorKeeper dmm = _env.DMDescriptorKeeper;
             string className = "ExpressionFluxProcess";
             string name = "Expression";
             EcellValue value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, className, name });

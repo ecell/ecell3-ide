@@ -157,6 +157,17 @@ namespace Ecell
         #endregion
 
         /// <summary>
+        /// ContainsProperty
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool ContainsProperty(string name)
+        {
+            PropertyDescriptor prop = this[name];
+            return (prop != null);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>

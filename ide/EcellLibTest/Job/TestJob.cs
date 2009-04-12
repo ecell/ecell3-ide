@@ -96,7 +96,7 @@ namespace Ecell.Job
             Assert.AreEqual(-1, testJob.ProcessID, "ProcessID is unexpected value.");
             Assert.AreEqual(-1, testJob.ProcessID, "ProcessID is unexpected value.");
             Assert.AreEqual(JobStatus.NONE, testJob.Status, "Status is unexpected value.");
-            Assert.AreEqual(null, testJob.Machine, "Machine is unexpected value.");
+            Assert.IsNotNull(testJob.Machine, "Machine is unexpected value.");
             Assert.IsEmpty(testJob.Argument, "Argument is unexpected value.");
             Assert.IsEmpty(testJob.ScriptFile, "ScriptFile is unexpected value.");
             Assert.IsEmpty(testJob.JobDirectory, "JobDirectory is unexpected value.");

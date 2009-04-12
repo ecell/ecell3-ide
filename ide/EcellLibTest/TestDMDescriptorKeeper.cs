@@ -68,8 +68,6 @@ namespace Ecell
         [Test()]
         public void TestGetDynamicModule()
         {
-            _unitUnderTest.Load();
-
             DMDescriptor module;
             module = _unitUnderTest.GetDMDescriptor("Process", "ConstantFluxProcess");
             Assert.IsNotNull(module);
@@ -153,7 +151,6 @@ namespace Ecell
         [Test()]
         public void TestGetDMDescriptors()
         {
-            _unitUnderTest.Load();
             ICollection<DMDescriptor> list = _unitUnderTest.GetDMDescriptors("Process");
 
         }
@@ -163,8 +160,6 @@ namespace Ecell
         [Test()]
         public void TestGetDMDescriptor()
         {
-            _unitUnderTest.Load();
-
             // Check BuiltIn DMs.
             TestDMDescriptor("System", "System");
             TestDMDescriptor("Variable", "Variable");

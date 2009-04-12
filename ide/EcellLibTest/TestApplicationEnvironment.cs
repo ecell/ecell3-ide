@@ -77,7 +77,7 @@ namespace Ecell
             CommandManager cm = _unitUnderTest.CommandManager;
             Assert.IsNotNull(cm);
 
-            DynamicModuleManager dmm = _unitUnderTest.DynamicModuleManager;
+            DMDescriptorKeeper dmm = _unitUnderTest.DMDescriptorKeeper;
             Assert.IsNotNull(dmm);
 
             ConsoleManager console = _unitUnderTest.Console;

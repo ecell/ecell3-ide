@@ -321,7 +321,7 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
             Type type = _unitUnderTest.GetType();
-            MethodInfo info = type.GetMethod("ConfirmReset", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo info = type.GetMethod("ConfirmReset", BindingFlags.Public | BindingFlags.Instance);
             info.Invoke(_unitUnderTest, new object[] { "", "" });
 
             _unitUnderTest.CurrentProject.SimulationStatus = SimulationStatus.Suspended;

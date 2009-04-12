@@ -54,7 +54,7 @@ namespace Ecell
         private CommandManager m_cManager;
         private IJobManager m_jManager;
         private ConsoleManager m_console;
-        private DynamicModuleManager m_mManager;
+        private DMDescriptorKeeper m_dmManager;
 
         /// <summary>
         /// 
@@ -123,9 +123,9 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public DynamicModuleManager DynamicModuleManager
+        public DMDescriptorKeeper DMDescriptorKeeper
         {
-            get { return m_mManager; }
+            get { return m_dmManager; }
         }
         /// <summary>
         /// 
@@ -141,7 +141,7 @@ namespace Ecell
             m_rManager = new ReportManager(this);
             m_cManager = new CommandManager(this);
             m_console = new ConsoleManager(this);
-            m_mManager = new DynamicModuleManager(this);
+            m_dmManager = new DMDescriptorKeeper(Util.GetDMDirs(null));
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Ecell
         public void SetUp()
         {
             ApplicationEnvironment env = new ApplicationEnvironment();
-            _unitUnderTest = env.DynamicModuleManager;
+            _unitUnderTest = new DynamicModuleManager(env);
         }
         /// <summary>
         /// Disposer

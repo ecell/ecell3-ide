@@ -60,7 +60,7 @@ namespace Ecell
         /// <param name="dmPaths"></param>
         public DMDescriptorKeeper(string[] dmPaths)
         {
-            m_dmPaths = dmPaths;
+            Load(dmPaths);
         }
         #endregion
 
@@ -74,6 +74,26 @@ namespace Ecell
         {
             return m_descs[type][name];
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool ContainsDescriptor(string type, string name)
+        {
+            try
+            {
+                DMDescriptor desc = GetDMDescriptor(type, name);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -86,22 +106,23 @@ namespace Ecell
         /// <summary>
         /// Load DMDescriptions.
         /// </summary>
+        /// <param name="dmPaths"></param>
         /// <returns></returns>
-        public Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> Load()
+        public Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> Load(string[] dmPaths)
         {
+            m_dmPaths = dmPaths;
+
+            // Set dictionary.
             Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> maps =
                     new Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>>();
             Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> modulesToLookup =
                     new Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>>();
-
             maps[Constants.xpathSystem] = new Dictionary<string, List<PathAndModuleNamePair>>();
             maps[Constants.xpathStepper] = new Dictionary<string, List<PathAndModuleNamePair>>();
             maps[Constants.xpathProcess] = new Dictionary<string, List<PathAndModuleNamePair>>();
             maps[Constants.xpathVariable] = new Dictionary<string, List<PathAndModuleNamePair>>();
 
-            // 
             // Look for built-in modules
-            // 
             {
                 const string dmPath = "<BUILTIN>";
                 Dictionary<string, List<PathAndModuleNamePair>> perDirectoryModuleList =
@@ -125,9 +146,7 @@ namespace Ecell
                 sim.Dispose();
             }
 
-            //
             // Searches the DM paths
-            //
             foreach (string dmPath in m_dmPaths)
             {
                 if (!Directory.Exists(dmPath))

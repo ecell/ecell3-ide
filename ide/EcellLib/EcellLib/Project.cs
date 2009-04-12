@@ -454,7 +454,7 @@ namespace Ecell
                 m_modelList.Add((EcellModel)ecellObject);
                 DataStorer.DataStored(
                     m_simulator,
-                    m_env.DynamicModuleManager,
+                    m_env.DMDescriptorKeeper,
                     ecellObject,
                     m_initialCondition[simParam][modelID]);
             }

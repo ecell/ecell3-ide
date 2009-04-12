@@ -54,12 +54,12 @@ namespace Ecell
         /// Stores the "EcellObject"
         /// </summary>
         /// <param name="simulator">The "simulator"</param>
-        /// <param name="dmm">The "DynamicModuleManager"</param>
+        /// <param name="dmm">The "DMDescriptorKeeper"</param>
         /// <param name="ecellObject">The stored "EcellObject"</param>
         /// <param name="initialCondition">The initial condition.</param>
         internal static void DataStored(
                 WrappedSimulator simulator,
-            DynamicModuleManager dmm,
+                DMDescriptorKeeper dmm,
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
@@ -103,12 +103,12 @@ namespace Ecell
         /// Stores the "EcellObject" 4 the "Process".
         /// </summary>
         /// <param name="simulator">The simulator</param>
-        /// <param name="dmm">The "DynamicModuleManager"</param>
+        /// <param name="dmm">The "DMDescriptorKeeper"</param>
         /// <param name="ecellObject">The stored "Process"</param>
         /// <param name="initialCondition">The initial condition.</param>
         internal static void DataStored4Process(
                 WrappedSimulator simulator,
-                DynamicModuleManager dmm,
+                DMDescriptorKeeper dmm,
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
@@ -171,12 +171,13 @@ namespace Ecell
                     try
                     {
                         value = new EcellValue(simulator.GetEntityProperty(entityPath));
-                        if (dmm.ModuleDic.ContainsKey(ecellObject.Classname))
+                        if (dmm.ContainsDescriptor(ecellObject.Type, ecellObject.Classname))
                         {
-                            if (dmm.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
+                            DMDescriptor desc = dmm.GetDMDescriptor(ecellObject.Type, ecellObject.Classname);
+                            if (desc.ContainsProperty(name))
                             {
-                                DynamicModuleProperty prop = dmm.ModuleDic[ecellObject.Classname].Property[name];
-                                if (prop.Type == typeof(List<EcellValue>) && !value.IsList)
+                                PropertyDescriptor prop = desc[name];
+                                if (prop.DefaultValue.Type == EcellValueType.List && !value.IsList)
                                     value = new EcellValue(new List<EcellValue>());
                             }
                         }
@@ -184,7 +185,7 @@ namespace Ecell
                     catch (Exception ex)
                     {
                         Trace.WriteLine(ex);
-                        value = GetValueFromDMM(dmm, ecellObject.Classname, name);
+                        value = GetValueFromDMM(dmm, ecellObject.Type, ecellObject.Classname, name);
                     }
                 }
                 EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
@@ -214,15 +215,16 @@ namespace Ecell
         /// <param name="className"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static EcellValue GetValueFromDMM(DynamicModuleManager dmm, string className, string name)
+        private static EcellValue GetValueFromDMM(DMDescriptorKeeper dmm, string type, string className, string name)
         {
             EcellValue value = null;
-            if (dmm.ModuleDic.ContainsKey(className))
+            if (dmm.ContainsDescriptor(type, className))
             {
-                if (dmm.ModuleDic[className].Property.ContainsKey(name))
+                DMDescriptor desc = dmm.GetDMDescriptor(type, className);
+                if (desc.ContainsProperty(name))
                 {
-                    DynamicModuleProperty prop = dmm.ModuleDic[className].Property[name];
-                    value = new EcellValue(prop.DefaultData);
+                    PropertyDescriptor prop = desc[name];
+                    value = new EcellValue(prop.DefaultValue);
                 }
                 else
                 {
@@ -244,7 +246,7 @@ namespace Ecell
         /// <param name="ecellObject">The stored "Stepper"</param>
         internal static void DataStored4Stepper(
             WrappedSimulator simulator,
-            DynamicModuleManager dmm,
+            DMDescriptorKeeper dmm,
             EcellObject ecellObject)
         {
             List<EcellData> stepperEcellDataList = new List<EcellData>();
@@ -299,7 +301,7 @@ namespace Ecell
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    value = GetValueFromDMM(dmm, ecellObject.Classname, name);
+                    value = GetValueFromDMM(dmm, ecellObject.Type, ecellObject.Classname, name);
                 }
                 EcellData ecellData = CreateEcellData(name, value, name, flag);
                 if (storedEcellDataDic.ContainsKey(name))

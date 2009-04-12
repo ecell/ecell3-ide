@@ -330,6 +330,9 @@ namespace Ecell
                 ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
+                // Load DMs.
+                m_env.DMDescriptorKeeper.Load(project.GetDMDirs());
+
                 // Prepare datas.
                 project.LoadModel();
                 foreach (EcellObject model in project.ModelList)
@@ -939,7 +942,7 @@ namespace Ecell
                         Constants.xpathStepper,
                         "",
                         null);
-            DataStorer.DataStored4Stepper(simulator, m_env.DynamicModuleManager, stepperEcellObject);
+            DataStorer.DataStored4Stepper(simulator, m_env.DMDescriptorKeeper, stepperEcellObject);
             dic[Constants.xpathSystem] = systemEcellObject;
             dic[Constants.xpathStepper] = stepperEcellObject;
             return dic;
@@ -2540,7 +2543,7 @@ namespace Ecell
                 EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, null);
                 DataStorer.DataStored4Process(
                         sim,
-                        m_env.DynamicModuleManager,
+                        m_env.DMDescriptorKeeper,
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
@@ -2568,7 +2571,7 @@ namespace Ecell
                 WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
                 sim.CreateStepper(dmName, Constants.textKey);
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
-                DataStorer.DataStored4Stepper(sim, m_env.DynamicModuleManager, dummyEcellObject);
+                DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
                 list = dummyEcellObject.Value;
             }
             finally
