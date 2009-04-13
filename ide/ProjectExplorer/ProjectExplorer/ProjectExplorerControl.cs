@@ -1317,8 +1317,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             List<TagData> delList = new List<TagData>();
             foreach (TreeNode node in treeView1.SelNodes)
             {
-                if (node.Tag == null) continue;
+                if (node.Tag == null) 
+                    continue;
                 TagData obj = node.Tag as TagData;
+                if (obj.m_type.Equals(Constants.xpathLog))
+                    continue;
                 if (obj != null) delList.Add(obj);
             }
 
