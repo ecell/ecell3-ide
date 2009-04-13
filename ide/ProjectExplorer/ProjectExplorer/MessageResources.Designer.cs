@@ -187,6 +187,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Do you want to save the project before closing this project? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SaveConfirm {
+            get {
+                return ResourceManager.GetString("SaveConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnDMName {

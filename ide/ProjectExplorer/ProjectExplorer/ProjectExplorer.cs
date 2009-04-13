@@ -56,6 +56,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// m_form (ProjectExplorerControl form) 
         /// </summary>
         private ProjectExplorerControl m_form = null;
+        private int m_editCount = 0;
         #endregion
 
         #region Constructors
@@ -135,6 +136,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override void DataAdd(List<EcellObject> data)
         {
             m_form.DataAdd(data);
+            m_editCount++;
         }
 
         /// <summary>
@@ -147,6 +149,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             m_form.DataChanged(modelID, key, type, data);
+            m_editCount++;
         }
         /// <summary>
         /// 
@@ -176,6 +179,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override void DataDelete(string modelID, string key, string type)
         {
             m_form.DataDelete(modelID, key, type);
+            m_editCount++;
         }
 
 
@@ -224,7 +228,32 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        public override void ChangeStatus(ProjectStatus type)
+        {
+            if (type == ProjectStatus.Uninitialized)
+                m_editCount = 0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="directory"></param>
+        public override void SaveModel(string modelID, string directory)
+        {
+            m_editCount = 0;
+        }
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        public int EditCount
+        {
+            get { return m_editCount; }
+        }
 
         #region internal methods
         /// <summary>
@@ -234,7 +263,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         internal ProjectExplorerControl GetForm()
         {
             return m_form;
-        }
+        }        
 
         /// <summary>
         /// Check whether E-Cell SDK is already installed.

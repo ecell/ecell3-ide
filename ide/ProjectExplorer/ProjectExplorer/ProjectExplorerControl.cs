@@ -1292,6 +1292,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewCloseProject(object sender, EventArgs e)
         {
+            if (m_owner.EditCount > 0)
+            {
+                try
+                {
+                    // Save if answer is yes.
+                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
+                        m_owner.Environment.DataManager.SaveProject();
+                }
+                catch (Exception)
+                {
+                    // Return false when canceled
+                    return;
+                }
+            }
             m_owner.Environment.DataManager.CloseProject();
         }
 

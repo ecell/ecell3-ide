@@ -156,6 +156,9 @@
   <data name="ProjectExplorer" xml:space="preserve">
     <value>プロジェクトエクスプローラ</value>
   </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
+  </data>
   <data name="WarnDMName" xml:space="preserve">
     <value>DMの名前は、ProcessもしくはStepperで終わる必要があります。</value>
   </data>

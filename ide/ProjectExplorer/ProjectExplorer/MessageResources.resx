@@ -159,6 +159,9 @@
   <data name="ProjectExplorer" xml:space="preserve">
     <value>Project Explorer</value>
   </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>Do you want to save the project before closing this project?</value>
+  </data>
   <data name="WarnDMName" xml:space="preserve">
     <value>Please input the name whose suffix is "Process" or "Stepper".</value>
   </data>
