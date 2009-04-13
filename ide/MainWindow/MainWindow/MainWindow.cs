@@ -1368,14 +1368,6 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
-        private void ShowGridConfigurationDialog()
-        {
-            GridConfigurationDialog win = new GridConfigurationDialog(m_env.JobManager);
-            using (win)
-            {
-                win.ShowDialog();
-            }
-        }
 
         private void ShowGridStatusDialog()
         {
@@ -1490,16 +1482,6 @@ namespace Ecell.IDE.MainWindow
             SaveWindowSetting(m_userWindowSettingPath, true);
 
             base.OnClosing(e);
-        }
-
-        /// <summary>
-        /// Event when the distributed environment button is clicked.
-        /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs</param>
-        private void ClickDistributedEnvMenu(object sender, EventArgs e)
-        {
-            ShowGridConfigurationDialog();
         }
         #endregion
 
