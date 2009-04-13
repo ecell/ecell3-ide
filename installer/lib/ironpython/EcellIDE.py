@@ -77,6 +77,15 @@ class Session:
 	'''
         self.theCommandManager.CreateProject(aProjectName, aComment)
 
+    def loadSBML(self, aSBMLFile):
+        '''
+        Load the SBML file.
+        aSBMLFile(str) -- input the file name.
+
+        Return None :
+        '''
+        self.theCommandManager.LoadSBML(aSBMLFile)
+
     def createSimulationParameterStub(self, aParameterID):
 	'''
 	Create the simulation parameter of current project.
