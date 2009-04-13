@@ -499,8 +499,13 @@ namespace Ecell.IDE.MainWindow
                     Uri uri = new Uri(url);
                     if (!uri.IsFile)
                         return false;
+                    if (SimulationConfirm())
+                        return false;
                     if (!SaveConfirm())
                         return false;
+                    // Close project.
+                    m_browser.Environment.DataManager.CloseProject();
+                    // Load project.
                     m_browser.Environment.DataManager.LoadProject(uri.LocalPath);
                 }
                 catch (Exception e)
@@ -522,16 +527,14 @@ namespace Ecell.IDE.MainWindow
             /// </returns>
             private bool SaveConfirm()
             {
-                ActionManager am = m_browser.Environment.ActionManager;
-                if (am.Undoable || am.Redoable)
+                ActionManager aManager = m_browser.Environment.ActionManager;
+                if (aManager.Undoable || aManager.Redoable)
                 {
                     try
                     {
                         // Save if answer is yes.
                         if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                             m_browser.Environment.DataManager.SaveProject();
-                        // Close project.
-                        m_browser.Environment.DataManager.CloseProject();
                     }
                     catch (Exception)
                     {
@@ -541,6 +544,25 @@ namespace Ecell.IDE.MainWindow
                 }
                 // Return true when the current project was closed successfully.
                 return true;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            private bool SimulationConfirm()
+            {
+                bool simulation = false;
+                try
+                {
+                    ProjectStatus status = m_browser.Environment.PluginManager.Status;
+                    simulation = status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended; 
+                }
+                catch (Exception)
+                {
+                    simulation = false;
+                }
+                return simulation;
             }
 
             /// <summary>
