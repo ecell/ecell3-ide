@@ -140,17 +140,24 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="modelID">the modelID of object changed property.</param>
         /// <param name="key">the key of object changed property.</param>
         /// <param name="obj">the object changed property.</param>
-        private void NotifyDataChanged(string modelID, string key, EcellObject obj)
+        private bool NotifyDataChanged(string modelID, string key, EcellObject obj)
         {
+            bool changeSuccess = true;
             m_isChanging = true;
             try
             {
                 m_env.DataManager.DataChanged(modelID, key, obj.Type, obj);
+                if (obj != m_current)
+                {
+                    UpdateProperties();
+                    changeSuccess = false;
+                }
             }
             finally
             {
                 m_isChanging = false;
             }
+            return changeSuccess;
         }
 
         /// <summary>
@@ -506,7 +513,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             foreach (DataGridViewRow r in m_dgv.Rows)
             {
                 EcellData prop = r.Cells[1].Tag as EcellData;
-                if (prop == null) continue;
+                if (prop == null)
+                {
+                    string data = r.Cells[1].Tag as string;
+                    if (data.Equals(Constants.xpathID))
+                        r.Cells[1].Value = m_current.LocalID;
+                    
+                    continue;
+                }
                 EcellData d = m_current.GetEcellData(prop.Name);
                 if (d == null) continue;
                 if (r.Cells[1] is DataGridViewCell)
@@ -820,11 +834,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 EcellObject eo = m_current.Clone();
                 EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
                 nd.Value = EcellReference.ConvertToEcellValue(win.ReferenceList);
-                c.Tag = nd;
-                m_current = eo;
                 try
                 {
-                    NotifyDataChanged(eo.ModelID, eo.Key, eo);
+                    if (NotifyDataChanged(eo.ModelID, eo.Key, eo))
+                    {
+                        c.Tag = nd;
+                    }
+//                    m_current = eo;
                 }
                 catch (Exception ex)
                 {
@@ -943,7 +959,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
                             return;
                         }
-                        NotifyDataChanged(m_current.ModelID, m_current.Key, eo);
+                        if (!NotifyDataChanged(m_current.ModelID, m_current.Key, eo))
+                        {
+                            e.Value = editCell.Value;
+                        }
                     }
                 }
                 // Update ID.
@@ -970,7 +989,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     }
                     else
                         p.Key = p.ParentSystemID + Constants.delimiterColon + tmpID;
-                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
+                    if (!NotifyDataChanged(m_current.ModelID, m_current.Key, p))
+                    {
+                        e.Value = editCell.Value;
+                    }
                 }
             }
             catch (Exception ex)
