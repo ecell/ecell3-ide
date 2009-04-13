@@ -950,6 +950,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 else if (e.Node == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuSimulationSetCollection;
+                    if (m_owner.PluginManager.Status == ProjectStatus.Running ||
+                        m_owner.PluginManager.Status == ProjectStatus.Suspended)
+                        addSimulationSetToolStripMenuItem.Enabled = false;
+                    else
+                        addSimulationSetToolStripMenuItem.Enabled = true;
                 }
                 else if (e.Node.Parent == m_paramNode)
                 {
