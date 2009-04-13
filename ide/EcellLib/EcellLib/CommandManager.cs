@@ -269,6 +269,15 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Load the SBML file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void LoadSBML(string fileName)
+        {
+            m_env.DataManager.LoadSBML(fileName);
+        }
+
+        /// <summary>
         /// Creates the simulation parameter stub.
         /// </summary>
         /// <param name="parameterID">the simulation parameter ID</param>
