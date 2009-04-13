@@ -53,6 +53,7 @@ using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.Action;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -1790,39 +1791,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Check Moved Object.
                 foreach (PPathwayObject obj in GetAllObjects())
                 {
-                    if (obj.OffsetX != 0.0 && obj.OffsetY != 0.0 && !objList.Contains(obj))
+                    if (obj.Offset != PointF.Empty && !objList.Contains(obj))
                         objList.Add(obj);
                 }
-                // Move Objects.
-                bool isLast = false;
-                int i = 0;
                 // MoveSystems
                 foreach (PPathwayObject obj in objList)
                 {
                     if (!(obj is PPathwaySystem))
                         continue;
-                    i++;
-                    isLast = (i == objList.Count);
-                    NotifyMoveSystem(obj, isLast && isAnchored);
+                    NotifyMoveSystem(obj);
                 }
                 // Move Processes
                 foreach (PPathwayObject obj in objList)
                 {
                     if (!(obj is PPathwayProcess))
                         continue;
-                    i++;
-                    isLast = (i == objList.Count);
-                    NotifyMoveNode(obj, isLast && isAnchored);
+                    NotifyMoveNode(obj);
                 }
                 // Move Variables and Texts.
                 foreach (PPathwayObject obj in objList)
                 {
                     if (!(obj is PPathwayVariable) && !(obj is PPathwayText))
                         continue;
-                    i++;
-                    isLast = (i == objList.Count);
-                    NotifyMoveNode(obj, isLast && isAnchored);
+                    NotifyMoveNode(obj);
                 }
+
+                // Anchor
+                if (objList.Count > 0 && isAnchored)
+                    m_con.Window.Environment.ActionManager.AddAction(new AnchorAction());
             }
             catch (PathwayException)
             {
@@ -1843,8 +1839,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// NotyfyMoveNode
         /// </summary>
         /// <param name="node"></param>
-        /// <param name="isLast"></param>
-        private void NotifyMoveNode(PPathwayObject node, bool isLast)
+        private void NotifyMoveNode(PPathwayObject node)
         {
             string oldKey = node.EcellObject.Key;
             string newKey;
@@ -1862,15 +1857,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 newKey,
                 node,
                 true,
-                isLast);
+                false);
         }
 
         /// <summary>
         /// NotifyMoveSystem
         /// </summary>
         /// <param name="system"></param>
-        /// <param name="isAnchor"></param>
-        private void NotifyMoveSystem(PPathwayObject system, bool isAnchor)
+        private void NotifyMoveSystem(PPathwayObject system)
         {
             string oldSysKey = system.EcellObject.Key;
             string parentSysKey = GetSurroundingSystemKey(system.PointF, oldSysKey);
@@ -1941,7 +1935,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 newSysKey,
                 system,
                 true,
-                true && isAnchor);
+                false);
         }
 
         /// <summary>

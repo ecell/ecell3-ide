@@ -91,7 +91,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             base.OnStartDrag(sender, e);
             PointF offset = e.PickedNode.Offset;
-            if (offset.X == 0 && offset.Y == 0)
+            if (offset == PointF.Empty)
                 return;
             m_canvas.MoveSelectedObjects(offset);
         }
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.OnDrag(sender, e);
             // Move objects
             PointF offset = e.PickedNode.Offset;
-            if (offset.X == 0 && offset.Y == 0)
+            if (offset == PointF.Empty)
                 return;
 
             m_canvas.MoveSelectedObjects(offset);
@@ -120,6 +120,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         protected override void OnEndDrag(object sender, PInputEventArgs e)
         {
             base.OnEndDrag(sender, e);
+            m_canvas.NotifyMoveObjects(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseUp(object sender, PInputEventArgs e)
+        {
+            base.OnMouseUp(sender, e);
             m_canvas.NotifyMoveObjects(true);
         }
 
