@@ -216,204 +216,28 @@ namespace Ecell
                 }
                 Trace.WriteLine("Checking DMs in " + kv.Key);
 
+                // Test System DMs.
                 foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathSystem])
                 {
-                    Trace.WriteLine("Checking properties for " + pair.ModuleName);
-                    Dictionary<string, PropertyDescriptor> pdescs =
-                        new Dictionary<string, PropertyDescriptor>();
-                    string id = Util.BuildFullID(Constants.xpathSystem, "/", pair.ModuleName);
-                    sim.CreateEntity(pair.ModuleName, id);
-                    sim.SetEntityProperty(Util.BuildFullPN(id, "StepperID"), "tmp");
-                    sim.CreateEntity(Constants.xpathVariable, Util.BuildFullID(Constants.xpathVariable, "/" + pair.ModuleName, "SIZE"));
-                    bool dynamic = true;
-                    foreach (string propName in sim.GetEntityPropertyList(id))
-                    {
-                        string fullPN = Util.BuildFullPN(id, propName);
-                        EcellCoreLib.PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
-                        EcellValue defaultValue = null;
-                        try
-                        {
-                            if (attrs.Gettable)
-                                defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
-                        }
-                        catch (Exception)
-                        {
-                        }
-                        pdescs[propName] = new PropertyDescriptor(
-                            propName,
-                            attrs.Settable, // settable
-                            attrs.Gettable, // gettable
-                            attrs.Loadable, // loadable
-                            attrs.Savable,  // saveable
-                            attrs.Dynamic,  // dynamic
-                            attrs.Gettable,
-                            defaultValue
-                        );
-                    }
-                    try
-                    {
-                        string randomID = null;
-                        do
-                        {
-                            randomID = Util.GenerateRandomID(32);
-                        }
-                        while (pdescs.ContainsKey(randomID));
-                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
-                    }
-                    catch (Exception)
-                    {
-                        dynamic = false;
-                    }
-                    descs[Constants.xpathSystem][pair.ModuleName] =
-                        new DMDescriptor(pair.ModuleName, pair.Path, Constants.xpathSystem, dynamic, pdescs);
+                    LoadEntityDM(Constants.xpathSystem, descs, sim, pair);
                 }
 
+                // Test Process DMs.
                 foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathProcess])
                 {
-                    Trace.WriteLine("Checking properties for " + pair.ModuleName);
-                    Dictionary<string, PropertyDescriptor> pdescs =
-                        new Dictionary<string, PropertyDescriptor>();
-                    string id = Util.BuildFullID(Constants.xpathProcess, "/", pair.ModuleName);
-                    sim.CreateEntity(pair.ModuleName, id);
-                    bool dynamic = true;
-                    foreach (string propName in sim.GetEntityPropertyList(id))
-                    {
-                        string fullPN = Util.BuildFullPN(id, propName);
-                        PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
-                        EcellValue defaultValue = null;
-                        if (attrs.Gettable)
-                        {
-                            try
-                            {
-                                defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
-                            }
-                            catch (Exception) { }
-                        }
-                        pdescs[propName] = new PropertyDescriptor(
-                            propName,
-                            attrs.Settable, // settable
-                            attrs.Gettable, // gettable
-                            attrs.Loadable, // loadable
-                            attrs.Savable,  // saveable
-                            attrs.Dynamic,  // dynamic
-                            attrs.Gettable, // logable
-                            defaultValue
-                        );
-                    }
-                    try
-                    {
-                        string randomID = null;
-                        do
-                        {
-                            randomID = Util.GenerateRandomID(32);
-                        }
-                        while (pdescs.ContainsKey(randomID));
-                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
-                    }
-                    catch (Exception)
-                    {
-                        dynamic = false;
-                    }
-                    descs[Constants.xpathProcess][pair.ModuleName] =
-                        new DMDescriptor(pair.ModuleName, pair.Path, Constants.xpathProcess, dynamic, pdescs);
+                    LoadEntityDM(Constants.xpathProcess, descs, sim, pair);
                 }
 
+                // Test Variable DMs.
                 foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathVariable])
                 {
-                    Trace.WriteLine("Checking properties for " + pair.ModuleName);
-                    Dictionary<string, PropertyDescriptor> pdescs =
-                        new Dictionary<string, PropertyDescriptor>();
-                    string id = Util.BuildFullID(Constants.xpathVariable, "/", pair.ModuleName);
-                    sim.CreateEntity(pair.ModuleName, id);
-                    bool dynamic = true;
-                    foreach (string propName in sim.GetEntityPropertyList(id))
-                    {
-                        string fullPN = Util.BuildFullPN(id, propName);
-                        PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
-                        EcellValue defaultValue = null;
-                        if (attrs.Gettable)
-                        {
-                            try
-                            {
-                                defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
-                            }
-                            catch (Exception) { }
-                        }
-                        pdescs[propName] = new PropertyDescriptor(
-                            propName,
-                            attrs.Settable, // settable
-                            attrs.Gettable, // gettable
-                            attrs.Loadable, // loadable
-                            attrs.Savable,  // saveable
-                            attrs.Dynamic,  // dynamic
-                            attrs.Gettable, // logable
-                            defaultValue
-                        );
-                    }
-                    try
-                    {
-                        string randomID = null;
-                        do
-                        {
-                            randomID = Util.GenerateRandomID(32);
-                        }
-                        while (pdescs.ContainsKey(randomID));
-                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
-                    }
-                    catch (Exception)
-                    {
-                        dynamic = false;
-                    }
-                    descs[Constants.xpathVariable][pair.ModuleName] =
-                        new DMDescriptor(pair.ModuleName, pair.Path, Constants.xpathVariable, dynamic, pdescs);
+                    LoadEntityDM(Constants.xpathVariable, descs, sim, pair);
                 }
 
+                // Test Stepper DMs.
                 foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathStepper])
                 {
-                    Trace.WriteLine("Checking properties for " + pair.ModuleName);
-                    Dictionary<string, PropertyDescriptor> pdescs =
-                        new Dictionary<string, PropertyDescriptor>();
-                    sim.CreateStepper(pair.ModuleName, pair.ModuleName);
-                    bool dynamic = true;
-                    foreach (string propName in sim.GetStepperPropertyList(pair.ModuleName))
-                    {
-                        PropertyAttributes attrs = sim.GetStepperPropertyAttributes(pair.ModuleName, propName);
-                        EcellValue defaultValue = null;
-                        if (attrs.Gettable)
-                        {
-                            try
-                            {
-                                defaultValue = new EcellValue(sim.GetStepperProperty(pair.ModuleName, propName));
-                            }
-                            catch (Exception) { }
-                        }
-                        pdescs[propName] = new PropertyDescriptor(
-                            propName,
-                            attrs.Settable, // settable
-                            attrs.Gettable, // gettable
-                            attrs.Loadable, // loadable
-                            attrs.Savable,  // saveable
-                            attrs.Dynamic,  // dynamic
-                            attrs.Gettable, // logable
-                            defaultValue
-                        );
-                    }
-                    try
-                    {
-                        string randomID = null;
-                        do
-                        {
-                            randomID = Util.GenerateRandomID(32);
-                        }
-                        while (pdescs.ContainsKey(randomID));
-                        sim.SetStepperProperty(pair.ModuleName, randomID, 0.0);
-                    }
-                    catch (Exception)
-                    {
-                        dynamic = false;
-                    }
-                    descs[Constants.xpathStepper][pair.ModuleName] =
-                        new DMDescriptor(pair.ModuleName, pair.Path, Constants.xpathStepper, dynamic, pdescs);
+                    LoadStepperDM(descs, sim, pair);
                 }
                 try
                 {
@@ -428,6 +252,177 @@ namespace Ecell
             m_descs = descs;
             return maps;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="descs"></param>
+        /// <param name="sim"></param>
+        /// <param name="pair"></param>
+        private static void LoadStepperDM(Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, PathAndModuleNamePair pair)
+        {
+            try
+            {
+                Trace.WriteLine("Checking properties for " + pair.ModuleName);
+                string stepper = pair.ModuleName;
+                sim.CreateStepper(stepper, stepper);
+
+                // Get PropertyDescriptors
+                Dictionary<string, PropertyDescriptor> pdescs = GetStepperPropertyDescriptors(sim, stepper);
+
+                // Check DynamicProperty
+                bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
+
+                descs[Constants.xpathStepper][pair.ModuleName] =
+                    new DMDescriptor(stepper, pair.Path, Constants.xpathStepper, dynamic, pdescs);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Failed to load " + pair.ModuleName);
+                //Trace.WriteLine(e.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="descs"></param>
+        /// <param name="sim"></param>
+        /// <param name="pair"></param>
+        private static void LoadEntityDM(string type, Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, PathAndModuleNamePair pair)
+        {
+            try
+            {
+                Trace.WriteLine("Checking properties for " + pair.ModuleName);
+                string id = Util.BuildFullID(type, "/", pair.ModuleName);
+                sim.CreateEntity(pair.ModuleName, id);
+
+                // Get PropertyDescriptors
+                Dictionary<string, PropertyDescriptor> pdescs = GetEntityPropertyDescriptors(sim, id);
+
+                // Check DynamicProperty
+                bool dynamic = CheckDynamicProperty(sim, id, pdescs);
+
+                descs[type][pair.ModuleName] =
+                    new DMDescriptor(pair.ModuleName, pair.Path, type, dynamic, pdescs);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Failed to load " + pair.ModuleName);
+                //Trace.WriteLine(e.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// Get PropertyDescriptors
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="stepper"></param>
+        /// <returns></returns>
+        private static Dictionary<string, PropertyDescriptor> GetStepperPropertyDescriptors(WrappedSimulator sim, string stepper)
+        {
+
+            // Get default property values.
+            Dictionary<string, PropertyDescriptor> pdescs = new Dictionary<string, PropertyDescriptor>();
+            foreach (string propName in sim.GetStepperPropertyList(stepper))
+            {
+                PropertyAttributes attrs = sim.GetStepperPropertyAttributes(stepper, propName);
+                EcellValue defaultValue = null;
+                if (attrs.Gettable)
+                {
+                    try
+                    {
+                        defaultValue = new EcellValue(sim.GetStepperProperty(stepper, propName));
+                    }
+                    catch (Exception)
+                    {
+                        Trace.WriteLine(string.Format("Failed to load Property {0} on {1}", propName, stepper));
+                    }
+                }
+                pdescs[propName] = new PropertyDescriptor(
+                    propName,
+                    attrs.Settable, // settable
+                    attrs.Gettable, // gettable
+                    attrs.Loadable, // loadable
+                    attrs.Savable,  // saveable
+                    attrs.Dynamic,  // dynamic
+                    attrs.Gettable, // logable
+                    defaultValue
+                );
+            }
+            return pdescs;
+        }
+
+        /// <summary>
+        /// Get PropertyDescriptors
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="fullID"></param>
+        /// <returns></returns>
+        private static Dictionary<string, PropertyDescriptor> GetEntityPropertyDescriptors(WrappedSimulator sim, string fullID)
+        {
+
+            // Get default property values.
+            Dictionary<string, PropertyDescriptor> pdescs = new Dictionary<string, PropertyDescriptor>();
+            foreach (string propName in sim.GetEntityPropertyList(fullID))
+            {
+                string fullPN = Util.BuildFullPN(fullID, propName);
+                PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
+                EcellValue defaultValue = null;
+                if (attrs.Gettable)
+                {
+                    try
+                    {
+                        defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
+                    }
+                    catch (Exception)
+                    {
+                        Trace.WriteLine(string.Format("Failed to load Property {0} on {1}", propName, fullID));
+                    }
+                }
+                pdescs[propName] = new PropertyDescriptor(
+                    propName,
+                    attrs.Settable, // settable
+                    attrs.Gettable, // gettable
+                    attrs.Loadable, // loadable
+                    attrs.Savable,  // saveable
+                    attrs.Dynamic,  // dynamic
+                    attrs.Gettable, // logable
+                    defaultValue
+                );
+            }
+            return pdescs;
+        }
+
+        /// <summary>
+        /// Check DynamicProperty
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="id"></param>
+        /// <param name="pdescs"></param>
+        /// <returns></returns>
+        private static bool CheckDynamicProperty(WrappedSimulator sim, string id, Dictionary<string, PropertyDescriptor> pdescs)
+        {
+            // Check DynamicProperty
+            bool dynamic = true;
+            try
+            {
+                string randomID = null;
+                do
+                {
+                    randomID = Util.GenerateRandomID(32);
+                }
+                while (pdescs.ContainsKey(randomID));
+                sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
+            }
+            catch (Exception)
+            {
+                dynamic = false;
+            }
+            return dynamic;
+        }
+
     }
 
     /// <summary>
