@@ -63,7 +63,7 @@ namespace Ecell.Job
                 s_optDic.Add(GlobusJob.PROVIDER_NAME, "gt4");
                 s_optDic.Add(GlobusJob.SCRIPT_NAME, "/usr/local/bin/ecell3-session");
                 s_optDic.Add(GlobusJob.TOPDIR_NAME, "/work");
-                s_optDic.Add(GlobusJob.PASSWORD, "gm2Rocks");
+                s_optDic.Add(GlobusJob.PASSWORD, "XXXXXX");
             }
         }
 
