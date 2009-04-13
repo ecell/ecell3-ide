@@ -279,7 +279,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
+            if (current == null)
+                return;
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
@@ -689,14 +690,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <returns>TreeNode</returns>
         internal TreeNode GetTargetModel(string modelID)
         {
-            string currentPrj = m_owner.Environment.DataManager.CurrentProjectID;
+            TreeNode model = null;
+            if (m_modelNode == null)
+                return model;
             foreach (TreeNode node in m_modelNode.Nodes)
             {
                 TagData tag = node.Tag as TagData;
                 if (tag.m_type == Constants.xpathModel && node.Text == modelID)
-                    return node;
+                    model = node;
             }
-            return null;
+            return model;
         }
 
         /// <summary>

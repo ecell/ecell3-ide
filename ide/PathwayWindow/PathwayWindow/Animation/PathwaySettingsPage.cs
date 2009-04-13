@@ -70,9 +70,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingsPage));
             this.SuspendLayout();
             // 
-            // PathwaySettingPage
+            // PathwaySettingsPage
             // 
-            this.Name = "PathwaySettingPage";
+            this.Name = "PathwaySettingsPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 

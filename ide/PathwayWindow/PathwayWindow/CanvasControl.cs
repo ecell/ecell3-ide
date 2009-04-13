@@ -825,9 +825,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Delete Nodes under this layer
             List<PPathwayObject> list = layer.GetNodes();
-            m_selectedNodes.Clear();
-            m_selectedNodes.AddRange(list);
-            m_con.DeteleNodes();
+            foreach(PPathwayObject obj in list)
+            {
+                SetLayer(obj);
+            }
 
             // Delete Layer.
             m_layers.Remove(name);
@@ -861,16 +862,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // if obj is root system or layerID is null.
             PPathwayLayer layer = m_sysLayer;
             string layerID = obj.EcellObject.Layer;
+
             if (obj.EcellObject.Key.Equals(Constants.delimiterPath) || string.IsNullOrEmpty(layerID))
             {
+                // Set default layer.
                 obj.Layer = layer;
-                obj.Layer.AddChild(obj);
                 return;
             }
-
-            // Set new layer.
-            if (m_layers.ContainsKey(layerID))
-                layer = m_layers[layerID]; //throw new PathwayException(string.Format("Layer [{0}] not found.", layerID));
+            else if (m_layers.ContainsKey(layerID))
+            {
+                // Set new layer.
+                layer = m_layers[layerID];
+            }
             obj.Layer = layer;
         }
 

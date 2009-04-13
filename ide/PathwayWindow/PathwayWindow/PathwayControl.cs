@@ -1118,7 +1118,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 Debug.WriteLine(e.Message);
                 if (m_isAnimation)
                     m_animCon.UpdatePropForSimulation();
-                throw new PathwayException("Error DataChange.", e);
+                throw new PathwayException("Error DataChange: " + oldKey, e);
             }
         }
 

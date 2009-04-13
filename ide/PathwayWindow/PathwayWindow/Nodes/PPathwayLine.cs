@@ -98,9 +98,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Coordinate of the process side end point in global coordinate system.
         /// </summary>
         private PointF m_proPoint;
-
+        /// <summary>
+        /// 
+        /// </summary>
         private PPathwayVariable m_variable;
-
+        /// <summary>
+        /// 
+        /// </summary>
         private PPathwayProcess m_process;
         #endregion
 
@@ -137,9 +141,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Constructor
         /// </summary>
         public PPathwayLine(CanvasControl canvas)
+            : this(canvas, new EdgeInfo())
         {
-            m_canvas = canvas;
-            m_edgeInfo = new EdgeInfo();
         }
         /// <summary>
         /// Constructor
@@ -160,9 +163,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="process"></param>
         /// <param name="variable"></param>
         public PPathwayLine(CanvasControl canvas, EdgeInfo edgeInfo, PPathwayProcess process, PPathwayVariable variable)
+            : this(canvas, edgeInfo)
         {
-            m_canvas = canvas;
-            m_edgeInfo = edgeInfo;
             m_variable = variable;
             m_process = process;
             m_variable.Relations.Add(this);

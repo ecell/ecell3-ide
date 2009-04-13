@@ -98,6 +98,7 @@ namespace Ecell.IDE
             PropertyNode node = (PropertyNode)obj;
             propertyPanel.Controls.Clear();
             propertyPanel.Controls.Add(node.Page);
+            node.Page.Dock = DockStyle.Fill;
         }
 
     }
