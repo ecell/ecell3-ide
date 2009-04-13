@@ -251,10 +251,13 @@
   <data name="closeToolStripMenuItem.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="createNewRevisionOnModelToolStripMenuItem.Text" xml:space="preserve">
+  <data name="createNewRevisionMenuItem.Text" xml:space="preserve">
     <value>リビジョン作成</value>
   </data>
   <data name="zipToolStripMenuItem.Text" xml:space="preserve">
     <value>Zip圧縮...</value>
+  </data>
+  <data name="loadRevisionMenuItem.Text" xml:space="preserve">
+    <value>リビジョン読込</value>
   </data>
 </root>
