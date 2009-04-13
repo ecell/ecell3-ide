@@ -316,6 +316,7 @@ namespace Ecell.Job
 
                 string fileName = key.Replace("/", "_");
                 fileName = fileName.Replace(":", "_");
+                fileName = fileName.Replace("__", "_");
                 fileName = fileName + ".ecd";
 
                 // 初期化
@@ -331,13 +332,15 @@ namespace Ecell.Job
                 // grid-ftpでログをサーバから持ってくる
                 // cog-file-transfer -s gsiftp://$Server/$ROOT/$JobID/$logfile -d $ROOT/$JobID
                 cmd = relativePath + "\\bin\\cog-file-transfer";
-                argument = " -d file://tmp/tmp.log -d gsiftp://"
-                + Param[GlobusJob.SERVER_NAME].ToString() + "/"
+                argument = " -d file://tmp/tmp.log -s gsiftp://"
+                + Param[GlobusJob.SERVER_NAME].ToString() + ""
+                + Param[GlobusJob.TOPDIR_NAME].ToString() + "/"
                 + this.Machine + "/" + this.JobID + "/" + fileName;
+                cmd = cmd + argument;
                 m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
 
-                while (!File.Exists(fileName))
+                while (!File.Exists("tmp.log"))
                 {
                     Thread.Sleep(1 * 1000);
                     System.Windows.Forms.Application.DoEvents();
@@ -364,6 +367,8 @@ namespace Ecell.Job
                     }
                 }
                 hReader.Close();
+                m_process.Kill();
+                m_process = null;
             }
             catch (Exception)
             {
@@ -387,7 +392,7 @@ namespace Ecell.Job
         private void m_process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             this.StdErr += e.Data + "\n";
-            if (this.Status == JobStatus.RUNNING && e.Data.Contains("Job completed"))
+            if (this.Status == JobStatus.RUNNING && (e.Data != null && e.Data.Contains("Job completed")))
             {
                 this.Status = JobStatus.FINISHED;
                 if (m_process != null)
@@ -396,7 +401,7 @@ namespace Ecell.Job
                     m_process = null;
                 }
             }
-            else if (this.Status == JobStatus.RUNNING && e.Data.Contains("failed"))
+            else if (e.Data != null && e.Data.Contains("failed"))
             {
                 this.Status = JobStatus.ERROR;
                 if (m_process != null)
@@ -414,7 +419,7 @@ namespace Ecell.Job
         private void m_process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             this.StdErr += e.Data + "\n";
-            if (this.Status == JobStatus.RUNNING && e.Data.Contains("Job completed"))
+            if (this.Status == JobStatus.RUNNING && (e.Data != null && e.Data.Contains("Job completed")))
             {
                 this.Status = JobStatus.FINISHED;
                 if (m_process != null)
@@ -423,7 +428,7 @@ namespace Ecell.Job
                     m_process = null;
                 }
             }
-            else if (this.Status == JobStatus.RUNNING && e.Data.Contains("failed"))
+            else if (e.Data != null && e.Data.Contains("failed"))
             {
                 this.Status = JobStatus.ERROR;
                 if (m_process != null)
