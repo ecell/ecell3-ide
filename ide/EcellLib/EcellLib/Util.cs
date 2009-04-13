@@ -1303,8 +1303,8 @@ namespace Ecell
         /// </summary>
         /// <param name="sourceDir"></param>
         /// <param name="targetDir"></param>
-        /// <param name="overWrite"></param>
-        public static void CopyDirectory(string sourceDir, string targetDir, bool overWrite)
+        /// <param name="overwrite"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir, bool overwrite)
         {
             if (string.IsNullOrEmpty(sourceDir) || !Directory.Exists(sourceDir))
                 throw new EcellException(string.Format(MessageResources.ErrFindDir, sourceDir));
@@ -1313,7 +1313,7 @@ namespace Ecell
 
             if (sourceDir.Equals(targetDir))
                 targetDir = GetNewDir(targetDir);
-            else if (Directory.Exists(targetDir) && !overWrite)
+            else if (Directory.Exists(targetDir) && !overwrite)
                 targetDir = GetNewDir(targetDir);
 
             // List up directories and files.
@@ -1331,7 +1331,7 @@ namespace Ecell
                 Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
             // Copy Files.
             foreach (string file in files)
-                File.Copy(file, file.Replace(sourceDir, targetDir));
+                File.Copy(file, file.Replace(sourceDir, targetDir), overwrite);
         }
 
         /// <summary>

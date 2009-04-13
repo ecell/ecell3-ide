@@ -2103,6 +2103,8 @@ namespace Ecell
         /// <param name="type"></param>
         public void ConfirmReset(string action, string type)
         {
+            if (m_currentProject == null)
+                return;
             if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
                 return;
             if (EcellObject.TEXT.Equals(type))

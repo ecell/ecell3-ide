@@ -394,7 +394,9 @@ namespace Ecell.IDE.MainWindow
         private void ResetPopupMenus(ProjectTreeNode node)
         {
             // Set Visibility flags.
-            if (node == PrjTreeView.Nodes[0])
+            if (PrjTreeView.Nodes.Count <= 0)
+                node = null;
+            else if (node == PrjTreeView.Nodes[0])
                 node = null;
 
             bool isVisible = (node != null);
