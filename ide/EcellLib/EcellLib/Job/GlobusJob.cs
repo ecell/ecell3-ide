@@ -97,22 +97,31 @@ namespace Ecell.Job
                 this.Status = JobStatus.RUNNING;
 
                 // 初期化
+                // prepareと競合してcogrunが正常に動作しない
                 // grid-proxy-init
-                cmd = "grid-proxy-init";
-                m_process.StandardInput.WriteLine(cmd);
-                m_process.StandardInput.Flush();
-                m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
-                m_process.StandardInput.Flush();
+                //cmd = "grid-proxy-init";
+                //m_process.StandardInput.WriteLine(cmd);
+                //m_process.StandardInput.Flush();
+                //m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
+                //Thread.Sleep(5 * 1000);
+                //m_process.StandardInput.Flush();
+
+                string cogdir = System.Environment.GetEnvironmentVariable("COG_HOME");
+                string curdir = System.Environment.CurrentDirectory + "\\";
+                Uri u1 = new Uri(curdir);
+                Uri u2 = new Uri(cogdir);
+                string relativePath = u1.MakeRelativeUri(u2).ToString();
+                relativePath = relativePath.Replace('/', '\\');
 
                 // 実行
                 // cog-job-submit -e $script -args $ROOT/$JobID/$jobfile -p $provider -s $server
-                cmd = "cog-job-submit";
+                cmd = relativePath + "\\bin\\cogrun";
                 argument = " -e " + Param[GlobusJob.SCRIPT_NAME].ToString() 
-                    + " -args \"" + ScriptFile + "\""
+                    + " -args " + ScriptFile
                     + " -p " + Param[GlobusJob.PROVIDER_NAME]
                     + " -s " + Param[GlobusJob.SERVER_NAME]
-                    + "-target \"" + Param[GlobusJob.TOPDIR_NAME].ToString() + "/" 
-                    + this.Machine + "/" + this.JobID + "\"";
+                    + " -d " + Param[GlobusJob.TOPDIR_NAME].ToString() + "/" 
+                    + this.Machine + "/" + this.JobID;
                 m_process.StandardInput.WriteLine(cmd + argument);
                 m_process.StandardInput.Flush();
             }
@@ -181,6 +190,7 @@ namespace Ecell.Job
             return this.StdErr;
         }
 
+        private bool m_isRunning = false;
         /// <summary>
         /// Pprepare the execution of this job.
         /// </summary>
@@ -191,29 +201,36 @@ namespace Ecell.Job
 
             try
             {
-                // 初期化
-                cmd = "grid-proxy-init";
-                m_process.StandardInput.WriteLine(cmd);
-                m_process.StandardInput.Flush();
-                m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
-                m_process.StandardInput.Flush();
-
                 string cogdir = System.Environment.GetEnvironmentVariable("COG_HOME");
                 string curdir = System.Environment.CurrentDirectory + "\\";
                 Uri u1 = new Uri(curdir);
                 Uri u2 = new Uri(cogdir);
                 string relativePath = u1.MakeRelativeUri(u2).ToString();
                 relativePath = relativePath.Replace('/', '\\');
-                Console.WriteLine(relativePath);
-                // 実行ディレクトリを作成
-                // cog-job-submit -e /bin/mkdir -args $ROOT/$JobID -p $Provider -s $Server           
-                cmd = relativePath + "\\bin\\cogrun";
-                argument = " -e /bin/mkdir -args \"-p " + Param[GlobusJob.TOPDIR_NAME].ToString()
+                
+                // 初期化
+                cmd = relativePath + "\\bin\\grid-proxy-init";
+                m_process.StandardInput.WriteLine(cmd);
+//                Thread.Sleep(5 * 1000);
+                m_process.StandardInput.Flush();
+                m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
+                Thread.Sleep(5 * 1000);
+                m_process.StandardInput.Flush();
+
+                cmd = relativePath + "\\bin\\cogrun.bat";
+                argument = " -e /bin/mkdir -args \" -p " + Param[GlobusJob.TOPDIR_NAME].ToString()
                     + "/" + this.Machine + "/" + this.JobID + "\"" 
                     + " -p " + Param[GlobusJob.PROVIDER_NAME].ToString()
                     + " -s " + Param[GlobusJob.SERVER_NAME];
-                m_process.StandardInput.WriteLine(cmd + argument);
+                cmd = cmd + argument;
+                m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
+                m_isRunning = true;
+                while (m_isRunning)
+                {
+                    Thread.Sleep(1 * 1000);
+                    System.Windows.Forms.Application.DoEvents();
+                }
 
                 string dFileName = JobID + ".ess";
                 File.Delete(dFileName); 
@@ -225,19 +242,21 @@ namespace Ecell.Job
 
                 // grid-ftpでサーバにスクリプトを持っていく
                 // cog-file-transfer -s file://tmp/$jobfile -d gsiftp://$Server/$ROOT/$JobID
-                cmd = "cog-file-transfer";
+                cmd = relativePath + "\\bin\\cog-file-transfer";
                 argument = " -s file://tmp/" + dFileName + " -d gsiftp://"
                 + Param[GlobusJob.SERVER_NAME].ToString() + "/"
-                + this.Machine + "/" + this.JobID + "/";
+                + Param[GlobusJob.TOPDIR_NAME].ToString() + "/"
+                + this.Machine + "/" + this.JobID + "/" + dFileName;
                 m_process.StandardInput.WriteLine(cmd + argument);
-                m_process.StandardInput.Flush();
+//                m_process.StandardInput.Flush();
 
-                cmd = "cog-file-transfer";
+                cmd = relativePath + "\\bin\\cog-file-transfer";
                 argument = " -s file://tmp/" + dModelName + " -d gsiftp://"
                 + Param[GlobusJob.SERVER_NAME].ToString() + "/"
-                + this.Machine + "/" + this.JobID + "/";
+                + Param[GlobusJob.TOPDIR_NAME].ToString() + "/"
+                + this.Machine + "/" + this.JobID + "/" + dModelName;
                 m_process.StandardInput.WriteLine(cmd + argument);
-                m_process.StandardInput.Flush();
+//                m_process.StandardInput.Flush();
 
                 ScriptFile = dFileName;
                 base.PrepareProcess();
@@ -258,6 +277,7 @@ namespace Ecell.Job
             }
         }
 
+
         /// <summary>
         /// Get log data from server node.
         /// </summary>
@@ -268,6 +288,13 @@ namespace Ecell.Job
             Dictionary<double, double> result = new Dictionary<double, double>();
             try
             {
+                string cogdir = System.Environment.GetEnvironmentVariable("COG_HOME");
+                string curdir = System.Environment.CurrentDirectory + "\\";
+                Uri u1 = new Uri(curdir);
+                Uri u2 = new Uri(cogdir);
+                string relativePath = u1.MakeRelativeUri(u2).ToString();
+                relativePath = relativePath.Replace('/', '\\');
+
                 if (this.Status == JobStatus.ERROR)
                     return result;
                 m_process = new Process();
@@ -277,9 +304,6 @@ namespace Ecell.Job
                 m_process.StartInfo.RedirectStandardError = true;
                 m_process.StartInfo.RedirectStandardInput = true;
                 m_process.StartInfo.RedirectStandardOutput = true;
-
-                m_process.OutputDataReceived += new DataReceivedEventHandler(m_process_OutputDataReceived);
-                m_process.ErrorDataReceived += new DataReceivedEventHandler(m_process_ErrorDataReceived);
 
                 m_process.Start();
                 m_process.BeginErrorReadLine();
@@ -300,21 +324,23 @@ namespace Ecell.Job
                 m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
                 m_process.StandardInput.WriteLine(Param[GlobusJob.PASSWORD].ToString());
+                Thread.Sleep(5 * 1000);
                 m_process.StandardInput.Flush();
 
 
                 // grid-ftpでログをサーバから持ってくる
                 // cog-file-transfer -s gsiftp://$Server/$ROOT/$JobID/$logfile -d $ROOT/$JobID
-                cmd = "cog-file-transfer";
+                cmd = relativePath + "\\bin\\cog-file-transfer";
                 argument = " -d file://tmp/tmp.log -d gsiftp://"
                 + Param[GlobusJob.SERVER_NAME].ToString() + "/"
                 + this.Machine + "/" + this.JobID + "/" + fileName;
                 m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
 
-                while (this.Status != JobStatus.ERROR && !File.Exists(fileName))
+                while (!File.Exists(fileName))
                 {
-                    Thread.Sleep(30 * 1000);
+                    Thread.Sleep(1 * 1000);
+                    System.Windows.Forms.Application.DoEvents();
                 }
 
                 // Tempに移動
@@ -361,7 +387,7 @@ namespace Ecell.Job
         private void m_process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             this.StdErr += e.Data + "\n";
-            if (this.Status == JobStatus.RUNNING && e.Data.Contains("Job Completed"))
+            if (this.Status == JobStatus.RUNNING && e.Data.Contains("Job completed"))
             {
                 this.Status = JobStatus.FINISHED;
                 if (m_process != null)
@@ -379,12 +405,16 @@ namespace Ecell.Job
                     m_process = null;
                 }
             }
+            if (e.Data != null &&  
+                (e.Data.Contains("Job completed") || e.Data.Contains("failed") || 
+                e.Data.Contains("is valid")))
+                m_isRunning = false;
         }
 
         private void m_process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             this.StdErr += e.Data + "\n";
-            if (this.Status == JobStatus.RUNNING && e.Data.Contains("Job Completed"))
+            if (this.Status == JobStatus.RUNNING && e.Data.Contains("Job completed"))
             {
                 this.Status = JobStatus.FINISHED;
                 if (m_process != null)
@@ -402,6 +432,10 @@ namespace Ecell.Job
                     m_process = null;
                 }
             }
+            if (e.Data != null && 
+                (e.Data.Contains("Job completed") || e.Data.Contains("failed") || 
+                e.Data.Contains("is valid")))
+                m_isRunning = false;
         }
         #endregion
     }

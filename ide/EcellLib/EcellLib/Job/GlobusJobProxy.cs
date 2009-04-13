@@ -61,7 +61,7 @@ namespace Ecell.Job
                 s_optDic = new Dictionary<string, object>();
                 s_optDic.Add(GlobusJob.SERVER_NAME, "cm1-3250.biointegra.jp");
                 s_optDic.Add(GlobusJob.PROVIDER_NAME, "gt4");
-                s_optDic.Add(GlobusJob.SCRIPT_NAME, "/usr/local/bin/ecell3-sesiion");
+                s_optDic.Add(GlobusJob.SCRIPT_NAME, "/usr/local/bin/ecell3-session");
                 s_optDic.Add(GlobusJob.TOPDIR_NAME, "/work");
                 s_optDic.Add(GlobusJob.PASSWORD, "gm2Rocks");
             }
