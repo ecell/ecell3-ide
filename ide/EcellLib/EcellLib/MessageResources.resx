@@ -359,4 +359,19 @@ New revision {0}:{1} was created.</value>
   <data name="ConfirmAnalysisReset" xml:space="preserve">
     <value>Change to a property that cannot be set during  analysis is attempted. Do you want to stop the analysis?</value>
   </data>
+  <data name="NameJobPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="NameJobProvider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="NameJobScriptName" xml:space="preserve">
+    <value>Script name</value>
+  </data>
+  <data name="NameJobServerName" xml:space="preserve">
+    <value>Server name</value>
+  </data>
+  <data name="NameJobTopDir" xml:space="preserve">
+    <value>Top directory</value>
+  </data>
 </root>

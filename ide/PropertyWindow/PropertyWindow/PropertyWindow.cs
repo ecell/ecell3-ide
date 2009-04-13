@@ -930,7 +930,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         m_env.PluginManager.Status == ProjectStatus.Stepping ||
                         m_env.PluginManager.Status == ProjectStatus.Suspended) &&
                         !tag.Name.Equals(Constants.xpathSize) &&
-                        !tag.Name.Equals(Constants.xpathExpression))
+                        !tag.Name.Equals(Constants.xpathExpression) &&
+                        !tag.Name.Equals(Constants.xpathActivity))
                     {
                         m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
                         UpdatePropForSimulation();

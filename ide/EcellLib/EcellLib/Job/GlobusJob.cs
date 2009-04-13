@@ -42,11 +42,11 @@ namespace Ecell.Job
     /// </summary>
     public class GlobusJob : Job
     {
-        public static string SERVER_NAME = "servername";
-        public static string PROVIDER_NAME = "provider";
-        public static string SCRIPT_NAME = "scriptname";
-        public static string TOPDIR_NAME = "topdir";
-        public static string PASSWORD = "password";
+        public static string SERVER_NAME = MessageResources.NameJobServerName;
+        public static string PROVIDER_NAME = MessageResources.NameJobProvider;
+        public static string SCRIPT_NAME = MessageResources.NameJobScriptName;
+        public static string TOPDIR_NAME = MessageResources.NameJobTopDir;
+        public static string PASSWORD = MessageResources.NameJobPassword;
 
         private Process m_process = null;
 
@@ -401,7 +401,7 @@ namespace Ecell.Job
                     m_process = null;
                 }
             }
-            else if (e.Data != null && e.Data.Contains("failed"))
+            else if (e.Data != null && (e.Data.Contains("failed") || e.Data.Contains("Error")))
             {
                 this.Status = JobStatus.ERROR;
                 if (m_process != null)
@@ -428,7 +428,7 @@ namespace Ecell.Job
                     m_process = null;
                 }
             }
-            else if (e.Data != null && e.Data.Contains("failed"))
+            else if (e.Data != null && (e.Data.Contains("failed") || e.Data.Contains("Error")))
             {
                 this.Status = JobStatus.ERROR;
                 if (m_process != null)

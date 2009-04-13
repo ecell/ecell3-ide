@@ -701,6 +701,51 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Password に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameJobPassword {
+            get {
+                return ResourceManager.GetString("NameJobPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Provider に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameJobProvider {
+            get {
+                return ResourceManager.GetString("NameJobProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameJobScriptName {
+            get {
+                return ResourceManager.GetString("NameJobScriptName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Server name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameJobServerName {
+            get {
+                return ResourceManager.GetString("NameJobServerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Top directory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameJobTopDir {
+            get {
+                return ResourceManager.GetString("NameJobTopDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Model に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameModel {

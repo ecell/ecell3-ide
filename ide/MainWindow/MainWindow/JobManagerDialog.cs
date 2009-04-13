@@ -112,6 +112,7 @@ namespace Ecell.IDE.MainWindow
             // envComboBox
             // 
             resources.ApplyResources(this.envComboBox, "envComboBox");
+            this.envComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.envComboBox.FormattingEnabled = true;
             this.envComboBox.Name = "envComboBox";
             this.envComboBox.SelectedIndexChanged += new System.EventHandler(this.envComboBox_SelectedIndexChanged);
@@ -236,12 +237,13 @@ namespace Ecell.IDE.MainWindow
             string name = envComboBox.Text;
             Dictionary<string, object> propDic = m_manager.GetDefaultEnvironmentProperty(name);
             envDataGridView.Rows.Clear();
+            concTextBox.Text = m_manager.GetDefaultConcurrency(name).ToString();
             foreach (string propName in propDic.Keys)
             {
                 int i = envDataGridView.Rows.Add(
                     new object[] { propName, propDic[propName].ToString() });
-                envDataGridView.Rows[i].Tag = propDic[propName].GetType();
-            }
+                envDataGridView.Rows[i].Tag = propDic[propName].GetType();                
+            }            
         }
         #endregion
     }

@@ -137,6 +137,6 @@
     <value>並列数</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>ジョブ設定</value>
+    <value>ジョブ設定（実験用)</value>
   </data>
 </root>

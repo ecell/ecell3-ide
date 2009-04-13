@@ -694,6 +694,12 @@ namespace Ecell
                 return !varRef1.Equals(varRef2);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oldObj"></param>
+        /// <param name="newObj"></param>
+        /// <returns></returns>
         public static bool DoesExpressionChange(EcellObject oldObj, EcellObject newObj)
         {
             if (oldObj == null || !(oldObj is EcellProcess))
@@ -703,6 +709,32 @@ namespace Ecell
 
             EcellData d1 = oldObj.GetEcellData(Constants.xpathExpression);
             EcellData d2 = newObj.GetEcellData(Constants.xpathExpression);
+
+            if (d1 == d2)
+                return false;
+            else if (d1 == null || d2 == null)
+                return true;
+            string e1 = d1.Value.ToString();
+            string e2 = d2.Value.ToString();
+
+            return !e1.Equals(e2);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oldObj"></param>
+        /// <param name="newObj"></param>
+        /// <returns></returns>
+        public static bool DoesActivityChange(EcellObject oldObj, EcellObject newObj)
+        {
+            if (oldObj == null || !(oldObj is EcellProcess))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "oldObj"));
+            if (newObj == null || !(newObj is EcellProcess))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "newObj"));
+
+            EcellData d1 = oldObj.GetEcellData(Constants.xpathActivity);
+            EcellData d2 = newObj.GetEcellData(Constants.xpathActivity);
 
             if (d1 == d2)
                 return false;

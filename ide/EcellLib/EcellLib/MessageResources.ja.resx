@@ -357,4 +357,19 @@
   <data name="ConfirmAnalysisReset" xml:space="preserve">
     <value>解析実行中に設定できないプロパティを変更しようとしています。解析を中断しますか？</value>
   </data>
+  <data name="NameJobPassword" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="NameJobProvider" xml:space="preserve">
+    <value>プロバイダー</value>
+  </data>
+  <data name="NameJobScriptName" xml:space="preserve">
+    <value>スクリプト名</value>
+  </data>
+  <data name="NameJobServerName" xml:space="preserve">
+    <value>サーバ名</value>
+  </data>
+  <data name="NameJobTopDir" xml:space="preserve">
+    <value>トップディレクトリ</value>
+  </data>
 </root>
