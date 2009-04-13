@@ -1147,7 +1147,7 @@ namespace Ecell
                         !obj.Classname.Equals(ecellObject.Classname) ||
                         obj.Value.Count != ecellObject.Value.Count ||
                         (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)) ||
-                        (obj is EcellProcess && obj.GetEcellData(Constants.xpathExpression) != ecellObject.GetEcellData(Constants.xpathExpression)) ||
+                        (obj is EcellProcess && Util.DoesExpressionChange(obj, ecellObject)) ||
                         (obj is EcellSystem && ((EcellSystem)obj).SizeInVolume != ((EcellSystem)ecellObject).SizeInVolume))
                     {
                         ConfirmReset("change", type);
@@ -4308,6 +4308,14 @@ namespace Ecell
                 string oldParameterID = m_currentProject.Info.SimulationParam;
                 if (oldParameterID != parameterID)
                 {
+                    try
+                    {
+                        ConfirmReset("change simulation parameter set", Constants.xpathSimulation);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
                     if (!m_currentProject.StepperDic.ContainsKey(parameterID))
                         m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
                     // Set Stepper.

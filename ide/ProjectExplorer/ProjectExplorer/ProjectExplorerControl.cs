@@ -950,15 +950,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 else if (e.Node == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuSimulationSetCollection;
-                    if (m_owner.PluginManager.Status == ProjectStatus.Running ||
-                        m_owner.PluginManager.Status == ProjectStatus.Suspended)
-                        addSimulationSetToolStripMenuItem.Enabled = false;
-                    else
-                        addSimulationSetToolStripMenuItem.Enabled = true;
                 }
                 else if (e.Node.Parent == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripSimulationSet;
+                    if (m_owner.PluginManager.Status == ProjectStatus.Running ||
+                        m_owner.PluginManager.Status == ProjectStatus.Suspended)
+                        configureSimulationSetToolStripMenuItem.Enabled = false;
+                    else
+                        configureSimulationSetToolStripMenuItem.Enabled = true;
                 }
                 else if (e.Node.Tag is TagData)
                 {
@@ -1008,8 +1008,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             else if (m_paramNode == e.Node.Parent)
             {
-                m_owner.Environment.PluginManager.SelectChanged(
-                    "", (string)e.Node.Tag, Constants.xpathParameters);
+                if (m_owner.PluginManager.Status == ProjectStatus.Running ||
+                    m_owner.PluginManager.Status == ProjectStatus.Suspended ||
+                    m_owner.PluginManager.Status == ProjectStatus.Stepping)
+                {
+                }
+                else
+                {
+                    m_owner.Environment.PluginManager.SelectChanged(
+                        "", (string)e.Node.Tag, Constants.xpathParameters);
+                }
             }
             else if (e.Node.Tag != null && e.Node.Tag is TagData)
             {

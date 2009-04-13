@@ -447,7 +447,7 @@ namespace Ecell.IDE.Plugins.Simulation
             menuStopSim.Enabled = isRunning || isStepping;
             menuResetSim.Enabled = isSuspended;
             menuStepSim.Enabled = isLoaded || isSuspended;
-            menuSetupSim.Enabled = isLoaded || isStepping || isRunning || isSuspended;
+            menuSetupSim.Enabled = isLoaded;
 
             menuRunSim.Checked = isRunning;
             menuStopSim.Checked = isSuspended;
