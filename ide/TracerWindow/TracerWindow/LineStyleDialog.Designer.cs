@@ -60,19 +60,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             System.Windows.Forms.GroupBox groupBox1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LineStyleDialog));
-            System.Windows.Forms.GroupBox groupBox2;
             this.dashDotDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashRadioButton = new System.Windows.Forms.RadioButton();
             this.solidRadioButton = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lineTextBox = new System.Windows.Forms.TextBox();
             this.LSApplyButton = new System.Windows.Forms.Button();
             this.LSCloseButton = new System.Windows.Forms.Button();
             groupBox1 = new System.Windows.Forms.GroupBox();
-            groupBox2 = new System.Windows.Forms.GroupBox();
             groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -128,10 +127,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(this.lineTextBox);
-            resources.ApplyResources(groupBox2, "groupBox2");
-            groupBox2.Name = "groupBox2";
-            groupBox2.TabStop = false;
+            this.groupBox2.Controls.Add(this.lineTextBox);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
             // 
             // lineTextBox
             // 
@@ -160,7 +159,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.LSCloseButton;
-            this.Controls.Add(groupBox2);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(groupBox1);
             this.Controls.Add(this.LSApplyButton);
             this.Controls.Add(this.LSCloseButton);
@@ -169,8 +168,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LineStyleDialogClosing);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -185,6 +184,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private System.Windows.Forms.RadioButton dotRadioButton;
         private System.Windows.Forms.RadioButton dashDotDotRadioButton;
         private System.Windows.Forms.TextBox lineTextBox;
+        private System.Windows.Forms.GroupBox groupBox2;
 
 
     }

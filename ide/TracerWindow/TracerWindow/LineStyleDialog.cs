@@ -125,11 +125,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e"></param>
         private void LineStyleDialogClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel) return;
             int dummy;
             if (!Int32.TryParse(lineTextBox.Text, out dummy) ||
                 dummy <= 0 || dummy > 16)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, groupBox2.Text));
                 e.Cancel = true;
                 return;
             }
