@@ -46,12 +46,9 @@
             // 
             // JobGridView
             // 
-            this.JobGridView.AccessibleDescription = null;
-            this.JobGridView.AccessibleName = null;
             this.JobGridView.AllowUserToAddRows = false;
             resources.ApplyResources(this.JobGridView, "JobGridView");
             this.JobGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.JobGridView.BackgroundImage = null;
             this.JobGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.JobGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.JobIDColumn,
@@ -59,12 +56,10 @@
             this.MachineColumn,
             this.ScriptColumn,
             this.ArgumentColumn});
-            this.JobGridView.Font = null;
             this.JobGridView.Name = "JobGridView";
             this.JobGridView.RowHeadersVisible = false;
             this.JobGridView.RowTemplate.Height = 21;
             this.JobGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DialogToolTip.SetToolTip(this.JobGridView, resources.GetString("JobGridView.ToolTip"));
             // 
             // JobIDColumn
             // 
@@ -102,11 +97,7 @@
             // 
             // DEWStartButton
             // 
-            this.DEWStartButton.AccessibleDescription = null;
-            this.DEWStartButton.AccessibleName = null;
             resources.ApplyResources(this.DEWStartButton, "DEWStartButton");
-            this.DEWStartButton.BackgroundImage = null;
-            this.DEWStartButton.Font = null;
             this.DEWStartButton.Name = "DEWStartButton";
             this.DialogToolTip.SetToolTip(this.DEWStartButton, resources.GetString("DEWStartButton.ToolTip"));
             this.DEWStartButton.UseVisualStyleBackColor = true;
@@ -114,11 +105,7 @@
             // 
             // DEWStopButton
             // 
-            this.DEWStopButton.AccessibleDescription = null;
-            this.DEWStopButton.AccessibleName = null;
             resources.ApplyResources(this.DEWStopButton, "DEWStopButton");
-            this.DEWStopButton.BackgroundImage = null;
-            this.DEWStopButton.Font = null;
             this.DEWStopButton.Name = "DEWStopButton";
             this.DialogToolTip.SetToolTip(this.DEWStopButton, resources.GetString("DEWStopButton.ToolTip"));
             this.DEWStopButton.UseVisualStyleBackColor = true;
@@ -126,11 +113,7 @@
             // 
             // DEWDeleteButton
             // 
-            this.DEWDeleteButton.AccessibleDescription = null;
-            this.DEWDeleteButton.AccessibleName = null;
             resources.ApplyResources(this.DEWDeleteButton, "DEWDeleteButton");
-            this.DEWDeleteButton.BackgroundImage = null;
-            this.DEWDeleteButton.Font = null;
             this.DEWDeleteButton.Name = "DEWDeleteButton";
             this.DialogToolTip.SetToolTip(this.DEWDeleteButton, resources.GetString("DEWDeleteButton.ToolTip"));
             this.DEWDeleteButton.UseVisualStyleBackColor = true;
@@ -138,35 +121,29 @@
             // 
             // DEWUpdateButton
             // 
-            this.DEWUpdateButton.AccessibleDescription = null;
-            this.DEWUpdateButton.AccessibleName = null;
             resources.ApplyResources(this.DEWUpdateButton, "DEWUpdateButton");
-            this.DEWUpdateButton.BackgroundImage = null;
             this.DEWUpdateButton.FlatAppearance.BorderSize = 0;
-            this.DEWUpdateButton.Font = null;
             this.DEWUpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.DEWUpdateButton.Name = "DEWUpdateButton";
             this.DialogToolTip.SetToolTip(this.DEWUpdateButton, resources.GetString("DEWUpdateButton.ToolTip"));
             this.DEWUpdateButton.UseVisualStyleBackColor = true;
             this.DEWUpdateButton.Click += new System.EventHandler(this.DEWUpdateButton_Click);
             // 
+            // DialogToolTip
+            // 
+            this.DialogToolTip.ShowAlways = true;
+            // 
             // GridJobStatusDialog
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.Controls.Add(this.DEWStartButton);
             this.Controls.Add(this.JobGridView);
             this.Controls.Add(this.DEWStopButton);
             this.Controls.Add(this.DEWDeleteButton);
             this.Controls.Add(this.DEWUpdateButton);
-            this.Font = null;
             this.IsSavable = true;
             this.Name = "GridJobStatusDialog";
-            this.DialogToolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
-            this.ToolTipText = null;
             this.Shown += new System.EventHandler(this.WinShown);
             ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).EndInit();
             this.ResumeLayout(false);
@@ -188,6 +165,6 @@
         private System.Windows.Forms.Button DEWStartButton;
         private System.Windows.Forms.Button DEWStopButton;
         private System.Windows.Forms.Button DEWUpdateButton;
-        private System.Windows.Forms.ToolTip DialogToolTip;
+        internal System.Windows.Forms.ToolTip DialogToolTip;
     }
 }

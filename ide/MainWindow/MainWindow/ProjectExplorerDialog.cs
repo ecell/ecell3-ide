@@ -280,9 +280,21 @@ namespace Ecell.IDE.MainWindow
             m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
             if (m_selectedNode.Parent == null || string.IsNullOrEmpty(m_selectedNode.Text))
                 return;
+            tView.LabelEdit = true;
             m_selectedNode.BeginEdit();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PrjTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            m_selectedNode.Text = e.Label;
+            RefreshNode(m_selectedNode);
+            PrjTreeView.LabelEdit = false;
+        }
 
         /// <summary>
         /// Constants
@@ -589,12 +601,6 @@ namespace Ecell.IDE.MainWindow
         {
             if(pictureBox1.Image != null)
                 pictureBox1.Image.Dispose();
-        }
-
-        private void PrjTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
-        {
-            m_selectedNode.Text = e.Label;
-            RefreshNode(m_selectedNode);
         }
 
         internal void RefreshNode(ProjectTreeNode node)

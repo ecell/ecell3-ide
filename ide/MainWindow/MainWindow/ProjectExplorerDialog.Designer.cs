@@ -105,8 +105,6 @@ namespace Ecell.IDE.MainWindow
             this.PrjTreeView.ImageList = this.ImageList;
             this.PrjTreeView.Name = "PrjTreeView";
             this.PrjTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseDoubleClick);
-
-            this.PrjTreeView.LabelEdit = true;
             this.PrjTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.PrjTreeView_AfterLabelEdit);
             this.PrjTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MPPrjTreeView_MouseDown);
             this.PrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
