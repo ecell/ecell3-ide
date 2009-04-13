@@ -111,7 +111,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="path">The current path.</param>
         public void CreateProjectTreeView(TreeNode node, string path)
         {
-            if (!Directory.Exists(path)) return;
+            if (!Directory.Exists(path))
+                return;
 
             if (node == null)
             {
@@ -277,7 +278,7 @@ namespace Ecell.IDE.MainWindow
         {
             TreeView tView = (TreeView)sender;
             m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
-            if (string.IsNullOrEmpty(m_selectedNode.Text))
+            if (m_selectedNode.Parent == null || string.IsNullOrEmpty(m_selectedNode.Text))
                 return;
             m_selectedNode.BeginEdit();
         }
