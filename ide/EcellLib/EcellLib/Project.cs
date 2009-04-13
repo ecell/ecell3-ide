@@ -682,7 +682,7 @@ namespace Ecell
             string[] revisions = Directory.GetDirectories(oldPath, "Revision*");
             foreach (string revision in revisions)
             {
-                string newDir = Path.Combine(oldPath, Path.GetFileName(revision));
+                string newDir = Path.Combine(m_info.ProjectPath, Path.GetFileName(revision));
                 Util.CopyDirectory(revision, newDir, true);
             }
         }

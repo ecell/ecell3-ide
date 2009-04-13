@@ -54,7 +54,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Default size of system.
         /// </summary>
-        public const double DefaultSize = 0.1d;
+        public const double DefaultSize = 1.0d;
         #endregion
 
         #region Fields

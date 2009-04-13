@@ -125,10 +125,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             set
             {
-                if (m_isViewMode != value)
-                {
-                    ChangePath(value);
-                }
+                ChangePath(value);
                 base.ViewMode = value;
             }
         }
