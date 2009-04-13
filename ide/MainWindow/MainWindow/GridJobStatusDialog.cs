@@ -239,5 +239,31 @@ namespace Ecell.IDE.MainWindow
                 return;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridJobStatusDialog_DockStateChanged(object sender, EventArgs e)
+        {
+            ResetToolTip();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ResetToolTip()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
+            this.DialogToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.DialogToolTip.SetToolTip(this.DEWStartButton, resources.GetString("DEWStartButton.ToolTip"));
+            this.DialogToolTip.SetToolTip(this.DEWStopButton, resources.GetString("DEWStopButton.ToolTip"));
+            this.DialogToolTip.SetToolTip(this.DEWDeleteButton, resources.GetString("DEWDeleteButton.ToolTip"));
+            this.DialogToolTip.SetToolTip(this.DEWUpdateButton, resources.GetString("DEWUpdateButton.ToolTip"));
+            this.DialogToolTip.ShowAlways = true;
+
+        }
     }
 }

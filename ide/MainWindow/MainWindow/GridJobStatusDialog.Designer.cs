@@ -145,6 +145,7 @@
             this.IsSavable = true;
             this.Name = "GridJobStatusDialog";
             this.Shown += new System.EventHandler(this.WinShown);
+            this.DockStateChanged += new System.EventHandler(this.GridJobStatusDialog_DockStateChanged);
             ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).EndInit();
             this.ResumeLayout(false);
 
