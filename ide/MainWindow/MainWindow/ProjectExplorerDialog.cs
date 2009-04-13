@@ -111,6 +111,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="path">The current path.</param>
         public void CreateProjectTreeView(TreeNode node, string path)
         {
+            if (!Directory.Exists(path)) return;
+
             if (node == null)
             {
                 node = new ProjectTreeNode(path);
