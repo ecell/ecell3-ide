@@ -62,6 +62,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// edge brush.
         /// </summary>
         private Brush m_edgeBrush = Brushes.Black;
+        /// <summary>
+        /// edge brush.
+        /// </summary>
+        private float m_edgeWidth = 1;
         #endregion
 
         #region Accessors
@@ -77,7 +81,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 ResetEdges();
             }
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -91,6 +94,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 {
                     line.Pen.Brush = m_edgeBrush;
                     line.Brush = m_edgeBrush;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float EdgeWidth
+        {
+            get { return m_edgeWidth; }
+            set
+            {
+                m_edgeWidth = value;
+                foreach (PPathwayLine line in m_relations)
+                {
+                    line.Pen.Width = m_edgeWidth;
                 }
             }
         }

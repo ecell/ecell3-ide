@@ -214,7 +214,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             //Set Pen
-            Pen = new Pen(Brush, LINE_WIDTH);
+            float width = LINE_WIDTH;
+            if (m_process != null)
+                width = m_process.EdgeWidth;
+            base.Pen = new Pen(Brush, width);
 
             //Set line
             GraphicsPath path = new GraphicsPath();

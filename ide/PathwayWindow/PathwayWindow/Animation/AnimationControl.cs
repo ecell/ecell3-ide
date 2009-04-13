@@ -619,6 +619,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Line setting.
                 process.ViewMode = false;
                 process.EdgeBrush = m_editEdgeBrush;
+                process.EdgeWidth = m_normalEdgeWidth;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
