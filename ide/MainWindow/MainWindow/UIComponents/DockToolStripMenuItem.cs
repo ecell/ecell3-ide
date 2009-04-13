@@ -35,6 +35,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Ecell.Plugin;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.IDE.MainWindow.UIComponents
 {
@@ -51,7 +52,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
             this.Checked = !content.IsHidden;
             this.Click += new EventHandler(DockContentMenu_Click);
             m_content = content;
-            m_content.VisibleChanged += new EventHandler(DockContent_VisibleChanged);
+            m_content.DockStateChanged += new EventHandler(DockContent_DockStateChanged);
         }
 
         /// <summary>
@@ -59,9 +60,9 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void DockContent_VisibleChanged(object sender, EventArgs e)
+        void DockContent_DockStateChanged(object sender, EventArgs e)
         {
-            this.Checked = !m_content.IsHidden;
+            this.Checked = !(m_content.DockState == DockState.Hidden || m_content.DockState == DockState.Unknown);
         }
 
         /// <summary>
