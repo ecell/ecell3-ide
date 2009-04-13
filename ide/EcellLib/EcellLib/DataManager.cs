@@ -4947,6 +4947,7 @@ namespace Ecell
                     loggerPolicy.ReloadInterval,
                     Convert.ToBoolean((int)loggerPolicy.DiskFullAction),
                     loggerPolicy.MaxDiskSpace);
+                m_currentProject.LogableEntityPathDic[fullPathID] = m_currentProject.Model.FullID;
             }
             m_loggerEntry.Add(fullPathID);
         }

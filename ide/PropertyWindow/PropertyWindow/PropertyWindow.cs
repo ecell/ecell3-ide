@@ -522,6 +522,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     continue;
                 }
                 EcellData d = m_current.GetEcellData(prop.Name);
+                if ((m_env.PluginManager.Status == ProjectStatus.Running ||
+                    m_env.PluginManager.Status == ProjectStatus.Stepping ||
+                    m_env.PluginManager.Status == ProjectStatus.Suspended) &&
+                    (d.Value.IsInt || d.Value.IsDouble) &&
+                    d.Gettable)
+                {
+                    EcellValue v = m_env.DataManager.GetEntityProperty(d.EntityPath);
+                    d = new EcellData(d.Name, v, d.EntityPath);
+                }
                 if (d == null) continue;
                 if (r.Cells[1] is DataGridViewCell)
                 {

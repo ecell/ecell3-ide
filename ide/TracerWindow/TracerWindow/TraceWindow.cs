@@ -230,6 +230,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_tagDic.Add(tag.ToShortString(), tag.IsContinue);
             if (!tag.isLoaded)
             {
+                if (m_logCount == 0 && 
+                    (m_owner.PluginManager.Status == ProjectStatus.Running ||
+                    m_owner.PluginManager.Status == ProjectStatus.Suspended ||
+                    m_owner.PluginManager.Status == ProjectStatus.Stepping))
+                    this.StartSimulation();
                 m_logCount++;
             }
             else
