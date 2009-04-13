@@ -1794,29 +1794,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     if (obj.Offset != PointF.Empty && !objList.Contains(obj))
                         objList.Add(obj);
                 }
-                // MoveSystems
+
+                // MoveObject
                 foreach (PPathwayObject obj in objList)
                 {
-                    if (!(obj is PPathwaySystem))
-                        continue;
-                    NotifyMoveSystem(obj);
-                }
-                // Move Processes
-                foreach (PPathwayObject obj in objList)
-                {
-                    if (!(obj is PPathwayProcess))
-                        continue;
-                    NotifyMoveNode(obj);
-                }
-                // Move Variables and Texts.
-                foreach (PPathwayObject obj in objList)
-                {
-                    if (!(obj is PPathwayVariable) && !(obj is PPathwayText))
-                        continue;
-                    NotifyMoveNode(obj);
+                    if (obj is PPathwaySystem)
+                        NotifyMoveSystem(obj);
+                    else if ((obj is PPathwayProcess) || (obj is PPathwayVariable) || (obj is PPathwayText))
+                        NotifyMoveNode(obj);
                 }
 
-                // Anchor
+                // Set Anchor
                 if (objList.Count > 0 && isAnchored)
                     m_con.Window.Environment.ActionManager.AddAction(new AnchorAction());
             }
