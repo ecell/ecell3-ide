@@ -1038,7 +1038,13 @@ namespace Ecell.IDE.MainWindow
             {
                 ProjectInfo info = win.SelectedProject;
                 info.DMDirList.AddRange(win.DMList);
-                m_env.DataManager.LoadProject(info);
+                try
+                {
+                    m_env.DataManager.LoadProject(info);
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 

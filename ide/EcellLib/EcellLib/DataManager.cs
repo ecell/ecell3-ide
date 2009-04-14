@@ -274,6 +274,8 @@ namespace Ecell
             }
             catch (Exception e)
             {
+                m_env.Console.WriteLine("Failed to convert SBML:" + filename); 
+                m_env.Console.WriteLine(e.ToString());
                 throw new EcellException("Failed to convert SBML.", e);
             }
 

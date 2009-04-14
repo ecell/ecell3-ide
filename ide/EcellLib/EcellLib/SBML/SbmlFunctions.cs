@@ -267,7 +267,8 @@ namespace Ecell.SBML
                         for (int j = 0; j < parameters.size(); j++ )
                         {
                             Parameter aParameter = aSBMLmodel.getParameter(j);
-
+                            if (aParameter == null)
+                                continue;
                             string anId_KL_P = aParameter.getId();
                             string aName_KL_P = aParameter.getName();
                             double aValue_KL_P = aParameter.getValue();
