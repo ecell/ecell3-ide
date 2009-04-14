@@ -68,6 +68,9 @@ namespace Ecell
                 case ProcessConstants.PingPongBiBiFluxProcess:
                     newProcess = PingPongBiBiFlux2Expression(process);
                     break;
+                case ProcessConstants.MichaelisUniUniFluxProcess:
+                    newProcess = MichaelisUniUniFlux2Expression(process);
+                    break;
                 default:
                     throw new EcellException(string.Format("{0} is not supported.", classname));
             }
@@ -158,7 +161,7 @@ namespace Ecell
             newProcess.SetEcellValue("KiS0", process.GetEcellValue("KiS0"));
             newProcess.SetEcellValue("KiP1", process.GetEcellValue("KiP1"));
             newProcess.SetEcellValue("KcF_Keq_Inv", process.GetEcellValue("KcF_Keq_Inv"));
-            newProcess.Expression = "( KcF * KcR * C0.Value * ( S0.MolarConc * S1.MolarConc - P0.MolarConc * P1.MolarConc / Keq ) ) / ( KcR * KmS1 * S0.MolarConc + KcR * KmS0 * S1.MolarConc + KmP1 * P0.MolarConc * KcF_Keq_Inv + KmP0 * P1.MolarConc * KcF_Keq_Inv + KcR * S0.MolarConc * S1.MolarConc + KmP1 * S0.MolarConc * P0.MolarConc * KcF_Keq_Inv / KiS0 + P0.MolarConc * P1.MolarConc * KcF_Keq_Inv + KcR * KmS0 * S1.MolarConc * P1.MolarConc / KiP1 )";
+            newProcess.Expression = "( KcF * KcR * C0.Value * ( S0.MolarConc * S1.MolarConc - P0.MolarConc * P1.MolarConc / Keq ) ) / ( KcR * KmS1 * S0.MolarConc + KcR * KmS0 * S1.MolarConc + KmP1 * P0.MolarConc * KcF / Keq + KmP0 * P1.MolarConc * KcF / Keq + KcR * S0.MolarConc * S1.MolarConc + KmP1 * S0.MolarConc * P0.MolarConc * KcF / Keq / KiS0 + P0.MolarConc * P1.MolarConc * KcF / Keq + KcR * KmS0 * S1.MolarConc * P1.MolarConc / KiP1 )";
             newProcess.Layout = process.Layout;
             return newProcess;
         }
