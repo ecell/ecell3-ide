@@ -151,6 +151,8 @@ namespace Ecell.IDE
             List<ToolStripItem> retval = new List<ToolStripItem>();
             foreach (EcellData d in obj.Value)
             {
+                if (d.Value == null)
+                    continue;
                 if (!d.Settable || !d.Value.IsDouble || d.Name.Equals(Constants.xpathSize))
                     continue;
                 ToolStripMenuItem item = new ToolStripMenuItem(d.Name);

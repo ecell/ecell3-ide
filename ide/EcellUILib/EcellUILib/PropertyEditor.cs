@@ -756,10 +756,12 @@ namespace Ecell.IDE
             while (iter.MoveNext())
             {
                 Control c = (Control)iter.Current;
-                if (c == null) continue;
+                if (c == null)
+                    continue;
                 TableLayoutPanelCellPosition pos =
                     layoutPanel.GetPositionFromControl(c);
-                if (pos.Column != 1) continue;
+                if (pos.Column != 1)
+                    continue;
 
                 if ((string)c.Tag == "id")
                 {
@@ -789,6 +791,7 @@ namespace Ecell.IDE
                 layoutPanel.RowCount = m_propDict.Keys.Count + 6;
             }
 
+            // Set modelID
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l1 = new Label();
             l1.Text = "ModelID";
@@ -803,6 +806,7 @@ namespace Ecell.IDE
             layoutPanel.Controls.Add(t1, 2, i);
             i++;
 
+            // Set ID.
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l2 = new Label();
             l2.Text = "Path:ID";
@@ -834,6 +838,7 @@ namespace Ecell.IDE
             layoutPanel.Controls.Add(t2, 2, i);
             i++;
 
+            // Set classname.
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l3 = new Label();
             l3.Text = "Classname";
@@ -881,6 +886,7 @@ namespace Ecell.IDE
             layoutPanel.Controls.Add(combo, 2, i);
             i++;
 
+            // Set type.
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l4 = new Label();
             l4.Text = "Type";
@@ -896,31 +902,25 @@ namespace Ecell.IDE
             layoutPanel.Controls.Add(t4, 2, i);
             i++;
 
+            // Set Properties.
             foreach (string key in m_propDict.Keys)
             {
                 if (key == "Size")
-                {
                     continue;
-                }
                 EcellData prop = m_propDict[key];
+                if (prop.Value == null)
+                    continue;
+
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 if (prop.Logable)
                 {
                     CheckBox c = new CheckBox();
-                    if (prop.Logged)
-                    {
-                        c.Checked = true;
-                    }
-                    else
-                    {
-                        c.Checked = false;
-                    }
+                    c.Checked = prop.Logged;
                     c.Text = "";
                     c.AutoSize = true;
                     c.Enabled = true;
                     layoutPanel.Controls.Add(c, 0, i);
                 }
-
 
                 Label l = new Label();
                 l.Text = key;
@@ -928,6 +928,7 @@ namespace Ecell.IDE
                 l.AutoSize = true;
                 layoutPanel.Controls.Add(l, 1, i);
 
+                // Set Variable References.
                 if (key == EcellProcess.VARIABLEREFERENCELIST)
                 {
                     Button b = new Button();
@@ -938,6 +939,7 @@ namespace Ecell.IDE
                     b.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(b, 2, i);
                 }
+                // Set StepperID.
                 else if (key == EcellProcess.STEPPERID)
                 {
                     ComboBox t = new ComboBox();
@@ -955,6 +957,7 @@ namespace Ecell.IDE
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 2, i);
                 }
+                // Else.
                 else
                 {
                     TextBox t = new TextBox();

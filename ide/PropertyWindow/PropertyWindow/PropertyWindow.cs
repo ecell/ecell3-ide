@@ -165,26 +165,31 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         private void ResetProperty()
         {
-            if (m_current == null) return;
+            if (m_current == null)
+                return;
+
             foreach (EcellData d in m_current.Value)
             {
-                if (!d.Value.IsDouble &&
-                    !d.Value.IsInt)
+                if (d.Value == null)
+                    continue;
+                if (!d.Value.IsDouble && !d.Value.IsInt)
                     continue;
                 for (int i = 0; i < m_dgv.Rows.Count; i++)
                 {
-                    if (m_dgv.Rows[i].IsNewRow) continue;
-                    if (m_dgv[0, i].Value == null) continue;
-                    if (d.Name == (string)m_dgv[0, i].Value)
+                    if (m_dgv.Rows[i].IsNewRow)
+                        continue;
+                    if (m_dgv[0, i].Value == null)
+                        continue;
+                    if (d.Name != (string)m_dgv[0, i].Value)
+                        continue;
+
+                    if (d.Name.Equals(Constants.xpathVRL))
                     {
-                        if (d.Name.Equals(Constants.xpathVRL))
-                        {
-                            m_dgv[1, i].Value = MessageResources.LabelEdit;
-                        }
-                        else
-                        {
-                            m_dgv[1, i].Value = (string)d.Value;
-                        }
+                        m_dgv[1, i].Value = MessageResources.LabelEdit;
+                    }
+                    else
+                    {
+                        m_dgv[1, i].Value = (string)d.Value;
                     }
                 }
             }
