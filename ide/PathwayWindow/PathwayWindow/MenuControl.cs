@@ -817,7 +817,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isInsideRoot = m_con.Canvas.Systems[Constants.delimiterPath].Rect.Contains(m_con.MousePosition);
 
             // Set Popup menu visibility.
-            if (!isNull && node.Offset == PointF.Empty)
+            if (isNull || (!isNull && node.Offset == PointF.Empty))
             {
                 m_con.Canvas.PCanvas.ContextMenuStrip = this.PopupMenu;
             }

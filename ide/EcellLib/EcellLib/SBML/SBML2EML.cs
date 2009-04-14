@@ -61,8 +61,9 @@ namespace Ecell.SBML
             SBMLDocument document = libsbml.libsbml.readSBMLFromString(aSbmlString);
             Model model = document.getModel();
             if (model == null)
+            {
                 throw new EcellException(string.Format("{0} has no model.", filename));
-
+            }
             SBML_Model theModel = new SBML_Model(document, model);
             SBML_Compartment theCompartment = new SBML_Compartment(theModel);
             SBML_Parameter theParameter = new SBML_Parameter( theModel );
@@ -80,7 +81,7 @@ namespace Ecell.SBML
             //
             // Set Stepper.
             //
-            EcellObject stepper = EcellObject.CreateObject(modelId, "DE", EcellObject.STEPPER, "ODEStepper", null);
+            EcellObject stepper = EcellObject.CreateObject(modelId, "DE", EcellObject.STEPPER, "FixedODE1Stepper", null);
             modelObject.Children.Add(stepper);
 
             //

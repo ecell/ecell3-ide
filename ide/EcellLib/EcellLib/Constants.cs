@@ -184,7 +184,7 @@ namespace Ecell
         /// <summary>
         /// File Filter for the SBML file.
         /// </summary>
-        public const string FilterSBMLFile = "SBML (*.sbml)|*.sbml|all(*.*)|*.*";
+        public const string FilterSBMLFile = "SBML (*.sbml;*.xml)|*.sbml;*.xml|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the script file.
         /// </summary>
