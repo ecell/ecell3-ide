@@ -1106,7 +1106,7 @@ namespace Ecell.IDE.MainWindow
                 string newProject = dialog.ProjectName;
                 // Delete old project if exist.
                 if (!newProject.Equals(info.Name) && Util.IsExistProject(newProject))
-                    Directory.Delete(Path.Combine(Util.GetBaseDir, newProject), true);
+                    Directory.Delete(Path.Combine(Util.GetBaseDir(), newProject), true);
 
                 // Save as new project.
                 info.Name = newProject;
