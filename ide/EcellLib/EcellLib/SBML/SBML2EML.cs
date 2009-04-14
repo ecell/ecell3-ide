@@ -60,6 +60,8 @@ namespace Ecell.SBML
             reader.Close();
             SBMLDocument document = libsbml.libsbml.readSBMLFromString(aSbmlString);
             Model model = document.getModel();
+            if (model == null)
+                throw new EcellException(string.Format("{0} has no model.", filename));
 
             SBML_Model theModel = new SBML_Model(document, model);
             SBML_Compartment theCompartment = new SBML_Compartment(theModel);
@@ -185,7 +187,8 @@ namespace Ecell.SBML
                 system = (EcellSystem)EcellObject.CreateObject(modelId, aSystemKey, EcellObject.SYSTEM, EcellObject.SYSTEM, new List<EcellData>());
                 system.SetEcellValue("Name", new EcellValue("System for SBML Rule"));
                 system.SetEcellValue("StepperID", new EcellValue("DE"));
-                
+                modelObject.Children.Add(system);
+
                 foreach(RuleStruct aRule in theModel.RuleList)
                 {
                     theRule.initialize();

@@ -690,9 +690,10 @@ namespace Ecell
             if(!(Directory.Exists(paramDir)))
                 return;
             string[] logs = Directory.GetDirectories(paramDir, "*");
+            paramDir = Path.Combine(m_info.ProjectPath, Constants.ParameterDirName);
             foreach (string log in logs)
             {
-                string newDir = Path.Combine(m_info.ProjectPath, Path.GetFileName(log));
+                string newDir = Path.Combine(paramDir, Path.GetFileName(log));
                 Util.CopyDirectory(log, newDir, true);
             }
         }

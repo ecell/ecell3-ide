@@ -266,7 +266,9 @@ namespace Ecell
             {
                 EcellModel model = (EcellModel)SBML2EML.Convert(filename);
                 // Save eml.
-                string modelFileName = filename.Replace(Constants.FileExtSBML, Constants.FileExtEML);
+                string dir = Path.GetDirectoryName(filename);
+                string modelFileName = Path.GetFileNameWithoutExtension(filename) + Constants.FileExtEML;
+                modelFileName = Path.Combine(dir, modelFileName);
                 EmlWriter.Create(modelFileName, model.Children, false);
                 LoadProject(modelFileName);
             }
