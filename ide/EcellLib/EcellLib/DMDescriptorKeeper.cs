@@ -276,7 +276,7 @@ namespace Ecell
                 descs[Constants.xpathStepper][pair.ModuleName] =
                     new DMDescriptor(stepper, pair.Path, Constants.xpathStepper, dynamic, pdescs);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Trace.WriteLine("Failed to load " + pair.ModuleName);
                 //Trace.WriteLine(e.StackTrace);
@@ -307,7 +307,7 @@ namespace Ecell
                 descs[type][pair.ModuleName] =
                     new DMDescriptor(pair.ModuleName, pair.Path, type, dynamic, pdescs);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Trace.WriteLine("Failed to load " + pair.ModuleName);
                 //Trace.WriteLine(e.StackTrace);

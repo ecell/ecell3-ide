@@ -151,6 +151,7 @@
     <Compile Include="Plugin\IAnalysis.cs" />
     <Compile Include="Plugin\IPropertyItem.cs" />
     <Compile Include="Plugin\PluginData.cs" />
+    <Compile Include="ProcessConverter.cs" />
     <Compile Include="Reporting\CompileReport.cs" />
     <Compile Include="ConsoleManager.cs" />
     <Compile Include="Constants.cs" />
