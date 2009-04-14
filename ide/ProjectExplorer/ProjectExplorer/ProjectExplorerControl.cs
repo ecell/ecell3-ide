@@ -1333,6 +1333,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (node.Tag == null) 
                     continue;
                 TagData obj = node.Tag as TagData;
+                if (obj == null)
+                    continue;
                 if (obj.m_type.Equals(Constants.xpathLog))
                     continue;
                 if (obj != null) delList.Add(obj);
