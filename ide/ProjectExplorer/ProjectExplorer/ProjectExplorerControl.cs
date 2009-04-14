@@ -928,14 +928,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 else if (e.Node.Parent != null && e.Node.Parent == m_DMNode)
                 {
                     string path = m_owner.Environment.DataManager.GetDMFileName((string)e.Node.Tag);
-                    if (!Util.IsInstalledSDK() || path == null)
-                        compileToolStripMenuItem.Enabled = false;
-                    else 
-                        compileToolStripMenuItem.Enabled = true;
-                    if (path == null)
-                        editToolStripMenuItem.Enabled = false;
-                    else
-                        editToolStripMenuItem.Enabled = true;
+                    compileToolStripMenuItem.Enabled = (Util.IsInstalledSDK() && path != null);
+                    editToolStripMenuItem.Enabled = (path != null);
 
                     treeView1.ContextMenuStrip = contextMenuStripDM;
                 }
@@ -954,11 +948,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 else if (e.Node.Parent == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripSimulationSet;
-                    if (m_owner.PluginManager.Status == ProjectStatus.Running ||
-                        m_owner.PluginManager.Status == ProjectStatus.Suspended)
-                        configureSimulationSetToolStripMenuItem.Enabled = false;
-                    else
-                        configureSimulationSetToolStripMenuItem.Enabled = true;
                 }
                 else if (e.Node.Tag is TagData)
                 {
@@ -981,6 +970,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                 }
             }
+            // Set availability.
+            SetPopupMenuAvailability();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetPopupMenuAvailability()
+        {
+            ProjectStatus status = m_owner.PluginManager.Status;
+            bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
+
+            configureSimulationSetToolStripMenuItem.Enabled = !simulation;
+            loadRevisionMenuItem.Enabled = !simulation;
+            createNewRevisionMenuItem.Enabled = !simulation;
+            createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation;
         }
 
         /// <summary>

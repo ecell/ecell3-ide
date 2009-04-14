@@ -669,21 +669,31 @@ namespace Ecell
                 Util.CopyDirectory(dir, dmDir, true);
             }
 
-            // Copy Revisions.
+            // Check oldpath.
             if (string.IsNullOrEmpty(oldPath))
                 return;
-
-            // If the project path is changed, copy Revisions.
             oldPath = oldPath.Replace("\\", "/");
             m_info.ProjectPath = m_info.ProjectPath.Replace("\\", "/");
             if (Path.Equals(m_info.ProjectPath, oldPath))
                 return;
 
+            // Copy Revisions.
             string[] revisions = Directory.GetDirectories(oldPath, "Revision*");
             foreach (string revision in revisions)
             {
                 string newDir = Path.Combine(m_info.ProjectPath, Path.GetFileName(revision));
                 Util.CopyDirectory(revision, newDir, true);
+            }
+
+            // Copy Logs.
+            string paramDir = Path.Combine(oldPath, Constants.ParameterDirName);
+            if(!(Directory.Exists(paramDir)))
+                return;
+            string[] logs = Directory.GetDirectories(paramDir, "*");
+            foreach (string log in logs)
+            {
+                string newDir = Path.Combine(m_info.ProjectPath, Path.GetFileName(log));
+                Util.CopyDirectory(log, newDir, true);
             }
         }
 
