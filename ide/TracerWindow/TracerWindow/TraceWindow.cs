@@ -333,7 +333,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public void StartSimulation()
         {
             if (m_logCount <= 0) return;
-            Console.WriteLine(isSuspend);
+
             if (!isSuspend || m_zCnt.GraphPane.IsZoomed)
             {
                 foreach (string key in m_entryDic.Keys)
@@ -502,7 +502,34 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 string file = "";
                 if (d.FileName != null) file = d.FileName;
-                string p = d.type + ":" + d.key + ":" + d.propName + ":" + file;
+                string p;
+                if (!d.type.Equals(EcellObject.SYSTEM))
+                {
+                    p = d.type + ":" + d.key + ":" + d.propName + ":" + file;
+                }
+                else
+                {
+                    string pre, post;
+                    int ind = d.key.LastIndexOf('/');
+                    if (d.key.Equals("/"))
+                    {
+                        pre = "";
+                        post = "/";
+                    }
+                    else
+                    {
+                        if (ind == 0)
+                        {
+                            pre = "/";
+                        }
+                        else
+                        {
+                            pre = d.key.Substring(0, ind);
+                        }
+                        post = d.key.Substring(ind + 1);
+                    }
+                    p = d.type + ":" + pre + ":" + post + ":" + d.propName + ":" + file;
+                }
                 if (!m_entryDic.ContainsKey(p)) continue;
                 if (m_entryDic[p].IsLoaded != d.IsLoaded) continue;
 
