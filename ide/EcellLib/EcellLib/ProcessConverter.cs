@@ -57,10 +57,16 @@ namespace Ecell
             switch(classname)
             {
                 case ProcessConstants.ConstantFluxProcess:
-                    newProcess = ConstantFlux2ExpressionFlux(process);
+                    newProcess = ConstantFlux2Expression(process);
                     break;
                 case ProcessConstants.DecayFluxProcess:
-                    newProcess = ConstantFlux2ExpressionFlux(process);
+                    newProcess = DecayFlux2Expression(process);
+                    break;
+                case ProcessConstants.MassActionFluxProcess:
+                    newProcess = MassAction2Expression(process);
+                    break;
+                case ProcessConstants.PingPongBiBiFluxProcess:
+                    newProcess = PingPongBiBiFlux2Expression(process);
                     break;
                 default:
                     throw new EcellException(string.Format("{0} is not supported.", classname));
@@ -75,7 +81,7 @@ namespace Ecell
         /// </summary>
         /// <param name="process"></param>
         /// <returns></returns>
-        public static EcellProcess ConstantFlux2ExpressionFlux(EcellProcess process)
+        public static EcellProcess ConstantFlux2Expression(EcellProcess process)
         {
             EcellProcess newProcess = new EcellProcess(process.ModelID, process.Key, process.Type, ProcessConstants.ExpressionFluxProcess, new List<EcellData>());
             newProcess.ReferenceList = process.ReferenceList;
@@ -90,7 +96,7 @@ namespace Ecell
         /// </summary>
         /// <param name="process"></param>
         /// <returns></returns>
-        public static EcellProcess DecayFlux2ExpressionFlux(EcellProcess process)
+        public static EcellProcess DecayFlux2Expression(EcellProcess process)
         {
             EcellProcess newProcess = new EcellProcess(process.ModelID, process.Key, process.Type, ProcessConstants.ExpressionFluxProcess, new List<EcellData>());
             newProcess.ReferenceList = process.ReferenceList;
@@ -100,6 +106,62 @@ namespace Ecell
             return newProcess;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="process"></param>
+        /// <returns></returns>
+        public static EcellProcess MassAction2Expression(EcellProcess process)
+        {
+            EcellProcess newProcess = new EcellProcess(process.ModelID, process.Key, process.Type, ProcessConstants.ExpressionFluxProcess, new List<EcellData>());
+            newProcess.ReferenceList = process.ReferenceList;
+            newProcess.SetEcellValue("T", process.GetEcellValue("T"));
+            newProcess.Expression = "S0.Value";
+            newProcess.Layout = process.Layout;
+            return newProcess;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="process"></param>
+        /// <returns></returns>
+        public static EcellProcess MichaelisUniUniFlux2Expression(EcellProcess process)
+        {
+            EcellProcess newProcess = new EcellProcess(process.ModelID, process.Key, process.Type, ProcessConstants.ExpressionFluxProcess, new List<EcellData>());
+            newProcess.ReferenceList = process.ReferenceList;
+            newProcess.SetEcellValue("KmS", process.GetEcellValue("KmS"));
+            newProcess.SetEcellValue("KmP", process.GetEcellValue("KmP"));
+            newProcess.SetEcellValue("KcF", process.GetEcellValue("KcF"));
+            newProcess.SetEcellValue("KcR", process.GetEcellValue("KcR"));
+            newProcess.Expression = "( ( KcF * KmP * S0.MolerConc - KcR * KmS * P0.MolerConc ) * C0.Value ) / ( KmS * P0.MolerConc + KmP * S0.MolerConc + KmS * KmP )";
+            newProcess.Layout = process.Layout;
+            return newProcess;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="process"></param>
+        /// <returns></returns>
+        public static EcellProcess PingPongBiBiFlux2Expression(EcellProcess process)
+        {
+            EcellProcess newProcess = new EcellProcess(process.ModelID, process.Key, process.Type, ProcessConstants.ExpressionFluxProcess, new List<EcellData>());
+            newProcess.ReferenceList = process.ReferenceList;
+            newProcess.SetEcellValue("KcF", process.GetEcellValue("KcF"));
+            newProcess.SetEcellValue("KcR", process.GetEcellValue("KcR"));
+            newProcess.SetEcellValue("Keq", process.GetEcellValue("Keq"));
+            newProcess.SetEcellValue("KmS0", process.GetEcellValue("KmS0"));
+            newProcess.SetEcellValue("KmS1", process.GetEcellValue("KmS1"));
+            newProcess.SetEcellValue("KmP0", process.GetEcellValue("KmP0"));
+            newProcess.SetEcellValue("KmP1", process.GetEcellValue("KmP1"));
+            newProcess.SetEcellValue("KiS0", process.GetEcellValue("KiS0"));
+            newProcess.SetEcellValue("KiP1", process.GetEcellValue("KiP1"));
+            newProcess.SetEcellValue("KcF_Keq_Inv", process.GetEcellValue("KcF_Keq_Inv"));
+            newProcess.Expression = "( KcF * KcR * C0.Value * ( S0.MolarConc * S1.MolarConc - P0.MolarConc * P1.MolarConc / Keq ) ) / ( KcR * KmS1 * S0.MolarConc + KcR * KmS0 * S1.MolarConc + KmP1 * P0.MolarConc * KcF_Keq_Inv + KmP0 * P1.MolarConc * KcF_Keq_Inv + KcR * S0.MolarConc * S1.MolarConc + KmP1 * S0.MolarConc * P0.MolarConc * KcF_Keq_Inv / KiS0 + P0.MolarConc * P1.MolarConc * KcF_Keq_Inv + KcR * KmS0 * S1.MolarConc * P1.MolarConc / KiP1 )";
+            newProcess.Layout = process.Layout;
+            return newProcess;
+        }
 
     }
 
