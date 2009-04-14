@@ -1090,9 +1090,12 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Å@Get current project.
+            ProjectInfo info = m_env.DataManager.CurrentProject.Info;
+
+            // Show project dialog.
             NewProjectDialog dialog = new NewProjectDialog();
             dialog.Text = MessageResources.DialogTitleSaveAs;
-            ProjectInfo info = m_env.DataManager.CurrentProject.Info;
             dialog.ProjectName = info.Name;
             dialog.Comment = info.Comment;
             dialog.DMList = info.DMDirList;
@@ -1100,7 +1103,13 @@ namespace Ecell.IDE.MainWindow
             {
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
-                info.Name = dialog.ProjectName;
+                string newProject = dialog.ProjectName;
+                // Delete old project if exist.
+                if (!newProject.Equals(info.Name) && Util.IsExistProject(newProject))
+                    Directory.Delete(Path.Combine(Util.GetBaseDir, newProject), true);
+
+                // Save as new project.
+                info.Name = newProject;
                 info.Comment = dialog.Comment;
                 info.DMDirList = dialog.DMList;
                 m_env.DataManager.SaveProject();

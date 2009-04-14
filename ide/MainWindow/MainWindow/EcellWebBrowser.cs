@@ -552,6 +552,7 @@ namespace Ecell.IDE.MainWindow
             /// <returns></returns>
             private bool SimulationConfirm()
             {
+                // Check simulation status.
                 bool simulation = false;
                 try
                 {
@@ -561,6 +562,12 @@ namespace Ecell.IDE.MainWindow
                 catch (Exception)
                 {
                     simulation = false;
+                }
+
+                // Show Alert dialog.
+                if (simulation)
+                {
+                    Util.ShowNoticeDialog(MessageResources.ErrLoadWhileSimulation);
                 }
                 return simulation;
             }

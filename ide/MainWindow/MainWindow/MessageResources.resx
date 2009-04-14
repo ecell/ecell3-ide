@@ -246,4 +246,7 @@
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>Value[ {0} ] is not valid.</value>
   </data>
+  <data name="ErrLoadWhileSimulation" xml:space="preserve">
+    <value>Can not load the project while simulation is running.</value>
+  </data>
 </root>

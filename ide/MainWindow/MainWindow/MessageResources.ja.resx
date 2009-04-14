@@ -156,6 +156,9 @@
   <data name="ErrLoadFile" xml:space="preserve">
     <value>ファイル {0} を読み込めません。</value>
   </data>
+  <data name="ErrLoadWhileSimulation" xml:space="preserve">
+    <value>シミュレーション実行中はプロジェクトをロードできません。</value>
+  </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
     <value>ウィンドウ設定を読み込めません。</value>
   </data>

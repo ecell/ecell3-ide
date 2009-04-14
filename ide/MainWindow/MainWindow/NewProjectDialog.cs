@@ -42,12 +42,17 @@ namespace Ecell.IDE.MainWindow
     /// </summary>
     public partial class NewProjectDialog : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ProjectName
         {
             get { return textName.Text; }
             set { textName.Text = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string Comment
         {
             get { return textComment.Text; }

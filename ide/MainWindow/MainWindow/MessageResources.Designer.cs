@@ -178,6 +178,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Can not load the project while simulation is running. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadWhileSimulation {
+            get {
+                return ResourceManager.GetString("ErrLoadWhileSimulation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot load the window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadWindowSettings {

@@ -555,7 +555,10 @@ namespace Ecell
             // Load previous revision.
             string revDir = Path.Combine(oldDir, revision);
             filename = Path.Combine(revDir, Constants.fileProjectXML);
-            LoadProject(filename);
+            ProjectInfo info = ProjectInfoLoader.Load(filename);
+            info.Name = m_currentProject.Info.Name;
+
+            LoadProject(info);
             m_currentProject.Info.ProjectPath = oldDir;
         }
         /// <summary>
