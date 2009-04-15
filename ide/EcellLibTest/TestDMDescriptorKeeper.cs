@@ -80,51 +80,60 @@ namespace Ecell
             Assert.AreNotEqual(0, module.GetHashCode());
 
             module = _unitUnderTest.GetDMDescriptor("Process", "DecayFluxProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "DecayFluxProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "ExpressionAlgebraicProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ExpressionAlgebraicProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "ExpressionFluxProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ExpressionFluxProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "GillespieProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "GillespieProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "GMAProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "GMAProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "MassActionFluxProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "MassActionFluxProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "MichaelisUniUniFluxProcess");
-            Assert.IsNotNull(module);
-            module = _unitUnderTest.GetDMDescriptor("Process", "PythonFluxProcess");
-            Assert.IsNotNull(module);
-            module = _unitUnderTest.GetDMDescriptor("Process", "PythonProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "MichaelisUniUniFluxProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "QuasiDynamicFluxProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "QuasiDynamicFluxProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "SSystemProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "SSystemProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "TauLeapProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "TauLeapProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "PingPongBiBiFluxProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "PingPongBiBiFluxProcess");
             module = _unitUnderTest.GetDMDescriptor("Process", "ExpressionAssignmentProcess");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ExpressionAssignmentProcess");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "DAEStepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "DAEStepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "ESSYNSStepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ESSYNSStepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "FixedDAE1Stepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "FixedDAE1Stepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "FixedODE1Stepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "FixedODE1Stepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "FluxDistributionStepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "FluxDistributionStepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "ODE23Stepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ODE23Stepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "ODE45Stepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ODE45Stepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "ODEStepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "ODEStepper");
             module = _unitUnderTest.GetDMDescriptor("Stepper", "TauLeapStepper");
-            Assert.IsNotNull(module);
+            Assert.IsNotNull(module, "TauLeapStepper");
+            
+            // following DMs are not included in installer.
+            try
+            {
+                module = _unitUnderTest.GetDMDescriptor("Process", "PythonFluxProcess");
+                Assert.IsNotNull(module, "PythonFluxProcess");
+                module = _unitUnderTest.GetDMDescriptor("Process", "PythonProcess");
+                Assert.IsNotNull(module, "PythonProcess");
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
         /// <summary>
@@ -151,9 +160,129 @@ namespace Ecell
         [Test()]
         public void TestGetDMDescriptors()
         {
-            ICollection<DMDescriptor> list = _unitUnderTest.GetDMDescriptors("Process");
+            List<DMDescriptor> list = new List<DMDescriptor>();
+            list = new List<DMDescriptor>(_unitUnderTest.GetDMDescriptors("Stepper"));
+            Assert.IsNotEmpty(list, "Stepper DM is not exist.");
+
+            list = new List<DMDescriptor>(_unitUnderTest.GetDMDescriptors("Process"));
+            Assert.IsNotEmpty(list, "Process DM is not exist.");
+
+            list = new List<DMDescriptor>(_unitUnderTest.GetDMDescriptors("System"));
+            Assert.IsNotEmpty(list, "System DM is not exist.");
+
+            list = new List<DMDescriptor>(_unitUnderTest.GetDMDescriptors("Variable"));
+            Assert.IsNotEmpty(list, "Variable DM is not exist.");
+        }
+        
+        /// <summary>
+        /// TestGetDMDescriptor
+        /// </summary>
+        [Test()]
+        public void TestContainsDescriptor()
+        {
+            bool exists = false;
+            bool expected = true;
+
+            // Built in
+            exists = _unitUnderTest.ContainsDescriptor("System", "System");
+            Assert.AreEqual(expected, exists, "System is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Variable", "Variable");
+            Assert.AreEqual(expected, exists, "Variable is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "DiscreteEventStepper");
+            Assert.AreEqual(expected, exists, "DiscreteEventStepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "DiscreteTimeStepper");
+            Assert.AreEqual(expected, exists, "DiscreteTimeStepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "PassiveStepper");
+            Assert.AreEqual(expected, exists, "PassiveStepper is not exists.");
+
+            // Process
+            exists = _unitUnderTest.ContainsDescriptor("Process", "ConstantFluxProcess");
+            Assert.AreEqual(expected, exists, "ConstantFluxProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "DecayFluxProcess");
+            Assert.AreEqual(expected, exists, "DecayFluxProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "ExpressionAlgebraicProcess");
+            Assert.AreEqual(expected, exists, "ExpressionAlgebraicProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "ExpressionAssignmentProcess");
+            Assert.AreEqual(expected, exists, "ExpressionAssignmentProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "ExpressionFluxProcess");
+            Assert.AreEqual(expected, exists, " is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "GillespieProcess");
+            Assert.AreEqual(expected, exists, "GillespieProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "GMAProcess");
+            Assert.AreEqual(expected, exists, "GMAProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "MassActionFluxProcess");
+            Assert.AreEqual(expected, exists, "MassActionFluxProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "MichaelisUniUniFluxProcess");
+            Assert.AreEqual(expected, exists, "MichaelisUniUniFluxProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "PingPongBiBiFluxProcess");
+            Assert.AreEqual(expected, exists, "PingPongBiBiFluxProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "QuasiDynamicFluxProcess");
+            Assert.AreEqual(expected, exists, "QuasiDynamicFluxProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "SSystemProcess");
+            Assert.AreEqual(expected, exists, "SSystemProcess is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Process", "TauLeapProcess");
+            Assert.AreEqual(expected, exists, "TauLeapProcess is not exists.");
+
+            // Stepper
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "DAEStepper");
+            Assert.AreEqual(expected, exists, "DAEStepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "ESSYNSStepper");
+            Assert.AreEqual(expected, exists, "ESSYNSStepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "FixedDAE1Stepper");
+            Assert.AreEqual(expected, exists, "FixedDAE1Stepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "FixedODE1Stepper");
+            Assert.AreEqual(expected, exists, "FixedODE1Stepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "ODE23Stepper");
+            Assert.AreEqual(expected, exists, "ODE23Stepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "ODE45Stepper");
+            Assert.AreEqual(expected, exists, "ODE45Stepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "ODEStepper");
+            Assert.AreEqual(expected, exists, "ODEStepper is not exists.");
+
+            exists = _unitUnderTest.ContainsDescriptor("Stepper", "TauLeapStepper");
+            Assert.AreEqual(expected, exists, "TauLeapStepper is not exists.");
+
+            // following DMs are not included in installer.
+            try
+            {
+                exists = _unitUnderTest.ContainsDescriptor("Process", "PythonFluxProcess");
+                Assert.AreEqual(expected, exists, "PythonFluxProcess is not exists.");
+
+                exists = _unitUnderTest.ContainsDescriptor("Process", "PythonProcess");
+                Assert.AreEqual(expected, exists, "PythonProcess is not exists.");
+            }
+            catch (Exception)
+            {
+            }
+
+            // Not exist.
+            exists = _unitUnderTest.ContainsDescriptor("Process", "HogeProcess");
+            Assert.AreEqual(false, exists, "ContainsDescriptor returns unexpected value.");
 
         }
+
         /// <summary>
         /// TestGetDMDescriptor
         /// </summary>
@@ -178,8 +307,6 @@ namespace Ecell
             TestDMDescriptor("Process", "MassActionFluxProcess");
             TestDMDescriptor("Process", "MichaelisUniUniFluxProcess");
             TestDMDescriptor("Process", "PingPongBiBiFluxProcess");
-            TestDMDescriptor("Process", "PythonFluxProcess");
-            TestDMDescriptor("Process", "PythonProcess");
             TestDMDescriptor("Process", "QuasiDynamicFluxProcess");
             TestDMDescriptor("Process", "SSystemProcess");
             TestDMDescriptor("Process", "TauLeapProcess");
@@ -192,6 +319,18 @@ namespace Ecell
             TestDMDescriptor("Stepper", "ODE45Stepper");
             TestDMDescriptor("Stepper", "ODEStepper");
             TestDMDescriptor("Stepper", "TauLeapStepper");
+
+
+            // following DMs are not included in installer.
+            try
+            {
+                TestDMDescriptor("Process", "PythonFluxProcess");
+                TestDMDescriptor("Process", "PythonProcess");
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
         private void TestDMDescriptor(string type, string dmName)

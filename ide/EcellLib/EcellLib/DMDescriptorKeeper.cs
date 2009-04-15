@@ -72,7 +72,9 @@ namespace Ecell
         /// <returns></returns>
         public DMDescriptor GetDMDescriptor(string type, string name)
         {
-            return m_descs[type][name];
+            DMDescriptor desc = null;
+            m_descs[type].TryGetValue(name, out desc);
+            return desc;
         }
 
         /// <summary>
@@ -83,15 +85,8 @@ namespace Ecell
         /// <returns></returns>
         public bool ContainsDescriptor(string type, string name)
         {
-            try
-            {
-                DMDescriptor desc = GetDMDescriptor(type, name);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            DMDescriptor desc = GetDMDescriptor(type, name);
+            return desc != null;
         }
         
         /// <summary>
@@ -108,7 +103,7 @@ namespace Ecell
         /// </summary>
         /// <param name="dmPaths"></param>
         /// <returns></returns>
-        public Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> Load(string[] dmPaths)
+        public void Load(string[] dmPaths)
         {
             m_dmPaths = dmPaths;
 
@@ -143,7 +138,6 @@ namespace Ecell
                             new PathAndModuleNamePair(dmPath, entry.ModuleName));
                     }
                 }
-                sim.Dispose();
             }
 
             // Searches the DM paths
@@ -239,18 +233,9 @@ namespace Ecell
                 {
                     LoadStepperDM(descs, sim, pair);
                 }
-                try
-                {
-                    sim.Dispose();
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine(e.StackTrace);
-                }
             }
 
             m_descs = descs;
-            return maps;
         }
 
         /// <summary>

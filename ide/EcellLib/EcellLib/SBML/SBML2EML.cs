@@ -70,7 +70,7 @@ namespace Ecell.SBML
             SBML_Species theSpecies = new SBML_Species( theModel );
             SBML_Rule theRule = new SBML_Rule( theModel );
             SBML_Reaction theReaction = new SBML_Reaction(theModel);
-            // SBML_Event theEvent = new SBML_Event(theModel);
+            SBML_Event theEvent = new SBML_Event(theModel);
 
             document.Dispose();
 

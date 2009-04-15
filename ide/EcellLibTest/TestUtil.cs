@@ -1810,15 +1810,19 @@ namespace Ecell
             DashStyle style = Util.GetLine(0);
             Assert.AreEqual(DashStyle.Solid, style, "GetLine method returned unexpected result.");
             style = Util.GetLine(1);
-            Assert.AreEqual(DashStyle.Dash, style, "GetLine method returned unexpected result.");
-            style = Util.GetLine(2);
-            Assert.AreEqual(DashStyle.DashDot, style, "GetLine method returned unexpected result.");
-            style = Util.GetLine(3);
-            Assert.AreEqual(DashStyle.Dot, style, "GetLine method returned unexpected result.");
-            style = Util.GetLine(4);
             Assert.AreEqual(DashStyle.Solid, style, "GetLine method returned unexpected result.");
-            style = Util.GetLine(-1);
+            style = Util.GetLine(2);
+            Assert.AreEqual(DashStyle.Solid, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(3);
+            Assert.AreEqual(DashStyle.Dash, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(6);
+            Assert.AreEqual(DashStyle.DashDot, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(9);
+            Assert.AreEqual(DashStyle.Dot, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(12);
             Assert.AreEqual(DashStyle.DashDotDot, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(-1);
+            Assert.AreEqual(DashStyle.Solid, style, "GetLine method returned unexpected result.");
         }
 
 

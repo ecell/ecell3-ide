@@ -175,6 +175,7 @@ namespace Ecell
         {
             return m_props.Values.GetEnumerator();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -183,6 +184,7 @@ namespace Ecell
         {
             return m_props.Values.GetEnumerator();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -190,22 +192,26 @@ namespace Ecell
         /// <returns></returns>
         public override bool Equals(object that)
         {
-            if (that is DMDescriptor)
+            if (!(that is DMDescriptor))
+                return false;
+
+            DMDescriptor desc = (DMDescriptor)that;
+
+            if (this == desc)
+                return true;
+
+            foreach (PropertyDescriptor prop in m_props.Values)
             {
-                if (this == that)
-                    return true;
-                foreach (PropertyDescriptor p in m_props.Values)
-                {
-                    if (!p.Equals(that))
-                        return false;
-                }
-                return m_name.Equals(((DMDescriptor)that).m_name) &&
-                    m_path.Equals(((DMDescriptor)that).m_path) &&
-                    m_type.Equals(((DMDescriptor)that).m_type) &&
-                    m_canHaveDynamicProperties.Equals(((DMDescriptor)that).m_type);
+                if (!prop.Equals(desc[prop.Name]))
+                    return false;
             }
-            return base.Equals(that);
+
+            return m_name.Equals(desc.m_name) &&
+                m_path.Equals(desc.m_path) &&
+                m_type.Equals(desc.m_type) &&
+                m_canHaveDynamicProperties.Equals(desc.m_canHaveDynamicProperties);
         }
+
         /// <summary>
         /// 
         /// </summary>
