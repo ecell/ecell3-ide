@@ -117,53 +117,53 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="loggerDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="IsShownColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="IsShownColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="IsShownColumn.HeaderText" xml:space="preserve">
     <value>Show</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="IsShownColumn.Width" type="System.Int32, mscorlib">
     <value>40</value>
   </data>
-  <data name="FullPNColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="FullPNColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="FullPNColumn.HeaderText" xml:space="preserve">
     <value>FullPN</value>
   </data>
   <data name="FullPNColumn.MinimumWidth" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
-  <data name="ColorColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="ColorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="ColorColumn.HeaderText" xml:space="preserve">
     <value>Color</value>
   </data>
   <data name="ColorColumn.Width" type="System.Int32, mscorlib">
     <value>40</value>
   </data>
-  <data name="LineColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="LineColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="LineColumn.HeaderText" xml:space="preserve">
     <value>Line</value>
   </data>
   <data name="LineColumn.Width" type="System.Int32, mscorlib">
     <value>40</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="loggerDataGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="loggerDataGrid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>0, 0</value>
   </data>
   <data name="loggerDataGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 340</value>
+    <value>424, 364</value>
   </data>
   <data name="loggerDataGrid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -180,12 +180,12 @@
   <data name="&gt;&gt;loggerDataGrid.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="m_colorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="m_colorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
-  <data name="gridContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="gridContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>138, 17</value>
-  </data>
+  </metadata>
   <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
   </data>
@@ -196,13 +196,13 @@
     <value>131, 6</value>
   </data>
   <data name="colorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>134, 22</value>
   </data>
   <data name="colorToolStripMenuItem.Text" xml:space="preserve">
     <value>Line &amp;color ...</value>
   </data>
   <data name="lineStyleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>134, 22</value>
   </data>
   <data name="lineStyleToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Line style ...</value>
@@ -223,7 +223,7 @@
     <value>&amp;Import Log ...</value>
   </data>
   <data name="gridContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 148</value>
+    <value>135, 126</value>
   </data>
   <data name="&gt;&gt;gridContextMenuStrip.Name" xml:space="preserve">
     <value>gridContextMenuStrip</value>
@@ -231,12 +231,12 @@
   <data name="&gt;&gt;gridContextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="m_openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="m_openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>302, 17</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -302,6 +302,9 @@
         AAfwAAAH8AAAB/AAAAfwAAAH8AAABw==
 </value>
   </data>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
   <data name="$this.TabText" xml:space="preserve">
     <value>LoggerWindow</value>
   </data>
@@ -350,6 +353,18 @@
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;colorToolStripMenuItem.Name" xml:space="preserve">
+    <value>colorToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;colorToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lineStyleToolStripMenuItem.Name" xml:space="preserve">
+    <value>lineStyleToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;lineStyleToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;deleteToolStripMenuItem.Name" xml:space="preserve">
     <value>deleteToolStripMenuItem</value>
   </data>
@@ -374,22 +389,10 @@
   <data name="&gt;&gt;m_openFileDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;colorToolStripMenuItem.Name" xml:space="preserve">
-    <value>colorToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;colorToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lineStyleToolStripMenuItem.Name" xml:space="preserve">
-    <value>lineStyleToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;lineStyleToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LoggerWindow</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

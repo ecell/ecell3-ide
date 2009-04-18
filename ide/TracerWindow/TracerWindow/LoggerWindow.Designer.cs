@@ -39,12 +39,12 @@
             this.gridContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lineStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lineStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).BeginInit();
             this.gridContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +55,6 @@
             this.loggerDataGrid.AllowUserToAddRows = false;
             this.loggerDataGrid.AllowUserToDeleteRows = false;
             this.loggerDataGrid.AllowUserToResizeRows = false;
-            resources.ApplyResources(this.loggerDataGrid, "loggerDataGrid");
             this.loggerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.loggerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.loggerDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -63,6 +62,7 @@
             this.FullPNColumn,
             this.ColorColumn,
             this.LineColumn});
+            resources.ApplyResources(this.loggerDataGrid, "loggerDataGrid");
             this.loggerDataGrid.Name = "loggerDataGrid";
             this.loggerDataGrid.RowHeadersVisible = false;
             this.loggerDataGrid.RowTemplate.Height = 21;
@@ -129,6 +129,18 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
+            // colorToolStripMenuItem
+            // 
+            this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
+            resources.ApplyResources(this.colorToolStripMenuItem, "colorToolStripMenuItem");
+            this.colorToolStripMenuItem.Click += new System.EventHandler(this.colorToolStripMenuItem_Click);
+            // 
+            // lineStyleToolStripMenuItem
+            // 
+            this.lineStyleToolStripMenuItem.Name = "lineStyleToolStripMenuItem";
+            resources.ApplyResources(this.lineStyleToolStripMenuItem, "lineStyleToolStripMenuItem");
+            this.lineStyleToolStripMenuItem.Click += new System.EventHandler(this.lineStyleToolStripMenuItem_Click);
+            // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
@@ -150,23 +162,12 @@
             // 
             this.m_openFileDialog.FileName = "m_openFileDialog";
             // 
-            // colorToolStripMenuItem
-            // 
-            this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
-            resources.ApplyResources(this.colorToolStripMenuItem, "colorToolStripMenuItem");
-            this.colorToolStripMenuItem.Click += new System.EventHandler(this.colorToolStripMenuItem_Click);
-            // 
-            // lineStyleToolStripMenuItem
-            // 
-            this.lineStyleToolStripMenuItem.Name = "lineStyleToolStripMenuItem";
-            resources.ApplyResources(this.lineStyleToolStripMenuItem, "lineStyleToolStripMenuItem");
-            this.lineStyleToolStripMenuItem.Click += new System.EventHandler(this.lineStyleToolStripMenuItem_Click);
-            // 
             // LoggerWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.loggerDataGrid);
+            this.IsSavable = true;
             this.Name = "LoggerWindow";
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).EndInit();
             this.gridContextMenuStrip.ResumeLayout(false);

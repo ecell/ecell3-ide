@@ -139,10 +139,10 @@
     <value>表示</value>
   </data>
   <data name="LineColumn.HeaderText" xml:space="preserve">
-    <value>線のスタイル</value>
+    <value>線種</value>
   </data>
   <data name="lineStyleToolStripMenuItem.Text" xml:space="preserve">
-    <value>線のスタイル(&amp;L)...</value>
+    <value>線種(&amp;L)...</value>
   </data>
   <data name="windowToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ</value>
