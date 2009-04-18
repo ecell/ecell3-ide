@@ -31,10 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoggerWindow));
             this.loggerDataGrid = new System.Windows.Forms.DataGridView();
-            this.IsShownColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.FullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColorColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.LineColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.m_colorDialog = new System.Windows.Forms.ColorDialog();
             this.gridContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +41,10 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.IsShownColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.FullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColorColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.LineColumn = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).BeginInit();
             this.gridContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -72,38 +72,6 @@
             this.loggerDataGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.loggerDataGrid_DragEnter);
             this.loggerDataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.loggerDataGrid_CurrentCellDirtyStateChanged);
             this.loggerDataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.loggerDataGrid_DragDrop);
-            // 
-            // IsShownColumn
-            // 
-            this.IsShownColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.IsShownColumn.FillWeight = 101.5228F;
-            this.IsShownColumn.Frozen = true;
-            resources.ApplyResources(this.IsShownColumn, "IsShownColumn");
-            this.IsShownColumn.Name = "IsShownColumn";
-            this.IsShownColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // FullPNColumn
-            // 
-            this.FullPNColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FullPNColumn.FillWeight = 99.61929F;
-            resources.ApplyResources(this.FullPNColumn, "FullPNColumn");
-            this.FullPNColumn.Name = "FullPNColumn";
-            // 
-            // ColorColumn
-            // 
-            this.ColorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColorColumn.FillWeight = 99.61929F;
-            resources.ApplyResources(this.ColorColumn, "ColorColumn");
-            this.ColorColumn.Name = "ColorColumn";
-            this.ColorColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // LineColumn
-            // 
-            this.LineColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LineColumn.FillWeight = 99.61929F;
-            resources.ApplyResources(this.LineColumn, "LineColumn");
-            this.LineColumn.Name = "LineColumn";
-            this.LineColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // gridContextMenuStrip
             // 
@@ -162,6 +130,35 @@
             // 
             this.m_openFileDialog.FileName = "m_openFileDialog";
             // 
+            // IsShownColumn
+            // 
+            this.IsShownColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.IsShownColumn.FillWeight = 20F;
+            resources.ApplyResources(this.IsShownColumn, "IsShownColumn");
+            this.IsShownColumn.Name = "IsShownColumn";
+            // 
+            // FullPNColumn
+            // 
+            this.FullPNColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.FullPNColumn, "FullPNColumn");
+            this.FullPNColumn.Name = "FullPNColumn";
+            // 
+            // ColorColumn
+            // 
+            this.ColorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColorColumn.FillWeight = 25F;
+            resources.ApplyResources(this.ColorColumn, "ColorColumn");
+            this.ColorColumn.Name = "ColorColumn";
+            this.ColorColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // LineColumn
+            // 
+            this.LineColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.LineColumn.FillWeight = 25F;
+            resources.ApplyResources(this.LineColumn, "LineColumn");
+            this.LineColumn.Name = "LineColumn";
+            this.LineColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
             // LoggerWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -183,14 +180,14 @@
         private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn IsShownColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FullPNColumn;
-        private System.Windows.Forms.DataGridViewImageColumn ColorColumn;
-        private System.Windows.Forms.DataGridViewImageColumn LineColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem importLogToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog m_openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem colorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lineStyleToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsShownColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FullPNColumn;
+        private System.Windows.Forms.DataGridViewImageColumn ColorColumn;
+        private System.Windows.Forms.DataGridViewImageColumn LineColumn;
     }
 }

@@ -123,16 +123,13 @@
   <data name="IsShownColumn.HeaderText" xml:space="preserve">
     <value>Show</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="IsShownColumn.Width" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
   <metadata name="FullPNColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="FullPNColumn.HeaderText" xml:space="preserve">
     <value>FullPN</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FullPNColumn.MinimumWidth" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
@@ -142,17 +139,11 @@
   <data name="ColorColumn.HeaderText" xml:space="preserve">
     <value>Color</value>
   </data>
-  <data name="ColorColumn.Width" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
   <metadata name="LineColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="LineColumn.HeaderText" xml:space="preserve">
     <value>Line</value>
-  </data>
-  <data name="LineColumn.Width" type="System.Int32, mscorlib">
-    <value>40</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="loggerDataGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -311,30 +302,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>LoggerWindow</value>
   </data>
-  <data name="&gt;&gt;IsShownColumn.Name" xml:space="preserve">
-    <value>IsShownColumn</value>
-  </data>
-  <data name="&gt;&gt;IsShownColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FullPNColumn.Name" xml:space="preserve">
-    <value>FullPNColumn</value>
-  </data>
-  <data name="&gt;&gt;FullPNColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ColorColumn.Name" xml:space="preserve">
-    <value>ColorColumn</value>
-  </data>
-  <data name="&gt;&gt;ColorColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LineColumn.Name" xml:space="preserve">
-    <value>LineColumn</value>
-  </data>
-  <data name="&gt;&gt;LineColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;m_colorDialog.Name" xml:space="preserve">
     <value>m_colorDialog</value>
   </data>
@@ -388,6 +355,30 @@
   </data>
   <data name="&gt;&gt;m_openFileDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IsShownColumn.Name" xml:space="preserve">
+    <value>IsShownColumn</value>
+  </data>
+  <data name="&gt;&gt;IsShownColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FullPNColumn.Name" xml:space="preserve">
+    <value>FullPNColumn</value>
+  </data>
+  <data name="&gt;&gt;FullPNColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ColorColumn.Name" xml:space="preserve">
+    <value>ColorColumn</value>
+  </data>
+  <data name="&gt;&gt;ColorColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LineColumn.Name" xml:space="preserve">
+    <value>LineColumn</value>
+  </data>
+  <data name="&gt;&gt;LineColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LoggerWindow</value>
