@@ -157,7 +157,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             // 0 < EdgeWidth <= 100
             float dummy;
-            if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
+            if (!float.TryParse(text, out dummy) || dummy <= 0 || dummy > 100)
             {
                 throw new EcellException(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
             }

@@ -358,10 +358,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
+                    this.m_pText.Brush = m_highLightBrush;
                 }
                 else
                 {
                     this.Brush = m_fillBrush;
+                    this.m_pText.Brush = Brushes.Transparent;
                     RefreshView();
                 }
             }
