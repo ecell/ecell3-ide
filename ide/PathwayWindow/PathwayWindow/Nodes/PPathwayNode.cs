@@ -81,6 +81,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
         #region Accessors
         /// <summary>
+        /// 
+        /// </summary>
+        public override bool Selected
+        {
+            get
+            {
+                return base.Selected;
+            }
+            set
+            {
+                foreach (PPathwayLine line in m_relations)
+                {
+                    line.Selected = value;
+                }
+                base.Selected = value;
+            }
+        }
+        /// <summary>
         /// RelatedProcesses
         /// </summary>
         public List<PPathwayLine> Relations

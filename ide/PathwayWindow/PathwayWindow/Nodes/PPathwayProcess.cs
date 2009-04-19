@@ -57,17 +57,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         #region Static readonly fields
         #endregion
 
-        #region Fields
-        /// <summary>
-        /// edge brush.
-        /// </summary>
-        private Brush m_edgeBrush = Brushes.Black;
-        /// <summary>
-        /// edge brush.
-        /// </summary>
-        private float m_edgeWidth = 1;
-        #endregion
-
         #region Accessors
         /// <summary>
         /// get/set the related element.
@@ -79,38 +68,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 base.EcellObject = value;
                 ResetEdges();
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Brush EdgeBrush
-        {
-            get { return m_edgeBrush; }
-            set 
-            {
-                m_edgeBrush = value;
-                foreach (PPathwayLine line in m_relations)
-                {
-                    line.Pen.Brush = m_edgeBrush;
-                    line.Brush = m_edgeBrush;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public float EdgeWidth
-        {
-            get { return m_edgeWidth; }
-            set
-            {
-                m_edgeWidth = value;
-                foreach (PPathwayLine line in m_relations)
-                {
-                    line.Pen.Width = m_edgeWidth;
-                }
             }
         }
 
@@ -211,6 +168,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     EdgeInfo edge = new EdgeInfo(process.Key, list, er);
                     PPathwayLine line = new PPathwayLine(m_canvas, edge, this, var);
                     m_layer.AddChild(line);
+                    line.Selected = this.Selected;
                     line.Visible = this.Visible && var.Visible;
                     line.Pickable = line.Visible;
                 }

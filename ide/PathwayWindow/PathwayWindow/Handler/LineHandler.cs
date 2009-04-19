@@ -53,12 +53,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// radius of a line handle
         /// </summary>
-        private const float LINE_HANDLE_RADIUS = 5;
+        internal const float LINE_HANDLE_RADIUS = 5;
 
         /// <summary>
         /// Used to draw line to reconnect.
         /// </summary>
-        private static readonly Brush LINE_BRUSH = new SolidBrush(Color.FromArgb(200, Color.Orange));
+        internal static readonly Brush LINE_BRUSH = new SolidBrush(Color.FromArgb(200, Color.Orange));
 
         #endregion
 
@@ -164,8 +164,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_lineHandle4P.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
             m_line4reconnect = new PPathwayLine(m_canvas);
-            m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
-            m_line4reconnect.Pen = new Pen(LINE_BRUSH, 2);
+            m_line4reconnect.SetEdge(LINE_BRUSH, 2);
             m_line4reconnect.Pickable = false;
         }
         #endregion
@@ -194,7 +193,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             // Create Reconnect line
             m_line4reconnect.Reset();
-            m_line4reconnect.Pen = new Pen(LINE_BRUSH, line.Pen.Width);
+            m_line4reconnect.SetEdge(LINE_BRUSH, m_line4reconnect.EdgeWidth);
             m_line4reconnect.Info.Direction = m_selectedLine.Info.Direction;
             m_line4reconnect.Info.LineType = m_selectedLine.Info.LineType;
             m_line4reconnect.VarPoint = m_selectedLine.VarPoint;

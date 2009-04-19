@@ -39,6 +39,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
 using Ecell.Objects;
 using System.Drawing.Drawing2D;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -51,31 +52,41 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        private const float ARROW_DEGREE = 18f / 360f;
+        internal const float ARROW_DEGREE = 18f / 360f;
         /// <summary>
         /// pi
         /// </summary>
-        private const float PI2 = (float)Math.PI * 2;
+        internal const float PI2 = (float)Math.PI * 2;
         /// <summary>
         ///  Arrow design settings
         /// radian = x / 360 * 2pi, x = ARROW_DEGREE, 2pi = 6.283
         /// </summary>
-        private const float ARROW_RADIAN_A = ARROW_DEGREE * PI2;
+        internal const float ARROW_RADIAN_A = ARROW_DEGREE * PI2;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        private const float ARROW_RADIAN_B = PI2 * (1 - ARROW_DEGREE);
+        internal const float ARROW_RADIAN_B = PI2 * (1 - ARROW_DEGREE);
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        private const float ARROW_LENGTH = 15;
+        internal const float ARROW_LENGTH = 15;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        private const float LINE_WIDTH = 2;
+        internal const float LINE_WIDTH = 2;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal static readonly Brush DefaultEdgeBrush = Brushes.Black;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal static readonly Brush SelectedBrush = Brushes.Yellow;
         #endregion
 
         #region Fields
@@ -106,6 +117,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         private PPathwayProcess m_process;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_selected = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private float m_width = LINE_WIDTH;
         #endregion
 
         #region Accessors
@@ -135,6 +156,52 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return m_proPoint; }
             set { this.m_proPoint = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float EdgeWidth
+        {
+            get { return m_width; }
+            set
+            {
+                this.m_width = value;
+                this.Pen.Width = m_width;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Brush EdgeBrush
+        {
+            get { return this.Brush; }
+            set
+            {
+                this.Brush = value;
+                this.Pen.Brush = this.Brush;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Selected
+        {
+            get { return m_selected; }
+            set
+            {
+                m_selected = value;
+                if (value)
+                {
+                    this.EdgeBrush = LineHandler.LINE_BRUSH;
+                }
+                else
+                {
+                    this.EdgeBrush = m_canvas.Control.Animation.EdgeBrush;
+                }
+            }
+        }
         #endregion
 
         /// <summary>
@@ -153,6 +220,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             m_canvas = canvas;
             m_edgeInfo = edgeInfo;
+            this.SetEdge(DefaultEdgeBrush, m_width);
         }
 
         /// <summary>
@@ -170,7 +238,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_variable.Relations.Add(this);
             m_process.Relations.Add(this);
 
-            base.Brush = process.EdgeBrush;
+            SetEdge(canvas.Control.Animation.EdgeBrush, m_width);
             base.Pickable = (variable.Visible && process.Visible);
             base.Visible = (variable.Visible && process.Visible);
 
@@ -205,6 +273,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <param name="width"></param>
+        public void SetEdge(Brush brush, float width)
+        {
+            this.Brush = brush;
+            this.m_width = width;
+            this.Pen = new Pen(brush, width);
+        }
+
+        /// <summary>
         /// Draw Line.
         /// </summary>
         public void DrawLine()
@@ -214,10 +294,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             //Set Pen
-            float width = LINE_WIDTH;
-            if (m_process != null)
-                width = m_process.EdgeWidth;
-            base.Pen = new Pen(Brush, width);
+            base.Pen = new Pen(Brush, m_width);
 
             //Set line
             GraphicsPath path = new GraphicsPath();

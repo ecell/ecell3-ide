@@ -73,7 +73,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// Normal edge width.
         /// </summary>
-        private float m_normalEdgeWidth = 0f;
+        private float m_normalEdgeWidth = PPathwayLine.LINE_WIDTH;
         /// <summary>
         /// Max edge width on edge animation.
         /// </summary>
@@ -206,6 +206,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
+        /// Get BGBrush
+        /// </summary>
+        public Brush BGBrush
+        {
+            get
+            {
+                if (DoesAnimationOnGoing)
+                    return ViewBGBrush;
+                else
+                    return EditBGBrush;
+            }
+        }
+
+        /// <summary>
         /// Get/Set m_editBGBrush
         /// </summary>
         public Brush EditBGBrush
@@ -221,6 +235,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             get { return m_viewBGBrush; }
             set { m_viewBGBrush = value; }
+        }
+
+        /// <summary>
+        /// Get EdgeBrush
+        /// </summary>
+        public Brush EdgeBrush
+        {
+            get
+            {
+                if (DoesAnimationOnGoing)
+                    return ViewEdgeBrush;
+                else
+                    return EditEdgeBrush;
+            }
         }
 
         /// <summary>
@@ -516,9 +544,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                process.EdgeBrush = m_viewEdgeBrush;
+                foreach (PPathwayLine line in process.Relations)
+                {
+                    line.EdgeBrush = m_viewEdgeBrush;
+                }
                 // Set threshold
+                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 if (m_autoThreshold)
                     SetThreshold(activity);
             }
@@ -558,15 +589,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             {
                 if (!process.Visible)
                     continue;
+
                 // Line setting.
                 float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 float width = GetEdgeWidth(activity);
+                Brush brush = GetEdgeBrush(activity);
 
-                process.EdgeBrush = GetEdgeBrush(activity);
                 foreach (PPathwayLine line in process.Relations)
                 {
                     if (line.Info.LineType != LineType.Dashed)
-                        line.Pen.Width = width;
+                        line.SetEdge(brush, width);
                 }
                 // Set threshold
                 if (m_autoThreshold)
@@ -578,12 +610,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Variable setting.
                 float molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                float width = GetEdgeWidth(molerConc);
+                Brush brush = GetEdgeBrush(molerConc);
+
                 variable.PPropertyText.Text = GetPropertyString(molerConc);
                 // Set Effector.
                 foreach (PPathwayLine line in variable.Relations)
                 {
                     if (line.Info.LineType == LineType.Dashed)
-                        line.Pen.Width = GetEdgeWidth(molerConc);
+                        line.SetEdge(brush, width);
                 }
 
             }
@@ -618,8 +653,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Line setting.
                 process.ViewMode = false;
-                process.EdgeBrush = m_editEdgeBrush;
-                process.EdgeWidth = m_normalEdgeWidth;
+                foreach (PPathwayLine line in process.Relations)
+                {
+                    line.SetEdge(m_editEdgeBrush, m_normalEdgeWidth);
+                }
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
