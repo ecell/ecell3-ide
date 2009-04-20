@@ -71,6 +71,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
+        public const string xPathHighQuality = "HighQuality";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string xPathAutoThreshold = "AutoThreshold";
         /// <summary>
         /// 

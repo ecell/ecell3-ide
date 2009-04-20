@@ -138,6 +138,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private bool m_isAnimation = true;
 
         /// <summary>
+        /// 
+        /// </summary>
+        private bool m_highQuality = true;
+
+        /// <summary>
         /// Focus Mode
         /// </summary>
         private bool m_focusMode = true;
@@ -278,6 +283,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 m_isAnimation = value;
                 RaiseAnimationChange();
+            }
+        }
+
+        /// <summary>
+        /// get/set the flag of showing id.
+        /// </summary>
+        public bool HighQuality
+        {
+            get { return m_highQuality; }
+            set
+            {
+                m_highQuality = value;
+                if (m_canvas != null)
+                    m_canvas.PCanvas.HighQuality = value;
             }
         }
 

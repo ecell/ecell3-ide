@@ -188,8 +188,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 if (line.Parent != null)
                     line.Parent.RemoveChild(line);
-                else
-                    line.CloseAllFigures();
                 line.Dispose();
             }
             m_relations.Clear();

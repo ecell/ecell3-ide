@@ -206,7 +206,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Accessor for m_pathwayCanvas.
         /// </summary>
-        public PCanvas PCanvas
+        public PPathwayCanvas PCanvas
         {
             get { return m_pCanvas; }
         }

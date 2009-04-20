@@ -781,6 +781,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         //****************************************************************
 
         /// <summary>
+        /// See <see cref="GraphicsPath.Reset">GraphicsPath.Reset</see>.
+        /// </summary>
+        public virtual void Reset()
+        {
+            m_path.Reset();
+            UpdateBoundsFromPath();
+            InvalidatePaint();
+        }
+
+        /// <summary>
         /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
         /// </summary>
         public virtual void AddPath(GraphicsPath path, bool connect)

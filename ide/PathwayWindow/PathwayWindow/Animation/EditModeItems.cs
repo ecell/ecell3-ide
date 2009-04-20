@@ -50,6 +50,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private PropertyBrushItem bgBrushItem;
         private PropertyBrushItem edgeBrushItem;
         private PropertyTextItem edgeWidth;
+        private PropertyCheckBoxItem highQualityCheckBox;
         private AnimationControl m_control;
 
         public EditModeItems()
@@ -68,6 +69,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             bgBrushItem.Brush = control.EditBGBrush;
             edgeWidth.Text = control.EdgeWidth.ToString();
             edgeBrushItem.Brush = control.EditEdgeBrush;
+            highQualityCheckBox.Checked = control.Control.HighQuality;
 
             //MessageResources.DialogTextBackgroundBrush;
             //MessageResources.DialogTextEdgeWidth;
@@ -78,6 +80,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditModeItems));
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.highQualityCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
             this.bgBrushItem = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.edgeBrushItem = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.edgeWidth = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
@@ -86,33 +89,64 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // groupBox
             // 
+            this.groupBox.AccessibleDescription = null;
+            this.groupBox.AccessibleName = null;
             resources.ApplyResources(this.groupBox, "groupBox");
+            this.groupBox.BackgroundImage = null;
+            this.groupBox.Controls.Add(this.highQualityCheckBox);
             this.groupBox.Controls.Add(this.bgBrushItem);
             this.groupBox.Controls.Add(this.edgeBrushItem);
             this.groupBox.Controls.Add(this.edgeWidth);
+            this.groupBox.Font = null;
             this.groupBox.Name = "groupBox";
             this.groupBox.TabStop = false;
             // 
+            // highQualityCheckBox
+            // 
+            this.highQualityCheckBox.AccessibleDescription = null;
+            this.highQualityCheckBox.AccessibleName = null;
+            resources.ApplyResources(this.highQualityCheckBox, "highQualityCheckBox");
+            this.highQualityCheckBox.BackgroundImage = null;
+            this.highQualityCheckBox.Checked = false;
+            this.highQualityCheckBox.Font = null;
+            this.highQualityCheckBox.Name = "highQualityCheckBox";
+            // 
             // bgBrushItem
             // 
+            this.bgBrushItem.AccessibleDescription = null;
+            this.bgBrushItem.AccessibleName = null;
             resources.ApplyResources(this.bgBrushItem, "bgBrushItem");
+            this.bgBrushItem.BackgroundImage = null;
+            this.bgBrushItem.Font = null;
             this.bgBrushItem.Name = "bgBrushItem";
             // 
             // edgeBrushItem
             // 
+            this.edgeBrushItem.AccessibleDescription = null;
+            this.edgeBrushItem.AccessibleName = null;
             resources.ApplyResources(this.edgeBrushItem, "edgeBrushItem");
+            this.edgeBrushItem.BackgroundImage = null;
+            this.edgeBrushItem.Font = null;
             this.edgeBrushItem.Name = "edgeBrushItem";
             // 
             // edgeWidth
             // 
+            this.edgeWidth.AccessibleDescription = null;
+            this.edgeWidth.AccessibleName = null;
             resources.ApplyResources(this.edgeWidth, "edgeWidth");
+            this.edgeWidth.BackgroundImage = null;
+            this.edgeWidth.Font = null;
             this.edgeWidth.Name = "edgeWidth";
             this.edgeWidth.Validating += new System.ComponentModel.CancelEventHandler(this.EdgeWidthValidating);
             // 
             // EditModeItems
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
             this.Controls.Add(this.groupBox);
+            this.Font = null;
             this.Name = "EditModeItems";
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
@@ -147,6 +181,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_control.EditBGBrush = this.bgBrushItem.Brush;
             m_control.EditEdgeBrush = this.edgeBrushItem.Brush;
             m_control.EdgeWidth = float.Parse(this.edgeWidth.Text);
+            m_control.Control.HighQuality = this.highQualityCheckBox.Checked;
         }
 
         public void ItemClosing()

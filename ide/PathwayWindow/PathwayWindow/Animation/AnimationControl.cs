@@ -164,6 +164,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
+        public PathwayControl Control
+        {
+            get { return m_con; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CanvasControl Canvas
+        {
+            get { return m_con.Canvas; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool DoesAnimationOnGoing
         {
             get { return (m_con.ProjectStatus == ProjectStatus.Running || m_con.ProjectStatus == ProjectStatus.Stepping || m_con.ProjectStatus == ProjectStatus.Suspended); }
@@ -697,6 +713,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 xmlOut.WriteAttributeString(AnimationConstants.xPathName, Application.ProductName);
                 xmlOut.WriteAttributeString(AnimationConstants.xPathFileVersion, AnimationConstants.xPathVersion);
                 // Save settings.
+                xmlOut.WriteElementString(AnimationConstants.xPathHighQuality, m_con.HighQuality.ToString());
                 xmlOut.WriteElementString(AnimationConstants.xPathEditBGBrush, BrushManager.ParseBrushToString(m_editBGBrush));
                 xmlOut.WriteElementString(AnimationConstants.xPathEditEdgeBrush, BrushManager.ParseBrushToString(m_editEdgeBrush));
                 xmlOut.WriteElementString(AnimationConstants.xPathNormalEdgeWidth, m_normalEdgeWidth.ToString());
@@ -806,6 +823,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     // AutoThreshold
                     case AnimationConstants.xPathAutoThreshold:
                         m_autoThreshold = bool.Parse(setting.InnerText);
+                        break;
+                    // AutoThreshold
+                    case AnimationConstants.xPathHighQuality:
+                        m_con.HighQuality = bool.Parse(setting.InnerText);
                         break;
                 }
             }

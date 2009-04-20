@@ -192,7 +192,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_lineHandle4P.OffsetY = m_selectedLine.ProPoint.Y;
 
             // Create Reconnect line
-            m_line4reconnect.Reset();
             m_line4reconnect.SetEdge(LINE_BRUSH, m_line4reconnect.EdgeWidth);
             m_line4reconnect.Info.Direction = m_selectedLine.Info.Direction;
             m_line4reconnect.Info.LineType = m_selectedLine.Info.LineType;
@@ -218,7 +217,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public void ResetLinePosition()
         {
             // Create line
-            m_line4reconnect.Reset();
             m_line4reconnect.VarPoint = m_lineHandle4V.Offset;
             m_line4reconnect.ProPoint = m_lineHandle4P.Offset;
             m_line4reconnect.DrawLine();

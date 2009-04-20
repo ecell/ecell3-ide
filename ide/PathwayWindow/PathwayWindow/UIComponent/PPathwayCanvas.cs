@@ -59,6 +59,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// PathwayControl to control the PathwayView.
         /// </summary>
         protected PathwayControl m_con = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected bool m_highQuality = true;
+        /// <summary>
+        /// get / set Quality of Canvas Image.
+        /// </summary>
+        public bool HighQuality
+        {
+            get { return m_highQuality; }
+            set
+            {
+                m_highQuality = value;
+
+                // Set RenderQuality
+                RenderQuality quality;
+                if (m_highQuality)
+                    quality = RenderQuality.HighQuality;
+                else
+                    quality = RenderQuality.LowQuality;
+
+                this.AnimatingRenderQuality = quality;
+                this.DefaultRenderQuality = quality;
+                this.InteractingRenderQuality = quality;
+            }
+        }
 
         /// <summary>
         /// Constructor
@@ -71,9 +97,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // Preparing context menus.
             this.ContextMenuStrip = m_con.Menu.PopupMenu;
             this.KeyDown += new KeyEventHandler(m_con.Menu.Canvas_KeyDown);
-            this.AnimatingRenderQuality = RenderQuality.HighQuality;
-            this.DefaultRenderQuality = RenderQuality.HighQuality;
-            this.InteractingRenderQuality = RenderQuality.HighQuality;
+            // 
+            this.HighQuality = m_con.HighQuality;
             //
             this.RemoveInputEventListener(PanEventHandler);
             this.RemoveInputEventListener(ZoomEventHandler);
