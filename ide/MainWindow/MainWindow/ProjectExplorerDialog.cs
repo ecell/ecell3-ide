@@ -121,7 +121,6 @@ namespace Ecell.IDE.MainWindow
                 node.Expand();
             }
 
-            string prjFileName = Path.Combine(path, Constants.fileProject);
             string prjXMLFileName = Path.Combine(path, Constants.fileProjectXML);
 
             // Check project.xml and load.
@@ -130,14 +129,6 @@ namespace Ecell.IDE.MainWindow
                 if (!IsExistModelFile(path)) 
                     return;
                 TreeNode childNode = new ProjectTreeNode(prjXMLFileName);
-                node.Nodes.Add(childNode);
-            }
-            // Check project.info and load.
-            else if (File.Exists(prjFileName))
-            {
-                if (!IsExistModelFile(path)) 
-                    return;
-                TreeNode childNode = new ProjectTreeNode(prjFileName);
                 node.Nodes.Add(childNode);
             }
             else
@@ -736,8 +727,6 @@ namespace Ecell.IDE.MainWindow
             {
                 string ext = Path.GetExtension(filepath);
                 if (filepath.EndsWith(Constants.fileProjectXML))
-                    return FileType.Project;
-                else if (filepath.EndsWith(Constants.fileProject))
                     return FileType.Project;
                 else if (ext.Equals(Constants.FileExtEML))
                     return FileType.Model;

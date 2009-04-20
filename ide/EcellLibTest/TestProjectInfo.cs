@@ -311,37 +311,6 @@ namespace Ecell
                 Assert.AreEqual(Path.GetDirectoryName(infoFile1), info1.ProjectPath, "ProjectPath is unexpected value.");
                 Assert.IsEmpty(info1.Models, "Models is unexpected value.");
 
-
-                // Load from old infoText.
-                string infoFile2 = "C:\\temp\\Drosophila\\project.info";
-                ProjectInfo info2 = ProjectInfoLoader.Load(infoFile2);
-                Assert.AreEqual("Drosophila", info2.Name, "Name is unexpected value.");
-                Assert.AreEqual(ProjectType.Project, info2.ProjectType, "ProjectType is unexpected value.");
-                Assert.AreEqual(infoFile2, info2.ProjectFile, "ProjectFile is unexpected value.");
-                Assert.AreEqual(Path.GetDirectoryName(infoFile2), info2.ProjectPath, "ProjectPath is unexpected value.");
-                Assert.IsEmpty(info2.Models, "Models is unexpected value.");
-
-
-                // Load from old infoText.
-                string infoFile3 = "C:\\temp\\Drosophila\\projectOld.info";
-                ProjectInfo info3 = ProjectInfoLoader.Load(infoFile3);
-                Assert.AreEqual("Drosophila", info3.Name, "Name is unexpected value.");
-                Assert.AreEqual(ProjectType.Project, info3.ProjectType, "ProjectType is unexpected value.");
-                Assert.AreEqual(infoFile3, info3.ProjectFile, "ProjectFile is unexpected value.");
-                Assert.AreEqual(Path.GetDirectoryName(infoFile3), info3.ProjectPath, "ProjectPath is unexpected value.");
-                Assert.IsEmpty(info3.Models, "Models is unexpected value.");
-
-
-                // Load from old infoText.
-                string infoFile4 = "C:\\temp\\Drosophila\\project.info";
-                ProjectInfo info4 = ProjectInfoLoader.Load(infoFile4);
-                Assert.AreEqual("Drosophila", info4.Name, "Name is unexpected value.");
-                Assert.AreEqual(ProjectType.Project, info4.ProjectType, "ProjectType is unexpected value.");
-                Assert.AreEqual(infoFile4, info4.ProjectFile, "ProjectFile is unexpected value.");
-                Assert.AreEqual(Path.GetDirectoryName(infoFile4), info4.ProjectPath, "ProjectPath is unexpected value.");
-                Assert.IsEmpty(info4.Models, "Models is unexpected value.");
-
-
                 // Load from eml.
                 string infoFile5 = TestConstant.Model_Drosophila;
                 ProjectInfo info5 = ProjectInfoLoader.Load(infoFile5);
