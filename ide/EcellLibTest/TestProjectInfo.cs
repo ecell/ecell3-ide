@@ -78,14 +78,6 @@ namespace Ecell
                 ProjectInfo info;
                 info = new ProjectInfo();
                 //
-                info = new ProjectInfo(Name, Comment, Time);
-                info = new ProjectInfo(Name, "", Time);
-                info = new ProjectInfo(Name, Comment, "");
-                info = new ProjectInfo(Name, "", "");
-                info = new ProjectInfo(Name, Comment, null);
-                info = new ProjectInfo(Name, null, Time);
-                info = new ProjectInfo(Name, null, null);
-                //
                 info = new ProjectInfo(Name, Comment, Time, SimParam);
                 info = new ProjectInfo(Name, "", Time, SimParam);
                 info = new ProjectInfo(Name, null, Time, SimParam);
@@ -106,30 +98,6 @@ namespace Ecell
         [Test()]
         public void TestProjectInfoConstructorsErrorCase()
         {
-            // Error Check
-            // ProjectInfo don't arrow null for name field.
-            try
-            {
-                ProjectInfo info = new ProjectInfo("", Comment, Time);
-                Assert.Fail("Incorrect null check.");
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.StackTrace);
-            }
-
-            // Error Check
-            // ProjectInfo don't arrow null for name field.
-            try
-            {
-                ProjectInfo info = new ProjectInfo(null, Comment, Time);
-                Assert.Fail("Incorrect null check.");
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.StackTrace);
-            }
-
             // Error Check 
             try
             {

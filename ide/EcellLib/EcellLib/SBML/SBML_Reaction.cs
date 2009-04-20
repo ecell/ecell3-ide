@@ -125,14 +125,13 @@ namespace Ecell.SBML
                             variableName = varRef.Name;
                             this.ModifierNumber++;
                         }
-                        string compartmentName = this.setCompartmentToVariableReference( aSpecies.Compartment );
-
-                        anASTNode.setType( libsbml.libsbml.AST_DIVIDE );
-                        anASTNode.addChild( new ASTNode( libsbml.libsbml.AST_NAME ) );
-                        anASTNode.addChild( new ASTNode( libsbml.libsbml.AST_NAME ) );
-                        anASTNode.getLeftChild().setName( variableName + ".Value" );  
-                        anASTNode.getRightChild().setName( compartmentName + ".Value" ) ;    
-                        
+                        //string compartmentName = this.setCompartmentToVariableReference( aSpecies.Compartment );
+                        //anASTNode.setType( libsbml.libsbml.AST_DIVIDE );
+                        //anASTNode.addChild( new ASTNode( libsbml.libsbml.AST_NAME ) );
+                        //anASTNode.addChild( new ASTNode( libsbml.libsbml.AST_NAME ) );
+                        //anASTNode.getLeftChild().setName( variableName + ".Value" );  
+                        //anASTNode.getRightChild().setName( compartmentName + ".Value" ) ;
+                        anASTNode.setName(variableName + ".Value");
                         return anASTNode;
                     }
     //                if variableName == '':
