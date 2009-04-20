@@ -36,7 +36,10 @@ using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
-    class RoundedRectangle : FigureBase
+    /// <summary>
+    /// 
+    /// </summary>
+    public class RoundedRectangle : FigureBase
     {
         private const float roundness = 0.1f;
         /// <summary>

@@ -34,7 +34,10 @@ using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
 {
-    class NoSuchComponentClassException : EcellException
+    /// <summary>
+    /// 
+    /// </summary>
+    public class NoSuchComponentClassException : EcellException
     {
     }
 }

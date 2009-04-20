@@ -63,7 +63,29 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="TestAnimationControl.cs" />
+    <Compile Include="TestBrushManager.cs" />
+    <Compile Include="TestCanvasControl.cs" />
+    <Compile Include="TestComponentManager.cs" />
+    <Compile Include="TestComponentSetting.cs" />
+    <Compile Include="TestCreateNodeMouseHandler.cs" />
+    <Compile Include="TestCreateReactionMouseHandler.cs" />
+    <Compile Include="TestDefaultMouseHandler.cs" />
+    <Compile Include="TestDuplicateKeyException.cs" />
+    <Compile Include="TestEllipseFigure.cs" />
+    <Compile Include="TestFigureBase.cs" />
+    <Compile Include="TestFigureManager.cs" />
+    <Compile Include="TestGraphicsExporter.cs" />
+    <Compile Include="TestHandle.cs" />
+    <Compile Include="TestImageComboBox.cs" />
+    <Compile Include="TestLineHandler.cs" />
+    <Compile Include="TestNoSuchComponentKindException.cs" />
+    <Compile Include="TestPathwayException.cs" />
     <Compile Include="TestPathwayWindow.cs" />
+    <Compile Include="TestRectangleFigure.cs" />
+    <Compile Include="TestRoundedRectangle.cs" />
+    <Compile Include="TestSVGUtil.cs" />
+    <Compile Include="TestSystemRectangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PathwayWindow\PathwayWindow\PathwayWindow.csproj">
@@ -77,6 +99,14 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="UMD.HCIL.Piccolo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\UMD.HCIL.Piccolo.dll</HintPath>
+    </Reference>
+    <Reference Include="UMD.HCIL.PiccoloX">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\UMD.HCIL.PiccoloX.dll</HintPath>
+    </Reference>
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>

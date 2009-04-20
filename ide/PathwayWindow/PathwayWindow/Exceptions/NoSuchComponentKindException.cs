@@ -33,8 +33,15 @@ using System.Text;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
 {
-    class NoSuchComponentKindException : Exception
+    /// <summary>
+    /// 
+    /// </summary>
+    public class NoSuchComponentKindException : Exception
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public NoSuchComponentKindException(string message)
             : base(message)
         {            

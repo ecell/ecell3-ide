@@ -36,7 +36,10 @@ using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
-    class SystemRectangle : FigureBase
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SystemRectangle : FigureBase
     {
         /// <summary>
         /// Figure type.

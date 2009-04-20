@@ -34,7 +34,10 @@ using System.Drawing;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
-    class ImageComboBox : ComboBox
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ImageComboBox : ComboBox
     {
         /// <summary>
         /// ImageList
