@@ -597,6 +597,14 @@ namespace Ecell
         public const string propWriteVariableList = "WriteVariableList";
 
         /// <summary>
+        /// Reserved XML path name for Creator.
+        /// </summary>
+        public const string textCreator = "Creator";
+        /// <summary>
+        /// Reserved XML path name for EditCount.
+        /// </summary>
+        public const string textEditCount = "EditCount";
+        /// <summary>
         /// Reserved XML path name for comment.
         /// </summary>
         public const string textComment = "Comment";

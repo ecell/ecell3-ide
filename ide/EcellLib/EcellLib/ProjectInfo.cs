@@ -70,6 +70,10 @@ namespace Ecell
         /// </summary>
         private string m_updateTime;
         /// <summary>
+        /// Edit Count.
+        /// </summary>
+        private int m_editCount;
+        /// <summary>
         /// The creator
         /// </summary>
         private string m_creator;
@@ -98,17 +102,6 @@ namespace Ecell
         public ProjectInfo()
         {
             SetParams(Constants.defaultPrjID, Constants.defaultComment, "", Constants.defaultSimParam);
-        }
-
-        /// <summary>
-        /// Create the new "Project" instance with initialized arguments.
-        /// </summary>
-        /// <param name="prjName">TThe project name. Not null.</param>
-        /// <param name="comment">The comment. Arrows null.</param>
-        /// <param name="time">The update time.</param>
-        public ProjectInfo(string prjName, string comment, string time)
-        {
-            SetParams(prjName, comment, time, Constants.defaultSimParam);
         }
 
         /// <summary>
@@ -148,6 +141,7 @@ namespace Ecell
             this.m_dmList = new List<string>();
             this.m_modelList = new List<string>();
             this.m_type = ProjectType.NewProject;
+            this.m_editCount = 0;
         }
         #endregion
 
@@ -215,6 +209,15 @@ namespace Ecell
                 else
                     this.m_updateTime = value;
             }
+        }
+
+        /// <summary>
+        /// get / set EditCount.
+        /// </summary>
+        public int EditCount
+        {
+            get { return m_editCount; }
+            set { m_editCount = value; }
         }
 
         /// <summary>
@@ -364,8 +367,9 @@ namespace Ecell
             string prjName = Path.GetFileName(dirPath);
             string comment = "";
             string createTime = "";
-            string updateTime = "";
             string param = "";
+            string creator = "";
+            int editCount = 0;
             ProjectType type = ProjectType.Project;
             try
             {
@@ -399,6 +403,14 @@ namespace Ecell
                         case Constants.textComment:
                             comment = setting.InnerText;
                             break;
+                        // Creator
+                        case Constants.textCreator:
+                            creator = setting.InnerText;
+                            break;
+                        // EditCount
+                        case Constants.textEditCount:
+                            int.TryParse(setting.InnerText, out editCount);
+                            break;
                         // SimulationParameter
                         case Constants.textParameter:
                             param = setting.InnerText;
@@ -412,6 +424,8 @@ namespace Ecell
                 project.ProjectType = type;
                 project.ProjectPath = dirPath;
                 project.CreationTime = createTime;
+                project.Creator = creator;
+                project.EditCount = editCount;
                 project.UpdateTime = File.GetLastWriteTime(filepath).ToString();
                 // Set DM Path.
                 string dmPath = Path.Combine(dirPath, Constants.DMDirName);
@@ -554,10 +568,13 @@ namespace Ecell
                 xmlOut.WriteComment(Constants.xPathFileHeader1);
                 xmlOut.WriteComment(Constants.xPathFileHeader2);
 
+                project.EditCount++;
                 // Save settings.
                 xmlOut.WriteStartElement(Constants.xPathEcellProject);
                 xmlOut.WriteElementString(Constants.xpathProject, project.Name);
-                xmlOut.WriteElementString(Constants.textDate, DateTime.Now.ToString());
+                xmlOut.WriteElementString(Constants.textDate, project.CreationTime);
+                xmlOut.WriteElementString(Constants.textCreator, project.Creator);
+                xmlOut.WriteElementString(Constants.textEditCount, project.EditCount.ToString());
                 xmlOut.WriteElementString(Constants.textComment, project.Comment);
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
                 xmlOut.WriteEndElement();

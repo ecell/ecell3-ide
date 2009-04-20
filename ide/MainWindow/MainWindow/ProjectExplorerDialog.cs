@@ -462,8 +462,6 @@ namespace Ecell.IDE.MainWindow
             string name = newPrjDialog.ProjectName;
             string model = newPrjDialog.Comment;
             string comment = newPrjDialog.ProjectName;
-
-            ProjectInfo project = new ProjectInfo(name, comment, DateTime.Now.ToString());
         }
 
         /// <summary>
