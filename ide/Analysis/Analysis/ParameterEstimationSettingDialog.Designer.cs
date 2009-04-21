@@ -35,14 +35,18 @@
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.GroupBox groupBox2;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
+            System.Windows.Forms.Label label8;
+            System.Windows.Forms.Label label9;
+            System.Windows.Forms.Label label10;
             this.formulatorButton = new System.Windows.Forms.Button();
             this.estimationFormulatorTextBox = new System.Windows.Forms.TextBox();
             this.estimationTypeComboBox = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.advancedButton = new System.Windows.Forms.Button();
             this.parameterEstimationPopulationTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationSimulationTimeTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationGenerationTextBox = new System.Windows.Forms.TextBox();
@@ -56,14 +60,28 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.PEUpsilonTextBox = new System.Windows.Forms.TextBox();
+            this.PEMTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.PEMaxRateTextBox = new System.Windows.Forms.TextBox();
+            this.PEKTextBox = new System.Windows.Forms.TextBox();
+            this.PEM0TextBox = new System.Windows.Forms.TextBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             groupBox2 = new System.Windows.Forms.GroupBox();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
+            label9 = new System.Windows.Forms.Label();
+            label10 = new System.Windows.Forms.Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -90,7 +108,6 @@
             // 
             // estimationTypeComboBox
             // 
-            resources.ApplyResources(this.estimationTypeComboBox, "estimationTypeComboBox");
             this.estimationTypeComboBox.FormattingEnabled = true;
             this.estimationTypeComboBox.Items.AddRange(new object[] {
             resources.GetString("estimationTypeComboBox.Items"),
@@ -99,6 +116,7 @@
             resources.GetString("estimationTypeComboBox.Items3"),
             resources.GetString("estimationTypeComboBox.Items4"),
             resources.GetString("estimationTypeComboBox.Items5")});
+            resources.ApplyResources(this.estimationTypeComboBox, "estimationTypeComboBox");
             this.estimationTypeComboBox.Name = "estimationTypeComboBox";
             // 
             // label1
@@ -122,7 +140,6 @@
             groupBox2.Controls.Add(this.label5);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(this.advancedButton);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(this.parameterEstimationPopulationTextBox);
             groupBox2.Controls.Add(this.parameterEstimationSimulationTimeTextBox);
@@ -134,13 +151,6 @@
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            // 
-            // advancedButton
-            // 
-            resources.ApplyResources(this.advancedButton, "advancedButton");
-            this.advancedButton.Name = "advancedButton";
-            this.advancedButton.UseVisualStyleBackColor = true;
-            this.advancedButton.Click += new System.EventHandler(this.AdvancedButtonClicked);
             // 
             // parameterEstimationPopulationTextBox
             // 
@@ -197,14 +207,14 @@
             this.parameterEstimationParameterDataGrid.AllowUserToResizeRows = false;
             resources.ApplyResources(this.parameterEstimationParameterDataGrid, "parameterEstimationParameterDataGrid");
             this.parameterEstimationParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.parameterEstimationParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.parameterEstimationParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.parameterEstimationParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.parameterEstimationParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -224,16 +234,16 @@
             // 
             // dataGridViewTextBoxColumn2
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridViewTextBoxColumn2.FillWeight = 40F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // dataGridViewTextBoxColumn3
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridViewTextBoxColumn3.FillWeight = 40F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn3, "dataGridViewTextBoxColumn3");
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
@@ -243,12 +253,91 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
+            // groupBox3
+            // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.PEUpsilonTextBox);
+            this.groupBox3.Controls.Add(this.PEMTextBox);
+            this.groupBox3.Controls.Add(label6);
+            this.groupBox3.Controls.Add(label7);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // PEUpsilonTextBox
+            // 
+            resources.ApplyResources(this.PEUpsilonTextBox, "PEUpsilonTextBox");
+            this.PEUpsilonTextBox.Name = "PEUpsilonTextBox";
+            this.PEUpsilonTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Upsilon_Validating);
+            // 
+            // PEMTextBox
+            // 
+            resources.ApplyResources(this.PEMTextBox, "PEMTextBox");
+            this.PEMTextBox.Name = "PEMTextBox";
+            this.PEMTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.M_Validating);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(label6, "label6");
+            label6.Name = "label6";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(label7, "label7");
+            label7.Name = "label7";
+            // 
+            // groupBox4
+            // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.PEMaxRateTextBox);
+            this.groupBox4.Controls.Add(label8);
+            this.groupBox4.Controls.Add(label9);
+            this.groupBox4.Controls.Add(this.PEKTextBox);
+            this.groupBox4.Controls.Add(label10);
+            this.groupBox4.Controls.Add(this.PEM0TextBox);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // PEMaxRateTextBox
+            // 
+            resources.ApplyResources(this.PEMaxRateTextBox, "PEMaxRateTextBox");
+            this.PEMaxRateTextBox.Name = "PEMaxRateTextBox";
+            this.PEMaxRateTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MaxRate_Validating);
+            // 
+            // label8
+            // 
+            resources.ApplyResources(label8, "label8");
+            label8.Name = "label8";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(label9, "label9");
+            label9.Name = "label9";
+            // 
+            // PEKTextBox
+            // 
+            resources.ApplyResources(this.PEKTextBox, "PEKTextBox");
+            this.PEKTextBox.Name = "PEKTextBox";
+            this.PEKTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.K_Validating);
+            // 
+            // label10
+            // 
+            resources.ApplyResources(label10, "label10");
+            label10.Name = "label10";
+            // 
+            // PEM0TextBox
+            // 
+            resources.ApplyResources(this.PEM0TextBox, "PEM0TextBox");
+            this.PEM0TextBox.Name = "PEM0TextBox";
+            this.PEM0TextBox.Validating += new System.ComponentModel.CancelEventHandler(this.M0_Validating);
+            // 
             // ParameterEstimationSettingDialog
             // 
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.parameterEstimationParameterDataGrid);
             this.Controls.Add(this.abstractTextBox);
@@ -265,6 +354,10 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -277,7 +370,6 @@
         private System.Windows.Forms.Button formulatorButton;
         private System.Windows.Forms.TextBox parameterEstimationPopulationTextBox;
         private System.Windows.Forms.TextBox parameterEstimationGenerationTextBox;
-        private System.Windows.Forms.Button advancedButton;
         private System.Windows.Forms.TextBox parameterEstimationSimulationTimeTextBox;
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Button okButton;
@@ -290,5 +382,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox PEUpsilonTextBox;
+        private System.Windows.Forms.TextBox PEMTextBox;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox PEMaxRateTextBox;
+        private System.Windows.Forms.TextBox PEKTextBox;
+        private System.Windows.Forms.TextBox PEM0TextBox;
     }
 }

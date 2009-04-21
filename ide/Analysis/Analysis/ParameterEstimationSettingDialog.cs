@@ -45,6 +45,13 @@ namespace Ecell.IDE.Plugins.Analysis
             parameterEstimationGenerationTextBox.Text = Convert.ToString(param.Generation);
 
             m_param = param;
+            m_simParam = param.Param;
+
+            PEMTextBox.Text = Convert.ToString(m_simParam.M);
+            PEUpsilonTextBox.Text = Convert.ToString(m_simParam.Upsilon);
+            PEM0TextBox.Text = Convert.ToString(m_simParam.Initial);
+            PEKTextBox.Text = Convert.ToString(m_simParam.K);
+            PEMaxRateTextBox.Text = Convert.ToString(m_simParam.Max);
         }
 
         /// <summary>
@@ -53,6 +60,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns></returns>
         public ParameterEstimationParameter GetParameter()
         {
+            m_param.Param = m_simParam;
             return m_param;
         }
         /// <summary>
@@ -226,25 +234,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
             estimationTypeComboBox.SelectedIndex = 0;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AdvancedButtonClicked(object sender, EventArgs e)
-        {
-            ParameterEstimationAdvancedSettingDialog dlg = new ParameterEstimationAdvancedSettingDialog();
-            SimplexCrossoverParameter p = new SimplexCrossoverParameter(m_param.Param.M,
-                m_param.Param.Initial, m_param.Param.Max, m_param.Param.K, m_param.Param.Upsilon);
-            dlg.SetParameter(p);
-            using (dlg)
-            {
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    m_param.Param = dlg.GetParam();
-                }
-            }
-        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -320,6 +310,115 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.Generation = dummy;
         }
+
+        private SimplexCrossoverParameter m_simParam;
+
+        private void M_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEMTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameM));
+                PEMTextBox.Text = Convert.ToString(m_simParam.M);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM));
+                PEMTextBox.Text = Convert.ToString(m_simParam.M);
+                e.Cancel = true;
+                return;
+            }
+            m_simParam.M = dummy;
+        }
+
+        private void Upsilon_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEUpsilonTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameUpsilon));
+                PEUpsilonTextBox.Text = Convert.ToString(m_simParam.Upsilon);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameUpsilon));
+                PEUpsilonTextBox.Text = Convert.ToString(m_simParam.Upsilon);
+                e.Cancel = true;
+                return;
+            }
+            m_simParam.Upsilon = dummy;
+        }
+
+        private void M0_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEM0TextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameM0));
+                PEM0TextBox.Text = Convert.ToString(m_simParam.Initial);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM0));
+                PEM0TextBox.Text = Convert.ToString(m_simParam.Initial);
+                e.Cancel = true;
+                return;
+            }
+            m_simParam.Initial = dummy;
+        }
+
+        private void K_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEKTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameK));
+                PEKTextBox.Text = Convert.ToString(m_simParam.K);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameK));
+                PEKTextBox.Text = Convert.ToString(m_simParam.K);
+                e.Cancel = true;
+                return;
+            }
+            m_simParam.K = dummy;
+        }
+
+        private void MaxRate_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEMaxRateTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxRate));
+                PEMaxRateTextBox.Text = Convert.ToString(m_simParam.Max);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxRate));
+                PEMaxRateTextBox.Text = Convert.ToString(m_simParam.Max);
+                e.Cancel = true;
+                return;
+            }
+            m_simParam.Max = dummy;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -389,6 +488,38 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_param.SimulationTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
+                e.Cancel = true;
+                return;
+            }
+
+
+            if (m_simParam.Max <= 0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxRate));
+                e.Cancel = true;
+                return;
+            }
+            if (m_simParam.K <= 1.0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameK));
+                e.Cancel = true;
+                return;
+            }
+            if (m_simParam.Initial <= 1.0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM0));
+                e.Cancel = true;
+                return;
+            }
+            if (m_simParam.Upsilon <= 0.0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameUpsilon));
+                e.Cancel = true;
+                return;
+            }
+            if (m_simParam.M <= 0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM));
                 e.Cancel = true;
                 return;
             }

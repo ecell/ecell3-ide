@@ -118,12 +118,6 @@
     <Compile Include="ParameterEstimationSettingDialog.Designer.cs">
       <DependentUpon>ParameterEstimationSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParameterEstimationAdvancedSettingDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ParameterEstimationAdvancedSettingDialog.Designer.cs">
-      <DependentUpon>ParameterEstimationAdvancedSettingDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RobustAnalysis.cs" />
     <Compile Include="RobustAnalysisSettingDialog.cs">
@@ -173,14 +167,6 @@
     <EmbeddedResource Include="ParameterEstimationSettingDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ParameterEstimationSettingDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParameterEstimationAdvancedSettingDialog.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ParameterEstimationAdvancedSettingDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParameterEstimationAdvancedSettingDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ParameterEstimationAdvancedSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RobustAnalysisSettingDialog.ja.resx">
       <SubType>Designer</SubType>

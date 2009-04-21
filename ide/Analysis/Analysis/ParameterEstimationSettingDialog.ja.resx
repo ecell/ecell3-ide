@@ -162,8 +162,17 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>全般</value>
   </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>シンプレックス交叉</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>変異</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>世代数(&amp;G):</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>変異変動率(&amp;K):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>個体数(&amp;O):</value>
@@ -176,5 +185,11 @@
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>秒</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>初期変異率(&amp;I):</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>最大変異率(&amp;X):</value>
   </data>
 </root>
