@@ -402,9 +402,6 @@
   <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
-    <value />
-  </data>
   <data name="SaveEntryColumn.MinimumWidth" type="System.Int32, mscorlib">
     <value>30</value>
   </data>

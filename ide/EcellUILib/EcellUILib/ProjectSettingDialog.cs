@@ -56,17 +56,9 @@ namespace Ecell.IDE
             set
             {
                 m_info = value;
-                textName.Text = m_info.Name;
-                textCreator.Text = m_info.Creator;
-                textCreated.Text = m_info.CreationTime;
-                textLastUpdate.Text = m_info.UpdateTime;
-                textEditCount.Text = m_info.EditCount.ToString();
-                textDefaultParameter.Text = m_info.SimulationParam;
-                textComment.Text = m_info.Comment;
-
+                SetPorjectInfo(m_info);
             }
         }
-
 
         /// <summary>
         /// Constructor.
@@ -81,11 +73,49 @@ namespace Ecell.IDE
 
         private void ProjectSettingDialog_FormClosing(object obj, FormClosingEventArgs args)
         {
-            if (DialogResult == DialogResult.OK && !ValidateForm())
+            // If canceled
+            if (DialogResult != DialogResult.OK)
+                return;
+
+            // If Invalid
+            if(!ValidateForm())
             {
                 args.Cancel = true;
+                SetPorjectInfo(m_info);
                 return;
             }
+
+            // ApplyChange
+            ApplyChange();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ApplyChange()
+        {
+            m_info.Name = textName.Text;
+            m_info.Creator = textCreator.Text;
+            //m_info.CreationTime = textCreated.Text;
+            //m_info.UpdateTime = textLastUpdate.Text;
+            //m_info.EditCount = textEditCount.Text;
+            //m_info.SimulationParam = textDefaultParameter.Text;
+            m_info.Comment = textComment.Text;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        private void SetPorjectInfo(ProjectInfo info)
+        {
+            textName.Text = info.Name;
+            textCreator.Text = info.Creator;
+            textCreated.Text = info.CreationTime;
+            textLastUpdate.Text = info.UpdateTime;
+            textEditCount.Text = info.EditCount.ToString();
+            textDefaultParameter.Text = info.SimulationParam;
+            textComment.Text = info.Comment;
         }
 
         private bool ValidateForm()

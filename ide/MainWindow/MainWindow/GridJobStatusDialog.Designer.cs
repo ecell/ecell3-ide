@@ -49,7 +49,7 @@
             this.JobGridView.AllowUserToAddRows = false;
             resources.ApplyResources(this.JobGridView, "JobGridView");
             this.JobGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.JobGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.JobGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.JobGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.JobIDColumn,
             this.StatusColumn,

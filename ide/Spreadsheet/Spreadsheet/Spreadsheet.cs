@@ -336,52 +336,50 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         void m_gridView_MouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
-            if (e.Button == MouseButtons.Left)
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            if (hti.RowIndex < 0)
+                return;
+            DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
+            if (Control.ModifierKeys != Keys.Shift)
             {
-                if (hti.RowIndex < 0)
-                    return;
-                DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
-                if (Control.ModifierKeys != Keys.Shift)
+                m_selectedRow = r;
+                m_lastSelected = r;
+            }
+            else if (m_lastSelected != null)
+            {
+                int startindex, endindex;
+                if (hti.RowIndex > m_lastSelected.Index)
                 {
-                    m_selectedRow = r;
-                    m_lastSelected = r;
+                    endindex = hti.RowIndex;
+                    startindex = m_lastSelected.Index;
                 }
                 else
                 {
-                    if (m_lastSelected != null)
+                    startindex = hti.RowIndex;
+                    endindex = m_lastSelected.Index;
+                }
+                m_isSelected = true;
+                foreach (DataGridViewRow r1 in m_gridView.Rows)
+                {
+                    EcellObject obj = r1.Tag as EcellObject;
+                    if (obj == null)
+                        continue;
+                    if (r1.Index >= startindex && r1.Index <= endindex)
                     {
-                        int startindex, endindex;
-                        if (hti.RowIndex > m_lastSelected.Index)
-                        {
-                            endindex = hti.RowIndex;
-                            startindex = m_lastSelected.Index;
-                        }
-                        else
-                        {
-                            startindex = hti.RowIndex;
-                            endindex = m_lastSelected.Index;
-                        }
-                        m_isSelected = true;
-                        foreach (DataGridViewRow r1 in m_gridView.Rows)
-                        {
-                            EcellObject obj = r1.Tag as EcellObject;
-                            if (obj == null) continue;
-                            if (r1.Index >= startindex && r1.Index <= endindex)
-                            {
-                                if (!r1.Selected)
-                                    m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
-                            }
-                            else
-                            {
-                                if (r1.Selected)
-                                    m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
-                            }
-                        }
-                        m_isSelected = false;
+                        if (!r1.Selected)
+                            m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                    }
+                    else
+                    {
+                        if (r1.Selected)
+                            m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
                     }
                 }
-                m_dragObject = r.Tag as EcellObject;
+                m_isSelected = false;
             }
+            m_dragObject = r.Tag as EcellObject;
         }
 
         /// <summary>

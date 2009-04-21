@@ -40,18 +40,24 @@
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
             System.Windows.Forms.GroupBox groupBox3;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.Button cancelButton;
             System.Windows.Forms.Button okButton;
             System.Windows.Forms.Button executeButton;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.robustAnalysisWindowSizeTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisSimulationTimeTextBox = new System.Windows.Forms.TextBox();
+            this.robustAnalysisRandomRadioButton = new System.Windows.Forms.RadioButton();
+            this.robustAnalysisMatrixRadioButton = new System.Windows.Forms.RadioButton();
             this.robustAnalysisSampleNumberTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisMinFrequencyTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisMaxSampleTextBox = new System.Windows.Forms.TextBox();
@@ -69,12 +75,8 @@
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.abstractTextBox = new System.Windows.Forms.TextBox();
             this.robustToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.robustAnalysisMatrixRadioButton = new System.Windows.Forms.RadioButton();
-            this.robustAnalysisRandomRadioButton = new System.Windows.Forms.RadioButton();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             groupBox1 = new System.Windows.Forms.GroupBox();
@@ -117,6 +119,16 @@
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
             // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
             // robustAnalysisWindowSizeTextBox
             // 
             resources.ApplyResources(this.robustAnalysisWindowSizeTextBox, "robustAnalysisWindowSizeTextBox");
@@ -149,6 +161,22 @@
             groupBox2.Controls.Add(label3);
             groupBox2.Name = "groupBox2";
             groupBox2.TabStop = false;
+            // 
+            // robustAnalysisRandomRadioButton
+            // 
+            resources.ApplyResources(this.robustAnalysisRandomRadioButton, "robustAnalysisRandomRadioButton");
+            this.robustAnalysisRandomRadioButton.Name = "robustAnalysisRandomRadioButton";
+            this.robustAnalysisRandomRadioButton.TabStop = true;
+            this.robustAnalysisRandomRadioButton.UseVisualStyleBackColor = true;
+            this.robustAnalysisRandomRadioButton.CheckedChanged += new System.EventHandler(this.ChangeRARandomCheck);
+            // 
+            // robustAnalysisMatrixRadioButton
+            // 
+            resources.ApplyResources(this.robustAnalysisMatrixRadioButton, "robustAnalysisMatrixRadioButton");
+            this.robustAnalysisMatrixRadioButton.Name = "robustAnalysisMatrixRadioButton";
+            this.robustAnalysisMatrixRadioButton.TabStop = true;
+            this.robustAnalysisMatrixRadioButton.UseVisualStyleBackColor = true;
+            this.robustAnalysisMatrixRadioButton.CheckedChanged += new System.EventHandler(this.ChangeRAMatrixCheck);
             // 
             // robustAnalysisSampleNumberTextBox
             // 
@@ -201,62 +229,6 @@
             this.robustAnalysisMaxFrequencyTextBox.Name = "robustAnalysisMaxFrequencyTextBox";
             this.robustAnalysisMaxFrequencyTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MaxFrequency_Validating);
             // 
-            // robustAnalysisObservedDataGrid
-            // 
-            this.robustAnalysisObservedDataGrid.AllowUserToAddRows = false;
-            this.robustAnalysisObservedDataGrid.AllowUserToDeleteRows = false;
-            resources.ApplyResources(this.robustAnalysisObservedDataGrid, "robustAnalysisObservedDataGrid");
-            this.robustAnalysisObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.robustAnalysisObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.robustAnalysisObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9});
-            this.robustAnalysisObservedDataGrid.Name = "robustAnalysisObservedDataGrid";
-            this.robustAnalysisObservedDataGrid.RowHeadersVisible = false;
-            this.robustAnalysisObservedDataGrid.RowTemplate.Height = 21;
-            this.robustAnalysisObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewTextBoxColumn6.FillWeight = 30F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn6, "dataGridViewTextBoxColumn6");
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridViewTextBoxColumn7.FillWeight = 30F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn7, "dataGridViewTextBoxColumn7");
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dataGridViewTextBoxColumn8.FillWeight = 30F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn8, "dataGridViewTextBoxColumn8");
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle11;
-            this.dataGridViewTextBoxColumn9.FillWeight = 30F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn9, "dataGridViewTextBoxColumn9");
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            // 
             // cancelButton
             // 
             resources.ApplyResources(cancelButton, "cancelButton");
@@ -278,13 +250,85 @@
             executeButton.Name = "executeButton";
             executeButton.UseVisualStyleBackColor = true;
             // 
+            // robustAnalysisObservedDataGrid
+            // 
+            this.robustAnalysisObservedDataGrid.AllowUserToAddRows = false;
+            this.robustAnalysisObservedDataGrid.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.robustAnalysisObservedDataGrid, "robustAnalysisObservedDataGrid");
+            this.robustAnalysisObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.robustAnalysisObservedDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.robustAnalysisObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.robustAnalysisObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9});
+            this.robustAnalysisObservedDataGrid.Name = "robustAnalysisObservedDataGrid";
+            this.robustAnalysisObservedDataGrid.RowHeadersVisible = false;
+            this.robustAnalysisObservedDataGrid.RowTemplate.Height = 21;
+            this.robustAnalysisObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewTextBoxColumn6.FillWeight = 30F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn6, "dataGridViewTextBoxColumn6");
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewTextBoxColumn7.FillWeight = 30F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn7, "dataGridViewTextBoxColumn7");
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewTextBoxColumn8.FillWeight = 30F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn8, "dataGridViewTextBoxColumn8");
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewTextBoxColumn9.FillWeight = 30F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn9, "dataGridViewTextBoxColumn9");
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
             // robustAnalysisParameterDataGrid
             // 
             this.robustAnalysisParameterDataGrid.AllowUserToAddRows = false;
             this.robustAnalysisParameterDataGrid.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.robustAnalysisParameterDataGrid, "robustAnalysisParameterDataGrid");
             this.robustAnalysisParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.robustAnalysisParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.robustAnalysisParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.robustAnalysisParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.robustAnalysisParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
@@ -304,24 +348,24 @@
             // 
             // dataGridViewTextBoxColumn2
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewTextBoxColumn2.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // dataGridViewTextBoxColumn3
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewTextBoxColumn3.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn3, "dataGridViewTextBoxColumn3");
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
             // dataGridViewTextBoxColumn4
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewTextBoxColumn4.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -334,16 +378,6 @@
             this.abstractTextBox.ReadOnly = true;
             this.abstractTextBox.TabStop = false;
             // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
             // label10
             // 
             resources.ApplyResources(this.label10, "label10");
@@ -353,22 +387,6 @@
             // 
             resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
-            // 
-            // robustAnalysisMatrixRadioButton
-            // 
-            resources.ApplyResources(this.robustAnalysisMatrixRadioButton, "robustAnalysisMatrixRadioButton");
-            this.robustAnalysisMatrixRadioButton.Name = "robustAnalysisMatrixRadioButton";
-            this.robustAnalysisMatrixRadioButton.TabStop = true;
-            this.robustAnalysisMatrixRadioButton.UseVisualStyleBackColor = true;
-            this.robustAnalysisMatrixRadioButton.CheckedChanged += new System.EventHandler(this.ChangeRAMatrixCheck);
-            // 
-            // robustAnalysisRandomRadioButton
-            // 
-            resources.ApplyResources(this.robustAnalysisRandomRadioButton, "robustAnalysisRandomRadioButton");
-            this.robustAnalysisRandomRadioButton.Name = "robustAnalysisRandomRadioButton";
-            this.robustAnalysisRandomRadioButton.TabStop = true;
-            this.robustAnalysisRandomRadioButton.UseVisualStyleBackColor = true;
-            this.robustAnalysisRandomRadioButton.CheckedChanged += new System.EventHandler(this.ChangeRARandomCheck);
             // 
             // RobustAnalysisSettingDialog
             // 

@@ -63,6 +63,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dirTextBox = new System.Windows.Forms.TextBox();
             this.startTextBox = new System.Windows.Forms.TextBox();
@@ -150,7 +151,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.SaveEntrySelectView.AllowUserToResizeRows = false;
             resources.ApplyResources(this.SaveEntrySelectView, "SaveEntrySelectView");
             this.SaveEntrySelectView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.SaveEntrySelectView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.SaveEntrySelectView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.SaveEntrySelectView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.SaveEntrySelectView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SaveEntryColumn,
             this.IDColumn});
@@ -163,6 +172,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             // SaveEntryColumn
             // 
             this.SaveEntryColumn.FillWeight = 10F;
+            this.SaveEntryColumn.HeaderText = global::Ecell.IDE.Plugins.EntityList.Resources.columns;
             resources.ApplyResources(this.SaveEntryColumn, "SaveEntryColumn");
             this.SaveEntryColumn.Name = "SaveEntryColumn";
             // 

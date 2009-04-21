@@ -96,6 +96,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private ToolStripMenuItem menuSelectNodes;
         private ToolStripSeparator separator2;
         private ToolStripMenuItem menuMoveFront;
+        private DataGridViewCheckBoxColumn CheckBoxColumn;
+        private DataGridViewTextBoxColumn LayerNameColumn;
         private ToolStripMenuItem menuMoveBack;
         #endregion
         #endregion
@@ -125,8 +127,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerView));
             this.panel = new System.Windows.Forms.Panel();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.checkBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.layerNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.LayerNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.popupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuCreateLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRenameLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,7 +150,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             resources.ApplyResources(this.panel, "panel");
             this.panel.Name = "panel";
             // 
-            // m_dgv
+            // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
@@ -160,35 +162,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.checkBoxColumn,
-            this.layerNameColumn});
+            this.CheckBoxColumn,
+            this.LayerNameColumn});
             this.dataGridView.ContextMenuStrip = this.popupMenu;
-            resources.ApplyResources(this.dataGridView, "m_dgv");
+            resources.ApplyResources(this.dataGridView, "dataGridView");
             this.dataGridView.MultiSelect = false;
-            this.dataGridView.Name = "m_dgv";
+            this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 21;
             this.dataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
-            this.dataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellEndEdit);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
+            this.dataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellEndEdit);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
             this.dataGridView.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
             // 
             // CheckBoxColumn
             // 
-            this.checkBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.checkBoxColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnShow;
-            this.checkBoxColumn.Name = "CheckBoxColumn";
-            resources.ApplyResources(this.checkBoxColumn, "CheckBoxColumn");
+            this.CheckBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.CheckBoxColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnShow;
+            this.CheckBoxColumn.Name = "CheckBoxColumn";
+            resources.ApplyResources(this.CheckBoxColumn, "CheckBoxColumn");
             // 
             // LayerNameColumn
             // 
-            this.layerNameColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnName;
-            this.layerNameColumn.Name = "LayerNameColumn";
+            this.LayerNameColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnName;
+            this.LayerNameColumn.Name = "LayerNameColumn";
             // 
             // popupMenu
             // 
@@ -269,7 +271,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Controls.Add(this.panel);
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_LayerView;
             this.Name = "LayerView";
-            this.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowLayer;
             this.TabText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowLayer;
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

@@ -35,6 +35,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyWindow));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.m_dgv = new System.Windows.Forms.DataGridView();
             this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,7 +66,15 @@
             this.m_dgv.AllowUserToAddRows = false;
             this.m_dgv.AllowUserToDeleteRows = false;
             this.m_dgv.AllowUserToResizeRows = false;
-            this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameColumn,
             this.valueColumn});
@@ -90,11 +99,11 @@
             // 
             // nameColumn
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.nameColumn.FillWeight = 50F;
             resources.ApplyResources(this.nameColumn, "nameColumn");
             this.nameColumn.Name = "nameColumn";
@@ -168,9 +177,9 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightYellow;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightYellow;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewTextBoxColumn1.FillWeight = 50F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
@@ -189,6 +198,7 @@
             this.Controls.Add(this.label1);
             this.IsSavable = true;
             this.Name = "PropertyWindow";
+            this.TabText = "Property";
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);

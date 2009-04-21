@@ -276,6 +276,9 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>292, 266</value>
   </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -352,8 +355,8 @@
         AH8AAAD/AAAB/wAAA/8AAAf/AAAP/wAAH/8=
 </value>
   </data>
-  <data name="$this.TabText" xml:space="preserve">
-    <value>Property</value>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Property</value>
@@ -434,6 +437,6 @@
     <value>PropertyWindow</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

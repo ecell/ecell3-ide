@@ -117,16 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="CheckBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CheckBoxColumn.Width" type="System.Int32, mscorlib">
     <value>50</value>
   </data>
-  <metadata name="LayerNameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="popupMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -168,28 +162,28 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="m_dgv.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="dataGridView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="m_dgv.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="dataGridView.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="m_dgv.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="dataGridView.Size" type="System.Drawing.Size, System.Drawing">
     <value>285, 250</value>
   </data>
-  <data name="m_dgv.TabIndex" type="System.Int32, mscorlib">
+  <data name="dataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;m_dgv.Name" xml:space="preserve">
-    <value>m_dgv</value>
+  <data name="&gt;&gt;dataGridView.Name" xml:space="preserve">
+    <value>dataGridView</value>
   </data>
-  <data name="&gt;&gt;m_dgv.Type" xml:space="preserve">
+  <data name="&gt;&gt;dataGridView.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;m_dgv.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dataGridView.Parent" xml:space="preserve">
     <value>panel</value>
   </data>
-  <data name="&gt;&gt;m_dgv.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dataGridView.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="panel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -221,6 +215,12 @@
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>285, 250</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt</value>
+  </data>
+  <data name="$this.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Layer</value>
@@ -295,6 +295,6 @@
     <value>LayerView</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

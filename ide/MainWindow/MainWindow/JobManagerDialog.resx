@@ -174,15 +174,15 @@
   <data name="envDataGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="NameColumn.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="ValueColumn.HeaderText" xml:space="preserve">
     <value>Value</value>
   </data>
@@ -193,7 +193,7 @@
     <value>551, 354</value>
   </data>
   <data name="envDataGridView.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;envDataGridView.Name" xml:space="preserve">
     <value>envDataGridView</value>
@@ -217,7 +217,7 @@
     <value>452, 19</value>
   </data>
   <data name="concTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;concTextBox.Name" xml:space="preserve">
     <value>concTextBox</value>
@@ -258,9 +258,9 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>

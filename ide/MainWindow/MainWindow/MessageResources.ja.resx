@@ -130,7 +130,7 @@
     <value>以下のウインドウはWindow設定の保存対象に含まれません。</value>
   </data>
   <data name="DialogTitleSaveAs" xml:space="preserve">
-    <value>新しいプロジェクトとして保存。</value>
+    <value>新しいプロジェクトとして保存</value>
   </data>
   <data name="DockClosing" xml:space="preserve">
     <value>ドッカブルペイン {0} を閉じています...</value>
