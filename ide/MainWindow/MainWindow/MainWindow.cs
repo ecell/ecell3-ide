@@ -977,7 +977,7 @@ namespace Ecell.IDE.MainWindow
                 try
                 {
                     // Save if answer is yes.
-                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
+                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
                         SaveProject();
                 }
                 catch (Exception)

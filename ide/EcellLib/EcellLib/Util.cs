@@ -865,6 +865,7 @@ namespace Ecell
         /// 
         /// </summary>
         public class CancelException : EcellException {}
+
         /// <summary>
         /// 
         /// </summary>
@@ -872,8 +873,19 @@ namespace Ecell
         /// <returns></returns>
         public static bool ShowYesNoCancelDialog(string msg)
         {
+            return ShowYesNoCancelDialog(msg, MessageBoxDefaultButton.Button1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="defaultButton"></param>
+        /// <returns></returns>
+        public static bool ShowYesNoCancelDialog(string msg, MessageBoxDefaultButton defaultButton)
+        {
             switch (MessageBox.Show(msg, "Confirmation",
-                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, defaultButton))
             {
                 case DialogResult.Yes:
                     return true;
@@ -883,6 +895,7 @@ namespace Ecell
                     throw new CancelException();
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
