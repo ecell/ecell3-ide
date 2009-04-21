@@ -117,28 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.Text" xml:space="preserve">
-    <value>保存するシミュレーション結果を選択する</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>保存設定</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>開始時間(&amp;S):</value>
   </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
     <value>保存形式(&amp;T):</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>終了時間(&amp;E):</value>
   </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 12</value>
+  </data>
   <data name="label4.Text" xml:space="preserve">
     <value>ディレクトリ(&amp;D):</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>保存設定</value>
+  </data>
+  <data name="STSaveButton.Text" xml:space="preserve">
+    <value>保存</value>
   </data>
   <data name="STCloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="STSaveButton.Text" xml:space="preserve">
-    <value>保存</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>保存するシミュレーション結果を選択する</value>
   </data>
 </root>

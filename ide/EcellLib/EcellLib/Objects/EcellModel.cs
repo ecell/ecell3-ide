@@ -59,6 +59,10 @@ namespace Ecell.Objects
         /// List with Simulation parameter.
         /// </summary>
         private Dictionary<string, List<EcellObject>> m_stepperDic;
+        /// <summary>
+        /// 
+        /// </summary>
+        private string m_err = null;
         #endregion
 
         #region Constractors
@@ -97,6 +101,15 @@ namespace Ecell.Objects
                 ChangeModelIDforChildren(this);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ErrMsg
+        {
+            get { return m_err; }
+            set { m_err = value; }
+        }
+
         /// <summary>
         /// name of model file.
         /// </summary>

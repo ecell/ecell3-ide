@@ -376,7 +376,7 @@ namespace Ecell
                 {
                     // Load model
                     string modelID = null;
-                    EcellObject modelObj = null;
+                    EcellModel modelObj = null;
                     try
                     {
                         modelObj = EmlReader.Parse(filename, m_simulator);
@@ -395,6 +395,9 @@ namespace Ecell
                     // If file is not Eml, return.
                     if (modelObj.Children == null || modelObj.Children.Count <= 0)
                         continue;
+                    if(string.IsNullOrEmpty(modelObj.ErrMsg) && m_env.PluginManager.DockPanel == null)
+                        Util.ShowWarningDialog(modelObj.ErrMsg + "\n");
+
                     // If this project is template.
                     if (m_info.ProjectType == ProjectType.Template)
                         modelObj.ModelID = m_info.Name;

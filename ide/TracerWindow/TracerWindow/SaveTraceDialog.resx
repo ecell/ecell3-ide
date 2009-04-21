@@ -402,6 +402,9 @@
   <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="SaveEntryColumn.MinimumWidth" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
@@ -501,6 +504,12 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Select the archived entries.</value>
   </data>
+  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
+    <value>m_folderDialog</value>
+  </data>
+  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;SaveEntryColumn.Name" xml:space="preserve">
     <value>SaveEntryColumn</value>
   </data>
@@ -512,12 +521,6 @@
   </data>
   <data name="&gt;&gt;IDColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
-    <value>m_folderDialog</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SaveTraceDialog</value>

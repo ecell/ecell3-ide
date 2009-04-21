@@ -668,10 +668,10 @@ namespace Ecell
             process.ReferenceList = list;
         }
 
-        public EcellObject Parse()
+        public EcellModel Parse()
         {
             m_isWarn = false;
-            EcellObject modelObject = EcellObject.CreateObject(
+            EcellModel modelObject = (EcellModel)EcellObject.CreateObject(
                     m_modelID, "", Constants.xpathModel, "", new List<EcellData>());
 
             // Parse Steppers
@@ -711,8 +711,7 @@ namespace Ecell
             }
             if (m_isWarn == true)
             {
-                string errmes = MessageResources.WarnLoadDM;
-                Util.ShowWarningDialog(errmes + "\n");
+                modelObject.ErrMsg = MessageResources.WarnLoadDM;
             }
 
             return modelObject;
@@ -723,10 +722,10 @@ namespace Ecell
         /// </summary>
         /// <param name="fileName">The "eml" formatted file</param>
         /// <param name="sim">Simulator instance</param>
-        public static EcellObject Parse(string fileName, WrappedSimulator sim)
+        public static EcellModel Parse(string fileName, WrappedSimulator sim)
         {
             EmlReader reader = new EmlReader(fileName, sim);
-            EcellModel model = (EcellModel)reader.Parse();
+            EcellModel model = reader.Parse();
 
             try
             {
