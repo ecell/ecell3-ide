@@ -275,7 +275,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_variable.Relations.Add(this);
             m_process.Relations.Add(this);
 
-            SetEdge(canvas.Control.Animation.EdgeBrush, m_width);
+            SetEdge(canvas.Control.Animation.EdgeBrush, canvas.Control.Animation.EdgeWidth);
             base.Pickable = (variable.Visible && process.Visible);
             base.Visible = (variable.Visible && process.Visible);
 

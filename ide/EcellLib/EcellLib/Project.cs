@@ -657,8 +657,28 @@ namespace Ecell
         /// </summary>
         public void Save()
         {
+            // get old path
             string oldPath = m_info.ProjectPath;
+            // set new path
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
+
+            // Delete old project before overwrite.
+            if (m_info.ProjectType != ProjectType.Project)
+            {
+                // new project.
+                if (Util.IsExistProject(m_info.Name))
+                    Directory.Delete(m_info.ProjectPath, true);
+            }
+            else
+            {
+                // renamed project.
+                string oldDir = Path.GetDirectoryName(m_info.ProjectFile).Replace("\\", "/");
+                string newDir = m_info.ProjectPath.Replace("\\", "/");
+                if (Util.IsExistProject(m_info.Name) && !Path.Equals(oldDir, newDir))
+                    Directory.Delete(m_info.ProjectPath, true);
+            }
+
+            // Save ProjectInfo
             m_info.Save();
 
             // Copy DMs.
@@ -671,6 +691,7 @@ namespace Ecell
                     continue;
                 Util.CopyDirectory(dir, dmDir, true);
             }
+            m_info.DMDirList.Clear();
 
             // Check oldpath.
             if (string.IsNullOrEmpty(oldPath))

@@ -278,7 +278,7 @@ namespace Ecell
         /// </summary>
         public void Save()
         {
-            ProjectInfoSaver.Save(this, m_prjPath);
+            Save(m_prjPath);
         }
 
         /// <summary>
@@ -579,7 +579,9 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
+
                 project.ProjectPath = saveDir;
+                project.UpdateTime = DateTime.Now.ToString();
                 project.ProjectFile = projectXML;
                 project.ProjectType = ProjectType.Project;
             }
