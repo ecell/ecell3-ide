@@ -1924,15 +1924,23 @@ namespace Ecell
                             MessageDeleteEntity("Logger", message + "[" + srcEcellData.Name + "]");
                             updated = true;
                         }
-                        if (!srcEcellData.Value.ToString()
+                        if (srcEcellData.Value != destEcellData.Value &&
+                            !srcEcellData.Value.ToString()
                                 .Equals(destEcellData.Value.ToString()))
                         {
+                            string srcdata = "";
+                            string destdata = "";
+                            if (srcEcellData.Value != null)
+                                srcdata = srcEcellData.Value.ToString();
+                            if (destEcellData.Value != null)
+                                destdata = destEcellData.Value.ToString();
+
                             Trace.WriteLine(
                                 "Update Data: " + message
                                     + "[" + srcEcellData.Name + "]"
                                     + System.Environment.NewLine
-                                    + "\t[" + srcEcellData.Value.ToString()
-                                    + "]->[" + destEcellData.Value.ToString() + "]");
+                                    + "\t[" + srcdata
+                                    + "]->[" + destdata + "]");
                             updated = true;
                         }
                         //

@@ -601,12 +601,14 @@ namespace Ecell
                 //
                 // Saves the "LogData".
                 //
+                m_writer = new StreamWriter(
+                        new FileStream(fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
 
-                    m_writer = new StreamWriter(
-                            new FileStream(fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
-                    //
-                    // Writes the header.
-                    //
+                //
+                // Writes the header.
+                //
+                if (saveType != SaveType.CSV)
+                {
                     m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerData + Constants.delimiterColon + Constants.delimiterSpace +
                         logData.type + Constants.delimiterColon +
@@ -626,18 +628,18 @@ namespace Ecell
                         headerColumn = 5;
                     }
                     m_writer.WriteLine(
-                        Constants.delimiterSharp + Constants.headerSize + Constants.delimiterColon + Constants.delimiterSpace +
-                        headerColumn + Constants.delimiterSpace +
-                        logData.logValueList.Count
-                        );
+                    Constants.delimiterSharp + Constants.headerSize + Constants.delimiterColon + Constants.delimiterSpace +
+                    headerColumn + Constants.delimiterSpace +
+                    logData.logValueList.Count
+                    );
                     m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerLabel + Constants.delimiterColon + Constants.delimiterSpace +
-                        Constants.headerTime + splitter +
-                        Constants.headerValue + splitter +
-                        Constants.headerAverage + splitter +
-                        Constants.headerMinimum.ToLower() + splitter +
-                        Constants.headerMaximum.ToLower()
-                        );
+                            Constants.headerTime + splitter +
+                            Constants.headerValue + splitter +
+                            Constants.headerAverage + splitter +
+                            Constants.headerMinimum.ToLower() + splitter +
+                            Constants.headerMaximum.ToLower()
+                            );
                     m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerNote + Constants.delimiterColon + Constants.delimiterSpace
                         );
@@ -653,41 +655,42 @@ namespace Ecell
                         Constants.delimiterSharp + separator
                         );
                     m_writer.Flush();
-                    //
-                    // Writes the "LogData".
-                    //
-                    foreach (LogValue logValue in logData.logValueList)
+                }
+                //
+                // Writes the "LogData".
+                //
+                foreach (LogValue logValue in logData.logValueList)
+                {
+                    if (m_oldTime == logValue.time)
                     {
-                        if (m_oldTime == logValue.time)
-                        {
-                            continue;
-                        }
-                        double ltime;
-                        double.TryParse(logValue.time.ToString(), out ltime);
-                        if (startTime > ltime ||
-                            endTime < ltime)
-                            continue;
-                        if (Double.IsNaN(logValue.avg) &&
-                            Double.IsNaN(logValue.min) &&
-                            Double.IsNaN(logValue.max)
-                            )
-                        {
-                            m_writer.WriteLine(
-                                logValue.time + splitter +
-                                logValue.value
-                                );
-                        }
-                        else
-                        {
-                            m_writer.WriteLine(
-                                logValue.time + splitter +
-                                logValue.value + splitter +
-                                logValue.avg + splitter +
-                                logValue.min + splitter +
-                                logValue.max
-                                );
-                        }
-                        m_oldTime = logValue.time;
+                        continue;
+                    }
+                    double ltime;
+                    double.TryParse(logValue.time.ToString(), out ltime);
+                    if (startTime > ltime ||
+                        endTime < ltime)
+                        continue;
+                    if (Double.IsNaN(logValue.avg) &&
+                        Double.IsNaN(logValue.min) &&
+                        Double.IsNaN(logValue.max)
+                        )
+                    {
+                        m_writer.WriteLine(
+                            logValue.time + splitter +
+                            logValue.value
+                            );
+                    }
+                    else
+                    {
+                        m_writer.WriteLine(
+                            logValue.time + splitter +
+                            logValue.value + splitter +
+                            logValue.avg + splitter +
+                            logValue.min + splitter +
+                            logValue.max
+                            );
+                    }
+                    m_oldTime = logValue.time;
                 }
             }
             catch (Exception ex)
