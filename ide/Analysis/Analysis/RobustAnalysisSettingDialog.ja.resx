@@ -121,7 +121,7 @@
     <value>ロバスト解析設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>ロバスト解析は、特定のパラメータに関してシステムの安定性を評価する。パラメータの設定方法としてランダムに設定する方法とマトリックス状に設定する方法がある。</value>
+    <value>ロバスト解析は、特定のパラメータに関してシステムの安定性を評価します。パラメータの設定方法としてランダムに設定する方法とマトリックス状に設定する方法があります。</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -159,14 +159,17 @@
   <data name="groupBox3.Text" xml:space="preserve">
     <value>高速フーリエ変換</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>未知パラメータ</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>観察パラメータ</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>ウインドウサイズ(&amp;W):</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>未知パラメータ:</value>
+  </data>
+  <data name="label101.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>観察パラメータ:</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>シミュレーション時間(&amp;S):</value>
@@ -186,10 +189,16 @@
   <data name="label7.Text" xml:space="preserve">
     <value>最大サンプル数(&amp;I):</value>
   </data>
-  <data name="robustAnalysisMatrixCheckBox.Text" xml:space="preserve">
+  <data name="label8.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="robustAnalysisMatrixRadioButton.Text" xml:space="preserve">
     <value>行列</value>
   </data>
-  <data name="robustAnalysisRandomCheckBox.Text" xml:space="preserve">
+  <data name="robustAnalysisRandomRadioButton.Text" xml:space="preserve">
     <value>ランダム</value>
   </data>
 </root>

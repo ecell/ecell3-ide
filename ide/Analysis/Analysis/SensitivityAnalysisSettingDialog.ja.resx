@@ -121,7 +121,7 @@
     <value>感受性解析設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>感受性解析は、特定のステップを実行したときに初期値からの変化を計測することで、パラメータの感受性を計測する。感受性解析としてFFCとCCCをサポートしている。</value>
+    <value>感受性解析は、特定のステップを実行したときに初期値からの変化を計測することで、パラメータの感受性を計測します。感受性解析としてFFCとCCCをサポートしています。</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>

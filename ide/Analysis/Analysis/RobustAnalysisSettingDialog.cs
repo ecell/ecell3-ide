@@ -50,8 +50,8 @@ namespace Ecell.IDE.Plugins.Analysis
             robustAnalysisMaxFrequencyTextBox.Text = Convert.ToString(p.MaxFreq);
             robustAnalysisMinFrequencyTextBox.Text = Convert.ToString(p.MinFreq);
             robustAnalysisWindowSizeTextBox.Text = Convert.ToString(p.WinSize);
-            if (p.IsRandomCheck) robustAnalysisRandomCheckBox.Checked = true;
-            else robustAnalysisMatrixCheckBox.Checked = true;
+            if (p.IsRandomCheck) robustAnalysisRandomRadioButton.Checked = true;
+            else robustAnalysisMatrixRadioButton.Checked = true;
         }
         /// <summary>
         /// 
@@ -146,19 +146,19 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ChangeRARandomCheck(object sender, EventArgs e)
         {
-            if (robustAnalysisRandomCheckBox.Checked == true)
+            if (robustAnalysisRandomRadioButton.Checked == true)
             {
-                if (robustAnalysisMatrixCheckBox.Checked == true)
+                if (robustAnalysisMatrixRadioButton.Checked == true)
                 {
-                    robustAnalysisMatrixCheckBox.Checked = false;
+                    robustAnalysisMatrixRadioButton.Checked = false;
                     robustAnalysisMaxSampleTextBox.ReadOnly = false;
                 }
             }
             else
             {
-                if (robustAnalysisMatrixCheckBox.Checked == false)
+                if (robustAnalysisMatrixRadioButton.Checked == false)
                 {
-                    robustAnalysisMatrixCheckBox.Checked = true;
+                    robustAnalysisMatrixRadioButton.Checked = true;
                     robustAnalysisMaxSampleTextBox.ReadOnly = true;
                 }
             }
@@ -172,15 +172,15 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ChangeRAMatrixCheck(object sender, EventArgs e)
         {
-            if (robustAnalysisMatrixCheckBox.Checked == true)
+            if (robustAnalysisMatrixRadioButton.Checked == true)
             {
-                robustAnalysisRandomCheckBox.Checked = false;
+                robustAnalysisRandomRadioButton.Checked = false;
                 robustAnalysisSampleNumberTextBox.ReadOnly = true;
                 m_param.IsRandomCheck = false;
             }
             else
             {
-                robustAnalysisRandomCheckBox.Checked = true;
+                robustAnalysisRandomRadioButton.Checked = true;
                 robustAnalysisSampleNumberTextBox.ReadOnly = false;
                 m_param.IsRandomCheck = true;
             }

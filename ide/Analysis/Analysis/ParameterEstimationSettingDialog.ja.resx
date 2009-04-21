@@ -121,7 +121,7 @@
     <value>パラメータ推定設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索し、設定する。パラメータ推定ではGAを利用している。</value>
+    <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索します。パラメータ推定ではGAを利用しています。</value>
   </data>
   <data name="advancedButton.Text" xml:space="preserve">
     <value>詳細設定(&amp;A)...</value>
@@ -162,9 +162,6 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>全般</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>未知パラメータ</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>世代数(&amp;G):</value>
   </data>
@@ -173,5 +170,11 @@
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>シミュレーション時間(&amp;S):</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>未知パラメータ:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>秒</value>
   </data>
 </root>

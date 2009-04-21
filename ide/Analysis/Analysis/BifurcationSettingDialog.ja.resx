@@ -121,7 +121,7 @@
     <value>分岐解析設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>分岐解析はパラメータ領域においてパラメータの変化によるシステムの安定性を調べる。変化させるパラメータとして2つパラメータを設定する必要がある。</value>
+    <value>分岐解析はパラメータ領域においてパラメータの変化によるシステムの安定性を調べます。変化させる未知パラメータを2つ設定してください。</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -156,12 +156,6 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>高速フーリエ変換</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>未知パラメータ</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>観察パラメータ</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>シミュレーション時間(&amp;S):</value>
   </data>
@@ -176,5 +170,17 @@
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>最小頻度(&amp;N):</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>未知パラメータ:</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>観察パラメータ:</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>秒</value>
   </data>
 </root>
