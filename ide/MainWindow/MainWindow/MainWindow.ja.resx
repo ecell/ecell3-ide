@@ -139,13 +139,13 @@
     <value>プロジェクトを閉じる(&amp;C)</value>
   </data>
   <data name="importModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>モデルのインポート(&amp;I)...</value>
+    <value>EML形式から読み込み(&amp;I)...</value>
   </data>
   <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>モデルのエクスポート(&amp;E)...</value>
+    <value>EML形式で出力(&amp;E)...</value>
   </data>
   <data name="importSBMLMenuItem.Text" xml:space="preserve">
-    <value>SBMLのインポート(&amp;B)</value>
+    <value>SBML形式から読み込み(&amp;B)</value>
   </data>
   <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトテンプレートの保存(&amp;V)...</value>
