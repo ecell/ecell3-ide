@@ -313,6 +313,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Simulation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameSimulation {
+            get {
+                return ResourceManager.GetString("NameSimulation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Step に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameStep {

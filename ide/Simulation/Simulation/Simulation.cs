@@ -431,6 +431,21 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override List<IPropertyItem> GetPropertySettings()
+        {
+            PropertyNode node = new PropertyNode(MessageResources.NameSimulation);
+            node.Nodes.Add(new PropertyNode(new SimulationConfigDialog(m_env.DataManager)));
+
+            List<IPropertyItem> nodeList = new List<IPropertyItem>();
+            nodeList.Add(node);
+
+            return nodeList;
+        }
+
+        /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>

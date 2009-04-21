@@ -69,7 +69,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// The menu item for [Setup] -> [TraceWindow].
         /// </summary>
-        ToolStripMenuItem m_setupWin;
+//        ToolStripMenuItem m_setupWin;
         /// <summary>
         /// The current TracerWindow.
         /// </summary>
@@ -156,6 +156,26 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
         #endregion
 
+        #region Accessors
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PlotNumber
+        {
+            get { return (int)TracerWindow.s_count; }
+            set { TracerWindow.s_count = (double)value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double RedrawInterval
+        {
+            get { return m_timespan / 1000.0; }
+            set { this.m_timespan = (int)(value * 1000.0); }
+        }
+        #endregion
+
         #region Initializer
         /// <summary>
         /// Initialize the plugin.
@@ -189,20 +209,20 @@ namespace Ecell.IDE.Plugins.TracerWindow
             view.Size = new Size(36, 20);
             view.Text = "View";
 
-            m_setupWin = new ToolStripMenuItem();
-            m_setupWin.Name = "MenuItemShowTraceSetup";
-            m_setupWin.Size = new Size(96, 22);
-            m_setupWin.Text = MessageResources.MenuItemShowTraceSetupText;
-            m_setupWin.Enabled = true;
-            m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
+            //m_setupWin = new ToolStripMenuItem();
+            //m_setupWin.Name = "MenuItemShowTraceSetup";
+            //m_setupWin.Size = new Size(96, 22);
+            //m_setupWin.Text = MessageResources.MenuItemShowTraceSetupText;
+            //m_setupWin.Enabled = true;
+            //m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
 
-            ToolStripMenuItem setup = new ToolStripMenuItem();
-            setup.DropDownItems.AddRange(new ToolStripItem[] {
-                m_setupWin
-            });
-            setup.Name = "MenuItemSetup";
-            setup.Size = new Size(36, 20);
-            setup.Text = "Setup";
+            //ToolStripMenuItem setup = new ToolStripMenuItem();
+            //setup.DropDownItems.AddRange(new ToolStripItem[] {
+            //    m_setupWin
+            //});
+            //setup.Name = "MenuItemSetup";
+            //setup.Size = new Size(36, 20);
+            //setup.Text = "Setup";
 
             m_showSaveWin = new ToolStripMenuItem();
             m_showSaveWin.Text = MessageResources.MenuItemShowSaveTraceText;
@@ -220,7 +240,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             filem.Text = "File";
 
             m_menuList.Add(view);
-            m_menuList.Add(setup);
+//            m_menuList.Add(setup);
             m_menuList.Add(filem);
 
             m_env.LoggerManager.LoggerAddEvent += new LoggerAddEventHandler(LoggerManager_LoggerAddEvent);
@@ -329,7 +349,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 isStep = false;
                 m_showWin.Enabled = false;
                 m_plotWin.Enabled = false;
-                m_setupWin.Enabled = true;
+//                m_setupWin.Enabled = true;
                 m_showSaveWin.Enabled = false;
             }
             else if (type == ProjectStatus.Loaded ||
@@ -337,7 +357,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 isStep = false;
                 m_showWin.Enabled = true;
-                m_setupWin.Enabled = true;
+//                m_setupWin.Enabled = true;
             }
             else if (type == ProjectStatus.Running)
             {
@@ -345,7 +365,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 isStep = false;
                 m_showWin.Enabled = true;
                 m_plotWin.Enabled = true;
-                m_setupWin.Enabled = false; 
+//                m_setupWin.Enabled = false; 
                 m_showSaveWin.Enabled = true;
             }
             else if (type == ProjectStatus.Stepping)
@@ -364,20 +384,20 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 isStep = true;
                 m_showWin.Enabled = true;
                 m_plotWin.Enabled = true;
-                m_setupWin.Enabled = false;
+//                m_setupWin.Enabled = false;
                 m_showSaveWin.Enabled = true;
             }
             else if (type == ProjectStatus.Analysis)
             {
                 isStep = false;
                 m_showWin.Enabled = false;
-                m_setupWin.Enabled = false;
+//                m_setupWin.Enabled = false;
             }
             else
             {
                 isStep = false;
                 m_showWin.Enabled = true;
-                m_setupWin.Enabled = true;
+//                m_setupWin.Enabled = true;
                 m_showSaveWin.Enabled = true;
             }
 
@@ -427,6 +447,21 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override List<IPropertyItem> GetPropertySettings()
+        {
+            PropertyNode node = new PropertyNode(MessageResources.NameGraphSetting);
+            node.Nodes.Add(new PropertyNode(new TracerConfigDialog(this, this.PlotNumber, this.RedrawInterval)));
+
+            List<IPropertyItem> nodeList = new List<IPropertyItem>();
+            nodeList.Add(node);
+
+            return nodeList;
         }
 
         /// <summary>
@@ -749,6 +784,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             UpdateGraphDelegate();
             m_time.Enabled = true;
         }
+
+
 
         /// <summary>
         /// Show the setup window for TracerWindow.

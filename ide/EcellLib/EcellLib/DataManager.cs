@@ -119,6 +119,7 @@ namespace Ecell
         /// 
         /// </summary>
         private bool m_isTimeStepping = false;
+        private int m_waitTime = 0;
 
         #endregion
 
@@ -138,12 +139,21 @@ namespace Ecell
 
         #region Accessors
         /// <summary>
-        /// get / set StepCount
+        /// get / set StepCount.
         /// </summary>
         public int StepCount
         {
             get { return this.m_defaultStepCount; }
             set { this.m_defaultStepCount = value; }
+        }
+
+        /// <summary>
+        /// get / set WaitTime.
+        /// </summary>
+        public int WaitTime
+        {
+            get { return this.m_waitTime; }
+            set { this.m_waitTime = value; }
         }
 
         /// <summary>
@@ -3228,6 +3238,14 @@ namespace Ecell
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();
                     this.m_env.PluginManager.AdvancedTime(currentTime);
+                    if (m_waitTime > 0)
+                    {
+                        for (int i = 0; i < m_waitTime; i++)
+                        {
+                            Thread.Sleep(1000);
+                            Application.DoEvents();
+                        }
+                    }
                 }
             }
             catch (WrappedException ex)

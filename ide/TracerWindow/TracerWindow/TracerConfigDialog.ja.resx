@@ -117,97 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmReset" xml:space="preserve">
-    <value>シミュレーション実行をリセットしますか？　実行中に変更したパラメーターはすべてリセットされます。</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>グラフ設定</value>
   </data>
-  <data name="DialogToolTipCreSim" xml:space="preserve">
-    <value>シミュレーション設定の新規作成</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>プロット数(&amp;P)</value>
   </data>
-  <data name="DialogToolTipCreStepper" xml:space="preserve">
-    <value>Stepperの新規作成</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>再描画間隔(&amp;R)</value>
   </data>
-  <data name="DialogToolTipDeleteSim" xml:space="preserve">
-    <value>選択しているシミュレーション設定の削除</value>
-  </data>
-  <data name="DialogToolTipDelStepper" xml:space="preserve">
-    <value>選択しているStepperの削除</value>
-  </data>
-  <data name="ErrAlreadyExist" xml:space="preserve">
-    <value>{0} は既に存在します。</value>
-  </data>
-  <data name="ErrDelParam" xml:space="preserve">
-    <value>少なくともプロジェクトには１つのシミュレーションパラメータが必要です。</value>
-  </data>
-  <data name="ErrDelStep" xml:space="preserve">
-    <value>少なくともモデルには１つのステッパーが必要です。</value>
-  </data>
-  <data name="ErrIDNG" xml:space="preserve">
-    <value>ID文字列が不正です。</value>
-  </data>
-  <data name="ErrInvalidValue" xml:space="preserve">
-    <value>入力された値が不正です。</value>
-  </data>
-  <data name="ErrNoInput" xml:space="preserve">
-    <value>{0} が入力されていません。</value>
-  </data>
-  <data name="ErrStepperStillInUse" xml:space="preserve">
-    <value>Stepper {0} を参照するエンティティが少なくとも1つ存在します。</value>
-  </data>
-  <data name="ErrUpdatELog" xml:space="preserve">
-    <value>シミュレーションパラメータを更新できません。</value>
-  </data>
-  <data name="MenuItemRun" xml:space="preserve">
-    <value>シミュレーション実行(&amp;R)</value>
-  </data>
-  <data name="MenuItemSetupSim" xml:space="preserve">
-    <value>シミュレーション設定(&amp;S)...</value>
-  </data>
-  <data name="MenuItemStep" xml:space="preserve">
-    <value>ステップ実行(&amp;T)</value>
-  </data>
-  <data name="MenuItemStop" xml:space="preserve">
-    <value>シミュレーションリセット(&amp;E)</value>
-  </data>
-  <data name="MenuItemSuspend" xml:space="preserve">
-    <value>シミュレーション停止(&amp;S)</value>
-  </data>
-  <data name="MenuToolTipParamCombo" xml:space="preserve">
-    <value>シミュレーションに使用するパラメータを選択</value>
-  </data>
-  <data name="MenuToolTipReset" xml:space="preserve">
-    <value>シミュレーションリセット</value>
-  </data>
-  <data name="MenuToolTipRun" xml:space="preserve">
-    <value>シミュレーション実行</value>
-  </data>
-  <data name="MenuToolTipStep" xml:space="preserve">
-    <value>ステップ実行</value>
-  </data>
-  <data name="MenuToolTipStepText" xml:space="preserve">
-    <value>ステップ実行の幅を設定</value>
-  </data>
-  <data name="MenuToolTipStepUnitCombo" xml:space="preserve">
-    <value>ステップ実行の幅の単位を選択</value>
-  </data>
-  <data name="MenuToolTipSuspend" xml:space="preserve">
-    <value>シミュレーション停止</value>
-  </data>
-  <data name="NameMaxSize" xml:space="preserve">
-    <value>ログファイルのサイズ</value>
-  </data>
-  <data name="NameName" xml:space="preserve">
-    <value>名称</value>
-  </data>
-  <data name="NameSec" xml:space="preserve">
-    <value>時間</value>
-  </data>
-  <data name="NameSimulation" xml:space="preserve">
-    <value>シミュレーション</value>
-  </data>
-  <data name="NameStep" xml:space="preserve">
-    <value>ステップ数</value>
-  </data>
-  <data name="NewStepperText" xml:space="preserve">
-    <value>新規Stepper</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>秒</value>
   </data>
 </root>

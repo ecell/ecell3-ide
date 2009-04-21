@@ -64,6 +64,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
+    <Reference Include="EcellUILib, Version=1.0.0.0, Culture=neutral,  processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellUILib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -121,6 +125,9 @@
       <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="TraceEntry.cs" />
+    <Compile Include="TracerConfigDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TracerWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TracerConfigurationDialog.cs">
@@ -189,6 +196,14 @@
     <EmbeddedResource Include="SelectPlotDataDialog.resx">
       <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TracerConfigDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TracerConfigDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TracerConfigDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TracerConfigDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TracerConfigurationDialog.ja.resx">
       <SubType>Designer</SubType>

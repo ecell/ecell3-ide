@@ -177,6 +177,9 @@
   <data name="NameEndTime" xml:space="preserve">
     <value>終了時間</value>
   </data>
+  <data name="NameGraphSetting" xml:space="preserve">
+    <value>グラフ</value>
+  </data>
   <data name="NamePlotData" xml:space="preserve">
     <value>プロットデータ</value>
   </data>

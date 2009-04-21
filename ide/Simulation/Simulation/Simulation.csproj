@@ -70,6 +70,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
+    <Reference Include="EcellUILib, Version=1.0.0.0, Culture=neutral,  processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellUILib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -81,6 +85,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SimulationConfigDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SimulationParameterSet.cs" />
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -125,6 +132,14 @@
     <EmbeddedResource Include="Simulation.resx">
       <DependentUpon>Simulation.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimulationConfigDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SimulationConfigDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimulationConfigDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SimulationConfigDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SimulationConfigurationDialog.ja.resx">
       <SubType>Designer</SubType>

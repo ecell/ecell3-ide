@@ -241,6 +241,15 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Graph に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameGraphSetting {
+            get {
+                return ResourceManager.GetString("NameGraphSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Plot data に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NamePlotData {

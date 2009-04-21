@@ -177,6 +177,9 @@
   <data name="NameEndTime" xml:space="preserve">
     <value>End time</value>
   </data>
+  <data name="NameGraphSetting" xml:space="preserve">
+    <value>Graph</value>
+  </data>
   <data name="NamePlotData" xml:space="preserve">
     <value>Plot data</value>
   </data>

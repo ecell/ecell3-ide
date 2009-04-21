@@ -201,6 +201,9 @@
   <data name="NameSec" xml:space="preserve">
     <value>Sec</value>
   </data>
+  <data name="NameSimulation" xml:space="preserve">
+    <value>Simulation</value>
+  </data>
   <data name="NameStep" xml:space="preserve">
     <value>Step</value>
   </data>

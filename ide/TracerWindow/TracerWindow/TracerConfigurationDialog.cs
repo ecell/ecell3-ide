@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using Ecell.IDE;
+using Ecell.Exceptions;
+
 namespace Ecell.IDE.Plugins.TracerWindow
 {
     public partial class TracerConfigurationDialog : Form
