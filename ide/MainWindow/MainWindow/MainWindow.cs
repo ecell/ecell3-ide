@@ -807,7 +807,7 @@ namespace Ecell.IDE.MainWindow
             scriptEditorToolStripMenuItem.Enabled = unInitialized || loaded;
 
             // Reset edit count.
-            if (unInitialized || (m_status == ProjectStatus.Uninitialized && loaded))
+            if (unInitialized || (m_status == ProjectStatus.Loading && loaded))
                 m_editCount = 0;
             // Set recent Project.
             if (loaded)
@@ -954,13 +954,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (!CloseConfirm())
                 return;
-            NewProjectDialog npd = new NewProjectDialog();
-            using (npd)
-            {
-                if (npd.ShowDialog() != DialogResult.OK)
-                    return;
-                m_env.DataManager.CreateNewProject(npd.ProjectName, npd.Comment, npd.DMList);
-            }
+            m_env.DataManager.CreateNewProject(Util.GetNewProjectName(), "");
         }
 
         /// <summary>
