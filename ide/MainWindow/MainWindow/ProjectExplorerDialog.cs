@@ -56,24 +56,9 @@ namespace Ecell.IDE.MainWindow
         private ProjectTreeNode m_selectedNode = null;
 
         /// <summary>
-        /// Copied Node.
-        /// </summary>
-        private ProjectTreeNode m_copiedNode = null;
-
-        /// <summary>
-        /// List of ToolStripMenuItems for ContextMenu
-        /// </summary>
-        private Dictionary<string, ToolStripItem> m_popMenuDict = new Dictionary<string, ToolStripItem>();
-
-        /// <summary>
         /// Selected Project
         /// </summary>
         private ProjectInfo m_selectedProject = null;
-
-        /// <summary>
-        /// FileName
-        /// </summary>
-        private string m_fileName = "";
         
         #endregion
 
@@ -84,7 +69,6 @@ namespace Ecell.IDE.MainWindow
         public ProjectExplorerDialog(string dir)
         {
             InitializeComponent();
-            PrjTreeView.ContextMenuStrip = CreatePopupMenus();
             openButton.Enabled = false;
             CreateProjectTreeView(null, dir);
         }
@@ -172,7 +156,7 @@ namespace Ecell.IDE.MainWindow
             // Reflect Project parameters.
             ProjectInfo prj = m_selectedNode.Project;
             m_selectedProject = prj;
-            m_fileName = m_selectedNode.FilePath;
+
             projectNameText.Text = prj.Name;
             dateText.Text = prj.UpdateTime;
             commentText.Text = prj.Comment;
@@ -188,14 +172,7 @@ namespace Ecell.IDE.MainWindow
                 if (File.Exists(filepath))
                     pictureBox1.Image = Image.FromFile(filepath);
             }
-
-            projectNameText.BackColor = Color.White;
-            dateText.BackColor = Color.White;
-            commentText.BackColor = Color.White;
-
             openButton.Enabled = true;
-            commentText.ReadOnly = false;
-            projectNameText.ReadOnly = false;
         }
 
         /// <summary>
@@ -209,14 +186,7 @@ namespace Ecell.IDE.MainWindow
             dateText.Text = "";
             commentText.Text = "";
 
-            projectNameText.BackColor = Color.Silver;
-            dateText.BackColor = Color.Silver;
-            commentText.BackColor = Color.Silver;
-
             openButton.Enabled = false;
-            commentText.ReadOnly = true;
-            projectNameText.ReadOnly = true;
-            m_fileName = "";
 
             if (pictureBox1.Image != null)
             {
@@ -228,15 +198,7 @@ namespace Ecell.IDE.MainWindow
         #endregion
 
         #region Menu Event
-        /// <summary>
-        /// Reset popup menus on MouseDown.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MPPrjTreeView_MouseDown(object sender, MouseEventArgs e)
-        {
-            ResetPopupMenus(null);
-        }
+
 
         /// <summary>
         /// Event to click the node by mouse.
@@ -247,9 +209,6 @@ namespace Ecell.IDE.MainWindow
         {
             TreeView tView = (TreeView)sender;
             m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
-
-            // Set menus.
-            ResetPopupMenus(m_selectedNode);
             tView.SelectedNode = m_selectedNode;
 
             // Reset selected project if project is null.
@@ -257,34 +216,6 @@ namespace Ecell.IDE.MainWindow
                 ResetSelectedProject();
             else
                 SetSelectedProject();
-        }
-
-
-        /// <summary>
-        /// Event to click the node by mouse.
-        /// </summary>
-        /// <param name="sender">TreeView.</param>
-        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
-        private void NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeView tView = (TreeView)sender;
-            m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
-            if (m_selectedNode.Parent == null || string.IsNullOrEmpty(m_selectedNode.Text))
-                return;
-            tView.LabelEdit = true;
-            m_selectedNode.BeginEdit();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PrjTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
-        {
-            m_selectedNode.Text = e.Label;
-            RefreshNode(m_selectedNode);
-            PrjTreeView.LabelEdit = false;
         }
 
         /// <summary>
@@ -318,339 +249,10 @@ namespace Ecell.IDE.MainWindow
             public const string MenuPaste = "MenuPaste";
         }
 
-        /// <summary>
-        /// CreatePopupMenus
-        /// </summary>
-        /// <returns></returns>
-        private ContextMenuStrip CreatePopupMenus()
-        {
-            // Preparing a context menu.
-            ContextMenuStrip menus = new ContextMenuStrip();
-
-            // SaveZip
-            ToolStripItem savezip = new ToolStripMenuItem(PrjDlgConstants.MenuSaveZip);
-            savezip.Name = PrjDlgConstants.MenuSaveZip;
-            savezip.Text = MessageResources.MenuSaveZip;
-            savezip.Click += new EventHandler(SaveZipClick);
-            menus.Items.Add(savezip);
-            m_popMenuDict.Add(PrjDlgConstants.MenuSaveZip, savezip);
-
-            // Delete
-            ToolStripItem delete = new ToolStripMenuItem(PrjDlgConstants.MenuDelete);
-            delete.Name = PrjDlgConstants.MenuDelete;
-            delete.Text = MessageResources.MenuDelete;
-            delete.Click += new EventHandler(DeleteClick);
-            menus.Items.Add(delete);
-            m_popMenuDict.Add(PrjDlgConstants.MenuDelete, delete);
-
-            // CreateNewProject
-            ToolStripItem createProject = new ToolStripMenuItem(PrjDlgConstants.MenuCreateNewProject);
-            createProject.Name = PrjDlgConstants.MenuCreateNewProject;
-            createProject.Text = MessageResources.MenuCreateNewProject;
-            createProject.Click += new EventHandler(CreateNewProjectClick);
-            menus.Items.Add(createProject);
-            m_popMenuDict.Add(PrjDlgConstants.MenuCreateNewProject, createProject);
-
-            // CreateNewRevision
-            ToolStripItem createRevision = new ToolStripMenuItem(PrjDlgConstants.MenuCreateNewRevision);
-            createRevision.Name = PrjDlgConstants.MenuCreateNewRevision;
-            createRevision.Text = MessageResources.MenuCreateNewRevision;
-            createRevision.Click += new EventHandler(CreateNewRevisionClick);
-            menus.Items.Add(createRevision);
-            m_popMenuDict.Add(PrjDlgConstants.MenuCreateNewRevision, createRevision);
-
-            // Copy
-            ToolStripItem copy = new ToolStripMenuItem(PrjDlgConstants.MenuCopy);
-            copy.Name = PrjDlgConstants.MenuCopy;
-            copy.Text = MessageResources.MenuCopy;
-            copy.Click += new EventHandler(CopyClick);
-            menus.Items.Add(copy);
-            m_popMenuDict.Add(PrjDlgConstants.MenuCopy, copy);
-
-            // Delete
-            ToolStripItem paste = new ToolStripMenuItem(PrjDlgConstants.MenuPaste);
-            paste.Name = PrjDlgConstants.MenuPaste;
-            paste.Text = MessageResources.MenuPaste;
-            paste.Click += new EventHandler(PasteClick);
-            menus.Items.Add(paste);
-            m_popMenuDict.Add(PrjDlgConstants.MenuPaste, paste);
-
-            return menus;
-        }
-
-        /// <summary>
-        /// Set Popup menu visibility.
-        /// </summary>
-        /// <param name="node">The tree node of project.</param>
-        private void ResetPopupMenus(ProjectTreeNode node)
-        {
-            // Set Visibility flags.
-            if (PrjTreeView.Nodes.Count <= 0)
-                node = null;
-            else if (node == PrjTreeView.Nodes[0])
-                node = null;
-
-            bool isVisible = (node != null);
-            bool isProject = false;
-            bool isModel = false;
-            bool isFolder = false;
-            bool isCopied = (m_copiedNode != null);
-            bool unfinished = false;
-            if(isVisible)
-            {
-                isProject = (node.Type == FileType.Project);
-                isModel = (node.Type == FileType.Model);
-                isFolder = (node.Type == FileType.Folder);
-            }
-
-            // Set visibility.
-            m_popMenuDict[PrjDlgConstants.MenuSaveZip].Visible = isVisible;
-            m_popMenuDict[PrjDlgConstants.MenuCreateNewProject].Visible = isVisible && isFolder && unfinished;
-            m_popMenuDict[PrjDlgConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
-            m_popMenuDict[PrjDlgConstants.MenuDelete].Visible = isVisible && (isFolder || isModel);
-            m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible && isProject;
-            m_popMenuDict[PrjDlgConstants.MenuPaste].Visible = isVisible && isFolder && isCopied && unfinished;
-        }
-
-        /// <summary>
-        /// SaveZip
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SaveZipClick(object sender, EventArgs e)
-        {
-            if (m_selectedNode == null)
-                return;
-
-            // Show SaveFileDialog and get saving filename.
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = Constants.FilterZipFile;
-            if(dialog.ShowDialog() != DialogResult.OK)
-                return;
-            string filename = dialog.FileName;
-            if (string.IsNullOrEmpty(filename))
-                return;
-
-            switch (m_selectedNode.Type)
-            {
-                case FileType.Folder:
-                    ZipUtil.ZipFolder(filename, m_selectedNode.FilePath);
-                    break;
-                case FileType.Project:
-                    ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_selectedNode.FilePath));
-                    break;
-                case FileType.Model:
-                    ZipUtil.ZipFile(filename, m_selectedNode.FilePath);
-                    break;
-            }
-            
-            dialog.Dispose();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CreateNewProjectClick(object sender, EventArgs e)
-        {
-            string path = m_selectedNode.FilePath;
-            NewProjectDialog newPrjDialog = new NewProjectDialog();
-            if (newPrjDialog.ShowDialog() != DialogResult.OK)
-                return;
-
-            string name = newPrjDialog.ProjectName;
-            string model = newPrjDialog.Comment;
-            string comment = newPrjDialog.ProjectName;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CreateNewRevisionClick(object sender, EventArgs e)
-        {
-            string sourceDir = Path.GetDirectoryName(m_selectedNode.FilePath);
-            string targetDir = Path.Combine(sourceDir, Util.GetRevNo(sourceDir));
-            foreach (string dir in Util.IgnoredDirList)
-            {
-                string tempdir = Path.Combine(sourceDir, dir);
-                if (Directory.Exists(tempdir))
-                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
-            }
-            string[] files = Directory.GetFiles(sourceDir, "project.*");
-            foreach (string file in files)
-                Util.CopyFile(file, targetDir);
-
-            TreeNode childNode = new ProjectTreeNode(targetDir);
-            m_selectedNode.Parent.Nodes.Add(childNode);
-            CreateProjectTreeView(childNode, targetDir);
-        }
-
-        /// <summary>
-        /// Copy node.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CopyClick(object sender, EventArgs e)
-        {
-            m_copiedNode = m_selectedNode;
-
-            // RootNode.
-            m_selectedNode = (ProjectTreeNode)PrjTreeView.Nodes[0];
-
-            // Set NodeType. 
-            FileType type = m_copiedNode.Type;
-            // Set sourcePath.
-            string path = m_copiedNode.FilePath;
-            if (type == FileType.Project)
-                path = Path.GetDirectoryName(path);
-            // Set targetPath.
-            string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
-            if (path.Equals(targetPath) || Directory.Exists(targetPath))
-                targetPath = Util.GetNewDir(targetPath);
-
-            // Copy Directory / File.
-            switch (type)
-            {
-                case FileType.Project:
-                case FileType.Folder:
-                    Util.CopyDirectory(path, targetPath);
-                    break;
-                case FileType.Model:
-                    File.Copy(path, targetPath, true);
-                    break;
-            }
-
-            // Create new node
-            TreeNode childNode = new ProjectTreeNode(targetPath);
-            m_selectedNode.Nodes.Add(childNode);
-            if (m_copiedNode.Type != FileType.Model)
-            {
-                CreateProjectTreeView(childNode, targetPath);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PasteClick(object sender, EventArgs e)
-        {
-            // Set NodeType. 
-            FileType type = m_copiedNode.Type;
-            // Set sourcePath.
-            string path = m_copiedNode.FilePath;
-            if(type == FileType.Project)
-                path = Path.GetDirectoryName(path);
-            // Set targetPath.
-            string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
-            if (path.Equals(targetPath) || Directory.Exists(targetPath))
-                targetPath = Util.GetNewDir(targetPath);
-
-            // Copy Directory / File.
-            switch (type)
-            {
-                case FileType.Project:
-                case FileType.Folder:
-                    Util.CopyDirectory(path, targetPath);
-                    break;
-                case FileType.Model:
-                    File.Copy(path, targetPath, true);
-                    break;
-            }
-
-            // Create new node
-            TreeNode childNode = new ProjectTreeNode(targetPath);
-            m_selectedNode.Nodes.Add(childNode);
-            if (m_copiedNode.Type != FileType.Model)
-            {
-                CreateProjectTreeView(childNode, targetPath);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteClick(object sender, EventArgs e)
-        {
-            if (m_selectedNode.Type == FileType.Folder)
-                Directory.Delete(m_selectedNode.FilePath, true);
-            else if (m_selectedNode.Type == FileType.Project)
-                Directory.Delete(Path.GetDirectoryName(m_selectedNode.FilePath), true);
-            else if (m_selectedNode.Type == FileType.Model)
-                File.Delete(m_selectedNode.FilePath);
-            m_selectedNode.Remove();
-            m_selectedNode = null;
-        }
-
         private void ProjectExplorerDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(pictureBox1.Image != null)
                 pictureBox1.Image.Dispose();
-        }
-
-        internal void RefreshNode(ProjectTreeNode node)
-        {
-            // if null or not changed, reset Label.
-            if (string.IsNullOrEmpty(node.Text))
-            {
-                if (node.Project != null)
-                {
-                    node.Text = node.Project.Name;
-                }
-                else
-                {
-                    node.Text = Path.GetFileNameWithoutExtension(node.FilePath);
-                }
-                return;
-            }
-
-            string name = node.Text;
-            string path = node.FilePath;
-            string dir = Path.GetDirectoryName(path);
-            switch (node.Type)
-            {
-                case FileType.Folder:
-                    string oldDir = path;
-                    string newDir = Path.Combine(dir, name);
-                    Directory.Move(oldDir, newDir);
-                    node.FilePath = newDir;
-                    node.Nodes.Clear();
-                    CreateProjectTreeView(node, newDir);
-                    break;
-
-                case FileType.Model:
-                    // rename eml.
-                    string oldEml = path;
-                    // get directory name.
-                    string newEml = Path.Combine(dir, name + Constants.FileExtEML);
-                    if (File.Exists(oldEml))
-                    {
-                        File.Move(oldEml, newEml);
-                    }
-                    // rename leml.
-                    string oldLeml = oldEml.Replace(Constants.FileExtEML, Constants.FileExtLEML);
-                    string newLeml = newEml.Replace(Constants.FileExtEML, Constants.FileExtLEML);
-                    if (File.Exists(oldLeml))
-                    {
-                        File.Move(oldLeml, newLeml);
-                    }
-                    node.FilePath = newEml;
-                    node.Project.Name = name;
-                    SetSelectedProject();
-                    break;
-
-                case FileType.Project:
-                    node.Project.Name = name;
-                    node.Project.Save();
-                    SetSelectedProject();
-                    break;
-            }
         }
         #endregion
 

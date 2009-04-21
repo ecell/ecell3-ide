@@ -104,9 +104,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.PrjTreeView, "PrjTreeView");
             this.PrjTreeView.ImageList = this.ImageList;
             this.PrjTreeView.Name = "PrjTreeView";
-            this.PrjTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseDoubleClick);
-            this.PrjTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.PrjTreeView_AfterLabelEdit);
-            this.PrjTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MPPrjTreeView_MouseDown);
             this.PrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 
             // ImageList
@@ -120,6 +117,8 @@ namespace Ecell.IDE.MainWindow
             // pictureBox1
             // 
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.InitialImage = global::Ecell.IDE.MainWindow.Properties.Resources.logo;
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
