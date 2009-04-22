@@ -149,31 +149,31 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             m_showBifurcationSetupItem = new ToolStripMenuItem();
             m_showBifurcationSetupItem.Text = MessageResources.MenuItemBifurcationAnalysis;
-            m_showBifurcationSetupItem.Tag = 10;
+            m_showBifurcationSetupItem.Tag = 50;
             m_showBifurcationSetupItem.Click += new EventHandler(ShowBifurcationSetting);
 
             m_showParameterEstimationSetupItem = new ToolStripMenuItem();
             m_showParameterEstimationSetupItem.Text = MessageResources.MenuItemParameterEstimation;
-            m_showParameterEstimationSetupItem.Tag = 10;
+            m_showParameterEstimationSetupItem.Tag = 60;
             m_showParameterEstimationSetupItem.Click += new EventHandler(ShowParameterEstimationSetting);
 
             m_showRobustAnalysisSetupItem = new ToolStripMenuItem();
             m_showRobustAnalysisSetupItem.Text = MessageResources.MenuItemRobustAnalysis;
-            m_showRobustAnalysisSetupItem.Tag = 10;
+            m_showRobustAnalysisSetupItem.Tag = 70;
             m_showRobustAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisSetting);
 
             m_showSensitiveAnalysisSetupItem = new ToolStripMenuItem();
             m_showSensitiveAnalysisSetupItem.Text = MessageResources.MenuItemSensitivityAnalysis;
-            m_showSensitiveAnalysisSetupItem.Tag = 10;
+            m_showSensitiveAnalysisSetupItem.Tag = 80;
             m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
 
             ToolStripSeparator sep1 = new ToolStripSeparator();
-            sep1.Tag = 20;
+            sep1.Tag = 90;
 
 
             m_stopAnalysisItem = new ToolStripMenuItem();
             m_stopAnalysisItem.Text = MessageResources.MenuItemStopAnalysis;
-            m_stopAnalysisItem.Tag = 90;
+            m_stopAnalysisItem.Tag = 100;
             m_stopAnalysisItem.Enabled = false;
             m_stopAnalysisItem.Click += new EventHandler(StopAnalysis);
 
@@ -199,7 +199,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_stopAnalysisItem, sep2,
                 m_saveAnalysisResultItem, m_loadAnalysisResultItem
             });
-            analysisMenu.Text = "Analysis";
+            analysisMenu.Text = "Tools";
             analysisMenu.Name = MenuConstants.MenuItemTools;
         }
 

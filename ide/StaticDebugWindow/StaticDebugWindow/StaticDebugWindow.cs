@@ -57,9 +57,12 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
     public class StaticDebugWindow : PluginBase
     {
         #region Fields
+        /// <summary>
+        /// Timer
+        /// </summary>
         private Timer m_timer;
         /// <summary>
-        /// 
+        /// message list.
         /// </summary>
         List<IReport> m_messages;
         /// <summary>
@@ -67,19 +70,67 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// Word is the name of static debug. Data is the plugin of static debug.
         /// </summary>
         List<IStaticDebugPlugin> m_plugins = new List<IStaticDebugPlugin>();
+        private bool m_isExecute;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_editCount = 0;
+        private ToolStripMenuItem m_isAutoMenuItem;
+        private ToolStripMenuItem m_StaticDebugMenuItem;
+        private ToolStripMenuItem analysisMenu;
         #endregion
         /// <summary>
         /// 
         /// </summary>
         public StaticDebugWindow()
         {
+            m_isExecute = true;
+            InitializeComponent();
             m_messages = new List<IReport>();
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
             m_timer.Tick += new EventHandler(FireTimer);
         }
 
+
+        private void InitializeComponent()
+        {
+            m_isAutoMenuItem = new ToolStripMenuItem();
+            m_isAutoMenuItem.Text = MessageResources.MenuItemAutoDebug;
+            m_isAutoMenuItem.Tag = 0;
+            m_isAutoMenuItem.Enabled = true;
+            m_isAutoMenuItem.Checked = m_isExecute;
+            m_isAutoMenuItem.Click += new EventHandler(ChangeAutoUpdate);
+
+            m_StaticDebugMenuItem = new ToolStripMenuItem();
+            m_StaticDebugMenuItem.Text = MessageResources.MenuItemStaticDebugText;
+            m_StaticDebugMenuItem.Tag = 5;
+            m_StaticDebugMenuItem.Enabled = !m_isExecute;
+            m_StaticDebugMenuItem.Click += new EventHandler(StaticDebuggerExecute);
+
+            ToolStripSeparator sep1 = new ToolStripSeparator();
+            sep1.Tag = 10;
+
+            analysisMenu = new ToolStripMenuItem();
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
+                m_isAutoMenuItem, m_StaticDebugMenuItem, sep1
+            });
+            analysisMenu.Text = "Tools";
+            analysisMenu.Name = MenuConstants.MenuItemTools;
+        }
+
+
         #region PluginBase
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
+            List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
+            list.Add(analysisMenu);
+
+            return list;
+        }
+
+
         /// <summary>
         /// Returns the name of this plugin.
         /// </summary>
@@ -96,6 +147,55 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
+        /// Add the object.
+        /// </summary>
+        /// <param name="data"></param>
+        public override void DataAdd(EcellObject data)
+        {
+            m_editCount++;
+        }
+
+        /// <summary>
+        /// Add the list of object.
+        /// </summary>
+        /// <param name="data"></param>
+        public override void DataAdd(List<EcellObject> data)
+        {
+            m_editCount++;
+        }
+
+        /// <summary>
+        /// Change the property of object.
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        public override void DataChanged(string modelID, string key, string type, EcellObject data)
+        {
+            m_editCount++;
+        }
+
+        /// <summary>
+        /// Delete the object.
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        public override void DataDelete(string modelID, string key, string type)
+        {
+            m_editCount++;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Clear()
+        {
+            m_editCount = 0;
         }
         #endregion
 
@@ -198,10 +298,37 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <param name="e">EventArgs</param>
         void FireTimer(object sender, EventArgs e)
         {
-            m_timer.Enabled = false;
-            Debug();
-            m_timer.Enabled = true;
+            if (m_isExecute && m_editCount > 0)
+            {
+                m_timer.Enabled = false;
+                Debug();
+                m_timer.Enabled = true;
+                m_editCount = 0;
+            }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeAutoUpdate(object sender, EventArgs e)
+        {
+            m_isAutoMenuItem.Checked = !m_isExecute;
+            m_isExecute = !m_isExecute;
+            m_StaticDebugMenuItem.Enabled = !m_isExecute;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StaticDebuggerExecute(object sender, EventArgs e)
+        {
+            Debug();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -211,10 +338,14 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (type == ProjectStatus.Loaded)
             {
                 m_timer.Enabled = true;
+                m_isAutoMenuItem.Enabled = true;
+                m_StaticDebugMenuItem.Enabled = !m_isExecute;
             }
             else
             {
                 m_timer.Enabled = false;
+                m_isAutoMenuItem.Enabled = false;
+                m_StaticDebugMenuItem.Enabled = false;
             }
         }
 

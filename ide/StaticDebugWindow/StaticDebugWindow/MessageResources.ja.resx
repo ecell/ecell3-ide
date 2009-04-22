@@ -118,34 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrBrackets" xml:space="preserve">
-    <value>括弧が適切に閉じられていません。</value>
+    <value>括弧が適切に閉じられていません</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
-    <value>ID文字列が不正です。</value>
+    <value>ID文字列が不正です</value>
   </data>
   <data name="ErrMaxMin" xml:space="preserve">
-    <value>最小値が最大値を超えています。</value>
+    <value>最小値が最大値を超えています</value>
   </data>
   <data name="ErrNoConnect" xml:space="preserve">
-    <value>このエンティティはどのエンティティとも接続していません。</value>
+    <value>このエンティティはどのエンティティとも接続していません</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
-    <value>このプロパティの値が設定されていません。</value>
+    <value>このプロパティの値が設定されていません</value>
   </data>
   <data name="ErrNotExistStepper" xml:space="preserve">
     <value>このStepperは存在しません</value>
   </data>
   <data name="ErrNoVariable" xml:space="preserve">
-    <value>存在しないVariableのリファレンスを持っています。</value>
+    <value>存在しないVariableのリファレンスを持っています</value>
   </data>
   <data name="ErrPositive" xml:space="preserve">
-    <value>このプロパティの値は0より大きい値にして下さい。</value>
+    <value>このプロパティの値は0より大きい値にして下さい</value>
   </data>
   <data name="ErrPositiveZero" xml:space="preserve">
-    <value>このプロパティの値は0以上の値にして下さい。</value>
+    <value>このプロパティの値は0以上の値にして下さい</value>
+  </data>
+  <data name="MenuItemAutoDebug" xml:space="preserve">
+    <value>自動静的デバッガ(&amp;A)</value>
   </data>
   <data name="MenuItemStaticDebugText" xml:space="preserve">
-    <value>静的デバッガ(&amp;D)...</value>
+    <value>静的デバッガの実行(&amp;D)</value>
   </data>
   <data name="ModelComplianceName" xml:space="preserve">
     <value>モデルの整合性</value>

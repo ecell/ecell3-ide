@@ -144,8 +144,11 @@
   <data name="ErrPositiveZero" xml:space="preserve">
     <value>The property value should be a positive number including zero.</value>
   </data>
+  <data name="MenuItemAutoDebug" xml:space="preserve">
+    <value>&amp;Auto static debugger</value>
+  </data>
   <data name="MenuItemStaticDebugText" xml:space="preserve">
-    <value>Static &amp;Debugger...</value>
+    <value>Execute static &amp;debugger</value>
   </data>
   <data name="ModelComplianceName" xml:space="preserve">
     <value>Model consistency</value>

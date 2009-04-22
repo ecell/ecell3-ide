@@ -193,7 +193,7 @@
     <value>&amp;Sensitivity analysis ...</value>
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
-    <value>&amp;Abort analysis</value>
+    <value>Abor&amp;t analysis</value>
   </data>
   <data name="NameAbsolutePert" xml:space="preserve">
     <value>The absolute perturbation bounds</value>
