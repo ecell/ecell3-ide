@@ -666,6 +666,7 @@ namespace Ecell
 
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
                 m_env.Console.Flush();
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             }
             catch (Exception ex)
             {

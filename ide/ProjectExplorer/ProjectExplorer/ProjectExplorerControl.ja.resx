@@ -260,4 +260,7 @@
   <data name="loadRevisionMenuItem.Text" xml:space="preserve">
     <value>リビジョン読込</value>
   </data>
+  <data name="projectSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>プロジェクト設定...</value>
+  </data>
 </root>

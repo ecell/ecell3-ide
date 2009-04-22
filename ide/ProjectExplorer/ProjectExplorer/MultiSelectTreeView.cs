@@ -153,7 +153,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     if (t != null)
                     {
                         m_isUpdate = true;
-                        m_env.PluginManager.AddSelect(t.m_modelID, t.m_key, t.m_type);
+                        m_env.PluginManager.AddSelect(t.ModelID, t.Key, t.Type);
                         m_isUpdate = false;
                     }
                 }
@@ -184,7 +184,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (t != null)
                 {
                     m_isUpdate = true;
-                    m_env.PluginManager.SelectChanged(t.m_modelID, t.m_key, t.m_type);
+                    m_env.PluginManager.SelectChanged(t.ModelID, t.Key, t.Type);
                     m_isUpdate = false;
                 }
             }
@@ -210,7 +210,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     if (t != null)
                     {
                         m_isUpdate = true;
-                        m_env.PluginManager.RemoveSelect(t.m_modelID, t.m_key, t.m_type);
+                        m_env.PluginManager.RemoveSelect(t.ModelID, t.Key, t.Type);
                         m_isUpdate = false;
                     }
                 }

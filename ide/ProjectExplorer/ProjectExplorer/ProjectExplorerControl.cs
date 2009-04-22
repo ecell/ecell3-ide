@@ -24,31 +24,31 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Project tree node in TreeView
         /// </summary>
-        private TreeNode m_prjNode;
+        private ProjectNode m_prjNode = null;
         /// <summary>
         /// Model tree node in TreeView
         /// </summary>
-        private TreeNode m_modelNode;
+        private ModelRootNode m_modelNode = null;
         /// <summary>
         /// Revision tree node in TreeView
         /// </summary>
-        private TreeNode m_revisionNode;
+        private RevisionRootNode m_revisionNode = null;
         /// <summary>
         /// DM tree node in TreeView
         /// </summary>
-        private TreeNode m_DMNode;
+        private DMRootNode m_DMNode = null;
         /// <summary>
         /// Log tree node in TreeView
         /// </summary>
-        private TreeNode m_logNode;
+        private LogRootNode m_logNode = null;
         /// <summary>
         /// Parameter tree node in TreeView
         /// </summary>
-        private TreeNode m_paramNode;
+        private ParamRootNode m_paramNode = null;
         /// <summary>
         /// Last selecte dnode
         /// </summary>
-        private TreeNode m_lastSelectedNode;
+        private TreeNode m_lastSelectedNode = null;
         /// <summary>
         /// Dictionary of property name and data type
         /// </summary>
@@ -95,6 +95,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="type"></param>
+        internal void ChangeStatus(ProjectStatus type)
+        {
+            if (type == ProjectStatus.Loaded)
+                m_prjNode.Text = m_owner.Environment.DataManager.CurrentProjectID;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="data"></param>
         public void DataAdd(List<EcellObject> data)
         {
@@ -115,6 +124,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj.Type);
                     node.SelectedImageIndex = node.ImageIndex;
                     node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
+                    node.ContextMenuStrip = this.contextMenuStripModel;
                     m_modelNode.Nodes.Add(node);
                     continue;
                 }
@@ -172,7 +182,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                             {
                                 TagData tag = (TagData)tmp.Tag;
                                 if (tmp.Text == names[names.Length - 1] &&
-                                    tag.m_type == eo.Type)
+                                    tag.Type == eo.Type)
                                 {
                                     isHit = true;
                                     break;
@@ -199,30 +209,39 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void CreateProjectNode(EcellObject obj)
         {
             // Create project node.
-            m_prjNode = new TreeNode(obj.ModelID);
+            m_prjNode = new ProjectNode(obj.ModelID);
+            m_prjNode.ContextMenuStrip = this.contextMenuStripProject;
             treeView1.Nodes.Add(m_prjNode);
 
-            m_modelNode = new TreeNode(MessageResources.NameModel);
-            m_revisionNode = new TreeNode(MessageResources.NameRevisions);
-            m_paramNode = new TreeNode(MessageResources.NameParameters);
-            m_DMNode = new TreeNode(MessageResources.NameDMs);
-            m_logNode = new TreeNode(MessageResources.NameLogArchives);
-
-            m_modelNode.Tag = null;
-            m_revisionNode.Tag = null;
-            m_paramNode.Tag = null;
+            // Create DM node.
+            m_DMNode = new DMRootNode(MessageResources.NameDMs);
+            m_DMNode.ContextMenuStrip = this.contextMenuStripDMCollection;
             m_DMNode.Tag = null;
-            m_logNode.Tag = null;
-
-            m_prjNode.Nodes.Add(m_modelNode);
-            m_prjNode.Nodes.Add(m_revisionNode);
-            m_prjNode.Nodes.Add(m_paramNode);
-            m_prjNode.Nodes.Add(m_logNode);
             m_prjNode.Nodes.Add(m_DMNode);
-
             SetDMNodes();
+
+            // Create ModelNode.
+            m_modelNode = new ModelRootNode(MessageResources.NameModel);
+            m_modelNode.Tag = null;
+            m_prjNode.Nodes.Add(m_modelNode);
+
+            // Create RevisionNode.
+            m_revisionNode = new RevisionRootNode(MessageResources.NameRevisions);
+            m_revisionNode.ContextMenuStrip = this.contextMenuStripRevisions;
+            m_revisionNode.Tag = null;
+            m_prjNode.Nodes.Add(m_revisionNode);
             SetRevisions();
 
+            // Create parameter Node.
+            m_paramNode = new ParamRootNode(MessageResources.NameParameters);
+            m_paramNode.ContextMenuStrip = this.contextMenuSimulationSetCollection;
+            m_paramNode.Tag = null;
+            m_prjNode.Nodes.Add(m_paramNode);
+
+            // Create LogNode.
+            m_logNode = new LogRootNode(MessageResources.NameLogArchives);
+            m_logNode.Tag = null;
+            m_prjNode.Nodes.Add(m_logNode);
             SetLogEntry(m_logNode);
         }
 
@@ -236,10 +255,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 if (!Util.IsDMFile(d))
                     continue;
-                TreeNode dNode = new TreeNode(d);
+                DMNode dNode = new DMNode(d);
                 dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = d;
+                dNode.ContextMenuStrip = this.contextMenuStripDM;
                 m_DMNode.Nodes.Add(dNode);
             }
         }
@@ -253,10 +273,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             List<string> revisionList = m_owner.Environment.DataManager.CurrentProject.GetRevisions();
             foreach (string revision in revisionList)
             {
-                TreeNode rNode = new TreeNode(revision);
+                RevisionNode rNode = new RevisionNode(revision);
                 rNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
                 rNode.SelectedImageIndex = rNode.ImageIndex;
                 rNode.Tag = revision;
+                rNode.ContextMenuStrip = this.contextMenuStripRevision;
                 m_revisionNode.Nodes.Add(rNode);
             }
 
@@ -265,6 +286,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             current.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
             current.SelectedImageIndex = current.ImageIndex;
             current.Tag = Constants.xpathLatest;
+            current.ContextMenuStrip = this.contextMenuStripRevision;
             m_revisionNode.Nodes.Add(current);
 
         }
@@ -303,9 +325,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     target.Parent.Nodes.Remove(target);
                     change.Nodes.Add(target);
                     TagData tag = (TagData)target.Tag;
-                    tag.m_key = data.Key;
+                    tag.Key = data.Key;
                     target.Tag = tag;
-                    if (tag.m_type == Constants.xpathSystem)
+                    if (tag.Type == Constants.xpathSystem)
                     {
                         IDChangeProvide(key, data.Key, target);
                     }
@@ -387,10 +409,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             foreach (string name in logList)
             {
                 string[] sep = name.Split(new char[] { ';' });
-                TreeNode n = new TreeNode(sep[1]);
+                LogNode n = new LogNode(sep[1]);
                 n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
                 n.SelectedImageIndex = n.ImageIndex;
                 n.Tag = new TagData("", sep[2], Constants.xpathLog);
+                n.ContextMenuStrip = this.contextMenuStripLog;
 
                 if (nodeDic.ContainsKey(sep[0]))
                 {
@@ -425,39 +448,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="parameterID"></param>
         public void ParameterAdd(string projectID, string parameterID)
         {
-            TreeNode paramsNode = null;
-            if (m_paramNode != null)
-            {
-                paramsNode = m_paramNode;
-            }
-            else
-            {
-                foreach (TreeNode project in treeView1.Nodes)
-                {
-                    if (project.Text.Equals(projectID))
-                    {
-                        paramsNode = new TreeNode(Constants.xpathParameters);
-                        paramsNode.Tag = null;
-                        project.Nodes.Add(paramsNode);
-                        m_paramNode = paramsNode;
-                        break;
-                    }
-                }
-                if (paramsNode == null)
-                {
-                    return;
-                }
-            }
+            if (m_paramNode == null)
+                return;
 
-            foreach (TreeNode t in paramsNode.Nodes)
+            foreach (TreeNode t in m_paramNode.Nodes)
             {
-                if (t.Text == parameterID) return;
+                if (t.Text == parameterID)
+                    return;
             }
             TreeNode paramNode = new TreeNode(parameterID);
             paramNode.Tag = parameterID;
             paramNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathParameters);
             paramNode.SelectedImageIndex = paramNode.ImageIndex;
-            paramsNode.Nodes.Add(paramNode);
+            paramNode.ContextMenuStrip = this.contextMenuStripSimulationSet;
+            m_paramNode.Nodes.Add(paramNode);
 
             return;
         }
@@ -469,34 +473,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="parameterID"></param>
         public void ParameterDelete(string projectID, string parameterID)
         {
-            TreeNode paramsNode = null;
-            if (m_paramNode != null)
-            {
-                paramsNode = m_paramNode;
-            }
-            else
-            {
-                foreach (TreeNode project in treeView1.Nodes)
-                {
-                    if (project.Text.Equals(projectID))
-                    {
-                        paramsNode = new TreeNode(Constants.xpathParameters);
-                        paramsNode.Tag = null;
-                        project.Nodes.Add(paramsNode);
-                        m_paramNode = paramsNode;
-                        break;
-                    }
-                }
-                if (paramsNode == null)
-                {
-                    return;
-                }
-            }
-            foreach (TreeNode t in paramsNode.Nodes)
+            if (m_paramNode == null)
+                return;
+
+            foreach (TreeNode t in m_paramNode.Nodes)
             {
                 if (t.Text == parameterID)
                 {
-                    paramsNode.Nodes.Remove(t);
+                    m_paramNode.Nodes.Remove(t);
                     return;
                 }
             }
@@ -634,7 +618,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             TagData t = node.Tag as TagData;
             if (t == null)
                 return null;
-            EcellObject obj = m_owner.Environment.DataManager.GetEcellObject(t.m_modelID, t.m_key, t.m_type);
+            EcellObject obj = m_owner.Environment.DataManager.GetEcellObject(t.ModelID, t.Key, t.Type);
             return obj;
         }
 
@@ -649,7 +633,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (src.Parent == null) return null;
             TagData tag = (TagData)src.Parent.Tag;
             if (tag == null) return null;
-            if (tag.m_type == Constants.xpathModel)
+            if (tag.Type == Constants.xpathModel)
             {
                 path = src.Text + path; // top is "/"
                 return path;
@@ -674,7 +658,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 TagData tag = (TagData)node.Tag;
                 if (tag == null)
                     return null;
-                if (tag.m_type == Constants.xpathModel)
+                if (tag.Type == Constants.xpathModel)
                 {
                     return node.Text;
                 }
@@ -696,7 +680,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             foreach (TreeNode node in m_modelNode.Nodes)
             {
                 TagData tag = node.Tag as TagData;
-                if (tag.m_type == Constants.xpathModel && node.Text == modelID)
+                if (tag.Type == Constants.xpathModel && node.Text == modelID)
                     model = node;
             }
             return model;
@@ -735,7 +719,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     || (keydata[0] == "" && tmpText == "/"))
                 {
                     if ((keydata.Length == 1 || key == "/") &&
-                        (tag.m_type == type || type == null))
+                        (tag.Type == type || type == null))
                         return node;
                     if (keydata.Length == 1 || key == "/") continue;
                     key = keydata[1];
@@ -761,14 +745,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 TagData tag = t.Tag as TagData;
                 if (tag == null) continue;
-                if (tag.m_type == Constants.xpathSystem)
+                if (tag.Type == Constants.xpathSystem)
                 {
                     IDChangeProvide(oldKey + "/" + t.Name,
                         newKey + "/" + t.Name, t);
-                    tag.m_key = newKey + "/" + t.Name;
+                    tag.Key = newKey + "/" + t.Name;
                     continue;
                 }
-                tag.m_key = newKey + ":" + t.Name;
+                tag.Key = newKey + ":" + t.Name;
             }
         }
 
@@ -868,9 +852,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
             if (tag == null) return;
-            if (tag.m_type.Equals(Constants.xpathLog))
+            if (tag.Type.Equals(Constants.xpathLog))
             {
-                string path = tag.m_key;
+                string path = tag.Key;
                 DisplayDMWithApp(path);
             }
         }
@@ -882,13 +866,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            // Check null.
+            if (e.Node == null || m_prjNode == null
+                || m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
+                return;
+
+            // Reset node.
             treeView1.ContextMenuStrip = null;
             TreeView t = (TreeView)sender;
-            if (e.Node == null 
-                || m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
-            {
-                return;
-            }
             m_lastSelectedNode = e.Node;
 
             if (e.Button == MouseButtons.Left)
@@ -897,7 +882,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (e.Node.Tag != null && e.Node.Tag is TagData)
                 {
                     TagData tag = e.Node.Tag as TagData;
-                    if (tag.m_type.Equals(EcellObject.SYSTEM) &&
+                    if (tag.Type.Equals(EcellObject.SYSTEM) &&
                         e.Node.Bounds.Contains(e.X, e.Y))
                         m_isExpland = true;
                 }                
@@ -911,67 +896,30 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     {
                         TagData tag = e.Node.Tag as TagData;
                         m_owner.Environment.PluginManager.SelectChanged(
-                            tag.m_modelID, tag.m_key, tag.m_type);
+                            tag.ModelID, tag.Key, tag.Type);
                     }
                     treeView1.ClearSelNode();
                     treeView1.SelectedNode = e.Node;
                 }
 
-                if (e.Node == m_DMNode)
-                {
-                    treeView1.ContextMenuStrip = contextMenuStripDMCollection;
-                }
-                else if (e.Node == m_prjNode)
-                {
-                    treeView1.ContextMenuStrip = contextMenuStripProject;
-                }
-                else if (e.Node.Parent != null && e.Node.Parent == m_DMNode)
-                {
-                    string path = m_owner.Environment.DataManager.GetDMFileName((string)e.Node.Tag);
-                    compileToolStripMenuItem.Enabled = (Util.IsInstalledSDK() && path != null);
-                    editToolStripMenuItem.Enabled = (path != null);
-
-                    treeView1.ContextMenuStrip = contextMenuStripDM;
-                }
-                else if (e.Node == m_revisionNode)
-                {
-                    treeView1.ContextMenuStrip = contextMenuStripRevisions;
-                }
-                else if (e.Node.Parent == m_revisionNode)
-                {
-                    treeView1.ContextMenuStrip = contextMenuStripRevision;
-                }
-                else if (e.Node == m_paramNode)
-                {
-                    treeView1.ContextMenuStrip = contextMenuSimulationSetCollection;
-                }
-                else if (e.Node.Parent == m_paramNode)
-                {
-                    treeView1.ContextMenuStrip = contextMenuStripSimulationSet;
-                }
-                else if (e.Node.Tag is TagData)
+                // Set ContextMenuStrip for node.
+                treeView1.ContextMenuStrip = e.Node.ContextMenuStrip;
+                if (e.Node.Tag is TagData)
                 {
                     TagData tag = e.Node.Tag as TagData;
-                    if (tag.m_type == Constants.xpathModel)
-                    {
-                        treeView1.ContextMenuStrip = contextMenuStripModel;
-                    }
-                    else if (tag.m_type == Constants.xpathSystem ||
-                        tag.m_type == Constants.xpathProcess ||
-                        tag.m_type == Constants.xpathVariable)
+                    if (tag.Type == Constants.xpathSystem ||
+                        tag.Type == Constants.xpathProcess ||
+                        tag.Type == Constants.xpathVariable)
                     {
                         EcellObject obj = GetObjectFromNode(e.Node);
                         CommonContextMenu m = new CommonContextMenu(obj, m_owner.Environment);
                         treeView1.ContextMenuStrip = m.Menu;
                     }
-                    else if (tag.m_type == Constants.xpathLog)
-                    {
-                        treeView1.ContextMenuStrip = contextMenuStripLog;
-                    }
                 }
+
+                // Set availability.
+                SetPopupMenuAvailability();
             }
-            // Set availability.
-            SetPopupMenuAvailability();
         }
 
         /// <summary>
@@ -980,12 +928,21 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void SetPopupMenuAvailability()
         {
             ProjectStatus status = m_owner.PluginManager.Status;
+            bool saved = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
             bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
 
             configureSimulationSetToolStripMenuItem.Enabled = !simulation;
-            loadRevisionMenuItem.Enabled = !simulation;
-            createNewRevisionMenuItem.Enabled = !simulation;
-            createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation;
+            loadRevisionMenuItem.Enabled = !simulation && saved;
+            createNewRevisionMenuItem.Enabled = !simulation && saved;
+            createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
+            zipToolStripMenuItem.Enabled = !simulation && saved;
+
+            if (m_lastSelectedNode is DMNode)
+            {
+                string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
+                compileToolStripMenuItem.Enabled = (Util.IsInstalledSDK() && path != null);
+                editToolStripMenuItem.Enabled = (path != null);
+            }
         }
 
         /// <summary>
@@ -1027,9 +984,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             else if (e.Node.Tag != null && e.Node.Tag is TagData)
             {
                 TagData tag = (TagData)e.Node.Tag;
-                if (tag.m_type.Equals(EcellObject.PROCESS) ||
-                    tag.m_type.Equals(EcellObject.VARIABLE) ||
-                    tag.m_type.Equals(EcellObject.SYSTEM))
+                if (tag.Type.Equals(EcellObject.PROCESS) ||
+                    tag.Type.Equals(EcellObject.VARIABLE) ||
+                    tag.Type.Equals(EcellObject.SYSTEM))
                 {
                     EcellObject obj = GetObjectFromNode(e.Node);
                     Debug.Assert(obj != null);
@@ -1082,9 +1039,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (node.Tag != null && node.Tag is TagData)
                 {
                     TagData t = node.Tag as TagData;
-                    if (t.m_type.Equals(Constants.xpathLog))
+                    if (t.Type.Equals(Constants.xpathLog))
                     {
-                        fileList.Add(t.m_key);
+                        fileList.Add(t.Key);
                     }
                 }
                 EcellObject obj = GetObjectFromNode(node);
@@ -1127,9 +1084,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.m_type != Constants.xpathLog) return;
+            if (tag == null || tag.Type != Constants.xpathLog) return;
 
-            string logFile = tag.m_key;
+            string logFile = tag.Key;
             string ext = Path.GetExtension(logFile);
             if (!string.IsNullOrEmpty(ext) &&
                 ext.ToLower().EndsWith("csv"))
@@ -1141,7 +1098,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 string text = "";
                 string fileName = m_saveFileDialog.FileName;
                 using (StreamReader sr = new StreamReader(
-                        tag.m_key, Encoding.GetEncoding("Shift_JIS")))
+                        tag.Key, Encoding.GetEncoding("Shift_JIS")))
                 {
                     text = sr.ReadToEnd();
                 }
@@ -1161,11 +1118,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {       
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.m_type != Constants.xpathLog) return;
+            if (tag == null || tag.Type != Constants.xpathLog) return;
      
             ShowGraphDelegate dlg = m_owner.PluginManager.GetDelegate("ShowGraphWithLog") as ShowGraphDelegate;
 
-            dlg(tag.m_key, true);
+            dlg(tag.Key, true);
         }
         /// <summary>
         /// 
@@ -1236,8 +1193,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.m_type != Constants.xpathModel) return;
-            String name = tag.m_modelID;
+            if (tag == null || tag.Type != Constants.xpathModel) return;
+            String name = tag.ModelID;
             List<string> modelList = new List<string>();
             modelList.Add(name);
 
@@ -1303,6 +1260,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        private void projectSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProjectInfo info = m_owner.Environment.DataManager.CurrentProject.Info;
+            ProjectSettingDialog dialog = new ProjectSettingDialog(info);
+            using (dialog)
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                // Set new project.
+                m_prjNode.Text = info.Name;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1310,7 +1281,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewCloseProject(object sender, EventArgs e)
         {
-            if (m_owner.EditCount > 0)
+            if (m_owner.Environment.ActionManager.Undoable)
             {
                 try
                 {
@@ -1340,7 +1311,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 TagData obj = node.Tag as TagData;
                 if (obj == null)
                     continue;
-                if (obj.m_type.Equals(Constants.xpathLog))
+                if (obj.Type.Equals(Constants.xpathLog))
                     continue;
                 if (obj != null) delList.Add(obj);
             }
@@ -1349,9 +1320,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 TagData obj = delList[i];
                 if (i == delList.Count - 1)
-                    m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type, true, true);
+                    m_owner.DataManager.DataDelete(obj.ModelID, obj.Key, obj.Type, true, true);
                 else
-                    m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type, true, false);
+                    m_owner.DataManager.DataDelete(obj.ModelID, obj.Key, obj.Type, true, false);
             }
         }
         /// <summary>
@@ -1370,8 +1341,167 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-#endregion
+        #endregion
+
     }
+
+    #region Node classes
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class ProjectNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal ProjectNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class ModelRootNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal ModelRootNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class ModelNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal ModelNode(string text)
+            : base(text)
+        {
+
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class ParamRootNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal ParamRootNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class ParamNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal ParamNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class DMRootNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal DMRootNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class DMNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal DMNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class LogRootNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal LogRootNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class LogNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal LogNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class RevisionRootNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal RevisionRootNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class RevisionNode : TreeNode
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        internal RevisionNode(string text)
+            : base(text)
+        {
+        }
+    }
+    #endregion
 
     #region Internal Classes
     /// <summary>
@@ -1423,11 +1553,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (tagx == null && tagy == null) return string.Compare(tx.Text, ty.Text);
             if (tagx == null) return 1;
             if (tagy == null) return -1;
-            if (tagx.m_type == tagy.m_type)
+            if (tagx.Type == tagy.Type)
             {
                 return string.Compare(tx.Text, ty.Text);
             }
-            return GetTypeNum(tagx.m_type) - GetTypeNum(tagy.m_type);
+            return GetTypeNum(tagx.Type) - GetTypeNum(tagy.Type);
         }
         /// <summary>
         /// 
@@ -1472,24 +1602,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// m_modelID (model ID of tree node tag) 
         /// </summary>
-        public string m_modelID;
+        public string ModelID;
         /// <summary>
         /// m_key (key ID of tree node tag)
         /// </summary>
-        public string m_key;
+        public string Key;
         /// <summary>
         /// m_type (type ID of tree node tag)
         /// </summary>
-        public string m_type;
+        public string Type;
 
         /// <summary>
         /// constructor for TagData.
         /// </summary>
         public TagData()
         {
-            this.m_modelID = "";
-            this.m_key = "";
-            this.m_type = "project";
+            this.ModelID = "";
+            this.Key = "";
+            this.Type = "project";
         }
 
         /// <summary>
@@ -1500,9 +1630,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="type">the initial type ID</param>
         public TagData(string modelID, string key, string type)
         {
-            this.m_modelID = modelID;
-            this.m_key = key;
-            this.m_type = type;
+            this.ModelID = modelID;
+            this.Key = key;
+            this.Type = type;
         }
     }
 
