@@ -165,6 +165,9 @@
   <data name="ErrSmaller" xml:space="preserve">
     <value>{0} は {1} より小さい値に設定してください。</value>
   </data>
+  <data name="GraphResult" xml:space="preserve">
+    <value>解析結果(グラフ)</value>
+  </data>
   <data name="InfoFinishExecute" xml:space="preserve">
     <value>{0} の実行が終了しました。</value>
   </data>
@@ -282,8 +285,14 @@
   <data name="NameWindowSize" xml:space="preserve">
     <value>ウインドウサイズ</value>
   </data>
+  <data name="ParameterEstimationResult" xml:space="preserve">
+    <value>解析結果(パラメータ推定)</value>
+  </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>反映</value>
+  </data>
+  <data name="SensitivityResult" xml:space="preserve">
+    <value>解析結果(感度解析)</value>
   </data>
   <data name="WarnNoBifurcation" xml:space="preserve">
     <value>分岐したデータがありません。</value>

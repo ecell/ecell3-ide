@@ -456,7 +456,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public override List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node = new PropertyNode(MessageResources.NameGraphSetting);
-            node.Nodes.Add(new PropertyNode(new TracerConfigDialog(this, this.PlotNumber, this.RedrawInterval)));
+            node.Nodes.Add(new PropertyNode(new TracerConfigurationPage(this, this.PlotNumber, this.RedrawInterval)));
 
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
             nodeList.Add(node);

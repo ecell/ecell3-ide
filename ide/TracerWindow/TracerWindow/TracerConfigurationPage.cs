@@ -44,7 +44,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
     /// <summary>
     /// TracerConfigDialog
     /// </summary>
-    public class TracerConfigDialog : PropertyDialogPage
+    public class TracerConfigurationPage : PropertyDialogPage
     {
         #region Fields
         private int m_plotNum;
@@ -61,7 +61,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="owner"></param>
         /// <param name="plotNum"></param>
         /// <param name="redrawInt"></param>
-        public TracerConfigDialog(TracerWindow owner, int plotNum, double redrawInt)
+        public TracerConfigurationPage(TracerWindow owner, int plotNum, double redrawInt)
         {
             InitializeComponent();
             m_owner = owner;
@@ -75,7 +75,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private void InitializeComponent()
         {
             System.Windows.Forms.Label label4;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerConfigDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerConfigurationPage));
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label1;
             this.intervalTextBox = new System.Windows.Forms.TextBox();

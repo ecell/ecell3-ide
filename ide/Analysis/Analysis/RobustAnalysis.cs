@@ -139,7 +139,7 @@ namespace Ecell.IDE.Plugins.Analysis
             JudgeRobustAnalysis();
             Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                 new object[] { MessageResources.NameRobustAnalysis }));
-            m_owner.ActivateResultWindow();
+            m_owner.ActivateResultWindow(true, false, false);
             m_owner.FinishedAnalysis();
         }
         #endregion

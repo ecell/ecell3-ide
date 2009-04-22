@@ -11,7 +11,6 @@ using Ecell;
 using Ecell.Objects;
 using Ecell.Job;
 using Ecell.Exceptions;
-using ZedGraph;
 using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Analysis
@@ -24,16 +23,47 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Plugin Controller.
         /// </summary>
         private Analysis m_owner;
-        /// <summary>
-        /// Graph control to display the matrix of analysis result.
-        /// </summary>
-        private ZedGraphControl m_zCnt = null;
-        /// <summary>
-        /// The line information of dot plot.
-        /// </summary>
-        private LineItem m_line;
+        private SensitivityAnalysisResultWindow m_sensResultWindow;
+        private GraphResultWindow m_graphResultWindow;
+        private ParameterEstimationResultWindow m_paramResultWindow;
+        private EcellDockContent m_sensContent;
+        private EcellDockContent m_graphContent;
+        private EcellDockContent m_paramContent;
+        #endregion
 
-        private Color m_headerColor;
+        #region Accessors
+        /// <summary>
+        /// get / set the dictionary of job id and result.
+        /// </summary>
+        public Dictionary<int, bool> JobList
+        {
+            get { return this.m_jobList; }
+            set { this.m_jobList = value; }
+        }
+
+        /// <summary>
+        /// get dock content for sensitivity analysis.
+        /// </summary>
+        public EcellDockContent SensitivityAnalysisContent
+        {
+            get { return this.m_sensContent; }
+        }
+
+        /// <summary>
+        /// get dock content for graph result view.
+        /// </summary>
+        public EcellDockContent GraphContent
+        {
+            get { return this.m_graphContent; }
+        }
+
+        /// <summary>
+        /// get dock content for parameter estimation.
+        /// </summary>
+        public EcellDockContent ParameterEsitmationContent
+        {
+            get { return this.m_paramContent; }
+        }
         #endregion
 
         #region Constructor
@@ -45,96 +75,43 @@ namespace Ecell.IDE.Plugins.Analysis
             InitializeComponent();
 
             m_owner = anal;
-            m_zCnt = new ZedGraphControl();
-            m_zCnt.Dock = DockStyle.Fill;
-            m_zCnt.GraphPane.Title.Text = "";
-            m_zCnt.GraphPane.XAxis.Title.Text = "X";
-            m_zCnt.GraphPane.YAxis.Title.Text = "Y";
-            m_zCnt.GraphPane.Legend.IsVisible = false;
-            m_zCnt.GraphPane.XAxis.Scale.Max = 100;
-            m_zCnt.GraphPane.XAxis.Scale.Min = 0;
-            m_zCnt.GraphPane.YAxis.Scale.Max = 100;
-            m_zCnt.GraphPane.YAxis.Scale.Min = 0;
-            m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
-            RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 0);
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
-
-            this.FormClosed += new FormClosedEventHandler(CloseCurrentForm);
-
-            ContextMenuStrip peCntMenu = new ContextMenuStrip();
-            ToolStripMenuItem peit = new ToolStripMenuItem();
-            peit.Text = MessageResources.ReflectMenuText;
-            peit.Click += new EventHandler(ClickReflectMenu);
-            peCntMenu.Items.AddRange(new ToolStripItem[] {peit});
-            PEEstimateView.ContextMenuStrip = peCntMenu;
-
-            m_headerColor = Color.LightCyan;
-            this.TabText = this.Text;
+            m_sensResultWindow = new SensitivityAnalysisResultWindow();
+            m_graphResultWindow = new GraphResultWindow(m_owner, this);
+            m_paramResultWindow = new ParameterEstimationResultWindow(m_owner);
 
         }
-
         #endregion
 
-        /// <summary>
-        /// Draw the result point on graph view,
-        /// </summary>
-        private void DrawLine(List<PointF> list)
+        public IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            LineItem line = null;
-            Color drawColor = Color.Blue;
-            Color styleColor = Color.White;
+            m_graphContent = new EcellDockContent();
+            m_graphResultWindow.Dock = DockStyle.Fill;
+            m_graphContent.Controls.Add(m_graphResultWindow);
+            m_graphContent.Name = "GraphResullt";
+            m_graphContent.Text = MessageResources.GraphResult;
+            m_graphContent.Icon = Resources.GraphResult;
+            m_graphContent.TabText = m_graphContent.Text;
+            m_graphContent.IsSavable = true;
 
-            line = m_zCnt.GraphPane.AddCurve(
-                "Result",
-                new PointPairList(),
-                drawColor,
-                SymbolType.Circle);
+            m_sensContent = new EcellDockContent();
+            m_sensResultWindow.Dock = DockStyle.Fill;
+            m_sensContent.Controls.Add(m_sensResultWindow);
+            m_sensContent.Name = "SensitivityResullt";
+            m_sensContent.Text = MessageResources.SensitivityResult;
+            m_sensContent.Icon = Resources.SensitivityResult;
+            m_sensContent.TabText = m_sensContent.Text;
+            m_sensContent.IsSavable = true;
 
-            Fill f = new Fill(drawColor);
-            line.Symbol.Fill = f;
+            m_paramContent = new EcellDockContent();
+            m_paramResultWindow.Dock = DockStyle.Fill;
+            m_paramContent.Controls.Add(m_paramResultWindow);
+            m_paramContent.Name = "ParameterEstimationResullt";
+            m_paramContent.Text = MessageResources.ParameterEstimationResult;
+            m_paramContent.Icon = Resources.ParameterEstimationResult;
+            m_paramContent.TabText = m_paramContent.Text;
+            m_paramContent.IsSavable = true;
 
-            line.Line.Width = 5;
-            foreach (PointF p in list)
-            {
-                line.AddPoint(new PointPair(p.X, p.Y));
-            }
-
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
-        }
-
-        /// <summary>
-        /// Draw the result point on graph view,
-        /// </summary>
-        /// <param name="x">the position of X.</param>
-        /// <param name="y">the position of Y.</param>
-        /// <param name="isOK">The flag whether this data is ok.</param>
-        private void DrawPoint(double x, double y, bool isOK)
-        {
-            LineItem line = null;
-            Color drawColor = Color.Blue;
-            Color styleColor = Color.White;
-            if (!isOK)
-            {
-                drawColor = Color.Red;
-                styleColor = Color.Silver;
-            }
-
-            line = m_zCnt.GraphPane.AddCurve(
-                "Result",
-                new PointPairList(),
-                drawColor,
-                SymbolType.Circle);
-
-            Fill f = new Fill(drawColor);
-            line.Symbol.Fill = f;
-
-            line.Line.Width = 5;
-            line.AddPoint(new PointPair(x, y));
-
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
+            return new EcellDockContent[] { m_graphContent, m_sensContent, m_paramContent };
         }
 
         /// <summary>
@@ -146,10 +123,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="isOK">the flag whether this parameter is robustness.</param>
         public void AddJudgementData(int jobid, double x, double y, bool isOK)
         {
-            RAXComboBox.Enabled = true;
-            RAYComboBox.Enabled = true;
-
-            DrawPoint(x, y, isOK);
+            m_graphResultWindow.AddJudgementData(jobid, x, y, isOK);
             m_jobList.Add(jobid, isOK);
         }
 
@@ -159,10 +133,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="list">the values of parameter.[List[PointF]]</param>
         public void AddJudgementDataForBifurcation(List<PointF> list)
         {
-            RAXComboBox.Enabled = false;
-            RAYComboBox.Enabled = false;
-
-            DrawLine(list);
+            m_graphResultWindow.AddJudgementDataForBifurcation(list);
         }
 
         /// <summary>
@@ -172,24 +143,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="y">the value of estimation.</param>
         public void AddEstimationData(int x, double y)
         {
-            RAXComboBox.Enabled = false;
-            RAYComboBox.Enabled = false;
-
-            if (m_line == null)
-            {
-                m_line = m_zCnt.GraphPane.AddCurve(
-                        "Result",
-                        new PointPairList(),
-                        Color.Blue,
-                        SymbolType.Circle);
-
-                Fill f = new Fill(Color.Blue);
-                m_line.Symbol.Fill = f;
-            }
-            m_line.AddPoint(new PointPair(x, y));
-
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
+            m_graphResultWindow.AddEstimationData(x, y);
         }
 
         /// <summary>
@@ -197,172 +151,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ClearResult()
         {
-            RAXComboBox.Items.Clear();
-            RAYComboBox.Items.Clear();
             m_jobList.Clear();
 
-            m_line = null;
-            CurveList l = m_zCnt.GraphPane.CurveList;
-            l.Clear();
-
-            PEEstimateView.Rows.Clear();
-            SACCCGridView.Rows.Clear();
-            SAFCCGridView.Rows.Clear();
-        }
-
-        /// <summary>
-        /// Set the estimated parameter.
-        /// </summary>
-        /// <param name="param">the execution parameter.</param>
-        /// <param name="result">the estimated value.</param>
-        /// <param name="generation">the generation.</param>
-        public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
-        {
-            PEEstimateView.Rows.Clear();
-            foreach (string key in param.ParamDic.Keys)
-            {
-                DataGridViewRow r = new DataGridViewRow();
-
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = Convert.ToString(key);
-                r.Cells.Add(c1);
-
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = Convert.ToString(param.ParamDic[key]);
-                r.Cells.Add(c2);
-
-                PEEstimateView.Rows.Add(r);
-            }
-            PEEstimationValue.Text = Convert.ToString(result);
-            PEGenerateValue.Text = Convert.ToString(generation);
-        }
-
-        /// <summary>
-        /// Set the header string of sensitivity matrix.
-        /// </summary>
-        /// <param name="activityList">the list of activity.</param>
-        public void SetSensitivityHeader(List<string> activityList)
-        {
-            SACCCGridView.Columns.Clear();
-            SACCCGridView.Rows.Clear();
-            SAFCCGridView.Columns.Clear();
-            SAFCCGridView.Rows.Clear();
-
-            CreateSensitivityHeader(SACCCGridView, activityList);
-            CreateSensitivityHeader(SAFCCGridView, activityList);
-        }
-
-        /// <summary>
-        /// Create the header of sensitivity matrix.
-        /// </summary>
-        /// <param name="gridView">DataGridView.</param>
-        /// <param name="data">Header List.</param>
-        private void CreateSensitivityHeader(DataGridView gridView, List<string> data)
-        {
-            DataGridViewTextBoxColumn c = new DataGridViewTextBoxColumn();
-            gridView.Columns.Add(c);
-            foreach (string key in data)
-            {
-                c = new DataGridViewTextBoxColumn();
-                c.Name = key;
-                if (key.Contains(":"))
-                {
-                    string[] ele = key.Split(new char[] { ':' });
-                    c.HeaderText = ele[ele.Length - 2];
-                }
-                else
-                    c.HeaderText = key;
-                gridView.Columns.Add(c);
-            }
-
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = "Item";
-            c1.Style.BackColor = m_headerColor;
-            r.Cells.Add(c1);
-            c1.ReadOnly = true;
-
-            foreach (string key in data)
-            {
-                c1 = new DataGridViewTextBoxCell();
-                c1.Style.BackColor = m_headerColor;
-                if (key.Contains(":"))
-                {
-                    string[] ele = key.Split(new char[] { ':' });
-                    c1.Value = ele[ele.Length - 2];
-                }
-                else
-                    c1.Value = key;
-                r.Cells.Add(c1);
-                c1.ReadOnly = true;
-            }
-            gridView.Rows.Add(r);
-        }
-
-
-
-        /// <summary>
-        /// Create the the row data of analysis result for variable.
-        /// </summary>
-        /// <param name="key">the property name of parameter.</param>
-        /// <param name="sensList">the list of sensitivity analysis result.</param>
-        public void AddSensitivityDataOfCCC(string key, List<double> sensList)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            if (key.Contains(":"))
-            {
-                string[] ele = key.Split(new char[] { ':' });
-                c.Value = ele[ele.Length - 2];
-            }
-            else
-            {
-                c.Value = key;
-            }
-            c.Style.BackColor = m_headerColor;
-            r.Cells.Add(c);
-            c.ReadOnly = true;
-
-            foreach (double d in sensList)
-            {
-                c = new DataGridViewTextBoxCell();
-                c.Value = d.ToString("###0.000");
-                c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                r.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            SACCCGridView.Rows.Add(r);
-        }
-
-        /// <summary>
-        /// Create the row data of analysis result for process
-        /// </summary>
-        /// <param name="key">the property name of parameter.</param>
-        /// <param name="sensList">the list of sensitivity analysis result.</param>
-        public void AddSensitivityDataOfFCC(string key, List<double> sensList)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            if (key.Contains(":"))
-            {
-                string[] ele = key.Split(new char[] { ':' });
-                c.Value = ele[ele.Length - 2];
-            }
-            else
-                c.Value = key;
-            c.Style.BackColor = m_headerColor;
-            r.Cells.Add(c);
-            c.ReadOnly = true;
-
-            foreach (double d in sensList)
-            {
-                c = new DataGridViewTextBoxCell();
-                c.Value = d.ToString("###0.000");
-                c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                r.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            SAFCCGridView.Rows.Add(r);
+            m_sensResultWindow.ClearResult();
+            m_graphResultWindow.ClearResult();
+            m_paramResultWindow.ClearResult();
         }
 
         /// <summary>
@@ -377,42 +170,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SetResultGraphSize(double xmax, double xmin, double ymax, double ymin,
             bool isAutoX, bool isAutoY)
         {
-            m_zCnt.GraphPane.XAxis.Scale.Max = xmax;
-            m_zCnt.GraphPane.XAxis.Scale.Min = xmin;
-            m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
-            m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
-            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = isAutoX;
-            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = isAutoY;
-        }
-
-        /// <summary>
-        /// Redraw the result table and graph when axis data is changed.
-        /// </summary>
-        public void ChangeAxisIndex()
-        {
-            if (RAXComboBox.Text.Equals(RAYComboBox.Text))
-                throw new IgnoreException("");
-
-            string xPath = RAXComboBox.Text;
-            string yPath = RAYComboBox.Text;
-
-            m_line = null;
-            CurveList l = m_zCnt.GraphPane.CurveList;
-            l.Clear();
-
-            foreach (int jobid in m_jobList.Keys)
-            {
-                double xd = m_owner.JobManager.ParameterDic[jobid].ParamDic[xPath];
-                double yd = m_owner.JobManager.ParameterDic[jobid].ParamDic[yPath];
-
-                DrawPoint(xd, yd, m_jobList[jobid]);
-            }
-            m_zCnt.GraphPane.XAxis.Scale.MinAuto = true;
-            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = true;
-            m_zCnt.GraphPane.YAxis.Scale.MinAuto = true;
-            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();           
+            m_graphResultWindow.SetResultGraphSize(xmax, xmin, ymax, ymin, isAutoX, isAutoY);
         }
 
         /// <summary>
@@ -423,29 +181,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="isY">the flag whether this parameter is default parameter at Y axis.</param>
         public void SetResultEntryBox(string name, bool isX, bool isY)
         {
-            RAXComboBox.Items.Add(name);
-            RAYComboBox.Items.Add(name);
-
-            if (isX)
-            {
-                for (int i = 0; i < RAXComboBox.Items.Count; i++)
-                {
-                    if (RAXComboBox.Items[i].Equals(name))
-                    {
-                        RAXComboBox.SelectedIndex = i;
-                    }
-                }
-            }
-            if (isY)
-            {
-                for (int i = 0; i < RAYComboBox.Items.Count; i++)
-                {
-                    if (RAYComboBox.Items[i].Equals(name))
-                    {
-                        RAYComboBox.SelectedIndex = i;
-                    }
-                }
-            }
+            m_graphResultWindow.SetResultEntryBox(name, isX, isY);
         }
 
         /// <summary>
@@ -494,8 +230,8 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             List<PointF> list = new List<PointF>();
             string line;
-            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = true;
-            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
+
+            m_graphResultWindow.PreGraphSet();
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.StartsWith("#")) continue;
@@ -503,7 +239,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     if (list.Count > 0)
                     {
-                        AddJudgementDataForBifurcation(list);
+                        m_graphResultWindow.AddJudgementDataForBifurcation(list);
                     }
                     list.Clear();
                     continue;
@@ -511,10 +247,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 string[] ele = line.Split(new char[] { ',' });
                 list.Add(new PointF((float)Convert.ToDouble(ele[0]), (float)Convert.ToDouble(ele[1])));
             }
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
-            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
-            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
+            m_graphResultWindow.PostGraphSet();
         }
 
         private void LoadParameterEstimationResult(StreamReader reader)
@@ -551,7 +284,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     string[] ele = line.Split(new char[] { ',' });
                     int g = Convert.ToInt32(ele[0]);
                     if (g > maxGene) maxGene = g;
-                    AddEstimationData(g, Convert.ToDouble(ele[1]));
+                    m_graphResultWindow.AddEstimationData(g, Convert.ToDouble(ele[1]));
                 }
                 else if (readPos == 2)
                 {
@@ -562,7 +295,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     string[] ele = line.Split(new char[] { ',' });
                     double v = Convert.ToDouble(ele[0]);
-                    AddEstimateParameter(param, v, maxGene);
+                    m_paramResultWindow.AddEstimateParameter(param, v, maxGene);
                 }
             }
         }
@@ -579,11 +312,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (String.IsNullOrEmpty(ele[i])) continue;
 
                 if (i == 1)
-                    SetResultEntryBox(ele[i], true, false);
+                    m_graphResultWindow.SetResultEntryBox(ele[i], true, false);
                 else if (i == 2)
-                    SetResultEntryBox(ele[i], false, true);
+                    m_graphResultWindow.SetResultEntryBox(ele[i], false, true);
                 else
-                    SetResultEntryBox(ele[i], false, false);
+                    m_graphResultWindow.SetResultEntryBox(ele[i], false, false);
                 paramDic.Add(i, ele[i]);
             }
             while ((line = reader.ReadLine()) != null)
@@ -602,7 +335,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     p.AddParameter(paramDic[j], Convert.ToDouble(ele[j]));
                 }
                 int jobid = m_owner.JobManager.CreateJobEntry(p);
-                AddJudgementData(jobid, x, y, result);
+                m_graphResultWindow.AddJudgementData(jobid, x, y, result);
             }
         }
 
@@ -644,7 +377,7 @@ namespace Ecell.IDE.Plugins.Analysis
                             if (String.IsNullOrEmpty(ele[i])) continue;
                             headList.Add(ele[i]);
                         }
-                        SetSensitivityHeader(headList);
+                        m_sensResultWindow.SetSensitivityHeader(headList);
                         isFirst = false;
                         continue;
                     }
@@ -655,7 +388,7 @@ namespace Ecell.IDE.Plugins.Analysis
                         if (String.IsNullOrEmpty(ele[i])) continue;
                         valList.Add(Convert.ToDouble(ele[i]));
                     }
-                    AddSensitivityDataOfCCC(ele[0], valList);
+                    m_sensResultWindow.AddSensitivityDataOfCCC(ele[0], valList);
                 }
                 else if (readPos == 2)
                 {
@@ -671,7 +404,7 @@ namespace Ecell.IDE.Plugins.Analysis
                         if (String.IsNullOrEmpty(ele[i])) continue;
                         valList.Add(Convert.ToDouble(ele[i]));
                     }
-                    AddSensitivityDataOfFCC(ele[0], valList);                    
+                    m_sensResultWindow.AddSensitivityDataOfFCC(ele[0], valList);                    
                 }
             }
         }
@@ -686,16 +419,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-
-                writer.WriteLine("#BIFURCATION");
-                foreach (LineItem c in m_zCnt.GraphPane.CurveList)
-                {
-                    for ( int i = 0 ; i < c.Points.Count ; i++ )
-                    {
-                        writer.WriteLine(c[i].X + "," + c[i].Y);
-                    }
-                    writer.WriteLine("");
-                }
+                m_graphResultWindow.SaveBifurcationResult(writer);
             }
             catch (Exception)
             {
@@ -718,25 +442,8 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                writer.WriteLine("#PARAMETER");
-                writer.WriteLine("#GENERATION");
-                for (int i = 0; i < m_line.Points.Count; i++)
-                {
-                    writer.WriteLine(m_line[i].X + "," + m_line[i].Y);
-                }
-
-                writer.WriteLine("#PARAMETER");
-                foreach (DataGridViewRow r in PEEstimateView.Rows)
-                {
-                    foreach (DataGridViewCell c in r.Cells)
-                    {
-                        writer.Write(c.Value.ToString() + ",");
-                    }
-                    writer.WriteLine("");
-                }
-
-                writer.WriteLine("#VALUE");
-                writer.WriteLine(PEEstimationValue.Text);
+                m_graphResultWindow.SaveParameterEstimationResult(writer);
+                m_paramResultWindow.SaveParameterEstimationResult(writer);
             }
             catch (Exception)
             {
@@ -759,27 +466,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-
-                writer.WriteLine("#ROBUST");
-                List<string> paramList = new List<string>();
-                for (int ind = 0; ind < RAXComboBox.Items.Count; ind++)
-                {
-                    string name = RAXComboBox.Items[ind] as string;
-                    writer.Write("," + name);
-                    paramList.Add(name);
-                }
-                writer.WriteLine("");
-
-                foreach (int jobid in m_jobList.Keys)
-                {
-                    writer.Write(m_jobList[jobid]);
-                    foreach (string param in paramList)
-                    {
-                        double data = m_owner.JobManager.ParameterDic[jobid].ParamDic[param];
-                        writer.Write("," + data);
-                    }
-                    writer.WriteLine("");
-                }
+                m_graphResultWindow.SaveRobustAnalysisResult(writer);
             }
             catch (Exception)
             {
@@ -802,33 +489,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-
-                writer.WriteLine("#SENSITIVITY");
-                writer.WriteLine("#CCC");
-                foreach (DataGridViewRow r in SACCCGridView.Rows)
-                {
-                    foreach (DataGridViewCell c in r.Cells)
-                    {
-                        if (c.Value == null)
-                            writer.Write(",");
-                        else
-                            writer.Write(c.Value.ToString() + ",");
-                    }
-                    writer.WriteLine("");
-                }
-                writer.WriteLine("#FCC");
-                foreach (DataGridViewRow r in SAFCCGridView.Rows)
-                {
-                    foreach (DataGridViewCell c in r.Cells)
-                    {
-                        if (c.Value == null)
-                            writer.Write(",");
-                        else
-                            writer.Write(c.Value.ToString() + ",");
-                    }
-                    writer.WriteLine("");
-                }
-
+                m_sensResultWindow.SaveSensitivityAnalysisResult(writer);
             }
             catch (Exception)
             {
@@ -846,51 +507,48 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void UpdateResultColor()
         {
-            foreach (DataGridViewRow r in SACCCGridView.Rows)
-            {
-                foreach (DataGridViewCell c in r.Cells)
-                {
-                    try
-                    {
-                        Double d = Convert.ToDouble(c.Value);
-                        if (Math.Abs(d) > ARTrackBar.Value / 100.0)
-                        {
-                            c.Style.BackColor = Color.Red;
-                        }
-                        else
-                        {
-                            c.Style.BackColor = Color.White;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-            }
-
-            foreach (DataGridViewRow r in SAFCCGridView.Rows)
-            {
-                foreach (DataGridViewCell c in r.Cells)
-                {
-                    try
-                    {
-                        Double d = Convert.ToDouble(c.Value);
-                        if (Math.Abs(d) > ARTrackBar.Value / 100.0)
-                        {
-                            c.Style.BackColor = Color.Red;
-                        }
-                        else
-                        {
-                            c.Style.BackColor = Color.White;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-            }
+            m_sensResultWindow.UpdateResultColor();
         }
 
+        /// <summary>
+        /// Create the the row data of analysis result for variable.
+        /// </summary>
+        /// <param name="key">the property name of parameter.</param>
+        /// <param name="sensList">the list of sensitivity analysis result.</param>
+        public void AddSensitivityDataOfCCC(string key, List<double> sensList)
+        {
+            m_sensResultWindow.AddSensitivityDataOfCCC(key, sensList);
+        }
+
+        /// <summary>
+        /// Create the row data of analysis result for process
+        /// </summary>
+        /// <param name="key">the property name of parameter.</param>
+        /// <param name="sensList">the list of sensitivity analysis result.</param>
+        public void AddSensitivityDataOfFCC(string key, List<double> sensList)
+        {
+            m_sensResultWindow.AddSensitivityDataOfFCC(key, sensList);
+        }
+
+        /// <summary>
+        /// Set the estimated parameter.
+        /// </summary>
+        /// <param name="param">the execution parameter.</param>
+        /// <param name="result">the estimated value.</param>
+        /// <param name="generation">the generation.</param>
+        public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
+        {
+            m_paramResultWindow.AddEstimateParameter(param, result, generation);
+        }
+
+        /// <summary>
+        /// Set the header string of sensitivity matrix.
+        /// </summary>
+        /// <param name="activityList">the list of activity.</param>
+        public void SetSensitivityHeader(List<string> activityList)
+        {
+            m_sensResultWindow.SetSensitivityHeader(activityList);
+        }
 
         #region Events
         /// <summary>
@@ -905,109 +563,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.CloseAnalysisResultWindow();
             }
             m_owner = null;
-        }
-        private int x_index = 0;
-        private int y_index = 0;
-
-        /// <summary>
-        /// Event to change the index of selected data.
-        /// </summary>
-        /// <param name="sender">object(ComboBox).</param>
-        /// <param name="e">EventArgs.</param>
-        private void XSelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                ChangeAxisIndex();
-                x_index = RAXComboBox.SelectedIndex;
-            }
-            catch (IgnoreException)
-            {
-                RAXComboBox.SelectedIndex = x_index;
-            }
-        }
-
-        /// <summary>
-        /// Event to change the index of selected data.
-        /// </summary>
-        /// <param name="sender">object(ComboBox).</param>
-        /// <param name="e">EventArgs.</param>
-        private void YSelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                ChangeAxisIndex();
-                y_index = RAYComboBox.SelectedIndex;
-            }
-            catch (IgnoreException)
-            {
-                RAYComboBox.SelectedIndex = y_index;
-            }
-        }
-
-        // ZedGraphでContextMenuを表示するたびに作り直しているので、
-        // このイベントでも毎回メニューの削除、追加をする必要がある
-        private void ZedControlContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
-        {
-            foreach (ToolStripMenuItem m in menuStrip.Items)
-            {
-                if (m.Name.Contains("copy"))
-                {
-                    menuStrip.Items.Remove(m);
-                    break;
-                }
-            }
-            foreach (ToolStripMenuItem m in menuStrip.Items)
-            {
-                if (m.Name.Contains("save_as"))
-                {
-                    menuStrip.Items.Remove(m);
-                    break;
-                }
-            }
-            foreach (ToolStripMenuItem m in menuStrip.Items)
-            {
-                if (m.Name.Contains("set_default"))
-                {
-                    menuStrip.Items.Remove(m);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Event to click the menu of result for PE.
-        /// </summary>
-        /// <param name="sender">object(MenuToolStrip)</param>
-        /// <param name="e">EventArgs.</param>
-        private void ClickReflectMenu(object sender, EventArgs e)
-        {
-            DataManager manager = m_owner.DataManager;
-            foreach (DataGridViewRow r in PEEstimateView.Rows)
-            {
-                string path = Convert.ToString(r.Cells[0].Value);
-                double v = Convert.ToDouble(r.Cells[1].Value);
-                string[] ele = path.Split(new char[] { ':' });
-                String objid = ele[1] + ":" + ele[2];
-                List<string> modelList = manager.GetModelList();
-                EcellObject obj = manager.GetEcellObject(modelList[0], objid, ele[0]);
-                if (obj == null) continue;
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.EntityPath.Equals(path))
-                    {
-                        d.Value = new EcellValue(v);
-                        manager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
-                        manager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);                        
-                    }
-                }
-            }
-        }
-
-        private void ARTrackBarChanged(object sender, EventArgs e)
-        {
-            RATrackLabel.Text = Convert.ToString(ARTrackBar.Value / 100.0);
-            UpdateResultColor();
         }
         #endregion
     }

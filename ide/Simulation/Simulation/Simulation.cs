@@ -437,7 +437,7 @@ namespace Ecell.IDE.Plugins.Simulation
         public override List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node = new PropertyNode(MessageResources.NameSimulation);
-            node.Nodes.Add(new PropertyNode(new SimulationConfigDialog(m_env.DataManager)));
+            node.Nodes.Add(new PropertyNode(new SimulationConfigurationPage(m_env.DataManager)));
 
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
             nodeList.Add(node);

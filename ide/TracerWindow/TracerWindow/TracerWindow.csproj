@@ -125,7 +125,7 @@
       <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="TraceEntry.cs" />
-    <Compile Include="TracerConfigDialog.cs">
+    <Compile Include="TracerConfigurationPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TracerWindow.cs" />
@@ -197,13 +197,13 @@
       <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TracerConfigDialog.ja.resx">
+    <EmbeddedResource Include="TracerConfigurationPage.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>TracerConfigDialog.cs</DependentUpon>
+      <DependentUpon>TracerConfigurationPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TracerConfigDialog.resx">
+    <EmbeddedResource Include="TracerConfigurationPage.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>TracerConfigDialog.cs</DependentUpon>
+      <DependentUpon>TracerConfigurationPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TracerConfigurationDialog.ja.resx">
       <SubType>Designer</SubType>

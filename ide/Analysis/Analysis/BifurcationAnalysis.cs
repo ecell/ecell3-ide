@@ -754,7 +754,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 PrintResultData();
                 m_isRunning = false;
                 m_owner.StopBifurcationAnalysis();
-                m_owner.ActivateResultWindow();
+                m_owner.ActivateResultWindow(true, false, false);
                 m_owner.FinishedAnalysis();
 
                 if (m_resultPoint <= 0)

@@ -817,9 +817,14 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Activate the result window.
         /// </summary>
-        public void ActivateResultWindow()
+        public void ActivateResultWindow(bool isGraphWindow, bool isSensitivityWindow, bool isParameterWindow)
         {
-            m_rWin.Activate();
+            if (isGraphWindow)
+                m_rWin.GraphContent.Activate();
+            if (isSensitivityWindow)
+                m_rWin.SensitivityAnalysisContent.Activate();
+            if (isParameterWindow)
+                m_rWin.ParameterEsitmationContent.Activate();
         }
 
         /// <summary>
@@ -892,7 +897,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             m_rWin = new AnalysisResultWindow(this);
-            return new EcellDockContent[] { m_rWin };
+            return m_rWin.GetWindowsForms();
         }
 
         /// <summary>

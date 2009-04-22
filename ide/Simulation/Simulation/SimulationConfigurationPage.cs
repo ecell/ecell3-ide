@@ -44,7 +44,7 @@ namespace Ecell.IDE.Plugins.Simulation
     /// <summary>
     /// SimulationConfigDialog
     /// </summary>
-    public class SimulationConfigDialog : PropertyDialogPage
+    public class SimulationConfigurationPage : PropertyDialogPage
     {
         #region Fields
         private Label label1;
@@ -62,7 +62,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Constructors
         /// </summary>
         /// <param name="manager"></param>
-        public SimulationConfigDialog(DataManager manager)
+        public SimulationConfigurationPage(DataManager manager)
         {
             InitializeComponent();
             m_manager = manager;
@@ -78,7 +78,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationPage));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();

@@ -775,7 +775,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                     new object[] { MessageResources.NameSensAnalysis }));
-                m_owner.ActivateResultWindow();
+                m_owner.ActivateResultWindow(false, true, false);
                 m_owner.FinishedAnalysis();
             }
             catch (IgnoreException ex)

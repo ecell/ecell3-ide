@@ -205,6 +205,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   Analysis result(graph) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string GraphResult {
+            get {
+                return ResourceManager.GetString("GraphResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Executuion of {0} has finished. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoFinishExecute {
@@ -502,11 +511,29 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   Analysis result(parameter estimation) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ParameterEstimationResult {
+            get {
+                return ResourceManager.GetString("ParameterEstimationResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Reflect に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ReflectMenuText {
             get {
                 return ResourceManager.GetString("ReflectMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Analysis result(sensitivity analysis) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SensitivityResult {
+            get {
+                return ResourceManager.GetString("SensitivityResult", resourceCulture);
             }
         }
         
