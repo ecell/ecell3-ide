@@ -102,17 +102,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Test of TestZipFiles()
-        /// </summary>
-        [Test()]
-        public void TestZipFiles()
-        {
-            string zipname = TestConstant.TestDirectory + "rbc2.zip";
-            string[] filePaths = new string[] { TestConstant.Model_RBC, TestConstant.TestDirectory + "rbc.leml" };
-            ZipUtil.ZipFiles(zipname, filePaths);
-        }
-
-        /// <summary>
         /// Test of ZipFolder()
         /// </summary>
         [Test()]

@@ -50,70 +50,16 @@ namespace Ecell.IDE
         /// <param name="filePath"></param>
         public static void ZipFile(string zipname, string filePath)
         {
-            string[] filePaths = {filePath};
-            ZipFiles(zipname, filePaths);
-        }
-
-        /// <summary>
-        /// Save Zipped File.
-        /// </summary>
-        /// <param name="zipname"></param>
-        /// <param name="filePaths"></param>
-        public static void ZipFiles(string zipname, string[] filePaths)
-        {
-            FileStream zipwriter = null;
-            ZipOutputStream zos = null;
-            Crc32 crc = new Crc32();
-
             try
             {
-                zipwriter = new FileStream(
-                     zipname,
-                     FileMode.Create,
-                     FileAccess.Write,
-                     FileShare.Write);
-                zos = new ZipOutputStream(zipwriter);
-                zos.SetLevel(6);
-
-                //Add files.
-                foreach (string filePath in filePaths)
-                {
-                    if (!File.Exists(filePath))
-                        continue;
-
-                    string filename = Path.GetFileName(filePath);
-                    ZipEntry ze = new ZipEntry(filename);
-
-                    FileStream fs = new FileStream(
-                        filePath,
-                        FileMode.Open,
-                        FileAccess.Read,
-                        FileShare.Read);
-                    byte[] buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
-
-                    crc.Reset();
-                    crc.Update(buffer);
-                    ze.Crc = crc.Value;
-                    ze.Size = buffer.Length;
-                    ze.DateTime = DateTime.Now;
-
-                    zos.PutNextEntry(ze);
-                    zos.Write(buffer, 0, buffer.Length);
-                }
+                FastZip fz = new FastZip();
+                fz.CreateZip(zipname, filePath, false, "");
             }
             catch (Exception e)
             {
                 throw new EcellException(string.Format(MessageResources.ErrSaveZip, zipname), e);
             }
-            finally
-            {
-                if(zos != null)
-                    zos.Close();
-                if (zipwriter != null)
-                    zipwriter.Close();
-            }
+
         }
 
         /// <summary>
@@ -123,63 +69,14 @@ namespace Ecell.IDE
         /// <param name="folderPath"></param>
         public static void ZipFolder(string zipname, string folderPath)
         {
-            FastZip fz = new FastZip();
-            Crc32 crc = new Crc32();
-            FileStream zipwriter = null;
-            ZipOutputStream zos = null;
-
             try
             {
+                FastZip fz = new FastZip();
                 fz.CreateZip(zipname, folderPath, true, "", "");
-                string[] filePaths = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
-                folderPath = Path.GetDirectoryName(folderPath);
-
-                zipwriter = new FileStream(
-                     zipname,
-                     FileMode.Create,
-                     FileAccess.Write,
-                     FileShare.Write);
-                zos = new ZipOutputStream(zipwriter);
-                zos.SetLevel(6);
-
-                //Add files.
-                foreach (string filePath in filePaths)
-                {
-                    if (!File.Exists(filePath))
-                        continue;
-
-                    string filename = filePath.Replace(folderPath, "");
-                    ZipEntry ze = new ZipEntry(filename);
-
-                    FileStream fs = new FileStream(
-                        filePath,
-                        FileMode.Open,
-                        FileAccess.Read,
-                        FileShare.Read);
-                    byte[] buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
-
-                    crc.Reset();
-                    crc.Update(buffer);
-                    ze.Crc = crc.Value;
-                    ze.Size = buffer.Length;
-                    ze.DateTime = DateTime.Now;
-
-                    zos.PutNextEntry(ze);
-                    zos.Write(buffer, 0, buffer.Length);
-                }
             }
             catch (Exception e)
             {
                 throw new EcellException(string.Format(MessageResources.ErrSaveZip, zipname), e);
-            }
-            finally
-            {
-                if (zos != null)
-                    zos.Close();
-                if (zipwriter != null)
-                    zipwriter.Close();
             }
 
         }
