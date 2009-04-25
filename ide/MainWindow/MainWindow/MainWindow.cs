@@ -794,8 +794,8 @@ namespace Ecell.IDE.MainWindow
             // file menu.
             newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             openProjectToolStripMenuItem.Enabled = unInitialized || loaded;
-            saveProjectToolStripMenuItem.Enabled = loaded && revision;
-            saveAsToolStripMenuItem.Enabled = loaded && revision;
+            saveProjectToolStripMenuItem.Enabled = loaded && !revision;
+            saveAsToolStripMenuItem.Enabled = loaded && !revision;
             recentProejctToolStripMenuItem.Enabled = unInitialized || loaded;
             projectWizardMenuItem.Enabled = unInitialized || loaded;
             closeProjectToolStripMenuItem.Enabled = loaded;

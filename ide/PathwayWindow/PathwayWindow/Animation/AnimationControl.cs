@@ -113,7 +113,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        private bool m_isLogarithmic = true;
+        private string m_format = "";
         /// <summary>
         /// 
         /// </summary>
@@ -321,14 +321,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             set { m_propBrush = value; }
         }
 
-        /// <summary>
-        /// Get/Set m_isLogarithmic
-        /// </summary>
-        public bool IsLogarithmic
-        {
-            get { return m_isLogarithmic; }
-            set { m_isLogarithmic = value; }
-        }
         /// <summary>
         /// Get/Set m_autoThreshold
         /// </summary>
@@ -553,7 +545,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
             m_canvas = m_con.Canvas;
             m_canvas.BackGroundBrush = m_viewBGBrush;
-
+            m_format = m_con.Window.DataManager.DisplayStringFormat;
             foreach (PPathwayProcess process in m_canvas.Processes.Values)
             {
                 process.ViewMode = true;
@@ -629,7 +621,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 float width = GetEdgeWidth(molerConc);
                 Brush brush = GetEdgeBrush(molerConc);
 
-                variable.PPropertyText.Text = GetPropertyString(molerConc);
+                variable.PPropertyText.Text = molerConc.ToString(m_format);
                 // Set Effector.
                 foreach (PPathwayLine line in variable.Relations)
                 {
@@ -730,7 +722,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
                 xmlOut.WriteElementString(AnimationConstants.xPathNGEdgeBrush, BrushManager.ParseBrushToString(m_ngEdgeBrush));
                 xmlOut.WriteElementString(AnimationConstants.xPathPropertyBrush, BrushManager.ParseBrushToString(m_propBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathIsLogarithmic, m_isLogarithmic.ToString());
 
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
@@ -816,10 +807,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     case AnimationConstants.xPathPropertyBrush:
                         m_propBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
-                    // IsLogarithmic
-                    case AnimationConstants.xPathIsLogarithmic:
-                        m_isLogarithmic = bool.Parse(setting.InnerText);
-                        break;
                     // AutoThreshold
                     case AnimationConstants.xPathAutoThreshold:
                         m_autoThreshold = bool.Parse(setting.InnerText);
@@ -896,18 +883,5 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return m_highEdgeBrush;
             return m_viewEdgeBrush;
         }
-        /// <summary>
-        /// GetPropertyString
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private string GetPropertyString(float value)
-        {
-            if (m_isLogarithmic)
-                return value.ToString(FormatLog);
-            return value.ToString(FormatNatural);
-        }
-
-
     }
 }

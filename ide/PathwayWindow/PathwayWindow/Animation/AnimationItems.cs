@@ -53,7 +53,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private PropertyTextItem thresholdLow;
         private PropertyCheckBoxItem autoThresholdCheckBox;
         private PropertyBrushItem propertyBrush;
-        private PropertyCheckBoxItem logarithmicCheckBox;
         private PropertyCheckBoxItem aviOutputCheckBox;
         private PropertySaveFileItem aviFileName;
         private GroupBox outputBox;
@@ -81,7 +80,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             edgeNGBrush.Brush = control.NgEdgeBrush;
             autoThresholdCheckBox.Checked = control.AutoThreshold;
             propertyBrush.Brush = control.PropertyBrush;
-            logarithmicCheckBox.Checked = control.IsLogarithmic;
             aviOutputCheckBox.Checked = control.DoesRecordMovie;
             aviFileName.FileName = control.AviFile;
         }
@@ -99,7 +97,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeNGBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.aviOutputCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
             this.propertyBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.logarithmicCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
             this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem();
             this.outputBox = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -112,10 +109,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // edgeBox
             // 
-            this.edgeBox.AccessibleDescription = null;
-            this.edgeBox.AccessibleName = null;
             resources.ApplyResources(this.edgeBox, "edgeBox");
-            this.edgeBox.BackgroundImage = null;
             this.edgeBox.Controls.Add(this.edgeLabel);
             this.edgeBox.Controls.Add(this.edgeHighBrush);
             this.edgeBox.Controls.Add(this.edgeLowBrush);
@@ -123,171 +117,102 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeBox.Controls.Add(this.thresholdHigh);
             this.edgeBox.Controls.Add(this.thresholdLow);
             this.edgeBox.Controls.Add(this.edgeNGBrush);
-            this.edgeBox.Font = null;
             this.edgeBox.Name = "edgeBox";
             this.edgeBox.TabStop = false;
             // 
             // edgeLabel
             // 
-            this.edgeLabel.AccessibleDescription = null;
-            this.edgeLabel.AccessibleName = null;
-            resources.ApplyResources(this.edgeLabel, "edgeLabel");
             this.edgeLabel.AutoEllipsis = true;
             this.edgeLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.edgeLabel.Font = null;
+            resources.ApplyResources(this.edgeLabel, "edgeLabel");
             this.edgeLabel.Name = "edgeLabel";
             // 
             // edgeHighBrush
             // 
-            this.edgeHighBrush.AccessibleDescription = null;
-            this.edgeHighBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeHighBrush, "edgeHighBrush");
-            this.edgeHighBrush.BackgroundImage = null;
-            this.edgeHighBrush.Font = null;
             this.edgeHighBrush.Name = "edgeHighBrush";
             // 
             // edgeLowBrush
             // 
-            this.edgeLowBrush.AccessibleDescription = null;
-            this.edgeLowBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeLowBrush, "edgeLowBrush");
-            this.edgeLowBrush.BackgroundImage = null;
-            this.edgeLowBrush.Font = null;
             this.edgeLowBrush.Name = "edgeLowBrush";
             // 
             // autoThresholdCheckBox
             // 
-            this.autoThresholdCheckBox.AccessibleDescription = null;
-            this.autoThresholdCheckBox.AccessibleName = null;
             resources.ApplyResources(this.autoThresholdCheckBox, "autoThresholdCheckBox");
-            this.autoThresholdCheckBox.BackgroundImage = null;
             this.autoThresholdCheckBox.Checked = false;
-            this.autoThresholdCheckBox.Font = null;
             this.autoThresholdCheckBox.Name = "autoThresholdCheckBox";
             // 
             // thresholdHigh
             // 
-            this.thresholdHigh.AccessibleDescription = null;
-            this.thresholdHigh.AccessibleName = null;
             resources.ApplyResources(this.thresholdHigh, "thresholdHigh");
-            this.thresholdHigh.BackgroundImage = null;
-            this.thresholdHigh.Font = null;
             this.thresholdHigh.Name = "thresholdHigh";
             this.thresholdHigh.Validating += new System.ComponentModel.CancelEventHandler(this.HighThresholdValidating);
             // 
             // thresholdLow
             // 
-            this.thresholdLow.AccessibleDescription = null;
-            this.thresholdLow.AccessibleName = null;
             resources.ApplyResources(this.thresholdLow, "thresholdLow");
-            this.thresholdLow.BackgroundImage = null;
-            this.thresholdLow.Font = null;
             this.thresholdLow.Name = "thresholdLow";
             this.thresholdLow.Validating += new System.ComponentModel.CancelEventHandler(this.LowThresholdValidating);
             // 
             // edgeNGBrush
             // 
-            this.edgeNGBrush.AccessibleDescription = null;
-            this.edgeNGBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeNGBrush, "edgeNGBrush");
-            this.edgeNGBrush.BackgroundImage = null;
-            this.edgeNGBrush.Font = null;
             this.edgeNGBrush.Name = "edgeNGBrush";
             // 
             // aviOutputCheckBox
             // 
-            this.aviOutputCheckBox.AccessibleDescription = null;
-            this.aviOutputCheckBox.AccessibleName = null;
             resources.ApplyResources(this.aviOutputCheckBox, "aviOutputCheckBox");
-            this.aviOutputCheckBox.BackgroundImage = null;
             this.aviOutputCheckBox.Checked = false;
-            this.aviOutputCheckBox.Font = null;
             this.aviOutputCheckBox.Name = "aviOutputCheckBox";
             this.aviOutputCheckBox.CheckedChanged += new System.EventHandler(this.aviOutputCheckBox_CheckedChanged);
             // 
             // propertyBrush
             // 
-            this.propertyBrush.AccessibleDescription = null;
-            this.propertyBrush.AccessibleName = null;
             resources.ApplyResources(this.propertyBrush, "propertyBrush");
-            this.propertyBrush.BackgroundImage = null;
-            this.propertyBrush.Font = null;
             this.propertyBrush.Name = "propertyBrush";
-            // 
-            // logarithmicCheckBox
-            // 
-            this.logarithmicCheckBox.AccessibleDescription = null;
-            this.logarithmicCheckBox.AccessibleName = null;
-            resources.ApplyResources(this.logarithmicCheckBox, "logarithmicCheckBox");
-            this.logarithmicCheckBox.BackgroundImage = null;
-            this.logarithmicCheckBox.Checked = false;
-            this.logarithmicCheckBox.Font = null;
-            this.logarithmicCheckBox.Name = "logarithmicCheckBox";
             // 
             // aviFileName
             // 
-            this.aviFileName.AccessibleDescription = null;
-            this.aviFileName.AccessibleName = null;
             resources.ApplyResources(this.aviFileName, "aviFileName");
-            this.aviFileName.BackgroundImage = null;
             this.aviFileName.FileName = "";
             this.aviFileName.Filter = null;
             this.aviFileName.FilterIndex = 0;
-            this.aviFileName.Font = null;
             this.aviFileName.Name = "aviFileName";
             // 
             // outputBox
             // 
-            this.outputBox.AccessibleDescription = null;
-            this.outputBox.AccessibleName = null;
             resources.ApplyResources(this.outputBox, "outputBox");
-            this.outputBox.BackgroundImage = null;
             this.outputBox.Controls.Add(this.label1);
             this.outputBox.Controls.Add(this.aviOutputCheckBox);
             this.outputBox.Controls.Add(this.aviFileName);
-            this.outputBox.Font = null;
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
             // 
             // label1
             // 
-            this.label1.AccessibleDescription = null;
-            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
-            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // variableBox
             // 
-            this.variableBox.AccessibleDescription = null;
-            this.variableBox.AccessibleName = null;
             resources.ApplyResources(this.variableBox, "variableBox");
-            this.variableBox.BackgroundImage = null;
             this.variableBox.Controls.Add(this.variableLabel);
             this.variableBox.Controls.Add(this.propertyBrush);
-            this.variableBox.Controls.Add(this.logarithmicCheckBox);
-            this.variableBox.Font = null;
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
             // 
             // variableLabel
             // 
-            this.variableLabel.AccessibleDescription = null;
-            this.variableLabel.AccessibleName = null;
             resources.ApplyResources(this.variableLabel, "variableLabel");
-            this.variableLabel.Font = null;
             this.variableLabel.Name = "variableLabel";
             // 
             // AnimationItems
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.variableBox);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.edgeBox);
-            this.Font = null;
             this.Name = "AnimationItems";
             this.edgeBox.ResumeLayout(false);
             this.edgeBox.PerformLayout();
@@ -374,7 +299,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             animCon.LowEdgeBrush = edgeLowBrush.Brush;
             animCon.NgEdgeBrush = edgeNGBrush.Brush;
             animCon.PropertyBrush = propertyBrush.Brush;
-            animCon.IsLogarithmic = logarithmicCheckBox.Checked;
             animCon.DoesRecordMovie = aviOutputCheckBox.Checked;
             animCon.AviFile = aviFileName.FileName;
         }
