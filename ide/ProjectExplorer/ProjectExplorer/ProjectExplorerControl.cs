@@ -282,10 +282,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
 
             // Set Current Revision
-            TreeNode current = new TreeNode(Constants.xpathLatest);
+            TreeNode current = new TreeNode(Constants.xpathCurrent);
             current.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
             current.SelectedImageIndex = current.ImageIndex;
-            current.Tag = Constants.xpathLatest;
+            current.Tag = Constants.xpathCurrent;
             current.ContextMenuStrip = this.contextMenuStripRevision;
             m_revisionNode.Nodes.Add(current);
 
@@ -931,12 +931,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             ProjectStatus status = m_owner.PluginManager.Status;
             bool saved = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
+            bool revision = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
             bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
 
+            // SimulationStatus
             configureSimulationSetToolStripMenuItem.Enabled = !simulation;
-            loadRevisionMenuItem.Enabled = !simulation && saved;
+            // Revision
+            loadRevisionMenuItem.Enabled = !simulation && (saved || revision);
             createNewRevisionMenuItem.Enabled = !simulation && saved;
             createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
+            // Zip
             zipToolStripMenuItem.Enabled = !simulation && saved;
 
             if (m_lastSelectedNode is DMNode)

@@ -579,7 +579,7 @@ namespace Ecell
             // Load Current Project.
             string oldDir = m_currentProject.Info.ProjectPath;
             string filename = Path.Combine(oldDir, Constants.fileProjectXML);
-            if (revision.Equals(Constants.xpathLatest))
+            if (revision.Equals(Constants.xpathCurrent))
             {
                 LoadProject(filename);
                 return;
@@ -589,7 +589,8 @@ namespace Ecell
             string revDir = Path.Combine(oldDir, revision);
             filename = Path.Combine(revDir, Constants.fileProjectXML);
             ProjectInfo info = ProjectInfoLoader.Load(filename);
-            info.Name = m_currentProject.Info.Name;
+            info.Name = m_currentProject.Info.Name + "_" + revision;
+            info.ProjectType = ProjectType.Revision;
 
             LoadProject(info);
             m_currentProject.Info.ProjectPath = oldDir;

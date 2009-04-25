@@ -619,7 +619,11 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        SBML = 4
+        SBML = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        Revision = 5
     }
 
 }

@@ -496,7 +496,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public const string xpathLatest = "Latest";
+        public const string xpathCurrent = "Current";
         #endregion
 
         /// <summary>
