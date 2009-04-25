@@ -787,11 +787,15 @@ namespace Ecell.IDE.MainWindow
         {
             bool unInitialized = status == ProjectStatus.Uninitialized;
             bool loaded = status == ProjectStatus.Loaded;
+            bool revision = false;
+            if (m_env.DataManager.CurrentProm_env.DataManager.CurrentProjectject != null)
+                revision = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
+
             // file menu.
             newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             openProjectToolStripMenuItem.Enabled = unInitialized || loaded;
-            saveProjectToolStripMenuItem.Enabled = loaded;
-            saveAsToolStripMenuItem.Enabled = loaded;
+            saveProjectToolStripMenuItem.Enabled = loaded && revision;
+            saveAsToolStripMenuItem.Enabled = loaded && revision;
             recentProejctToolStripMenuItem.Enabled = unInitialized || loaded;
             projectWizardMenuItem.Enabled = unInitialized || loaded;
             closeProjectToolStripMenuItem.Enabled = loaded;
