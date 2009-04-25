@@ -697,7 +697,33 @@ namespace Ecell
                 // Picks the "System" up.
                 List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
                 Debug.Assert(systemList != null && systemList.Count > 0);
-                storedList.AddRange(systemList);
+                if (this.CurrentProject.SimulationStatus != SimulationStatus.Wait)
+                {
+                    foreach (EcellObject obj in systemList)
+                    {
+                        EcellObject sysObj = obj.Clone();
+                        if (sysObj.Children == null)
+                        {
+                            storedList.Add(sysObj);
+                            continue;
+                        }
+                        foreach (EcellObject cobj in sysObj.Children)
+                        {
+                            foreach (EcellData d in cobj.Value)
+                            {
+                                if (!d.Value.IsDouble)
+                                    continue;
+                                EcellValue v = GetEntityProperty(d.EntityPath);
+                                d.Value = v;
+                            }
+                        }
+                        storedList.Add(sysObj);
+                    }
+                }
+                else
+                {
+                    storedList.AddRange(systemList);
+                }
 
                 // Save eml.
                 EmlWriter.Create(modelFileName, storedList, true);
