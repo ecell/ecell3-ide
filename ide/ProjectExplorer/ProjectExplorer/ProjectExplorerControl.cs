@@ -1356,6 +1356,21 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
         #endregion
 
+        private void importDMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog win = new FolderBrowserDialog();
+            win.Description = MessageResources.SelectDMDir;
+            using (win)
+            {
+                if (win.ShowDialog() != DialogResult.OK)
+                    return;
+
+                m_owner.Environment.DataManager.ImportDM(win.SelectedPath);
+                m_DMNode.Nodes.Clear();
+                SetDMNodes();
+            }
+        }
+
     }
 
     #region Node classes

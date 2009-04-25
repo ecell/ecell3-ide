@@ -159,6 +159,9 @@
   <data name="SaveConfirm" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>
+  <data name="SelectDMDir" xml:space="preserve">
+    <value>DMディレクトリを選択してください。</value>
+  </data>
   <data name="WarnDMName" xml:space="preserve">
     <value>DMの名前は、ProcessもしくはStepperで終わる必要があります。</value>
   </data>

@@ -117,15 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="addADMToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="createNewDMToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="addADMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 22</value>
+  <data name="createNewDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 22</value>
   </data>
-  <data name="addADMToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add DM...</value>
+  <data name="createNewDMToolStripMenuItem.Text" xml:space="preserve">
+    <value>Create new DM...</value>
   </data>
   <metadata name="toolStrip1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -220,7 +220,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.2768.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.2798.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -243,8 +243,14 @@
   <metadata name="contextMenuStripDMCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>448, 85</value>
   </metadata>
+  <data name="importDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 22</value>
+  </data>
+  <data name="importDMToolStripMenuItem.Text" xml:space="preserve">
+    <value>Import DM</value>
+  </data>
   <data name="contextMenuStripDMCollection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 26</value>
+    <value>156, 70</value>
   </data>
   <data name="&gt;&gt;contextMenuStripDMCollection.Name" xml:space="preserve">
     <value>contextMenuStripDMCollection</value>
@@ -360,6 +366,15 @@
   <metadata name="contextMenuStripProject.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>22, 13</value>
   </metadata>
+  <data name="contextMenuStripProject.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 98</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripProject.Name" xml:space="preserve">
+    <value>contextMenuStripProject</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripProject.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="projectSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 22</value>
   </data>
@@ -386,15 +401,6 @@
   </data>
   <data name="closeToolStripMenuItem.Text" xml:space="preserve">
     <value>Close</value>
-  </data>
-  <data name="contextMenuStripProject.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 120</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripProject.Name" xml:space="preserve">
-    <value>contextMenuStripProject</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripProject.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="contextMenuStripRevisions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>446, 17</value>
@@ -463,10 +469,10 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ProjectExplorerControl</value>
   </data>
-  <data name="&gt;&gt;addADMToolStripMenuItem.Name" xml:space="preserve">
-    <value>addADMToolStripMenuItem</value>
+  <data name="&gt;&gt;createNewDMToolStripMenuItem.Name" xml:space="preserve">
+    <value>createNewDMToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;addADMToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;createNewDMToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripButtonSortByType.Name" xml:space="preserve">
@@ -559,6 +565,12 @@
   <data name="&gt;&gt;m_saveFileDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;projectSettingsToolStripMenuItem.Name" xml:space="preserve">
+    <value>projectSettingsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;projectSettingsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;createNewRevisionOnProjectToolStripMenuItem.Name" xml:space="preserve">
     <value>createNewRevisionOnProjectToolStripMenuItem</value>
   </data>
@@ -595,10 +607,10 @@
   <data name="&gt;&gt;loadRevisionMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;projectSettingsToolStripMenuItem.Name" xml:space="preserve">
-    <value>projectSettingsToolStripMenuItem</value>
+  <data name="&gt;&gt;importDMToolStripMenuItem.Name" xml:space="preserve">
+    <value>importDMToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;projectSettingsToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;importDMToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

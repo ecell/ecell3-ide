@@ -169,8 +169,8 @@
   <data name="addADMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 22</value>
   </data>
-  <data name="addADMToolStripMenuItem.Text" xml:space="preserve">
-    <value>新規DM...</value>
+  <data name="createNewDMToolStripMenuItem.Text" xml:space="preserve">
+    <value>新規DMの作成...</value>
   </data>
   <data name="toolStripMenuItemAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
@@ -262,5 +262,8 @@
   </data>
   <data name="projectSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>プロジェクト設定...</value>
+  </data>
+  <data name="importDMToolStripMenuItem.Text" xml:space="preserve">
+    <value>DMの読み込み</value>
   </data>
 </root>

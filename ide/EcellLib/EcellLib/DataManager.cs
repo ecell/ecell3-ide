@@ -291,6 +291,24 @@ namespace Ecell
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        public void ImportDM(string path)
+        {
+            // Copy DMs.
+            if (m_currentProject == null || m_currentProject.Info.ProjectType != ProjectType.Project)
+                return;
+            string dmDir = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
+            if (!Directory.Exists(dmDir))
+                Directory.CreateDirectory(dmDir);
+            Util.CopyDirectory(path, dmDir, true);
+
+            m_currentProject.SetDMList();
+            m_env.DMDescriptorKeeper.Load(m_currentProject.GetDMDirs());
+        }
+
         #endregion
 
         #region Method for Load Project.

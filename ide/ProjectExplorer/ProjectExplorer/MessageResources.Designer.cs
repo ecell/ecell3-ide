@@ -196,6 +196,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Please select the DM directory. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SelectDMDir {
+            get {
+                return ResourceManager.GetString("SelectDMDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnDMName {

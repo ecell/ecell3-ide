@@ -162,6 +162,9 @@
   <data name="SaveConfirm" xml:space="preserve">
     <value>Do you want to save the project before closing this project?</value>
   </data>
+  <data name="SelectDMDir" xml:space="preserve">
+    <value>Please select the DM directory.</value>
+  </data>
   <data name="WarnDMName" xml:space="preserve">
     <value>Please input the name whose suffix is "Process" or "Stepper".</value>
   </data>

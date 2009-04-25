@@ -92,10 +92,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// 
         /// </summary>
-        private List<string> m_procList = null;
-        /// <summary>
-        /// 
-        /// </summary>
         private DataGridViewComboBoxCell m_stepperIDComboBox;
 
         /// <summary>
@@ -416,7 +412,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     propValueCell = new DataGridViewComboBoxCell();
                     bool isHit = false;
-                    foreach (string pName in m_procList)
+                    List<string> procList = m_env.DataManager.CurrentProject.ProcessDmList;
+                    foreach (string pName in procList)
                     {
                         ((DataGridViewComboBoxCell)propValueCell).Items.Add(pName);
                         if (pName == propValue)
@@ -697,15 +694,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     // Ç±Ç±Ç≈ÇÕèoÇ≥Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈÅB
                 }
             }
-            else if (type == ProjectStatus.Loading)
-            {
-                m_procList = null;
-            }
             else if (type == ProjectStatus.Loaded)
             {
 //                m_dgv.Enabled = true;
                 m_dgv.ReadOnly = false;
-                m_procList = m_env.DataManager.CurrentProject.ProcessDmList;
                 if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
                 {
                     m_time.Enabled = false;
@@ -717,7 +709,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 m_dgv.ReadOnly = true;
 //                m_dgv.Enabled = false;
-                m_procList = null;
             }
             else if (type == ProjectStatus.Stepping)
             {

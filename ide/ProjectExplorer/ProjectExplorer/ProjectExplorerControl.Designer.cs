@@ -32,7 +32,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ToolStripMenuItem addADMToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem createNewDMToolStripMenuItem;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectExplorerControl));
             System.Windows.Forms.ToolStrip toolStrip1;
             this.toolStripButtonSortByType = new System.Windows.Forms.ToolStripButton();
@@ -58,6 +58,7 @@
             this.configureSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStripProject = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.projectSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewRevisionOnProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -66,8 +67,8 @@
             this.createNewRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripRevision = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            addADMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            createNewDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStrip1.SuspendLayout();
             this.contextMenuStripDM.SuspendLayout();
@@ -81,11 +82,11 @@
             this.contextMenuStripRevision.SuspendLayout();
             this.SuspendLayout();
             // 
-            // addADMToolStripMenuItem
+            // createNewDMToolStripMenuItem
             // 
-            addADMToolStripMenuItem.Name = "addADMToolStripMenuItem";
-            resources.ApplyResources(addADMToolStripMenuItem, "addADMToolStripMenuItem");
-            addADMToolStripMenuItem.Click += new System.EventHandler(this.TreeViewNewDm);
+            createNewDMToolStripMenuItem.Name = "createNewDMToolStripMenuItem";
+            resources.ApplyResources(createNewDMToolStripMenuItem, "createNewDMToolStripMenuItem");
+            createNewDMToolStripMenuItem.Click += new System.EventHandler(this.TreeViewNewDm);
             // 
             // toolStrip1
             // 
@@ -150,7 +151,8 @@
             // contextMenuStripDMCollection
             // 
             this.contextMenuStripDMCollection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            addADMToolStripMenuItem});
+            createNewDMToolStripMenuItem,
+            this.importDMToolStripMenuItem});
             this.contextMenuStripDMCollection.Name = "contextMenuStripDMCollection";
             resources.ApplyResources(this.contextMenuStripDMCollection, "contextMenuStripDMCollection");
             // 
@@ -257,6 +259,12 @@
             this.contextMenuStripProject.Name = "contextMenuStripProject";
             resources.ApplyResources(this.contextMenuStripProject, "contextMenuStripProject");
             // 
+            // projectSettingsToolStripMenuItem
+            // 
+            this.projectSettingsToolStripMenuItem.Name = "projectSettingsToolStripMenuItem";
+            resources.ApplyResources(this.projectSettingsToolStripMenuItem, "projectSettingsToolStripMenuItem");
+            this.projectSettingsToolStripMenuItem.Click += new System.EventHandler(this.projectSettingsToolStripMenuItem_Click);
+            // 
             // createNewRevisionOnProjectToolStripMenuItem
             // 
             this.createNewRevisionOnProjectToolStripMenuItem.Name = "createNewRevisionOnProjectToolStripMenuItem";
@@ -306,11 +314,11 @@
             resources.ApplyResources(this.loadRevisionMenuItem, "loadRevisionMenuItem");
             this.loadRevisionMenuItem.Click += new System.EventHandler(this.TreeViewLoadRevision);
             // 
-            // projectSettingsToolStripMenuItem
+            // importDMToolStripMenuItem
             // 
-            this.projectSettingsToolStripMenuItem.Name = "projectSettingsToolStripMenuItem";
-            resources.ApplyResources(this.projectSettingsToolStripMenuItem, "projectSettingsToolStripMenuItem");
-            this.projectSettingsToolStripMenuItem.Click += new System.EventHandler(this.projectSettingsToolStripMenuItem_Click);
+            this.importDMToolStripMenuItem.Name = "importDMToolStripMenuItem";
+            resources.ApplyResources(this.importDMToolStripMenuItem, "importDMToolStripMenuItem");
+            this.importDMToolStripMenuItem.Click += new System.EventHandler(this.importDMToolStripMenuItem_Click);
             // 
             // ProjectExplorerControl
             // 
@@ -371,6 +379,7 @@
         private System.Windows.Forms.ToolStripMenuItem compileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importDMToolStripMenuItem;
 
     }
 }
