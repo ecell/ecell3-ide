@@ -788,7 +788,7 @@ namespace Ecell.IDE.MainWindow
             bool unInitialized = status == ProjectStatus.Uninitialized;
             bool loaded = status == ProjectStatus.Loaded;
             bool revision = false;
-            if (m_env.DataManager.CurrentProm_env.DataManager.CurrentProjectject != null)
+            if (m_env.DataManager.CurrentProject != null)
                 revision = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
 
             // file menu.
