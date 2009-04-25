@@ -117,106 +117,441 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="toolStripOpenProjectButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="toolStripOpenProjectButton.Text" xml:space="preserve">
+    <value>プロジェクトを開く...</value>
+  </data>
+  <data name="toolStripSaveProjectButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        1VWguuUQxOYAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="toolStripSaveProjectButton.Text" xml:space="preserve">
+    <value>プロジェクトの保存</value>
+  </data>
+  <data name="toolStripSaveAsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="toolStripSaveAsButton.Text" xml:space="preserve">
+    <value>名前を付けて保存</value>
+  </data>
+  <data name="toolStripUndoButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABJtJREFUWEftlelP
+        XFUYxl/mztjEaOIHv/gPGNO61JiWWqtA2dcywECwadVaCpQWKTCsMwxLGZahYKksUpYhbdjaUiwmFEtL
+        TVrQxE+amlR2GLZhm2EfYObxzJRBjMZhacYPepM3596be87ze9/3OecS/X/ttgId9NZul9j5/FYS8ou5
+        0Z0vsJuZd8j/hWq+jl/IqXezzM7mtpCIq+bpSvSfg59vbYBmOk5KWqnEWVxFCPgKawI00UmbKlpVGs7j
+        ESpRsBxsRYDb9ClXQWuViMCPqMd3q8XIXQwAd5Gn3VkftzOrkU5x5bRWhXD8gDq065RoWSlChkYISqQ5
+        QTo3x8/mqf4UObwh9jxoiqz1kd1z2dyT7UgT3aAQvlHcwMQN9WhdLoFiXoRLs0EomA+GZNwTqVOekE26
+        I2XCDVK1G3vniqQxF8SpjkI8dBSxg46IG3SGZMQDlEo9WwdooFBBBemrDGfRaajDXV0xFHOByNWy0AQh
+        a8YPbUvleKxrwPfL19G+pMS9xQq0LnyNloViNM8X4o42H9/M5qF+Jh150/4gMQ1sDaCezgkqePoq1vNO
+        1KBluQi5swFQMPGcmUBkT4sgnxKieDoMtdo0XNMko3omEVWT8SifEKNMHY3S8SiUjJ9H8VgkUobckT3p
+        A4ollWWAGrrw4lWBQcm2Woe+Ft8uXUGWNoBlLdoQz5oKQOaEH9LVPkgd94BsjLVglLVgxBWSYVckq1yQ
+        NOSMRFb6xAFnJA+4IkvtDYq2BHCdYl4qfyb+eK0GzUuXIdf4M+EAU9ZGYfmkv0n8olqIjHFfpI0yiBFv
+        yIa9kKLyhHTIA5JBdybqhqR+VyT2MZh+F2SovEAx/wRQRuLXrr1iqEEUOlnmTYv5yGROz2a9+zvh9LFj
+        FsUTep0R3+OEhD4nyLrdLFSgjCJeVb6sLzV8grsrV1CqjUDmlO9fMt6KsDFrs7gZIP6JIyjKkgmrKWxP
+        EV//5UIwrs4zgAnhRqm3KxzX7QhxF9uKLOJ6HRH9kx0oknotm1BJZ/YUCvSXmOMVmkATwFb6bM7YLBz7
+        mwNintqbQtztgMiOI6AvtgJgRCylz7h83moO63/OlP8mAE+T0VKGPZDCDhbpCDPbEDOZye2s1/2OiO8z
+        ZuwAcY89YrvtENNlB3GvHcIfHjJWoNtyBcxffEUnOAW3KlczH7DYcDjb0+JfnRDW9iHC21k8PIKwBx8g
+        /MFh0xjKxtD7h3Dmvi1C2g7i9L0D7J0tTrccAJ2jp1sHMH55mY7bZPFWM0a9YYxnW4sZrMcZJxsPQtS4
+        H0FN70J0az9Et9+B3823IbzxJnxv7oNP3V541r4B34Z9ONawF0L2jlVgmwBGiAIKpjSbFZnKHTKVB9vX
+        7FwfdsHHt94DRZBWIOHpBDJOsymm2b0p+Ovj+rNGIOUmtlcB89f5FEgyWklip5p0wNhzJ5xqtQWXbI3f
+        8R8QAZRMuvhuJ+YHF4Q9eh+cxJoARpBcElICLYm77HHh54+sXAFzJeTkxX6rSxG/HP6XAIwgcvLgJdgs
+        clJrt2CzheXkxsl40ztz9fOalUevP6+l/pvr/A6aK3oY7GzswgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="toolStripUndoButton.Text" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="toolStripRedoButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        cFvnQAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="toolStripRedoButton.Text" xml:space="preserve">
+    <value>やり直す</value>
+  </data>
+  <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 6</value>
+  </data>
+  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
   <data name="MenuItemFile.Text" xml:space="preserve">
     <value>ファイル(&amp;F)</value>
+  </data>
+  <data name="newProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="newProjectToolStripMenuItem.Text" xml:space="preserve">
     <value>新規プロジェクト(&amp;N)...</value>
   </data>
+  <data name="projectWizardMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="projectWizardMenuItem.Text" xml:space="preserve">
     <value>プロジェクトウィザード(&amp;Z)...</value>
+  </data>
+  <data name="openProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="openProjectToolStripMenuItem.Text" xml:space="preserve">
     <value>プロジェクトを開く(&amp;O)...</value>
   </data>
+  <data name="recentProejctToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="recentProejctToolStripMenuItem.Text" xml:space="preserve">
     <value>最近使用したプロジェクト(&amp;R) </value>
+  </data>
+  <data name="saveProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="saveProjectToolStripMenuItem.Text" xml:space="preserve">
     <value>プロジェクトの保存(&amp;S)...</value>
   </data>
+  <data name="saveAsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>名前を付けて保存(&amp;A)...</value>
+  </data>
+  <data name="closeProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="closeProjectToolStripMenuItem.Text" xml:space="preserve">
     <value>プロジェクトを閉じる(&amp;C)</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="importModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="importModelToolStripMenuItem.Text" xml:space="preserve">
     <value>EML形式から読み込み(&amp;I)...</value>
   </data>
+  <data name="exportModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
     <value>EML形式で出力(&amp;E)...</value>
+  </data>
+  <data name="importSBMLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="importSBMLMenuItem.Text" xml:space="preserve">
     <value>SBML形式から読み込み(&amp;B)</value>
   </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="saveScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトテンプレートの保存(&amp;V)...</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="saveWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="saveWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ状態の保存(&amp;W)...</value>
   </data>
+  <data name="loadWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="loadWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ状態のロード(&amp;T)...</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="printToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="printToolStripMenuItem.Text" xml:space="preserve">
     <value>印刷(&amp;P)...</value>
   </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>終了(&amp;X)</value>
+  </data>
+  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
   </data>
   <data name="MenuItemEdit.Text" xml:space="preserve">
     <value>編集(&amp;E)</value>
   </data>
+  <data name="undoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
     <value>元に戻す(&amp;Z)</value>
+  </data>
+  <data name="redoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
   </data>
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
     <value>やり直す(&amp;Y)</value>
   </data>
+  <data name="MenuItemSetup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
+  </data>
   <data name="MenuItemSetup.Text" xml:space="preserve">
     <value>設定(&amp;S)</value>
+  </data>
+  <data name="modelEditorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
   </data>
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>プロジェクトルートフォルダ(&amp;P)...</value>
   </data>
+  <data name="setIDEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
   <data name="setIDEToolStripMenuItem.Text" xml:space="preserve">
     <value>IDEの設定(&amp;I)...</value>
+  </data>
+  <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>設定...</value>
   </data>
+  <data name="MenuItemLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
+  </data>
   <data name="MenuItemLayout.Text" xml:space="preserve">
     <value>レイアウト(&amp;L)</value>
+  </data>
+  <data name="MenuItemView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 20</value>
   </data>
   <data name="MenuItemView.Text" xml:space="preserve">
     <value>表示(&amp;V)</value>
   </data>
+  <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 22</value>
+  </data>
   <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ</value>
+  </data>
+  <data name="MenuItemRun.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 20</value>
   </data>
   <data name="MenuItemRun.Text" xml:space="preserve">
     <value>シミュレーション(&amp;I)</value>
   </data>
+  <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 6</value>
+  </data>
+  <data name="importScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
+  </data>
   <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトを読み込んで実行(&amp;U)...</value>
+  </data>
+  <data name="MenuItemTools.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 20</value>
   </data>
   <data name="MenuItemTools.Text" xml:space="preserve">
     <value>ツール(&amp;T)</value>
   </data>
+  <data name="scriptEditorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
   <data name="scriptEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトの編集(&amp;C) ...</value>
+  </data>
+  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 20</value>
   </data>
   <data name="MenuItemHelp.Text" xml:space="preserve">
     <value>ヘルプ(&amp;H)</value>
   </data>
+  <data name="ShowVersionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
+  </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
     <value>プラグイン(&amp;P)...</value>
+  </data>
+  <data name="aboutIDEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
   </data>
   <data name="aboutIDEToolStripMenuItem.Text" xml:space="preserve">
     <value>E-Cell IDEの情報(&amp;I)...</value>
   </data>
+  <data name="feedbackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 22</value>
+  </data>
   <data name="feedbackToolStripMenuItem.Text" xml:space="preserve">
     <value>フィードバック(&amp;F)</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAMDAAAAEAIACoJQAAFgAAACgAAAAwAAAAYAAAAAEAIAAAAAAAgCUAAAAAAAAAAAAAAAAAAAAA
@@ -382,8 +717,5 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
-  </data>
-  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
-    <value>名前を付けて保存(&amp;A)...</value>
   </data>
 </root>

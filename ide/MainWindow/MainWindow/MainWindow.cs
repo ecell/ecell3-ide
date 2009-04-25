@@ -811,6 +811,11 @@ namespace Ecell.IDE.MainWindow
             importSBMLMenuItem.Enabled = unInitialized || loaded;
             scriptEditorToolStripMenuItem.Enabled = unInitialized || loaded;
 
+            // Button.
+            toolStripOpenProjectButton.Enabled = unInitialized || loaded;
+            toolStripSaveProjectButton.Enabled = (suspend || loaded) && !revision;
+            toolStripSaveAsButton.Enabled = (suspend || loaded) && !revision;
+
             // Reset edit count.
             if (unInitialized || (m_status == ProjectStatus.Loading && loaded))
                 m_editCount = 0;
@@ -1004,14 +1009,14 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void LoadProjectMenuClick(object sender, EventArgs e)
         {
-            // Check the modification and confirm save.
-            if (!CloseConfirm())
-                return;
 
             ProjectExplorerDialog ped = new ProjectExplorerDialog(m_currentDir);
             using (ped)
             {
                 if (ped.ShowDialog() != DialogResult.OK)
+                    return;
+                // Check the modification and confirm save.
+                if (!CloseConfirm())
                     return;
                 try
                 {
@@ -1032,13 +1037,13 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void LoadProjectWizardMenuClick(object sender, EventArgs e)
         {
-            // Check the modification and confirm save.
-            if (!CloseConfirm())
-                return;
 
             ProjectWizardWindow win = new ProjectWizardWindow();
             if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
             {
+                // Check the modification and confirm save.
+                if (!CloseConfirm())
+                    return;
                 ProjectInfo info = win.SelectedProject;
                 info.DMDirList.AddRange(win.DMList);
                 try
@@ -1136,15 +1141,15 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ImportModelMenuClick(object sender, EventArgs e)
         {
-            // Check current project and save it.
-            if (!CloseConfirm())
-                return;
             // Show OpenFileDialog.
             try
             {
                 openFileDialog.RestoreDirectory = true;
                 openFileDialog.Filter = Constants.FilterEmlFile;
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+                // Check current project and save it.
+                if (!CloseConfirm())
                     return;
                 // Close project
                 if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
@@ -1547,8 +1552,14 @@ namespace Ecell.IDE.MainWindow
         {
             bool prjStatus = m_status == ProjectStatus.Loaded;
             bool isRunning = m_env.ActionManager.IsLoadAction;
-            undoToolStripMenuItem.Enabled = (status == UndoStatus.UNDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
-            redoToolStripMenuItem.Enabled = (status == UndoStatus.REDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
+            bool undoEnabled = (status == UndoStatus.UNDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
+            bool redoEnabled = (status == UndoStatus.REDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
+            undoToolStripMenuItem.Enabled = undoEnabled;
+            redoToolStripMenuItem.Enabled = redoEnabled;
+
+            toolStripUndoButton.Enabled = undoEnabled;
+            toolStripRedoButton.Enabled = redoEnabled;
+
         }
 
         /// <summary>
@@ -1565,13 +1576,13 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void ImportSBMLMenuItem_Click(object sender, EventArgs e)
         {
-            if (!CloseConfirm())
-                return;
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = Constants.FilterSBMLFile;
             using (dialog)
             {
                 if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+                if (!CloseConfirm())
                     return;
                 string filename = dialog.FileName;
                 try
