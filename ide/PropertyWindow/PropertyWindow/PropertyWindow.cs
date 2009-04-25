@@ -699,7 +699,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (type == ProjectStatus.Loading)
             {
-                m_procList = m_env.DataManager.CurrentProject.ProcessDmList;
+                m_procList = null;
             }
             else if (type == ProjectStatus.Loaded)
             {

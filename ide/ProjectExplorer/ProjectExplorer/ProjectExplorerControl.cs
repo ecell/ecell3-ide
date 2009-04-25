@@ -630,9 +630,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <returns>string(path)</returns>
         internal string GetCurrentPath(string path, TreeNode src)
         {
-            if (src.Parent == null) return null;
+            if (src.Parent == null)
+                return null;
             TagData tag = (TagData)src.Parent.Tag;
-            if (tag == null) return null;
+            if (tag == null)
+                return null;
             if (tag.Type == Constants.xpathModel)
             {
                 path = src.Text + path; // top is "/"
@@ -962,13 +964,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (e.Node == null || !e.Node.Bounds.Contains(e.X, e.Y))
                 return;
 
-            if (e.Node.Parent == m_DMNode)
+            if (e.Node is DMNode)
             {
                 string path = m_owner.Environment.DataManager.GetDMFileName(e.Node.Text);
-                if (path == null) return;
+                if (path == null)
+                    return;
                 DisplayDMEditor(path);
             }
-            else if (m_paramNode == e.Node.Parent)
+            else if (e.Node is ParamNode)
             {
                 if (m_owner.PluginManager.Status == ProjectStatus.Running ||
                     m_owner.PluginManager.Status == ProjectStatus.Suspended ||
@@ -1082,9 +1085,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewExportLog(object sender, EventArgs e)
         {
-            if (m_lastSelectedNode == null) return;
+            if (m_lastSelectedNode == null)
+                return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.Type != Constants.xpathLog) return;
+            if (tag == null || tag.Type != Constants.xpathLog)
+                return;
 
             string logFile = tag.Key;
             string ext = Path.GetExtension(logFile);
@@ -1116,9 +1121,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewShowLogOnGraph(object sender, EventArgs e)
         {       
-            if (m_lastSelectedNode == null) return;
+            if (m_lastSelectedNode == null)
+                return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.Type != Constants.xpathLog) return;
+            if (tag == null || tag.Type != Constants.xpathLog)
+                return;
      
             ShowGraphDelegate dlg = m_owner.PluginManager.GetDelegate("ShowGraphWithLog") as ShowGraphDelegate;
 
@@ -1147,9 +1154,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewCopySimulationSet(object sender, EventArgs e)
         {
-            if (m_lastSelectedNode == null) return;
+            if (m_lastSelectedNode == null)
+                return;
             String name = m_lastSelectedNode.Tag as string;
-            if (String.IsNullOrEmpty(name)) return;
+            if (String.IsNullOrEmpty(name))
+                return;
 
             List<string> paraList = m_owner.DataManager.GetSimulationParameterIDs();
 
@@ -1171,9 +1180,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewDeleteSimulationSet(object sender, EventArgs e)
         {
-            if (m_lastSelectedNode == null) return;
+            if (m_lastSelectedNode == null)
+                return;
             String name = m_lastSelectedNode.Tag as string;
-            if (String.IsNullOrEmpty(name)) return;
+            if (String.IsNullOrEmpty(name))
+                return;
 
             try
             {
@@ -1191,9 +1202,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewExportModel(object sender, EventArgs e)
         {
-            if (m_lastSelectedNode == null) return;
+            if (m_lastSelectedNode == null)
+                return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.Type != Constants.xpathModel) return;
+            if (tag == null || tag.Type != Constants.xpathModel)
+                return;
             String name = tag.ModelID;
             List<string> modelList = new List<string>();
             modelList.Add(name);

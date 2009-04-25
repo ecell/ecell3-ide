@@ -335,8 +335,6 @@ namespace Ecell
                 projectID = info.Name;
                 message = "[" + projectID + "]";
                 project = new Project(info, m_env);
-                // Set current project.
-                m_currentProject = project;
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
 
                 // Create EcellProject.
@@ -360,7 +358,6 @@ namespace Ecell
                 {
                     passList.AddRange(project.SystemDic[storedModelID]);
                 }
-                m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
 
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
@@ -368,6 +365,10 @@ namespace Ecell
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
                 m_env.Console.Flush();
                 Trace.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
+
+                // Set current project.
+                m_currentProject = project;
+                m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
             }
             catch (Exception ex)
             {
@@ -422,7 +423,7 @@ namespace Ecell
                 if (fileName.IndexOf(Constants.delimiterUnderbar) == 0)
                     continue;
                 // Load parameter.
-                SimulationParameter simParam = LoadSimulationParameter(parameter);
+                SimulationParameter simParam = LoadSimulationParameter(parameter, project);
                 // Set parameter.
                 SetSimulationParameter(simParam);
             }
@@ -4275,19 +4276,20 @@ namespace Ecell
         /// Loads the simulation parameter.
         /// </summary>
         /// <param name="fileName">The simulation parameter file name</param>
+        /// <param name="project">The project</param>
         /// <returns></returns>
-        public SimulationParameter LoadSimulationParameter(string fileName)
+        private SimulationParameter LoadSimulationParameter(string fileName, Project project)
         {
             string message = null;
             SimulationParameter simParam = null;
-            string projectID = m_currentProject.Info.Name;
+            string projectID = project.Info.Name;
             try
             {
                 message = "[" + fileName + "]";
                 // Initializes
                 Debug.Assert(!string.IsNullOrEmpty(fileName));
                 // Parses the simulation parameter.
-                WrappedSimulator simulator = m_currentProject.CreateSimulatorInstance();
+                WrappedSimulator simulator = project.CreateSimulatorInstance();
                 simParam = SimulationParameterReader.Parse(fileName, simulator);
             }
             catch (Exception ex)

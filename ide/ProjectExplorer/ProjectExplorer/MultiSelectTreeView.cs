@@ -140,22 +140,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="isdispatch"></param>
         public void SelectNodes(TreeNode tn, bool isdispatch)
         {
-            if (m_isUpdate) return;
+            if (m_isUpdate)
+                return;
             if (!this.SelNodes.Contains(tn))
                 this.SelNodes.Add(tn);
 
             HighLight(tn);
-            if (isdispatch)
+            if (!isdispatch)
+                return;
+
+            if (tn.Tag != null)
             {
-                if (tn.Tag != null)
+                TagData t = tn.Tag as TagData;
+                if (t != null)
                 {
-                    TagData t = tn.Tag as TagData;
-                    if (t != null)
-                    {
-                        m_isUpdate = true;
-                        m_env.PluginManager.AddSelect(t.ModelID, t.Key, t.Type);
-                        m_isUpdate = false;
-                    }
+                    m_isUpdate = true;
+                    m_env.PluginManager.AddSelect(t.ModelID, t.Key, t.Type);
+                    m_isUpdate = false;
                 }
             }
         }
@@ -168,7 +169,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="isScroll">the flag whether EnsureVisible is executed.</param>
         public void SelectNode(TreeNode tn, bool isChanged, bool isScroll)
         {
-            if (m_isUpdate) return;
+            if (m_isUpdate)
+                return;
             ClearSelNode();
             if (!this.SelNodes.Contains(tn))
                 this.SelNodes.Add(tn);
@@ -176,8 +178,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             this.SelectedNode = null;
             HighLight(tn);
 
-            if (isScroll) tn.EnsureVisible();
-            if (isChanged) return;
+            if (isScroll)
+                tn.EnsureVisible();
+            
+            if (isChanged)
+                return;
             if (tn.Tag != null)
             {
                 TagData t = tn.Tag as TagData;
@@ -197,22 +202,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="isdispatch"></param>
         public void DeselectNode(TreeNode tn, bool isdispatch)
         {
-            if (m_isUpdate) return;
+            if (m_isUpdate)
+                return;
             if (this.SelNodes.Contains(tn))
                 this.SelNodes.Remove(tn);
             LowlightNode(tn);
 
-            if (isdispatch)
+            if (!isdispatch)
+                return;
+
+            if (tn.Tag != null)
             {
-                if (tn.Tag != null)
+                TagData t = tn.Tag as TagData;
+                if (t != null)
                 {
-                    TagData t = tn.Tag as TagData;
-                    if (t != null)
-                    {
-                        m_isUpdate = true;
-                        m_env.PluginManager.RemoveSelect(t.ModelID, t.Key, t.Type);
-                        m_isUpdate = false;
-                    }
+                    m_isUpdate = true;
+                    m_env.PluginManager.RemoveSelect(t.ModelID, t.Key, t.Type);
+                    m_isUpdate = false;
                 }
             }
 

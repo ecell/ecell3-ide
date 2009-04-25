@@ -1432,26 +1432,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestLoadSimulationParameter()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
-
-            string l_fileName = "";
-            try
-            {
-                _unitUnderTest.LoadSimulationParameter(l_fileName);
-                Assert.Fail();
-            }
-            catch (Exception)
-            {
-            }
-            l_fileName = TestConstant.TestDirectory + "";
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestLoadSimulationResult()
         {
             string filename = null;
