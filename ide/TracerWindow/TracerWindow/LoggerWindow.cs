@@ -117,6 +117,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_isChanged = false;
                 loggerDataGrid.Rows[e.RowIndex].Tag = entry;
             }
+            else if (e.ColumnIndex == IsY2Column.Index)
+            {
+                bool isCheck = (bool)c.Value;
+                entry.IsY2Axis = isCheck;
+                m_isChanged = true;
+                m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
+                m_isChanged = false;
+                loggerDataGrid.Rows[e.RowIndex].Tag = entry;
+            }
         }
 
         /// <summary>
@@ -432,6 +441,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             c4.Value = b1;
             r.Cells.Add(c4);
 
+            DataGridViewCheckBoxCell c5 = new DataGridViewCheckBoxCell();
+            c5.Value = entry.IsY2Axis;
+            r.Cells.Add(c5);
+
             r.Tag = entry;
             loggerDataGrid.Rows.Add(r);
             c2.ReadOnly = true;
@@ -475,6 +488,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             loggerDataGrid[FullPNColumn.Index, rindex].Value = entry.FullPN;
             loggerDataGrid[ColorColumn.Index, rindex].Value = b;
             loggerDataGrid[LineColumn.Index, rindex].Value = b1;
+            loggerDataGrid[IsY2Column.Index, rindex].Value = entry.IsY2Axis;
             loggerDataGrid.Rows[rindex].Tag = entry;
         }
 
@@ -610,6 +624,30 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void changeYAxisClick(object sender, EventArgs e)
+        {
+            List<LoggerEntry> eList = new List<LoggerEntry>();
+
+            foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
+            {
+                if (r.Tag == null) continue;
+                LoggerEntry entry = r.Tag as LoggerEntry;
+                if (entry == null) continue;
+
+                entry.IsY2Axis = !entry.IsY2Axis;
+
+                loggerDataGrid[IsY2Column.Index, r.Index].Value = entry.IsY2Axis;
+
+                m_isChanged = true;
+                m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
+                m_isChanged = false;
+                loggerDataGrid.Rows[r.Index].Tag = entry;
+            }
+
+
+            
         }
 
 

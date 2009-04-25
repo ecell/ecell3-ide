@@ -153,6 +153,28 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_entryDic[ntag.ToShortString()].SetVisible(entry.IsShown);
             m_entryDic[ntag.ToShortString()].SetColor(entry.Color);
             m_entryDic[ntag.ToShortString()].SetLineWidth(entry.LineWidth);
+            m_entryDic[ntag.ToShortString()].SetY2Axis(entry.IsY2Axis);
+            if (entry.IsY2Axis)
+            {
+                m_zCnt.GraphPane.Y2Axis.IsVisible = true;
+            }
+            else
+            {
+                bool isHit = false;
+                foreach (string entStr in m_entryDic.Keys)
+                {
+                    if (m_entryDic[entStr].IsY2)
+                    {
+                        m_zCnt.GraphPane.Y2Axis.IsVisible = true;
+                        isHit = true;
+                        break;
+
+                    }
+                }
+                if (isHit == false)
+                    m_zCnt.GraphPane.Y2Axis.IsVisible = false;
+            }
+
             if (entry.IsShown)
             {
                 if (!m_zCnt.GraphPane.IsZoomed)

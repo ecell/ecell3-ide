@@ -50,10 +50,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private LineItem m_tmpLineItem;
         private bool m_isContinuous;
         private bool m_isLoaded;
+        private bool m_isY2 = false;
         private PointD m_prevPoints;
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// get the flag whether this data is shown in Y2.
+        /// </summary>
+        public bool IsY2
+        {
+            get { return this.m_isY2; }
+        }
+
         /// <summary>
         /// get / set the fullPN of logger.
         /// </summary>
@@ -167,6 +176,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             m_currentLineItem.Line.Width = (float)width;
             m_tmpLineItem.Line.Width = (float)width;
+        }
+
+        public void SetY2Axis(bool isY2)
+        {
+            m_currentLineItem.IsY2Axis = isY2;
+            m_tmpLineItem.IsY2Axis = isY2;
+            m_isY2 = isY2;
         }
         #endregion
 
