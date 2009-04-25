@@ -137,6 +137,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// 
         /// </summary>
         private bool m_isSuspend = false;
+        private double m_time = 0.0;
         #endregion
 
         #region Constructor
@@ -323,9 +324,18 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_stepUnitCombo});
             ButtonList.Location = new Point(400, 0);
         }
+
         #endregion
 
         #region Inherited from PluginBase
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Initialize()
+        {
+            m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DataManager_DisplayFormatEvent);
+        }
+
         /// <summary>
         /// Get manustripts for Simulation
         /// [Run]   -> [Run ...]
@@ -427,7 +437,8 @@ namespace Ecell.IDE.Plugins.Simulation
         public override void AdvancedTime(double time)
         {
             if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
-            m_timeText.Text = time.ToString();
+                m_timeText.Text =  time.ToString(m_env.DataManager.DisplayStringFormat);
+            m_time = time;
         }
 
         /// <summary>
@@ -481,7 +492,10 @@ namespace Ecell.IDE.Plugins.Simulation
             // Set ComboBox for Params.
             m_timeText.Enabled = isLoaded || isStepping || isRunning || isSuspended;
             if (isUninitialized || isLoaded)
+            {
                 m_timeText.Text = "0";
+                m_time = 0.0;
+            }
             m_stepText.Enabled = isLoaded || (isSuspended && !m_isStepping);
             m_stepUnitCombo.Enabled = isLoaded || (isSuspended && !m_isStepping);
             m_paramsCombo.Enabled = isLoaded;
@@ -645,6 +659,16 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         #region Event
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
+        void DataManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        {
+            m_timeText.Text = m_time.ToString(m_env.DataManager.DisplayStringFormat);
+        }
+
         /// <summary>
         /// The action of [Simulation] menu click.
         /// </summary>

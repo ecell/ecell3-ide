@@ -35,10 +35,28 @@ using Ecell.Objects;
 
 namespace Ecell.Logger
 {
+    /// <summary>
+    /// EventHandler when object is added.
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void LoggerAddEventHandler(object o, LoggerEventArgs e);
+    /// <summary>
+    /// EventHandler when object is deleted.
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void LoggerDeleteEventHandler(object o, LoggerEventArgs e);
+    /// <summary>
+    /// EventHandler when object is changed.
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void LoggerChangedEventHandler(object o, LoggerEventArgs e);
 
+    /// <summary>
+    /// LoggerManager
+    /// </summary>
     public class LoggerManager
     {
         public event LoggerAddEventHandler LoggerAddEvent;

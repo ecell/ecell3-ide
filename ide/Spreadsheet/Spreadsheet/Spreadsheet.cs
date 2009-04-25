@@ -254,6 +254,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         public override void Initialize()
         {
             InitializeComponents();
+
+            m_dManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(m_dManager_DisplayFormatEvent);
         }
         #endregion
 
@@ -497,7 +499,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 {
                     EcellValue v = DataManager.GetEntityProperty(entPath);
                     if (v == null) continue;
-                    m_propDic[entPath].Value = (string)v;
+                    if (v.IsDouble)
+                    m_propDic[entPath].Value = ((double)v).ToString(m_dManager.DisplayStringFormat);
                 }
             }
             catch (Exception)
@@ -956,14 +959,18 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             else if (name.Equals(s_indexSize))
             {
                 EcellSystem data = obj as EcellSystem;
-                return data.SizeInVolume.ToString();
+                return data.SizeInVolume.ToString(m_dManager.DisplayStringFormat);
             }
             else
             {
                 foreach (EcellData d in obj.Value)
                 {
                     if (name.Equals(d.Name))
+                    {
+                        if (d.Value.IsDouble)
+                            return ((double)d.Value).ToString(m_dManager.DisplayStringFormat);
                         return (string)d.Value;
+                    }
                 }
             }
 
@@ -1292,6 +1299,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         }
 
         #region Events
+
+        private void m_dManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        {
+            ResetPropForSimulation();
+        }
+
         /// <summary>
         /// Event when search button is clicked.
         /// </summary>

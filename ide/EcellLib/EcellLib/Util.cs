@@ -1500,5 +1500,31 @@ namespace Ecell
             else if (j == 3) return DashStyle.Dot;
             else return DashStyle.DashDotDot;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetDisplayFormat(ValueDataFormat value)
+        {
+            switch (value)
+            {
+                case ValueDataFormat.Normal:
+                    return "G";
+                case ValueDataFormat.Exponential1:
+                    return "e1";
+                case ValueDataFormat.Exponential2:
+                    return "e2";
+                case ValueDataFormat.Exponential3:
+                    return "e3";
+                case ValueDataFormat.Exponential4:
+                    return "e4";
+                case ValueDataFormat.Exponential5:
+                    return "e5";
+                default:
+                    return "G";
+            }
+        }
     }
 }

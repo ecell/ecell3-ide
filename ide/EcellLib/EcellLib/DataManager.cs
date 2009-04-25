@@ -56,14 +56,27 @@ using Ecell.Exceptions;
 using Ecell.SBML;
 using Ecell.Action;
 using Ecell.Plugin;
+using Ecell.Events;
 
 namespace Ecell
 {
+    /// <summary>
+    /// EventHandler when object is added.
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
+    public delegate void DisplayFormatChangedEventHandler(object o, DisplayFormatEventArgs e);
+
     /// <summary>
     /// Manages data of projects, models, and so on.
     /// </summary>
     public class DataManager
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public event DisplayFormatChangedEventHandler DisplayFormatEvent;
+
         #region Fields
         /// <summary>
         /// The application environment associated to this object.
@@ -119,8 +132,14 @@ namespace Ecell
         /// 
         /// </summary>
         private bool m_isTimeStepping = false;
+        /// <summary>
+        /// 
+        /// </summary>
         private int m_waitTime = 0;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        private ValueDataFormat m_format = ValueDataFormat.Normal;
         #endregion
 
         #region Constructor
@@ -154,6 +173,51 @@ namespace Ecell
         {
             get { return this.m_waitTime; }
             set { this.m_waitTime = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ValueDataFormat DisplayFormat
+        {
+            get { return this.m_format; }
+            set 
+            {
+                if (m_format == value) 
+                    return;
+
+                this.m_format = value;
+                if (DisplayFormatEvent != null)
+                    DisplayFormatEvent(this, 
+                        new DisplayFormatEventArgs(Util.GetDisplayFormat(this.m_format)));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string DisplayStringFormat
+        {
+            get
+            {
+                switch (this.m_format)
+                {
+                    case ValueDataFormat.Normal:
+                        return "G";
+                    case ValueDataFormat.Exponential1:
+                        return "e1";
+                    case ValueDataFormat.Exponential2:
+                        return "e2";
+                    case ValueDataFormat.Exponential3:
+                        return "e3";
+                    case ValueDataFormat.Exponential4:
+                        return "e4";
+                    case ValueDataFormat.Exponential5:
+                        return "e5";
+                    default:
+                        return "G";
+                }
+            }
         }
 
         /// <summary>

@@ -119,6 +119,9 @@
     </Compile>
     <Compile Include="DockWindowSerializer.cs">
     </Compile>
+    <Compile Include="GeneralConfigurationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GridJobStatusDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +199,14 @@
     <EmbeddedResource Include="EcellWebBrowser.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EcellWebBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeneralConfigurationPage.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GeneralConfigurationPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeneralConfigurationPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GeneralConfigurationPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GridJobStatusDialog.ja.resx">
       <SubType>Designer</SubType>

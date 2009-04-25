@@ -134,6 +134,7 @@
     <Compile Include="Action\UndoStatusChangedEventArgs.cs" />
     <Compile Include="DataStorer.cs" />
     <Compile Include="DynamicModuleManager.cs" />
+    <Compile Include="Events\DisplayFormatEventArgs.cs" />
     <Compile Include="Exceptions\EcellException.cs" />
     <Compile Include="Exceptions\IgnoreException.cs" />
     <Compile Include="Exceptions\SimulationException.cs" />

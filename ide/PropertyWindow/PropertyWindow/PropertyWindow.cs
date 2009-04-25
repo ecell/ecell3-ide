@@ -254,7 +254,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if ((string)row.Cells[0].Value != d.Name)
                         continue;
 
-                    row.Cells[1].Value = value.ToString();
+                    row.Cells[1].Value = value.ToString(m_env.DataManager.DisplayStringFormat);
                     if (d.Name == "FullID")
                         row.Cells[1].ReadOnly = true;
                     break;

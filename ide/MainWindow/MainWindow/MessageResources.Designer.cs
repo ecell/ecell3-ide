@@ -340,6 +340,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameGeneral {
+            get {
+                return ResourceManager.GetString("NameGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Job manage に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameJobManage {

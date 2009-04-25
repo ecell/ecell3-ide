@@ -832,4 +832,35 @@ namespace Ecell
         /// </summary>
         public const string MenuItemHelp = "MenuItemHelp";
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum ValueDataFormat
+    {
+        /// <summary>
+        /// "G"
+        /// </summary>
+        Normal = 0,
+        /// <summary>
+        /// "e1"
+        /// </summary>
+        Exponential1 = 1,
+        /// <summary>
+        /// "e2"
+        /// </summary>
+        Exponential2 = 2,
+        /// <summary>
+        /// "e3"
+        /// </summary>
+        Exponential3 = 3,
+        /// <summary>
+        /// "e4"
+        /// </summary>
+        Exponential4 = 4,
+        /// <summary>
+        /// "e5"
+        /// </summary>
+        Exponential5 = 5
+    }
 }

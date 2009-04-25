@@ -32,44 +32,32 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Logger
+namespace Ecell.Events
 {
     /// <summary>
-    /// LoggerEventArgs
+    /// DisplayFormatEventArgs
     /// </summary>
-    public class LoggerEventArgs : EventArgs
+    public class DisplayFormatEventArgs : EventArgs
     {
         #region Fields
-        private string m_orgFullPN;
-        private LoggerEntry m_entry;
+        private string m_dataFormat;
         #endregion
 
-        #region Accessors
         /// <summary>
         /// 
         /// </summary>
-        public LoggerEntry Entry
+        public string DisplayFormat
         {
-            get { return m_entry; }
+            get { return this.m_dataFormat; }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string OriginalFullPN
-        {
-            get { return m_orgFullPN; }
-        }
-        #endregion
 
         /// <summary>
         /// Constructors
         /// </summary>
-        /// <param name="orgFullPN"></param>
-        /// <param name="entry"></param>
-        public LoggerEventArgs(string orgFullPN, LoggerEntry entry)
+        /// <param name="format"></param>
+        public DisplayFormatEventArgs(string format)
         {
-            m_orgFullPN = orgFullPN;
-            m_entry = entry;
+            m_dataFormat = format;
         }
     }
 }

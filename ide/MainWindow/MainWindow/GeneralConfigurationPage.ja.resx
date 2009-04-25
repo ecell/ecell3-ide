@@ -117,139 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>シミュレーションが実行中です。アプリケーションを本当に閉じますか？</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>表示形式</value>
   </data>
-  <data name="ConfirmOverwrite" xml:space="preserve">
-    <value>上書きしてもよろしいですか？</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>表示形式:</value>
   </data>
-  <data name="ConfirmRestart" xml:space="preserve">
-    <value>言語設定の変更は次回起動時から有効になります。</value>
+  <data name="valueFormatComboBox.Items" xml:space="preserve">
+    <value>全桁表示</value>
   </data>
-  <data name="ConfirmUnsavableWindows" xml:space="preserve">
-    <value>以下のウインドウはWindow設定の保存対象に含まれません。</value>
+  <data name="valueFormatComboBox.Items1" xml:space="preserve">
+    <value>指数表示（有効数字1桁）</value>
   </data>
-  <data name="DialogTitleSaveAs" xml:space="preserve">
-    <value>新しいプロジェクトとして保存</value>
+  <data name="valueFormatComboBox.Items2" xml:space="preserve">
+    <value>指数表示（有効数字2桁）</value>
   </data>
-  <data name="DockClosing" xml:space="preserve">
-    <value>ドッカブルペイン {0} を閉じています...</value>
+  <data name="valueFormatComboBox.Items3" xml:space="preserve">
+    <value>指数表示（有効数字3桁）</value>
   </data>
-  <data name="DockPreparing" xml:space="preserve">
-    <value>ドッカブルペイン {0} を準備しています...</value>
+  <data name="valueFormatComboBox.Items4" xml:space="preserve">
+    <value>指数表示（有効数字4桁）</value>
   </data>
-  <data name="ErrExistProject" xml:space="preserve">
-    <value>プロジェクト "{0}"は既に存在します。</value>
-  </data>
-  <data name="ErrFailedToParse" xml:space="preserve">
-    <value>{{0}のパースに失敗しました。</value>
-  </data>
-  <data name="ErrIDNG" xml:space="preserve">
-    <value>{0} に不正な文字列が含まれています。</value>
-  </data>
-  <data name="ErrInvalidValue" xml:space="preserve">
-    <value>入力された値[ {0} ]が不正です。</value>
-  </data>
-  <data name="ErrLarger" xml:space="preserve">
-    <value>{0} は {1} より大きい値に設定してください。</value>
-  </data>
-  <data name="ErrLoadFile" xml:space="preserve">
-    <value>ファイル {0} を読み込めません。</value>
-  </data>
-  <data name="ErrLoadWhileSimulation" xml:space="preserve">
-    <value>シミュレーション実行中はプロジェクトをロードできません。</value>
-  </data>
-  <data name="ErrLoadWindowSettings" xml:space="preserve">
-    <value>ウィンドウ設定を読み込めません。</value>
-  </data>
-  <data name="ErrNoSelect" xml:space="preserve">
-    <value>選択されていません。</value>
-  </data>
-  <data name="ErrNoSet" xml:space="preserve">
-    <value>{0} が設定されていません。</value>
-  </data>
-  <data name="ErrSaveWindowSettings" xml:space="preserve">
-    <value>ウィンドウ設定を保存できません。</value>
-  </data>
-  <data name="ExpModelMes" xml:space="preserve">
-    <value>プロジェクトルートフォルダを設定してください。ここに各プロジェクトが保存されます。</value>
-  </data>
-  <data name="ExportModelDialog" xml:space="preserve">
-    <value>モデルのエクスポート</value>
-  </data>
-  <data name="FileNotFound" xml:space="preserve">
-    <value>指定したファイルが存在しません。</value>
-  </data>
-  <data name="MenuCopy" xml:space="preserve">
-    <value>プロジェクトの複製</value>
-  </data>
-  <data name="MenuCreateNewProject" xml:space="preserve">
-    <value>新規プロジェクトの作成</value>
-  </data>
-  <data name="MenuCreateNewRevision" xml:space="preserve">
-    <value>新規リビジョンの作成</value>
-  </data>
-  <data name="MenuDelete" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="MenuPaste" xml:space="preserve">
-    <value>ペースト</value>
-  </data>
-  <data name="MenuRecentProjects" xml:space="preserve">
-    <value>最近使用したプロジェクト</value>
-  </data>
-  <data name="MenuSaveZip" xml:space="preserve">
-    <value>Zip圧縮</value>
-  </data>
-  <data name="MenuTutorial" xml:space="preserve">
-    <value>チュートリアル</value>
-  </data>
-  <data name="MessageWebBrowse" xml:space="preserve">
-    <value>接続中...</value>
-  </data>
-  <data name="NameConc" xml:space="preserve">
-    <value>並列数</value>
-  </data>
-  <data name="NameGeneral" xml:space="preserve">
-    <value>一般</value>
-  </data>
-  <data name="NameJobManage" xml:space="preserve">
-    <value>ジョブ管理</value>
-  </data>
-  <data name="NameModel" xml:space="preserve">
-    <value>モデル</value>
-  </data>
-  <data name="NameSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータ</value>
-  </data>
-  <data name="NameSimResult" xml:space="preserve">
-    <value>シミュレーション結果</value>
-  </data>
-  <data name="NameWorkDir" xml:space="preserve">
-    <value>プロジェクトルートフォルダ</value>
-  </data>
-  <data name="ProjectWizardCreate" xml:space="preserve">
-    <value>作成</value>
-  </data>
-  <data name="ProjectWizardGoForward" xml:space="preserve">
-    <value>進む</value>
-  </data>
-  <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>追加のDMディレクトリ</value>
-  </data>
-  <data name="ProjectWizardSelectTemplete" xml:space="preserve">
-    <value>テンプレートとするプロジェクトを選択してください。</value>
-  </data>
-  <data name="SaveConfirm" xml:space="preserve">
-    <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
-  </data>
-  <data name="SelectDMDir" xml:space="preserve">
-    <value>DMディレクトリを選択してください。</value>
-  </data>
-  <data name="StartUpWindow" xml:space="preserve">
-    <value>ウェブブラウザ</value>
-  </data>
-  <data name="TitleInitialSet" xml:space="preserve">
-    <value>E-Cell IDEの初期設定を選択してください。</value>
+  <data name="valueFormatComboBox.Items5" xml:space="preserve">
+    <value>指数表示（有効数字5桁）</value>
   </data>
 </root>

@@ -906,11 +906,15 @@ namespace Ecell.IDE.MainWindow
         /// <returns></returns>
         public List<IPropertyItem> GetPropertySettings()
         {
-            PropertyNode node = new PropertyNode(MessageResources.NameJobManage);            
-            node.Nodes.Add(new PropertyNode(new JobManagerDialog(m_env.JobManager)));
+            PropertyNode node1 = new PropertyNode(MessageResources.NameJobManage);            
+            node1.Nodes.Add(new PropertyNode(new JobManagerDialog(m_env.JobManager)));
+
+            PropertyNode node2 = new PropertyNode(MessageResources.NameGeneral);
+            node2.Nodes.Add(new PropertyNode(new GeneralConfigurationPage(m_env.DataManager)));
 
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
-            nodeList.Add(node);
+            nodeList.Add(node1);
+            nodeList.Add(node2);
 
             return nodeList;
         }

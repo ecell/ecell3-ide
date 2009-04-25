@@ -249,4 +249,7 @@
   <data name="ErrLoadWhileSimulation" xml:space="preserve">
     <value>Can not load the project while simulation is running.</value>
   </data>
+  <data name="NameGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
 </root>

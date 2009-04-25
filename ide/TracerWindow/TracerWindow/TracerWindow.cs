@@ -74,10 +74,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The current TracerWindow.
         /// </summary>
         private TraceWindow m_win = null;
-        /// <summary>
-        /// The setup window for TracerWindow.
-        /// </summary>
-        private TracerConfigurationDialog m_setup = null;
+
         private string m_dataformat = "e4";
         /// <summary>
         /// The list of TracerWindow.
@@ -178,9 +175,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         #region Initializer
         /// <summary>
-        /// Initialize the plugin.
+        /// 
         /// </summary>
-        public override void Initialize()
+        public override void  Initialize()
         {
             m_currentMax = 1.0;
             m_winCount = 1;
@@ -246,6 +243,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_env.LoggerManager.LoggerAddEvent += new LoggerAddEventHandler(LoggerManager_LoggerAddEvent);
             m_env.LoggerManager.LoggerChangedEvent += new LoggerChangedEventHandler(LoggerManager_LoggerChangedEvent);
             m_env.LoggerManager.LoggerDeleteEvent += new LoggerDeleteEventHandler(LoggerManager_LoggerDeleteEvent);
+
+            m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DataManager_DisplayFormatEvent);
         }
 
         /// <summary>
@@ -606,14 +605,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// Show the setting dialog.
-        /// </summary>
-        public void ShowSetupWindow()
-        {
-            ShowSetupTracerWindow(new object(), new EventArgs());
-        }
-
-        /// <summary>
         /// Invoke method to add the data to DataGridView.
         /// </summary>
         /// <param name="entry"></param>
@@ -748,6 +739,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         #region Event
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
+        private void DataManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        {
+            m_dataformat = e.DisplayFormat;
+            foreach (TraceWindow m in m_winList)
+                m.DataFormat = m_dataformat;
+        }
+
+        /// <summary>
         /// Execute redraw process on simulation running at every 1sec.
         /// </summary>
         /// <param name="sender">object(Timer)</param>
@@ -783,30 +786,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             UpdateGraphDelegate();
             m_time.Enabled = true;
-        }
-
-
-
-        /// <summary>
-        /// Show the setup window for TracerWindow.
-        /// </summary>
-        /// <param name="sender">object(MenuItem)</param>
-        /// <param name="e">EventArgs</param>
-        void ShowSetupTracerWindow(Object sender, EventArgs e)
-        {
-            m_setup = new TracerConfigurationDialog(TracerWindow.s_count, (double)(m_timespan / 1000.0), m_dManager.StepCount, m_dataformat);
-            using (m_setup)
-            {
-                if (m_setup.ShowDialog() == DialogResult.OK)
-                {
-                    TracerWindow.s_count = m_setup.PlotNumber;
-                    m_timespan = (int)(m_setup.IntervalSecond * 1000.0);
-                    m_dManager.StepCount = m_setup.StepNumber;
-                    m_dataformat = m_setup.DataFormat;
-                    foreach (TraceWindow m in m_winList)
-                        m.DataFormat = m_dataformat;
-                }
-            }
         }
 
         /// <summary>
