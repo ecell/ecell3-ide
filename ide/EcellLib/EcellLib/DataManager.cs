@@ -730,8 +730,10 @@ namespace Ecell
                 // Save Leml.
                 EcellModel model = (EcellModel)m_currentProject.Model;
                 model.Children = storedList;
-                string leml = modelFileName.Replace(Constants.FileExtEML, Constants.FileExtLEML);
-                Leml.SaveLEML(model, leml);
+
+                string leml = Path.GetDirectoryName(modelFileName) + Path.DirectorySeparatorChar +
+                            Path.GetFileNameWithoutExtension(modelFileName) + Constants.FileExtLEML;
+                Leml.SaveLEML(m_env, model, leml);
 
                 Trace.WriteLine("Save Model: " + message);
                 m_env.PluginManager.SaveModel(modelID, modelDirName);
@@ -2864,6 +2866,8 @@ namespace Ecell
         /// <returns>EcellObject</returns>
         public EcellObject GetEcellObject(string modelId, string key, string type)
         {
+            if (m_currentProject == null)
+                return null;
             EcellObject obj = m_currentProject.GetEcellObject(modelId, type, key);
             if (obj == null)
                 return obj;

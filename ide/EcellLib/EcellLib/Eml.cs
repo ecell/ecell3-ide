@@ -727,16 +727,6 @@ namespace Ecell
             EmlReader reader = new EmlReader(fileName, sim);
             EcellModel model = reader.Parse();
 
-            try
-            {
-                string leml = fileName.Replace(Constants.FileExtEML, Constants.FileExtLEML);
-                Leml.LoadLEML(model, leml);
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.StackTrace);
-            }
-
             return model;
         }
     }

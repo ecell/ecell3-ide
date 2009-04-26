@@ -134,6 +134,42 @@ namespace Ecell.Logger
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public int LineStyleInt
+        {
+            get
+            {
+                if (m_lineStyle == DashStyle.Solid)
+                    return 0;
+                else if (m_lineStyle == DashStyle.Dot)
+                    return 1;
+                else if (m_lineStyle == DashStyle.Dash)
+                    return 2;
+                else if (m_lineStyle == DashStyle.DashDot)
+                    return 3;
+                else if (m_lineStyle == DashStyle.DashDotDot)
+                    return 4;
+                return 0;
+            }
+            set
+            {
+                if (value == 0)
+                    m_lineStyle = DashStyle.Solid;
+                else if (value == 1)
+                    m_lineStyle = DashStyle.Dot;
+                else if (value == 2)
+                    m_lineStyle = DashStyle.Dash;
+                else if (value == 3)
+                    m_lineStyle = DashStyle.DashDot;
+                else if (value == 4)
+                    m_lineStyle = DashStyle.DashDotDot;
+                else
+                    m_lineStyle = DashStyle.Solid;
+            }
+        }
+
+        /// <summary>
         /// get / set the line width.
         /// </summary>
         public int LineWidth
@@ -152,12 +188,54 @@ namespace Ecell.Logger
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public int IsShowInt
+        {
+            get
+            {
+                if (this.m_isShown)
+                    return 1;
+                else
+                    return 0;
+            }
+            set
+            {
+                if (value == 0)
+                    this.m_isShown = false;
+                else
+                    this.m_isShown = true;
+            }
+        }
+
+        /// <summary>
         /// get /set the flag whether this log is shown at Y2 axis.
         /// </summary>
         public bool IsY2Axis
         {
             get { return this.m_isY2; }
             set { this.m_isY2 = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int IsY2AxisInt
+        {
+            get
+            {
+                if (this.m_isY2)
+                    return 1;
+                else
+                    return 0;
+            }
+            set
+            {
+                if (value == 0)
+                    this.m_isY2 = false;
+                else
+                    this.m_isY2 = true;
+            }
         }
 
         /// <summary>

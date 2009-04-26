@@ -423,6 +423,17 @@ namespace Ecell
                     // Sets initial conditions.
                     SetSimParams(modelID);
                     InitializeModel(modelObj);
+
+                    try
+                    {
+                        string leml = Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar +
+                            Path.GetFileNameWithoutExtension(filename) + Constants.FileExtLEML;
+                        Leml.LoadLEML(m_env, modelObj, leml);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine(e.StackTrace);
+                    }
                 }
 
                 // If this project has no model.

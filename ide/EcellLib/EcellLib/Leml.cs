@@ -6,7 +6,10 @@ using System.Xml;
 using System.Globalization;
 using System.Diagnostics;
 using System.IO;
+using System.Drawing;
 using System.Windows.Forms;
+
+using Ecell.Logger;
 
 namespace Ecell
 {
@@ -25,7 +28,7 @@ namespace Ecell
         /// </summary>
         /// <param name="model"></param>
         /// <param name="filename"></param>
-        public static void LoadLEML(EcellModel model,string filename)
+        public static void LoadLEML(ApplicationEnvironment env, EcellModel model,string filename)
         {
             if (!File.Exists(filename))
                 return;
@@ -41,6 +44,8 @@ namespace Ecell
                 // Load EcellObjects
                 XmlNode ecellObjects = GetNodeByKey(applicationData, LemlConstants.xPathEcellObjectList);
                 SetEcellObjects(model, ecellObjects);
+                XmlNode loggers = GetNodeByKey(applicationData, LemlConstants.xPathLoggerList);
+                SetLogger(env, model, loggers);
             }
             catch (Exception ex)
             {
@@ -86,6 +91,42 @@ namespace Ecell
                 elList.Add(new EcellLayer(name, bool.Parse(visible)));
             }
             model.Layers = elList;
+        }
+
+        private static void SetLogger(ApplicationEnvironment env, EcellModel model, XmlNode loggers)
+        {
+            if (loggers == null || loggers.ChildNodes.Count <= 0)
+                return;
+
+            foreach (XmlNode node in loggers.ChildNodes)
+            {
+                if (!node.Name.Equals(LemlConstants.xPathLogger))
+                    continue;
+
+                string modelID = GetStringAttribute(node, LemlConstants.xPathModelID);
+                string key = GetStringAttribute(node, LemlConstants.xPathKey);
+                string type = GetStringAttribute(node, LemlConstants.xPathType);
+                EcellObject eo = GetEcellObject(model, type, key);
+
+                if (eo == null)
+                    continue;
+
+                string fullPN = GetStringAttribute(node, LemlConstants.xpathFullPN);
+                LoggerEntry entry = new LoggerEntry(modelID, key, type, fullPN);
+                entry.Color = Color.FromName(GetStringAttribute(node, LemlConstants.xpathColor));
+                entry.LineStyleInt = Int32.Parse(GetStringAttribute(node, LemlConstants.xpathLineStyle));
+                entry.LineWidth = Int32.Parse(GetStringAttribute(node, LemlConstants.xpathLineWidth));
+                entry.IsShowInt = Int32.Parse(GetStringAttribute(node, LemlConstants.xpathIsShown));
+                entry.IsY2AxisInt = Int32.Parse(GetStringAttribute(node, LemlConstants.xpathIsY2));
+
+                foreach (EcellData d in eo.Value)
+                {
+                    if (!d.EntityPath.Equals(fullPN))
+                        continue;
+                    d.Logged = true;
+                    env.LoggerManager.AddLoggerEntry(entry);
+                }
+            }
         }
 
         /// <summary>
@@ -203,7 +244,7 @@ namespace Ecell
         /// </summary>
         /// <param name="model"></param>
         /// <param name="filename"></param>
-        public static void SaveLEML(EcellModel model, string filename)
+        public static void SaveLEML(ApplicationEnvironment env, EcellModel model, string filename)
         {
             CheckFilePath(filename);
 
@@ -252,6 +293,15 @@ namespace Ecell
                 }
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement(LemlConstants.xPathLoggerList);
+                foreach (string name in env.LoggerManager.GetLoggerList())
+                {
+                    LoggerEntry entry = env.LoggerManager.GetLoggerEntryForFullPN(name);
+                    WriteLoggerElement(xmlOut, entry);
+                }
+                xmlOut.WriteEndElement();
+                
+
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
             }
@@ -285,6 +335,25 @@ namespace Ecell
             xmlOut.WriteAttributeString(LemlConstants.xPathOffsetY, eo.OffsetY.ToString());
             xmlOut.WriteAttributeString(LemlConstants.xPathWidth, eo.Width.ToString());
             xmlOut.WriteAttributeString(LemlConstants.xPathHeight, eo.Height.ToString());
+            xmlOut.WriteEndElement();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlOut"></param>
+        /// <param name="entry"></param>
+        private static void WriteLoggerElement(XmlTextWriter xmlOut, LoggerEntry entry)
+        {
+            xmlOut.WriteStartElement(LemlConstants.xPathLogger);
+            xmlOut.WriteAttributeString(LemlConstants.xPathModelID, entry.ModelID);
+            xmlOut.WriteAttributeString(LemlConstants.xPathKey, entry.ID);
+            xmlOut.WriteAttributeString(LemlConstants.xPathType, entry.Type);
+            xmlOut.WriteAttributeString(LemlConstants.xpathFullPN, entry.FullPN);
+            xmlOut.WriteAttributeString(LemlConstants.xpathColor, entry.Color.Name);
+            xmlOut.WriteAttributeString(LemlConstants.xpathLineStyle, entry.LineStyleInt.ToString());
+            xmlOut.WriteAttributeString(LemlConstants.xpathLineWidth, entry.LineWidth.ToString());
+            xmlOut.WriteAttributeString(LemlConstants.xpathIsShown, entry.IsShowInt.ToString());
+            xmlOut.WriteAttributeString(LemlConstants.xpathIsY2, entry.IsY2AxisInt.ToString());            
             xmlOut.WriteEndElement();
         }
 
@@ -348,7 +417,15 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
+        public const string xPathLoggerList = "LoggerList";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string xPathEcellObject = "EcellObject";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathLogger = "Logger";
         /// <summary>
         /// 
         /// </summary>
@@ -393,5 +470,13 @@ namespace Ecell
         /// 
         /// </summary>
         public const string xPathHeight = "Height";
+        #region Logger
+        public const string xpathFullPN = "FullPN";
+        public const string xpathColor = "Color";
+        public const string xpathLineStyle = "LineStyle";
+        public const string xpathLineWidth = "LineWidth";
+        public const string xpathIsShown = "IsShown";
+        public const string xpathIsY2 = "IsY2";
+        #endregion
     }
 }
