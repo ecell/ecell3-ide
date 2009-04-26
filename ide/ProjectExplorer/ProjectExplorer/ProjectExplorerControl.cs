@@ -933,6 +933,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             bool saved = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
             bool revision = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
             bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
+            bool current = m_lastSelectedNode is RevisionNode && m_lastSelectedNode.Text == Constants.xpathCurrent;
 
             // SimulationStatus
             configureSimulationSetToolStripMenuItem.Enabled = !simulation;
@@ -940,6 +941,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             loadRevisionMenuItem.Enabled = !simulation && (saved || revision);
             createNewRevisionMenuItem.Enabled = !simulation && saved;
             createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
+            exportRevisionEMLMenuItem.Enabled = !current;
+            exportRevisionZipMenuItem.Enabled = !current;
+
             // Zip
             zipToolStripMenuItem.Enabled = !simulation && saved;
 
@@ -1268,12 +1272,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         private void TreeViewCompressZip(object sender, EventArgs e)
         {
+            Project project = m_owner.Environment.DataManager.CurrentProject;
+            string dir = project.Info.ProjectPath;
+            string filename = project.Info.Name + Constants.FileExtZip;
+            CompressZip(dir, filename);
+        }
+
+        private void CompressZip(string dir, string filename)
+        {
             m_saveFileDialog.Filter = Constants.FilterZipFile;
+            m_saveFileDialog.FileName = filename;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string fileName = m_saveFileDialog.FileName;
-                ZipUtil.ZipFolder(fileName,
-                m_owner.Environment.DataManager.CurrentProject.Info.ProjectPath);
+                filename = m_saveFileDialog.FileName;
+                ZipUtil.ZipFolder(filename, dir);
             }
         }
 
@@ -1373,6 +1385,36 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_DMNode.Nodes.Clear();
                 SetDMNodes();
             }
+        }
+
+        private void exportRevisionEMLMenuItem_Click(object sender, EventArgs e)
+        {
+
+            Project project = m_owner.Environment.DataManager.CurrentProject;
+            // Set Dialog.
+            m_saveFileDialog.Filter = Constants.FilterEmlFile;
+            m_saveFileDialog.FileName = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtEML;
+            if (m_saveFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+            string fileName = m_saveFileDialog.FileName;
+            
+            string dir = project.Info.ProjectPath;
+            string revision = Path.Combine(dir, m_lastSelectedNode.Text);
+            string modelDir = Path.Combine(revision, Constants.xpathModel);
+            string[] models = Directory.GetFiles(modelDir, "*.eml");
+            foreach (string model in models)
+            {
+                File.Copy(model, fileName, true);
+            }
+        }
+
+        private void exportRevisionZipMenuItem_Click(object sender, EventArgs e)
+        {
+            Project project = m_owner.Environment.DataManager.CurrentProject;
+            string dir = project.Info.ProjectPath;
+            string revision = Path.Combine(dir, m_lastSelectedNode.Text);
+            string filename = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtZip;
+            CompressZip(revision, filename);
         }
 
     }

@@ -384,7 +384,7 @@ namespace Ecell.Objects
             eo.StepperID = "TestStepper";
             Assert.AreEqual("TestStepper", eo.StepperID, "StepperID is not expected value.");
 
-            Assert.AreEqual(0.1, eo.SizeInVolume, "SizeInVolume is not expected value.");
+            Assert.AreEqual(1.0, eo.SizeInVolume, "SizeInVolume is not expected value.");
 
             eo.SizeInVolume = 0.0001;
             Assert.AreEqual(0.0001, eo.SizeInVolume, "SizeInVolume is not expected value.");

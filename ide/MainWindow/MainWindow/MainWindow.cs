@@ -984,8 +984,9 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
+                    ProjectType type = m_env.DataManager.CurrentProject.Info.ProjectType;
                     // Save if answer is yes.
-                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
+                    if (type != ProjectType.Revision && Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
                         SaveProject();
                 }
                 catch (Exception)

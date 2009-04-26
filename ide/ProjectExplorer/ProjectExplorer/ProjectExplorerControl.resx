@@ -220,7 +220,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.2798.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.2805.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -243,14 +243,8 @@
   <metadata name="contextMenuStripDMCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>448, 85</value>
   </metadata>
-  <data name="importDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 22</value>
-  </data>
-  <data name="importDMToolStripMenuItem.Text" xml:space="preserve">
-    <value>Import DM</value>
-  </data>
   <data name="contextMenuStripDMCollection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 70</value>
+    <value>156, 48</value>
   </data>
   <data name="&gt;&gt;contextMenuStripDMCollection.Name" xml:space="preserve">
     <value>contextMenuStripDMCollection</value>
@@ -258,11 +252,17 @@
   <data name="&gt;&gt;contextMenuStripDMCollection.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="importDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 22</value>
+  </data>
+  <data name="importDMToolStripMenuItem.Text" xml:space="preserve">
+    <value>Import DM</value>
+  </data>
   <metadata name="contextMenuStripModel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>22, 40</value>
   </metadata>
   <data name="contextMenuStripModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 26</value>
+    <value>150, 26</value>
   </data>
   <data name="&gt;&gt;contextMenuStripModel.Name" xml:space="preserve">
     <value>contextMenuStripModel</value>
@@ -271,10 +271,10 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="exportModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 22</value>
+    <value>149, 22</value>
   </data>
   <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>Export...</value>
+    <value>Export to EML...</value>
   </data>
   <metadata name="contextMenuStripLog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>225, 82</value>
@@ -423,20 +423,32 @@
   <metadata name="contextMenuStripRevision.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>446, 47</value>
   </metadata>
+  <data name="loadRevisionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="loadRevisionMenuItem.Text" xml:space="preserve">
+    <value>Load Revision</value>
+  </data>
+  <data name="exportRevisionEMLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="exportRevisionEMLMenuItem.Text" xml:space="preserve">
+    <value>Export to EML...</value>
+  </data>
+  <data name="exportRevisionZipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 22</value>
+  </data>
+  <data name="exportRevisionZipMenuItem.Text" xml:space="preserve">
+    <value>Compress to Zip...</value>
+  </data>
   <data name="contextMenuStripRevision.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 26</value>
+    <value>162, 92</value>
   </data>
   <data name="&gt;&gt;contextMenuStripRevision.Name" xml:space="preserve">
     <value>contextMenuStripRevision</value>
   </data>
   <data name="&gt;&gt;contextMenuStripRevision.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="loadRevisionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
-  </data>
-  <data name="loadRevisionMenuItem.Text" xml:space="preserve">
-    <value>Load Revision</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -497,6 +509,12 @@
     <value>compileToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;compileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;importDMToolStripMenuItem.Name" xml:space="preserve">
+    <value>importDMToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;importDMToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;exportModelToolStripMenuItem.Name" xml:space="preserve">
@@ -607,10 +625,16 @@
   <data name="&gt;&gt;loadRevisionMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;importDMToolStripMenuItem.Name" xml:space="preserve">
-    <value>importDMToolStripMenuItem</value>
+  <data name="&gt;&gt;exportRevisionEMLMenuItem.Name" xml:space="preserve">
+    <value>exportRevisionEMLMenuItem</value>
   </data>
-  <data name="&gt;&gt;importDMToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;exportRevisionEMLMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;exportRevisionZipMenuItem.Name" xml:space="preserve">
+    <value>exportRevisionZipMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exportRevisionZipMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

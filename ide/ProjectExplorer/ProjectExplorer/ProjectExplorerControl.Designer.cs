@@ -42,6 +42,7 @@
             this.treeView1 = new Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView();
             this.contextMenuStripDM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.importDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -67,7 +68,8 @@
             this.createNewRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripRevision = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportRevisionEMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportRevisionZipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             createNewDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStrip1.SuspendLayout();
@@ -155,6 +157,12 @@
             this.importDMToolStripMenuItem});
             this.contextMenuStripDMCollection.Name = "contextMenuStripDMCollection";
             resources.ApplyResources(this.contextMenuStripDMCollection, "contextMenuStripDMCollection");
+            // 
+            // importDMToolStripMenuItem
+            // 
+            this.importDMToolStripMenuItem.Name = "importDMToolStripMenuItem";
+            resources.ApplyResources(this.importDMToolStripMenuItem, "importDMToolStripMenuItem");
+            this.importDMToolStripMenuItem.Click += new System.EventHandler(this.importDMToolStripMenuItem_Click);
             // 
             // contextMenuStripModel
             // 
@@ -304,7 +312,9 @@
             // contextMenuStripRevision
             // 
             this.contextMenuStripRevision.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadRevisionMenuItem});
+            this.loadRevisionMenuItem,
+            this.exportRevisionEMLMenuItem,
+            this.exportRevisionZipMenuItem});
             this.contextMenuStripRevision.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripRevision, "contextMenuStripRevision");
             // 
@@ -314,11 +324,17 @@
             resources.ApplyResources(this.loadRevisionMenuItem, "loadRevisionMenuItem");
             this.loadRevisionMenuItem.Click += new System.EventHandler(this.TreeViewLoadRevision);
             // 
-            // importDMToolStripMenuItem
+            // exportRevisionEMLMenuItem
             // 
-            this.importDMToolStripMenuItem.Name = "importDMToolStripMenuItem";
-            resources.ApplyResources(this.importDMToolStripMenuItem, "importDMToolStripMenuItem");
-            this.importDMToolStripMenuItem.Click += new System.EventHandler(this.importDMToolStripMenuItem_Click);
+            this.exportRevisionEMLMenuItem.Name = "exportRevisionEMLMenuItem";
+            resources.ApplyResources(this.exportRevisionEMLMenuItem, "exportRevisionEMLMenuItem");
+            this.exportRevisionEMLMenuItem.Click += new System.EventHandler(this.exportRevisionEMLMenuItem_Click);
+            // 
+            // exportRevisionZipMenuItem
+            // 
+            this.exportRevisionZipMenuItem.Name = "exportRevisionZipMenuItem";
+            resources.ApplyResources(this.exportRevisionZipMenuItem, "exportRevisionZipMenuItem");
+            this.exportRevisionZipMenuItem.Click += new System.EventHandler(this.exportRevisionZipMenuItem_Click);
             // 
             // ProjectExplorerControl
             // 
@@ -380,6 +396,8 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportRevisionEMLMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportRevisionZipMenuItem;
 
     }
 }

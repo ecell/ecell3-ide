@@ -150,6 +150,10 @@ namespace Ecell
         /// The extention of HTML file.
         /// </summary>
         public const string FileExtHTML = ".html";
+        /// <summary>
+        /// The extention of zip file.
+        /// </summary>
+        public const string FileExtZip = ".zip";
         #endregion
 
         #region File Filters

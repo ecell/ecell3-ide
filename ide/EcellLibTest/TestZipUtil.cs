@@ -111,17 +111,6 @@ namespace Ecell
             string folderPath = TestConstant.TestDirectory + "Drosophila";
             ZipUtil.ZipFolder(zipname, folderPath);
 
-            zipname = TestConstant.TestDirectory + "Drosophila.zip";
-            folderPath = "";
-            try
-            {
-                ZipUtil.ZipFolder(zipname, folderPath);
-                Assert.Fail("Failed to catch invalid file error.");
-            }
-            catch (EcellException e)
-            {
-                Trace.WriteLine(e.StackTrace);
-            }
         }
     }
 }
