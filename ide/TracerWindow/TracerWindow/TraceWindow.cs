@@ -126,13 +126,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        public void Print()
+        {
+            m_zCnt.DoPrint();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="orgFullPN"></param>
         /// <param name="entry"></param>
         public void LoggerChanged(string orgFullPN, LoggerEntry entry)
-        {
+        {            
             TagData otag = new TagData(entry.ModelID, entry.ID, entry.Type, orgFullPN, true);
             TagData ntag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
             otag.isLoaded = entry.IsLoaded;

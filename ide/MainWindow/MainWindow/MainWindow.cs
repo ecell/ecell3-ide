@@ -1233,9 +1233,14 @@ namespace Ecell.IDE.MainWindow
         {
             PrintPluginDialog d = new PrintPluginDialog(m_env.PluginManager);
             DialogResult result = d.ShowDialog();
-            d.Dispose();
             if (result == DialogResult.OK)
             {
+                if (d.SelectedItem.Plugin.IsDirect())
+                {
+                    d.SelectedItem.Plugin.Print(d.SelectedItem.Portion);
+                    d.Dispose();
+                    return;
+                }
                 PrintDocument pd = new PrintDocument();
                 PrintDialog pdlg = new PrintDialog();
                 pdlg.Document = pd;
@@ -1252,6 +1257,7 @@ namespace Ecell.IDE.MainWindow
                 }
                 pd.Dispose();
             }
+            d.Dispose();
         }
 
         /// <summary>

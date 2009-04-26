@@ -158,8 +158,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add(m_con.PathwayView.Text);
+            if (!m_con.PathwayView.IsHidden)
+                names.Add(m_con.PathwayView.Text);
             return names;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDirect()
+        {
+            return false;
         }
 
         /// <summary>

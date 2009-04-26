@@ -54,5 +54,10 @@ namespace Ecell.Plugin
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>   
         Bitmap Print(string name);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        bool IsDirect();
     }
 }

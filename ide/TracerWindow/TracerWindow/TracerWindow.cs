@@ -442,6 +442,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (name.Equals(t.Text))
                 {
+                    t.Print();
                     return t.GetBitmap();
                 }
             }
@@ -500,9 +501,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
             List<string> names = new List<string>();
             foreach (TraceWindow t in m_winList)
             {
-                names.Add(t.Text);
+                if (!t.IsHidden)
+                    names.Add(t.Text);
             }
             return names;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDirect()
+        {
+            return true;
         }
         #endregion
 
