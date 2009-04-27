@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// PLayer for system.
         /// </summary>
-        protected PPathwayLayer m_sysLayer;
+        protected PPathwayLayer m_defaultLayer;
 
         /// <summary>
         /// List of PPathwayNode for selected object.
@@ -368,8 +368,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_layers = new Dictionary<string, PPathwayLayer>();
 
             // Preparing system layer
-            m_sysLayer = new PPathwayLayer("");
-            AddLayer(m_sysLayer);
+            m_defaultLayer = new PPathwayLayer(LayerView.DEFAULT_LAYER);
+            AddLayer(m_defaultLayer);
             // Preparing control layer
             m_ctrlLayer = new PPathwayLayer("");
             m_pCanvas.Root.AddChild(m_ctrlLayer);
@@ -861,7 +861,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void SetLayer(PPathwayObject obj)
         {
             // if obj is root system or layerID is null.
-            PPathwayLayer layer = m_sysLayer;
+            PPathwayLayer layer = m_defaultLayer;
             string layerID = obj.EcellObject.Layer;
 
             if (obj.EcellObject.Key.Equals(Constants.delimiterPath) || string.IsNullOrEmpty(layerID))
@@ -936,6 +936,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         internal List<string> GetLayerNameList()
         {
             List<string> list = new List<string>();
+            list.Add(LayerView.DEFAULT_LAYER);
             foreach (PPathwayLayer layer in m_layers.Values)
                 list.Add(layer.Name);
 
@@ -977,7 +978,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> list = layer.GetNodes();
             foreach (PPathwayObject obj in list)
             {
-                obj.Layer = m_sysLayer;
+                obj.Layer = m_defaultLayer;
                 m_con.NotifyDataChanged(
                     obj.EcellObject.Key,
                     obj.EcellObject.Key,
@@ -1047,6 +1048,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// Select Nodes on this layer.
+        /// </summary>
+        /// <param name="layerName"></param>
+        internal void SelectNodeOnLayer(string layerName)
+        {
+            PPathwayLayer layer = null;
+            if (layerName.Equals(LayerView.DEFAULT_LAYER))
+                layer = m_defaultLayer;
+            else
+                m_layers.TryGetValue(layerName, out layer);
+            if (layer == null)
+                return;
+            foreach (PPathwayObject obj in layer.GetNodes())
+            {
+                NotifyAddSelect(obj);
+            }
+
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         internal void NotifyLayerChange(bool isAnchored)
@@ -1057,7 +1078,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (!(obj is PPathwayLayer))
                     continue;
                 PPathwayLayer layer = (PPathwayLayer)obj;
-                if (string.IsNullOrEmpty(layer.Name))
+                if (string.IsNullOrEmpty(layer.Name) || layer.Name.Equals(LayerView.DEFAULT_LAYER))
                     continue;
                 layers.Add(layer);
             }
@@ -1126,7 +1147,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PPathwayNode pickedObj = null;
             List<PPathwayLayer> layers = new List<PPathwayLayer>();
-            layers.Add(m_sysLayer);
+            layers.Add(m_defaultLayer);
             layers.AddRange(m_layers.Values);
 
             foreach (PPathwayLayer layer in layers)
@@ -1174,10 +1195,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         internal List<PPathwayObject> GetSurroundedObject(RectangleF rect)
         {
             List<PPathwayObject> list = new List<PPathwayObject>();
-            list.AddRange(m_sysLayer.GetNodes(rect));
-            list.Remove(m_systems[Constants.delimiterPath]);
+            list.AddRange(m_defaultLayer.GetNodes(rect));
             foreach (PPathwayLayer layer in m_layers.Values)
                 list.AddRange(layer.GetNodes(rect));
+            // Remove Root.
+            list.Remove(m_systems[Constants.delimiterPath]);
             return list;
         }
 
@@ -1222,6 +1244,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 returnList.Add(system);
 
             return returnList;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <returns></returns>
+        public PPathwayLayer GetLayer(string layerName)
+        {
+            PPathwayLayer layer = null;
+            if (layerName.Equals(LayerView.DEFAULT_LAYER))
+                layer = m_defaultLayer;
+            else
+                m_layers.TryGetValue(layerName, out layer);
+            return layer;
         }
         /// <summary>
         /// Get all PPathwayNode of this canvas.

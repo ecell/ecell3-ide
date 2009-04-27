@@ -111,7 +111,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             if (e.Button == MouseButtons.Right)
             {
-                m_con.Menu.SetDefaultEventHandler();
+                m_con.Menu.ResetEventHandler();
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             PPathwayObject obj = m_con.Canvas.GetObject(eo.Key, eo.Type);
             if(obj != null)
                 m_con.Canvas.NotifySelectChanged(obj);
-            m_con.Menu.SetDefaultEventHandler();
+            m_con.Menu.ResetEventHandler();
         }
         #endregion
 

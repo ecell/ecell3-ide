@@ -65,6 +65,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             this.m_con = control;
         }
+        
+        /// <summary>
+        /// Accept Middle MouseButton.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return base.DoesAcceptEvent(e) || e.Button == MouseButtons.Middle;
+        }
+        /// <summary>
+        /// Reset if MouseButton is Middle
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseUp(object sender, PInputEventArgs e)
+        {
+            base.OnMouseUp(sender, e);
+            if (e.Button == MouseButtons.Middle)
+                m_con.Menu.ResetEventHandler();
+        }
         #endregion
 
         #region IPathwayEventHandler

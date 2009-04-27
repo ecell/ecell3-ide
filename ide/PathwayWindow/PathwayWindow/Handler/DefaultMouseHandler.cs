@@ -43,6 +43,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using System.IO;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -99,6 +100,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_selectedPath = new PPath();
                 canvas.ControlLayer.AddChild(m_selectedPath);
             }
+            else if (e.Button == MouseButtons.Middle)
+            {
+                m_con.Canvas.PCanvas.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
+            }
+
         }
 
         /// <summary>
@@ -115,6 +121,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_selectedPath = null;
             m_isDragged = false;
             m_con.Canvas.NotifyMoveObjects(true);
+            m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
         }
 
         /// <summary>
@@ -125,6 +132,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
             base.OnMouseDrag(sender, e);
+            if (e.Button == MouseButtons.Middle)
+            {
+                PCamera camera = m_con.Canvas.PCanvas.Camera;
+                camera.TranslateViewBy(e.Delta.Width, e.Delta.Height);
+                camera.Canvas.Refresh();
+                return;
+            }
             if (m_selectedPath == null || !m_isDragged)
                 return;
 

@@ -1423,7 +1423,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Canvas = new CanvasControl(this, model.ModelID);
             m_layerView.ResetLayers(model.Layers);
 
-            m_menu.SetDefaultEventHandler();
+            m_menu.ResetEventHandler();
             m_menu.Zoom(1f);
             RaiseCanvasChange();
         }

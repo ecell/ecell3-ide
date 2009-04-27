@@ -74,11 +74,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private Handle m_handle;
 
         /// <summary>
-        /// Indicate which pathway-related toolbar button is selected.
-        /// </summary>
-        private Handle m_defHandle;
-
-        /// <summary>
         /// 
         /// </summary>
         private IContainer components;
@@ -788,7 +783,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // SelectMode is default.
             toolButtonSelect.Checked = true;
             m_handle = toolButtonSelect.Handle;
-            m_defHandle = m_handle;
         }
 
         #region Internal Methods
@@ -932,9 +926,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Set EventHandler.
         /// </summary>
-        internal void SetDefaultEventHandler()
+        internal void ResetEventHandler()
         {
-            SetEventHandler(m_defHandle);
+            SetEventHandler(toolButtonSelect.Handle);
+        }
+        /// <summary>
+        /// Set moving hand.
+        /// </summary>
+        internal void SetHandEventHandler()
+        {
+            SetEventHandler(toolButtonHand.Handle);
         }
         /// <summary>
         /// Set EventHandler.
@@ -949,13 +950,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set new EventHandler 
             m_handle = handle;
-            handler = m_handle.EventHandler;
+            handler = handle.EventHandler;
             foreach (ToolStripItem item in toolButton.Items)
             {
                 if (!(item is PathwayToolStripButton))
                     continue;
                 PathwayToolStripButton button = (PathwayToolStripButton)item;
-                if (button.Handle == m_handle)
+                if (button.Handle == handle)
                     button.Checked = true;
                 else
                     button.Checked = false;
@@ -966,9 +967,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             ((IPathwayEventHandler)handler).Initialize();
             AddInputEventListener(handler);
-            if (handler is DefaultMouseHandler
-                || handler is PPathwayPanEventHandler)
-                m_defHandle = handle;
             m_con.Canvas.LineHandler.SetLineVisibility(false);
         }
 
@@ -1174,7 +1172,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string name = name = menu.Text;
 
             // Change layer of selected objects.
-            PPathwayLayer layer = canvas.Layers[name];
+            PPathwayLayer layer = canvas.GetLayer(name);
             List<PPathwayObject> objList = canvas.SelectedNodes;
             int i = 0;
             foreach (PPathwayObject obj in objList)

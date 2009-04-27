@@ -95,7 +95,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (newNode == null)
             {
                 ResetStartNode();
-                m_con.Menu.SetDefaultEventHandler();
+                m_con.Menu.ResetEventHandler();
                 return;
             }
             else if(m_start == null)
@@ -213,7 +213,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
                 Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
             }
-            m_con.Menu.SetDefaultEventHandler();
+            m_con.Menu.ResetEventHandler();
         }
 
         /// <summary>

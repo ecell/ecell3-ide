@@ -259,7 +259,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     m_con.NotifyDataChanged(obj, true);
                     m_con.Canvas.NotifySelectChanged(obj);
                 }
-                m_con.Menu.SetDefaultEventHandler();
+                m_con.Menu.ResetEventHandler();
             }
             else
             {

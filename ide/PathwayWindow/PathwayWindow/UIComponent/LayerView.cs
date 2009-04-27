@@ -52,10 +52,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     {
         #region Fields
         /// <summary>
+        /// Default layer name.
+        /// </summary>
+        internal const string DEFAULT_LAYER = "Default";
+        /// <summary>
         /// Width of "Show" column of layer DataGridView.
         /// </summary>
         private readonly int LAYER_SHOWCOLUMN_WIDTH = 50;
-
+        /// <summary>
+        /// 
+        /// </summary>
         private const string LAYER_HEDDER = "Layer";
         /// <summary>
         /// The PathwayControl, from which this class gets messages from the E-cell core and through which this class
@@ -307,6 +313,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             dataGridView.Rows.Clear();
 
+            // Set Default Layer.
+            LayerGridRow row = new LayerGridRow();
+            row.Name = DEFAULT_LAYER;
+            row.ReadOnly = true;
+            row.textBox.Style.BackColor = Color.Gray;
+            row.checkBox.Style.BackColor = Color.Gray;
+            dataGridView.Rows.Add(row);
+
             List<PPathwayLayer> layers = new List<PPathwayLayer>();
             foreach (EcellLayer el in list)
             {
@@ -314,7 +328,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                     m_canvas.AddLayer(el.Name, el.Visible);
                 PPathwayLayer layer = m_canvas.Layers[el.Name];
                 layer.Visible = el.Visible;
-                LayerGridRow row = new LayerGridRow(layer);
+                // Set layer row.
+                row = new LayerGridRow(layer);
                 dataGridView.Rows.Add(row);
                 layers.Add(layer);
             }
@@ -404,13 +419,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void SelectNodesClick(object sender, EventArgs e)
         {
-            PPathwayLayer layer = m_canvas.Layers[m_selectedLayer];
-            if (layer == null)
-                return;
-            foreach (PPathwayObject obj in layer.GetNodes())
-            {
-                m_canvas.NotifyAddSelect(obj);
-            }
+            m_canvas.SelectNodeOnLayer(m_selectedLayer);
         }
 
         /// <summary>
@@ -498,7 +507,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void MergeLayerClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            m_canvas.NotifyMergeLayer(m_selectedLayer, item.Text);
+            // if new layer is Default
+            if (item.Text.Equals(DEFAULT_LAYER))
+            {
+                m_canvas.NotifyRemoveLayer(m_selectedLayer, true);
+            }
+            else
+            {
+                m_canvas.NotifyMergeLayer(m_selectedLayer, item.Text);
+            }
         }
 
         /// <summary>
@@ -512,28 +529,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (index < 0)
                 return;
             LayerGridRow row = (LayerGridRow)dataGridView.Rows[index];
+            bool defLayer = row.Name.Equals(DEFAULT_LAYER);
+
             m_selectedLayer = row.Name;
             SetMergeLayerMenus(row.Name);
             dataGridView.ClearSelection();
             row.Selected = true;
 
             menuCreateLayer.Visible = true;
-            menuRenameLayer.Visible = true;
-            menuMergeLayer.Visible = true;
-            menuRemoveLayer.Visible = true;
+            menuRenameLayer.Visible = !defLayer;
+            menuMergeLayer.Visible = !defLayer;
+            menuRemoveLayer.Visible = !defLayer;
             separator1.Visible = true;
             menuSelectNodes.Visible = true;
-            separator2.Visible = true;
-            menuMoveFront.Visible = true;
-            menuMoveBack.Visible = true;
+            separator2.Visible = !defLayer;
+            menuMoveFront.Visible = !defLayer;
+            menuMoveBack.Visible = !defLayer;
         }
 
         private void SetMergeLayerMenus(string layer)
         {
             menuMergeLayer.DropDownItems.Clear();
+            //
+            ToolStripMenuItem item;
             foreach (LayerGridRow row in dataGridView.Rows)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem(row.Name);
+                item = new ToolStripMenuItem(row.Name);
                 item.Click += new EventHandler(MergeLayerClick);
 
                 if (row.Name == layer)
@@ -565,6 +586,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class LayerGridRow : DataGridViewRow
     {
         /// <summary>
@@ -574,11 +598,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// 
         /// </summary>
-        private DataGridViewCheckBoxCell checkBox;
+        internal DataGridViewCheckBoxCell checkBox;
         /// <summary>
         /// 
         /// </summary>
-        private DataGridViewTextBoxCell textBox;
+        internal DataGridViewTextBoxCell textBox;
         /// <summary>
         /// 
         /// </summary>
@@ -601,20 +625,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             get { return (string)textBox.Value; }
             set { textBox.Value = value; }
         }
+
+        /// <summary>
+        /// Constructor for default layer.
+        /// </summary>
+        /// <param name="name"></param>
+        public LayerGridRow()
+        {
+            checkBox = new DataGridViewCheckBoxCell();
+            checkBox.Value = true;
+            this.Cells.Add(checkBox);
+
+            textBox = new DataGridViewTextBoxCell();
+            textBox.Value = "";
+            this.Cells.Add(textBox);
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="layer"></param>
         public LayerGridRow(PPathwayLayer layer)
+            : this()
         {
             m_layer = layer;
-            checkBox = new DataGridViewCheckBoxCell();
             checkBox.Value = layer.Visible;
-            this.Cells.Add(checkBox);
-
-            textBox = new DataGridViewTextBoxCell();
             textBox.Value = layer.Name;
-            this.Cells.Add(textBox);
         }
     }
 }
