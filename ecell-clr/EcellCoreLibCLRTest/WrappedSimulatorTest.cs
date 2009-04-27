@@ -209,5 +209,23 @@ namespace EcellCoreLibCLRTest
                 }
             }
         }
+
+        [Test]
+        public void TestLibecsException()
+        {
+            s.CreateEntity("ExpressionFluxProcess", "Process:/:TEST");
+            s.CreateStepper("ODEStepper", "defaultStepper");
+            s.LoadEntityProperty("System::/:StepperID", "defaultStepper");
+
+            try
+            {
+                s.Initialize();
+            }
+            catch (WrappedLibecsException e)
+            {
+                Assert.That(e.Source, Is.EqualTo("InitializationFailed"));
+                Assert.That(e.FullID, Is.EqualTo("Process:/:TEST"));
+            }
+        }
     }
 }

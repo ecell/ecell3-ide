@@ -325,11 +325,11 @@ namespace EcellCoreLib {
             --dmPathRepr->Length;
             theModel->setDMSearchPath(WrappedCString(dmPathRepr->ToString()));
         }
-        catch ( std::exception const& )
+        catch ( std::exception const& e )
         {
             delete theModel;
             delete thePropertiedObjectMaker;
-            throw;
+            throw gcnew WrappedStdException( e );
         }
 
         ~WrappedSimulator()
@@ -342,7 +342,18 @@ namespace EcellCoreLib {
 		{
 		    // calling the model's initialize(), which is non-const,
 		    // is semantically a const operation at the simulator level.
-		    theModel->initialize();
+            try
+            {
+    		    theModel->initialize();
+            }
+            catch (libecs::Exception const& e)
+            {
+                throw gcnew WrappedLibecsException( e );
+            }
+            catch (std::exception const& e)
+            {
+                throw gcnew WrappedStdException( e );
+            }
 		}
 
         void CreateEntity(String^ l_classname, String^ l_fullIDString)

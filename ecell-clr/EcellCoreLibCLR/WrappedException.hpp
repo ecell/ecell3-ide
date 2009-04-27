@@ -12,12 +12,14 @@ namespace EcellCoreLib
 	public ref class WrappedLibecsException: public WrappedException
 	{
 	private:
-		String^ m_className;
-		String^ m_message;
+		String^ const m_className;
+		String^ const m_message;
+        String^ const m_fullID;
 	public:
 		WrappedLibecsException(const libecs::Exception& msg)
 			: m_className(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>((msg.getClassName())))),
-  			  m_message(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(msg.message().c_str())))
+  			  m_message(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(msg.message().c_str()))),
+              m_fullID(GetFullIDFromEcsObject(msg.getEcsObject()))
 		{
 		}
 
@@ -38,6 +40,40 @@ namespace EcellCoreLib
 				return m_className;
 			}
 		}
+
+        property String^ FullID
+        {
+        public:
+            String^ get()
+            {
+                return m_fullID;
+            }
+        }
+
+    private:
+        static String^ GetFullIDFromEcsObject(libecs::EcsObject const* obj)
+        {
+            {
+                libecs::Entity const* ent = dynamic_cast<libecs::Entity const*>(obj);
+                if (ent)
+                {
+                    std::string fullIDStr(ent->getFullID().asString());
+                    return Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(fullIDStr.c_str()));
+                }
+            }
+            {
+                /* 本来 Stepper の FullID というものは存在しないが、仮に
+                 * Stepper:[Stepper の ID 名] という形で表現する */
+                libecs::Stepper const* stp = dynamic_cast<libecs::Stepper const*>(obj);
+                if (stp)
+                {
+                    std::string fullIDStr(std::string("Stepper:") + stp->getID());
+                    return Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(fullIDStr.c_str()));
+                }
+            }
+
+            return nullptr;
+        }
 	};
 
 	public ref class WrappedStdException: public WrappedException
