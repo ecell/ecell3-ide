@@ -361,18 +361,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Property</value>
   </data>
-  <data name="&gt;&gt;nameColumn.Name" xml:space="preserve">
-    <value>nameColumn</value>
-  </data>
-  <data name="&gt;&gt;nameColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;valueColumn.Name" xml:space="preserve">
-    <value>valueColumn</value>
-  </data>
-  <data name="&gt;&gt;valueColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;defineANewPropertyToolStripMenuItem.Name" xml:space="preserve">
     <value>defineANewPropertyToolStripMenuItem</value>
   </data>
@@ -431,6 +419,18 @@
     <value>dataGridViewTextBoxColumn2</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nameColumn.Name" xml:space="preserve">
+    <value>nameColumn</value>
+  </data>
+  <data name="&gt;&gt;nameColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueColumn.Name" xml:space="preserve">
+    <value>valueColumn</value>
+  </data>
+  <data name="&gt;&gt;valueColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

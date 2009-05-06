@@ -34,12 +34,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyWindow));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.m_dgv = new System.Windows.Forms.DataGridView();
-            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.defineANewPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteThisPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +49,8 @@
             this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -96,23 +96,6 @@
             this.m_dgv.MouseLeave += new System.EventHandler(this.LeaveMouse);
             this.m_dgv.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.m_dgv_EditingControlShowing);
             this.m_dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellClick);
-            // 
-            // nameColumn
-            // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.nameColumn.FillWeight = 50F;
-            resources.ApplyResources(this.nameColumn, "nameColumn");
-            this.nameColumn.Name = "nameColumn";
-            // 
-            // valueColumn
-            // 
-            this.valueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.valueColumn, "valueColumn");
-            this.valueColumn.Name = "valueColumn";
             // 
             // contextMenuStrip1
             // 
@@ -190,6 +173,25 @@
             resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
+            // nameColumn
+            // 
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nameColumn.FillWeight = 50F;
+            resources.ApplyResources(this.nameColumn, "nameColumn");
+            this.nameColumn.Name = "nameColumn";
+            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // valueColumn
+            // 
+            this.valueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.valueColumn, "valueColumn");
+            this.valueColumn.Name = "valueColumn";
+            this.valueColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // PropertyWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -212,8 +214,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteThisPropertyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defineANewPropertyToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn valueColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -222,5 +222,7 @@
         private System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn valueColumn;
     }
 }
