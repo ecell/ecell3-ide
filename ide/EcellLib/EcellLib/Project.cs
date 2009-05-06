@@ -395,7 +395,7 @@ namespace Ecell
                     // If file is not Eml, return.
                     if (modelObj.Children == null || modelObj.Children.Count <= 0)
                         continue;
-                    if(string.IsNullOrEmpty(modelObj.ErrMsg) && m_env.PluginManager.DockPanel == null)
+                    if(!string.IsNullOrEmpty(modelObj.ErrMsg) && m_env.PluginManager.DockPanel != null)
                         Util.ShowWarningDialog(modelObj.ErrMsg + "\n");
 
                     // If this project is template.
@@ -417,7 +417,9 @@ namespace Ecell
                         // [Only first or second order scheme is allowed]
                         // PingPongBiBiFluxProcess
                         // TauLeapProcess
-                        Util.ShowWarningDialog(MessageResources.WarnInvalidData + "\n" + e.Message);
+                        if (m_env.PluginManager.DockPanel != null)
+                            Util.ShowWarningDialog(MessageResources.WarnInvalidData + "\n" + e.Message);
+                        Trace.WriteLine(e.ToString());
                     }
 
                     // Sets initial conditions.

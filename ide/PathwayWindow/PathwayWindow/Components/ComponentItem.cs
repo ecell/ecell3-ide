@@ -215,7 +215,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <param name="e"></param>
         private void isGradation_CheckedChanged(object sender, EventArgs e)
         {
-            centerBrush.ComboBox.Enabled = isGradation.Checked;
+            centerBrush.Enabled = isGradation.Checked;
             ChangeFillBrush();
         }
         /// <summary>

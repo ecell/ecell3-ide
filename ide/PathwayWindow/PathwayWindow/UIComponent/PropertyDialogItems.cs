@@ -265,11 +265,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Get ComboBox.
+        /// 
         /// </summary>
-        public ComboBox ComboBox
+        public bool Enabled
         {
-            get { return comboBoxBrush; }
+            get { return comboBoxBrush.Enabled; }
+            set 
+            {
+                comboBoxBrush.Enabled = value;
+                base.Enabled = value;
+            }
         }
         
         #endregion
@@ -298,7 +303,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             // set Brushes
             this.brush = Brushes.Black;
-            this.comboBoxBrush = new ImageComboBox();
+            this.comboBoxBrush = new ImageComboBox(BrushManager.GetBrushImageList());
             this.SuspendLayout();
             this.Controls.Add(this.comboBoxBrush);
 
@@ -311,7 +316,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.comboBoxBrush.TabIndex = 0;
             this.comboBoxBrush.Text = BrushManager.ParseBrushToString(brush);
             this.comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-            this.comboBoxBrush.ImageList = BrushManager.GetBrushImageList();
             this.comboBoxBrush.KeyDown += new KeyEventHandler(cBoxNomalBrush_KeyDown);
             this.comboBoxBrush.SelectedIndexChanged += new EventHandler(cBoxBrush_SelectedIndexChanged);
 

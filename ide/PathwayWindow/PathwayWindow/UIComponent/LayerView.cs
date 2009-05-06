@@ -88,8 +88,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private DataGridView dataGridView;
         private Panel panel;
-        private DataGridViewCheckBoxColumn checkBoxColumn;
-        private DataGridViewTextBoxColumn layerNameColumn;
         private IContainer components;
 
         #region Menu Items
@@ -317,8 +315,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             LayerGridRow row = new LayerGridRow();
             row.Name = DEFAULT_LAYER;
             row.ReadOnly = true;
-            row.textBox.Style.BackColor = Color.Gray;
-            row.checkBox.Style.BackColor = Color.Gray;
+            row.textBox.Style.BackColor = Color.LightGray;
+            row.checkBox.Style.BackColor = Color.LightGray;
+            row.checkBox.Style.SelectionBackColor = Color.LightGray;
             dataGridView.Rows.Add(row);
 
             List<PPathwayLayer> layers = new List<PPathwayLayer>();
@@ -629,7 +628,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// Constructor for default layer.
         /// </summary>
-        /// <param name="name"></param>
         public LayerGridRow()
         {
             checkBox = new DataGridViewCheckBoxCell();
