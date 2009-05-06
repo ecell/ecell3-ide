@@ -108,8 +108,36 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             }
             CheckNoConnect();
             CheckExistVariable();
+            CheckSameVariable();
 
             return m_errorList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void CheckSameVariable()
+        {
+            foreach (EcellObject obj in m_existProcessList.Values)
+            {
+                List<string> refstrList = new List<string>();
+                EcellProcess process = (EcellProcess)obj;
+                List<EcellReference> refList = process.ReferenceList;
+                foreach (EcellReference er in refList)
+                {
+                    if (refstrList.Contains(er.FullID))
+                    {
+                        m_errorList.Add(new ObjectPropertyReport(
+                            MessageType.Warning,
+                            MessageResources.ErrSameVariable,
+                            Constants.groupDebug,
+                            obj,
+                            EcellProcess.VARIABLEREFERENCELIST));
+                        break;
+                    }
+                    refstrList.Add(er.FullID);
+                }
+            }
         }
 
         /// <summary>

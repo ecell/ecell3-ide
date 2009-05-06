@@ -144,6 +144,9 @@
   <data name="ErrPositiveZero" xml:space="preserve">
     <value>The property value should be a positive number including zero.</value>
   </data>
+  <data name="ErrSameVariable" xml:space="preserve">
+    <value>This Process is referred to the same Variables.</value>
+  </data>
   <data name="MenuItemAutoDebug" xml:space="preserve">
     <value>&amp;Auto static debugger</value>
   </data>

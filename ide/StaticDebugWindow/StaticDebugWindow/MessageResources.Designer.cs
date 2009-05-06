@@ -142,6 +142,15 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow {
         }
         
         /// <summary>
+        ///   This Process is referred to the same Variables. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSameVariable {
+            get {
+                return ResourceManager.GetString("ErrSameVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Auto static debugger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemAutoDebug {

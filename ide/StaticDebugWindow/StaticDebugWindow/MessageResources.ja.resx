@@ -144,6 +144,9 @@
   <data name="ErrPositiveZero" xml:space="preserve">
     <value>このプロパティの値は0以上の値にして下さい</value>
   </data>
+  <data name="ErrSameVariable" xml:space="preserve">
+    <value>同じVariableに2つ以上のリファレンスがあります</value>
+  </data>
   <data name="MenuItemAutoDebug" xml:space="preserve">
     <value>自動静的デバッガ(&amp;A)</value>
   </data>
