@@ -174,7 +174,8 @@ namespace Ecell.IDE.Plugins.EntityList
         {
             if (obj.Type != Constants.xpathSystem &&
                 obj.Type != Constants.xpathVariable &&
-                obj.Type != Constants.xpathProcess)
+                obj.Type != Constants.xpathProcess &&
+                obj.Type != Constants.xpathStepper)
                 return;
 
             if (obj.Key.EndsWith(":SIZE")) return;
@@ -307,11 +308,42 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <returns></returns>
         private int TypeConverter(string type1, string type2)
         {
-            if (type1 == type2) return 0;
-            if (type1 == EcellObject.SYSTEM) return 1;
-            if (type2 == EcellObject.SYSTEM) return -1;
-            if (type1 == EcellObject.VARIABLE) return -1;
-            return 1;
+            int ind1, ind2;
+
+            ind1 = ind2 = 4;
+            switch (type1)
+            {
+                case EcellObject.SYSTEM:
+                    ind1 = 2;
+                    break;
+                case EcellObject.PROCESS:
+                    ind1 = 3;
+                    break;
+                case EcellObject.VARIABLE:
+                    ind1 = 1;
+                    break;
+                case EcellObject.STEPPER:
+                    ind1 = 0;
+                    break;
+            }
+
+            switch (type2)
+            {
+                case EcellObject.SYSTEM:
+                    ind2 = 2;
+                    break;
+                case EcellObject.PROCESS:
+                    ind2 = 3;
+                    break;
+                case EcellObject.VARIABLE:
+                    ind2 = 1;
+                    break;
+                case EcellObject.STEPPER:
+                    ind2 = 0;
+                    break;
+            }
+
+            return ind1 - ind2;
         }
         /// <summary>
         /// 

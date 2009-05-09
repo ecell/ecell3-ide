@@ -46,28 +46,31 @@ namespace Ecell.Action
         /// <summary>
         /// The parameter id updated the stepper.
         /// </summary>
-        private string m_paramID;
+        private string m_orgID;
+        private string m_newID;
         /// <summary>
         /// The updated stepper.
         /// </summary>
-        private List<EcellObject> m_newStepperList;
+        private EcellObject m_newStepper;
         /// <summary>
         /// The original stepper.
         /// </summary>
-        private List<EcellObject> m_oldStepperList;
+        private EcellObject m_oldStepper;
         #endregion
 
         /// <summary>
         /// The constructor for UpdateStepperAction with initial parameters.
         /// </summary>
-        /// <param name="paramID">The parameter id updated the stepper.</param>
+        /// <param name="newID">The updated stepper ID.</param>
+        /// <param name="orgID">The original stepper ID.</param>
         /// <param name="newStepper">The updated stepper.</param>
         /// <param name="oldStepper">The old stepper.</param>
-        public ChangeStepperAction(string paramID, List<EcellObject> newStepper, List<EcellObject> oldStepper)
+        public ChangeStepperAction(string newID, string orgID, EcellObject newStepper, EcellObject oldStepper)
         {
-            m_paramID = paramID;
-            m_newStepperList = newStepper;
-            m_oldStepperList = oldStepper;
+            m_newID = newID;
+            m_orgID = orgID;
+            m_newStepper = newStepper;
+            m_oldStepper = oldStepper;
         }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace Ecell.Action
         /// <returns></returns>
         public override string ToString()
         {
-            return "ChangeStepperAction:" + m_paramID;
+            return "ChangeStepperAction:" + m_orgID;
         }
 
         /// <summary>
@@ -84,14 +87,16 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.UpdateStepperID(m_paramID, m_newStepperList, false);
+            m_env.DataManager.DataChanged(m_newStepper.ModelID, m_orgID, m_newStepper.Type,
+                m_newStepper, false, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.UpdateStepperID(m_paramID, m_oldStepperList, false);
+            m_env.DataManager.DataChanged(m_newStepper.ModelID, m_newID, m_newStepper.Type,
+                m_oldStepper, false, false);
         }
     }
 }

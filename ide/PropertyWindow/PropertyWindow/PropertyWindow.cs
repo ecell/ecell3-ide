@@ -408,6 +408,24 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     propValueCell.Value = "Text";
                     readOnly = true; // forcefully marked as readonly
                 }
+                else if (m_current.Type == Constants.xpathStepper)
+                {
+                    propValueCell = new DataGridViewComboBoxCell();
+                    bool isHit = false;
+                    List<string> stepList = m_env.DataManager.CurrentProject.StepperDmList;
+                    foreach (string sName in stepList)
+                    {
+                        ((DataGridViewComboBoxCell)propValueCell).Items.Add(sName);
+                        if (sName == propValue)
+                            isHit = true;
+                    }
+
+                    if (!isHit)
+                    {
+                        ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
+                    }
+                    propValueCell.Value = propValue;
+                }
                 else
                 {
                     propValueCell = new DataGridViewComboBoxCell();
@@ -425,7 +443,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
                     }
                     propValueCell.Value = propValue;
-                }
+                }                
             }
             else
             {
@@ -1245,27 +1263,34 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             List<EcellData> props = new List<EcellData>();
             // Get Process properties.
-            Dictionary<string, EcellData> properties = m_env.DataManager.GetProcessProperty(newClassName);
-            foreach (KeyValuePair<string, EcellData> pair in properties)
+            if (m_current.Type == Constants.xpathProcess)
             {
-                EcellData val = pair.Value;
-                if (pair.Value.Name == Constants.xpathStepperID)
+                Dictionary<string, EcellData> properties = m_env.DataManager.GetProcessProperty(newClassName);
+                foreach (KeyValuePair<string, EcellData> pair in properties)
                 {
-                    List<EcellObject> steppers = m_env.DataManager.GetStepper(null, m_current.ModelID);
-                    if (steppers.Count > 0)
+                    EcellData val = pair.Value;
+                    if (pair.Value.Name == Constants.xpathStepperID)
                     {
-                        val = new EcellData(pair.Value.Name,
-                            new EcellValue(steppers[0].Key),
-                            val.EntityPath);
+                        List<EcellObject> steppers = m_env.DataManager.GetStepper(null, m_current.ModelID);
+                        if (steppers.Count > 0)
+                        {
+                            val = new EcellData(pair.Value.Name,
+                                new EcellValue(steppers[0].Key),
+                                val.EntityPath);
+                        }
                     }
+                    else if (pair.Value.Name == Constants.xpathVRL)
+                    {
+                        EcellData d = m_current.GetEcellData(Constants.xpathVRL);
+                        if (d != null)
+                            val = d;
+                    }
+                    props.Add(val);
                 }
-                else if (pair.Value.Name == Constants.xpathVRL)
-                {
-                    EcellData d  = m_current.GetEcellData(Constants.xpathVRL);
-                    if (d != null)
-                        val = d;
-                }
-                props.Add(val);
+            }
+            else
+            {
+                props = m_env.DataManager.GetStepperProperty(newClassName);
             }
             EcellObject obj = EcellObject.CreateObject(
                 m_current.ModelID, m_current.Key, m_current.Type,

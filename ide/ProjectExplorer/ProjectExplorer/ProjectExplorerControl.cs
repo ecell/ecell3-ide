@@ -196,6 +196,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         }
                     }
                 }
+                else if (obj.Type == Constants.xpathStepper)
+                {
+                    TreeNode current = GetTargetModel(obj.ModelID);
+                    if (current == null)
+                        return;
+
+                    TreeNode childNode = AddTreeNode(obj.Key, obj, current);
+                }
             }
             m_isExpland = false;
             treeView1.ExpandAll();

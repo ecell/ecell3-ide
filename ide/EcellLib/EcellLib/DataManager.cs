@@ -401,6 +401,7 @@ namespace Ecell
         public void LoadProject(ProjectInfo info)
         {
             List<EcellObject> passList = new List<EcellObject>();
+            List<EcellObject> stepperList = new List<EcellObject>();
             string message = null;
             string projectID = null;
             Project project = null;
@@ -439,6 +440,7 @@ namespace Ecell
                 foreach (string storedModelID in project.SystemDic.Keys)
                 {
                     passList.AddRange(project.SystemDic[storedModelID]);
+                    stepperList.AddRange(project.StepperDic[storedModelID]);
                 }
 
                 // Load SimulationParameters.
@@ -465,6 +467,10 @@ namespace Ecell
                     if (passList != null && passList.Count > 0)
                     {
                         this.m_env.PluginManager.DataAdd(passList);
+                    }
+                    if (stepperList != null && stepperList.Count > 0)
+                    {
+                        this.m_env.PluginManager.DataAdd(stepperList);
                     }
                     foreach (string paramID in this.GetSimulationParameterIDs())
                     {
@@ -1350,6 +1356,10 @@ namespace Ecell
                     UpdatePropertyForDataChanged(ecellObject, null);
                     DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
+                else if (ecellObject.Type.Equals(Constants.xpathStepper))
+                {
+                    DataChanged4Stepper(modelID, key, type, ecellObject, isRecorded, isAnchor);
+                }
 
                 if (key != ecellObject.Key)
                 {
@@ -1360,7 +1370,7 @@ namespace Ecell
                 //if (!oldObj.IsPosSet)
                 //    m_env.PluginManager.SetPosition(oldObj);
                 // Set Event Anchor.
-                if (isRecorded &&isAnchor)
+                if (isRecorded && isAnchor)
                     this.m_env.ActionManager.AddAction(new AnchorAction());
             }
             catch (Exception ex)
@@ -1436,6 +1446,13 @@ namespace Ecell
             // Deletes the old object.
             DataDelete4Node(modelID, key, type, false, true, false);
             return;
+        }
+
+        private void DataChanged4Stepper(
+            string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
+        {
+            UpdateStepperID(key, ecellObject, isRecorded);
+            m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
         }
 
         /// <summary>
@@ -3026,66 +3043,30 @@ namespace Ecell
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepperList">The list of the "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
-        public void UpdateStepperID(string parameterID, List<EcellObject> stepperList, bool isRecorded)
+        private void UpdateStepperID(string orgStepperID, EcellObject newStepper, bool isRecorded)
         {
-            if (stepperList.Count == 0)
-                return;
-
             string message = null;
 
             try
             {
-                List<EcellObject> addedStepperList = new List<EcellObject>();
-                List<EcellObject> removedStepperList = new List<EcellObject>();
-                List<EcellObject> updatedStepperList = new List<EcellObject>();
-                List<EcellObject> oldStepperList = new List<EcellObject>();
+                EcellObject oldStepepr = null;
                 Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic;
                 foreach (EcellObject model in m_currentProject.ModelList)
                 {
-                    List<EcellObject> remainingStepperList = new List<EcellObject>();
-                    foreach (EcellObject stepper in perParameterStepperListDic[model.ModelID])
+                    foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
                     {
-                        bool removed = true;
-                        oldStepperList.Add(stepper.Clone());
-                        foreach (EcellObject newStepper in stepperList)
+                        if (obj.Key.Equals(orgStepperID))
                         {
-                            if (stepper.Key == newStepper.Key)
-                            {
-                                remainingStepperList.Add(stepper);
-                                removed = false;
-                                break;
-                            }
-                        }
-                        if (removed)
-                            removedStepperList.Add(stepper);
-                    }
-                    perParameterStepperListDic[model.ModelID] = remainingStepperList;
-                }
-                foreach (EcellObject stepper in stepperList)
-                {
-                    message = stepper.Key;
-
-                    List<EcellObject> perModelStepperList = perParameterStepperListDic[stepper.ModelID];
-                    bool added = true;
-                    foreach (EcellObject oldStepper in perModelStepperList.ToArray())
-                    {
-                        if (oldStepper.Key.Equals(stepper.Key))
-                        {
-                            added = false;
-                            perModelStepperList.Remove(oldStepper);
-                            perModelStepperList.Add(stepper);
-                            updatedStepperList.Add(stepper);
+                            oldStepepr = obj;
+                            perParameterStepperListDic[model.ModelID].Remove(obj);
                             break;
                         }
                     }
-                    if (added)
-                    {
-                        addedStepperList.Add(stepper);
-                        perModelStepperList.Add(stepper);
-                    }
-                    if (isRecorded && addedStepperList.Count + removedStepperList.Count + updatedStepperList.Count > 0)
-                        m_env.ActionManager.AddAction(new ChangeStepperAction(parameterID, stepperList, oldStepperList));
+                    perParameterStepperListDic[model.ModelID].Add(newStepper);
                 }
+                Debug.Assert(oldStepepr != null);
+                m_env.ActionManager.AddAction(
+                    new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
             }
             catch (Exception ex)
             {
