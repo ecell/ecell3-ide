@@ -99,12 +99,6 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         [System.ComponentModel.Browsable(true)]
-        public IList<StepperConfiguration> Steppers
-        {
-            get { return m_steppers; }
-        }
-
-        [System.ComponentModel.Browsable(true)]
         public object Clone()
         {
             return new PerModelSimulationParameter(this);
@@ -114,26 +108,22 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             m_modelID = null;
             m_initialConds = new List<MutableKeyValuePair<string, double>>();
-            m_steppers = new List<StepperConfiguration>();
         }
 
         public PerModelSimulationParameter(string modelID)
         {
             m_modelID = modelID;
             m_initialConds = new List<MutableKeyValuePair<string, double>>();
-            m_steppers = new List<StepperConfiguration>();
         }
 
         public PerModelSimulationParameter(PerModelSimulationParameter rhs)
         {
             m_modelID = rhs.ModelID;
             m_initialConds = new List<MutableKeyValuePair<string, double>>(rhs.InitialConditions);
-            m_steppers = new List<StepperConfiguration>(rhs.Steppers);
         }
 
         string m_modelID;
         List<MutableKeyValuePair<string, double>> m_initialConds;
-        List<StepperConfiguration> m_steppers;
     }
 
     internal class SimulationParameterSet

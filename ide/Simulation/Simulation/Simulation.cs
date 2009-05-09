@@ -539,20 +539,6 @@ namespace Ecell.IDE.Plugins.Simulation
                             KeyValuePairConverter<string, double>.Convert(pair));
                     }
 
-                    foreach (EcellObject stepper in m_dManager.GetStepper(paramID, modelID))
-                    {
-                        StepperConfiguration sc = new StepperConfiguration();
-                        sc.Name = stepper.Key;
-                        sc.ClassName = stepper.Classname;
-                        foreach (EcellData prop in stepper.Value)
-                        {
-                            if (prop.Value.IsList || !prop.Settable)
-                                continue;
-                            sc.Properties.Add(new MutableKeyValuePair<string, string>(
-                                prop.Name, prop.Value.Value.ToString()));
-                        }
-                        pmsp.Steppers.Add(sc);
-                    }
                     sps.PerModelSimulationParameters.Add(pmsp);
                 }
                 sps.LoggerPolicy = (LoggerPolicy)m_dManager.GetLoggerPolicy(paramID).Clone();
@@ -605,39 +591,6 @@ namespace Ecell.IDE.Plugins.Simulation
                                     pairs.Add(pair.Key, pair.Value);
                                 m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, pairs);
                             }
-                            foreach (StepperConfiguration sc in pmsp.Steppers)
-                            {
-                                List<EcellData> propList = m_dManager.GetStepperProperty(sc.ClassName);
-                                foreach (EcellData prop in propList)
-                                {
-                                    string value = null;
-                                    foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
-                                    {
-                                        if (!pair.Key.Equals(prop.Name))
-                                            continue;
-                                        value = pair.Value;
-                                        break;
-
-                                    }
-                                    if (value == null)
-                                        continue;
-
-                                    if (prop.Value.IsDouble)
-                                    {
-                                        prop.Value = new EcellValue(Convert.ToDouble(value));
-                                    }
-                                    else if (prop.Value.IsInt)
-                                    {
-                                        prop.Value = new EcellValue(Convert.ToInt32(value));
-                                    }
-                                    else if (prop.Value.IsString)
-                                    {
-                                        prop.Value = new EcellValue(value);
-                                    }
-                                    Trace.WriteLine(prop.Name + ":" + prop.Value.Value);
-                                }
-                                steppers.Add(EcellObject.CreateObject(pmsp.ModelID, sc.Name, Constants.xpathStepper, sc.ClassName, propList));
-                            }
                         }
 
                         foreach (String key in delList)
@@ -645,7 +598,6 @@ namespace Ecell.IDE.Plugins.Simulation
                             m_dManager.DeleteSimulationParameter(key);
                         }
 
-                        m_dManager.UpdateStepperID(sps.Name, steppers);
                         m_env.PluginManager.ParameterUpdate(
                             m_env.DataManager.CurrentProjectID, sps.Name);
                     }

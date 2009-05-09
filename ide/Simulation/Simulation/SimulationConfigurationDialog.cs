@@ -103,21 +103,16 @@ namespace Ecell.IDE.Plugins.Simulation
         public SimulationConfigurationDialog(Simulation owner, IEnumerable<SimulationParameterSet> simParamSets)
         {
             m_owner = owner;
-            m_stepperClasses = m_owner.DataManager.CurrentProject.StepperDmList;
             if (m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
                 m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
             {
                 m_isRunnging = true;
-                m_isStepperAddOrDelete = false;
             }
             else
             {
                 m_isRunnging = false;
-                m_isStepperAddOrDelete = false;
             }
-            m_originalStepperConfigurations = new Dictionary<string,Dictionary<string,Dictionary<string,StepperConfiguration>>>();
             InitializeComponent();
-            stepCombo.DataSource = m_stepperClasses;
             perModelSimulationParameterBindingSource.CurrentChanged += new EventHandler(perModelSimulationParameterBindingSource_CurrentChanged);
             perModelSimulationParameterBindingSource.MoveFirst();
             m_simParamSets.SuspendBinding();
@@ -126,17 +121,6 @@ namespace Ecell.IDE.Plugins.Simulation
             SimulationParameterSet current = null;
             foreach (SimulationParameterSet i in simParamSets)
             {
-                Dictionary<string, Dictionary<string, StepperConfiguration>> pmsc = new Dictionary<string,Dictionary<string,StepperConfiguration>>();
-                m_originalStepperConfigurations[i.Name] = pmsc;
-                foreach (PerModelSimulationParameter pmsp in i.PerModelSimulationParameters)
-                {
-                    Dictionary<string, StepperConfiguration> scs = new Dictionary<string, StepperConfiguration>();
-                    pmsc[pmsp.ModelID] = scs;
-                    foreach (StepperConfiguration sc in pmsp.Steppers)
-                    {
-                        scs[sc.Name] = (StepperConfiguration)sc.Clone();
-                    }
-                }
                 m_simParamSets.Add(i);
                 if (i.Name.Equals(currentParam))
                     current = i;
@@ -149,7 +133,6 @@ namespace Ecell.IDE.Plugins.Simulation
         void perModelSimulationParameterBindingSource_CurrentChanged(object sender, EventArgs e)
         {
             PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
-            steppersBindingSource.DataSource = p.Steppers;
             initialConditionsBindingSource.DataSource = p.InitialConditions;
 
             // 設定した後にListBoxの順番が更新されていません。
@@ -169,54 +152,6 @@ namespace Ecell.IDE.Plugins.Simulation
             int j = 0;
 
             string param = paramCombo.Text;
-            stepperListBox.Items.Clear();
-            dgv.Rows.Clear();
-            m_steppList = m_owner.DataManager.GetStepper(param, modelID);
-            foreach (EcellObject obj in m_steppList)
-            {
-                if (obj.Value == null) continue;
-                stepperListBox.Items.Add(obj.Key);
-                if (j != 0) continue;
-                ChangeDataGrid(obj.Value);
-                int ind = stepCombo.Items.IndexOf(obj.Classname);
-                stepCombo.SelectedIndex = ind;
-
-                j++;
-            }
-            if (j != 0)
-            {
-                stepperListBox.SelectedIndex = 0;
-            }
-        }
-
-        /// <summary>
-        /// The action of changing data grid value.
-        /// </summary>
-        /// <param name="values">list of value.</param>
-        public void ChangeDataGrid(List<EcellData> values)
-        {
-            dgv.Rows.Clear();
-            DataGridViewCellStyle style = new DataGridViewCellStyle();
-            style.BackColor = Color.LightGray;
-            foreach (EcellData d in values)
-            {
-                if (d.Name == "ClassName") continue;
-                string name = d.Name;
-                string value = d.Value.ToString();
-                string get = "+";
-                string set = "+";
-                if (!d.Gettable) get = "-";
-                if (!d.Settable) set = "-";
-
-                dgv.Rows.Add(new object[] { name, value, get, set });
-                int ind = dgv.Rows.GetLastRow(DataGridViewElementStates.None);
-                if (!d.Settable)
-                {
-                    dgv.Rows[ind].ReadOnly = true;
-                    dgv.Rows[ind].DefaultCellStyle = style;
-                }
-            }
-            m_selectValue = values;
         }
 
         /// <summary>
@@ -238,55 +173,6 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             string modelName = modelCombo.Text;
             ChangeModelID(modelName);
-        }
-
-        /// <summary>
-        /// The action of changing the selected classname.
-        /// </summary>
-        /// <param name="sender">object(ComboBox)</param>
-        /// <param name="e">EventArgs</param>
-        public void StepComboSelectedIndexChanged(object sender, EventArgs e)
-        {
-            string stepperID = stepCombo.Text;
-            List<EcellData> data;
-            try
-            {
-                data = m_owner.DataManager.GetStepperProperty(stepperID);
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(ex.Message);
-                return;
-            }
-            ChangeDataGrid(data);
-        }
-
-        /// <summary>
-        /// The action of changing the selected item in StepperListBox.
-        /// </summary>
-        /// <param name="sender">ListBox.</param>
-        /// <param name="e">EventArgs.</param>
-        public void StepperListBoxSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (stepperListBox.Text == "") return;
-            string selectID = stepperListBox.SelectedItem.ToString();
-            foreach (EcellObject obj in m_steppList)
-            {
-                if (obj.Value == null) continue;
-                if (obj.Key != selectID) continue;
-
-                for (int i = 0; i < stepCombo.Items.Count; i++)
-                {
-                    if (obj.Classname == (string)stepCombo.Items[i])
-                    {
-                        stepCombo.SelectedIndex = i;
-                        break;
-                    }
-                }
-
-                ChangeDataGrid(obj.Value);
-                break;
-            }
         }
 
         /// <summary>
@@ -387,47 +273,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 steppersBindingSource.ResetItem(i);
             }
             m_isStepperAddOrDelete = true;
-        }
-
-        /// <summary>
-        /// The action of clicking the add Button[Stepper] in SimulationSetupWindow.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void AddStepperClick(object sender, EventArgs e)
-        {
-            InputParameterNameDialog newwin = new InputParameterNameDialog(this, false);
-            using (newwin)
-            {
-                newwin.Text = MessageResources.NewStepperText;
-                if (newwin.ShowDialog() != DialogResult.OK)
-                    return;
-                StepperConfiguration sc = new StepperConfiguration();
-                sc.Name = newwin.InputText;
-                sc.ClassName = m_stepperClasses[0];
-                ResetStepperProperties(sc);
-                int index = steppersBindingSource.Add(sc);
-                // 追加した後にListBoxの順番が更新されていません。
-                // なにかいい方法があったらそちらに変更しましょう。
-                for (int i = 0; i < steppersBindingSource.Count; i++)
-                {
-                    steppersBindingSource.ResetItem(i);
-                }
-                stepperListBox.ClearSelected();
-                m_isStepperAddOrDelete = true;
-            }
-        }
-
-        public bool IsExistStepper(string name)
-        {
-            for (int i = 0; i < steppersBindingSource.Count; i++)
-            {
-                if (((StepperConfiguration)steppersBindingSource[i]).Name.ToUpper().Equals(name.ToUpper()))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public bool IsExistParameterSet(string name)
@@ -749,40 +594,6 @@ namespace Ecell.IDE.Plugins.Simulation
             initialConditionsBindingSource.ResetBindings(false);
         }
 
-        private void StepperCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            if (e.ColumnIndex == 0) return;
-            DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
-            string propName = dgv[0, e.RowIndex].Value.ToString();
-            string stepperName = stepCombo.Text;
-            DMDescriptorKeeper dmManager = m_owner.Environment.DMDescriptorKeeper;
-            if (dmManager.ContainsDescriptor(Constants.xpathStepper, stepperName))
-            {
-                DMDescriptor dm = dmManager.GetDMDescriptor(Constants.xpathStepper, stepperName);
-                PropertyDescriptor prop = dm[propName];
-                if (prop.DefaultValue.Type == EcellValueType.Integer)
-                {
-                    int dummy;
-                    if (!Int32.TryParse(e.FormattedValue.ToString(), out dummy))
-                    {
-                        Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                        e.Cancel = true;
-                        steppersBindingSource.ResetBindings(false);
-                    }
-                }
-                else if (prop.DefaultValue.Type == EcellValueType.Double)
-                {
-                    double dummy;
-                    if (!double.TryParse(e.FormattedValue.ToString(), out dummy))
-                    {
-                        Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                        e.Cancel = true;
-                        steppersBindingSource.ResetBindings(false);
-                    }
-                }
-            }
-        }
-
         private void SimulationConfigurationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -840,53 +651,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
             }
 
-            foreach (SimulationParameterSet sps in Result)
-            {
-                foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
-                {
-                    foreach (StepperConfiguration sc in pmsp.Steppers)
-                    {
-                        try
-                        {
-                            List<EcellData> propList = m_owner.DataManager.GetStepperProperty(sc.ClassName);
-                            foreach (EcellData prop in propList)
-                            {
-                                string value = null;
-                                foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
-                                {
-                                    if (!pair.Key.Equals(prop.Name))
-                                        continue;
-                                    value = pair.Value;
-                                    break;
-
-                                }
-                                if (value == null)
-                                    continue;
-
-                                if (prop.Value.IsDouble)
-                                {
-                                    prop.Value = new EcellValue(Convert.ToDouble(value));
-                                }
-                                else if (prop.Value.IsInt)
-                                {
-                                    prop.Value = new EcellValue(Convert.ToInt32(value));
-                                }
-                                else if (prop.Value.IsString)
-                                {
-                                    prop.Value = new EcellValue(value);
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                            e.Cancel = true;
-                            return;
-                        }
-                    }
-                }
-            }
-
             if (m_isRunnging && m_isStepperAddOrDelete)
             {
                 try
@@ -905,8 +669,6 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             simSettingToolTip.SetToolTip(SSCreateButton, MessageResources.DialogToolTipCreSim);
             simSettingToolTip.SetToolTip(SSDeleteButton, MessageResources.DialogToolTipDeleteSim);
-            simSettingToolTip.SetToolTip(SCreStepperButton, MessageResources.DialogToolTipCreStepper);
-            simSettingToolTip.SetToolTip(SDelStepperButton, MessageResources.DialogToolTipDelStepper);
         }
     }
 }

@@ -2090,37 +2090,37 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        [Test()]
-        public void TestUpdateStepperIDL_parameterIDL_stepperList()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+        //[Test()]
+        //public void TestUpdateStepperIDL_parameterIDL_stepperList()
+        //{
+        //    _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
-            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+        //    string l_parameterID = "DefaultParameter";
+        //    EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
 
-            List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
-            _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
+        //    List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
+        //    _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
 
-            l_stepperList.Add(l_stepper);
-            _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
+        //    l_stepperList.Add(l_stepper);
+        //    _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
 
-            l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            l_stepper.Key = "NewStepper";
-            l_stepperList.Clear();
-            l_stepperList.Add(l_stepper);
-            _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
+        //    l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    l_stepper.Key = "NewStepper";
+        //    l_stepperList.Clear();
+        //    l_stepperList.Add(l_stepper);
+        //    _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
 
-            try
-            {
-                _unitUnderTest.UpdateStepperID("Hoge", l_stepperList);
-                Assert.Fail();
-            }
-            catch (Exception)
-            {
-            }
+        //    try
+        //    {
+        //        _unitUnderTest.UpdateStepperID("Hoge", l_stepperList);
+        //        Assert.Fail();
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
 
-        }
+        //}
         /// <summary>
         /// 
         /// </summary>

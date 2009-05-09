@@ -29,15 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TabPage initialParametersPage;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.TabPage perModelSimulationParametersPage;
-            System.Windows.Forms.TabPage stepperDefinitionsPage;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.Label label7;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label3;
@@ -46,18 +40,9 @@
             this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.initialConditionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.SCreStepperButton = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.dgv = new System.Windows.Forms.DataGridView();
-            this.keyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.propertiesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.propertiesBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.steppersBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.stepCombo = new System.Windows.Forms.ComboBox();
-            this.SDelStepperButton = new System.Windows.Forms.Button();
-            this.stepperListBox = new System.Windows.Forms.ListBox();
             this.modelCombo = new System.Windows.Forms.ComboBox();
             this.perModelSimulationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.m_simParamSets = new System.Windows.Forms.BindingSource(this.components);
@@ -82,24 +67,14 @@
             this.freqByStepTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.simSettingToolTip = new System.Windows.Forms.ToolTip(this.components);
-            initialParametersPage = new System.Windows.Forms.TabPage();
             perModelSimulationParametersPage = new System.Windows.Forms.TabPage();
-            stepperDefinitionsPage = new System.Windows.Forms.TabPage();
-            label2 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
-            initialParametersPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).BeginInit();
             perModelSimulationParametersPage.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            stepperDefinitionsPage.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.steppersBindingSource)).BeginInit();
@@ -111,13 +86,6 @@
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // initialParametersPage
-            // 
-            initialParametersPage.Controls.Add(this.initialParameters);
-            resources.ApplyResources(initialParametersPage, "initialParametersPage");
-            initialParametersPage.Name = "initialParametersPage";
-            initialParametersPage.UseVisualStyleBackColor = true;
             // 
             // initialParameters
             // 
@@ -168,95 +136,12 @@
             // 
             // perModelSimulationParametersPage
             // 
-            perModelSimulationParametersPage.Controls.Add(this.tabControl2);
+            perModelSimulationParametersPage.Controls.Add(this.initialParameters);
             perModelSimulationParametersPage.Controls.Add(label6);
             perModelSimulationParametersPage.Controls.Add(this.modelCombo);
             resources.ApplyResources(perModelSimulationParametersPage, "perModelSimulationParametersPage");
             perModelSimulationParametersPage.Name = "perModelSimulationParametersPage";
             perModelSimulationParametersPage.UseVisualStyleBackColor = true;
-            // 
-            // tabControl2
-            // 
-            resources.ApplyResources(this.tabControl2, "tabControl2");
-            this.tabControl2.Controls.Add(initialParametersPage);
-            this.tabControl2.Controls.Add(stepperDefinitionsPage);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            // 
-            // stepperDefinitionsPage
-            // 
-            stepperDefinitionsPage.Controls.Add(label2);
-            stepperDefinitionsPage.Controls.Add(this.SCreStepperButton);
-            stepperDefinitionsPage.Controls.Add(this.panel1);
-            stepperDefinitionsPage.Controls.Add(this.SDelStepperButton);
-            stepperDefinitionsPage.Controls.Add(this.stepperListBox);
-            resources.ApplyResources(stepperDefinitionsPage, "stepperDefinitionsPage");
-            stepperDefinitionsPage.Name = "stepperDefinitionsPage";
-            stepperDefinitionsPage.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
-            // SCreStepperButton
-            // 
-            resources.ApplyResources(this.SCreStepperButton, "SCreStepperButton");
-            this.SCreStepperButton.Name = "SCreStepperButton";
-            this.SCreStepperButton.UseVisualStyleBackColor = true;
-            this.SCreStepperButton.Click += new System.EventHandler(this.AddStepperClick);
-            // 
-            // panel1
-            // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(label1);
-            this.panel1.Controls.Add(this.dgv);
-            this.panel1.Controls.Add(label7);
-            this.panel1.Controls.Add(this.stepCombo);
-            this.panel1.Name = "panel1";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
-            // 
-            // dgv
-            // 
-            this.dgv.AllowUserToAddRows = false;
-            this.dgv.AllowUserToResizeRows = false;
-            resources.ApplyResources(this.dgv, "dgv");
-            this.dgv.AutoGenerateColumns = false;
-            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.keyDataGridViewTextBoxColumn,
-            this.valueDataGridViewTextBoxColumn});
-            this.dgv.DataSource = this.propertiesBindingSource;
-            this.dgv.Name = "dgv";
-            this.dgv.RowHeadersVisible = false;
-            this.dgv.RowTemplate.Height = 21;
-            // 
-            // keyDataGridViewTextBoxColumn
-            // 
-            this.keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
-            resources.ApplyResources(this.keyDataGridViewTextBoxColumn, "keyDataGridViewTextBoxColumn");
-            this.keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
-            this.keyDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // valueDataGridViewTextBoxColumn
-            // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            resources.ApplyResources(this.valueDataGridViewTextBoxColumn, "valueDataGridViewTextBoxColumn");
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
             // 
             // propertiesBindingSource
             // 
@@ -271,36 +156,6 @@
             // steppersBindingSource
             // 
             this.steppersBindingSource.DataSource = typeof(Ecell.IDE.Plugins.Simulation.StepperConfiguration);
-            // 
-            // label7
-            // 
-            resources.ApplyResources(label7, "label7");
-            label7.Name = "label7";
-            // 
-            // stepCombo
-            // 
-            resources.ApplyResources(this.stepCombo, "stepCombo");
-            this.stepCombo.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.steppersBindingSource, "ClassName", true));
-            this.stepCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.stepCombo.FormattingEnabled = true;
-            this.stepCombo.Name = "stepCombo";
-            this.stepCombo.SelectedValueChanged += new System.EventHandler(this.stepCombo_SelectedValueChanged);
-            // 
-            // SDelStepperButton
-            // 
-            resources.ApplyResources(this.SDelStepperButton, "SDelStepperButton");
-            this.SDelStepperButton.Name = "SDelStepperButton";
-            this.SDelStepperButton.UseVisualStyleBackColor = true;
-            this.SDelStepperButton.Click += new System.EventHandler(this.DeleteStepperClick);
-            // 
-            // stepperListBox
-            // 
-            resources.ApplyResources(this.stepperListBox, "stepperListBox");
-            this.stepperListBox.DataSource = this.steppersBindingSource;
-            this.stepperListBox.DisplayMember = "Name";
-            this.stepperListBox.FormattingEnabled = true;
-            this.stepperListBox.Name = "stepperListBox";
-            this.stepperListBox.Sorted = true;
             // 
             // label6
             // 
@@ -516,17 +371,10 @@
             this.Load += new System.EventHandler(this.SimulationConfigurationDialog_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SimulationConfigurationDialog_FormClosing);
-            initialParametersPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).EndInit();
             perModelSimulationParametersPage.ResumeLayout(false);
             perModelSimulationParametersPage.PerformLayout();
-            this.tabControl2.ResumeLayout(false);
-            stepperDefinitionsPage.ResumeLayout(false);
-            stepperDefinitionsPage.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.steppersBindingSource)).EndInit();
@@ -547,7 +395,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.Button SSCreateButton;
         private System.Windows.Forms.Button SSDeleteButton;
         private System.Windows.Forms.ComboBox modelCombo;
@@ -557,7 +404,6 @@
         private System.Windows.Forms.ComboBox paramCombo;
         private System.Windows.Forms.Label configurationLabel;
         private System.Windows.Forms.BindingSource m_simParamSets;
-        private System.Windows.Forms.ListBox stepperListBox;
         public System.Windows.Forms.TabPage loggingPage;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton overrideRadio;
@@ -571,21 +417,14 @@
         private System.Windows.Forms.TextBox freqBySecTextBox;
         private System.Windows.Forms.RadioButton freqByStepRadio;
         private System.Windows.Forms.TextBox freqByStepTextBox;
-        private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.ComboBox stepCombo;
         public System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.BindingSource perModelSimulationParameterBindingSource;
         private System.Windows.Forms.BindingSource propertiesBindingSource;
         private System.Windows.Forms.BindingSource steppersBindingSource;
         private System.Windows.Forms.BindingSource propertiesBindingSource1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource initialConditionsBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolTip simSettingToolTip;
-        private System.Windows.Forms.Button SCreStepperButton;
-        private System.Windows.Forms.Button SDelStepperButton;
     }
 }

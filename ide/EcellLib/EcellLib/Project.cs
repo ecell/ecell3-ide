@@ -91,7 +91,7 @@ namespace Ecell
         /// <summary>
         /// The dictionary of the "Stepper" with the parameter ID and the model ID
         /// </summary>
-        private Dictionary<string, Dictionary<string, List<EcellObject>>> m_stepperDic = null;
+        private Dictionary<string, List<EcellObject>> m_stepperDic = null;
 
         /// <summary>
         /// The executed flag of Simulator.
@@ -329,7 +329,7 @@ namespace Ecell
         /// <summary>
         /// The dictionary of the "Stepper" with the parameter ID and the model ID
         /// </summary>
-        public Dictionary<string, Dictionary<string, List<EcellObject>>> StepperDic
+        public Dictionary<string, List<EcellObject>> StepperDic
         {
             get { return m_stepperDic; }
         }
@@ -352,7 +352,7 @@ namespace Ecell
             m_info = info;
             m_env = env;
             m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
-            m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+            m_stepperDic = new Dictionary<string, List<EcellObject>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
             m_logableEntityPathDic = new Dictionary<string, string>();
@@ -485,15 +485,11 @@ namespace Ecell
             }
             else if (ecellObject.Type.Equals(Constants.xpathStepper))
             {
-                if (!m_stepperDic.ContainsKey(simParam))
+                if (!m_stepperDic.ContainsKey(modelID))
                 {
-                    m_stepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
+                    m_stepperDic[modelID] = new List<EcellObject>();
                 }
-                if (!m_stepperDic[simParam].ContainsKey(modelID))
-                {
-                    m_stepperDic[simParam][modelID] = new List<EcellObject>();
-                }
-                m_stepperDic[simParam][modelID].Add(ecellObject);
+                m_stepperDic[modelID].Add(ecellObject);
             }
             foreach (EcellObject childEcellObject in ecellObject.Children)
             {
@@ -969,7 +965,7 @@ namespace Ecell
         public EcellObject GetStepper(string model, string key)
         {
             EcellObject stepper = null;
-            List<EcellObject> list = m_stepperDic[m_info.SimulationParam][model];
+            List<EcellObject> list = m_stepperDic[model];
             foreach (EcellObject eo in list)
             {
                 if (eo.Key == key)

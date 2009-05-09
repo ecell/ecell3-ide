@@ -201,7 +201,7 @@ namespace Ecell
             File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
             File.AppendAllText(fileName, "# Stepper\n", enc);
             foreach (EcellObject stepObj in
-                m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelName])
+                m_currentProject.StepperDic[modelName])
             {
                 File.AppendAllText(fileName, "stepperStub" + m_stepperCount + "=session.createStepperStub(\"" + stepObj.Key + "\")\n", enc);
                 File.AppendAllText(fileName, "stepperStub" + m_stepperCount + ".create(\"" + stepObj.Classname + "\")\n", enc);
@@ -220,7 +220,7 @@ namespace Ecell
         {
             File.AppendAllText(fileName, "\n# Stepper\n", enc);
             foreach (EcellObject stepObj in
-                m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelName])
+                m_currentProject.StepperDic[modelName])
             {
                 int count = m_exportStepper[stepObj.Key];
                 foreach (EcellData d in stepObj.Value)

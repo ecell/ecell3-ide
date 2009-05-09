@@ -690,7 +690,7 @@ namespace Ecell
 
                 // Picks the "Stepper" up.
                 List<EcellObject> stepperList
-                    = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelID];
+                    = m_currentProject.StepperDic[modelID];
                 Debug.Assert(stepperList != null && stepperList.Count > 0);
                 storedList.AddRange(stepperList);
 
@@ -832,7 +832,7 @@ namespace Ecell
                 List<EcellObject> storedSystemList = new List<EcellObject>();
 
                 Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam];
+                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic;
 
                 foreach (string modelID in modelIDList)
                 {
@@ -1029,9 +1029,8 @@ namespace Ecell
             foreach (string simParam in m_currentProject.InitialCondition.Keys)
             {
                 // Sets initial conditions.
-                m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
-                m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
-                m_currentProject.StepperDic[simParam][modelID].Add(dic[Constants.xpathStepper]);
+                m_currentProject.StepperDic[modelID] = new List<EcellObject>();
+                m_currentProject.StepperDic[modelID].Add(dic[Constants.xpathStepper]);
                 m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
             }
             //
@@ -1683,12 +1682,9 @@ namespace Ecell
                 m_currentProject.SystemDic.Remove(modelID);
             }
             // Deletes "Stepper"s.
-            foreach (string param in m_currentProject.StepperDic.Keys)
+            if (m_currentProject.StepperDic.ContainsKey(modelID))
             {
-                if (m_currentProject.StepperDic[param].ContainsKey(modelID))
-                {
-                    m_currentProject.StepperDic[param].Remove(modelID);
-                }
+                m_currentProject.StepperDic.Remove(modelID);
             }
             MessageDeleteEntity(EcellObject.MODEL, message);
         }
@@ -2993,9 +2989,7 @@ namespace Ecell
             {
                 // Get stepperDic
                 message = "[" + parameterID + "][" + stepper.ModelID + "][" + stepper.Key + "]";
-                if (!m_currentProject.StepperDic.ContainsKey(parameterID))
-                    m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
-                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[parameterID];
+                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic;
                 if (!stepperDic.ContainsKey(stepper.ModelID))
                     throw new EcellException();
 
@@ -3031,16 +3025,6 @@ namespace Ecell
         /// </summary>
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepperList">The list of the "Stepper"</param>
-        public void UpdateStepperID(string parameterID, List<EcellObject> stepperList)
-        {
-            UpdateStepperID(parameterID, stepperList, true);
-        }
-
-        /// <summary>
-        /// Updates the "Stepper".
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="stepperList">The list of the "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
         public void UpdateStepperID(string parameterID, List<EcellObject> stepperList, bool isRecorded)
         {
@@ -3055,7 +3039,7 @@ namespace Ecell
                 List<EcellObject> removedStepperList = new List<EcellObject>();
                 List<EcellObject> updatedStepperList = new List<EcellObject>();
                 List<EcellObject> oldStepperList = new List<EcellObject>();
-                Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic[parameterID];
+                Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic;
                 foreach (EcellObject model in m_currentProject.ModelList)
                 {
                     List<EcellObject> remainingStepperList = new List<EcellObject>();
@@ -3131,7 +3115,7 @@ namespace Ecell
             {
                 int point = -1;
                 List<EcellObject> storedStepperList
-                    = m_currentProject.StepperDic[parameterID][stepper.ModelID];
+                    = m_currentProject.StepperDic[stepper.ModelID];
                 for (int i = 0; i < storedStepperList.Count; i++)
                 {
                     if (storedStepperList[i].Key.Equals(stepper.Key))
@@ -3175,7 +3159,7 @@ namespace Ecell
             if (string.IsNullOrEmpty(parameterID))
                 parameterID = m_currentProject.Info.SimulationParam;
 
-            List<EcellObject> tempList = m_currentProject.StepperDic[parameterID][modelID];
+            List<EcellObject> tempList = m_currentProject.StepperDic[modelID];
             foreach (EcellObject stepper in tempList)
             {
                 // DataStored4Stepper(simulator, stepper);
@@ -3940,7 +3924,7 @@ namespace Ecell
         public void Initialize(bool flag)
         {
             string simParam = m_currentProject.Info.SimulationParam;
-            Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
+            Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic;
             WrappedSimulator simulator = null;
             Dictionary<string, Dictionary<string, double>> initialCondition = m_currentProject.InitialCondition[simParam];
 
@@ -4347,7 +4331,7 @@ namespace Ecell
                 //
                 // 4 Stepper
                 //
-                if (m_currentProject.StepperDic.ContainsKey(parameterID))
+                if (m_currentProject.InitialCondition.ContainsKey(parameterID))
                 {
                     throw new EcellException(
                         string.Format(MessageResources.ErrExistObj,
@@ -4363,7 +4347,7 @@ namespace Ecell
                     newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
                     newStepperListSets[model.ModelID] = new List<EcellObject>();
                 }
-                m_currentProject.StepperDic[parameterID] = newStepperListSets;
+//                m_currentProject.StepperDic = newStepperListSets;
                 m_currentProject.InitialCondition[parameterID] = newInitialCondSets;
 
                 // Notify that a new parameter set is created.
@@ -4430,10 +4414,10 @@ namespace Ecell
         public List<string> GetSimulationParameterIDs()
         {
             if (m_currentProject == null ||
-                m_currentProject.StepperDic == null)
+                m_currentProject.InitialCondition.Keys == null)
                 return new List<string>();
 
-            return new List<string>(m_currentProject.StepperDic.Keys);
+            return new List<string>(m_currentProject.InitialCondition.Keys);
         }
 
         /// <summary>
@@ -4468,18 +4452,17 @@ namespace Ecell
                     {
                         return;
                     }
-                    if (!m_currentProject.StepperDic.ContainsKey(parameterID))
-                        m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
+
                     // Set Stepper.
-                    foreach (string modelID in m_currentProject.StepperDic[oldParameterID].Keys)
+                    foreach (string modelID in m_currentProject.StepperDic.Keys)
                     {
-                        if (!m_currentProject.StepperDic[parameterID].ContainsKey(modelID))
+                        if (!m_currentProject.StepperDic.ContainsKey(modelID))
                             continue;
 
                         List<EcellObject> currentList
-                            = m_currentProject.StepperDic[oldParameterID][modelID];
+                            = m_currentProject.StepperDic[modelID];
                         List<EcellObject> newList
-                            = m_currentProject.StepperDic[parameterID][modelID];
+                            = m_currentProject.StepperDic[modelID];
                         foreach (EcellObject current in currentList)
                         {
                             foreach (EcellObject newObj in newList)
@@ -4508,10 +4491,10 @@ namespace Ecell
                     m_currentProject.Info.SimulationParam = parameterID;
                     this.Initialize(true);
                     foreach (string modelID
-                        in m_currentProject.StepperDic[oldParameterID].Keys)
+                        in m_currentProject.StepperDic.Keys)
                     {
                         foreach (EcellObject old
-                            in m_currentProject.StepperDic[oldParameterID][modelID])
+                            in m_currentProject.StepperDic[modelID])
                         {
                             List<EcellData> delList = new List<EcellData>();
                             foreach (EcellData oldData in old.Value)
@@ -4558,24 +4541,19 @@ namespace Ecell
                 // Stores the simulation parameter.
                 if (!m_currentProject.Info.SimulationParam.Equals(simParamID))
                 {
-                    if (!m_currentProject.StepperDic.ContainsKey(simParamID))
-                    {
-                        m_currentProject.StepperDic[simParamID]
-                            = new Dictionary<string, List<EcellObject>>();
-                    }
                     foreach (EcellObject stepper in simParam.Steppers)
                     {
-                        if (!m_currentProject.StepperDic[simParamID]
+                        if (!m_currentProject.StepperDic
                             .ContainsKey(stepper.ModelID))
                         {
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                            m_currentProject.StepperDic[stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         foreach (EcellData data in stepper.Value)
                         {
                             data.Value = GetEcellValue(data);
                         }
-                        m_currentProject.StepperDic[simParamID][stepper.ModelID].Add(stepper);
+                        m_currentProject.StepperDic[stepper.ModelID].Add(stepper);
                     }
                 }
                 else
@@ -4583,17 +4561,17 @@ namespace Ecell
                     foreach (EcellObject stepper in simParam.Steppers)
                     {
                         bool matchFlag = false;
-                        if (!m_currentProject.StepperDic[simParamID].ContainsKey(stepper.ModelID))
+                        if (!m_currentProject.StepperDic.ContainsKey(stepper.ModelID))
                         {
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                            m_currentProject.StepperDic[stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         for (int j = 0;
-                            j < m_currentProject.StepperDic[simParamID][stepper.ModelID].Count;
+                            j < m_currentProject.StepperDic[stepper.ModelID].Count;
                             j++)
                         {
                             EcellObject storedStepper
-                                = m_currentProject.StepperDic[simParamID][stepper.ModelID][j];
+                                = m_currentProject.StepperDic[stepper.ModelID][j];
                             if (!storedStepper.Classname.Equals(stepper.Classname)
                                 || !storedStepper.Key.Equals(stepper.Key)
                                 || !storedStepper.ModelID.Equals(stepper.ModelID)
@@ -4628,7 +4606,7 @@ namespace Ecell
                                     newDataList.Add(storedData);
                                 }
                             }
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID][j]
+                            m_currentProject.StepperDic[stepper.ModelID][j]
                                 = EcellObject.CreateObject(
                                     stepper.ModelID,
                                     stepper.Key,
@@ -4640,7 +4618,7 @@ namespace Ecell
                         }
                         if (!matchFlag)
                         {
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                            m_currentProject.StepperDic[stepper.ModelID]
                                 .Add(stepper);
                         }
                     }
@@ -4699,7 +4677,7 @@ namespace Ecell
 
             try
             {
-                if (m_currentProject.StepperDic.Keys.Count <= 1)
+                if (m_currentProject.InitialCondition.Keys.Count <= 1)
                 {
                     throw new EcellException(string.Format(MessageResources.ErrDelParam));
                 }
@@ -4722,7 +4700,7 @@ namespace Ecell
                 // Initializes.
                 //
                 this.SetDefaultDir();
-                m_currentProject.StepperDic.Remove(parameterID);
+                //m_currentProject.StepperDic.Remove(parameterID);
 
                 string simulationDirName
                         = Path.Combine(Path.Combine(m_defaultDir, m_currentProject.Info.Name), Constants.xpathParameters);
@@ -4741,7 +4719,7 @@ namespace Ecell
                 Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
                 if (m_currentProject.Info.SimulationParam == parameterID)
                 {
-                    foreach (string key in m_currentProject.StepperDic.Keys)
+                    foreach (string key in m_currentProject.InitialCondition.Keys)
                     {
                         m_currentProject.Info.SimulationParam = key;
                         m_env.PluginManager.ParameterSet(m_currentProject.Info.Name, key);
@@ -4778,7 +4756,7 @@ namespace Ecell
                 //
                 // 4 Stepper
                 //
-                if (m_currentProject.StepperDic.ContainsKey(newParameterID))
+                if (m_currentProject.InitialCondition.ContainsKey(newParameterID))
                 {
                     throw new EcellException(
                         string.Format(MessageResources.ErrExistObj,
@@ -4789,17 +4767,7 @@ namespace Ecell
                     new LoggerPolicy(m_currentProject.LoggerPolicyDic[srcParameterID]);
 
 
-                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
                 Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
-                foreach (string name in m_currentProject.StepperDic[srcParameterID].Keys)
-                {
-                    List<EcellObject> tmpList = new List<EcellObject>();
-                    foreach (EcellObject sObj in m_currentProject.StepperDic[srcParameterID][name])
-                    {
-                        tmpList.Add(sObj.Clone());
-                    }
-                    newStepperListSets.Add(name, tmpList);
-                }
                 foreach (string name in m_currentProject.InitialCondition[srcParameterID].Keys)
                 {
                     Dictionary<string, double> tmpDic = new Dictionary<string, double>();
@@ -4810,7 +4778,6 @@ namespace Ecell
                     newInitialCondSets.Add(name, tmpDic);
                 }
 
-                m_currentProject.StepperDic[newParameterID] = newStepperListSets;
                 m_currentProject.InitialCondition[newParameterID] = newInitialCondSets;
 
                 m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, newParameterID);
@@ -4863,9 +4830,9 @@ namespace Ecell
                 // Picks the "Stepper" up.
                 //
                 List<EcellObject> stepperList = new List<EcellObject>();
-                foreach (string modelID in m_currentProject.StepperDic[paramID].Keys)
+                foreach (string modelID in m_currentProject.StepperDic.Keys)
                 {
-                    stepperList.AddRange(m_currentProject.StepperDic[paramID][modelID]);
+                    stepperList.AddRange(m_currentProject.StepperDic[modelID]);
                 }
                 Debug.Assert(stepperList != null && stepperList.Count > 0);
 

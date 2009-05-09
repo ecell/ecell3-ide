@@ -95,13 +95,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 e.Cancel = true;
                 return;
             }
-            if ((m_isParam && m_owner.IsExistParameterSet(paramTextBox.Text))
-                || (!m_isParam && m_owner.IsExistStepper(paramTextBox.Text)))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrAlreadyExist, paramTextBox.Text));
-                e.Cancel = true;
-                return;
-            }
         }
 
         private void paramTextBox_Validating(object sender, CancelEventArgs e)
