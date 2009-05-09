@@ -213,9 +213,6 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <param name="type">The object type of deleted object.</param>
         public override void DataDelete(string modelID, string key, string type)
         {
-            if (type.Equals(Constants.xpathStepper))
-                return;
-
             m_control.DataDelete(modelID, key, type);
         }
 

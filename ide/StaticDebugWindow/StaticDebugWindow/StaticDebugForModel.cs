@@ -114,7 +114,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             }
             else if (obj.Type == Constants.xpathModel)
             {
-                Debug(m_owner.DataManager.GetStepper(null, obj.ModelID));
+                Debug(m_owner.DataManager.GetStepper(obj.ModelID));
             }
         }
 
@@ -242,8 +242,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         private void CheckStepperExistence(EcellObject obj, string l_stepperID)
         {
             if (l_stepperID == null || l_stepperID.Equals("")) return;
-            List<EcellObject> stepList = m_owner.DataManager.GetStepper(
-                m_owner.DataManager.GetCurrentSimulationParameterID(),
+            List<EcellObject> stepList = m_owner.DataManager.GetStepper(               
                 obj.ModelID);
             bool isHit = false;
             foreach (EcellObject step in stepList)

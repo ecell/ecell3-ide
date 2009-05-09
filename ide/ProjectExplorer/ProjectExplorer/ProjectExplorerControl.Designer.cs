@@ -70,6 +70,11 @@
             this.loadRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportRevisionEMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportRevisionZipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripStepper = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             createNewDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStrip1.SuspendLayout();
@@ -82,6 +87,7 @@
             this.contextMenuStripProject.SuspendLayout();
             this.contextMenuStripRevisions.SuspendLayout();
             this.contextMenuStripRevision.SuspendLayout();
+            this.contextMenuStripStepper.SuspendLayout();
             this.SuspendLayout();
             // 
             // createNewDMToolStripMenuItem
@@ -167,7 +173,9 @@
             // contextMenuStripModel
             // 
             this.contextMenuStripModel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportModelToolStripMenuItem});
+            this.exportModelToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.addToolStripMenuItem});
             this.contextMenuStripModel.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripModel, "contextMenuStripModel");
             // 
@@ -336,6 +344,37 @@
             resources.ApplyResources(this.exportRevisionZipMenuItem, "exportRevisionZipMenuItem");
             this.exportRevisionZipMenuItem.Click += new System.EventHandler(this.exportRevisionZipMenuItem_Click);
             // 
+            // contextMenuStripStepper
+            // 
+            this.contextMenuStripStepper.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.contextMenuStripStepper.Name = "contextMenuStripStepper";
+            resources.ApplyResources(this.contextMenuStripStepper, "contextMenuStripStepper");
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stepperToolStripMenuItem});
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
+            // 
+            // stepperToolStripMenuItem
+            // 
+            this.stepperToolStripMenuItem.Name = "stepperToolStripMenuItem";
+            resources.ApplyResources(this.stepperToolStripMenuItem, "stepperToolStripMenuItem");
+            this.stepperToolStripMenuItem.Click += new System.EventHandler(this.TreeViewAddStepper);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDeleteStepper);
+            // 
             // ProjectExplorerControl
             // 
             resources.ApplyResources(this, "$this");
@@ -355,6 +394,7 @@
             this.contextMenuStripProject.ResumeLayout(false);
             this.contextMenuStripRevisions.ResumeLayout(false);
             this.contextMenuStripRevision.ResumeLayout(false);
+            this.contextMenuStripStepper.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -398,6 +438,11 @@
         private System.Windows.Forms.ToolStripMenuItem importDMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportRevisionEMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportRevisionZipMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stepperToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripStepper;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 
     }
 }

@@ -2380,6 +2380,10 @@ namespace Ecell
                 {
                     obj = CreateDefaultText(modelID);
                 }
+                else if (type.Equals(Constants.xpathStepper))
+                {
+                    obj = CreateDefaultStepper(modelID, key);
+                }
                 return obj;
             }
             catch (Exception ex)
@@ -2400,6 +2404,14 @@ namespace Ecell
             string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
             EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
             return text;
+        }
+
+        private EcellObject CreateDefaultStepper(string modelID, string key)
+        {
+            List<EcellData> data = GetStepperProperty(Constants.DefaultStepperName);
+            EcellObject obj = EcellObject.CreateObject(modelID, key,
+                    Constants.xpathStepper, Constants.DefaultStepperName, data);
+            return obj;
         }
 
         /// <summary>
@@ -2982,30 +2994,28 @@ namespace Ecell
         /// <summary>
         /// Adds the new "Stepper"
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
-        public void AddStepperID(string parameterID, EcellObject stepper)
+        public void AddStepperID(EcellObject stepper)
         {
-            AddStepperID(parameterID, stepper, true);
+            AddStepperID(stepper, true);
         }
 
         /// <summary>
         /// Adds the new "Stepper"
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded</param>
-        public void AddStepperID(string parameterID, EcellObject stepper, bool isRecorded)
+        public void AddStepperID(EcellObject stepper, bool isRecorded)
         {
             // Check parameters.
-            if (stepper == null || string.IsNullOrEmpty(parameterID) || string.IsNullOrEmpty(stepper.ModelID))
+            if (stepper == null || string.IsNullOrEmpty(stepper.ModelID))
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, ""));
 
             string message = null;
             try
             {
                 // Get stepperDic
-                message = "[" + parameterID + "][" + stepper.ModelID + "][" + stepper.Key + "]";
+                message = "[" + stepper.ModelID + "][" + stepper.Key + "]";
                 Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic;
                 if (!stepperDic.ContainsKey(stepper.ModelID))
                     throw new EcellException();
@@ -3019,15 +3029,12 @@ namespace Ecell
                 }
                 // Set Stteper.
                 stepperDic[stepper.ModelID].Add(stepper);
-                if (m_currentProject.Info.SimulationParam.Equals(parameterID))
-                {
                     List<EcellObject> stepperList = new List<EcellObject>();
                     stepperList.Add(stepper);
                     m_env.PluginManager.DataAdd(stepperList);
-                }
                 MessageCreateEntity(Constants.xpathStepper, message);
                 if (isRecorded)
-                    m_env.ActionManager.AddAction(new AddStepperAction(parameterID, stepper));
+                    m_env.ActionManager.AddAction(new AddStepperAction(stepper));
             }
             catch (Exception ex)
             {
@@ -3079,9 +3086,9 @@ namespace Ecell
         /// </summary>
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
-        public void DeleteStepperID(string parameterID, EcellObject stepper)
+        public void DeleteStepperID(EcellObject stepper)
         {
-            DeleteStepperID(parameterID, stepper, true);
+            DeleteStepperID(stepper, true);
         }
 
         /// <summary>
@@ -3090,7 +3097,7 @@ namespace Ecell
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
-        public void DeleteStepperID(string parameterID, EcellObject stepper, bool isRecorded)
+        public void DeleteStepperID(EcellObject stepper, bool isRecorded)
         {
             try
             {
@@ -3112,11 +3119,8 @@ namespace Ecell
                         new object[] { stepper.Type, stepper.Key }));
                 }
                 if (isRecorded)
-                    m_env.ActionManager.AddAction(new DeleteStepperAction(parameterID, stepper));
-                if (m_currentProject.Info.SimulationParam.Equals(parameterID))
-                {
-                    m_env.PluginManager.DataDelete(stepper.ModelID, stepper.Key, stepper.Type);
-                }
+                    m_env.ActionManager.AddAction(new DeleteStepperAction(stepper));
+                m_env.PluginManager.DataDelete(stepper.ModelID, stepper.Key, stepper.Type);
             }
             catch (Exception ex)
             {
@@ -3130,15 +3134,12 @@ namespace Ecell
         /// <summary>
         /// Returns the list of the "Stepper" with the parameter ID.
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
         /// <param name="modelID"> model ID</param>
         /// <returns>The list of the "Stepper"</returns>
-        public List<EcellObject> GetStepper(string parameterID, string modelID)
+        public List<EcellObject> GetStepper(string modelID)
         {
             List<EcellObject> returnedStepper = new List<EcellObject>();
             Debug.Assert(!string.IsNullOrEmpty(modelID));
-            if (string.IsNullOrEmpty(parameterID))
-                parameterID = m_currentProject.Info.SimulationParam;
 
             List<EcellObject> tempList = m_currentProject.StepperDic[modelID];
             foreach (EcellObject stepper in tempList)

@@ -222,29 +222,11 @@ namespace Ecell
 
             string l_parameterID = "DefaultParameter";
             EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+            _unitUnderTest.AddStepperID(l_stepper);
 
             try
             {
-                _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
-                Assert.Fail();
-            }
-            catch (EcellException)
-            {
-            }
-
-            try
-            {
-                _unitUnderTest.AddStepperID(null, l_stepper);
-                Assert.Fail();
-            }
-            catch (EcellException)
-            {
-            }
-
-            try
-            {
-                _unitUnderTest.AddStepperID("newParam", l_stepper);
+                _unitUnderTest.AddStepperID(l_stepper);
                 Assert.Fail();
             }
             catch (EcellException)
@@ -264,7 +246,7 @@ namespace Ecell
             string l_parameterID = "DefaultParameter";
             EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
             bool l_isRecorded = false;
-            _unitUnderTest.AddStepperID(l_parameterID, l_stepper, l_isRecorded);
+            _unitUnderTest.AddStepperID(l_stepper, l_isRecorded);
 
         }
 
@@ -764,9 +746,9 @@ namespace Ecell
 
             string l_parameterID = "DefaultParameter";
             EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+            _unitUnderTest.AddStepperID(l_stepper);
 
-            _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper);
+            _unitUnderTest.DeleteStepperID(l_stepper);
 
         }
 
@@ -780,15 +762,15 @@ namespace Ecell
 
             string l_parameterID = "DefaultParameter";
             EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+            _unitUnderTest.AddStepperID(l_stepper);
 
             bool l_isRecorded = false;
-            _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper, l_isRecorded);
+            _unitUnderTest.DeleteStepperID(l_stepper, l_isRecorded);
 
             try
             {
                 _unitUnderTest.CloseProject();
-                _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper, l_isRecorded);
+                _unitUnderTest.DeleteStepperID(l_stepper, l_isRecorded);
                 Assert.Fail();
             }
             catch (Exception)
@@ -1302,16 +1284,13 @@ namespace Ecell
             string l_parameterID = "DefaultParameter";
             string l_modelID = "Drosophila";
             List<EcellObject> resultList = null;
-            resultList = _unitUnderTest.GetStepper(l_parameterID, l_modelID);
-            Assert.IsNotEmpty(resultList, "GetStepper method returned unexpected result.");
-
-            resultList = _unitUnderTest.GetStepper("", l_modelID);
+            resultList = _unitUnderTest.GetStepper(l_modelID);
             Assert.IsNotEmpty(resultList, "GetStepper method returned unexpected result.");
 
             try
             {
                 _unitUnderTest.CurrentProject.Info.SimulationParam = null;
-                resultList = _unitUnderTest.GetStepper("", l_modelID);
+                resultList = _unitUnderTest.GetStepper(l_modelID + "1");
                 Assert.Fail();
             }
             catch (Exception)
@@ -2121,25 +2100,25 @@ namespace Ecell
         //    }
 
         //}
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestUpdateStepperIDL_parameterIDL_stepperListL_isRecorded()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestUpdateStepperIDL_parameterIDL_stepperListL_isRecorded()
+        //{
+        //    _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
-            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+        //    string l_parameterID = "DefaultParameter";
+        //    EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
 
-            List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
-            l_stepperList.Add(l_stepper);
+        //    List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
+        //    l_stepperList.Add(l_stepper);
 
-            bool l_isRecorded = false;
-            _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList, l_isRecorded);
+        //    bool l_isRecorded = false;
+        //    _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList, l_isRecorded);
 
-        }
+        //}
 
         /// <summary>
         /// 

@@ -58,9 +58,8 @@ namespace Ecell.Action
         /// </summary>
         /// <param name="paramID">The parameter ID added the stepper.</param>
         /// <param name="stepper">The stepper object.</param>
-        public AddStepperAction(string paramID, EcellObject stepper)
+        public AddStepperAction(EcellObject stepper)
         {
-            m_paramID = paramID;
             m_stepper = stepper;
             m_isAnchor = true;
         }
@@ -78,14 +77,14 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.AddStepperID(m_paramID, m_stepper, false);
+            m_env.DataManager.AddStepperID(m_stepper, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.DeleteStepperID(m_paramID, m_stepper, false);
+            m_env.DataManager.DeleteStepperID(m_stepper, false);
         }
     }
 }

@@ -944,7 +944,7 @@ namespace Ecell.IDE
                 {
                     ComboBox t = new ComboBox();
                     List<EcellObject> slist;
-                    slist = m_env.DataManager.GetStepper(null, m_currentObj.ModelID);
+                    slist = m_env.DataManager.GetStepper(m_currentObj.ModelID);
                     foreach (EcellObject obj in slist)
                     {
                         t.Items.AddRange(new object[] { obj.Key });

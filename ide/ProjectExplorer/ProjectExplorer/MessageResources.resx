@@ -120,8 +120,14 @@
   <data name="ErrAlreadyExist" xml:space="preserve">
     <value>This simulation set already exist.</value>
   </data>
+  <data name="ErrAlreadyExistStepper" xml:space="preserve">
+    <value>This Stepper already exist.</value>
+  </data>
   <data name="ErrCreateFile" xml:space="preserve">
     <value>Cannot create the file {0}.</value>
+  </data>
+  <data name="ErrDelStep" xml:space="preserve">
+    <value>At least one Stepper is required in the model.</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>Nothing is input in {0}</value>

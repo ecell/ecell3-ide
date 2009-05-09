@@ -372,7 +372,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             double max = 0.0;
             double plotCount = TracerWindow.s_count;
-            List<EcellObject> stepperList = m_owner.DataManager.GetStepper(m_owner.DataManager.GetCurrentSimulationParameterID(),
+            List<EcellObject> stepperList = m_owner.DataManager.GetStepper(
                 m_owner.DataManager.GetModelList()[0]);
             foreach (EcellObject obj in stepperList)
             {

@@ -120,8 +120,14 @@
   <data name="ErrAlreadyExist" xml:space="preserve">
     <value>このシミュレーションセットは既に存在します。</value>
   </data>
+  <data name="ErrAlreadyExistStepper" xml:space="preserve">
+    <value>このStepperは既に存在します。</value>
+  </data>
   <data name="ErrCreateFile" xml:space="preserve">
     <value>ファイル {0} が作成できません。</value>
+  </data>
+  <data name="ErrDelStep" xml:space="preserve">
+    <value>少なくともモデルには１つのステッパーが必要です。</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません。</value>

@@ -709,7 +709,7 @@ namespace Ecell
         public List<string> GetStepperList(string parameterID)
         {
             List<string> list = new List<string>();
-            foreach (EcellObject stepper in m_env.DataManager.GetStepper(parameterID, ModelID))
+            foreach (EcellObject stepper in m_env.DataManager.GetStepper(ModelID))
             {
                 list.Add(stepper.Key);
             }
@@ -1724,7 +1724,7 @@ namespace Ecell
                 // Searches the loaded "Stepper".
                 //
                 this.m_stepperList
-                        = m_cManager.DataManager.GetStepper(this.m_parameterID, m_cManager.ModelID);
+                        = m_cManager.DataManager.GetStepper(m_cManager.ModelID);
                 //
                 // Searches the loaded "LoggerPolicy".
                 //
@@ -2022,7 +2022,7 @@ namespace Ecell
                 // Searches the loaded "Stepper".
                 //
                 foreach (EcellObject stepper
-                        in m_cManager.DataManager.GetStepper(this.m_parameterID, m_cManager.ModelID))
+                        in m_cManager.DataManager.GetStepper(m_cManager.ModelID))
                 {
                     if (stepper.Key.Equals(this.m_ID) && stepper.Classname.Equals(className))
                     {
@@ -2040,7 +2040,7 @@ namespace Ecell
                 //
                 // Adds the "EcellObject" to the "DataManager". 
                 //
-                m_cManager.DataManager.AddStepperID(this.m_parameterID, this.m_stepper);
+                m_cManager.DataManager.AddStepperID(this.m_stepper);
             }
 
             /// <summary>
@@ -2075,7 +2075,7 @@ namespace Ecell
             /// </summary>
             public void Delete()
             {
-                m_cManager.DataManager.DeleteStepperID(this.m_parameterID, this.m_stepper);
+                m_cManager.DataManager.DeleteStepperID(this.m_stepper);
                 this.m_ID = null;
                 this.m_parameterID = null;
                 this.m_stepper = null;
@@ -2088,7 +2088,7 @@ namespace Ecell
             public bool Exists()
             {
                 foreach (EcellObject stepper
-                        in m_cManager.DataManager.GetStepper(this.m_parameterID, m_cManager.ModelID))
+                        in m_cManager.DataManager.GetStepper(m_cManager.ModelID))
                 {
                     if (stepper.Key.Equals(this.m_ID))
                     {

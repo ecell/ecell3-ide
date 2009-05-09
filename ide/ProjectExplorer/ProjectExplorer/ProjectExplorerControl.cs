@@ -203,6 +203,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         return;
 
                     TreeNode childNode = AddTreeNode(obj.Key, obj, current);
+                    childNode.ContextMenuStrip = contextMenuStripStepper;
                 }
             }
             m_isExpland = false;
@@ -311,6 +312,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             TreeNode current = GetTargetModel(modelID);
             if (current == null)
                 return;
+
+            if (type == Constants.xpathStepper)
+            {
+                foreach (TreeNode node in current.Nodes)
+                {
+                    TagData tag = (TagData)node.Tag;
+                    if (tag == null) continue;
+                    if (node.Text.Equals(key) && tag.Type == type)
+                    {
+                        node.Text = data.Key;
+                        node.Tag = new TagData(data.ModelID,
+                            data.Key, data.Type);
+                    }
+                }
+            }
+
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
@@ -354,6 +371,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             TreeNode current = GetTargetModel(modelID);
             if (current == null) return;
+            if (type == Constants.xpathStepper)
+            {
+                foreach (TreeNode node in current.Nodes)
+                {
+                    TagData tag = (TagData)node.Tag;
+                    if (tag == null) continue;
+                    if (node.Text.Equals(key) && tag.Type == type)
+                    {
+                        node.Remove();
+                        return;
+                    }
+                }
+            }
+
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
@@ -1335,6 +1366,104 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner.Environment.DataManager.CloseProject();
         }
 
+        private void importDMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog win = new FolderBrowserDialog();
+            win.Description = MessageResources.SelectDMDir;
+            using (win)
+            {
+                if (win.ShowDialog() != DialogResult.OK)
+                    return;
+
+                m_owner.Environment.DataManager.ImportDM(win.SelectedPath);
+                m_DMNode.Nodes.Clear();
+                SetDMNodes();
+            }
+        }
+
+        private void exportRevisionEMLMenuItem_Click(object sender, EventArgs e)
+        {
+            Project project = m_owner.Environment.DataManager.CurrentProject;
+            // Set Dialog.
+            m_saveFileDialog.Filter = Constants.FilterEmlFile;
+            m_saveFileDialog.FileName = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtEML;
+            if (m_saveFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+            string fileName = m_saveFileDialog.FileName;
+
+            string dir = project.Info.ProjectPath;
+            string revision = Path.Combine(dir, m_lastSelectedNode.Text);
+            string modelDir = Path.Combine(revision, Constants.xpathModel);
+            string[] models = Directory.GetFiles(modelDir, "*.eml");
+            foreach (string model in models)
+            {
+                File.Copy(model, fileName, true);
+            }
+        }
+
+        private void exportRevisionZipMenuItem_Click(object sender, EventArgs e)
+        {
+            Project project = m_owner.Environment.DataManager.CurrentProject;
+            string dir = project.Info.ProjectPath;
+            string revision = Path.Combine(dir, m_lastSelectedNode.Text);
+            string filename = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtZip;
+            CompressZip(revision, filename);
+        }
+
+        private void TreeViewDeleteStepper(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null)
+                return;
+            String name = m_lastSelectedNode.Text as string;
+            if (String.IsNullOrEmpty(name))
+                return;
+
+            try
+            {
+                List<EcellObject> list = m_owner.DataManager.GetStepper(m_owner.DataManager.CurrentProject.Model.ModelID);
+                EcellObject sobj = null;
+                if (list == null || list.Count <= 1)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrDelStep);
+                    return;
+                }
+                foreach (EcellObject obj in list)
+                {
+                    if (obj.Key.Equals(name))
+                    {
+                        sobj = obj;
+                        break;
+                    }
+                }
+                if (sobj != null)
+                    m_owner.DataManager.DeleteStepperID(sobj);
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
+        }
+
+        private void TreeViewAddStepper(object sender, EventArgs e)
+        {
+            InputNameDialog dlg = new InputNameDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string name = dlg.InputText;
+                string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
+                List<EcellObject> list = m_owner.DataManager.GetStepper(modelID);
+                foreach (EcellObject obj in list)
+                {
+                    if (obj.Key.Equals(name))
+                    {
+                        Util.ShowErrorDialog(MessageResources.ErrAlreadyExistStepper);
+                        return;
+                    }
+                }
+                EcellObject sobj = m_owner.DataManager.CreateDefaultObject(modelID, name, Constants.xpathStepper);
+                m_owner.DataManager.AddStepperID(sobj);
+            }
+        }
         #endregion
 
         #region ShortCuts
@@ -1379,51 +1508,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
-
-        private void importDMToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog win = new FolderBrowserDialog();
-            win.Description = MessageResources.SelectDMDir;
-            using (win)
-            {
-                if (win.ShowDialog() != DialogResult.OK)
-                    return;
-
-                m_owner.Environment.DataManager.ImportDM(win.SelectedPath);
-                m_DMNode.Nodes.Clear();
-                SetDMNodes();
-            }
-        }
-
-        private void exportRevisionEMLMenuItem_Click(object sender, EventArgs e)
-        {
-
-            Project project = m_owner.Environment.DataManager.CurrentProject;
-            // Set Dialog.
-            m_saveFileDialog.Filter = Constants.FilterEmlFile;
-            m_saveFileDialog.FileName = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtEML;
-            if (m_saveFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-            string fileName = m_saveFileDialog.FileName;
-            
-            string dir = project.Info.ProjectPath;
-            string revision = Path.Combine(dir, m_lastSelectedNode.Text);
-            string modelDir = Path.Combine(revision, Constants.xpathModel);
-            string[] models = Directory.GetFiles(modelDir, "*.eml");
-            foreach (string model in models)
-            {
-                File.Copy(model, fileName, true);
-            }
-        }
-
-        private void exportRevisionZipMenuItem_Click(object sender, EventArgs e)
-        {
-            Project project = m_owner.Environment.DataManager.CurrentProject;
-            string dir = project.Info.ProjectPath;
-            string revision = Path.Combine(dir, m_lastSelectedNode.Text);
-            string filename = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtZip;
-            CompressZip(revision, filename);
-        }
 
     }
 

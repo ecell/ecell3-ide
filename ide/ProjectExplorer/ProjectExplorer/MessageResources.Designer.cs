@@ -70,11 +70,29 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   This Stepper already exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAlreadyExistStepper {
+            get {
+                return ResourceManager.GetString("ErrAlreadyExistStepper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot create the file {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreateFile {
             get {
                 return ResourceManager.GetString("ErrCreateFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   At least one Stepper is required in the model. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrDelStep {
+            get {
+                return ResourceManager.GetString("ErrDelStep", resourceCulture);
             }
         }
         

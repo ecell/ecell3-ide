@@ -347,7 +347,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 propValueCell = new DataGridViewComboBoxCell();
                 bool isexist = false;
                 string stepperName = d.Value.ToString();
-                foreach (EcellObject obj in m_env.DataManager.GetStepper(null, m_current.ModelID))
+                foreach (EcellObject obj in m_env.DataManager.GetStepper(m_current.ModelID))
                 {
                     if (!string.IsNullOrEmpty(stepperName) &&
                         stepperName.Equals(obj.Key))
@@ -1011,6 +1011,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         else
                             p.Key = p.ParentSystemID + Constants.delimiterPath + tmpID;
                     }
+                    else if (p.Type == Constants.xpathStepper)
+                    {
+                        p.Key = tmpID;
+                    }
                     else
                         p.Key = p.ParentSystemID + Constants.delimiterColon + tmpID;
                     if (!NotifyDataChanged(m_current.ModelID, m_current.Key, p))
@@ -1072,7 +1076,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 m_current != null && m_stepperIDComboBox != null)
             {
                 m_stepperIDComboBox.Items.Clear();
-                foreach (EcellObject obj in m_env.DataManager.GetStepper(parameterID, m_current.ModelID))
+                foreach (EcellObject obj in m_env.DataManager.GetStepper(m_current.ModelID))
                 {
                     m_stepperIDComboBox.Items.Add(obj.Key);
                 }
@@ -1271,7 +1275,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     EcellData val = pair.Value;
                     if (pair.Value.Name == Constants.xpathStepperID)
                     {
-                        List<EcellObject> steppers = m_env.DataManager.GetStepper(null, m_current.ModelID);
+                        List<EcellObject> steppers = m_env.DataManager.GetStepper(m_current.ModelID);
                         if (steppers.Count > 0)
                         {
                             val = new EcellData(pair.Value.Name,

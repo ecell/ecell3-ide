@@ -277,7 +277,7 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
-            UserAction action = new AddStepperAction("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+            UserAction action = new AddStepperAction(new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
             Assert.IsNotNull(action, "Constructor of type, AddStepperAction failed to create instance.");
             Assert.IsTrue(action.ToString().Contains("AddStepperAction"), "ToString is unexpected value.");
             Type type = action.GetType();
@@ -297,9 +297,9 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
-            _env.DataManager.AddStepperID("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+            _env.DataManager.AddStepperID(new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
 
-            UserAction action = new DeleteStepperAction("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+            UserAction action = new DeleteStepperAction(new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
             Assert.IsNotNull(action, "Constructor of type, DeleteStepperAction failed to create instance.");
             Assert.IsTrue(action.ToString().Contains("DeleteStepperAction"), "ToString is unexpected value.");
             Type type = action.GetType();
@@ -319,14 +319,12 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
             EcellObject stepper = new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>());
-            _env.DataManager.AddStepperID("DefaultParameter", stepper);
+            _env.DataManager.AddStepperID(stepper);
 
-            List<EcellObject> oldSteppers = new List<EcellObject>();
-            List<EcellObject> newSteppers = new List<EcellObject>();
-            oldSteppers.Add(stepper);
-            newSteppers.Add(stepper.Clone());
+            EcellObject oldStepper = stepper;
+            EcellObject newStepper = stepper.Clone();
 
-            UserAction action = new ChangeStepperAction("DefaultParameter", newSteppers, oldSteppers);
+            UserAction action = new ChangeStepperAction(newStepper.Key, oldStepper.Key , newStepper, oldStepper);
             Assert.IsNotNull(action, "Constructor of type, ChangeStepperAction failed to create instance.");
             Assert.IsTrue(action.ToString().Contains("ChangeStepperAction"), "ToString is unexpected value.");
             Type type = action.GetType();
