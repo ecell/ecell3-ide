@@ -77,14 +77,14 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.DeleteStepperID(m_stepper, false);
+            m_env.DataManager.DataDelete(m_stepper, false, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.AddStepperID(m_stepper, false);
+            m_env.DataManager.DataAdd(m_stepper, false, false);
         }
     }
 }

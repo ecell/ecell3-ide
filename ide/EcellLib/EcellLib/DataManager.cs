@@ -961,7 +961,7 @@ namespace Ecell
                 else if (type.Equals(Constants.xpathStepper))
                 {
                     DataAdd4Stepper(ecellObject);
-                    // usableList.Add(ecellObject);
+                    usableList.Add(ecellObject);
                 }
                 else if (type.Equals(Constants.xpathModel))
                 {
@@ -1090,7 +1090,7 @@ namespace Ecell
         /// <param name="ecellObject">The "Stepper"</param>
         private void DataAdd4Stepper(EcellObject ecellObject)
         {
-            // Bypasses now.
+            AddStepperID(ecellObject);
         }
 
         /// <summary>
@@ -1788,6 +1788,11 @@ namespace Ecell
             {
                 List<EcellObject> processList = CheckVariableReferenceChanges(key, null);
                 DataChanged(processList, isRecorded, false);
+            }
+
+            if (node is EcellStepper)
+            {
+                DeleteStepperID(node);
             }
         }
 
@@ -2995,7 +3000,7 @@ namespace Ecell
         /// Adds the new "Stepper"
         /// </summary>
         /// <param name="stepper">The "Stepper"</param>
-        public void AddStepperID(EcellObject stepper)
+        private void AddStepperID(EcellObject stepper)
         {
             AddStepperID(stepper, true);
         }
@@ -3005,7 +3010,7 @@ namespace Ecell
         /// </summary>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded</param>
-        public void AddStepperID(EcellObject stepper, bool isRecorded)
+        private void AddStepperID(EcellObject stepper, bool isRecorded)
         {
             // Check parameters.
             if (stepper == null || string.IsNullOrEmpty(stepper.ModelID))
@@ -3029,12 +3034,6 @@ namespace Ecell
                 }
                 // Set Stteper.
                 stepperDic[stepper.ModelID].Add(stepper);
-                    List<EcellObject> stepperList = new List<EcellObject>();
-                    stepperList.Add(stepper);
-                    m_env.PluginManager.DataAdd(stepperList);
-                MessageCreateEntity(Constants.xpathStepper, message);
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new AddStepperAction(stepper));
             }
             catch (Exception ex)
             {
@@ -3086,7 +3085,7 @@ namespace Ecell
         /// </summary>
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
-        public void DeleteStepperID(EcellObject stepper)
+        private void DeleteStepperID(EcellObject stepper)
         {
             DeleteStepperID(stepper, true);
         }
@@ -3097,7 +3096,7 @@ namespace Ecell
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
-        public void DeleteStepperID(EcellObject stepper, bool isRecorded)
+        private void DeleteStepperID(EcellObject stepper, bool isRecorded)
         {
             try
             {

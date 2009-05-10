@@ -1436,7 +1436,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                 }
                 if (sobj != null)
-                    m_owner.DataManager.DeleteStepperID(sobj);
+                    m_owner.DataManager.DataDelete(sobj);
             }
             catch (Exception ex)
             {
@@ -1461,7 +1461,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                 }
                 EcellObject sobj = m_owner.DataManager.CreateDefaultObject(modelID, name, Constants.xpathStepper);
-                m_owner.DataManager.AddStepperID(sobj);
+                m_owner.DataManager.DataAdd(sobj);
             }
         }
         #endregion

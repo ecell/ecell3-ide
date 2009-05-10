@@ -212,43 +212,43 @@ namespace Ecell
 
         }
 
-        /// <summary>
-        /// TestAddStepperIDL_parameterIDL_stepper
-        /// </summary>
-        [Test()]
-        public void TestAddStepperIDL_parameterIDL_stepper()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+        ///// <summary>
+        ///// TestAddStepperIDL_parameterIDL_stepper
+        ///// </summary>
+        //[Test()]
+        //public void TestAddStepperIDL_parameterIDL_stepper()
+        //{
+        //    _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
-            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_stepper);
+        //    string l_parameterID = "DefaultParameter";
+        //    EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    _unitUnderTest.AddStepperID(l_stepper);
 
-            try
-            {
-                _unitUnderTest.AddStepperID(l_stepper);
-                Assert.Fail();
-            }
-            catch (EcellException)
-            {
-            }
+        //    try
+        //    {
+        //        _unitUnderTest.AddStepperID(l_stepper);
+        //        Assert.Fail();
+        //    }
+        //    catch (EcellException)
+        //    {
+        //    }
 
-        }
+        //}
 
-        /// <summary>
-        /// TestAddStepperIDL_parameterIDL_stepperL_isRecorded
-        /// </summary>
-        [Test()]
-        public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+        ///// <summary>
+        ///// TestAddStepperIDL_parameterIDL_stepperL_isRecorded
+        ///// </summary>
+        //[Test()]
+        //public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
+        //{
+        //    _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
-            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            bool l_isRecorded = false;
-            _unitUnderTest.AddStepperID(l_stepper, l_isRecorded);
+        //    string l_parameterID = "DefaultParameter";
+        //    EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    bool l_isRecorded = false;
+        //    _unitUnderTest.AddStepperID(l_stepper, l_isRecorded);
 
-        }
+        //}
 
         /// <summary>
         /// TestAddStepperIDL_parameterIDL_stepperL_isRecorded
@@ -736,48 +736,48 @@ namespace Ecell
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestDeleteStepperIDL_parameterIDL_stepper()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestDeleteStepperIDL_parameterIDL_stepper()
+        //{
+        //    _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
-            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_stepper);
+        //    string l_parameterID = "DefaultParameter";
+        //    EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    _unitUnderTest.AddStepperID(l_stepper);
 
-            _unitUnderTest.DeleteStepperID(l_stepper);
+        //    _unitUnderTest.DeleteStepperID(l_stepper);
 
-        }
+        //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestDeleteStepperIDL_parameterIDL_stepperL_isRecorded()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestDeleteStepperIDL_parameterIDL_stepperL_isRecorded()
+        //{
+        //    _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
-            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
-            _unitUnderTest.AddStepperID(l_stepper);
+        //    string l_parameterID = "DefaultParameter";
+        //    EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+        //    _unitUnderTest.AddStepperID(l_stepper);
 
-            bool l_isRecorded = false;
-            _unitUnderTest.DeleteStepperID(l_stepper, l_isRecorded);
+        //    bool l_isRecorded = false;
+        //    _unitUnderTest.DeleteStepperID(l_stepper, l_isRecorded);
 
-            try
-            {
-                _unitUnderTest.CloseProject();
-                _unitUnderTest.DeleteStepperID(l_stepper, l_isRecorded);
-                Assert.Fail();
-            }
-            catch (Exception)
-            {
-            }
+        //    try
+        //    {
+        //        _unitUnderTest.CloseProject();
+        //        _unitUnderTest.DeleteStepperID(l_stepper, l_isRecorded);
+        //        Assert.Fail();
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
 
-        }
+        //}
         /// <summary>
         /// 
         /// </summary>

@@ -2040,7 +2040,7 @@ namespace Ecell
                 //
                 // Adds the "EcellObject" to the "DataManager". 
                 //
-                m_cManager.DataManager.AddStepperID(this.m_stepper);
+                m_cManager.DataManager.DataAdd(this.m_stepper);
             }
 
             /// <summary>
@@ -2075,7 +2075,7 @@ namespace Ecell
             /// </summary>
             public void Delete()
             {
-                m_cManager.DataManager.DeleteStepperID(this.m_stepper);
+                m_cManager.DataManager.DataDelete(this.m_stepper);
                 this.m_ID = null;
                 this.m_parameterID = null;
                 this.m_stepper = null;

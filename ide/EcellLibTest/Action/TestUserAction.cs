@@ -297,7 +297,7 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
-            _env.DataManager.AddStepperID(new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+            _env.DataManager.DataAdd(new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
 
             UserAction action = new DeleteStepperAction(new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
             Assert.IsNotNull(action, "Constructor of type, DeleteStepperAction failed to create instance.");
@@ -319,7 +319,7 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
             EcellObject stepper = new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>());
-            _env.DataManager.AddStepperID(stepper);
+            _env.DataManager.DataAdd(stepper);
 
             EcellObject oldStepper = stepper;
             EcellObject newStepper = stepper.Clone();
