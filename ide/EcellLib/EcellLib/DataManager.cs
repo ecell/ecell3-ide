@@ -1453,6 +1453,29 @@ namespace Ecell
         {
             UpdateStepperID(key, ecellObject, isRecorded);
             m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
+
+            if (key.Equals(ecellObject.Key)) return;
+            foreach (EcellObject sysObj in m_currentProject.SystemDic[modelID])
+            {
+                EcellData data = sysObj.GetEcellData(Constants.xpathStepperID);
+                if (data != null && key.Equals(data.Value.Value.ToString()))
+                {
+                    data.Value = new EcellValue(ecellObject.Key);
+                    m_env.PluginManager.DataChanged(
+                        sysObj.ModelID, sysObj.Key, sysObj.Type, sysObj);
+                }
+                if (sysObj.Children == null) continue;
+                foreach (EcellObject obj in sysObj.Children)
+                {
+                    EcellData cdata = obj.GetEcellData(Constants.xpathStepperID);
+                    if (cdata != null && key.Equals(cdata.Value.Value.ToString()))
+                    {
+                        cdata.Value = new EcellValue(ecellObject.Key);
+                        m_env.PluginManager.DataChanged(
+                            obj.ModelID, obj.Key, obj.Type, obj);
+                    }
+                }
+            }
         }
 
         /// <summary>
