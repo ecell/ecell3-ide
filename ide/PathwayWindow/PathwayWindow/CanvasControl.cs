@@ -638,7 +638,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        private void SetStepperPosition()
+        internal void SetStepperPosition()
         {
             int i = 0;
             PPathwaySystem root = m_systems["/"];
@@ -1830,6 +1830,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     {
                         child.Offset = offset;
                     }
+                }
+                if (obj == m_systems["/"])
+                {
+                    foreach (PPathwayStepper stepper in m_steppers.Values)
+                        stepper.Offset = offset;
                 }
                 obj.Refresh();
             }
