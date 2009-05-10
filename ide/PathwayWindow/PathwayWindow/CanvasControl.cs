@@ -561,9 +561,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set Layer
             obj.Canvas = this;
             obj.ShowingID = m_showingId;
-            obj.AddInputEventListener(new NodeDragHandler(this));
             SetLayer(obj);
 
+            // Register
             RegisterObject(obj);
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
@@ -576,9 +576,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 system = m_systems[sysKey];
                 obj.ParentObject = system;
             }
+
+            // Set Position.
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayNode)
             {
+                obj.AddInputEventListener(new NodeDragHandler(this));
                 if (m_con.Window.IsLoading)
                 {
                 }
@@ -595,8 +598,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
                 }
             }
-            if (obj is PPathwaySystem)
+            else if (obj is PPathwaySystem)
             {
+                obj.AddInputEventListener(new NodeDragHandler(this));
                 if (!hasCoords && !string.IsNullOrEmpty(sysKey))
                 {
                     float maxX = system.X + system.OffsetX;
@@ -621,9 +625,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (!obj.EcellObject.isFixed && system != null)
                     MakeSpace(system, obj, false);
             }
+            else if (obj is PPathwayStepper)
+            {
+                SetStepperPosition();
+            }
+
             obj.Refresh();
             // Refresh OverView.
             RefreshOverView();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetStepperPosition()
+        {
+            int i = 0;
+            PPathwaySystem root = m_systems["/"];
+            foreach (PPathwayStepper stepper in m_steppers.Values)
+            {
+                stepper.X = root.Right + 10;
+                stepper.Y = root.Top + i * stepper.Height + 10;
+                stepper.RefreshView();
+                i++;
+            }
         }
 
         /// <summary>
@@ -1343,9 +1368,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             SetLayer(obj);
             // Set visibility
             obj.RefreshView();
+
             // If this obj is root system, Refresh OverView.
             if (newKey.Equals(Constants.delimiterPath))
+            {
                 RefreshOverView();
+                SetStepperPosition();
+            }
         }
 
         /// <summary>

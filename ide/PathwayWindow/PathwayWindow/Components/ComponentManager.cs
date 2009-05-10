@@ -472,7 +472,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defStepperCs.IsDefault = true;
             defStepperCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,30,30");
             defStepperCs.TextBrush = Brushes.Black;
-            defStepperCs.LineBrush = Brushes.Black;
+            defStepperCs.LineBrush = Brushes.Red;
             defStepperCs.CenterBrush = Brushes.White;
             defStepperCs.FillBrush = Brushes.Red;
             defStepperCs.IsGradation = true;

@@ -547,12 +547,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             }
 
-            // Ignore stepper.
-            if (eo.Type.Equals(EcellObject.STEPPER))
-            {
-                return;
-            }
-
             // Ignore system size.
             if (eo.Type == Constants.xpathVariable && eo.LocalID == "SIZE")
             {
