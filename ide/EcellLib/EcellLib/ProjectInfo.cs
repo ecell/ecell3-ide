@@ -367,7 +367,7 @@ namespace Ecell
             string prjName = Path.GetFileName(dirPath);
             string comment = "";
             string createTime = "";
-            string param = "";
+            string param = Constants.defaultSimParam;
             string creator = "";
             int editCount = 0;
             ProjectType type = ProjectType.Project;
@@ -412,9 +412,9 @@ namespace Ecell
                             int.TryParse(setting.InnerText, out editCount);
                             break;
                         // SimulationParameter
-                        case Constants.textParameter:
-                            param = setting.InnerText;
-                            break;
+                        //case Constants.textParameter:
+                        //    param = setting.InnerText;
+                        //    break;
                         case Constants.xpathType:
                             type = (ProjectType)Convert.ToInt32(setting.InnerText);
                             break;

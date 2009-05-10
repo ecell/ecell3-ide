@@ -443,6 +443,9 @@ namespace Ecell
                     stepperList.AddRange(project.StepperDic[storedModelID]);
                 }
 
+                // Set current project.
+                m_currentProject = project;
+
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
                 // Send Message.
@@ -450,8 +453,6 @@ namespace Ecell
                 m_env.Console.Flush();
                 Trace.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
 
-                // Set current project.
-                m_currentProject = project;
                 m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
             }
             catch (Exception ex)
@@ -1190,9 +1191,6 @@ namespace Ecell
                     new object[] { type, entity.Key }));
             }
             Debug.Assert(findFlag);
-
-            // Set Simulation param
-            m_currentProject.AddSimulationParameter(entity);
         }
         #endregion
 
@@ -1328,10 +1326,6 @@ namespace Ecell
                 // Record action
                 EcellObject oldObj = GetEcellObject(modelID, key, type);
 
-                // Searches the "System".
-                List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
-                Debug.Assert(systemList != null && systemList.Count > 0);
-
                 // Checks the EcellObject
                 CheckEntityPath(ecellObject);
 
@@ -1423,10 +1417,12 @@ namespace Ecell
             Debug.Assert(oldNode != null);
             Debug.Assert(oldSystem != null);
 
-            this.CheckDifferences(oldNode, ecellObject, null);
-            if (modelID.Equals(ecellObject.ModelID)
-                && key.Equals(ecellObject.Key)
-                && type.Equals(ecellObject.Type))
+            string paramId = m_currentProject.Info.SimulationParam;
+            if (Constants.defaultSimParam.Equals(paramId))
+                paramId = null;
+
+            this.CheckDifferences(oldNode, ecellObject, paramId);
+            if (key.Equals(ecellObject.Key))
             {
                 oldSystem.Children.Remove(oldNode);
                 oldSystem.Children.Add(ecellObject);
@@ -1492,6 +1488,10 @@ namespace Ecell
             m_currentProject.SortSystems();
             List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
 
+            string paramId = m_currentProject.Info.SimulationParam;
+            if (Constants.defaultSimParam.Equals(paramId))
+                paramId = null;
+
             // When system path is not modified.
             if (modelID.Equals(ecellObject.ModelID) && key.Equals(ecellObject.Key))
             {
@@ -1501,7 +1501,7 @@ namespace Ecell
                     if (!systemList[i].Key.Equals(key))
                         continue;
 
-                    CheckDifferences(systemList[i], ecellObject, null);
+                    CheckDifferences(systemList[i], ecellObject, paramId);
                     systemList[i] = ecellObject.Clone();
                     m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
                     return;
@@ -1532,7 +1532,7 @@ namespace Ecell
                 else
                     newSystem.SetPosition(system);
                 CheckEntityPath(newSystem);
-                CheckDifferences(system, newSystem, null);
+                CheckDifferences(system, newSystem, paramId);
                 CheckParameterObservedData(system, newSystem.Key);
                 m_currentProject.AddSystem(newSystem);
                 m_currentProject.DeleteSystem(system);
@@ -2013,14 +2013,14 @@ namespace Ecell
 
                     if (string.IsNullOrEmpty(parameterID))
                     {
-                        foreach (string keyParameterID in initialCondition.Keys)
-                        {
-                            Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID];
-                            if (condition.ContainsKey(srcEcellData.EntityPath))
-                            {
-                                condition.Remove(srcEcellData.EntityPath);
-                            }
-                        }
+                        //foreach (string keyParameterID in initialCondition.Keys)
+                        //{
+                        //    Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID];
+                        //    if (condition.ContainsKey(srcEcellData.EntityPath))
+                        //    {
+                        //        condition.Remove(srcEcellData.EntityPath);
+                        //    }
+                        //}
                     }
                     else
                     {
@@ -2057,10 +2057,10 @@ namespace Ecell
                     }
                     else
                     {
-                        foreach (string keyParameterID in initialCondition.Keys)
-                        {
-                            initialCondition[keyParameterID][dest.ModelID][destEcellData.EntityPath] = temp;
-                        }
+                        //foreach (string keyParameterID in initialCondition.Keys)
+                        //{
+                        //    initialCondition[keyParameterID][dest.ModelID][destEcellData.EntityPath] = temp;
+                        //}
                     }
                 }
             }
@@ -2138,14 +2138,14 @@ namespace Ecell
                         }
                         else
                         {
-                            foreach (string keyParameterID in initialCondition.Keys)
-                            {
-                                Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID];
+                            //foreach (string keyParameterID in initialCondition.Keys)
+                            //{
+                            //    Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID];
 
-                                if (!condition.ContainsKey(srcEcellData.EntityPath))
-                                    continue;
-                                condition[srcEcellData.EntityPath] = temp;
-                            }
+                            //    if (!condition.ContainsKey(srcEcellData.EntityPath))
+                            //        continue;
+                            //    condition[srcEcellData.EntityPath] = temp;
+                            //}
                         }
                         break;
                     }
@@ -4542,91 +4542,6 @@ namespace Ecell
             try
             {
                 string simParamID = simParam.ID;
-                // Stores the simulation parameter.
-                if (!m_currentProject.Info.SimulationParam.Equals(simParamID))
-                {
-                    foreach (EcellObject stepper in simParam.Steppers)
-                    {
-                        if (!m_currentProject.StepperDic
-                            .ContainsKey(stepper.ModelID))
-                        {
-                            m_currentProject.StepperDic[stepper.ModelID]
-                                = new List<EcellObject>();
-                        }
-                        foreach (EcellData data in stepper.Value)
-                        {
-                            data.Value = GetEcellValue(data);
-                        }
-                        m_currentProject.StepperDic[stepper.ModelID].Add(stepper);
-                    }
-                }
-                else
-                {
-                    foreach (EcellObject stepper in simParam.Steppers)
-                    {
-                        bool matchFlag = false;
-                        if (!m_currentProject.StepperDic.ContainsKey(stepper.ModelID))
-                        {
-                            m_currentProject.StepperDic[stepper.ModelID]
-                                = new List<EcellObject>();
-                        }
-                        for (int j = 0;
-                            j < m_currentProject.StepperDic[stepper.ModelID].Count;
-                            j++)
-                        {
-                            EcellObject storedStepper
-                                = m_currentProject.StepperDic[stepper.ModelID][j];
-                            if (!storedStepper.Classname.Equals(stepper.Classname)
-                                || !storedStepper.Key.Equals(stepper.Key)
-                                || !storedStepper.ModelID.Equals(stepper.ModelID)
-                                || !storedStepper.Type.Equals(stepper.Type))
-                                continue;
-
-                            List<EcellData> newDataList = new List<EcellData>();
-                            foreach (EcellData storedData in storedStepper.Value)
-                            {
-                                bool existFlag = false;
-                                foreach (EcellData newData in stepper.Value)
-                                {
-                                    if (!storedData.Name.Equals(newData.Name)
-                                        || !storedData.EntityPath.Equals(newData.EntityPath))
-                                        continue;
-
-                                    if (storedData.Value.IsDouble)
-                                    {
-                                        // XXX: canonicalize the value
-                                        newData.Value = GetEcellValue(newData);
-                                    }
-                                    newData.Gettable = storedData.Gettable;
-                                    newData.Loadable = storedData.Loadable;
-                                    newData.Saveable = storedData.Saveable;
-                                    newData.Settable = storedData.Settable;
-                                    newDataList.Add(newData);
-                                    existFlag = true;
-                                    break;
-                                }
-                                if (!existFlag)
-                                {
-                                    newDataList.Add(storedData);
-                                }
-                            }
-                            m_currentProject.StepperDic[stepper.ModelID][j]
-                                = EcellObject.CreateObject(
-                                    stepper.ModelID,
-                                    stepper.Key,
-                                    stepper.Type,
-                                    stepper.Classname,
-                                    newDataList);
-                            matchFlag = true;
-                            break;
-                        }
-                        if (!matchFlag)
-                        {
-                            m_currentProject.StepperDic[stepper.ModelID]
-                                .Add(stepper);
-                        }
-                    }
-                }
                 m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
                 m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadSim, simParamID));

@@ -1003,11 +1003,6 @@ namespace Ecell
         public void AddSystem(EcellObject system)
         {
             m_systemDic[system.ModelID].Add(system);
-            AddSimulationParameter(system);
-            foreach (EcellObject child in system.Children)
-            {
-                AddSimulationParameter(child);
-            }
         }
 
         /// <summary>
@@ -1018,7 +1013,6 @@ namespace Ecell
         {
             EcellObject system = GetSystem(entity.ModelID, entity.ParentSystemID);
             system.Children.Add(entity);
-            AddSimulationParameter(entity);
         }
         #endregion
 
@@ -1090,47 +1084,6 @@ namespace Ecell
                     condition.Remove(data.EntityPath);
                 }
             }
-
-        }
-        #endregion
-
-        #region SimulationParameter
-        /// <summary>
-        /// Add SimulationParameter
-        /// </summary>
-        /// <param name="eo"></param>
-        public void AddSimulationParameter(EcellObject eo)
-        {
-            if (eo.Value == null || eo.Value.Count <= 0)
-                return;
-            if (eo is EcellText)
-                return;
-
-            foreach (string keyParameterID in m_initialCondition.Keys)
-            {
-                Dictionary<string, double> initialCondition = m_initialCondition[keyParameterID][eo.ModelID];
-                foreach (EcellData data in eo.Value)
-                {
-                    if (!data.IsInitialized())
-                        continue;
-
-                    double value = 0;
-                    if (data.Value.IsDouble)
-                        value = (double)data.Value;
-                    else if (data.Value.IsInt)
-                        value = (double)data.Value;
-
-                    initialCondition[data.EntityPath] = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Delete SimulationParameter
-        /// </summary>
-        /// <param name="eo"></param>
-        public void DeleteSimulationParameter(EcellObject eo)
-        {
 
         }
         #endregion

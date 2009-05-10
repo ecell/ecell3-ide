@@ -525,37 +525,37 @@ namespace Ecell
             _unitUnderTest.DeleteEntity(entity);
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestAddSimulationParameter()
-        {
-            EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM").Clone();
-            system.Key = _unitUnderTest.GetCopiedID(system.ModelID, system.Type, system.Key);
-            _unitUnderTest.AddSimulationParameter(system);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestAddSimulationParameter()
+        //{
+        //    EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM").Clone();
+        //    system.Key = _unitUnderTest.GetCopiedID(system.ModelID, system.Type, system.Key);
+        //    _unitUnderTest.AddSimulationParameter(system);
 
-            EcellObject entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:P0", "Variable").Clone();
-            entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
-            _unitUnderTest.AddSimulationParameter(entity);
+        //    EcellObject entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:P0", "Variable").Clone();
+        //    entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
+        //    _unitUnderTest.AddSimulationParameter(entity);
 
-            entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process").Clone();
-            entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
-            _unitUnderTest.AddSimulationParameter(entity);
+        //    entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process").Clone();
+        //    entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
+        //    _unitUnderTest.AddSimulationParameter(entity);
 
-            EcellObject text = new EcellText("Drosophila", "/:Text0", "Text", "Text", new List<EcellData>());
-            _unitUnderTest.AddSimulationParameter(text);
+        //    EcellObject text = new EcellText("Drosophila", "/:Text0", "Text", "Text", new List<EcellData>());
+        //    _unitUnderTest.AddSimulationParameter(text);
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestDeleteSimulationParameter()
-        {
-            EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM");
-            _unitUnderTest.DeleteSimulationParameter(system);
+        //}
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestDeleteSimulationParameter()
+        //{
+        //    EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM");
+        //    _unitUnderTest.DeleteSimulationParameter(system);
 
-        }
+        //}
     }
 }

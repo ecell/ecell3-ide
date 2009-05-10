@@ -537,8 +537,8 @@ namespace Ecell
         /// <param name="ecellData"></param>
         private static void SetInitialCondition(Dictionary<string, double> initialCondition, EcellData ecellData)
         {
-            if (ecellData.Settable && ecellData.Value.IsDouble)
-                initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+            //if (ecellData.Settable && ecellData.Value.IsDouble)
+            //    initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
         }
 
         #endregion

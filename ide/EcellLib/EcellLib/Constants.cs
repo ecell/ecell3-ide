@@ -514,7 +514,7 @@ namespace Ecell
         /// <summary>
         /// default comment.
         /// </summary>
-        public const string defaultSimParam = "DefaultParameter";
+        public const string defaultSimParam = "DefaultSets";
         /// <summary>
         /// DM directory name
         /// </summary>
