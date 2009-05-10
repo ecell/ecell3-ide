@@ -1021,7 +1021,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_window.PluginManager.SetIconImage(Constants.xpathSystem, m_csManager.DefaultSystemSetting.IconImage, false);
             m_window.PluginManager.SetIconImage(Constants.xpathProcess, m_csManager.DefaultProcessSetting.IconImage, false);
             m_window.PluginManager.SetIconImage(Constants.xpathVariable, m_csManager.DefaultVariableSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathText, m_csManager.DefaultTextSetting.IconImage, true);
+            m_window.PluginManager.SetIconImage(Constants.xpathText, m_csManager.DefaultTextSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathStepper, m_csManager.DefaultStepperSetting.IconImage, true);
         }
 
         #endregion

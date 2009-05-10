@@ -64,6 +64,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
+        public ImageList ImageList
+        {
+            get { return imageList; }
+            set { imageList = value; }
+        }
+
+        #endregion
+
         #region external method from User32.dll
         /// <summary>
         /// 
@@ -165,7 +177,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
                         Owner.SetText();
                         break;
                     default:
-                        Trace.WriteLine(m.ToString());
                         break;
                 }
             }
