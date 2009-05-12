@@ -266,7 +266,7 @@ namespace Ecell.SBML
                         ListOfParameters parameters = aKineticLaw.getListOfParameters();
                         for (int j = 0; j < parameters.size(); j++ )
                         {
-                            Parameter aParameter = aSBMLmodel.getParameter(j);
+                            Parameter aParameter = aKineticLaw.getParameter(j);
                             if (aParameter == null)
                                 continue;
                             string anId_KL_P = aParameter.getId();

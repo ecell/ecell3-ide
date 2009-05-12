@@ -54,7 +54,7 @@ namespace Ecell.SBML
 
         }
 
-        public string[] setSpeciesToVariableReference(string aName, int aStoichiometry)
+        public string setSpeciesToVariableReference(string aName, int aStoichiometry)
         {
             foreach(SpeciesStruct aSpecies in this.Model.SpeciesList)
             {
@@ -64,12 +64,14 @@ namespace Ecell.SBML
                     string compartmentName;
                     foreach(VariableReferenceStruct aVariableReference in this.VariableReferenceList)
                     {
-                        if ( aVariableReference.Variable.Split(':')[2] == aName)
+                        if (aVariableReference.Variable.Split(':')[2] == aName)
+                        {
                             if (aStoichiometry != 0)
                                 aVariableReference.Coefficient = aStoichiometry;
 
-                            compartmentName = this.setCompartmentToVariableReference( aSpecies.Compartment, 0);
-                            return new string[] { aVariableReference.Name, compartmentName };
+                            compartmentName = this.setCompartmentToVariableReference(aSpecies.Compartment, 0);
+                            return aVariableReference.Name;
+                        }
                     }
                     List<string> aVariableList = new List<string>();
 
@@ -86,7 +88,7 @@ namespace Ecell.SBML
                     
                     compartmentName = this.setCompartmentToVariableReference(aSpecies.Compartment, 0);
 
-                    return new string[] { variableName, compartmentName };
+                    return variableName;
                 }
             }
             throw new EcellException("Error set species to VariableReference");
@@ -101,10 +103,12 @@ namespace Ecell.SBML
                 {
                     foreach(VariableReferenceStruct aVariableReference in this.VariableReferenceList)
                     {
-                        if ( aVariableReference.Variable.Split(':')[2] == aName)
+                        if (aVariableReference.Variable.Split(':')[2] == aName)
+                        {
                             if (aStoichiometry != 0)
                                 aVariableReference.Coefficient = aStoichiometry;
                             return aVariableReference.Name;
+                        }
                     }
                         
                     string variableName = "P" + this.ParameterNumber.ToString();
@@ -178,16 +182,10 @@ namespace Ecell.SBML
                     //# Species
                     if ( aType == libsbml.libsbml.SBML_SPECIES )
                     {
-                        string[] temp = this.setSpeciesToVariableReference( aName , 0);
-                        string variableName = temp[0];
-                        string compartmentName = temp[1];
+                        string variableName = this.setSpeciesToVariableReference( aName , 0);
                         if( variableName != "" )
                         {
-                            anASTNode.setType(libsbml.libsbml.AST_DIVIDE);
-                            anASTNode.addChild(new ASTNode(libsbml.libsbml.AST_NAME));
-                            anASTNode.addChild(new ASTNode(libsbml.libsbml.AST_NAME));
-                            anASTNode.getLeftChild().setName( variableName + ".Value" );
-                            anASTNode.getRightChild().setName( compartmentName + ".Value" );
+                            anASTNode.setName( variableName + ".Value" );
                             return anASTNode;
                         }
                     }

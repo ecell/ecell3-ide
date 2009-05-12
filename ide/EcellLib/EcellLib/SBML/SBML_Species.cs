@@ -34,11 +34,11 @@ namespace Ecell.SBML
 
         public double getSpeciesValue(SpeciesStruct aSpecies)
         {
-            if ( aSpecies.InitialAmount != double.NaN)
+            if ( !aSpecies.InitialAmount.Equals(double.NaN))
             {
                 return (float) aSpecies.InitialAmount;
             }
-            else if (this.Model.Level == 2 && aSpecies.InitialConcentration != double.NaN)
+            else if (this.Model.Level == 2 && !aSpecies.InitialConcentration.Equals(double.NaN))
             {
                 float aSize = this.Model.CompartmentSize[ aSpecies.Compartment ];
                 return aSpecies.InitialConcentration * aSize;

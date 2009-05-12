@@ -51,14 +51,14 @@ namespace Ecell.SBML
         {
             if( this.Model.Level == 1 )
             {
-                if (aCompartment.Volume != double.NaN)
+                if (!aCompartment.Volume.Equals( double.NaN))
                     this.Model.CompartmentSize[ aCompartment.Name ] = (float)aCompartment.Volume;
                 else
                     this.Model.CompartmentSize[ aCompartment.Name ] = this.getOutsideSize( aCompartment.Outside );
             }       
             else if( this.Model.Level == 2 )
             {
-                if (aCompartment.Size != double.NaN)
+                if (!aCompartment.Size.Equals(double.NaN))
                     this.Model.CompartmentSize[ aCompartment.ID ] = (float)aCompartment.Size;
                 else
                     this.Model.CompartmentSize[ aCompartment.ID ] = this.getOutsideSize( aCompartment.Outside );
