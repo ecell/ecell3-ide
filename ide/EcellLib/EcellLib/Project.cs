@@ -905,19 +905,20 @@ namespace Ecell
         /// <param name="model"></param>
         /// <param name="type"></param>
         /// <param name="key"></param>
+        /// <param name="isDefault"></param>
         /// <returns></returns>
-        public EcellObject GetEcellObject(string model, string type, string key)
+        public EcellObject GetEcellObject(string model, string type, string key, bool isDefault)
         {
             if (string.IsNullOrEmpty(model) || string.IsNullOrEmpty(type))
                 return null;
             if (type.Equals(EcellObject.STEPPER))
-                return GetStepper(model, key);
+                return GetStepper(model, key, isDefault);
             if (type.Equals(EcellObject.MODEL))
                 return m_modelList[0];
             if (type.Equals(EcellObject.SYSTEM))
-                return GetSystem(model, key);
+                return GetSystem(model, key, isDefault);
             else 
-                return GetEntity(model, key, type);
+                return GetEntity(model, key, type, isDefault);
         }
 
         /// <summary>
@@ -926,7 +927,7 @@ namespace Ecell
         /// <param name="model"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public EcellObject GetSystem(string model, string key)
+        private EcellObject GetSystem(string model, string key, bool isDefault)
         {
             // Check systemList
             if(m_systemDic == null || !m_systemDic.ContainsKey(model))
@@ -941,6 +942,19 @@ namespace Ecell
                 system = sys;
                 break;
             }
+
+            if (!isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
+            {
+                string simParam = Info.SimulationParam;
+                system = system.Clone();
+                foreach (EcellData data in system.Value)
+                {
+                    if (InitialCondition[simParam][model].ContainsKey(data.EntityPath))
+                    {
+                        data.Value = new EcellValue(InitialCondition[simParam][model][data.EntityPath]);
+                    }
+                }
+            }
             return system;
         }
 
@@ -951,9 +965,9 @@ namespace Ecell
         /// <param name="key"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public EcellObject GetEntity(string model, string key, string type)
+        private EcellObject GetEntity(string model, string key, string type, bool isDefault)
         {
-            EcellObject system = GetSystem(model, Util.GetSuperSystemPath(key));
+            EcellObject system = GetSystem(model, Util.GetSuperSystemPath(key),isDefault);
             if (system == null || system.Children == null || system.Children.Count <= 0)
                 return null;
 
@@ -965,6 +979,19 @@ namespace Ecell
                 entity = child;
                 break;
             }
+
+            if (!isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
+            {
+                string simParam = Info.SimulationParam;
+                entity = entity.Clone();
+                foreach (EcellData data in entity.Value)
+                {
+                    if (InitialCondition[simParam][model].ContainsKey(data.EntityPath))
+                    {
+                        data.Value = new EcellValue(InitialCondition[simParam][model][data.EntityPath]);
+                    }
+                }
+            }
             return entity;
         }
 
@@ -974,7 +1001,7 @@ namespace Ecell
         /// <param name="model"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public EcellObject GetStepper(string model, string key)
+        private EcellObject GetStepper(string model, string key, bool isDefault)
         {
             EcellObject stepper = null;
             List<EcellObject> list = m_stepperDic[model];
@@ -982,6 +1009,18 @@ namespace Ecell
             {
                 if (eo.Key == key)
                     stepper = eo;
+            }
+            if (!isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
+            {
+                string simParam = Info.SimulationParam;
+                stepper = stepper.Clone();
+                foreach (EcellData data in stepper.Value)
+                {
+                    if (InitialCondition[simParam][model].ContainsKey(data.EntityPath))
+                    {
+                        data.Value = new EcellValue(InitialCondition[simParam][model][data.EntityPath]);
+                    }
+                }
             }
             return stepper;
         }
@@ -1023,7 +1062,7 @@ namespace Ecell
         /// <param name="entity"></param>
         public void AddEntity(EcellObject entity)
         {
-            EcellObject system = GetSystem(entity.ModelID, entity.ParentSystemID);
+            EcellObject system = GetSystem(entity.ModelID, entity.ParentSystemID, true);
             system.Children.Add(entity);
         }
         #endregion
@@ -1097,6 +1136,43 @@ namespace Ecell
                 }
             }
 
+        }
+        #endregion
+
+        #region InitialCondition
+
+        public void SetInitialCondition(EcellObject newobj)
+        {
+            EcellObject defaultObj = GetEcellObject(newobj.ModelID,
+                newobj.Type, newobj.Key, true);
+
+            foreach (EcellData newData in newobj.Value)
+            {
+                if (!newData.Settable || !newData.Value.IsDouble)
+                    continue;
+                EcellData defaultData = defaultObj.GetEcellData(newData.Name);
+                if (defaultData == null)
+                    continue;
+                double newProp = Convert.ToDouble(newData.Value.Value.ToString());
+                if (!InitialCondition[Info.SimulationParam][newobj.ModelID].ContainsKey(defaultData.EntityPath) ||
+                    InitialCondition[Info.SimulationParam][newobj.ModelID][defaultData.EntityPath] != newProp)
+                {
+                    InitialCondition[Info.SimulationParam][newobj.ModelID][newData.EntityPath] = newProp;
+                }
+            }
+        }
+
+        public void DeleteInitialCondition(EcellObject obj)
+        {
+            string modelID = obj.ModelID;
+            foreach (String simParam in InitialCondition.Keys)
+            {
+                foreach (EcellData d in obj.Value)
+                {
+                    if (InitialCondition[simParam][modelID].ContainsKey(d.EntityPath))
+                        InitialCondition[simParam][modelID].Remove(d.EntityPath);
+                }
+            }
         }
         #endregion
 

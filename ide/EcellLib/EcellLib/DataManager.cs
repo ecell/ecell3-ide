@@ -1412,8 +1412,8 @@ namespace Ecell
             string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
             // Get changed node.
-            EcellObject oldNode = m_currentProject.GetEcellObject(modelID, type, key);
-            EcellObject oldSystem = m_currentProject.GetSystem(modelID, Util.GetSuperSystemPath(key));
+            EcellObject oldNode = m_currentProject.GetEcellObject(modelID, type, key, false);
+            EcellObject oldSystem = m_currentProject.GetEcellObject(modelID, Constants.xpathSystem, Util.GetSuperSystemPath(key), false);
             Debug.Assert(oldNode != null);
             Debug.Assert(oldSystem != null);
 
@@ -1424,8 +1424,16 @@ namespace Ecell
             this.CheckDifferences(oldNode, ecellObject, paramId);
             if (key.Equals(ecellObject.Key))
             {
-                oldSystem.Children.Remove(oldNode);
-                oldSystem.Children.Add(ecellObject);
+                if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam))
+                {
+                    oldSystem.Children.Remove(oldNode);
+                    oldSystem.Children.Add(ecellObject);
+                }
+                else
+                {
+                    m_currentProject.DeleteInitialCondition(oldNode);
+                    m_currentProject.SetInitialCondition(ecellObject);
+                }
                 m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
                 return;
             }
@@ -1552,7 +1560,7 @@ namespace Ecell
                 }
             }
 
-            ecellObject = m_currentProject.GetSystem(modelID, ecellObject.Key);
+            ecellObject = m_currentProject.GetEcellObject(modelID, Constants.xpathSystem, ecellObject.Key, false);
             m_env.PluginManager.DataChanged(modelID, key, ecellObject.Type, ecellObject);
             // Checks all processes.
             m_currentProject.SortSystems();
@@ -1566,7 +1574,7 @@ namespace Ecell
         /// <param name="eo"></param>
         public void SetPosition(EcellObject eo)
         {
-            EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key);
+            EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key, false);
             oldNode.SetPosition(eo);
             // not implement.
             m_env.PluginManager.SetPosition(oldNode.Clone());
@@ -1803,6 +1811,7 @@ namespace Ecell
             if (node != null)
             {
                 m_env.LoggerManager.NodeRemoved(node);
+                m_currentProject.DeleteInitialCondition(node);
                 m_currentProject.DeleteEntity(node);
             }
 
@@ -2921,7 +2930,7 @@ namespace Ecell
         {
             if (m_currentProject == null)
                 return null;
-            EcellObject obj = m_currentProject.GetEcellObject(modelId, type, key);
+            EcellObject obj = m_currentProject.GetEcellObject(modelId, type, key, false);
             if (obj == null)
                 return obj;
             else

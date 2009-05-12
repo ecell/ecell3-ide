@@ -659,7 +659,7 @@ namespace Ecell.IDE
                 return;
             }
 
-            EcellObject sysObj = m_env.DataManager.CurrentProject.GetSystem(m_currentObj.ModelID, parentSystemId);
+            EcellObject sysObj = m_env.DataManager.CurrentProject.GetEcellObject(m_currentObj.ModelID, Constants.xpathSystem, parentSystemId, false);
             if (!text.Equals("/") && sysObj == null)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSystem, parentSystemId));

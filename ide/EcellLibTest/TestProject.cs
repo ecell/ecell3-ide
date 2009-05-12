@@ -376,7 +376,7 @@ namespace Ecell
             EcellObject resultEcellObject = null;
 
             // Model
-            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key);
+            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key, true);
             Assert.IsNotNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
             Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
             Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
@@ -387,7 +387,7 @@ namespace Ecell
             key = "";
             type = "Stepper";
 
-            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key);
+            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key, true);
             Assert.IsNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
 
             // System
@@ -395,7 +395,7 @@ namespace Ecell
             key = "/CELL";
             type = "System";
 
-            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key);
+            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key, true);
             Assert.IsNotNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
             Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
             Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
@@ -406,63 +406,63 @@ namespace Ecell
             key = "/CELL/CYTOPLASM:P1";
             type = "Variable";
 
-            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key);
+            resultEcellObject = _unitUnderTest.GetEcellObject(model, type, key, true);
             Assert.IsNotNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
             Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
             Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
             Assert.AreEqual(type, resultEcellObject.Type, "Type is unexpected value.");
 
-            resultEcellObject = _unitUnderTest.GetEcellObject("", "", key);
+            resultEcellObject = _unitUnderTest.GetEcellObject("", "", key, true);
             Assert.IsNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSystem()
-        {
-            string model = "Drosophila";
-            string key = "/";
-            EcellObject resultEcellObject = null;
-            resultEcellObject = _unitUnderTest.GetSystem(model, key);
-            Assert.IsNotNull(resultEcellObject, "GetSystem method returned unexpected result.");
-            Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
-            Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestGetSystem()
+        //{
+        //    string model = "Drosophila";
+        //    string key = "/";
+        //    EcellObject resultEcellObject = null;
+        //    resultEcellObject = _unitUnderTest.GetSystem(model, key);
+        //    Assert.IsNotNull(resultEcellObject, "GetSystem method returned unexpected result.");
+        //    Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
+        //    Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
 
-            model = "hoge";
-            resultEcellObject = _unitUnderTest.GetSystem(model, key);
-            Assert.IsNull(resultEcellObject, "GetSystem method returned unexpected result.");
+        //    model = "hoge";
+        //    resultEcellObject = _unitUnderTest.GetSystem(model, key);
+        //    Assert.IsNull(resultEcellObject, "GetSystem method returned unexpected result.");
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetStepper()
-        {
-            EcellObject stepper = _unitUnderTest.GetStepper("Drosophila", "DE");
-            Assert.IsNotNull(stepper, "GetStepper method returned unexpected result.");
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetEntity()
-        {
-            string model = "Drosophila";
-            string key = "/CELL/CYTOPLASM:P0";
-            string type = "Variable";
-            EcellObject resultEcellObject = null;
-            resultEcellObject = _unitUnderTest.GetEntity(model, key, type);
-            Assert.IsNotNull(resultEcellObject, "GetSystem method returned unexpected result.");
-            Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
-            Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
-            Assert.AreEqual(type, resultEcellObject.Type, "Type is unexpected value.");
+        //}
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestGetStepper()
+        //{
+        //    EcellObject stepper = _unitUnderTest.GetStepper("Drosophila", "DE");
+        //    Assert.IsNotNull(stepper, "GetStepper method returned unexpected result.");
+        //}
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestGetEntity()
+        //{
+        //    string model = "Drosophila";
+        //    string key = "/CELL/CYTOPLASM:P0";
+        //    string type = "Variable";
+        //    EcellObject resultEcellObject = null;
+        //    resultEcellObject = _unitUnderTest.GetEntity(model, key, type);
+        //    Assert.IsNotNull(resultEcellObject, "GetSystem method returned unexpected result.");
+        //    Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
+        //    Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
+        //    Assert.AreEqual(type, resultEcellObject.Type, "Type is unexpected value.");
 
-            key = "/CELL/CYTOPLASM1:P0";
-            resultEcellObject = _unitUnderTest.GetEntity(model, key, type);
-            Assert.IsNull(resultEcellObject, "GetSystem method returned unexpected result.");
-        }
+        //    key = "/CELL/CYTOPLASM1:P0";
+        //    resultEcellObject = _unitUnderTest.GetEntity(model, key, type);
+        //    Assert.IsNull(resultEcellObject, "GetSystem method returned unexpected result.");
+        //}
         /// <summary>
         /// 
         /// </summary>
@@ -511,7 +511,7 @@ namespace Ecell
         [Test()]
         public void TestDeleteSystem()
         {
-            EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM");
+            EcellObject system = _unitUnderTest.GetEcellObject("Drosophila", "System", "/CELL/CYTOPLASM", true);
             _unitUnderTest.DeleteSystem(system);
 
         }
@@ -521,7 +521,7 @@ namespace Ecell
         [Test()]
         public void TestDeleteEntity()
         {
-            EcellObject entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:P0", "Variable");
+            EcellObject entity = _unitUnderTest.GetEcellObject("Drosophila", "Variable", "/CELL/CYTOPLASM:P0", true);
             _unitUnderTest.DeleteEntity(entity);
 
         }
