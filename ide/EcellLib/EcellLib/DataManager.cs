@@ -4466,64 +4466,35 @@ namespace Ecell
                         return;
                     }
 
-                    // Set Stepper.
-                    foreach (string modelID in m_currentProject.StepperDic.Keys)
+                    string modelID = m_currentProject.Model.ModelID;
+                    if (parameterID.Equals(Constants.defaultSimParam))
                     {
-                        if (!m_currentProject.StepperDic.ContainsKey(modelID))
-                            continue;
-
-                        List<EcellObject> currentList
-                            = m_currentProject.StepperDic[modelID];
-                        List<EcellObject> newList
-                            = m_currentProject.StepperDic[modelID];
-                        foreach (EcellObject current in currentList)
+                        foreach (string entityPath in m_currentProject.InitialCondition[oldParameterID][modelID].Keys)
                         {
-                            foreach (EcellObject newObj in newList)
-                            {
-                                if (!current.Classname.Equals(newObj.Classname))
-                                    continue;
-
-                                foreach (EcellData currentData in current.Value)
-                                {
-                                    foreach (EcellData newData in newObj.Value)
-                                    {
-                                        if (currentData.Name.Equals(newData.Name)
-                                            && currentData.EntityPath.Equals(newData.EntityPath))
-                                        {
-                                            newData.Gettable = currentData.Gettable;
-                                            newData.Loadable = currentData.Loadable;
-                                            newData.Saveable = currentData.Saveable;
-                                            newData.Settable = currentData.Settable;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
+                            string type;
+                            string key;
+                            string propName;
+                            Util.ParseFullPN(entityPath, out type, out key, out propName);
+                            EcellObject obj = m_currentProject.GetEcellObject(modelID, type, key, true);
+                            if (obj == null) continue;
+                            m_env.PluginManager.DataChanged(modelID, key, type, obj);
+                            m_currentProject.Info.SimulationParam = parameterID;
                         }
                     }
-                    m_currentProject.Info.SimulationParam = parameterID;
-                    this.Initialize(true);
-                    foreach (string modelID
-                        in m_currentProject.StepperDic.Keys)
+                    else
                     {
-                        foreach (EcellObject old
-                            in m_currentProject.StepperDic[modelID])
+                        m_currentProject.Info.SimulationParam = parameterID;
+                        foreach (string entityPath in m_currentProject.InitialCondition[parameterID][modelID].Keys)
                         {
-                            List<EcellData> delList = new List<EcellData>();
-                            foreach (EcellData oldData in old.Value)
-                            {
-                                if (oldData.Gettable
-                                    && !oldData.Loadable
-                                    && !oldData.Saveable
-                                    && !oldData.Settable)
-                                {
-                                    delList.Add(oldData);
-                                }
-                            }
-                            foreach (EcellData del in delList)
-                            {
-                                old.Value.Remove(del);
-                            }
+                            string type;
+                            string key;
+                            string propName;
+                            Util.ParseFullPN(entityPath, out type, out key, out propName);
+                            EcellObject obj = GetEcellObject(modelID, key, type);
+                            if (obj == null) continue;
+                            EcellData d = obj.GetEcellData(propName);
+                            d.Value = new EcellValue(m_currentProject.InitialCondition[parameterID][modelID][entityPath]);
+                            m_env.PluginManager.DataChanged(modelID, key, type, obj);
                         }
                     }
                 }

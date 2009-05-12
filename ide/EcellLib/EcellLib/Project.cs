@@ -1154,10 +1154,14 @@ namespace Ecell
                 if (defaultData == null)
                     continue;
                 double newProp = Convert.ToDouble(newData.Value.Value.ToString());
-                if (!InitialCondition[Info.SimulationParam][newobj.ModelID].ContainsKey(defaultData.EntityPath) ||
-                    InitialCondition[Info.SimulationParam][newobj.ModelID][defaultData.EntityPath] != newProp)
+                double defaultProp = Convert.ToDouble(defaultData.Value.Value.ToString());
+                if (newProp != defaultProp)
                 {
                     InitialCondition[Info.SimulationParam][newobj.ModelID][newData.EntityPath] = newProp;
+                }
+                else
+                {
+                    InitialCondition[Info.SimulationParam][newobj.ModelID].Remove(newData.EntityPath);
                 }
             }
         }
