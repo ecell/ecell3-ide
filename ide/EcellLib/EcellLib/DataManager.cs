@@ -1441,6 +1441,7 @@ namespace Ecell
             // Get parent system.
             // Add new object.
             DataAdd4Entity(ecellObject.Clone(), false);
+            m_currentProject.UpdateInitialCondition(oldNode, ecellObject);
             m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
             if (type.Equals(Constants.xpathVariable))
             {
@@ -1507,10 +1508,20 @@ namespace Ecell
                 for (int i = 0; i < systemList.Count; i++)
                 {
                     if (!systemList[i].Key.Equals(key))
-                        continue;
+                        continue;                   
 
                     CheckDifferences(systemList[i], ecellObject, paramId);
-                    systemList[i] = ecellObject.Clone();
+
+                    if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam))
+                    {
+                        systemList[i] = ecellObject.Clone();
+                    }
+                    else
+                    {
+                        m_currentProject.DeleteInitialCondition(systemList[i]);
+                        m_currentProject.SetInitialCondition(ecellObject);
+                    }
+
                     m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
                     return;
                 }

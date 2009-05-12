@@ -980,7 +980,7 @@ namespace Ecell
                 break;
             }
 
-            if (!isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
+            if (entity != null && !isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
             {
                 string simParam = Info.SimulationParam;
                 entity = entity.Clone();
@@ -1162,6 +1162,28 @@ namespace Ecell
                 else
                 {
                     InitialCondition[Info.SimulationParam][newobj.ModelID].Remove(newData.EntityPath);
+                }
+            }
+        }
+
+        public void UpdateInitialCondition(EcellObject oldObj, EcellObject newObj)
+        {
+            string modelID = oldObj.ModelID;
+            foreach (EcellData oldData in oldObj.Value)
+            {
+                EcellData newData = newObj.GetEcellData(oldData.Name);
+                if (newData == null)
+                    continue;
+                string oldPath = oldData.EntityPath;
+                string newPath = newData.EntityPath;
+                foreach (string simParam in InitialCondition.Keys)
+                {
+                    if (InitialCondition[simParam][modelID].ContainsKey(oldPath))
+                    {
+                        InitialCondition[simParam][modelID][newPath] =
+                            InitialCondition[simParam][modelID][oldPath];
+                        InitialCondition[simParam][modelID].Remove(oldPath);
+                    }
                 }
             }
         }
