@@ -4802,10 +4802,32 @@ namespace Ecell
             Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[parameterID][modelID];
             foreach (string key in initialList.Keys)
             {
-                if (parameters.ContainsKey(key))
-                    parameters.Remove(key);
-
+                if (parameters.ContainsKey(key) && parameters[key] == initialList[key])
+                    continue;
                 parameters[key] = initialList[key];
+                string type;
+                string id;
+                string propName;
+                Util.ParseFullPN(key, out type, out id, out propName);
+                EcellObject obj = m_currentProject.GetEcellObject(modelID, type, id, parameterID);
+                m_env.PluginManager.DataChanged(modelID, id, type, obj);
+            }
+            List<string> delList = new List<string>();
+            foreach (string key in parameters.Keys)
+            {
+                if (initialList.ContainsKey(key))
+                    continue;
+                delList.Add(key);
+            }
+            foreach (string key in delList)
+            {
+                parameters.Remove(key);
+                string type;
+                string id;
+                string propName;
+                Util.ParseFullPN(key, out type, out id, out propName);
+                EcellObject obj = m_currentProject.GetEcellObject(modelID, type, id, parameterID);
+                m_env.PluginManager.DataChanged(modelID, id, type, obj);
             }
             Trace.WriteLine("Update Initial Condition: " + "(parameterName=" + parameterID + ", modelID=" + modelID + ")");
         }

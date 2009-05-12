@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.TabPage perModelSimulationParametersPage;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.TabPage perModelSimulationParametersPage;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label3;
@@ -40,12 +40,12 @@
             this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.initialConditionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.propertiesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.propertiesBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.steppersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.modelCombo = new System.Windows.Forms.ComboBox();
             this.perModelSimulationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.m_simParamSets = new System.Windows.Forms.BindingSource(this.components);
+            this.propertiesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.propertiesBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.steppersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.SSCreateButton = new System.Windows.Forms.Button();
             this.paramCombo = new System.Windows.Forms.ComboBox();
             this.SSDeleteButton = new System.Windows.Forms.Button();
@@ -67,25 +67,37 @@
             this.freqByStepTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.simSettingToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.initialContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             perModelSimulationParametersPage = new System.Windows.Forms.TabPage();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
+            perModelSimulationParametersPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).BeginInit();
-            perModelSimulationParametersPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.perModelSimulationParameterBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_simParamSets)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.steppersBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.perModelSimulationParameterBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_simParamSets)).BeginInit();
             this.loggingPage.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.initialContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // perModelSimulationParametersPage
+            // 
+            perModelSimulationParametersPage.Controls.Add(this.initialParameters);
+            perModelSimulationParametersPage.Controls.Add(label6);
+            perModelSimulationParametersPage.Controls.Add(this.modelCombo);
+            resources.ApplyResources(perModelSimulationParametersPage, "perModelSimulationParametersPage");
+            perModelSimulationParametersPage.Name = "perModelSimulationParametersPage";
+            perModelSimulationParametersPage.UseVisualStyleBackColor = true;
             // 
             // initialParameters
             // 
@@ -106,7 +118,9 @@
             this.initialParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.keyDataGridViewTextBoxColumn1,
             this.valueDataGridViewTextBoxColumn1});
+            this.initialParameters.ContextMenuStrip = this.initialContextMenuStrip;
             this.initialParameters.DataSource = this.initialConditionsBindingSource;
+            this.initialParameters.MultiSelect = false;
             this.initialParameters.Name = "initialParameters";
             this.initialParameters.RowHeadersVisible = false;
             this.initialParameters.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -133,29 +147,6 @@
             // 
             this.initialConditionsBindingSource.DataSource = typeof(Ecell.IDE.Plugins.Simulation.MutableKeyValuePair<string, double>);
             this.initialConditionsBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.initialConditionsBindingSource_DataError);
-            // 
-            // perModelSimulationParametersPage
-            // 
-            perModelSimulationParametersPage.Controls.Add(this.initialParameters);
-            perModelSimulationParametersPage.Controls.Add(label6);
-            perModelSimulationParametersPage.Controls.Add(this.modelCombo);
-            resources.ApplyResources(perModelSimulationParametersPage, "perModelSimulationParametersPage");
-            perModelSimulationParametersPage.Name = "perModelSimulationParametersPage";
-            perModelSimulationParametersPage.UseVisualStyleBackColor = true;
-            // 
-            // propertiesBindingSource
-            // 
-            this.propertiesBindingSource.DataSource = this.propertiesBindingSource1;
-            this.propertiesBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.propertiesBindingSource_DataError);
-            // 
-            // propertiesBindingSource1
-            // 
-            this.propertiesBindingSource1.DataMember = "Properties";
-            this.propertiesBindingSource1.DataSource = this.steppersBindingSource;
-            // 
-            // steppersBindingSource
-            // 
-            this.steppersBindingSource.DataSource = typeof(Ecell.IDE.Plugins.Simulation.StepperConfiguration);
             // 
             // label6
             // 
@@ -196,6 +187,20 @@
             // 
             resources.ApplyResources(label4, "label4");
             label4.Name = "label4";
+            // 
+            // propertiesBindingSource
+            // 
+            this.propertiesBindingSource.DataSource = this.propertiesBindingSource1;
+            this.propertiesBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.propertiesBindingSource_DataError);
+            // 
+            // propertiesBindingSource1
+            // 
+            this.propertiesBindingSource1.DataMember = "Properties";
+            this.propertiesBindingSource1.DataSource = this.steppersBindingSource;
+            // 
+            // steppersBindingSource
+            // 
+            this.steppersBindingSource.DataSource = typeof(Ecell.IDE.Plugins.Simulation.StepperConfiguration);
             // 
             // SSCreateButton
             // 
@@ -354,6 +359,20 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
+            // initialContextMenuStrip
+            // 
+            this.initialContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.initialContextMenuStrip.Name = "initialContextMenuStrip";
+            resources.ApplyResources(this.initialContextMenuStrip, "initialContextMenuStrip");
+            this.initialContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.initialContextMenuStrip_Opening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // SimulationConfigurationDialog
             // 
             this.AcceptButton = this.SSApplyButton;
@@ -371,15 +390,15 @@
             this.Load += new System.EventHandler(this.SimulationConfigurationDialog_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SimulationConfigurationDialog_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).EndInit();
             perModelSimulationParametersPage.ResumeLayout(false);
             perModelSimulationParametersPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.perModelSimulationParameterBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_simParamSets)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.propertiesBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.steppersBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.perModelSimulationParameterBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_simParamSets)).EndInit();
             this.loggingPage.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -388,6 +407,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.initialContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -426,5 +446,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolTip simSettingToolTip;
+        private System.Windows.Forms.ContextMenuStrip initialContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

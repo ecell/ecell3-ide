@@ -134,13 +134,6 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
             initialConditionsBindingSource.DataSource = p.InitialConditions;
-
-            // 設定した後にListBoxの順番が更新されていません。
-            // なにかいい方法があったらそちらに変更しましょう。
-            for (int i = 0; i < steppersBindingSource.Count; i++)
-            {
-                steppersBindingSource.ResetItem(i);
-            }
         }
 
         /// <summary>
@@ -669,6 +662,37 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             simSettingToolTip.SetToolTip(SSCreateButton, MessageResources.DialogToolTipCreSim);
             simSettingToolTip.SetToolTip(SSDeleteButton, MessageResources.DialogToolTipDeleteSim);
+        }
+
+        private void initialContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (initialParameters.SelectedCells.Count <= 0)
+                e.Cancel = true;
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string simParam = paramCombo.Text;
+            string modelID = modelCombo.Text;
+            foreach (DataGridViewCell r in initialParameters.SelectedCells)
+            {
+                int index = r.RowIndex;
+                string entityPath = initialParameters[keyDataGridViewTextBoxColumn1.Index, index].Value.ToString();
+                double data = Convert.ToDouble(initialParameters[valueDataGridViewTextBoxColumn1.Index, index].Value.ToString());
+//                m_owner.DataManager.CurrentProject.DeleteInitialCondition(simParam, entityPath);
+
+                PerModelSimulationParameter p = ((SimulationParameterSet)m_simParamSets.Current).PerModelSimulationParameters[0];
+                foreach (MutableKeyValuePair<string, double> delData in p.InitialConditions)
+                {
+                    if (delData.Key.Equals(entityPath))
+                    {
+                        p.InitialConditions.Remove(delData);
+                        break;
+                    }
+                }
+                initialConditionsBindingSource.DataSource = p.InitialConditions;
+            }
+            initialParameters.Refresh();
         }
     }
 }

@@ -921,6 +921,20 @@ namespace Ecell
                 return GetEntity(model, key, type, isDefault);
         }
 
+        public EcellObject GetEcellObject(string model, string type, string key, string simParam)
+        {
+            EcellObject obj = GetEcellObject(model, type, key, true);
+            obj = obj.Clone();
+            foreach (EcellData data in obj.Value)
+            {
+                if (InitialCondition[simParam][model].ContainsKey(data.EntityPath))
+                {
+                    data.Value = new EcellValue(InitialCondition[simParam][model][data.EntityPath]);
+                }
+            }
+            return obj;
+        }
+
         /// <summary>
         /// Get System.
         /// </summary>
@@ -1199,6 +1213,20 @@ namespace Ecell
                         InitialCondition[simParam][modelID].Remove(d.EntityPath);
                 }
             }
+        }
+
+        public void DeleteInitialCondition(string simParam, String entityPath)
+        {
+            string modelID = Model.ModelID;
+            if (InitialCondition[simParam][modelID].ContainsKey(entityPath))
+                InitialCondition[simParam][modelID].Remove(entityPath);
+        }
+
+        public void SetInitialCondition(string simParam, string entityPath, double data)
+        {
+            string modelID = Model.ModelID;
+
+            InitialCondition[simParam][modelID][entityPath] = data;
         }
         #endregion
 
