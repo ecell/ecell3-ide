@@ -819,6 +819,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             foreach (PPathwayObject obj in Canvas.Texts.Values)
                 if (m_canvas.SelectedNodes.Contains(obj))
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
+            //Copy Stepper
+            foreach (PPathwayObject obj in Canvas.Steppers.Values)
+                if (m_canvas.SelectedNodes.Contains(obj))
+                    copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
 
             return copyNodes;
         }
@@ -863,7 +867,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 string oldKey = eo.Key;
                 if( keyDic.ContainsKey(eo.ParentSystemID))
                     eo.Key = GetCopiedID(eo.Type, Util.GetMovedKey(eo.Key, eo.ParentSystemID, keyDic[eo.ParentSystemID]));
-                else if (eo is EcellText)
+                else if (eo is EcellText || eo is EcellStepper)
                     eo.Key = GetCopiedID(eo.Type, eo.Key);
                 else
                     eo.Key = GetCopiedID(eo.Type, Util.GetMovedKey(eo.Key, eo.ParentSystemID, newSysKey));

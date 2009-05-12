@@ -826,7 +826,15 @@ namespace Ecell
             // Get LocalID
             string oldLocalID;
             string systemID;
-            Util.ParseKey(key, out systemID, out oldLocalID);
+            if (type.Equals(EcellObject.STEPPER))
+            {
+                oldLocalID = key;
+                systemID = "";
+            }
+            else
+            {
+                Util.ParseKey(key, out systemID, out oldLocalID);
+            }
 
             if(oldLocalID.Contains("_copy"))
                 oldLocalID = oldLocalID.Substring(0, oldLocalID.IndexOf("_copy"));
@@ -856,6 +864,10 @@ namespace Ecell
                     systemID = "";
                 localID = GetTemporaryID(SystemList, oldLocalID);
                 newKey = systemID + "/" + localID;
+            }
+            else if (type.Equals(EcellObject.STEPPER))
+            {
+                newKey = GetTemporaryID(m_stepperDic[modelID], oldLocalID);
             }
             else
             {
