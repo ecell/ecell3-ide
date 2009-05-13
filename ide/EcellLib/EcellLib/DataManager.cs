@@ -779,7 +779,8 @@ namespace Ecell
                 }
 
                 SaveSimulationResult();
-                SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                SaveSimulationResultDelegate dlg = 
+                    m_env.PluginManager.GetDelegate(Constants.delegateSaveSimulationResult) as SaveSimulationResultDelegate;
                 if (dlg != null)
                     dlg(logList);
 

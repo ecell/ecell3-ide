@@ -690,7 +690,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
         private void ShowGridStatusDialog()
         {
-            ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate("ShowGridStatus") as ShowDialogDelegate;
+            ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateShowGridDialog) as ShowDialogDelegate;
             if (dlg != null)
                 dlg();
         }

@@ -1124,7 +1124,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <returns></returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
-            return null;
+            Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
+            list.Add(Constants.delegateShowPropertyWindow, new ShowDialogDelegate(this.ActivatePropertyWindow));
+            return list;
+        }
+
+        public void ActivatePropertyWindow()
+        {
+            this.Activate();
         }
         /// <summary>
         /// 
@@ -1244,15 +1251,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 parameterToolStripMenuItem.Checked =
                     tag is EcellData &&
                     m_env.DataManager.IsContainsParameterData(((EcellData)tag).EntityPath);
-            }
-
-            if (m_env.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait)
-            {
-                propertyToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                propertyToolStripMenuItem.Enabled = false;
             }
 
             m_data = tag != null ? tag as EcellData : null;

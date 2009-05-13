@@ -163,7 +163,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
-            list.Add("SaveSimulationResult", new SaveSimulationResultDelegate(this.SaveSimulationResult));
+            list.Add(Constants.delegateSaveSimulationResult, 
+                new SaveSimulationResultDelegate(this.SaveSimulationResult));
             return list;
         }
 

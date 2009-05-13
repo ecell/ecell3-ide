@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell.Objects;
+using Ecell.Plugin;
 using Ecell.IDE;
 
 namespace Ecell.IDE
@@ -102,7 +103,7 @@ namespace Ecell.IDE
             observedToolStripMenuItem.DropDownItems.Clear();
             parameterToolStripMenuItem.DropDownItems.Clear();
 
-            if (m_object == null)
+            if (m_object == null || m_object.Type.Equals(Constants.xpathStepper))
                 return;
 
             loggingToolStripMenuItem.DropDownItems.AddRange(CreateLoggerPopupMenu(m_object));
@@ -306,7 +307,9 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         private void ClickPropertyToolStripMenuItem(object sender, EventArgs e)
         {
-            PropertyEditor.Show(m_env, m_object);
+            ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateShowPropertyWindow) as ShowDialogDelegate;
+            if (dlg != null)
+                dlg();
         }
         /// <summary>
         /// 

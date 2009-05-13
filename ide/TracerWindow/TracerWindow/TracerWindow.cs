@@ -842,7 +842,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         if (win.SaveList.Count <= 0) return;
                         m_env.DataManager.SaveSimulationResult(win.DirectoryName,
                             win.Start, win.End, win.FileType, win.SaveList);
-                        SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                        SaveSimulationResultDelegate dlg = 
+                            m_env.PluginManager.GetDelegate(Constants.delegateSaveSimulationResult) as SaveSimulationResultDelegate;
                         if (dlg != null)
                             dlg(win.SaveList);
                         Util.ShowNoticeDialog(MessageResources.FinishSave);
@@ -886,7 +887,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                                 m_win.FloatPane,
                                 new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
             m_win.Pane.DockTo(fw);
-            SetDockContentDelegate dlg = m_env.PluginManager.GetDelegate("SetDockContent") as SetDockContentDelegate;
+            SetDockContentDelegate dlg = 
+                m_env.PluginManager.GetDelegate(Constants.delegateSetDockContents) as SetDockContentDelegate;
             if (dlg != null)
                 dlg(m_win);
 

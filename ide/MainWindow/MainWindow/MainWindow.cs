@@ -951,8 +951,8 @@ namespace Ecell.IDE.MainWindow
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
-            list.Add("SetDockContent", new SetDockContentDelegate( this.SetDockContent));
-            list.Add("ShowGridStatus", new ShowDialogDelegate(this.ShowGridStatusDialog));
+            list.Add(Constants.delegateSetDockContents, new SetDockContentDelegate( this.SetDockContent));
+            list.Add(Constants.delegateShowGridDialog, new ShowDialogDelegate(this.ShowGridStatusDialog));
             return list;
         }
         #endregion

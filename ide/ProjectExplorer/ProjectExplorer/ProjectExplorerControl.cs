@@ -549,7 +549,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="obj">the selected object</param>
         private void ShowPropEditWindow(EcellObject obj)
         {
-            PropertyEditor.Show(m_owner.Environment, obj);
+            ShowDialogDelegate dlg = m_owner.PluginManager.GetDelegate(Constants.delegateShowPropertyWindow) as ShowDialogDelegate;
+            if (dlg != null)
+                dlg();
         }
 
         /// <summary>
