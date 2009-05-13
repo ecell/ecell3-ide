@@ -54,8 +54,8 @@ namespace Ecell.SBML
         {
             if (!File.Exists(filename))
                 throw new EcellException(string.Format(MessageResources.ErrFindFile, filename));
-
-            SBMLDocument document = libsbml.libsbml.readSBML(filename);
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(filename);
             Model model = document.getModel();
             if (model == null)
             {

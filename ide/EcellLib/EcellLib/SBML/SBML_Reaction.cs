@@ -197,7 +197,7 @@ namespace Ecell.SBML
                 {
                     if (aSpecies.ID == aSpeciesID)
                     {
-                        if (aSpecies.Constant)
+                        if (aSpecies.Constant || aSpecies.BoundaryCondition)
                             return 0;
                         else
                             return (int)aStoichiometry;

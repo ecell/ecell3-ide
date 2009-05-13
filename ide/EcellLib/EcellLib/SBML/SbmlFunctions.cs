@@ -543,6 +543,20 @@ namespace Ecell.SBML
 
             return list;
         }
+
+        internal static List<InitialAssignmentStruct> getInitialAssignments(Model aSBMLmodel)
+        {
+            List<InitialAssignmentStruct> list = new List<InitialAssignmentStruct>();
+            ListOfInitialAssignments initList = aSBMLmodel.getListOfInitialAssignments();
+            for (int i = 0; i < initList.size(); i++)
+            {
+                InitialAssignment init = initList.get(i);
+                string symbol = init.getSymbol();
+                ASTNode math = init.getMath();
+            }
+            return list;
+
+        }
     }
 
     /// <summary>
@@ -903,5 +917,14 @@ namespace Ecell.SBML
             this.Variable = variable;
             this.Coefficient = coefficient;
         }
+    }
+
+    /// <summary>
+    /// InitialAssignment
+    /// </summary>
+    internal struct InitialAssignmentStruct
+    {
+        public string Name;
+        public double Value;
     }
 }

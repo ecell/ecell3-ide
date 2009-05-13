@@ -995,14 +995,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 NotifyDataDelete(eo, isAnchor);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
         internal void Undo()
         {
             m_window.Environment.ActionManager.UndoAction();
-
         }
+
         /// <summary>
         /// 
         /// </summary>

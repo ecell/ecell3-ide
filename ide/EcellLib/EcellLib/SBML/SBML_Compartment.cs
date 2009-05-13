@@ -52,14 +52,14 @@ namespace Ecell.SBML
             if( this.Model.Level == 1 )
             {
                 if (!aCompartment.Volume.Equals( double.NaN))
-                    this.Model.CompartmentSize[ aCompartment.Name ] = (float)aCompartment.Volume;
+                    this.Model.CompartmentSize[ aCompartment.Name ] = aCompartment.Volume;
                 else
                     this.Model.CompartmentSize[ aCompartment.Name ] = this.getOutsideSize( aCompartment.Outside );
             }       
             else if( this.Model.Level == 2 )
             {
                 if (!aCompartment.Size.Equals(double.NaN))
-                    this.Model.CompartmentSize[ aCompartment.ID ] = (float)aCompartment.Size;
+                    this.Model.CompartmentSize[ aCompartment.ID ] = aCompartment.Size;
                 else
                     this.Model.CompartmentSize[ aCompartment.ID ] = this.getOutsideSize( aCompartment.Outside );
             }
@@ -82,7 +82,7 @@ namespace Ecell.SBML
 
         }
 
-        private float getOutsideSize(string anOutsideCompartment)
+        private double getOutsideSize(string anOutsideCompartment)
         {
         if ( anOutsideCompartment == "" )
             return 1f;
@@ -98,7 +98,7 @@ namespace Ecell.SBML
             return this.Model.CompartmentUnit[ anOutsideCompartment ];
         }
 
-        public float getCompartmentSize(CompartmentStruct aCompartment)
+        public double getCompartmentSize(CompartmentStruct aCompartment)
         {
             if (this.Model.Level == 1)
                 return this.Model.CompartmentSize[aCompartment.Name];

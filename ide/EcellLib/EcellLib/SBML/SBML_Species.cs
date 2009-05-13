@@ -36,11 +36,11 @@ namespace Ecell.SBML
         {
             if ( !aSpecies.InitialAmount.Equals(double.NaN))
             {
-                return (float) aSpecies.InitialAmount;
+                return aSpecies.InitialAmount;
             }
             else if (this.Model.Level == 2 && !aSpecies.InitialConcentration.Equals(double.NaN))
             {
-                float aSize = this.Model.CompartmentSize[ aSpecies.Compartment ];
+                double aSize = this.Model.CompartmentSize[ aSpecies.Compartment ];
                 return aSpecies.InitialConcentration * aSize;
             }
             else

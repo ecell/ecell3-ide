@@ -11,7 +11,7 @@ namespace Ecell.SBML
         public long Level;
         public long Version;
 
-        public Dictionary<string, float> CompartmentSize;
+        public Dictionary<string, double> CompartmentSize;
         public Dictionary<string, string> CompartmentUnit;
         public Dictionary<string, string> FunctionDefinition;
 
@@ -23,10 +23,11 @@ namespace Ecell.SBML
         public List<RuleStruct> RuleList;
         public List<SpeciesStruct> SpeciesList;
         public List<UnitDefinitionStruct> UnitDefinitionList;
+        public List<InitialAssignmentStruct> InitialAssignmentList;
 
         public SBML_Model(SBMLDocument aSBMLDocument, Model aSBMLmodel)
         {
-            this.CompartmentSize = new Dictionary<string,float>();
+            this.CompartmentSize = new Dictionary<string,double>();
             this.CompartmentUnit = new Dictionary<string,string>();
             this.FunctionDefinition = new Dictionary<string, string>();
 
@@ -41,7 +42,7 @@ namespace Ecell.SBML
             this.RuleList = SbmlFunctions.getRule(aSBMLmodel);
             this.SpeciesList = SbmlFunctions.getSpecies(aSBMLmodel);
             this.UnitDefinitionList = SbmlFunctions.getUnitDefinition(aSBMLmodel);
-
+            this.InitialAssignmentList = SbmlFunctions.getInitialAssignments(aSBMLmodel);
             this.setFunctionDefinitionToDictionary();
         }
 
