@@ -1162,7 +1162,7 @@ namespace Ecell
 
             foreach (EcellData newData in newobj.Value)
             {
-                if (!newData.Settable || !newData.Value.IsDouble)
+                if (!newData.Settable || (!newData.Value.IsDouble && !newData.Value.IsInt))
                     continue;
                 EcellData defaultData = defaultObj.GetEcellData(newData.Name);
                 if (defaultData == null)

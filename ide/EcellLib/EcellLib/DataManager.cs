@@ -3100,22 +3100,42 @@ namespace Ecell
             {
                 EcellObject oldStepepr = null;
                 Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic;
-                foreach (EcellObject model in m_currentProject.ModelList)
+                if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam) ||
+                    !newStepper.Key.Equals(orgStepperID))
                 {
-                    foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
+                    foreach (EcellObject model in m_currentProject.ModelList)
                     {
-                        if (obj.Key.Equals(orgStepperID))
+                        foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
                         {
-                            oldStepepr = obj;
-                            perParameterStepperListDic[model.ModelID].Remove(obj);
-                            break;
+                            if (obj.Key.Equals(orgStepperID))
+                            {
+                                oldStepepr = obj;
+                                perParameterStepperListDic[model.ModelID].Remove(obj);
+                                break;
+                            }
+                        }
+                        perParameterStepperListDic[model.ModelID].Add(newStepper);
+                    }
+                    Debug.Assert(oldStepepr != null);
+                    m_env.ActionManager.AddAction(
+                        new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
+                }
+                else
+                {
+                    foreach (EcellObject model in m_currentProject.ModelList)
+                    {
+                        foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
+                        {
+                            if (obj.Key.Equals(orgStepperID))
+                            {
+                                oldStepepr = obj;
+                                break;
+                            }
                         }
                     }
-                    perParameterStepperListDic[model.ModelID].Add(newStepper);
+                    m_currentProject.DeleteInitialCondition(oldStepepr);
+                    m_currentProject.SetInitialCondition(newStepper);
                 }
-                Debug.Assert(oldStepepr != null);
-                m_env.ActionManager.AddAction(
-                    new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
             }
             catch (Exception ex)
             {
@@ -4047,7 +4067,19 @@ namespace Ecell
             {
                 foreach (string fullPN in initialCondition[modelID].Keys)
                 {
-                    EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
+                    EcellValue storedValue = null;
+                    if (fullPN.StartsWith(Constants.xpathStepper))
+                    {
+                        string name;
+                        string type;
+                        string propName;
+                        Util.ParseFullPN(fullPN, out type, out name, out propName);
+                        storedValue = new EcellValue(simulator.GetStepperProperty(name, propName));
+                    }
+                    else
+                    {
+                        storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
+                    }
                     double initialValue = initialCondition[modelID][fullPN];
                     object newValue = null;
                     if (storedValue.IsInt)
@@ -4067,7 +4099,18 @@ namespace Ecell
                         }
                         newValue = initialValue;
                     }
-                    simulator.SetEntityProperty(fullPN, newValue);
+                    if (fullPN.StartsWith(Constants.xpathStepper))
+                    {
+                        string name;
+                        string type;
+                        string propName;
+                        Util.ParseFullPN(fullPN, out type, out name, out propName);
+                        simulator.SetStepperProperty(name, propName, newValue);
+                    }
+                    else
+                    {
+                        simulator.SetEntityProperty(fullPN, newValue);
+                    }
                 }
             }
             //

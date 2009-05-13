@@ -449,4 +449,7 @@
   <data name="valueDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
     <value>値</value>
   </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
 </root>

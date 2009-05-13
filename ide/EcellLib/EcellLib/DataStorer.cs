@@ -256,6 +256,7 @@ namespace Ecell
             DMDescriptorKeeper dmm,
             EcellObject ecellObject)
         {
+            string key = Constants.xpathStepper + Constants.delimiterColon + Constants.delimiterColon + ecellObject.Key;
             List<EcellData> stepperEcellDataList = new List<EcellData>();
             IList<string> wrappedPolymorph = null;
             //
@@ -294,6 +295,7 @@ namespace Ecell
             //
             foreach (string name in wrappedPolymorph)
             {
+                string entityPath = key + Constants.delimiterColon + name;
                 PropertyAttributes flag = simulator.GetStepperPropertyAttributes(ecellObject.Key, name);
                 if (!flag.Gettable)
                 {
@@ -310,7 +312,7 @@ namespace Ecell
                     Trace.WriteLine(ex);
                     value = GetValueFromDMM(dmm, ecellObject.Type, ecellObject.Classname, name);
                 }
-                EcellData ecellData = CreateEcellData(name, value, name, flag);
+                EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
                 if (storedEcellDataDic.ContainsKey(name))
                 {
                     if (value.IsString && value.ToString().Equals(""))

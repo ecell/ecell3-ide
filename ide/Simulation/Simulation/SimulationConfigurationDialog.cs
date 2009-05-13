@@ -686,13 +686,13 @@ namespace Ecell.IDE.Plugins.Simulation
                 {
                     if (delData.Key.Equals(entityPath))
                     {
-                        p.InitialConditions.Remove(delData);
+                        initialConditionsBindingSource.Remove(delData);
                         break;
                     }
                 }
-                initialConditionsBindingSource.DataSource = p.InitialConditions;
+//                initialConditionsBindingSource.DataSource = p.InitialConditions;
+                initialParameters.Refresh();
             }
-            initialParameters.Refresh();
         }
     }
 }

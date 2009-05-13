@@ -557,6 +557,10 @@ namespace Ecell
                 key = key.Replace("/:", Constants.delimiterPath);
                 key = key.Replace(Constants.delimiterColon, Constants.delimiterPath);
             }
+            else if (type.Equals(EcellObject.STEPPER))
+            {
+                key = key.Substring(1);
+            }
         }
         /// <summary>
         /// Parse FullPN to Type, SystemPath, LocalID and PropertyName.
