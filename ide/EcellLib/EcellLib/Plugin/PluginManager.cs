@@ -785,4 +785,10 @@ namespace Ecell.Plugin
     /// </summary>
     /// <param name="s"></param>
     public delegate void SetDockContentDelegate(EcellDockContent s);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dm"></param>
+    /// <param name="path"></param>
+    public delegate void AddDMDelegate(string dm, string path);
 }

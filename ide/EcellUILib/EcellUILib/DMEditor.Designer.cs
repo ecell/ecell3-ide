@@ -64,6 +64,8 @@ namespace Ecell.IDE
             this.DMELoadButton = new System.Windows.Forms.Button();
             this.DMETextBox = new System.Windows.Forms.RichTextBox();
             this.DMEOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.DMESaveAsButton = new System.Windows.Forms.Button();
+            this.DMESaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // DMECloseButton
@@ -103,10 +105,18 @@ namespace Ecell.IDE
             // 
             this.DMEOpenFileDialog.FileName = "DME";
             // 
+            // DMESaveAsButton
+            // 
+            resources.ApplyResources(this.DMESaveAsButton, "DMESaveAsButton");
+            this.DMESaveAsButton.Name = "DMESaveAsButton";
+            this.DMESaveAsButton.UseVisualStyleBackColor = true;
+            this.DMESaveAsButton.Click += new System.EventHandler(this.DMESaveAsButton_Click);
+            // 
             // DMEditor
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.DMESaveAsButton);
             this.Controls.Add(this.DMEComileButton);
             this.Controls.Add(this.DMETextBox);
             this.Controls.Add(this.DMECloseButton);
@@ -145,5 +155,7 @@ namespace Ecell.IDE
         /// RichTextBox to display the source file.
         /// </summary>
         protected System.Windows.Forms.RichTextBox DMETextBox;
+        private System.Windows.Forms.Button DMESaveAsButton;
+        protected System.Windows.Forms.SaveFileDialog DMESaveFileDialog;
     }
 }

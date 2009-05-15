@@ -156,6 +156,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             m_form.RefreshLogEntry();
         }
+        private void AddDM(string dmName, string path)
+        {
+            m_form.AddDM(dmName, path);
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -165,6 +169,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
             list.Add(Constants.delegateSaveSimulationResult, 
                 new SaveSimulationResultDelegate(this.SaveSimulationResult));
+            list.Add(Constants.delegateAddDM,
+                new AddDMDelegate(this.AddDM));
             return list;
         }
 

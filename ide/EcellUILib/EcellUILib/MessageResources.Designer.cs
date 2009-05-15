@@ -248,5 +248,14 @@ namespace Ecell.IDE {
                 return ResourceManager.GetString("NameProperty", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Please input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnDMName {
+            get {
+                return ResourceManager.GetString("WarnDMName", resourceCulture);
+            }
+        }
     }
 }

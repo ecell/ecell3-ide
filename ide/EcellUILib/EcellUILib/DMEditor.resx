@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMECloseButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="DMEComileButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -172,13 +172,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMEComileButton.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>281, 427</value>
+    <value>200, 427</value>
   </data>
   <data name="DMESaveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -199,13 +199,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMESaveButton.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="DMELoadButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="DMELoadButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 427</value>
+    <value>120, 427</value>
   </data>
   <data name="DMELoadButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -226,7 +226,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMELoadButton.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="DMETextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -253,10 +253,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMETextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="DMEOpenFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <data name="DMESaveAsButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>280, 427</value>
+  </data>
+  <data name="DMESaveAsButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 26</value>
+  </data>
+  <data name="DMESaveAsButton.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="DMESaveAsButton.Text" xml:space="preserve">
+    <value>Save As</value>
+  </data>
+  <data name="&gt;&gt;DMESaveAsButton.Name" xml:space="preserve">
+    <value>DMESaveAsButton</value>
+  </data>
+  <data name="&gt;&gt;DMESaveAsButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMESaveAsButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;DMESaveAsButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="DMESaveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>169, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -441,6 +468,12 @@
   </data>
   <data name="&gt;&gt;DMEOpenFileDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMESaveFileDialog.Name" xml:space="preserve">
+    <value>DMESaveFileDialog</value>
+  </data>
+  <data name="&gt;&gt;DMESaveFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>DMEditor</value>

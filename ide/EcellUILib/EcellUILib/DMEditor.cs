@@ -37,6 +37,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
+using Ecell.Plugin;
+
 namespace Ecell.IDE
 {
     /// <summary>
@@ -169,7 +171,6 @@ namespace Ecell.IDE
             DMESaveButtonClick(DMESaveButton, e);
             DMCompiler.Compile(m_path, m_env);
         }
-        #endregion
 
         private void DMEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -177,6 +178,41 @@ namespace Ecell.IDE
 
         }
 
+        protected virtual void DMESaveAsButton_Click(object sender, EventArgs e)
+        {
+            DMESaveFileDialog.Filter = Constants.FilterDMFile;           
+            if (DMESaveFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            string path = DMESaveFileDialog.FileName;
+            string dmName = Path.GetFileNameWithoutExtension(path);
 
+            if (!dmName.EndsWith(Constants.xpathProcess) &&
+                !dmName.EndsWith(Constants.xpathStepper))
+            {
+                Util.ShowWarningDialog(MessageResources.WarnDMName);
+                return;
+            }
+            
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(path, false, Encoding.UTF8);
+                writer.Write(DMETextBox.Text);
+                AddDMDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateAddDM) as AddDMDelegate;
+                if (dlg != null)
+                    dlg(dmName, path);
+                m_path = path;
+            }
+            finally
+            {
+                if (writer != null)
+                {
+                    writer.Close();
+                }
+            }
+        }
+        #endregion
     }
 }

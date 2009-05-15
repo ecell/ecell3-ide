@@ -129,6 +129,9 @@
   <data name="DMELoadButton.Text" xml:space="preserve">
     <value>開く</value>
   </data>
+  <data name="DMESaveAsButton.Text" xml:space="preserve">
+    <value>別名で保存</value>
+  </data>
   <data name="DMESaveButton.Text" xml:space="preserve">
     <value>保存</value>
   </data>

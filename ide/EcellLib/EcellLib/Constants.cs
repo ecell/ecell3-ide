@@ -504,10 +504,11 @@ namespace Ecell
         #endregion
 
         #region Delegate
+        public const string delegateAddDM = "AddDynamicModule";
+        public const string delegateSaveSimulationResult = "SaveSimulationResult";
+        public const string delegateSetDockContents = "SetDockContents";
         public const string delegateShowGridDialog = "ShowJobStatusDialog";
         public const string delegateShowPropertyWindow = "ShowPropertyWindow";
-        public const string delegateSetDockContents = "SetDockContents";
-        public const string delegateSaveSimulationResult = "SaveSimulationResult";
         #endregion
 
         /// <summary>

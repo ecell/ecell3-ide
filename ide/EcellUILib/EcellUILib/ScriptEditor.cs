@@ -102,5 +102,30 @@ namespace Ecell.IDE
             }
             DMEComileButton.Enabled = true;
         }
+
+
+        protected override void DMESaveAsButton_Click(object sender, EventArgs e)
+        {
+            DMESaveFileDialog.Filter = Constants.FilterEssFile;
+            if (DMESaveFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            string path = DMESaveFileDialog.FileName;
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(path, false, Encoding.UTF8);
+                writer.Write(DMETextBox.Text);
+                m_path = path;
+            }
+            finally
+            {
+                if (writer != null)
+                {
+                    writer.Close();
+                }
+            }
+        }
     }
 }

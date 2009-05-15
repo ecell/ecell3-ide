@@ -180,4 +180,7 @@
   <data name="NameProperty" xml:space="preserve">
     <value>property name</value>
   </data>
+  <data name="WarnDMName" xml:space="preserve">
+    <value>Please input the name whose suffix is "Process" or "Stepper".</value>
+  </data>
 </root>

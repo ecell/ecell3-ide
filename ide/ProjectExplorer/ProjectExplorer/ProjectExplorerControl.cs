@@ -264,13 +264,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 if (!Util.IsDMFile(d))
                     continue;
-                DMNode dNode = new DMNode(d);
-                dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
-                dNode.SelectedImageIndex = dNode.ImageIndex;
-                dNode.Tag = d;
-                dNode.ContextMenuStrip = this.contextMenuStripDM;
-                m_DMNode.Nodes.Add(dNode);
+                AddDM(d, null);
             }
+        }
+        public void AddDM(string dmName, string path)
+        {
+            DMNode dNode = new DMNode(dmName);
+            dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
+            dNode.SelectedImageIndex = dNode.ImageIndex;
+            dNode.Tag = dmName;
+            dNode.ContextMenuStrip = this.contextMenuStripDM;
+            m_DMNode.Nodes.Add(dNode);
         }
 
         /// <summary>

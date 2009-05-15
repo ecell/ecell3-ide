@@ -180,4 +180,7 @@
   <data name="NameProperty" xml:space="preserve">
     <value>プロパティ名</value>
   </data>
+  <data name="WarnDMName" xml:space="preserve">
+    <value>DMの名前は、ProcessもしくはStepperで終わる必要があります。</value>
+  </data>
 </root>
