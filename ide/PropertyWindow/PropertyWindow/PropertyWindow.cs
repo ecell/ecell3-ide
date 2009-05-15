@@ -248,7 +248,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 if (!d.Value.IsDouble || !d.Gettable)
                     continue;
-                double value = m_env.DataManager.GetPropertyValue(d.EntityPath);
+                double value;
+                if (m_current.Type.Equals(Constants.xpathStepper))
+                {
+                    value = m_env.DataManager.GetPropertyValue4Stepper(m_current.Key, d.Name);
+                }
+                else
+                {
+                    value = m_env.DataManager.GetPropertyValue(d.EntityPath);
+                }
                 foreach (DataGridViewRow row in m_dgv.Rows)
                 {
                     if ((string)row.Cells[0].Value != d.Name)

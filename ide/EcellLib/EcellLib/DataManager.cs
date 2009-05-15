@@ -5008,6 +5008,24 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Get the current value with name of stepper.
+        /// </summary>
+        /// <param name="stepperID">StepperID.</param>
+        /// <param name="name">parameter name.</param>
+        /// <returns></returns>
+        public double GetPropertyValue4Stepper(string stepperID, string name)
+        {
+            try
+            {
+                return (double)m_currentProject.Simulator.GetStepperProperty(stepperID, name);
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrPropData, name), ex);
+            }
+        }
+
         #endregion
 
         #region Mehtod for Logger
