@@ -318,7 +318,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Save the result of robust analysis to the file.
         /// </summary>
-        /// <param name="fileName">the save file name.</param>
+        /// <param name="writer">the save file name.</param>
         public void SaveRobustAnalysisResult(StreamWriter writer)
         {
             writer.WriteLine("#ROBUST");

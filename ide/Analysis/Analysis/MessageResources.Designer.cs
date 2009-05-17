@@ -151,6 +151,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   Cannot load the file[ {0} ]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadFile {
+            get {
+                return ResourceManager.GetString("ErrLoadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoInput {
@@ -169,7 +178,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Cannot save {0}. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot save the file [ {0} ]. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveFile {
             get {

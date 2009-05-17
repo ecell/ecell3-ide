@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DA6AB870-F791-478E-AE09-7A670F4AFBDE}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -111,6 +111,8 @@
       <DependentUpon>BifurcationSettingDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Calculator.cs" />
+    <Compile Include="AnalysisFile\AnalysisParameterFile.cs" />
+    <Compile Include="AnalysisFile\BifurcationAnlaysisParameterFile.cs" />
     <Compile Include="GraphResultWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -243,7 +245,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\SensitivityResult.ico" />
     <None Include="Resources\GraphResult.ico" />
     <None Include="Resources\ParameterEstimationResult.ico" />

@@ -35,11 +35,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using System.IO;
 
 using Ecell.Job;
 using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Plugin;
 using Ecell.Objects;
+
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
@@ -886,6 +889,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
+                // test code
+                //BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(m_env, dialog.FileName, "");
+                //f.Parameter = m_bifurcateParameter;
+                //f.Read();
+
                 m_rWin.LoadResultFile(dialog.FileName);
             }
         }
@@ -1081,6 +1089,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="directory">the directory of save.</param>
         public override void SaveModel(string modelID, string directory)
         {
+            // test code
+            //string path = Path.Combine(directory, "bifurcation.param");
+            //BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(m_env, path, modelID);
+            //f.Parameter = m_bifurcateParameter;
+            //f.Write();
         }
 
         /// <summary>
