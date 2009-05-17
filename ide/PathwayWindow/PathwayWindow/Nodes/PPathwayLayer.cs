@@ -98,10 +98,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 obj.Visible = this.Visible;
                 obj.Pickable = this.Visible;
-                if (!(obj is PPathwayNode))
+                if (!(obj is PPathwayEntity))
                     continue;
 
-                PPathwayNode node = (PPathwayNode)obj;
+                PPathwayEntity node = (PPathwayEntity)obj;
                 foreach (PPathwayLine line in node.Relations)
                 {
                     line.VisibleChange();
@@ -138,7 +138,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             List<PPathwayObject> list = new List<PPathwayObject>();
             foreach (PPathwayObject obj in GetNodes())
             {
-                if (obj is PPathwayNode && rect.Contains(obj.CenterPointF))
+                if (obj is PPathwayEntity && rect.Contains(obj.CenterPointF))
                     list.Add(obj);
                 else if (rect.Contains(obj.Rect))
                     list.Add(obj);

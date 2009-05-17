@@ -56,7 +56,6 @@ namespace Ecell.Action
         /// <summary>
         /// The constructor for DeleteStepperAction with initial parameters.
         /// </summary>
-        /// <param name="paramID">The parameter ID deleted the stepper.</param>
         /// <param name="stepper">The deleted stepper.</param>
         public DeleteStepperAction(EcellObject stepper)
         {

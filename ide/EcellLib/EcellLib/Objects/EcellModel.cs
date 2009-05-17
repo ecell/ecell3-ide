@@ -101,6 +101,7 @@ namespace Ecell.Objects
                 ChangeModelIDforChildren(this);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -118,6 +119,7 @@ namespace Ecell.Objects
             get { return m_modelFile; }
             set { m_modelFile = value; }
         }
+
         /// <summary>
         /// Layer list of this model.
         /// </summary>
@@ -135,6 +137,7 @@ namespace Ecell.Objects
                 GetEcellData(EcellLayer.Layers).Settable = false;
             }
         }
+
         /// <summary>
         /// List of EcellSystems int this model.
         /// </summary>
@@ -142,6 +145,7 @@ namespace Ecell.Objects
         {
             get { return m_systems; }
         }
+
         /// <summary>
         /// Dictionary of stepper list in this model.
         /// List with Simulation parameter.

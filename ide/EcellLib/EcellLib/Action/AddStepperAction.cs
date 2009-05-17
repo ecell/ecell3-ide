@@ -56,7 +56,6 @@ namespace Ecell.Action
         /// <summary>
         /// The constructor for AddStepperAction with initial parameters.
         /// </summary>
-        /// <param name="paramID">The parameter ID added the stepper.</param>
         /// <param name="stepper">The stepper object.</param>
         public AddStepperAction(EcellObject stepper)
         {

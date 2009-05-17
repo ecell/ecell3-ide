@@ -52,7 +52,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// <summary>
     /// PPathwayObject for E-Cell variable.
     /// </summary>
-    public class PPathwayProcess : PPathwayNode
+    public class PPathwayProcess : PPathwayEntity
     {
         #region Static readonly fields
         #endregion
@@ -186,8 +186,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             foreach (PPathwayLine line in m_relations)
             {
-                if (line.Parent != null)
-                    line.Parent.RemoveChild(line);
+                line.RemoveFromParent();
                 line.Dispose();
             }
             m_relations.Clear();

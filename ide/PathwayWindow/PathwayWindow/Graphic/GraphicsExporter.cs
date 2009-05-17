@@ -116,9 +116,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
             }
 
             // Create Node Parameter.
-            if (obj is PPathwayNode)
+            if (obj is PPathwayEntity)
             {
-                PText propText = ((PPathwayNode)obj).PPropertyText;
+                PText propText = ((PPathwayEntity)obj).PPropertyText;
                 if (propText.Visible && !string.IsNullOrEmpty(propText.Text))
                 {
                     PointF pos = new PointF(propText.X, propText.Y + SVGUtil.SVG_FONT_SIZE);

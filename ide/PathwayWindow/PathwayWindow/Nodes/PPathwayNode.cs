@@ -1,4 +1,4 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
@@ -24,198 +24,335 @@
 //
 //END_HEADER
 //
-// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
-//
-// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing.Drawing2D;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Diagnostics;
+
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
-using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using Ecell.Objects;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
-    /// Super class for piccolo object of variable, process, etc.
+    /// Base object for Pathway.
     /// </summary>
-    public class PPathwayNode : PPathwayObject
+    public class PPathwayNode: PNode, IDisposable
     {
-        #region Fields(readonly)
         /// <summary>
-        /// The default width of object.
-        /// </summary>
-        public const float DEFAULT_WIDTH = 60;
-        /// <summary>
-        /// The default height of object.
-        /// </summary>
-        public const float DEFAULT_HEIGHT = 40;
-        #endregion
-
-        #region Fields
-        /// <summary>
-        /// PText for showing this object's ID.
-        /// </summary>
-        protected PText m_pPropertyText;
-
-        /// <summary>
-        /// list of relations.
-        /// </summary>
-        protected List<PPathwayLine> m_relations = new List<PPathwayLine>();
-
-        /// <summary>
-        /// Figure List
-        /// </summary>
-        protected IFigure m_tempFigure = null;
-        #endregion
-
-        #region Accessors
-        /// <summary>
-        /// 
-        /// </summary>
-        public override bool Selected
-        {
-            get
-            {
-                return base.Selected;
-            }
-            set
-            {
-                foreach (PPathwayLine line in m_relations)
-                {
-                    line.Selected = value;
-                }
-                base.Selected = value;
-            }
-        }
-        /// <summary>
-        /// RelatedProcesses
-        /// </summary>
-        public List<PPathwayLine> Relations
-        {
-            get { return m_relations; }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual PText PPropertyText
-        {
-            get { return m_pPropertyText; }
-            set { m_pPropertyText = value; }
-        }
-        #endregion
-
-        #region Constructors
-        /// <summary>
-        /// constructor for PPathwayNode.
+        /// Constructor
         /// </summary>
         public PPathwayNode()
         {
-            this.Width = DEFAULT_WIDTH;
-            this.Height = DEFAULT_HEIGHT;
-            this.VisibleChanged += new PPropertyEventHandler(PPathwayNode_VisibleChanged);
-            m_tempFigure = new EllipseFigure(-5, -5, 10, 10);
-            // PropertyText
-            m_pPropertyText = new PText();
-            m_pPropertyText.Pickable = false;
-            this.AddChild(m_pPropertyText);
-        }
-        #endregion
-
-        #region EventHandlers
-        /// <summary>
-        /// event on visibility change.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void PPathwayNode_VisibleChanged(object sender, PPropertyEventArgs e)
-        {
-            Refresh();
         }
 
+        #region IDisposable メンバ
         /// <summary>
-        /// event on double click this object.
+        /// Event on Dispose
         /// </summary>
-        /// <param name="e"></param>
-        public override void OnDoubleClick(PInputEventArgs e)
+        public virtual void Dispose()
         {
-            if (m_canvas == null)
-                return;
-            m_canvas.Control.Menu.SetCreateLineHandler(this);
         }
 
         #endregion
 
-        #region Methods
+        #region Merged from PPath
         /// <summary>
-        /// Create new instance of this class.
+        /// default Pen is Black.
         /// </summary>
-        /// <returns></returns>
-        public override PPathwayObject CreateNewObject()
+        protected static readonly Pen DEFAULT_PEN = Pens.Black;
+
+        /// <summary>
+        /// GraphicsPath.
+        /// </summary>
+        [NonSerialized]
+        protected GraphicsPath m_path = new GraphicsPath();
+
+        /// <summary>
+        /// Pen written this node.
+        /// </summary>
+        [NonSerialized]
+        protected Pen m_pen = DEFAULT_PEN;
+
+        /// <summary>
+        /// tempolary GraphicsPath.
+        /// </summary>
+        [NonSerialized]
+        protected static GraphicsPath m_tempPath = new GraphicsPath();
+
+        /// <summary>
+        /// tempolary region.
+        /// </summary>
+        [NonSerialized]
+        protected static Region m_tempRegion = new Region();
+
+        /// <summary>
+        /// tempolary matrix.
+        /// </summary>
+        [NonSerialized]
+        protected static PMatrix TEMP_MATRIX = new PMatrix();
+
+        /// <summary>
+        /// the flag whether bound from path.
+        /// </summary>
+        [NonSerialized]
+        protected bool m_updatingBoundsFromPath;
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
+        /// </summary>
+        public virtual GraphicsPath Path
         {
-            return new PPathwayNode();
+            get { return m_path; }
         }
+
+        /// <summary>
+        /// Gets or sets the pen used when rendering this node.
+        /// </summary>
+        /// <value>The pen used when rendering this node.</value>
+        public virtual Pen Pen
+        {
+            get { return m_pen; }
+            set
+            {
+                m_pen = value;
+                AddPen(value);
+            }
+        }
+
+        #region Path Support
+        //****************************************************************
+        // Path Support - Methods for manipulating the underlying path.
+        // See System.Drawing.Drawing2D.GraphicsPath documentation for
+        // more information on using these methods.
+        //****************************************************************
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.Reset">GraphicsPath.Reset</see>.
+        /// </summary>
+        public virtual void Reset()
+        {
+            m_path.Reset();
+            UpdateBoundsFromPath();
+            InvalidatePaint();
+        }
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
+        /// </summary>
+        public virtual void AddPath(GraphicsPath path, bool connect)
+        {
+            m_path.Reset();
+            m_path.AddPath(path, connect);
+            FirePropertyChangedEvent(new object(), PPath.PROPERTY_CODE_PATH, null, path);
+            UpdateBoundsFromPath();
+            InvalidatePaint();
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        protected override void RefreshText()
+        /// <param name="pen"></param>
+        public virtual void AddPen(Pen pen)
         {
-            base.RefreshText();
-            m_pPropertyText.X = base.X + 5;
-            m_pPropertyText.Y = base.Y - 15;
+            UpdateBoundsFromPath();
+            InvalidatePaint();
+            FirePropertyChangedEvent(new object(), PPath.PROPERTY_CODE_PEN, null, pen);
         }
 
         /// <summary>
-        /// calculate the point of contact this Node.
+        /// This method is called to update the bounds whenever the underlying path changes.
         /// </summary>
-        /// <param name="refPoint">reference point.</param>
-        /// <returns></returns>
-        public PointF GetContactPoint(PointF refPoint)
+        public virtual void UpdateBoundsFromPath()
         {
-            // Set Figure List
-            if (base.m_setting == null)
-                return base.CenterPointF;
-            IFigure figure;
-            if (m_isViewMode && this is PPathwayProcess)
-                figure = m_tempFigure;
+            m_updatingBoundsFromPath = true;
+            if (m_path == null || m_path.PointCount == 0)
+            {
+                ResetBounds();
+            }
             else
-                figure = base.m_figure;
-            if (figure == null)
-                return base.CenterPointF;
+            {
+                try
+                {
+                    m_tempPath.Reset();
+                    m_tempPath.AddPath(m_path, false);
+                    if (m_pen != null && m_tempPath.PointCount > 0)
+                        m_tempPath.Widen(m_pen);
+                    RectangleF b = m_tempPath.GetBounds();
+                    SetBounds(b.X, b.Y, b.Width, b.Height);
+                }
+                catch (OutOfMemoryException ex)
+                {
+                    Trace.WriteLine(ex);
+                    //Catch the case where the path is a single point
+                }
+            }
+            m_updatingBoundsFromPath = false;
+        }
+        #endregion
 
-            return figure.GetContactPoint(refPoint, CenterPointF);
+        #region Methods to control Bounds
+        //****************************************************************
+        // Bounds - Methods for manipulating/updating the bounds of a
+        // PProcess.
+        //****************************************************************
+
+        /// <summary>
+        /// Overridden.  Set the bounds of this path.
+        /// </summary>
+        /// <param name="x">The new x-coordinate of the bounds/</param>
+        /// <param name="y">The new y-coordinate of the bounds.</param>
+        /// <param name="width">The new width of the bounds.</param>
+        /// <param name="height">The new height of the bounds.</param>
+        /// <returns>True if the bounds have changed; otherwise, false.</returns>
+        /// <remarks>
+        /// This works by scaling the path to fit into the specified bounds.  This normally
+        /// works well, but if the specified base bounds get too small then it is impossible
+        /// to expand the path shape again since all its numbers have tended to zero, so
+        /// application code may need to take this into consideration.
+        /// </remarks>
+        protected override void InternalUpdateBounds(float x, float y, float width, float height)
+        {
+            if (m_updatingBoundsFromPath)
+                return;
+
+            RectangleF pathBounds = m_path.GetBounds();
+
+            if (m_pen != null && m_path.PointCount > 0)
+            {
+                try
+                {
+                    m_tempPath.Reset();
+                    m_tempPath.AddPath(m_path, false);
+
+                    m_tempPath.Widen(m_pen);
+                    RectangleF penPathBounds = m_tempPath.GetBounds();
+
+                    float strokeOutset = Math.Max(penPathBounds.Width - pathBounds.Width,
+                        penPathBounds.Height - pathBounds.Height);
+
+                    x += strokeOutset / 2;
+                    y += strokeOutset / 2;
+                    width -= strokeOutset;
+                    height -= strokeOutset;
+                }
+                catch (OutOfMemoryException ex)
+                {
+                    Trace.WriteLine(ex);
+                    // Catch the case where the path is a single point
+                }
+            }
+
+            float scaleX = (width == 0 || pathBounds.Width == 0) ? 1 : width / pathBounds.Width;
+            float scaleY = (height == 0 || pathBounds.Height == 0) ? 1 : height / pathBounds.Height;
+
+            TEMP_MATRIX.Reset();
+            TEMP_MATRIX.TranslateBy(x, y);
+            TEMP_MATRIX.ScaleBy(scaleX, scaleY);
+            TEMP_MATRIX.TranslateBy(-pathBounds.X, -pathBounds.Y);
+
+            m_path.Transform(TEMP_MATRIX.MatrixReference);
         }
 
         /// <summary>
-        /// String expression of this object.
+        /// Returns true if this path intersects the given rectangle.
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <remarks>
+        /// This method first checks if the interior of the path intersects with the rectangle.
+        /// If not, the method then checks if the path bounding the pen stroke intersects with
+        /// the rectangle.  If either of these cases are true, this method returns true.
+        /// <para>
+        /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
+        /// to the implementation of IsVisible.  The problem usually occurs when many lines are
+        /// joined at very steep angles.  
+        /// </para>
+        /// </remarks>
+        /// <param name="bounds">The rectangle to check for intersection.</param>
+        /// <returns>True if this path intersects the given rectangle; otherwise, false.</returns>
+        public override bool Intersects(RectangleF bounds)
         {
-            return base.ToString() + ", Text.X:" + PText.X + ", Text.Y:" + PText.Y
-                + ", Text.OffsetX:" + PText.OffsetX + ", Text.OffsetY:" + PText.OffsetY;
+            // Call intersects with the identity matrix.
+            PMatrix matrix = new PMatrix();
+            bool isIntersects = false;
+            if (base.Intersects(bounds))
+            {
+                // Transform the bounds.
+                if (!matrix.IsIdentity) bounds = matrix.Transform(bounds);
+
+                // Set the temp region to the transformed path.
+                SetTempRegion(m_path, matrix, false);
+
+                if (Brush != null && m_tempRegion.IsVisible(bounds))
+                {
+                    isIntersects = true;
+                }
+                else if (m_pen != null)
+                {
+                    // Set the temp region to the transformed, widened path.
+                    SetTempRegion(m_path, matrix, true);
+                    isIntersects = m_tempRegion.IsVisible(bounds);
+                }
+            }
+            return isIntersects;
         }
 
         /// <summary>
-        /// Refresh
+        /// Sets the temp region to the transformed path, widening the path if
+        /// requested to do so.
         /// </summary>
-        public override void Refresh()
+        private void SetTempRegion(GraphicsPath path, PMatrix matrix, bool widen)
         {
-            foreach (PPathwayLine line in m_relations)
-                line.Refresh();
-            base.Refresh();
+            m_tempPath.Reset();
+
+            if (path.PointCount > 0)
+            {
+                m_tempPath.AddPath(path, false);
+
+                if (widen)
+                {
+                    m_tempPath.Widen(m_pen, matrix.MatrixReference);
+                }
+                else
+                {
+                    m_tempPath.Transform(matrix.MatrixReference);
+                }
+            }
+
+            m_tempRegion.MakeInfinite();
+            m_tempRegion.Intersect(m_tempPath);
         }
+        #endregion
+
+        #region Painting
+        //****************************************************************
+        // Painting - Methods for painting a PPathwayObject.
+        //****************************************************************
+        /// <summary>
+        /// Overridden.  See <see cref="PNode.Paint">PNode.Paint</see>.
+        /// </summary>
+        protected override void Paint(PPaintContext paintContext)
+        {
+            Brush b = this.Brush;
+            Graphics g = paintContext.Graphics;
+
+            if (b != null)
+            {
+                g.FillPath(b, m_path);
+            }
+
+            if (m_pen != null)
+            {
+                g.DrawPath(m_pen, m_path);
+            }
+        }
+        #endregion
         #endregion
     }
 }

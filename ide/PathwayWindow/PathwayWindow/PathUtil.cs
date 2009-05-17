@@ -41,6 +41,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using Ecell;
 using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -110,6 +111,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             return newName;
 
+        }
+
+        /// <summary>
+        /// Set PathwayLayout to EcellObject. 
+        /// </summary>
+        /// <param name="eo"></param>
+        /// <param name="obj"></param>
+        public static void SetLayout(EcellObject eo, PPathwayObject obj)
+        {
+            eo.Layer = obj.Layer.Name;
+            eo.X = obj.X + obj.OffsetX;
+            eo.Y = obj.Y + obj.OffsetY;
+            eo.Width = obj.Width;
+            eo.Height = obj.Height;
+            eo.OffsetX = 0f;
+            eo.OffsetY = 0f;
+            eo.isFixed = false;
         }
 
         /// <summary>

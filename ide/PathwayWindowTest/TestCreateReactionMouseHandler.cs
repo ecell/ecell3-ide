@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         [Test()]
         public void TestSetStartNode()
         {
-            Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayNode obj = null;
+            Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayEntity obj = null;
             _unitUnderTest.SetStartNode(obj);
             Assert.Fail("Create or modify test(s).");
 

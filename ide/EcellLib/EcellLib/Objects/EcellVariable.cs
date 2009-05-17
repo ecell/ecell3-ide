@@ -65,6 +65,24 @@ namespace Ecell.Objects
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<EcellLayout> Aliases
+        {
+            get
+            {
+                EcellValue aliases = this.GetEcellValue(EcellLayout.Aliases);
+                return EcellLayout.ConvertFromEcellValue(aliases);
+            }
+            set
+            {
+                EcellValue aliases = EcellLayout.ConvertToEcellValue(value);
+                SetEcellValue(EcellLayout.Aliases, aliases);
+                GetEcellData(EcellLayout.Aliases).Settable = false;
+            }
+
+        }
         #endregion
 
         #region Methods

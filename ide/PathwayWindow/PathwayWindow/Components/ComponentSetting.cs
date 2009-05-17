@@ -392,6 +392,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         }
 
         /// <summary>
+        /// CreateBrush
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Brush CreateBrush(GraphicsPath path)
+        {
+            // Create and set FillBrush.
+            Brush brush;
+            if (m_isGradation)
+            {
+                brush = BrushManager.CreateGradientBrush(path, m_centerBrush, m_fillBrush);
+            }
+            else
+            {
+                brush = m_fillBrush;
+            }
+            return brush;
+        }
+
+        /// <summary>
         /// Create IconImage from file / FigureBase.
         /// </summary>
         /// <returns></returns>

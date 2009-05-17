@@ -652,8 +652,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Change data.
             obj.EcellObject = eo;
-
-            m_canvas.SetPosition(obj);
+            m_canvas.SetLayer(obj);
+            obj.RefreshView();
         }
 
         /// <summary>
@@ -1117,18 +1117,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isRecorded,
             bool isAnchor)
         {
-            EcellObject eo = m_window.GetEcellObject(obj.EcellObject);
             try
             {
+                EcellObject eo = m_window.GetEcellObject(obj.EcellObject);
                 eo.Key = newKey;
-                eo.Layer = obj.Layer.Name;
-                eo.X = obj.X + obj.OffsetX;
-                eo.Y = obj.Y + obj.OffsetY;
-                eo.Width = obj.Width;
-                eo.Height = obj.Height;
-                eo.OffsetX = 0f;
-                eo.OffsetY = 0f;
-                eo.isFixed = false;
+                PathUtil.SetLayout(eo, obj);
 
                 NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
             }

@@ -48,7 +48,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// <summary>
     /// Subclass of PPathwayNode for variable of E-Cell.
     /// </summary>
-    public class PPathwayVariable : PPathwayNode
+    public class PPathwayVariable : PPathwayEntity
     {
         #region Field.
         /// <summary>
@@ -78,17 +78,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
             // Remove current alias
             foreach (PPathwayAlias alias in m_aliases)
-                this.RemoveChild(alias);
+                alias.RemoveFromParent();
 
             // Set alias
-            foreach (EcellObject eo in m_ecellObj.Children)
+            EcellVariable variable = (EcellVariable)m_ecellObj;
+            foreach (EcellLayout layout in variable.Aliases)
             {
-                PPathwayAlias alias = new PPathwayAlias();
-                alias.Setting = m_setting;
-                alias.EcellObject = eo;
-                m_canvas.SetLayer(alias);
+                PPathwayAlias alias = new PPathwayAlias(this);
+                alias.X = layout.X;
+                alias.Y = layout.Y;
+                alias.Brush = m_setting.CreateBrush(alias.Path);
+                m_layer.AddChild(alias);
                 m_aliases.Add(alias);
-                alias.RefreshView();
             }
         }
 
@@ -113,13 +114,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public override void Dispose()
         {
+            // Clear Lines
             foreach (PPathwayLine line in m_relations)
             {
-                if (line.Parent != null)
-                    line.Parent.RemoveChild(line);
+                line.RemoveFromParent();
                 line.Dispose();
             }
             m_relations.Clear();
+            // Clear Aliases
+            foreach (PPathwayAlias alias in m_aliases)
+            {
+                alias.RemoveFromParent();
+                alias.Dispose();
+            }
+            m_aliases.Clear();
             base.Dispose();
         }
     }

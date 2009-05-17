@@ -303,9 +303,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set
             {
                 m_showingId = value;
-                foreach (PPathwayNode node in m_variables.Values)
+                foreach (PPathwayEntity node in m_variables.Values)
                     node.ShowingID = m_showingId;
-                foreach (PPathwayNode node in m_processes.Values)
+                foreach (PPathwayEntity node in m_processes.Values)
                     node.ShowingID = m_showingId;
                 foreach (PPathwaySystem system in m_systems.Values)
                     system.ShowingID = m_showingId;
@@ -565,8 +565,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Register
             RegisterObject(obj);
-            if (obj is PPathwayNode)
-                ((PPathwayNode)obj).ShowingID = this.m_showingId;
+            if (obj is PPathwayEntity)
+                ((PPathwayEntity)obj).ShowingID = this.m_showingId;
 
             // Set ParentObject.
             string sysKey = obj.EcellObject.ParentSystemID;
@@ -579,7 +579,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set Position.
             // If obj hasn't coordinate, it will be settled. 
-            if (obj is PPathwayNode)
+            if (obj is PPathwayEntity)
             {
                 obj.AddInputEventListener(new NodeDragHandler(this));
                 if (m_con.Window.IsLoading)
@@ -860,7 +860,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_layers.Remove(name);
             m_overviewCanvas.RemoveObservedLayer(layer);
             m_pCanvas.Camera.RemoveLayer(layer);
-            m_pCanvas.Root.RemoveChild(layer);
+            layer.RemoveFromParent();
         }
 
         /// <summary>
@@ -888,7 +888,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // if obj is root system or layerID is null.
             PPathwayLayer layer = m_defaultLayer;
             string layerID = obj.EcellObject.Layer;
-
             if (obj.EcellObject.Key.Equals(Constants.delimiterPath) || string.IsNullOrEmpty(layerID))
             {
                 // Set default layer.
@@ -1016,7 +1015,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_layers.Remove(name);
             m_overviewCanvas.RemoveObservedLayer(layer);
             m_pCanvas.Camera.RemoveLayer(layer);
-            m_pCanvas.Root.RemoveChild(layer);
+            layer.RemoveFromParent();
             NotifyLayerChange(isAnchored);
         }
 
@@ -1168,9 +1167,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         /// <param name="pointF"></param>
         /// <returns></returns>
-        public PPathwayNode GetPickedNode(PointF pointF)
+        public PPathwayEntity GetPickedNode(PointF pointF)
         {
-            PPathwayNode pickedObj = null;
+            PPathwayEntity pickedObj = null;
             List<PPathwayLayer> layers = new List<PPathwayLayer>();
             layers.Add(m_defaultLayer);
             layers.AddRange(m_layers.Values);
@@ -1179,11 +1178,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 foreach (PPathwayObject obj in layer.GetNodes())
                 {
-                    if (!(obj is PPathwayNode))
+                    if (!(obj is PPathwayEntity))
                         continue;
                     if (!obj.Visible || !obj.Rect.Contains(pointF))
                         continue;
-                    pickedObj = (PPathwayNode)obj;
+                    pickedObj = (PPathwayEntity)obj;
                 }
             }
             return pickedObj;
@@ -1447,7 +1446,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string sysKey = system.EcellObject.Key;
 
             // Move Node.
-            if (obj is PPathwayNode)
+            if (obj is PPathwayEntity)
             {
                 if (DoesSystemContains(newkey, obj.Rect))
                     return;
@@ -1462,19 +1461,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 MakeSpace(system, obj, true);
             }
         }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="obj">Changed value of object.</param>
-        public void SetPosition(PPathwayObject obj)
-        {
-            // Set Layer
-            SetLayer(obj);
-            // Set visibility
-            obj.RefreshView();
-        }
-
 
         /// <summary>
         /// event sequence of deleting the object.
@@ -1522,7 +1508,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj == null)
                 return;
             obj.PText.RemoveFromParent();
-            obj.Parent.RemoveChild(obj);
+            obj.RemoveFromParent();
             obj.Dispose();
         }
         /// <summary>
@@ -1728,7 +1714,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>bool</returns>
         public bool CheckNodePosition(string sysKey, PointF point)
         {
-            PointF center = new PointF(point.X + PPathwayNode.DEFAULT_WIDTH / 2, point.Y + PPathwayNode.DEFAULT_HEIGHT / 2);
+            PointF center = new PointF(point.X + PPathwayEntity.DEFAULT_WIDTH / 2, point.Y + PPathwayEntity.DEFAULT_HEIGHT / 2);
             bool sysContains = false;
             bool childContains = false;
             foreach (PPathwaySystem sys in this.m_systems.Values)
@@ -1975,7 +1961,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     continue;
                 if (obj is PPathwaySystem && !rect.Contains(obj.Rect))
                     continue;
-                if (obj is PPathwayNode && !rect.Contains(obj.CenterPointF))
+                if (obj is PPathwayEntity && !rect.Contains(obj.CenterPointF))
                     continue;
 
                 string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.Key, parentSystemName, newSysKey);
@@ -2035,7 +2021,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
                 obj.Invalid = false;
             }
-            else if (obj is PPathwayNode)
+            else if (obj is PPathwayEntity)
             {
                 newSysKey = GetSurroundingSystemKey(obj.CenterPointF);
                 // When node is out of root.

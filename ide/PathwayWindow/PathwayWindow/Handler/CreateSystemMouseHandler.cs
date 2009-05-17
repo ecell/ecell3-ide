@@ -225,8 +225,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (string.IsNullOrEmpty(m_surSystem))
                 return;
 
-            if (m_selectedPath.Parent != null)
-                m_selectedPath.Parent.RemoveChild(m_selectedPath);
+            m_selectedPath.RemoveFromParent();
             m_selectedPath.Reset();
 
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);

@@ -161,7 +161,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.Reset();
             if (m_template.Parent == null)
                 return;
-            m_template.Parent.RemoveChild(m_template);
+            m_template.RemoveFromParent();
         }
         #endregion
 

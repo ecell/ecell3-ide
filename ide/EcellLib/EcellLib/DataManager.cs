@@ -3090,13 +3090,11 @@ namespace Ecell
         /// <summary>
         /// Updates the "Stepper".
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="stepperList">The list of the "Stepper"</param>
+        /// <param name="orgStepperID">The parameter ID</param>
+        /// <param name="newStepper">The list of the "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
         private void UpdateStepperID(string orgStepperID, EcellObject newStepper, bool isRecorded)
         {
-            string message = null;
-
             try
             {
                 EcellObject oldStepepr = null;
@@ -3147,7 +3145,6 @@ namespace Ecell
         /// <summary>
         /// Deletes the "Stepper".
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
         private void DeleteStepperID(EcellObject stepper)
         {
@@ -3157,7 +3154,6 @@ namespace Ecell
         /// <summary>
         /// Deletes the "Stepper".
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
         private void DeleteStepperID(EcellObject stepper, bool isRecorded)

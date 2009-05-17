@@ -55,12 +55,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Currently selected node.
         /// </summary>
-        private PPathwayNode m_start = null;
+        private PPathwayEntity m_start = null;
 
         /// <summary>
         /// 
         /// </summary>
-        public PPathwayNode StartNode
+        public PPathwayEntity StartNode
         {
             get { return m_start; }
             set { m_start = value; }
@@ -90,7 +90,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.OnMouseDown(sender, e);
 
             CanvasControl canvas = m_con.Canvas;
-            PPathwayNode newNode = canvas.GetPickedNode(e.Position);
+            PPathwayEntity newNode = canvas.GetPickedNode(e.Position);
             // Set start node.
             if (newNode == null)
             {
@@ -220,7 +220,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// Add node, which is to be connected
         /// </summary>
         /// <param name="obj">node which is to be connected</param>
-        public void SetStartNode(PPathwayNode obj)
+        public void SetStartNode(PPathwayEntity obj)
         {
             m_start = obj;
         }

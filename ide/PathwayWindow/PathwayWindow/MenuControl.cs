@@ -798,8 +798,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             bool isNull = (node == null);
             bool isPPathwayObject = (node is PPathwayObject);
-            bool isPPathwayNode = (node is PPathwayNode);
-            bool isPPathwayVariable = false;// (node is PPathwayVariable);
+            bool isPPathwayNode = (node is PPathwayEntity);
+            bool isPPathwayVariable = (node is PPathwayVariable);
             bool isPPathwayAlias = (node is PPathwayAlias);
             bool isPPathwaySystem = (node is PPathwaySystem);
             bool isPPathwayText = (node is PPathwayText);
@@ -974,7 +974,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// SetLineHandler
         /// </summary>
         /// <param name="node"></param>
-        internal void SetCreateLineHandler(PPathwayNode node)
+        internal void SetCreateLineHandler(PPathwayEntity node)
         {
             Handle handle = toolButtonArrow.Handle;
             SetEventHandler(handle);
@@ -1035,18 +1035,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
         }
 #endif
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateAliasClick(object sender, EventArgs e)
         {
             // Check active canvas.
             CanvasControl canvas = m_con.Canvas;
             PPathwayVariable var = (PPathwayVariable)canvas.FocusNode;
-            EcellObject eo = var.EcellObject;
-            EcellObject alias = EcellObject.CreateObject(eo.ModelID, eo.Key, eo.Type, eo.Classname, null);
-            alias.SetPosition(eo);
-            alias.PointF = m_con.MousePosition;
-            eo.Children.Add(alias);
-            m_con.NotifyDataChanged(eo.Key, eo, true, true);
+            EcellVariable variable = (EcellVariable)var.EcellObject;
+            PathUtil.SetLayout(variable, var);
+            List<EcellLayout> aliases = variable.Aliases;
+            aliases.Add(new EcellLayout(m_con.MousePosition));
+            variable.Aliases = aliases;
+            m_con.NotifyDataChanged(variable.Key, variable, true, true);
         }
 
         /// <summary>

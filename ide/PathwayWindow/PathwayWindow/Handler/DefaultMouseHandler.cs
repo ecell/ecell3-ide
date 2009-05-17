@@ -116,8 +116,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseUp(object sender, PInputEventArgs e)
         {
             base.OnMouseUp(sender, e);
-            if (m_selectedPath != null && m_selectedPath.Parent != null)
-                m_selectedPath.Parent.RemoveChild(m_selectedPath);
+            if (m_selectedPath != null)
+                m_selectedPath.RemoveFromParent();
             m_selectedPath = null;
             m_isDragged = false;
             m_con.Canvas.NotifyMoveObjects(true);
