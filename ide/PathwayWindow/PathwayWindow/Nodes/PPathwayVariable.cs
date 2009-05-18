@@ -36,12 +36,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using System.Threading;
-using System.Drawing.Drawing2D;
 using Ecell.Objects;
-using UMD.HCIL.Piccolo;
-using Ecell.IDE.Plugins.PathwayWindow;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -71,27 +66,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
         }
         #endregion
-
-        private void ResetAlias()
-        {
-            if (m_ecellObj == null)
-                return;
-            // Remove current alias
-            foreach (PPathwayAlias alias in m_aliases)
-                alias.RemoveFromParent();
-
-            // Set alias
-            EcellVariable variable = (EcellVariable)m_ecellObj;
-            foreach (EcellLayout layout in variable.Aliases)
-            {
-                PPathwayAlias alias = new PPathwayAlias(this);
-                alias.X = layout.X;
-                alias.Y = layout.Y;
-                alias.Brush = m_setting.CreateBrush(alias.Path);
-                m_layer.AddChild(alias);
-                m_aliases.Add(alias);
-            }
-        }
 
         /// <summary>
         /// 
@@ -127,8 +101,73 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 alias.RemoveFromParent();
                 alias.Dispose();
             }
-            m_aliases.Clear();
             base.Dispose();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="refPoint"></param>
+        /// <returns></returns>
+        public override PointF GetContactPoint(PointF refPoint)
+        {
+            PointF contactPoint = base.GetContactPoint(refPoint);
+            if (m_aliases.Count <= 0)
+                return contactPoint;
+
+            double length =GetLength(refPoint, contactPoint);
+            double tempLength;
+            PointF tempPoint;
+            foreach (PPathwayAlias alias in m_aliases)
+            {
+                tempPoint = m_figure.GetContactPoint(refPoint, alias.CenterPointF);
+                tempLength = GetLength(refPoint, tempPoint);
+                if (tempLength < length)
+                {
+                    length = tempLength;
+                    contactPoint = tempPoint;
+                }
+            }
+            return contactPoint;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="refPoint"></param>
+        /// <param name="contactPoint"></param>
+        /// <returns></returns>
+        private static double GetLength(PointF refPoint, PointF contactPoint)
+        {
+            return Math.Sqrt(Math.Pow((double)(refPoint.X - contactPoint.X), 2) + Math.Pow((double)(refPoint.Y - contactPoint.Y), 2));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ResetAlias()
+        {
+            if (m_ecellObj == null)
+                return;
+            // Remove current alias
+            foreach (PPathwayAlias alias in m_aliases)
+                alias.RemoveFromParent();
+            m_aliases.Clear();
+
+            // Set alias
+            EcellVariable variable = (EcellVariable)m_ecellObj;
+            foreach (EcellLayout layout in variable.Aliases)
+            {
+                PPathwayAlias alias = new PPathwayAlias(this);
+                alias.X = layout.X;
+                alias.Y = layout.Y;
+                alias.Brush = m_setting.CreateBrush(alias.Path);
+                alias.Refresh();
+                PPathwayLayer layer = m_canvas.GetLayer(layout.Layer);
+                layer.AddChild(alias);
+                m_aliases.Add(alias);
+            }
+        }
+
     }
 }

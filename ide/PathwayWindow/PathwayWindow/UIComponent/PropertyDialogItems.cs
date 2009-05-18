@@ -30,11 +30,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {

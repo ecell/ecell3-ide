@@ -27,17 +27,9 @@
 // written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Handler;
-using UMD.HCIL.Piccolo;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent

@@ -33,15 +33,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Runtime.Serialization;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text.RegularExpressions;
-using Ecell;
-using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {

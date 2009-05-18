@@ -29,8 +29,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions

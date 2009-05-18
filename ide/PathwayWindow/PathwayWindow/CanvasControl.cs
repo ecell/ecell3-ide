@@ -35,25 +35,18 @@
 //
 
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Text;
-using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using Ecell.Action;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.Objects;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using UMD.HCIL.PiccoloX.Nodes;
-using UMD.HCIL.Piccolo.Util;
-using UMD.HCIL.Piccolo.Nodes;
-using UMD.HCIL.PiccoloX.Components;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Handler;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
-using Ecell.Objects;
-using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
-using Ecell.Action;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -559,7 +552,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void DataAdd(PPathwayObject obj, bool hasCoords)
         {
             // Set Layer
-            obj.Canvas = this;
             obj.ShowingID = m_showingId;
             SetLayer(obj);
 
@@ -1276,11 +1268,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns></returns>
         public PPathwayLayer GetLayer(string layerName)
         {
-            PPathwayLayer layer = null;
-            if (layerName.Equals(LayerView.DEFAULT_LAYER))
-                layer = m_defaultLayer;
+            PPathwayLayer layer;
+            if (m_layers.ContainsKey(layerName))
+                layer = m_layers[layerName];
             else
-                m_layers.TryGetValue(layerName, out layer);
+                layer = m_defaultLayer;
             return layer;
         }
         /// <summary>

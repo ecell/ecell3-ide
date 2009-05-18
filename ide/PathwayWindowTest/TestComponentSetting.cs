@@ -50,20 +50,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestCreateNewComponent()
-        {
-            Ecell.Objects.EcellObject eo = null;
-            Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject expectedPPathwayObject = null;
-            Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject resultPPathwayObject = null;
-            resultPPathwayObject = _unitUnderTest.CreateNewComponent(eo);
-            Assert.AreEqual(expectedPPathwayObject, resultPPathwayObject, "CreateNewComponent method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>

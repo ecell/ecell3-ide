@@ -31,7 +31,6 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 

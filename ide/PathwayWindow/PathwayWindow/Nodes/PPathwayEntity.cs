@@ -31,18 +31,13 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using Ecell.Objects;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using System;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -181,20 +176,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         /// <param name="refPoint">reference point.</param>
         /// <returns></returns>
-        public PointF GetContactPoint(PointF refPoint)
+        public virtual PointF GetContactPoint(PointF refPoint)
         {
-            // Set Figure List
-            if (base.m_setting == null)
-                return base.CenterPointF;
-            IFigure figure;
-            if (m_isViewMode && this is PPathwayProcess)
-                figure = m_tempFigure;
-            else
-                figure = base.m_figure;
-            if (figure == null)
-                return base.CenterPointF;
-
-            return figure.GetContactPoint(refPoint, CenterPointF);
+            return m_figure.GetContactPoint(refPoint, CenterPointF);
         }
 
         /// <summary>

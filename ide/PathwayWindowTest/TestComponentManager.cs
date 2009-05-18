@@ -59,19 +59,5 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetDefaultComponentSetting()
-        {
-            string type = null;
-            Ecell.IDE.Plugins.PathwayWindow.Components.ComponentSetting expectedComponentSetting = null;
-            Ecell.IDE.Plugins.PathwayWindow.Components.ComponentSetting resultComponentSetting = null;
-            resultComponentSetting = _unitUnderTest.GetDefaultComponentSetting(type);
-            Assert.AreEqual(expectedComponentSetting, resultComponentSetting, "GetDefaultComponentSetting method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
     }
 }

@@ -28,11 +28,9 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using UMD.HCIL.Piccolo;
 using System.Drawing;
+using UMD.HCIL.Piccolo;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {

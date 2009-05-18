@@ -33,18 +33,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.Drawing;
-using System.Xml;
-using System.Windows.Forms;
 using System.IO;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using System.Diagnostics;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
-using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Components
@@ -365,24 +363,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ComponentSetting GetDefaultComponentSetting(string type)
+        public PPathwayObject CreateNewComponent(string type)
         {
-
+            ComponentSetting setting;
             switch (type)
             {
                 case EcellObject.SYSTEM:
-                    return DefaultSystemSetting;
+                    setting = DefaultSystemSetting;
+                    break;
                 case EcellObject.PROCESS:
-                    return DefaultProcessSetting;
+                    setting = DefaultProcessSetting;
+                    break;
                 case EcellObject.VARIABLE:
-                    return DefaultVariableSetting;
+                    setting = DefaultVariableSetting;
+                    break;
                 case EcellObject.TEXT:
-                    return DefaultTextSetting;
+                    setting = DefaultTextSetting;
+                    break;
                 case EcellObject.STEPPER:
-                    return DefaultStepperSetting;
+                    setting = DefaultStepperSetting;
+                    break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
             }
+            return setting.CreateTemplate();
         }
 
         /// <summary>

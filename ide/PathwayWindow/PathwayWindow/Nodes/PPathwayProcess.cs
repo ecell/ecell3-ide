@@ -36,16 +36,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
-using UMD.HCIL.Piccolo.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
-using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using System.Drawing.Drawing2D;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.Objects;
-using System.Diagnostics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -198,6 +190,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             DeleteEdges();
             base.Dispose();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="refPoint"></param>
+        /// <returns></returns>
+        public override PointF GetContactPoint(PointF refPoint)
+        {
+            if (m_isViewMode && this is PPathwayProcess)
+                return m_tempFigure.GetContactPoint(refPoint, CenterPointF);
+            else
+                return base.GetContactPoint(refPoint);
         }
 
         /// <summary>

@@ -28,17 +28,6 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing.Drawing2D;
-using System.Drawing;
-using System.Diagnostics;
-
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Util;
-using UMD.HCIL.Piccolo.Nodes;
-
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
@@ -55,6 +44,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.m_variable = variable;
             this.AddPath(variable.Figure.GraphicsPath, false);
             this.Brush = variable.Setting.CreateBrush(m_path);
+            this.Text = string.Format("[{0}]", variable.Text);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseDown(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
+        {
+            m_variable.OnMouseDown(e);
+
+            // Set Focus
+            m_variable.Canvas.FocusNode = this;
+
         }
     }
 }

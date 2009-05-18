@@ -29,19 +29,15 @@
 //
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
-using System.Diagnostics;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
-using System.IO;
 using System.Xml;
-using Ecell.Objects;
 using AviFile;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {

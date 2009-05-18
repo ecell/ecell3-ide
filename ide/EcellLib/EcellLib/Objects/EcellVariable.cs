@@ -46,6 +46,7 @@ namespace Ecell.Objects
     public class EcellVariable : EcellObject
     {
         #region Fields
+        List<EcellLayout> m_aliases = new List<EcellLayout>();
         #endregion
 
         #region Constractors
@@ -72,20 +73,25 @@ namespace Ecell.Objects
         {
             get
             {
-                EcellValue aliases = this.GetEcellValue(EcellLayout.Aliases);
-                return EcellLayout.ConvertFromEcellValue(aliases);
+                return this.m_aliases;
             }
-            set
-            {
-                EcellValue aliases = EcellLayout.ConvertToEcellValue(value);
-                SetEcellValue(EcellLayout.Aliases, aliases);
-                GetEcellData(EcellLayout.Aliases).Settable = false;
-            }
-
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override EcellObject Clone()
+        {
+            EcellVariable newVar = (EcellVariable)base.Clone();
+            foreach (EcellLayout layout in m_aliases)
+            {
+                newVar.Aliases.Add(layout.Clone());
+            }
+            return newVar;
+        }
         #endregion
     }
 }

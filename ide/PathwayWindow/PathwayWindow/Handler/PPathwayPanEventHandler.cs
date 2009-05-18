@@ -28,15 +28,10 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UMD.HCIL.Piccolo.Event;
 using System.IO;
-using System.ComponentModel;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {

@@ -32,25 +32,16 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
-using System.Drawing.Drawing2D;
 using System.Drawing;
-using System.Runtime.Serialization;
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Util;
-using UMD.HCIL.Piccolo.Nodes;
-using Ecell;
-using System.ComponentModel;
-using UMD.HCIL.Piccolo.Event;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
-using Ecell.Objects;
-using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using System.Text;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.Handler;
-using System.IO;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
+using Ecell.Objects;
+using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.Piccolo.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -78,14 +69,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
         #endregion
 
-        #region Constant
-        /// <summary>
-        /// Font size of node object.
-        /// </summary>
-        protected const int FONT_SIZE = 10;
-
-        #endregion
-
         #region Fields
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
@@ -101,11 +84,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Parent object.
         /// </summary>
         protected PPathwaySystem m_parentSystem;
-
-        /// <summary>
-        /// PText for showing this object's ID.
-        /// </summary>
-        protected PText m_pText;
 
         /// <summary>
         /// ResizeHandler
@@ -157,7 +135,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// EcellObject for this object.
         /// </summary>
-        protected EcellObject m_ecellObj;
+        protected EcellObject m_ecellObj = null;
 
         /// <summary>
         /// For memorizing a position before the start of a dragging.
@@ -204,11 +182,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public virtual CanvasControl Canvas
         {
             get { return m_canvas; }
-            set
-            {
-                m_canvas = value;
-
-            }
+            set { m_canvas = value; }
         }
         /// <summary>
         /// Accessor for m_layer.
@@ -232,6 +206,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return m_parentSystem; }
             set { m_parentSystem = value; }
         }
+
         /// <summary>
         /// Accessor for Text.
         /// </summary>
@@ -395,80 +370,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 MemorizePosition();
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Top
-        {
-            get { return base.Y + base.OffsetY; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Bottom
-        {
-            get { return base.Y + base.OffsetY + base.Height; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Left
-        {
-            get { return base.X + base.OffsetX; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Right
-        {
-            get { return base.X + base.OffsetX + base.Width; }
-        }
-
-        /// <summary>
-        /// Accessor for X coordinate.
-        /// </summary>
-        public PointF PointF
-        {
-            get { return new PointF(base.X + base.OffsetX, base.Y + base.OffsetY); }
-            set
-            {
-                base.X = value.X;
-                base.Y = value.Y;
-            }
-        }
-        /// <summary>
-        /// acessor for a rectangle of this system.
-        /// </summary>
-        public virtual RectangleF Rect
-        {
-            get
-            {
-                return new RectangleF(base.X + this.OffsetX,
-                                      base.Y + this.OffsetY,
-                                      base.Width,
-                                      base.Height);
-            }
-            set
-            {
-                base.X = value.X;
-                base.Y = value.Y;
-                base.Width = value.Width;
-                base.Height = value.Height;
-            }
-        }
-
-        /// <summary>
-        /// Accessor for X coordinate.
-        /// </summary>
-        public PointF CenterPointF
-        {
-            get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
-            set
-            {
-                base.X = value.X - base.Width / 2f;
-                base.Y = value.Y - base.Height / 2f;
-            }
-        }
 
         #endregion
 
@@ -478,12 +379,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayObject()
         {
-            m_ecellObj = null;
-
-            m_pText = new PText();
-            m_pText.Pickable = false;
-            m_pText.Font = new Font("Arial", FONT_SIZE, FontStyle.Bold);
-            this.AddChild(m_pText);
         }
         #endregion
 
@@ -500,15 +395,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         #endregion
 
         #region Virtual Methods
-        /// <summary>
-        /// Refresh graphical contents of this object.
-        /// ex) Edges of a process can be refreshed by using this.
-        /// </summary>
-        public virtual void Refresh()
-        {
-            RefreshText();
-        }
-
         /// <summary>
         /// Change View Mode.
         /// </summary>
@@ -538,12 +424,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>
-        protected virtual void RefreshText()
+        protected override void RefreshText()
         {
             if (this.m_ecellObj != null)
                 this.m_pText.Text = GetLabelFor(this.m_ecellObj);
-            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
-            this.m_pText.MoveToFront();
+            base.RefreshText();
         }
 
         /// <summary>
@@ -616,16 +501,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.OffsetY = this.m_originalOffsetY;
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
-        }
-
-        /// <summary>
-        /// Set Moving delta.
-        /// </summary>
-        /// <param name="delta"></param>
-        public void MovePosition(PointF delta)
-        {
-            this.OffsetX = this.OffsetX + delta.X;
-            this.OffsetY = this.OffsetY + delta.Y;
         }
 
         #endregion

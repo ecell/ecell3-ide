@@ -30,16 +30,12 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -160,7 +156,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
             m_area.Offset = PointF.Empty;
             m_area.Rect = rect;
-            m_area.Refresh();
             UpdateTransparent();
             Refresh();
         }

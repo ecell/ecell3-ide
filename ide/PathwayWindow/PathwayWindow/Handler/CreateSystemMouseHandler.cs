@@ -30,21 +30,14 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Threading;
-using UMD.HCIL.Piccolo.Event;
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Nodes;
-using UMD.HCIL.PiccoloX.Nodes;
-using UMD.HCIL.Piccolo.Util;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.Objects;
+using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.Piccolo.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {

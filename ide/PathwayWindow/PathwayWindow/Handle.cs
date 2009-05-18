@@ -30,9 +30,6 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UMD.HCIL.Piccolo.Event;
 
 namespace Ecell.IDE.Plugins.PathwayWindow

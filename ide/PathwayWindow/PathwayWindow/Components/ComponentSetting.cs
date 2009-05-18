@@ -37,15 +37,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.Text;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using UMD.HCIL.Piccolo.Util;
 using Ecell.Objects;
-using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Components
 {
@@ -365,18 +361,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
 
             m_createMethod = obj.CreateNewObject;
-        }
-
-        /// <summary>
-        /// This method create a new component with information in this class.
-        /// </summary>
-        /// <param name="eo">EcellObject</param>
-        /// <returns>Created component object</returns>
-        public PPathwayObject CreateNewComponent(EcellObject eo)
-        {
-            PPathwayObject obj = CreateTemplate();
-            obj.EcellObject = eo;
-            return obj;
         }
 
         /// <summary>

@@ -31,17 +31,8 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing.Drawing2D;
-using System.Drawing;
 using System.Windows.Forms;
-using System.ComponentModel;
 using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Nodes;
-using UMD.HCIL.Piccolo.Event;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent

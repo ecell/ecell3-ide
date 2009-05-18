@@ -29,20 +29,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
-using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.Objects;
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
-using UMD.HCIL.Piccolo.Util;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -255,8 +246,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Refresh Line.
         /// </summary>
-        public void Refresh()
+        public override void Refresh()
         {
+            base.Refresh();
             if (m_variable == null || m_process == null)
                 return;
             m_varPoint = m_variable.GetContactPoint(m_process.CenterPointF);

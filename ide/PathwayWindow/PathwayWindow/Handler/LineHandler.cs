@@ -33,14 +33,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.Objects;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using System.ComponentModel;
-using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {

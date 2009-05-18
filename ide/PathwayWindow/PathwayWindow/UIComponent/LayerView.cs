@@ -31,14 +31,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using UMD.HCIL.Piccolo.Nodes;
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Event;
-using System.Diagnostics;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
 using Ecell.Plugin;

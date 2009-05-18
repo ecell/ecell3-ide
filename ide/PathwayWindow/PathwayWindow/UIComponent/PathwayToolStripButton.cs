@@ -28,8 +28,6 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 

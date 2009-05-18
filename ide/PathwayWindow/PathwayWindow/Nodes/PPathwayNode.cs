@@ -29,15 +29,12 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing.Drawing2D;
-using System.Drawing;
 using System.Diagnostics;
-
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
+using UMD.HCIL.Piccolo.Util;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -46,29 +43,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayNode: PNode, IDisposable
     {
+        #region Constant
         /// <summary>
-        /// Constructor
+        /// Font size of node object.
         /// </summary>
-        public PPathwayNode()
-        {
-        }
+        protected const int FONT_SIZE = 10;
 
-        #region IDisposable メンバ
-        /// <summary>
-        /// Event on Dispose
-        /// </summary>
-        public virtual void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region Merged from PPath
         /// <summary>
         /// default Pen is Black.
         /// </summary>
         protected static readonly Pen DEFAULT_PEN = Pens.Black;
 
+        #endregion
+
+        #region Fields
         /// <summary>
         /// GraphicsPath.
         /// </summary>
@@ -81,6 +69,173 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         [NonSerialized]
         protected Pen m_pen = DEFAULT_PEN;
 
+        /// <summary>
+        /// PText for showing this object's ID.
+        /// </summary>
+        protected PText m_pText = new PText();
+        #endregion
+
+        #region Properties
+        #region Properties for Layout
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Top
+        {
+            get { return base.Y + base.OffsetY; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Bottom
+        {
+            get { return base.Y + base.OffsetY + base.Height; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Left
+        {
+            get { return base.X + base.OffsetX; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Right
+        {
+            get { return base.X + base.OffsetX + base.Width; }
+        }
+
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF PointF
+        {
+            get { return new PointF(base.X + base.OffsetX, base.Y + base.OffsetY); }
+            set
+            {
+                base.X = value.X;
+                base.Y = value.Y;
+            }
+        }
+
+        /// <summary>
+        /// acessor for a rectangle of this system.
+        /// </summary>
+        public virtual RectangleF Rect
+        {
+            get
+            {
+                return new RectangleF(base.X + this.OffsetX,
+                                      base.Y + this.OffsetY,
+                                      base.Width,
+                                      base.Height);
+            }
+            set
+            {
+                base.X = value.X;
+                base.Y = value.Y;
+                base.Width = value.Width;
+                base.Height = value.Height;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF CenterPointF
+        {
+            get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
+            set
+            {
+                base.X = value.X - base.Width / 2f;
+                base.Y = value.Y - base.Height / 2f;
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
+        /// </summary>
+        public virtual GraphicsPath Path
+        {
+            get { return m_path; }
+        }
+
+        /// <summary>
+        /// Gets or sets the pen used when rendering this node.
+        /// </summary>
+        /// <value>The pen used when rendering this node.</value>
+        public virtual Pen Pen
+        {
+            get { return m_pen; }
+            set
+            {
+                m_pen = value;
+                AddPen(value);
+            }
+        }
+
+        /// <summary>
+        /// Accessor for Text.
+        /// </summary>
+        public string Text
+        {
+            get { return m_pText.Text; }
+            set
+            {
+                m_pText.Text = value;
+                RefreshText();
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public PPathwayNode()
+        {
+            m_pText.Pickable = false;
+            m_pText.Font = new Font("Arial", FONT_SIZE, FontStyle.Bold);
+            this.AddChild(m_pText);
+        }
+        
+        #endregion
+        /// <summary>
+        /// Refresh graphical contents of this object.
+        /// ex) Edges of a process can be refreshed by using this.
+        /// </summary>
+        public virtual void Refresh()
+        {
+            RefreshText();
+        }
+        
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        protected virtual void RefreshText()
+        {
+            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
+            this.m_pText.MoveToFront();
+        }
+
+
+        #region IDisposable メンバ
+        /// <summary>
+        /// Event on Dispose
+        /// </summary>
+        public virtual void Dispose()
+        {
+        }
+
+        #endregion
+
+        #region Merged from PPath
         /// <summary>
         /// tempolary GraphicsPath.
         /// </summary>
@@ -104,28 +259,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         [NonSerialized]
         protected bool m_updatingBoundsFromPath;
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
-        /// </summary>
-        public virtual GraphicsPath Path
-        {
-            get { return m_path; }
-        }
-
-        /// <summary>
-        /// Gets or sets the pen used when rendering this node.
-        /// </summary>
-        /// <value>The pen used when rendering this node.</value>
-        public virtual Pen Pen
-        {
-            get { return m_pen; }
-            set
-            {
-                m_pen = value;
-                AddPen(value);
-            }
-        }
 
         #region Path Support
         //****************************************************************

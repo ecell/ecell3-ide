@@ -31,12 +31,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Drawing;
-using Ecell.IDE.Plugins.PathwayWindow;
 using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 

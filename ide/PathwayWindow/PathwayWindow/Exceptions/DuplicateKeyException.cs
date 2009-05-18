@@ -27,9 +27,6 @@
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow

@@ -27,16 +27,12 @@
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using UMD.HCIL.Piccolo.Event;
-using UMD.HCIL.Piccolo;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.IO;
+using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using UMD.HCIL.Piccolo.Event;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -45,7 +41,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     /// is displayed in the main canvas. PDisplayedArea has a rectangle shape and painted
     /// with alpha blended color.
     /// </summary>
-    public class PDisplayedArea : PPathwayObject
+    public class PDisplayedArea : PPathwayNode
     {
         /// <summary>
         /// Cursor to move this object.

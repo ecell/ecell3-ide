@@ -36,23 +36,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Event;
-using Ecell.Objects;
-using Ecell.Plugin;
+using System.Windows.Forms;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
-using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.Objects;
+using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -1047,9 +1043,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PPathwayVariable var = (PPathwayVariable)canvas.FocusNode;
             EcellVariable variable = (EcellVariable)var.EcellObject;
             PathUtil.SetLayout(variable, var);
-            List<EcellLayout> aliases = variable.Aliases;
-            aliases.Add(new EcellLayout(m_con.MousePosition));
-            variable.Aliases = aliases;
+            variable.Aliases.Add(new EcellLayout(m_con.MousePosition));
             m_con.NotifyDataChanged(variable.Key, variable, true, true);
         }
 

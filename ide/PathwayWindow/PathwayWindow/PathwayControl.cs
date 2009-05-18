@@ -35,29 +35,18 @@
 //
 
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+using System.Diagnostics;
 using System.Drawing;
-using System.Data;
-using System.Drawing.Drawing2D;
 using System.IO;
-using System.ComponentModel;
-using UMD.HCIL.Piccolo;
-using UMD.HCIL.Piccolo.Event;
-using UMD.HCIL.PiccoloX.Nodes;
-using UMD.HCIL.Piccolo.Util;
-using Ecell.IDE.Plugins.PathwayWindow.Nodes;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
-using Ecell.IDE.Plugins.PathwayWindow.Handler;
-using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
-using Ecell.Plugin;
-using Ecell.Objects;
+using Ecell.Action;
 using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
-using Ecell.Action;
-using System.Drawing.Imaging;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -554,8 +543,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Create PathwayObject and set to canvas.
-            ComponentSetting cs = m_csManager.GetDefaultComponentSetting(eo.Type);
-            PPathwayObject obj = cs.CreateNewComponent(eo);
+            PPathwayObject obj = m_csManager.CreateNewComponent(eo.Type);
+            obj.Canvas = m_canvas;
+            obj.EcellObject = eo;
+
             m_canvas.DataAdd(obj, eo.IsPosSet);
             NotifySetPosition(obj);
         }

@@ -28,15 +28,14 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
 {
     /// <summary>
     /// 
     /// </summary>
-    public class NoSuchComponentKindException : Exception
+    public class NoSuchComponentKindException : EcellException
     {
         /// <summary>
         /// 
