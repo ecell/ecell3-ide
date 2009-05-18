@@ -114,11 +114,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// The number of data for Axis(50).
         /// </summary>
-        private static int s_num = 50;
+        private static int s_num = 10;
         /// <summary>
         /// The number of the interval of skip(5).
         /// </summary>
-        private static int s_skip = 5;
+        private static int s_skip = 3;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
         #endregion

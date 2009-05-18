@@ -2243,7 +2243,9 @@ namespace Ecell
                                 }
                                 else if (data.Value.IsDouble)
                                 {
-                                    data.Value = new EcellValue(XmlConvert.ToDouble(value));
+                                    if (value.Equals("1.79769313486231E+308"))
+                                        value = "+Åá";
+                                    data.Value = new EcellValue(Convert.ToDouble(value));
                                     findFlag = true;
                                 }
                                 else if (data.Value.IsInt)

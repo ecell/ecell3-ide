@@ -201,8 +201,8 @@ namespace Ecell
             tmp.AddProperty("DependentStepperList", false, true, false, false, "", typeof(List<EcellValue>));
             tmp.AddProperty("JacobianRecalculateTheta", true, true, true, true, (double)0.001, typeof(double));
             tmp.AddProperty("MaxIterationNumber", true, true, true, true, 7, typeof(int));
-            tmp.AddProperty("MaxStepInterval", true, true, true, true, (double)1.79769313486e+308, typeof(double));
-            tmp.AddProperty("MinStepInterval", true, true, true, true, (double)2.22507385851e-308, typeof(double));
+            tmp.AddProperty("MaxStepInterval", true, true, true, true, Double.Parse("+Åá"), typeof(double));
+            tmp.AddProperty("MinStepInterval", true, true, true, true, Double.Parse("-Åá"), typeof(double));
             tmp.AddProperty("NextStepInterval", false, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("OriginalStepInterval", true, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("Priority", true, true, true, true, 0, typeof(int));
@@ -243,8 +243,8 @@ namespace Ecell
             tmp = new DynamicModule("FixedDAE1Stepper", "", false, "FixedDAE1Stepper");
             tmp.AddProperty("CurrentTime", false, true, false, false, (double)0.0, typeof(double));
             tmp.AddProperty("DependentStepperList", false, true, false, false, "", typeof(List<EcellValue>));
-            tmp.AddProperty("MaxStepInterval", true, true, true, true, (double)1.79769313486e+308, typeof(double));
-            tmp.AddProperty("MinStepInterval", true, true, true, true, (double)2.22507385851e-308, typeof(double));
+            tmp.AddProperty("MaxStepInterval", true, true, true, true, Double.Parse("+Åá"), typeof(double));
+            tmp.AddProperty("MinStepInterval", true, true, true, true, Double.Parse("-Åá"), typeof(double));
             tmp.AddProperty("NextStepInterval", false, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("OriginalStepInterval", true, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("PerturbationRate", true, true, true, true, (double)1.0000000000000001e-09, typeof(double));
@@ -261,8 +261,8 @@ namespace Ecell
             tmp = new DynamicModule("FixedODE1Stepper", "", false, "FixedODE1Stepper");
             tmp.AddProperty("CurrentTime", false, true, false, false, (double)0.0, typeof(double));
             tmp.AddProperty("DependentStepperList", false, true, false, false, "", typeof(List<EcellValue>));
-            tmp.AddProperty("MaxStepInterval", true, true, true, true, (double)1.79769313486e+308, typeof(double));
-            tmp.AddProperty("MinStepInterval", true, true, true, true, (double)2.22507385851e-308, typeof(double));
+            tmp.AddProperty("MaxStepInterval", true, true, true, true, Double.Parse("+Åá"), typeof(double));
+            tmp.AddProperty("MinStepInterval", true, true, true, true, Double.Parse("-Åá"), typeof(double));
             tmp.AddProperty("NextStepInterval", false, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("OriginalStepInterval", true, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("Priority", true, true, true, true, 0, typeof(int));
@@ -277,8 +277,8 @@ namespace Ecell
             tmp = new DynamicModule("FluxDistributionStepper", "", false, "FluxDistributionStepper");
             tmp.AddProperty("CurrentTime", false, true, false, false, (double)0.0, typeof(double));
             tmp.AddProperty("DependentStepperList", false, true, false, false, "", typeof(List<EcellValue>));
-            tmp.AddProperty("MaxStepInterval", true, true, true, true, (double)1.79769313486e+308, typeof(double));
-            tmp.AddProperty("MinStepInterval", true, true, true, true, (double)2.22507385851e-308, typeof(double));
+            tmp.AddProperty("MaxStepInterval", true, true, true, true, Double.Parse("+Åá"), typeof(double));
+            tmp.AddProperty("MinStepInterval", true, true, true, true, Double.Parse("-Åá"), typeof(double));
             tmp.AddProperty("OriginalStepInterval", true, true, false, false, (double)0.001, typeof(double));
             tmp.AddProperty("Priority", true, true, true, true, 0, typeof(int));
             tmp.AddProperty("ProcessList", false, true, false, false, "", typeof(List<EcellValue>));

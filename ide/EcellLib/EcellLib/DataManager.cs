@@ -1039,6 +1039,7 @@ namespace Ecell
                 // Sets initial conditions.
                 m_currentProject.StepperDic[modelID] = new List<EcellObject>();
                 m_currentProject.StepperDic[modelID].Add(dic[Constants.xpathStepper]);
+                usableList.Add(dic[Constants.xpathStepper]);
                 m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
             }
             //
