@@ -31,13 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParameterEstimationResultWindow));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.PEEstimateView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PEGenerateValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.PEEstimationValue = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,53 +40,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PEEstimateView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PEEstimateView
-            // 
-            this.PEEstimateView.AllowUserToAddRows = false;
-            this.PEEstimateView.AllowUserToDeleteRows = false;
-            this.PEEstimateView.AllowUserToResizeColumns = false;
-            this.PEEstimateView.AllowUserToResizeRows = false;
-            resources.ApplyResources(this.PEEstimateView, "PEEstimateView");
-            this.PEEstimateView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PEEstimateView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.PEEstimateView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.PEEstimateView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2});
-            this.PEEstimateView.Name = "PEEstimateView";
-            this.PEEstimateView.RowHeadersVisible = false;
-            this.PEEstimateView.RowTemplate.Height = 21;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 40F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.FillWeight = 60F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // PEGenerateValue
-            // 
-            resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
-            this.PEGenerateValue.Name = "PEGenerateValue";
-            this.PEGenerateValue.ReadOnly = true;
             // 
             // label1
             // 
@@ -102,12 +52,6 @@
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            // 
-            // PEEstimationValue
-            // 
-            resources.ApplyResources(this.PEEstimationValue, "PEEstimationValue");
-            this.PEEstimationValue.Name = "PEEstimationValue";
-            this.PEEstimationValue.ReadOnly = true;
             // 
             // dataGridView1
             // 
@@ -179,7 +123,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox2);
             this.Name = "ParameterEstimationResultWindow";
-            ((System.ComponentModel.ISupportInitialize)(this.PEEstimateView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -188,13 +131,13 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView PEEstimateView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.TextBox PEGenerateValue;
+//        private System.Windows.Forms.DataGridView PEEstimateView;
+//        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+//        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+//        private System.Windows.Forms.TextBox PEGenerateValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox PEEstimationValue;
+//        private System.Windows.Forms.TextBox PEEstimationValue;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;

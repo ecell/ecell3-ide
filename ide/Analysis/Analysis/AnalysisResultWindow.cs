@@ -277,6 +277,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string line;
 
             ExecuteParameter param = new ExecuteParameter();
+            m_graphResultWindow.PreGraphSet();
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.StartsWith("#"))
@@ -308,6 +309,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
             m_paramResultWindow.AddEstimateParameter(param, data, maxGene);
+            m_graphResultWindow.PostGraphSet();
         }
 
         private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels)
@@ -344,7 +346,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     p.AddParameter(paramDic[j - 1], Convert.ToDouble(ele[j]));
                 }
                 int jobid = m_owner.JobManager.CreateJobEntry(p);
-                m_graphResultWindow.AddJudgementData(jobid, x, y, result);
+                AddJudgementData(jobid, x, y, result);
             }
         }
 
@@ -365,6 +367,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     isFirst = true;
                     readPos++;
+                    continue;
                 }
 
                 if (readPos == 1)

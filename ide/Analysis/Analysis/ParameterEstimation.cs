@@ -520,7 +520,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (j == m_eliteNum)
                 {
-                    tmpList.Add(j, m_execParamList[j]);
+                    tmpList.Add(j, m_elite);
                     continue;
                 }
 

@@ -69,7 +69,7 @@ namespace Ecell.IDE.Plugins.Analysis
             peit.Text = MessageResources.ReflectMenuText;
             peit.Click += new EventHandler(ClickReflectMenu);
             peCntMenu.Items.AddRange(new ToolStripItem[] { peit });
-            PEEstimateView.ContextMenuStrip = peCntMenu;
+            dataGridView1.ContextMenuStrip = peCntMenu;
 
             m_owner = owner;
         }
@@ -83,7 +83,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="generation">the generation.</param>
         public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
         {
-            PEEstimateView.Rows.Clear();
+            dataGridView1.Rows.Clear();
             foreach (string key in param.ParamDic.Keys)
             {
                 DataGridViewRow r = new DataGridViewRow();
@@ -96,10 +96,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 c2.Value = Convert.ToString(param.ParamDic[key]);
                 r.Cells.Add(c2);
 
-                PEEstimateView.Rows.Add(r);
+                dataGridView1.Rows.Add(r);
             }
-            PEEstimationValue.Text = Convert.ToString(result);
-            PEGenerateValue.Text = Convert.ToString(generation);
+            textBox2.Text = Convert.ToString(result);
+            textBox1.Text = Convert.ToString(generation);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ClearResult()
         {
-            PEEstimateView.Rows.Clear();
+            dataGridView1.Rows.Clear();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SaveParameterEstimationResult(StreamWriter writer)
         {
             writer.WriteLine("");
-            foreach (DataGridViewRow r in PEEstimateView.Rows)
+            foreach (DataGridViewRow r in dataGridView1.Rows)
             {
                 foreach (DataGridViewCell c in r.Cells)
                 {
@@ -135,7 +135,7 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ClickReflectMenu(object sender, EventArgs e)
         {
             DataManager manager = m_owner.DataManager;
-            foreach (DataGridViewRow r in PEEstimateView.Rows)
+            foreach (DataGridViewRow r in dataGridView1.Rows)
             {
                 string path = Convert.ToString(r.Cells[0].Value);
                 double v = Convert.ToDouble(r.Cells[1].Value);
