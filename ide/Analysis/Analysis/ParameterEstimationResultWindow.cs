@@ -116,7 +116,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="writer">the save file name.</param>
         public void SaveParameterEstimationResult(StreamWriter writer)
         {
-            writer.WriteLine("#PARAMETER");
+            writer.WriteLine("");
             foreach (DataGridViewRow r in PEEstimateView.Rows)
             {
                 foreach (DataGridViewCell c in r.Cells)
@@ -125,10 +125,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 writer.WriteLine("");
             }
-
-            writer.WriteLine("#VALUE");
-            writer.WriteLine(PEEstimationValue.Text);
-
         }
 
         /// <summary>

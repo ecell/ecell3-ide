@@ -305,10 +305,15 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Save the result of parameter estimation to the file.
         /// </summary>
         /// <param name="writer">the save file name.</param>
-        public void SaveParameterEstimationResult(StreamWriter writer)
+        public void SaveParameterEstimationResult(string fileName, StreamWriter writer)
         {
-            writer.WriteLine("#PARAMETER");
-            writer.WriteLine("#GENERATION");
+            List<string> list = new List<string>();
+            list.Add("Generation");
+            list.Add("Estimation");
+            string metaFile = fileName + ".meta";
+            AnalysisFile.AnalysisResultMetaFile.CreateGenerationData(metaFile, "ParameterEstimation", list);
+//            writer.WriteLine("#PARAMETER");
+//            writer.WriteLine("#GENERATION");
             for (int i = 0; i < m_line.Points.Count; i++)
             {
                 writer.WriteLine(m_line[i].X + "," + m_line[i].Y);
@@ -319,17 +324,19 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Save the result of robust analysis to the file.
         /// </summary>
         /// <param name="writer">the save file name.</param>
-        public void SaveRobustAnalysisResult(StreamWriter writer)
+        public void SaveRobustAnalysisResult(string fileName, StreamWriter writer)
         {
-            writer.WriteLine("#ROBUST");
+//            writer.WriteLine("#ROBUST");
             List<string> paramList = new List<string>();
             for (int ind = 0; ind < RAXComboBox.Items.Count; ind++)
             {
                 string name = RAXComboBox.Items[ind] as string;
-                writer.Write("," + name);
+//                writer.Write("," + name);
                 paramList.Add(name);
             }
-            writer.WriteLine("");
+//            writer.WriteLine("");
+            string metaFile = fileName + ".meta";
+            AnalysisFile.AnalysisResultMetaFile.CreatePlotMetaFile(metaFile, "RobustAnalysis", paramList);
 
             foreach (int jobid in m_win.JobList.Keys)
             {
@@ -348,9 +355,18 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Save the result of bifurcation analysis to the file.
         /// </summary>
         /// <param name="writer">the save file name.</param>
-        public void SaveBifurcationResult(StreamWriter writer)
+        public void SaveBifurcationResult(string fileName, StreamWriter writer)
         {
-            writer.WriteLine("#BIFURCATION");
+            //            writer.WriteLine("#BIFURCATION");
+            List<string> paramList = new List<string>();
+            for (int ind = 0; ind < RAXComboBox.Items.Count; ind++)
+            {
+                string name = RAXComboBox.Items[ind] as string;
+                paramList.Add(name);
+            }
+            string metaFile = fileName + ".meta";
+            AnalysisFile.AnalysisResultMetaFile.CreatePlotMetaFile(metaFile, "BifurcationAnalysis", paramList);
+
             foreach (LineItem c in m_zCnt.GraphPane.CurveList)
             {
                 for (int i = 0; i < c.Points.Count; i++)

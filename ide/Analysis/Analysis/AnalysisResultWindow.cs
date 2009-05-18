@@ -13,6 +13,8 @@ using Ecell.Job;
 using Ecell.Exceptions;
 using Ecell.Plugin;
 
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
+
 namespace Ecell.IDE.Plugins.Analysis
 {
     public partial class AnalysisResultWindow : EcellDockContent
@@ -194,22 +196,29 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 ClearResult();
+                string metaFile = filename + ".meta";
+
+                string analysisName;
+                List<string> labels;
+
+                if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
+                    return;
+
                 reader = new StreamReader(filename, Encoding.ASCII);
 
-                string header = reader.ReadLine();
-                if (header.StartsWith("#BIFURCATION"))
+                if (analysisName.Equals("BifurcationAnalysis"))
                 {
-                    LoadBifurcationResult(reader);
+                    LoadBifurcationResult(reader, labels);
                 }
-                else if (header.StartsWith("#PARAMETER"))
+                else if (analysisName.Equals("ParameterEstimation"))
                 {
-                    LoadParameterEstimationResult(reader);
+                    LoadParameterEstimationResult(reader, labels);
                 }
-                else if (header.StartsWith("#ROBUST"))
+                else if (analysisName.Equals("RobustAnalysis"))
                 {
-                    LoadRobustAnalysisResult(reader);
+                    LoadRobustAnalysisResult(reader, labels);
                 }
-                else if (header.StartsWith("#SENSITIVITY"))
+                else if (analysisName.Equals("SensitivityAnalysis"))
                 {
                     LoadSensitivityAnalysisResult(reader);
                 }
@@ -226,10 +235,20 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
-        private void LoadBifurcationResult(StreamReader reader)
+        private void LoadBifurcationResult(StreamReader reader, List<string> labels)
         {
             List<PointF> list = new List<PointF>();
             string line;
+
+            string xlabel = "";
+            string ylabel = "";
+            if (labels.Count == 2)
+            {
+                xlabel = labels[0];
+                ylabel = labels[1];
+                m_owner.SetResultEntryBox(xlabel, true, false);
+                m_owner.SetResultEntryBox(ylabel, false, true);
+            }
 
             m_graphResultWindow.PreGraphSet();
             while ((line = reader.ReadLine()) != null)
@@ -250,32 +269,23 @@ namespace Ecell.IDE.Plugins.Analysis
             m_graphResultWindow.PostGraphSet();
         }
 
-        private void LoadParameterEstimationResult(StreamReader reader)
+        private void LoadParameterEstimationResult(StreamReader reader, List<string> labels)
         {
-            int readPos = 0;
+            int readPos = 1;
             int maxGene = 0;
+            double data = 0.0;
             string line;
 
             ExecuteParameter param = new ExecuteParameter();
             while ((line = reader.ReadLine()) != null)
             {
-                if (line.StartsWith("#GENERATION"))
+                if (line.StartsWith("#"))
                 {
-                    readPos = 1;
                     continue;
                 }
-                else if (line.StartsWith("#PARAMETER"))
+                else if (line.Length <= 1)
                 {
-                    readPos = 2;
-                    continue;
-                }
-                else if (line.StartsWith("#VALUE"))
-                {
-                    readPos = 3;
-                    continue;
-                }
-                else if (line.StartsWith("#"))
-                {
+                    readPos++;
                     continue;
                 }
 
@@ -283,41 +293,40 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     string[] ele = line.Split(new char[] { ',' });
                     int g = Convert.ToInt32(ele[0]);
-                    if (g > maxGene) maxGene = g;
-                    m_graphResultWindow.AddEstimationData(g, Convert.ToDouble(ele[1]));
+                    double d = Convert.ToDouble(ele[1]);
+                    if (g > maxGene)
+                    {
+                        maxGene = g;
+                        data = d;
+                    }
+                    m_graphResultWindow.AddEstimationData(g, d);
                 }
                 else if (readPos == 2)
                 {
                     string[] ele = line.Split(new char[] { ',' });
                     param.AddParameter(ele[0], Convert.ToDouble(ele[1]));
                 }
-                else if (readPos == 3)
-                {
-                    string[] ele = line.Split(new char[] { ',' });
-                    double v = Convert.ToDouble(ele[0]);
-                    m_paramResultWindow.AddEstimateParameter(param, v, maxGene);
-                }
             }
+            m_paramResultWindow.AddEstimateParameter(param, data, maxGene);
         }
 
-        private void LoadRobustAnalysisResult(StreamReader reader)
+        private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels)
         {
             string line;
             string[] ele;
-            line = reader.ReadLine();
-            ele = line.Split(new char[] { ',' });
-            Dictionary<int, string> paramDic = new Dictionary<int, string>();
-            for (int i = 0; i < ele.Length; i++)
-            {
-                if (String.IsNullOrEmpty(ele[i])) continue;
 
-                if (i == 1)
-                    m_graphResultWindow.SetResultEntryBox(ele[i], true, false);
-                else if (i == 2)
-                    m_graphResultWindow.SetResultEntryBox(ele[i], false, true);
+            Dictionary<int, string> paramDic = new Dictionary<int, string>();
+            int i = 0;
+            foreach (string label in labels)
+            {
+                if (i == 0)
+                    m_graphResultWindow.SetResultEntryBox(label, true, false);
+                else if (i == 1)
+                    m_graphResultWindow.SetResultEntryBox(label, false, true);
                 else
-                    m_graphResultWindow.SetResultEntryBox(ele[i], false, false);
-                paramDic.Add(i, ele[i]);
+                    m_graphResultWindow.SetResultEntryBox(label, false, false);
+                paramDic.Add(i, label);
+                i++;
             }
             while ((line = reader.ReadLine()) != null)
             {
@@ -332,7 +341,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     if (String.IsNullOrEmpty(ele[j])) continue;
                     if (j == 1) x = Convert.ToDouble(ele[j]);
                     if (j == 2) y = Convert.ToDouble(ele[j]);
-                    p.AddParameter(paramDic[j], Convert.ToDouble(ele[j]));
+                    p.AddParameter(paramDic[j - 1], Convert.ToDouble(ele[j]));
                 }
                 int jobid = m_owner.JobManager.CreateJobEntry(p);
                 m_graphResultWindow.AddJudgementData(jobid, x, y, result);
@@ -342,27 +351,20 @@ namespace Ecell.IDE.Plugins.Analysis
         private void LoadSensitivityAnalysisResult(StreamReader reader)
         {
             bool isFirst = true;
-            int readPos = 0;
+            int readPos = 1;
             string line;
             string[] ele;
             int i;
             while ((line = reader.ReadLine()) != null)
             {
-                if (line.StartsWith("#CCC"))
+                if (line.StartsWith("#"))
                 {
-                    isFirst = true;
-                    readPos = 1;
                     continue;
                 }
-                else if (line.StartsWith("#FCC"))
+                if (line.Length <= 1)
                 {
                     isFirst = true;
-                    readPos = 2;
-                    continue;
-                }
-                else if (line.StartsWith("#"))
-                {
-                    continue;
+                    readPos++;
                 }
 
                 if (readPos == 1)
@@ -419,7 +421,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_graphResultWindow.SaveBifurcationResult(writer);
+                m_graphResultWindow.SaveBifurcationResult(fileName, writer);
             }
             catch (Exception)
             {
@@ -442,7 +444,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_graphResultWindow.SaveParameterEstimationResult(writer);
+                m_graphResultWindow.SaveParameterEstimationResult(fileName, writer);
                 m_paramResultWindow.SaveParameterEstimationResult(writer);
             }
             catch (Exception)
@@ -466,7 +468,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_graphResultWindow.SaveRobustAnalysisResult(writer);
+                m_graphResultWindow.SaveRobustAnalysisResult(fileName, writer);
             }
             catch (Exception)
             {
@@ -489,7 +491,7 @@ namespace Ecell.IDE.Plugins.Analysis
             try
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_sensResultWindow.SaveSensitivityAnalysisResult(writer);
+                m_sensResultWindow.SaveSensitivityAnalysisResult(writer, fileName);
             }
             catch (Exception)
             {

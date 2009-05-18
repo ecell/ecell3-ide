@@ -37,6 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using System.IO;
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
@@ -196,10 +197,15 @@ namespace Ecell.IDE.Plugins.Analysis
             SAFCCGridView.Rows.Add(r);
         }
 
-        public void SaveSensitivityAnalysisResult(StreamWriter writer)
+        public void SaveSensitivityAnalysisResult(StreamWriter writer, string fileName)
         {
-            writer.WriteLine("#SENSITIVITY");
-            writer.WriteLine("#CCC");
+            List<string> list = new List<string>();
+            list.Add("CCC");
+            list.Add("FCC");
+            string metaFile = fileName + ".meta";
+            AnalysisResultMetaFile.CreateTableMetaFile(metaFile, "SensitivityAnalysis", list);
+//            writer.WriteLine("#SENSITIVITY");
+//            writer.WriteLine("#CCC");
             foreach (DataGridViewRow r in SACCCGridView.Rows)
             {
                 foreach (DataGridViewCell c in r.Cells)
@@ -211,7 +217,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 writer.WriteLine("");
             }
-            writer.WriteLine("#FCC");
+            writer.WriteLine("");
+//            writer.WriteLine("#FCC");
             foreach (DataGridViewRow r in SAFCCGridView.Rows)
             {
                 foreach (DataGridViewCell c in r.Cells)

@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis.cs" />
+    <Compile Include="AnalysisFile\AnalysisResultMetaFile.cs" />
     <Compile Include="AnalysisFile\ParameterEstimationParameterFile.cs" />
     <Compile Include="AnalysisFile\RobustAnalysisParameterFile.cs" />
     <Compile Include="AnalysisFile\SensitivityAnalysisParameterFile.cs" />
