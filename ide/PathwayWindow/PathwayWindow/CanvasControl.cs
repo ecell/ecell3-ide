@@ -1831,15 +1831,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             try
             {
                 // Check KeyChange.
-                foreach (PPathwayObject obj in GetAllObjects())
+                List<PPathwayObject> all = GetAllObjects();
+                foreach (PPathwayObject obj in all)
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
                         objList.Add(obj);
                 }
                 // Check Moved Object.
-                foreach (PPathwayObject obj in GetAllObjects())
+                foreach (PPathwayObject obj in all)
                 {
-                    if (obj.Offset != PointF.Empty && !objList.Contains(obj))
+                    if (!objList.Contains(obj) && CheckMoved(obj))
                         objList.Add(obj);
                 }
 
@@ -1869,6 +1870,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             m_isOwner = false;
 
+        }
+
+        private static bool CheckMoved(PPathwayObject obj)
+        {
+            if (obj.Offset != PointF.Empty)
+            {
+                return true;
+            }
+            else if (obj is PPathwayVariable)
+            {
+                foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                {
+                    if (alias.Offset != PointF.Empty)
+                        return true;
+                }
+            }
+            return  false;
         }
 
         /// <summary>

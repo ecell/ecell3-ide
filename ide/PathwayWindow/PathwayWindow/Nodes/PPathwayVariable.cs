@@ -65,6 +65,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 ResetAlias();
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<PPathwayAlias> Aliases
+        {
+            get { return m_aliases; }
+        }
+
         #endregion
 
         /// <summary>

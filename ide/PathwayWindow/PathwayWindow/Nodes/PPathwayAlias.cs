@@ -28,6 +28,10 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
+using UMD.HCIL.Piccolo.Event;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
+using System.Windows.Forms;
+
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
@@ -45,6 +49,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.AddPath(variable.Figure.GraphicsPath, false);
             this.Brush = variable.Setting.CreateBrush(m_path);
             this.Text = string.Format("[{0}]", variable.Text);
+
+            this.AddInputEventListener(new NodeDragHandler(variable.Canvas));
         }
 
         /// <summary>
@@ -53,10 +59,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="e"></param>
         public override void OnMouseDown(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-            m_variable.OnMouseDown(e);
+            base.OnMouseDown(e);
+
+            bool isCtrl = (e.Modifiers == Keys.Control);
+            bool isLeft = (e.Button == MouseButtons.Left);
+
+            // Set IsSelect
+            CanvasControl canvas = m_variable.Canvas;
+            bool selected = m_variable.Selected;
+            if (!selected && !isCtrl)
+                canvas.NotifySelectChanged(m_variable);
+            else if (!selected && isCtrl)
+                canvas.NotifyAddSelect(m_variable);
+            else if (selected && isCtrl && isLeft)
+                canvas.NotifyRemoveSelect(m_variable);
+
 
             // Set Focus
-            m_variable.Canvas.FocusNode = this;
+            canvas.FocusNode = this;
 
         }
     }

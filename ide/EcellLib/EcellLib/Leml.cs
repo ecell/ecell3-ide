@@ -38,12 +38,20 @@ namespace Ecell
             {
                 xmlD.Load(filename);
                 XmlNode applicationData = GetNodeByKey(xmlD, LemlConstants.xPathApplication);
+
                 // Load Layers
                 XmlNode layers = GetNodeByKey(applicationData, LemlConstants.xPathLayerList);
                 SetLayers(model, layers);
+
+                // Load Aliases
+                XmlNode aliases = GetNodeByKey(applicationData, LemlConstants.xPathAliasList);
+                SetAliases(model, aliases);
+
                 // Load EcellObjects
                 XmlNode ecellObjects = GetNodeByKey(applicationData, LemlConstants.xPathEcellObjectList);
                 SetEcellObjects(model, ecellObjects);
+
+                // Load Logger
                 XmlNode loggers = GetNodeByKey(applicationData, LemlConstants.xPathLoggerList);
                 SetLogger(env, model, loggers);
             }
@@ -126,6 +134,33 @@ namespace Ecell
                     d.Logged = true;
                     env.LoggerManager.AddLoggerEntry(entry);
                 }
+            }
+        }
+
+        private static void SetAliases(EcellModel model, XmlNode aliases)
+        {
+            if (aliases == null || aliases.ChildNodes.Count <= 0)
+                return;
+
+            foreach (XmlNode node in aliases.ChildNodes)
+            {
+                if (!node.Name.Equals(LemlConstants.xPathAlias))
+                    continue;
+
+                string modelID = GetStringAttribute(node, LemlConstants.xPathModelID);
+                string key = GetStringAttribute(node, LemlConstants.xPathKey);
+                string x = GetStringAttribute(node, LemlConstants.xPathX);
+                string y = GetStringAttribute(node, LemlConstants.xPathY);
+                string layer = GetStringAttribute(node, LemlConstants.xPathLayer);
+                EcellVariable variable = (EcellVariable)GetEcellObject(model, EcellObject.VARIABLE, key);
+                if (variable == null)
+                    continue;
+
+                EcellLayout alias = new EcellLayout();
+                alias.X = float.Parse(x);
+                alias.Y = float.Parse(y);
+                alias.Layer = layer;
+                variable.Aliases.Add(alias);
             }
         }
 
@@ -281,6 +316,19 @@ namespace Ecell
                 }
                 xmlOut.WriteEndElement();
 
+                // Alias
+                xmlOut.WriteStartElement(LemlConstants.xPathAliasList);
+                foreach (EcellObject eo in model.Children)
+                {
+                    foreach (EcellObject child in eo.Children)
+                    {
+                        if (!(child is EcellVariable))
+                            continue;
+                        WriteAliases(xmlOut, child);
+                    }
+                }
+                xmlOut.WriteEndElement();
+
                 // Object settings
                 xmlOut.WriteStartElement(LemlConstants.xPathEcellObjectList);
                 foreach (EcellObject eo in model.Children)
@@ -314,6 +362,24 @@ namespace Ecell
             {
                 if (xmlOut != null) xmlOut.Close();
                 if (fs != null) fs.Close();
+            }
+        }
+
+        private static void WriteAliases(XmlTextWriter xmlOut, EcellObject eo)
+        {
+            EcellVariable var = (EcellVariable)eo;
+            if (var.Aliases.Count <= 0)
+                return;
+
+            foreach (EcellLayout alias in var.Aliases)
+            {
+                xmlOut.WriteStartElement(LemlConstants.xPathAlias);
+                xmlOut.WriteAttributeString(LemlConstants.xPathModelID, eo.ModelID);
+                xmlOut.WriteAttributeString(LemlConstants.xPathKey, eo.Key);
+                xmlOut.WriteAttributeString(LemlConstants.xPathX, alias.X.ToString());
+                xmlOut.WriteAttributeString(LemlConstants.xPathY, alias.Y.ToString());
+                xmlOut.WriteAttributeString(LemlConstants.xPathLayer, alias.Layer);
+                xmlOut.WriteEndElement();
             }
         }
         /// <summary>
@@ -406,6 +472,14 @@ namespace Ecell
         /// 
         /// </summary>
         public const string xPathLayer = "Layer";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathAliasList = "AliasList";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathAlias = "Alias";
         /// <summary>
         /// 
         /// </summary>

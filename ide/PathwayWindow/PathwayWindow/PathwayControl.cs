@@ -1113,6 +1113,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 EcellObject eo = m_window.GetEcellObject(obj.EcellObject);
                 eo.Key = newKey;
                 PathUtil.SetLayout(eo, obj);
+                
+                if (eo is EcellVariable)
+                    ResetAlias((EcellVariable)eo, (PPathwayVariable)obj);
 
                 NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
             }
@@ -1122,6 +1125,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (m_isAnimation)
                     m_animCon.SetPropForSimulation();
                 throw new PathwayException("Error DataChange: " + oldKey, e);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ev"></param>
+        /// <param name="variable"></param>
+        private void ResetAlias(EcellVariable ev, PPathwayVariable variable)
+        {
+            if (variable.Aliases.Count <= 0)
+                return;
+
+            ev.Aliases.Clear();
+            foreach (PPathwayAlias alias in variable.Aliases)
+            {
+                EcellLayout layout = new EcellLayout();
+                layout.X = alias.Left;
+                layout.Y = alias.Top;
+                layout.Layer = ((PPathwayLayer)alias.Parent).Name;
+                ev.Aliases.Add(layout);
             }
         }
 
