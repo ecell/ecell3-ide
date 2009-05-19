@@ -1872,6 +1872,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private static bool CheckMoved(PPathwayObject obj)
         {
             if (obj.Offset != PointF.Empty)
@@ -2069,6 +2074,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             RectangleF rootRect = m_systems[Constants.delimiterPath].Rect;
             return rootRect.Contains(rectF);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool IsInsideRoot(PointF point)
+        {
+            RectangleF rootRect = m_systems[Constants.delimiterPath].Rect;
+            return rootRect.Contains(point);
         }
     }
 }

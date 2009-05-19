@@ -1134,10 +1134,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="variable"></param>
         private void ResetAlias(EcellVariable ev, PPathwayVariable variable)
         {
+            ev.Aliases.Clear();
             if (variable.Aliases.Count <= 0)
                 return;
 
-            ev.Aliases.Clear();
             foreach (PPathwayAlias alias in variable.Aliases)
             {
                 EcellLayout layout = new EcellLayout();

@@ -43,6 +43,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
+        public PPathwayVariable Variable
+        {
+            get { return m_variable; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public PPathwayAlias(PPathwayVariable variable)
         {
             this.m_variable = variable;

@@ -112,6 +112,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripPaste;
         private ToolStripMenuItem toolStripDelete;
         private ToolStripMenuItem toolStripAlias;
+        private ToolStripMenuItem toolStripDeleteAlias;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem toolStripChangeLayer;
         private ToolStripMenuItem toolStripTextAlign;
@@ -236,6 +237,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAlias = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDeleteAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripChangeLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextAlign = new System.Windows.Forms.ToolStripMenuItem();
@@ -292,6 +294,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripDelete,
             this.commonMenu.mergeSystemToolStripMenuItem,
             this.toolStripAlias,
+            this.toolStripDeleteAlias,
             this.toolStripSeparator2,
             this.toolStripTextAlign,
             this.toolStripChangeLayer,
@@ -390,6 +393,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAlias.Size = new System.Drawing.Size(271, 22);
             this.toolStripAlias.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAlias;
             this.toolStripAlias.Click += new System.EventHandler(this.CreateAliasClick);
+            // 
+            // toolStripDeleteAlias
+            // 
+            this.toolStripDeleteAlias.Name = "toolStripDeleteAlias";
+            this.toolStripDeleteAlias.Size = new System.Drawing.Size(271, 22);
+            this.toolStripDeleteAlias.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDeleteAlias;
+            this.toolStripDeleteAlias.Click += new System.EventHandler(this.DeleteAliasClick);
             // 
             // toolStripSeparator2
             // 
@@ -793,18 +803,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PNode node = m_con.Canvas.FocusNode;
 
             bool isNull = (node == null);
-            bool isPPathwayObject = (node is PPathwayObject);
-            bool isPPathwayNode = (node is PPathwayEntity);
-            bool isPPathwayVariable = (node is PPathwayVariable);
-            bool isPPathwayAlias = (node is PPathwayAlias);
-            bool isPPathwaySystem = (node is PPathwaySystem);
-            bool isPPathwayText = (node is PPathwayText);
+            bool isObject = (node is PPathwayObject);
+            bool isEntity = (node is PPathwayEntity);
+            bool isVariable = (node is PPathwayVariable);
+            bool isAlias = (node is PPathwayAlias);
+            bool isSystem = (node is PPathwaySystem);
+            bool isText = (node is PPathwayText);
             bool isRoot = false;
             bool isLine = (node is PPathwayLine);
             bool isOneway = true;
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
-            bool isInsideRoot = m_con.Canvas.Systems[Constants.delimiterPath].Rect.Contains(m_con.MousePosition);
+            bool isInsideRoot = m_con.Canvas.IsInsideRoot(m_con.MousePosition);
 
             // Set Popup menu visibility.
             if (isNull || (!isNull && node.Offset == PointF.Empty))
@@ -818,7 +828,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
 
             // Set popup menu text.
-            if (isPPathwayObject)
+            if (isObject)
             {
                 EcellObject obj = ((PPathwayObject)node).EcellObject;
                 commonMenu.Object = obj;
@@ -834,13 +844,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 isOneway = line.Info.Coefficient != 0;
                 isEffector = line.Info.Direction == EdgeDirection.None;
             }
-            if (isPPathwayText)
+            if (isText)
             {
                 SetTextAlignmenu((PPathwayText)node);
             }
             // Show ObjectID(key).
-            toolStripIdShow.Visible = isPPathwayObject;
-            toolStripSeparator1.Visible = isPPathwayObject;
+            toolStripIdShow.Visible = isObject;
+            toolStripSeparator1.Visible = isObject;
             // Show Line menus.
             toolStripOneWayArrow.Visible = isLine && !isOneway;
             toolStripAnotherArrow.Visible = isLine && isOneway;
@@ -848,26 +858,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripConstant.Visible = isLine && !isEffector;
             toolStripDeleteArrow.Visible = isLine;
             // Show Node / System edit menus.
-            toolStripCut.Visible = isPPathwayObject && !isRoot;
-            toolStripCopy.Visible = isPPathwayObject && !isRoot;
+            toolStripCut.Visible = isObject && !isRoot;
+            toolStripCopy.Visible = isObject && !isRoot;
             toolStripPaste.Visible = isCopiedObject && isInsideRoot;
-            toolStripDelete.Visible = (isPPathwayObject && !isRoot) || isPPathwayText;
-            toolStripAlias.Visible = isPPathwayVariable;
-            toolStripSeparator2.Visible = isPPathwayObject && !isRoot;
+            toolStripDelete.Visible = (isObject && !isRoot) || isText;
+            toolStripSeparator2.Visible = isObject && !isRoot;
+            // Set Alias
+            toolStripAlias.Visible = isVariable;
+            toolStripDeleteAlias.Visible = isAlias;
             // Set Text menu.
-            toolStripTextAlign.Visible = isPPathwayText;
+            toolStripTextAlign.Visible = isText;
             // Show Layer menu.
-            toolStripChangeLayer.Visible = isPPathwayObject && !isRoot;
-            toolStripMoveFront.Visible = isPPathwayObject && !isRoot;
-            toolStripMoveBack.Visible = isPPathwayObject && !isRoot;
-            toolStripSeparator3.Visible = isPPathwayObject && !isRoot && !isPPathwayText;
+            toolStripChangeLayer.Visible = isObject && !isRoot;
+            toolStripMoveFront.Visible = isObject && !isRoot;
+            toolStripMoveBack.Visible = isObject && !isRoot;
+            toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
-            commonMenu.addToolStripMenuItem.Visible = isPPathwaySystem;
-            commonMenu.mergeSystemToolStripMenuItem.Visible = isPPathwaySystem && !isRoot;
-            commonMenu.loggingToolStripMenuItem.Visible = isPPathwayObject && !isPPathwayText;
-            commonMenu.observedToolStripMenuItem.Visible = isPPathwayObject && !isPPathwayText;
-            commonMenu.parameterToolStripMenuItem.Visible = isPPathwayObject && !isPPathwayText;
-            commonMenu.propertyToolStripMenuItem.Visible = isPPathwayObject;
+            commonMenu.addToolStripMenuItem.Visible = isSystem;
+            commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
+            commonMenu.loggingToolStripMenuItem.Visible = isObject && !isText;
+            commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
+            commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
+            commonMenu.propertyToolStripMenuItem.Visible = isObject;
         }
 
         /// <summary>
@@ -1046,6 +1058,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             variable.Aliases.Add(new EcellLayout(m_con.MousePosition));
             m_con.NotifyDataChanged(variable.Key, variable, true, true);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteAliasClick(object sender, EventArgs e)
+        {
+            // Check active canvas.
+            CanvasControl canvas = m_con.Canvas;
+            PPathwayAlias alias = (PPathwayAlias)canvas.FocusNode;
+
+            PPathwayVariable variable = alias.Variable;
+            variable.Aliases.Remove(alias);
+            alias.RemoveFromParent();
+
+            m_con.NotifyDataChanged(variable, true);
+        }
+
 
         /// <summary>
         /// Called when a delete menu of the context menu is clicked.

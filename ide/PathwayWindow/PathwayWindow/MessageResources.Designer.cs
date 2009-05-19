@@ -277,6 +277,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Delete Alias に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuDeleteAlias {
+            get {
+                return ResourceManager.GetString("CanvasMenuDeleteAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuDeleteLogger {

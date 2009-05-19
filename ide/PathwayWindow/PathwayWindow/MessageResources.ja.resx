@@ -354,4 +354,7 @@
   <data name="ErrCreateAvi" xml:space="preserve">
     <value>動画ファイルの生成に失敗しました。</value>
   </data>
+  <data name="CanvasMenuDeleteAlias" xml:space="preserve">
+    <value>エイリアスの削除</value>
+  </data>
 </root>
