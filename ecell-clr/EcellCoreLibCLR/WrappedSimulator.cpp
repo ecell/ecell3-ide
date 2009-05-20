@@ -134,8 +134,8 @@ namespace EcellCoreLib {
 
     public value struct DMInfo
     {
-        DMInfo(String^ typeName, String^ moduleName, String^ fileName)
-            : typeName_(typeName), moduleName_(moduleName), fileName_(fileName)
+        DMInfo(String^ typeName, String^ moduleName, String^ fileName, String^ description)
+            : typeName_(typeName), moduleName_(moduleName), fileName_(fileName), description_(description)
         {
         }
 
@@ -162,10 +162,19 @@ namespace EcellCoreLib {
                 return fileName_;
             }
         }
+
+        property String^ Description
+        {
+            String^ get()
+            {
+                return description_;
+            }
+        }
     private:
         String^ typeName_;
         String^ moduleName_;
         String^ fileName_;
+        String^ description_;
     };
 
     public enum PropertyType
@@ -432,10 +441,13 @@ namespace EcellCoreLib {
                 const libecs::PropertyInterfaceBase* info(
                     reinterpret_cast< const libecs::PropertyInterfaceBase *>(
                         i->second->getInfo() ) );
+
                 retval->Add(DMInfo(
                     FromCString(info->getTypeName()),
                     FromCString(i->second->getModuleName()),
-                    FromCString(i->second->getFileName())));
+                    FromCString(i->second->getFileName()),
+					FromCString("Description")
+					));
             }
 
             return retval;

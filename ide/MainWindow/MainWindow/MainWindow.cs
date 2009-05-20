@@ -1076,26 +1076,42 @@ namespace Ecell.IDE.MainWindow
             try
             {
                 Project project = m_env.DataManager.CurrentProject;
-                string msg = MessageResources.ConfirmOverwrite;
-                if (project.Info.ProjectType != ProjectType.Project)
-                    msg = string.Format(MessageResources.ErrExistProject, project.Info.Name)
-                            + "\n" + MessageResources.ConfirmOverwrite;
-
-                if (Util.IsExistProject(project.Info.Name)
-                    && !Util.ShowOKCancelDialog(msg)
-                    )
-                {
+                if (!ConfirmOverwrite(project))
                     return;
-                }
 
                 m_env.DataManager.SaveProject();
                 CheckAndReplaceRecentProject(project.Info);
                 m_editCount = 0;
             }
+            catch (Util.CancelException)
+            {
+                return;
+            }
             catch (EcellException e)
             {
                 Util.ShowErrorDialog(e.Message);
             }
+        }
+
+        private bool ConfirmOverwrite(Project project)
+        {
+            if(!Util.IsExistProject(project.Info.Name))
+                return true;
+
+            string msg = MessageResources.ConfirmOverwrite;
+
+            // In case new project.
+            if (project.Info.ProjectType != ProjectType.Project && Util.IsExistProject(project.Info.Name))
+            {
+                msg = string.Format(MessageResources.ErrExistProject, project.Info.Name)
+                        + "\n" + MessageResources.ConfirmOverwrite;
+                return Util.ShowOKCancelDialog(msg);
+            }
+            else if(Path.GetDirectoryName(project.Info.ProjectPath) != project.Info.Name)
+            {
+                return Util.ShowOKCancelDialog(msg);
+            }
+            return true;
         }
 
         /// <summary>

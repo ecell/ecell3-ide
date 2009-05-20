@@ -115,10 +115,8 @@ namespace Ecell
         /// </summary>
         public string Description
         {
-            get
-            {
-                return m_desc;
-            }
+            get { return m_desc; }
+            set { m_desc = value; }
         }
 
         /// <summary>

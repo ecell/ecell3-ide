@@ -108,24 +108,24 @@ namespace Ecell
             m_dmPaths = dmPaths;
 
             // Set dictionary.
-            Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> maps =
-                    new Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>>();
-            Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> modulesToLookup =
-                    new Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>>();
-            maps[Constants.xpathSystem] = new Dictionary<string, List<PathAndModuleNamePair>>();
-            maps[Constants.xpathStepper] = new Dictionary<string, List<PathAndModuleNamePair>>();
-            maps[Constants.xpathProcess] = new Dictionary<string, List<PathAndModuleNamePair>>();
-            maps[Constants.xpathVariable] = new Dictionary<string, List<PathAndModuleNamePair>>();
+            Dictionary<string, Dictionary<string, List<DMModuleInfo>>> maps =
+                    new Dictionary<string, Dictionary<string, List<DMModuleInfo>>>();
+            Dictionary<string, Dictionary<string, List<DMModuleInfo>>> modulesToLookup =
+                    new Dictionary<string, Dictionary<string, List<DMModuleInfo>>>();
+            maps[Constants.xpathSystem] = new Dictionary<string, List<DMModuleInfo>>();
+            maps[Constants.xpathStepper] = new Dictionary<string, List<DMModuleInfo>>();
+            maps[Constants.xpathProcess] = new Dictionary<string, List<DMModuleInfo>>();
+            maps[Constants.xpathVariable] = new Dictionary<string, List<DMModuleInfo>>();
 
             // Look for built-in modules
             {
                 const string dmPath = "<BUILTIN>";
-                Dictionary<string, List<PathAndModuleNamePair>> perDirectoryModuleList =
-                    new Dictionary<string, List<PathAndModuleNamePair>>();
-                perDirectoryModuleList[Constants.xpathSystem] = new List<PathAndModuleNamePair>();
-                perDirectoryModuleList[Constants.xpathStepper] = new List<PathAndModuleNamePair>();
-                perDirectoryModuleList[Constants.xpathProcess] = new List<PathAndModuleNamePair>();
-                perDirectoryModuleList[Constants.xpathVariable] = new List<PathAndModuleNamePair>();
+                Dictionary<string, List<DMModuleInfo>> perDirectoryModuleList =
+                    new Dictionary<string, List<DMModuleInfo>>();
+                perDirectoryModuleList[Constants.xpathSystem] = new List<DMModuleInfo>();
+                perDirectoryModuleList[Constants.xpathStepper] = new List<DMModuleInfo>();
+                perDirectoryModuleList[Constants.xpathProcess] = new List<DMModuleInfo>();
+                perDirectoryModuleList[Constants.xpathVariable] = new List<DMModuleInfo>();
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
 
@@ -135,7 +135,7 @@ namespace Ecell
                     if (string.IsNullOrEmpty(entry.FileName))
                     {
                         perDirectoryModuleList[entry.TypeName].Add(
-                            new PathAndModuleNamePair(dmPath, entry.ModuleName));
+                            new DMModuleInfo(dmPath, entry));
                     }
                 }
             }
@@ -153,12 +153,12 @@ namespace Ecell
                 if (modulePaths.Length == 0)
                     continue;
 
-                Dictionary<string, List<PathAndModuleNamePair>> perDirectoryModuleList =
-                    new Dictionary<string, List<PathAndModuleNamePair>>();
-                perDirectoryModuleList[Constants.xpathSystem] = new List<PathAndModuleNamePair>();
-                perDirectoryModuleList[Constants.xpathStepper] = new List<PathAndModuleNamePair>();
-                perDirectoryModuleList[Constants.xpathProcess] = new List<PathAndModuleNamePair>();
-                perDirectoryModuleList[Constants.xpathVariable] = new List<PathAndModuleNamePair>();
+                Dictionary<string, List<DMModuleInfo>> perDirectoryModuleList =
+                    new Dictionary<string, List<DMModuleInfo>>();
+                perDirectoryModuleList[Constants.xpathSystem] = new List<DMModuleInfo>();
+                perDirectoryModuleList[Constants.xpathStepper] = new List<DMModuleInfo>();
+                perDirectoryModuleList[Constants.xpathProcess] = new List<DMModuleInfo>();
+                perDirectoryModuleList[Constants.xpathVariable] = new List<DMModuleInfo>();
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
 
@@ -179,15 +179,15 @@ namespace Ecell
                     if (moduleType == null)
                         continue; // XXX: what are we supposed to do here?
 
-                    List<PathAndModuleNamePair> pairs = null;
+                    List<DMModuleInfo> pairs = null;
                     maps[moduleType].TryGetValue(moduleName, out pairs);
                     if (pairs == null)
                     {
-                        pairs = new List<PathAndModuleNamePair>();
+                        pairs = new List<DMModuleInfo>();
                         maps[moduleType][moduleName] = pairs;
                     }
 
-                    PathAndModuleNamePair pair = new PathAndModuleNamePair(modulePath, moduleName);
+                    DMModuleInfo pair = new DMModuleInfo(modulePath, moduleName, "");
                     pairs.Add(pair);
                     perDirectoryModuleList[moduleType].Add(pair);
                 }
@@ -200,7 +200,7 @@ namespace Ecell
             descs[Constants.xpathVariable] = new Dictionary<string, DMDescriptor>();
             descs[Constants.xpathStepper] = new Dictionary<string, DMDescriptor>();
 
-            foreach (KeyValuePair<string, Dictionary<string, List<PathAndModuleNamePair>>> kv in modulesToLookup)
+            foreach (KeyValuePair<string, Dictionary<string, List<DMModuleInfo>>> kv in modulesToLookup)
             {
                 WrappedSimulator sim = new WrappedSimulator(new string[] { kv.Key });
                 {
@@ -211,25 +211,25 @@ namespace Ecell
                 Trace.WriteLine("Checking DMs in " + kv.Key);
 
                 // Test System DMs.
-                foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathSystem])
+                foreach (DMModuleInfo pair in kv.Value[Constants.xpathSystem])
                 {
                     LoadEntityDM(Constants.xpathSystem, descs, sim, pair);
                 }
 
                 // Test Process DMs.
-                foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathProcess])
+                foreach (DMModuleInfo pair in kv.Value[Constants.xpathProcess])
                 {
                     LoadEntityDM(Constants.xpathProcess, descs, sim, pair);
                 }
 
                 // Test Variable DMs.
-                foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathVariable])
+                foreach (DMModuleInfo pair in kv.Value[Constants.xpathVariable])
                 {
                     LoadEntityDM(Constants.xpathVariable, descs, sim, pair);
                 }
 
                 // Test Stepper DMs.
-                foreach (PathAndModuleNamePair pair in kv.Value[Constants.xpathStepper])
+                foreach (DMModuleInfo pair in kv.Value[Constants.xpathStepper])
                 {
                     LoadStepperDM(descs, sim, pair);
                 }
@@ -244,7 +244,7 @@ namespace Ecell
         /// <param name="descs"></param>
         /// <param name="sim"></param>
         /// <param name="pair"></param>
-        private static void LoadStepperDM(Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, PathAndModuleNamePair pair)
+        private static void LoadStepperDM(Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo pair)
         {
             try
             {
@@ -275,26 +275,27 @@ namespace Ecell
         /// <param name="descs"></param>
         /// <param name="sim"></param>
         /// <param name="pair"></param>
-        private static void LoadEntityDM(string type, Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, PathAndModuleNamePair pair)
+        private static void LoadEntityDM(string type, Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo info)
         {
             try
             {
-                Trace.WriteLine("Checking properties for " + pair.ModuleName);
-                string id = Util.BuildFullID(type, "/", pair.ModuleName);
-                sim.CreateEntity(pair.ModuleName, id);
+                Trace.WriteLine("Checking properties for " + info.ModuleName);
+                string id = Util.BuildFullID(type, "/", info.ModuleName);
+                sim.CreateEntity(info.ModuleName, id);
 
                 // Get PropertyDescriptors
                 Dictionary<string, PropertyDescriptor> pdescs = GetEntityPropertyDescriptors(sim, id);
 
                 // Check DynamicProperty
                 bool dynamic = CheckDynamicProperty(sim, id, pdescs);
-
-                descs[type][pair.ModuleName] =
-                    new DMDescriptor(pair.ModuleName, pair.Path, type, dynamic, pdescs);
+                DMDescriptor desc = new DMDescriptor(info.ModuleName, info.Path, type, dynamic, pdescs);
+                desc.Description = info.Description;
+                descs[type][info.ModuleName] = desc;
+                    
             }
             catch (Exception)
             {
-                Trace.WriteLine("Failed to load " + pair.ModuleName);
+                Trace.WriteLine("Failed to load " + info.ModuleName);
                 //Trace.WriteLine(e.StackTrace);
             }
         }
@@ -413,9 +414,9 @@ namespace Ecell
     /// <summary>
     /// InnerClass to manage DM file.
     /// </summary>
-    public class PathAndModuleNamePair
+    public class DMModuleInfo
     {
-        #region MyRegion
+        #region Fields
         /// <summary>
         /// 
         /// </summary>
@@ -424,9 +425,13 @@ namespace Ecell
         /// 
         /// </summary>
         private string m_moduleName;
+        /// <summary>
+        /// 
+        /// </summary>
+        private string m_description;
         #endregion
 
-        #region MyRegion
+        #region Properties
         /// <summary>
         /// File Path.
         /// </summary>
@@ -442,18 +447,38 @@ namespace Ecell
         {
             get { return m_moduleName; }
         }
+        /// <summary>
+        /// Name of DM
+        /// </summary>
+        public string Description
+        {
+            get { return m_description; }
+        }
         #endregion
 
-        #region MyRegion
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="info"></param>
+        public DMModuleInfo(string path, DMInfo info)
+        {
+            m_path = path;
+            m_moduleName =info.ModuleName;
+            m_description = info.Description;
+        }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="path"></param>
         /// <param name="moduleName"></param>
-        public PathAndModuleNamePair(string path, string moduleName)
+        /// <param name="description"></param>
+        public DMModuleInfo(string path, string moduleName, string description)
         {
             m_path = path;
             m_moduleName = moduleName;
+            m_description = description;
         }
         #endregion
     }

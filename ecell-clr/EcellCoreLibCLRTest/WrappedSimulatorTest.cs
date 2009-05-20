@@ -227,5 +227,15 @@ namespace EcellCoreLibCLRTest
                 Assert.That(e.FullID, Is.EqualTo("Process:/:TEST"));
             }
         }
+
+        [Test]
+        public void TestGetDescriptor()
+        {
+            IList<DMInfo> list = s.GetDMInfo();
+            foreach (DMInfo info in list)
+            {
+
+            }
+        }
     }
 }
