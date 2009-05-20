@@ -45,6 +45,9 @@
             this.importDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.plotGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,10 +74,9 @@
             this.exportRevisionEMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportRevisionZipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripStepper = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stepperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             createNewDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStrip1.SuspendLayout();
@@ -152,7 +154,9 @@
             // 
             this.contextMenuStripDM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.compileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.propertyToolStripMenuItem});
             this.contextMenuStripDM.Name = "contextMenuStripDM";
             resources.ApplyResources(this.contextMenuStripDM, "contextMenuStripDM");
             // 
@@ -184,6 +188,24 @@
             this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
             resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
             this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.TreeViewExportModel);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stepperToolStripMenuItem});
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
+            // 
+            // stepperToolStripMenuItem
+            // 
+            this.stepperToolStripMenuItem.Name = "stepperToolStripMenuItem";
+            resources.ApplyResources(this.stepperToolStripMenuItem, "stepperToolStripMenuItem");
+            this.stepperToolStripMenuItem.Click += new System.EventHandler(this.TreeViewAddStepper);
             // 
             // contextMenuStripLog
             // 
@@ -351,29 +373,22 @@
             this.contextMenuStripStepper.Name = "contextMenuStripStepper";
             resources.ApplyResources(this.contextMenuStripStepper, "contextMenuStripStepper");
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
-            // 
-            // addToolStripMenuItem
-            // 
-            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.stepperToolStripMenuItem});
-            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
-            // 
-            // stepperToolStripMenuItem
-            // 
-            this.stepperToolStripMenuItem.Name = "stepperToolStripMenuItem";
-            resources.ApplyResources(this.stepperToolStripMenuItem, "stepperToolStripMenuItem");
-            this.stepperToolStripMenuItem.Click += new System.EventHandler(this.TreeViewAddStepper);
-            // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDeleteStepper);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            // 
+            // propertyToolStripMenuItem
+            // 
+            this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
+            resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
+            this.propertyToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDMProperty);
             // 
             // ProjectExplorerControl
             // 
@@ -443,6 +458,8 @@
         private System.Windows.Forms.ToolStripMenuItem stepperToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripStepper;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
 
     }
 }

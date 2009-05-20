@@ -507,8 +507,17 @@ namespace Ecell
         public string[] GetDMDirs()
         {
             List<string> list = new List<string>();
-            list.AddRange(m_info.DMDirList);
-            list.AddRange(Util.GetDMDirs(m_info.ProjectPath));
+            foreach (string name in m_info.DMDirList)
+            {
+                if (list.Contains(name)) continue;
+                list.Add(name);
+            }
+            foreach (string name in Util.GetDMDirs(m_info.ProjectPath))
+            {
+                if (list.Contains(name)) continue;
+                list.Add(name);
+            }
+
             return list.ToArray();
         }
         /// <summary>

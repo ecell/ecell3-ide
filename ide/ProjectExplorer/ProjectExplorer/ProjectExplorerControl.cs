@@ -1470,6 +1470,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.DataManager.DataAdd(sobj);
             }
         }
+
+        private void TreeViewDMProperty(object sender, EventArgs e)
+        {
+            DMDescriptor desc = null;
+            string dmName = m_lastSelectedNode.Text;
+            if (dmName.EndsWith(Constants.xpathProcess))
+            {
+                desc = m_owner.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathProcess, dmName);
+            }
+            else if (dmName.EndsWith(Constants.xpathStepper))
+            {
+                desc = m_owner.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, dmName);
+            }
+            if (desc == null) return;
+            Util.ShowNoticeDialog(desc.Description);
+        }
         #endregion
 
         #region ShortCuts
@@ -1514,7 +1530,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
-
     }
 
     #region Node classes
