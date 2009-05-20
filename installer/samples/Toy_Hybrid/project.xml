@@ -5,5 +5,5 @@
   <Project>Toy_Hybrid</Project>
   <Date>2008/04/10 13:28:55</Date>
   <Comment>Toy model of the Hybrid Dynamic/Static Simulation Method.</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

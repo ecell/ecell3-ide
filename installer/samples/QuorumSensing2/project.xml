@@ -5,5 +5,5 @@
   <Project>QuorumSensing2</Project>
   <Date>2008/04/10 13:43:48</Date>
   <Comment>A synthetic oscillatory network model with quorum sensing (multicellular model). Garcia-Ojalvo et al. (2004) Proc. Natl. Acad. Sci.101(30),10955-10960.</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

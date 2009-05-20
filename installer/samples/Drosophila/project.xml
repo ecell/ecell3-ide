@@ -5,5 +5,5 @@
   <Project>Drosophila</Project>
   <Date>2008/04/09 17:07:41</Date>
   <Comment>the oscillating Drosophila period protein(PER)</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

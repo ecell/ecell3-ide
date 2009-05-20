@@ -5,5 +5,5 @@
   <Project>cascade</Project>
   <Date>2008/04/09 17:05:45</Date>
   <Comment>a simple cascade of oscillators model</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

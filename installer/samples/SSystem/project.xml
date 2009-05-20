@@ -5,5 +5,5 @@
   <Project>SSystem</Project>
   <Date>2008/04/10 13:23:02</Date>
   <Comment>example model for SSytem</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

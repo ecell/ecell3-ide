@@ -5,5 +5,5 @@
   <Project>heatshock</Project>
   <Date>2008/04/10 10:46:43</Date>
   <Comment>a simple model of E.coli heat shock</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

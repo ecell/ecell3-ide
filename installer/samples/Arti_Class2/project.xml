@@ -5,5 +5,5 @@
   <Project>Arti_Class2</Project>
   <Date>2008/04/09 17:01:20</Date>
   <Comment>calcium oscillations by J.Sneyd et. al(2006, PNAS 103:1675-1680). - JST:2006 Poster -</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

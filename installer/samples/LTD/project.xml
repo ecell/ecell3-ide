@@ -5,5 +5,5 @@
   <Project>LTD</Project>
   <Date>2008/04/10 10:46:43</Date>
   <Comment>Long-term depression (LTD) in cerebellar Purkinje cells (PCs) (ito, 1989)</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>

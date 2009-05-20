@@ -5,5 +5,5 @@
   <Project>Arti_Class1</Project>
   <Date>2008/04/09 16:59:34</Date>
   <Comment>calcium oscillations by A.Arti et. al(1993, Biophysical Journal 65:1727-1739). - JST:2006 Poster -</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
+  <SimulationParameter>DefaultSets</SimulationParameter>
 </ECellProject>
