@@ -1077,7 +1077,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_con.NotifyDataChanged(variable, true);
         }
 
-
         /// <summary>
         /// Called when a delete menu of the context menu is clicked.
         /// </summary>

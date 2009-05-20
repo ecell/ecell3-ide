@@ -372,4 +372,10 @@
   <data name="NameJobTopDir" xml:space="preserve">
     <value>トップディレクトリ</value>
   </data>
+  <data name="InfoStartSim" xml:space="preserve">
+    <value>シミュレーションを開始しました。</value>
+  </data>
+  <data name="InfoStartStepSim" xml:space="preserve">
+    <value>ステップ実行を開始しました[{0}]。</value>
+  </data>
 </root>

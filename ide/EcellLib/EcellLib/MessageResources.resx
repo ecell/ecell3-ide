@@ -374,4 +374,10 @@ New revision {0}:{1} was created.</value>
   <data name="NameJobTopDir" xml:space="preserve">
     <value>Top directory</value>
   </data>
+  <data name="InfoStartSim" xml:space="preserve">
+    <value>Start simulation.</value>
+  </data>
+  <data name="InfoStartStepSim" xml:space="preserve">
+    <value>Start step simulation [{0}].</value>
+  </data>
 </root>

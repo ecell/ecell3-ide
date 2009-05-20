@@ -692,6 +692,24 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Start simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoStartSim {
+            get {
+                return ResourceManager.GetString("InfoStartSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start step simulation [{0}]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoStartStepSim {
+            get {
+                return ResourceManager.GetString("InfoStartStepSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The simulation was suspended at [{0}]. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoSuspend {

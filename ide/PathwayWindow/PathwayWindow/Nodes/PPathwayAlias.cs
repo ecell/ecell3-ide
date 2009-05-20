@@ -31,6 +31,7 @@
 using UMD.HCIL.Piccolo.Event;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -39,7 +40,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayAlias : PPathwayNode
     {
+        /// <summary>
+        /// 
+        /// </summary>
         PPathwayVariable m_variable = null;
+
+        /// <summary>
+        /// Whether this object is highlighted or not.
+        /// </summary>
+        protected bool m_selected = false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -47,6 +57,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             get { return m_variable; }
         }
+
+        /// <summary>
+        /// Accessor for m_isHighLighted.
+        /// </summary>
+        public virtual bool Selected
+        {
+            get { return this.m_selected; }
+            set
+            {
+                this.m_selected = value;
+                //if (value)
+                //{
+                //    this.Brush = m_highLightBrush;
+                //    this.m_pText.Brush = m_highLightBrush;
+                //}
+                //else
+                //{
+                //    this.Brush = m_fillBrush;
+                //    this.m_pText.Brush = Brushes.Transparent;
+                //    RefreshView();
+                //}
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

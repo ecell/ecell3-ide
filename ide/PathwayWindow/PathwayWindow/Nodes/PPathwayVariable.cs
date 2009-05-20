@@ -69,6 +69,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
+        public override bool Selected
+        {
+            get
+            {
+                return base.Selected;
+            }
+            set
+            {
+                base.Selected = value;
+                foreach (PPathwayAlias alias in m_aliases)
+                {
+                    alias.Selected = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public List<PPathwayAlias> Aliases
         {
             get { return m_aliases; }

@@ -315,6 +315,8 @@ namespace Ecell
             engine.AddToPath(Directory.GetCurrentDirectory());
             engine.AddToPath(Util.GetAnalysisDir());
             string scriptFile = fileName;
+            m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
+            m_env.Console.Flush();
 
             MemoryStream standardOutput = new MemoryStream();
             engine.SetStandardOutput(standardOutput);
@@ -326,7 +328,6 @@ namespace Ecell
             string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
 
             m_env.Console.WriteLine(stdOut);
-            m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
             m_env.Console.Flush();
         }
 
@@ -424,6 +425,9 @@ namespace Ecell
                 List<EcellData> ecellDataList = new List<EcellData>();
                 ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
+                // Send Message.
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
+                m_env.Console.Flush();
 
                 // Load DMs.
                 m_env.DMDescriptorKeeper.Load(project.GetDMDirs());
@@ -448,11 +452,6 @@ namespace Ecell
 
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
-                // Send Message.
-                m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
-                m_env.Console.Flush();
-                Trace.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
-
                 m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
             }
             catch (Exception ex)
@@ -3368,6 +3367,8 @@ namespace Ecell
                     msg = MessageResources.SimulationRestarted;
                 }
                 m_currentProject.SimulationStatus = SimulationStatus.Run;
+                m_env.Console.WriteLine(MessageResources.InfoStartSim);
+                m_env.Console.Flush();
                 m_env.LogManager.Append(new ApplicationLogEntry(
                         MessageType.Information,
                         msg,
@@ -3424,6 +3425,8 @@ namespace Ecell
                 stoppedTime = cTime + m_remainTime;
 
                 m_currentProject.SimulationStatus = SimulationStatus.Run;
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoStartStepSim, "t:" + time.ToString()));
+                m_env.Console.Flush();
                 while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     lock (m_currentProject.Simulator)
@@ -3497,6 +3500,8 @@ namespace Ecell
                 stoppedTime = cTime + m_remainTime;
 
                 m_currentProject.SimulationStatus = SimulationStatus.Run;
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoStartStepSim, "step:" + step.ToString()));
+                m_env.Console.Flush();
                 while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     lock (m_currentProject.Simulator)
@@ -3548,7 +3553,7 @@ namespace Ecell
                     MessageType.Information,
                     string.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
                     this));
-                m_env.Console.WriteLine(string.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoSuspend, "t:" + m_currentProject.Simulator.GetCurrentTime()));
                 m_env.Console.Flush();
             }
             catch (WrappedException ex)
@@ -3574,7 +3579,7 @@ namespace Ecell
                     MessageType.Information,
                     string.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
                     this));
-                m_env.Console.WriteLine(string.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoResetSim, "t:"+m_currentProject.Simulator.GetCurrentTime()));
                 m_env.Console.Flush();
 
                 m_isTimeStepping = false;
