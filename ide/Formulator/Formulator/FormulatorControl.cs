@@ -91,6 +91,10 @@ namespace Ecell.UI.Components
         /// Rectangle of selected FNode.
         /// </summary>
         private Rectangle m_rect = new Rectangle(0, 0, 0, 0);
+        /// <summary>
+        /// 
+        /// </summary>
+        private FormulatorTemplate m_template = new FormulatorTemplate();
         #endregion
 
         #region Constructor
@@ -154,7 +158,10 @@ namespace Ecell.UI.Components
             FunctionBox.Items.Add(FUtil.STRGEQ);
             FunctionBox.Items.Add(FUtil.STRLEQ);
 
-
+            foreach (string name in m_template.GetTemplateList())
+            {
+                templateComboBox.Items.Add(name);
+            }
             UpdateFormulator();
         }
         #endregion
@@ -177,6 +184,8 @@ namespace Ecell.UI.Components
             set { 
                 this.m_isExpression = value;
                 this.FunctionBox.Enabled = value;
+                this.templateComboBox.Enabled = value;
+                this.TemplateApplyButton.Enabled = value;
             }
         }
         #endregion
@@ -687,6 +696,20 @@ namespace Ecell.UI.Components
             UpdateFormulator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TemplateApplyButton_Click(object sender, EventArgs e)
+        {
+            string name = templateComboBox.Text;
+            if (string.IsNullOrEmpty(name))
+                return;
+
+            string template = m_template.GetTemplate(name);
+            ImportFormulate(template);
+        }
         #endregion
 
         #region Function
@@ -1573,5 +1596,5 @@ namespace Ecell.UI.Components
             return n;
         }
         #endregion
-    }
+    }    
 }

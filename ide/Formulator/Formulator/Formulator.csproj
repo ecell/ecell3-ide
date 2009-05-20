@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EB193AD3-99DC-477F-BDF9-C071812B93D0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -82,13 +82,31 @@
     <Compile Include="FormulatorControl.Designer.cs">
       <DependentUpon>FormulatorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormulatorTemplate.cs" />
     <Compile Include="FUtil.cs" />
+    <Compile Include="MessageResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormulatorControl.ja.resx">
+      <DependentUpon>FormulatorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormulatorControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FormulatorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResources.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

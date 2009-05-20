@@ -4637,6 +4637,10 @@ namespace Ecell
                 {
                     throw new EcellException(string.Format(MessageResources.ErrDelParam));
                 }
+                if (parameterID.Equals(Constants.defaultSimParam))
+                {
+                    throw new EcellException(string.Format(MessageResources.ErrDelParam));
+                }
 
                 if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
                     m_currentProject.SimulationStatus == SimulationStatus.Suspended)
