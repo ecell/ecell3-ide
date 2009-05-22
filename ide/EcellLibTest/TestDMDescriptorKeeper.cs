@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
+using EcellCoreLib;
 
 namespace Ecell
 {
@@ -74,7 +75,7 @@ namespace Ecell
             Assert.IsNotNull(module.Name);
             Assert.IsNotNull(module["Name"]);
             Assert.IsNotNull(module.Type);
-            Assert.IsNull(module.Description);
+            Assert.IsNotNull(module.Description);
             Assert.IsNotNull(module.Path);
             Assert.IsFalse(module.CanHaveDynamicProperties);
             Assert.AreNotEqual(0, module.GetHashCode());
@@ -374,5 +375,24 @@ namespace Ecell
                 Assert.Fail();
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetDescription()
+        {
+            string[] paths = Util.GetDMDirs(null);
+            string desc = "";
+
+            WrappedSimulator sim = new WrappedSimulator(paths);
+            desc = sim.GetDescription("");
+            Assert.AreEqual("", desc, "GetDescription method returns unexpected value.");
+
+            desc = sim.GetDescription("ExpressionFluxProcess");
+            Assert.IsNotEmpty(desc, "GetDescription method returns unexpected value.");
+
+        }
+
     }
 }

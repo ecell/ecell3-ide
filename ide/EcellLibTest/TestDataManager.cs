@@ -2185,5 +2185,6 @@ namespace Ecell
 
             _unitUnderTest.DataChanged("Drosophila", "/CELL/CYTOPLASM:M", "Variable", variable);
         }
+
     }
 }

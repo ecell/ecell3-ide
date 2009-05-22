@@ -441,17 +441,44 @@ namespace EcellCoreLib {
                 const libecs::PropertyInterfaceBase* info(
                     reinterpret_cast< const libecs::PropertyInterfaceBase *>(
                         i->second->getInfo() ) );
+				String^ module = FromCString(i->second->getModuleName());
 
                 retval->Add(DMInfo(
                     FromCString(info->getTypeName()),
-                    FromCString(i->second->getModuleName()),
+                    module,
                     FromCString(i->second->getFileName()),
-					FromCString("Description")
+					GetDescription(module)
 					));
             }
 
             return retval;
         }
+
+		String^ GetDescription(String^ moduleName)
+		{
+			String^ description = FromCString("");
+
+            typedef ModuleMaker<libecs::EcsObject>::ModuleMap ModuleMap;
+            const ModuleMap& modules(thePropertiedObjectMaker->getModuleMap());
+            for (ModuleMap::const_iterator i = modules.begin(); i != modules.end(); ++i)
+            {
+                const libecs::PropertyInterfaceBase* info(
+                    reinterpret_cast< const libecs::PropertyInterfaceBase *>(
+                        i->second->getInfo() ) );
+				if(FromCString(info->getClassName()) != moduleName)
+					continue;
+
+				try
+				{
+					char* value = (char*)info->getInfoField("Description");
+					description = FromCString(value);
+				}
+				catch (std::exception const& e)
+				{
+				}
+			}
+			return description;
+		}
 
         IList<String^>^ GetEntityList(String^ l_entityTypeString, String^ l_systemPathString)
         {

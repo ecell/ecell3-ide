@@ -243,13 +243,13 @@ namespace Ecell
         /// </summary>
         /// <param name="descs"></param>
         /// <param name="sim"></param>
-        /// <param name="pair"></param>
-        private static void LoadStepperDM(Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo pair)
+        /// <param name="info"></param>
+        private static void LoadStepperDM(Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo info)
         {
             try
             {
-                Trace.WriteLine("Checking properties for " + pair.ModuleName);
-                string stepper = pair.ModuleName;
+                Trace.WriteLine("Checking properties for " + info.ModuleName);
+                string stepper = info.ModuleName;
                 sim.CreateStepper(stepper, stepper);
 
                 // Get PropertyDescriptors
@@ -257,13 +257,14 @@ namespace Ecell
 
                 // Check DynamicProperty
                 bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
+                DMDescriptor desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, dynamic, pdescs);
+                desc.Description = info.Description;
 
-                descs[Constants.xpathStepper][pair.ModuleName] =
-                    new DMDescriptor(stepper, pair.Path, Constants.xpathStepper, dynamic, pdescs);
+                descs[Constants.xpathStepper][info.ModuleName] = desc;
             }
             catch (Exception)
             {
-                Trace.WriteLine("Failed to load " + pair.ModuleName);
+                Trace.WriteLine("Failed to load " + info.ModuleName);
                 //Trace.WriteLine(e.StackTrace);
             }
         }
@@ -274,7 +275,7 @@ namespace Ecell
         /// <param name="type"></param>
         /// <param name="descs"></param>
         /// <param name="sim"></param>
-        /// <param name="pair"></param>
+        /// <param name="info"></param>
         private static void LoadEntityDM(string type, Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo info)
         {
             try
@@ -463,11 +464,10 @@ namespace Ecell
         /// <param name="path"></param>
         /// <param name="info"></param>
         public DMModuleInfo(string path, DMInfo info)
+            : this(path, info.ModuleName, info.Description)
         {
-            m_path = path;
-            m_moduleName =info.ModuleName;
-            m_description = info.Description;
         }
+
         /// <summary>
         /// Constructor
         /// </summary>

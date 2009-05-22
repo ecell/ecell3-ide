@@ -231,11 +231,11 @@ namespace EcellCoreLibCLRTest
         [Test]
         public void TestGetDescriptor()
         {
-            IList<DMInfo> list = s.GetDMInfo();
-            foreach (DMInfo info in list)
-            {
+            String desc = s.GetDescription("");
+            Assert.AreEqual("", desc);
 
-            }
+            desc = s.GetDescription("ExpressionFluxProcess");
+            Assert.IsNotEmpty(desc);
         }
     }
 }
