@@ -120,6 +120,43 @@ namespace Ecell.Logger
             value.IsY2Axis = true;
             Assert.AreEqual(true, value.IsY2Axis, "IsY2 axis is not expected value.");
 
+            value.IsY2AxisInt = 0;
+            Assert.AreEqual(false, value.IsY2Axis, "IsY2AxisInt is not expected value.");
+            Assert.AreEqual(0, value.IsY2AxisInt, "IsY2AxisInt is not expected value.");
+
+            value.IsY2AxisInt = 1;
+            Assert.AreEqual(true, value.IsY2Axis, "IsY2AxisInt is not expected value.");
+            Assert.AreEqual(1, value.IsY2AxisInt, "IsY2AxisInt is not expected value.");
+
+            value.IsShowInt = 0;
+            Assert.AreEqual(false, value.IsShown, "IsShowInt is not expected value.");
+            Assert.AreEqual(0, value.IsShowInt, "IsShowInt is not expected value.");
+
+            value.IsShowInt = 1;
+            Assert.AreEqual(true, value.IsShown, "IsShowInt is not expected value.");
+            Assert.AreEqual(1, value.IsShowInt, "IsShowInts is not expected value.");
+
+            value.LineStyleInt = 0;
+            Assert.AreEqual(value.LineStyle, DashStyle.Solid, "LineStyleInt is not expected value.");
+            Assert.AreEqual(value.LineStyleInt, 0, "LineStyleInt is not expected value.");
+
+            value.LineStyleInt = 1;
+            Assert.AreEqual(value.LineStyle, DashStyle.Dot, "LineStyleInt is not expected value.");
+            Assert.AreEqual(value.LineStyleInt, 1, "LineStyleInt is not expected value.");
+
+            value.LineStyleInt = 2;
+            Assert.AreEqual(value.LineStyle, DashStyle.Dash, "LineStyleInt is not expected value.");
+            Assert.AreEqual(value.LineStyleInt, 2, "LineStyleInt is not expected value.");
+
+            value.LineStyleInt = 3;
+            Assert.AreEqual(value.LineStyle, DashStyle.DashDot, "LineStyleInt is not expected value.");
+            Assert.AreEqual(value.LineStyleInt, 3, "LineStyleInt is not expected value.");
+
+            value.LineStyleInt = 4;
+            Assert.AreEqual(value.LineStyle, DashStyle.DashDotDot, "LineStyleInt is not expected value.");
+            Assert.AreEqual(value.LineStyleInt, 4, "LineStyleInt is not expected value.");
+            
+
             value.FileName = "aaa";
             Assert.AreEqual("aaa", value.FileName, "Filename is not expected value.");
         }

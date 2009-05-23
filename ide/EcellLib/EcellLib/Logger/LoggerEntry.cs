@@ -148,9 +148,8 @@ namespace Ecell.Logger
                     return 2;
                 else if (m_lineStyle == DashStyle.DashDot)
                     return 3;
-                else if (m_lineStyle == DashStyle.DashDotDot)
+                else
                     return 4;
-                return 0;
             }
             set
             {
@@ -164,8 +163,6 @@ namespace Ecell.Logger
                     m_lineStyle = DashStyle.DashDot;
                 else if (value == 4)
                     m_lineStyle = DashStyle.DashDotDot;
-                else
-                    m_lineStyle = DashStyle.Solid;
             }
         }
 

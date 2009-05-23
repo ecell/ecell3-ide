@@ -519,7 +519,7 @@ namespace Ecell.Plugin
             Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
-            Assert.AreEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
             resultPluginBase.Initialize();
             resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
 
