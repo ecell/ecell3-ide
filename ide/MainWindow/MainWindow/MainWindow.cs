@@ -507,12 +507,19 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private bool LoadWindowSetting(string filename)
         {
+            return LoadWindowSetting(filename, false);
+        }
+        /// <summary>
+        /// Load window settings.
+        /// </summary>
+        private bool LoadWindowSetting(string filename, bool initializeWindow)
+        {
             try
             {
                 if (File.Exists(filename))
                 {
                     Trace.WriteLine("Loading window settings: " + filename);
-                    DockWindowSerializer.LoadFromXML(this, filename);
+                    DockWindowSerializer.LoadFromXML(this, filename, initializeWindow);
                     return true;
                 }
             }
@@ -520,7 +527,6 @@ namespace Ecell.IDE.MainWindow
             {
                 Trace.WriteLine(ex);
                 Util.ShowErrorDialog(MessageResources.ErrLoadWindowSettings);
-
                 return false;
             }
             return false;
@@ -533,15 +539,15 @@ namespace Ecell.IDE.MainWindow
         {
             //Load user window settings.
             // Load default window settings when failed.
-            if (!LoadWindowSetting(m_userWindowSettingPath))
+            if (!LoadWindowSetting(m_userWindowSettingPath, true))
             {
                 InitialPreferencesDialog win = new InitialPreferencesDialog(true);
                 using (win)
                 {
-                    if (win.ShowDialog() != DialogResult.OK)
-                        return;
-                    LoadWindowSetting(win.FilePath);
-                    LoadWindowSetting(m_defaultWindowSettingPath);
+                    if (win.ShowDialog() == DialogResult.OK)
+                        LoadWindowSetting(win.FilePath, true);
+                    else
+                        LoadWindowSetting(m_defaultWindowSettingPath, true);
                 }
             }
         }

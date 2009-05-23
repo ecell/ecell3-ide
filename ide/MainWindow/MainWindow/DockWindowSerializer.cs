@@ -305,7 +305,8 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="window"></param>
         /// <param name="filename"></param>
-        public static void LoadFromXML(MainWindow window, string filename)
+        /// <param name="initializeWindow"></param>
+        public static void LoadFromXML(MainWindow window, string filename, bool initializeWindow)
         {
             DockPanel dockPanel = window.DockPanel;
             FileStream fs = null;
@@ -339,7 +340,8 @@ namespace Ecell.IDE.MainWindow
                 // Close windows.
                 CloseWindows(dockPanel);
                 // Set WindowSetting
-                SetWindowStatus(window, windowState);
+                if(initializeWindow)
+                    SetWindowStatus(window, windowState);
 
                 // Set DockPanelLayout
                 dockPanel.DockLeftPortion = dockPanelStruct.DockLeftPortion;
