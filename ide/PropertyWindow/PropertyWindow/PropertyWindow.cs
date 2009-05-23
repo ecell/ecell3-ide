@@ -408,7 +408,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     propValueCell = new DataGridViewComboBoxCell();
                     ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
-                    propValueCell.Value = propValue;
+                    propValueCell.Value = propValue;                   
                 }
                 else if (m_current.Type == Constants.xpathText)
                 {
@@ -433,6 +433,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
                     }
                     propValueCell.Value = propValue;
+                    DMDescriptor desc = m_env.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, propValue);
+                    if (desc != null)
+                        propValueCell.ToolTipText = desc.Description;
+                    else
+                        propValueCell.ToolTipText = "";
+
                 }
                 else
                 {
@@ -451,6 +457,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
                     }
                     propValueCell.Value = propValue;
+                    DMDescriptor desc = m_env.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathProcess, propValue);
+                    if (desc != null)
+                        propValueCell.ToolTipText = desc.Description;
+                    else
+                        propValueCell.ToolTipText = "";
                 }                
             }
             else
