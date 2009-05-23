@@ -454,29 +454,28 @@ namespace EcellCoreLib {
             return retval;
         }
 
-		String^ GetDescription(String^ moduleName)
+		String^ GetDescription(String^ className)
 		{
 			String^ description = FromCString("");
-
-            typedef ModuleMaker<libecs::EcsObject>::ModuleMap ModuleMap;
-            const ModuleMap& modules(thePropertiedObjectMaker->getModuleMap());
-            for (ModuleMap::const_iterator i = modules.begin(); i != modules.end(); ++i)
-            {
-                const libecs::PropertyInterfaceBase* info(
-                    reinterpret_cast< const libecs::PropertyInterfaceBase *>(
-                        i->second->getInfo() ) );
-				if(FromCString(info->getClassName()) != moduleName)
-					continue;
-
-				try
+			try
+			{
+			    for ( DynamicModuleInfo::EntryIterator* anInfo(
+					theModel->getPropertyInterface( WrappedCString(className) ).getInfoFields() );
+					  anInfo->next(); )
 				{
-					char* value = (char*)info->getInfoField("Description");
-					description = FromCString(value);
+					if(FromCString(anInfo->current().first) != "Description")
+						continue;
+
+					const libecs::Polymorph value = 
+						*reinterpret_cast< const libecs::Polymorph* >( anInfo->current().second );
+					description = (String^)FromPolymorph(value);
 				}
-				catch (std::exception const& e)
-				{
-				}
+
 			}
+			catch (std::exception const& e)
+			{
+			}
+
 			return description;
 		}
 
