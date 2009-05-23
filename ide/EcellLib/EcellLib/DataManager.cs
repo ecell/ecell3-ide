@@ -1686,7 +1686,7 @@ namespace Ecell
                 {
                     DataDelete4Model(modelID);
                 }
-                else if (key.Contains(":"))
+                else if (key.Contains(":") || type.Equals(Constants.xpathStepper))
                 { // not system
                     m_env.LoggerManager.NodeRemoved(deleteObj);
                     DataDelete4Node(modelID, key, type, true, isRecorded, false);
@@ -4676,6 +4676,7 @@ namespace Ecell
                     File.Delete(simulationFileName);
                 }
                 m_currentProject.LoggerPolicyDic.Remove(parameterID);
+                m_currentProject.InitialCondition.Remove(parameterID);
                 Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
                 if (m_currentProject.Info.SimulationParam == parameterID)
                 {

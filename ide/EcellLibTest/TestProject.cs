@@ -209,16 +209,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestSave()
-        {
-            _unitUnderTest.Save();
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetSavableModel()
         {
             Type type = _unitUnderTest.GetType();
@@ -244,7 +234,7 @@ namespace Ecell
             MethodInfo methodInfo = type.GetMethod("GetSavableSimulationParameter", BindingFlags.NonPublic | BindingFlags.Instance);
 
             List<string> expectedList = new List<string>();
-            expectedList.Add("DefaultParameter");
+            expectedList.Add(Constants.defaultSimParam);
             List<string> resultList = null;
 
             resultList = (List<string>)methodInfo.Invoke(_unitUnderTest, new object[] { });

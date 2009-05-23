@@ -704,11 +704,13 @@ namespace Ecell
 
             bool l_isRecorded = false;
             bool l_isAnchor = false;
+            _unitUnderTest.SetSimulationParameter(l_parameterID);
             _unitUnderTest.CurrentProject.SimulationStatus = SimulationStatus.Suspended;
             MessageBox.Show("Click \"No\" on next dialog.");
-            _unitUnderTest.DeleteSimulationParameter(Constants.defaultSimParam, l_isRecorded, l_isAnchor);
+            _unitUnderTest.DeleteSimulationParameter(l_parameterID, l_isRecorded, l_isAnchor);
 
             MessageBox.Show("Click \"Yes\" on next dialog.");
+            _unitUnderTest.DeleteSimulationParameter(l_parameterID, l_isRecorded, l_isAnchor);
             string baseDir = Util.GetBaseDir();
             Util.SetBaseDir(TestConstant.TestDirectory);
 
@@ -831,7 +833,7 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string expectedString = "DefaultParameter";
+            string expectedString = Constants.defaultSimParam;
             string resultString = "";
             resultString = _unitUnderTest.GetCurrentSimulationParameterID();
             Assert.AreEqual(expectedString, resultString, "GetCurrentSimulationParameterID method returned unexpected result.");
@@ -982,27 +984,11 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_paremterID = "DefaultParameter";
+            string l_paremterID = Constants.defaultSimParam;
             string l_modelID = "Drosophila";
             Dictionary<string, double> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID);
             Assert.IsNotNull(resultDictionary, "GetInitialCondition method returned unexpected result.");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetInitialConditionL_paremterIDL_modelIDL_type()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
-
-            string l_paremterID = "DefaultParameter";
-            string l_modelID = "Drosophila";
-            Dictionary<System.String, System.Double> resultDictionary = null;
-            resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID);
-            Assert.IsNotEmpty(resultDictionary, "GetInitialCondition method returned unexpected result.");
-
 
         }
         /// <summary>
@@ -1082,7 +1068,7 @@ namespace Ecell
             MethodInfo info = type.GetMethod("GetCurrentLoggerPolicy", BindingFlags.NonPublic | BindingFlags.Instance);
             LoggerPolicy expectedLoggerPolicy = (LoggerPolicy)info.Invoke(_unitUnderTest, new object[] { });
 
-            string l_parameterID = "DefaultParameter";
+            string l_parameterID = Constants.defaultSimParam;
             LoggerPolicy resultLoggerPolicy = _unitUnderTest.GetLoggerPolicy(l_parameterID);
             Assert.AreEqual(expectedLoggerPolicy, resultLoggerPolicy, "GetLoggerPolicy method returned unexpected result.");
         }
@@ -2044,7 +2030,7 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
+            string l_parameterID = Constants.defaultSimParam;
             string l_modelID = "Drosophila";
             Dictionary<string, double> l_initialList = new Dictionary<string,double>();
             foreach(KeyValuePair<string, double> value in _unitUnderTest.CurrentProject.InitialCondition[l_parameterID][l_modelID])

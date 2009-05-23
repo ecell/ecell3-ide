@@ -109,54 +109,25 @@ namespace Ecell
             DMDescriptorKeeper dmm = _env.DMDescriptorKeeper;
             string className = "ExpressionFluxProcess";
             string name = "Expression";
-            EcellValue value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, className, name });
+            EcellValue value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, Constants.xpathProcess, className, name });
             Assert.IsNotNull(value, "GetValueFromDM method returned unexpected value.");
             Assert.IsTrue(value.IsString, "IsString is unexpected value.");
             Assert.AreNotEqual("", (string)value, "GetValueFromDMM method returned unexpected result.");
 
             name = "newValue";
-            value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, className, name });
+            value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, Constants.xpathProcess, className, name });
             Assert.IsNotNull(value, "GetValueFromDM method returned unexpected value.");
             Assert.IsTrue(value.IsDouble, "IsString is unexpected value.");
             Assert.AreEqual(0.0, (double)value, "GetValueFromDMM method returned unexpected result.");
 
             className = "Hoge";
-            value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, className, name });
+            value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, Constants.xpathProcess, className, name });
             Assert.IsNotNull(value, "GetValueFromDM method returned unexpected value.");
             Assert.IsTrue(value.IsString, "IsString is unexpected value.");
             Assert.AreEqual("", (string)value, "GetValueFromDMM method returned unexpected result.");
 
         }
         
-        /// <summary>
-        /// TestSetInitialCondition
-        /// </summary>
-        [Test()]
-        public void TestSetInitialCondition()
-        {
-            DataStorer dataStorer = new DataStorer();
-            Assert.IsNotNull(dataStorer, "Constructor of type, DataStorer failed to create instance.");
-
-            Type type = dataStorer.GetType();
-            MethodInfo methodInfo = type.GetMethod("SetInitialCondition", BindingFlags.NonPublic | BindingFlags.Static);
-            Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
-
-            Dictionary<string, double> initialCondition = new Dictionary<string, double>();
-            EcellData data = new EcellData("Value", new EcellValue(0.1), "Variable:/:V1:Value");
-            methodInfo.Invoke(dataStorer, new object[] { initialCondition, data });
-            Assert.IsNotEmpty(initialCondition, "SetInitialCondition method returned unexpected value.");
-
-            initialCondition.Clear();
-            data = new EcellData("Value", new EcellValue("string"), "Variable:/:V1:Value");
-            methodInfo.Invoke(dataStorer, new object[] { initialCondition, data });
-            Assert.IsEmpty(initialCondition, "SetInitialCondition method returned unexpected value.");
-
-            initialCondition.Clear();
-            data = new EcellData("Value", new EcellValue(double.PositiveInfinity), "Variable:/:V1:Value");
-            methodInfo.Invoke(dataStorer, new object[] { initialCondition, data });
-            Assert.IsNotEmpty(initialCondition, "SetInitialCondition method returned unexpected value.");
-
-        }
         
         /// <summary>
         /// TestGetVariableValue

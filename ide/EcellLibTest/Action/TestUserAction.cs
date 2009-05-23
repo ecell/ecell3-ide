@@ -256,7 +256,7 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
-            UserAction action = new SetSimParamAction("DefaultParameter", "DefaultParameter", true);
+            UserAction action = new SetSimParamAction(Constants.defaultSimParam, Constants.defaultSimParam, true);
             Assert.IsNotNull(action, "Constructor of type, SetSimParamAction failed to create instance.");
             Assert.IsTrue(action.ToString().Contains("SetSimParamAction"), "ToString is unexpected value.");
             Type type = action.GetType();

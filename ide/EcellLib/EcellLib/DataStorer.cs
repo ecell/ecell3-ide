@@ -136,7 +136,6 @@ namespace Ecell
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     processEcellDataList.Add(storedEcellData);
 
-                    SetInitialCondition(initialCondition, storedEcellData);
                 }
             }
             //
@@ -194,7 +193,6 @@ namespace Ecell
                     ecellData.Logable = ecellData.Value.IsDouble &&
                         (ecellData.Settable == false || ecellData.Saveable == false);
 
-                    SetInitialCondition(initialCondition, ecellData);
                 }
 
                 if (storedEcellDataDic.ContainsKey(name))
@@ -361,7 +359,6 @@ namespace Ecell
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     systemEcellDataList.Add(storedEcellData);
 
-                    SetInitialCondition(initialCondition, storedEcellData);
                 }
             }
             foreach (string name in wrappedPolymorph)
@@ -417,7 +414,6 @@ namespace Ecell
                 if (ecellData.Value != null)
                 {
                     ecellData.Logable = ecellData.Value.IsDouble;
-                    SetInitialCondition(initialCondition, ecellData);
                 }
                 if (storedEcellDataDic.ContainsKey(name))
                 {
@@ -456,7 +452,6 @@ namespace Ecell
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     variableEcellDataList.Add(storedEcellData);
 
-                    SetInitialCondition(initialCondition, storedEcellData);
                 }
             }
             foreach (string name in wrappedPolymorph)
@@ -472,7 +467,6 @@ namespace Ecell
                 if (ecellData.Value != null)
                 {
                     ecellData.Logable = ecellData.Value.IsDouble;
-                    SetInitialCondition(initialCondition, ecellData);
                 }
                 if (storedEcellDataDic.ContainsKey(name))
                 {
@@ -530,17 +524,6 @@ namespace Ecell
             data.Loadable = flags.Loadable;
             data.Saveable = flags.Savable;
             return data;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="initialCondition"></param>
-        /// <param name="ecellData"></param>
-        private static void SetInitialCondition(Dictionary<string, double> initialCondition, EcellData ecellData)
-        {
-            //if (ecellData.Settable && ecellData.Value.IsDouble)
-            //    initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
         }
 
         #endregion
