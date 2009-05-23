@@ -162,6 +162,7 @@ namespace Ecell
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
 
+                WrappedSimulator sim = new WrappedSimulator(new string[] { dmPath });
                 foreach (string modulePath in modulePaths)
                 {
                     string moduleName = Path.GetFileNameWithoutExtension(modulePath);
@@ -179,17 +180,17 @@ namespace Ecell
                     if (moduleType == null)
                         continue; // XXX: what are we supposed to do here?
 
-                    List<DMModuleInfo> pairs = null;
-                    maps[moduleType].TryGetValue(moduleName, out pairs);
-                    if (pairs == null)
+                    List<DMModuleInfo> infoList = null;
+                    maps[moduleType].TryGetValue(moduleName, out infoList);
+                    if (infoList == null)
                     {
-                        pairs = new List<DMModuleInfo>();
-                        maps[moduleType][moduleName] = pairs;
+                        infoList = new List<DMModuleInfo>();
+                        maps[moduleType][moduleName] = infoList;
                     }
-
-                    DMModuleInfo pair = new DMModuleInfo(modulePath, moduleName, "");
-                    pairs.Add(pair);
-                    perDirectoryModuleList[moduleType].Add(pair);
+                    string description = sim.GetDescription(moduleName);
+                    DMModuleInfo info = new DMModuleInfo(modulePath, moduleName, description);
+                    infoList.Add(info);
+                    perDirectoryModuleList[moduleType].Add(info);
                 }
             }
 
