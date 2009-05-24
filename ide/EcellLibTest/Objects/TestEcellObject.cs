@@ -340,6 +340,9 @@ namespace Ecell.Objects
             eo.ModelFile = TestConstant.Model_RBC;
             Assert.AreEqual(TestConstant.Model_RBC, eo.ModelFile, "ModelFile is not expected value.");
 
+            eo.ErrMsg = "Msg";
+            Assert.AreEqual(eo.ErrMsg, "Msg", "Error message in mode in not expected value.");
+
             eo.ModelID = "Model1";
             Assert.AreEqual("Model1", eo.ModelID, "ModelID is not expected value.");
             EcellObject temp = eo.GetSystem("/");

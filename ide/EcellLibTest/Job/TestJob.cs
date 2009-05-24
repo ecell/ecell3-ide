@@ -126,6 +126,11 @@ namespace Ecell.Job
             testJob.ScriptFile = TestConstant.TestDirectory + "0.ess";
             Assert.AreEqual(TestConstant.TestDirectory + "0.ess", testJob.ScriptFile, "ScriptFile is unexpected value.");
 
+            testJob.Param = new Dictionary<string, object>();
+            Assert.AreEqual(0, testJob.Param.Count, "Param is unexpected value.");
+
+            testJob.Param.Add("test", "test");
+            Assert.AreEqual(1, testJob.Param.Count, "Param is unexpected value.");
         }
         /// <summary>
         /// 

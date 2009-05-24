@@ -2411,36 +2411,27 @@ namespace Ecell
         public EcellObject CreateDefaultObject(string modelID, string key, string type)
         {
             EcellObject obj = null;
-            try
+            if (type.Equals(Constants.xpathSystem))
             {
-                if (type.Equals(Constants.xpathSystem))
-                {
-                    obj = CreateDefaultSystem(modelID, key);
-                }
-                else if (type.Equals(Constants.xpathProcess))
-                {
-                    obj = CreateDefaultProcess(modelID, key);
-                }
-                else if (type.Equals(Constants.xpathVariable))
-                {
-                    obj = CreateDefaultVariable(modelID, key);
-                }
-                else if (type.Equals(Constants.xpathText))
-                {
-                    obj = CreateDefaultText(modelID);
-                }
-                else if (type.Equals(Constants.xpathStepper))
-                {
-                    obj = CreateDefaultStepper(modelID, key);
-                }
-                return obj;
+                obj = CreateDefaultSystem(modelID, key);
             }
-            catch (Exception ex)
+            else if (type.Equals(Constants.xpathProcess))
             {
-                string message = string.Format(MessageResources.ErrAdd,
-                    new object[] { type, key });
-                throw new EcellException(message, ex);
+                obj = CreateDefaultProcess(modelID, key);
             }
+            else if (type.Equals(Constants.xpathVariable))
+            {
+                obj = CreateDefaultVariable(modelID, key);
+            }
+            else if (type.Equals(Constants.xpathText))
+            {
+                obj = CreateDefaultText(modelID);
+            }
+            else if (type.Equals(Constants.xpathStepper))
+            {
+                obj = CreateDefaultStepper(modelID, key);
+            }
+            return obj;
         }
 
         /// <summary>
@@ -3044,7 +3035,7 @@ namespace Ecell
         /// Adds the new "Stepper"
         /// </summary>
         /// <param name="stepper">The "Stepper"</param>
-        private void AddStepperID(EcellObject stepper)
+        public void AddStepperID(EcellObject stepper)
         {
             AddStepperID(stepper, true);
         }
@@ -3054,7 +3045,7 @@ namespace Ecell
         /// </summary>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded</param>
-        private void AddStepperID(EcellObject stepper, bool isRecorded)
+        public void AddStepperID(EcellObject stepper, bool isRecorded)
         {
             // Check parameters.
             if (stepper == null || string.IsNullOrEmpty(stepper.ModelID))
@@ -3093,52 +3084,45 @@ namespace Ecell
         /// <param name="orgStepperID">The parameter ID</param>
         /// <param name="newStepper">The list of the "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
-        private void UpdateStepperID(string orgStepperID, EcellObject newStepper, bool isRecorded)
+        public void UpdateStepperID(string orgStepperID, EcellObject newStepper, bool isRecorded)
         {
-            try
+            EcellObject oldStepepr = null;
+            Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic;
+            if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam) ||
+                !newStepper.Key.Equals(orgStepperID))
             {
-                EcellObject oldStepepr = null;
-                Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic;
-                if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam) ||
-                    !newStepper.Key.Equals(orgStepperID))
+                foreach (EcellObject model in m_currentProject.ModelList)
                 {
-                    foreach (EcellObject model in m_currentProject.ModelList)
+                    foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
                     {
-                        foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
+                        if (obj.Key.Equals(orgStepperID))
                         {
-                            if (obj.Key.Equals(orgStepperID))
-                            {
-                                oldStepepr = obj;
-                                perParameterStepperListDic[model.ModelID].Remove(obj);
-                                break;
-                            }
-                        }
-                        perParameterStepperListDic[model.ModelID].Add(newStepper);
-                    }
-                    Debug.Assert(oldStepepr != null);
-                    m_env.ActionManager.AddAction(
-                        new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
-                }
-                else
-                {
-                    foreach (EcellObject model in m_currentProject.ModelList)
-                    {
-                        foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
-                        {
-                            if (obj.Key.Equals(orgStepperID))
-                            {
-                                oldStepepr = obj;
-                                break;
-                            }
+                            oldStepepr = obj;
+                            perParameterStepperListDic[model.ModelID].Remove(obj);
+                            break;
                         }
                     }
-                    m_currentProject.DeleteInitialCondition(oldStepepr);
-                    m_currentProject.SetInitialCondition(newStepper);
+                    perParameterStepperListDic[model.ModelID].Add(newStepper);
                 }
+                Debug.Assert(oldStepepr != null);
+                m_env.ActionManager.AddAction(
+                    new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
             }
-            catch (Exception ex)
+            else
             {
-                throw new EcellException(MessageResources.ErrSetSimParam, ex);
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
+                    {
+                        if (obj.Key.Equals(orgStepperID))
+                        {
+                            oldStepepr = obj;
+                            break;
+                        }
+                    }
+                }
+                m_currentProject.DeleteInitialCondition(oldStepepr);
+                m_currentProject.SetInitialCondition(newStepper);
             }
         }
 
@@ -3146,7 +3130,7 @@ namespace Ecell
         /// Deletes the "Stepper".
         /// </summary>
         /// <param name="stepper">The "Stepper"</param>
-        private void DeleteStepperID(EcellObject stepper)
+        public void DeleteStepperID(EcellObject stepper)
         {
             DeleteStepperID(stepper, true);
         }
@@ -3156,38 +3140,28 @@ namespace Ecell
         /// </summary>
         /// <param name="stepper">The "Stepper"</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
-        private void DeleteStepperID(EcellObject stepper, bool isRecorded)
+        public void DeleteStepperID(EcellObject stepper, bool isRecorded)
         {
-            try
+            int point = -1;
+            List<EcellObject> storedStepperList
+                = m_currentProject.StepperDic[stepper.ModelID];
+            for (int i = 0; i < storedStepperList.Count; i++)
             {
-                int point = -1;
-                List<EcellObject> storedStepperList
-                    = m_currentProject.StepperDic[stepper.ModelID];
-                for (int i = 0; i < storedStepperList.Count; i++)
+                if (storedStepperList[i].Key.Equals(stepper.Key))
                 {
-                    if (storedStepperList[i].Key.Equals(stepper.Key))
-                    {
-                        point = i;
-                        break;
-                    }
+                    point = i;
+                    break;
                 }
-                if (point != -1)
-                {
-                    storedStepperList.RemoveAt(point);
-                    Trace.WriteLine(string.Format(MessageResources.InfoDel,
-                        new object[] { stepper.Type, stepper.Key }));
-                }
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new DeleteStepperAction(stepper));
-                m_env.PluginManager.DataDelete(stepper.ModelID, stepper.Key, stepper.Type);
             }
-            catch (Exception ex)
+            if (point != -1)
             {
-                string errmes = string.Format(MessageResources.ErrDelete,
-                    new object[] { stepper.Key });
-                Trace.WriteLine(errmes);
-                throw new EcellException(errmes, ex);
+                storedStepperList.RemoveAt(point);
+                Trace.WriteLine(string.Format(MessageResources.InfoDel,
+                    new object[] { stepper.Type, stepper.Key }));
             }
+            if (isRecorded)
+                m_env.ActionManager.AddAction(new DeleteStepperAction(stepper));
+            m_env.PluginManager.DataDelete(stepper.ModelID, stepper.Key, stepper.Type);
         }
 
         /// <summary>

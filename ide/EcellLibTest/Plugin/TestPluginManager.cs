@@ -39,6 +39,8 @@ using System.Diagnostics;
 using System.Collections;
 using Ecell.Exceptions;
 
+using WeifenLuo.WinFormsUI.Docking;
+
 namespace Ecell.Plugin
 {
     /// <summary>
@@ -47,6 +49,232 @@ namespace Ecell.Plugin
     [TestFixture()]
     public class TestPluginManager
     {
+        internal class TestMainWindow : IRootMenuProvider, IDockOwner, IEcellPlugin, IDataHandler
+        {
+            public System.Windows.Forms.ToolStripMenuItem GetRootMenuItem(string name)
+            {
+                return null;
+            }
+
+            public virtual DockPanel DockPanel
+            {
+                get { return new DockPanel(); }
+            }
+
+            public string GetPluginName()
+            {
+                return "TestMainWindow";
+            }
+
+            public String GetVersionString()
+            {
+                return "AAA";
+            }
+
+            public List<IPropertyItem> GetPropertySettings()
+            {
+                List<IPropertyItem> result = new List<IPropertyItem>();
+                return result;
+            }
+
+            public void ChangeStatus(ProjectStatus status)
+            { }
+
+            public Dictionary<string, Delegate> GetPublicDelegate()
+            {
+                Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
+                return list;
+            }
+
+            public void Initialize()
+            { }
+
+            public virtual ApplicationEnvironment Environment
+            {
+                get { return null; }
+                set { }
+            }
+
+            public void DataAdd(List<EcellObject> data)
+            { }
+
+            public void DataChanged(string modelID, string key, string type, EcellObject data)
+            { }
+
+            public void DataDelete(string modelID, string key, string type)
+            { }
+
+            public void ResetSelect()
+            { }
+
+            public void RemoveSelect(string modelID, string key, string type)
+            { }
+
+            public void AddSelect(string modelID, string key, string type)
+            { }
+
+            public void SelectChanged(string modelID, string key, string type)
+            { }
+
+            /// <summary>
+            /// The event sequence when the simulation parameter is added.
+            /// </summary>
+            /// <param name="projectID">The current project ID.</param>
+            /// <param name="parameterID">The added parameter ID.</param>
+            public void ParameterAdd(string projectID, string parameterID)
+            {
+                // nothing
+            }
+
+            /// <summary>
+            /// The event sequence when the simulation parameter is deleted.
+            /// </summary>
+            /// <param name="projectID">The current project ID.</param>
+            /// <param name="parameterID">The deleted parameter ID.</param>
+            public void ParameterDelete(string projectID, string parameterID)
+            {
+                // nothing
+            }
+
+            /// <summary>
+            /// The event sequence when the simulation parameter is set.
+            /// </summary>
+            /// <param name="projectID">The current project ID.</param>
+            /// <param name="parameterID">The deleted parameter ID.</param>
+            public void ParameterSet(string projectID, string parameterID)
+            {
+                // nothing
+            }
+
+            public void ParameterUpdate(string projectID, string parameterID)
+            { }
+
+            public void LoggerAdd(LoggerEntry entry)
+            { }
+
+            public void AdvancedTime(double time)
+            { }
+
+            public void Clear()
+            { }
+
+            public void SaveModel(string modelID, string directory)
+            { }
+        }
+
+        internal class TestMainWindow2 : IRootMenuProvider, IEcellPlugin, IDataHandler
+        {
+            public System.Windows.Forms.ToolStripMenuItem GetRootMenuItem(string name)
+            {
+                return null;
+            }
+
+            public virtual DockPanel DockPanel
+            {
+                get { return null; }
+            }
+
+            public string GetPluginName()
+            {
+                return "TestMainWindow2";
+            }
+
+            public String GetVersionString()
+            {
+                return "AAA";
+            }
+
+            public List<IPropertyItem> GetPropertySettings()
+            {
+                List<IPropertyItem> result = new List<IPropertyItem>();
+                return result;
+            }
+
+            public void ChangeStatus(ProjectStatus status)
+            { }
+
+            public Dictionary<string, Delegate> GetPublicDelegate()
+            {
+                Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
+                return list;
+            }
+
+            public void Initialize()
+            { }
+
+            public virtual ApplicationEnvironment Environment
+            {
+                get { return null; }
+                set { }
+            }
+
+            public void DataAdd(List<EcellObject> data)
+            { }
+
+            public void DataChanged(string modelID, string key, string type, EcellObject data)
+            { }
+
+            public void DataDelete(string modelID, string key, string type)
+            { }
+
+            public void ResetSelect()
+            { }
+
+            public void RemoveSelect(string modelID, string key, string type)
+            { }
+
+            public void AddSelect(string modelID, string key, string type)
+            { }
+
+            public void SelectChanged(string modelID, string key, string type)
+            { }
+
+            /// <summary>
+            /// The event sequence when the simulation parameter is added.
+            /// </summary>
+            /// <param name="projectID">The current project ID.</param>
+            /// <param name="parameterID">The added parameter ID.</param>
+            public void ParameterAdd(string projectID, string parameterID)
+            {
+                // nothing
+            }
+
+            /// <summary>
+            /// The event sequence when the simulation parameter is deleted.
+            /// </summary>
+            /// <param name="projectID">The current project ID.</param>
+            /// <param name="parameterID">The deleted parameter ID.</param>
+            public void ParameterDelete(string projectID, string parameterID)
+            {
+                // nothing
+            }
+
+            /// <summary>
+            /// The event sequence when the simulation parameter is set.
+            /// </summary>
+            /// <param name="projectID">The current project ID.</param>
+            /// <param name="parameterID">The deleted parameter ID.</param>
+            public void ParameterSet(string projectID, string parameterID)
+            {
+                // nothing
+            }
+
+            public void ParameterUpdate(string projectID, string parameterID)
+            { }
+
+            public void LoggerAdd(LoggerEntry entry)
+            { }
+
+            public void AdvancedTime(double time)
+            { }
+
+            public void Clear()
+            { }
+
+            public void SaveModel(string modelID, string directory)
+            { }
+        }
+
         private static PluginManager _unitUnderTest;
         private static ApplicationEnvironment _env;
         /// <summary>
@@ -69,6 +297,7 @@ namespace Ecell.Plugin
                     _env.PluginManager.LoadPlugin(fileName);
                 }
             }
+            
         }
 
         /// <summary>
@@ -354,7 +583,6 @@ namespace Ecell.Plugin
         {
             Ecell.ProjectStatus type = ProjectStatus.Uninitialized;
             _unitUnderTest.ChangeStatus(type);
-
         }
 
         /// <summary>
@@ -362,7 +590,7 @@ namespace Ecell.Plugin
         /// </summary>
         [Test()]
         public void TestAddPlugin()
-        {
+        {           
             IEcellPlugin plugin = _unitUnderTest.GetPlugin("PathwayWindow");
             try
             {
@@ -379,6 +607,29 @@ namespace Ecell.Plugin
                 Assert.Fail();
             }
             catch (EcellException)
+            {
+            }
+
+            TestMainWindow min = new TestMainWindow();
+            _unitUnderTest.AddPlugin(min);
+            Assert.IsNotNull(_unitUnderTest.DockPanel, "DockPanel method returned unexpected result.");
+
+            try
+            {
+                _unitUnderTest.AddPlugin(min);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            TestMainWindow2 min2 = new TestMainWindow2();
+            try
+            {
+                _unitUnderTest.AddPlugin(min2);
+                Assert.Fail();
+            }
+            catch (Exception)
             {
             }
         }

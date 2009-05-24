@@ -416,7 +416,7 @@ namespace Ecell
                 // Save to Another Directory.
                 string saveDir = TestConstant.TestDirectory + "Drosophila2";
                 string infoFile1 = TestConstant.Project_Drosophila;
-                if (Directory.Exists(saveDir))
+                if (Directory.Exists(saveDir))                    
                     Directory.Delete(saveDir, true);
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.Save(saveDir);

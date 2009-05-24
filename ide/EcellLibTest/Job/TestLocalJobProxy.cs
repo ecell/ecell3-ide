@@ -160,5 +160,16 @@ namespace Ecell.Job
             Assert.AreEqual(expectedString, resultString, "GetDefaultScript method returned unexpected result.");
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetDatat()
+        {
+            string expectedString = null;
+            string resultString = _unitUnderTest.GetData("");
+            Assert.AreEqual(expectedString, resultString, "GetDefaultScript method returned unexpected result.");
+
+        }
     }
 }
