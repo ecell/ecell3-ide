@@ -45,19 +45,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <returns></returns>
         public static IFigure CreateFigure(string type, string args)
         {
+            float[] values = StringToFloats(args);
+            if (values.Length < 4)
+                values = new float[] { 0,0,1,1};
+
+            return CreateFigure(type, values[0], values[1], values[2], values[3]);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static IFigure CreateFigure(string type, float x, float y, float width, float height)
+        {
             switch (type)
             {
                 case EllipseFigure.TYPE:
-                    return new EllipseFigure(StringToFloats(args));
+                    return new EllipseFigure(x, y, width, height);
                 case RectangleFigure.TYPE:
-                    return new RectangleFigure(StringToFloats(args));
+                    return new RectangleFigure(x, y, width, height);
                 case RoundedRectangle.TYPE:
-                    return new RoundedRectangle(StringToFloats(args));
+                    return new RoundedRectangle(x, y, width, height);
                 case SystemRectangle.TYPE:
-                    return new SystemRectangle(StringToFloats(args));
+                    return new SystemRectangle(x, y, width, height);
                 default:
-                    return new FigureBase(StringToFloats(args));
+                    return new FigureBase(x, y, width, height);
             }
+
         }
 
         /// <summary>

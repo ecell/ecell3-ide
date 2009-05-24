@@ -49,7 +49,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     /// ComponentSetting contains all information for creating one kind of a component of pathway.
     /// ex) Shape, color, etc.
     /// </summary>
-    public class ComponentSetting
+    public class ComponentSetting : ICloneable
     {
         #region Fields
         /// <summary>
@@ -473,6 +473,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 return this.m_fillBrush;
             }
         }
+        #endregion
+
+        #region ICloneable ÉÅÉìÉo
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ComponentSetting Clone()
+        {
+            // Set hard coded default system ComponentSettings
+            ComponentSetting cs = new ComponentSetting();
+            cs.Type = this.Type;
+            cs.Name = this.Name;
+            cs.IsDefault = this.IsDefault;
+            cs.Figure = (IFigure)this.Figure.Clone();
+            cs.CenterBrush = this.CenterBrush;
+            cs.FillBrush = this.FillBrush;
+            cs.IsGradation = this.IsGradation;
+            cs.LineBrush = this.LineBrush;
+
+            return cs;
+        }
+
         #endregion
     }
 }

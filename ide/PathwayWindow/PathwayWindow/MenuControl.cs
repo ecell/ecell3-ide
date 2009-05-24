@@ -121,6 +121,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripAlignRight;
         private ToolStripMenuItem toolStripMoveFront;
         private ToolStripMenuItem toolStripMoveBack;
+        private ToolStripMenuItem toolStripFigureSetting;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem toolStripOneWayArrow;
         private ToolStripMenuItem toolStripProperty;
@@ -246,6 +247,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAlignRight = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveFront = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveBack = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripFigureSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripProperty = new System.Windows.Forms.ToolStripMenuItem();
             this.toolButton = new System.Windows.Forms.ToolStrip();
@@ -300,6 +302,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripChangeLayer,
             this.toolStripMoveFront,
             this.toolStripMoveBack,
+            this.toolStripFigureSetting,
             this.toolStripSeparator3,
             this.commonMenu.loggingToolStripMenuItem,
             this.commonMenu.observedToolStripMenuItem,
@@ -459,6 +462,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripMoveBack.Size = new System.Drawing.Size(271, 22);
             this.toolStripMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveBack;
             this.toolStripMoveBack.Click += new System.EventHandler(this.MoveToBackClick);
+            // 
+            // toolStripMoveBack
+            // 
+            this.toolStripFigureSetting.Name = "toolStripFigureSetting";
+            this.toolStripFigureSetting.Size = new System.Drawing.Size(271, 22);
+            this.toolStripFigureSetting.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuFigureSetting;
+            this.toolStripFigureSetting.Click += new System.EventHandler(this.FigureSettingClick);
             // 
             // toolStripSeparator3
             // 
@@ -1253,6 +1263,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (node == obj)
                     flag = false;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FigureSettingClick(object sender, EventArgs e)
+        {
+            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
+            ComponentItem item = new ComponentItem(obj.Setting);
+            
         }
 
         /// <summary>

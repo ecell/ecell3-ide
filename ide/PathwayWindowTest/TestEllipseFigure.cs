@@ -60,7 +60,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         public void TestConstructorEllipseFigureVars()
         {
             float[] vars = null;
-            EllipseFigure testEllipseFigure = new EllipseFigure(vars);
+            EllipseFigure testEllipseFigure = new EllipseFigure();
             Assert.IsNotNull(testEllipseFigure, "Constructor of type, EllipseFigure failed to create instance.");
             Assert.Fail("Create or modify test(s).");
 

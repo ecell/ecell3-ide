@@ -95,6 +95,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ProjectStatus m_status = ProjectStatus.Uninitialized;
 
         /// <summary>
+        /// -
         /// Dictionary for canvases.
         ///  key: canvas ID
         ///  value: CanvasViewComponentSet

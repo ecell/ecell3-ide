@@ -33,13 +33,14 @@
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// Interface class of Figure objects.
     /// </summary>
-    public interface IFigure
+    public interface IFigure : ICloneable
     {
         /// <summary>
         /// X coordinate of this figure.

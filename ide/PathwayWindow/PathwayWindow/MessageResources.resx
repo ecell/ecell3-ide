@@ -357,4 +357,7 @@
   <data name="CanvasMenuDeleteAlias" xml:space="preserve">
     <value>Delete Alias</value>
   </data>
+  <data name="CanvasMenuFigureSetting" xml:space="preserve">
+    <value>Figure settings...</value>
+  </data>
 </root>

@@ -295,6 +295,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Figure settings... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuFigureSetting {
+            get {
+                return ResourceManager.GetString("CanvasMenuFigureSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Layout に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuLayout {

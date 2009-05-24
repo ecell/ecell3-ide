@@ -69,18 +69,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         }
 
         /// <summary>
-        /// Constructor with float array.
-        /// </summary>
-        /// <param name="vars"></param>
-        public RectangleFigure(float[] vars)
-        {
-            if (vars.Length >= 4)
-                Initialize(vars[0], vars[1], vars[2], vars[3], TYPE);
-            else
-                Initialize(0, 0, 1, 1, TYPE);
-        }
-
-        /// <summary>
         /// Create GraphicsPath
         /// </summary>
         /// <param name="x"></param>

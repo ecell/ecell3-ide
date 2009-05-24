@@ -31,6 +31,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
@@ -186,17 +187,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             Initialize(0, 0, 1, 1, TYPE);
         }
-        
+
         /// <summary>
         /// Constructor with float array.
         /// </summary>
-        /// <param name="vars"></param>
-        public FigureBase(float[] vars)
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public FigureBase(float x, float y, float width, float height)
         {
-            if (vars.Length >= 4)
-                Initialize(vars[0], vars[1], vars[2], vars[3], TYPE);
-            else
-                Initialize(0, 0, 1, 1, TYPE);
+            Initialize(x, y, width, height, TYPE);
         }
         /// <summary>
         /// Initialize this figure.
@@ -209,22 +210,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         protected void Initialize(float x, float y, float width, float height, string type)
         {
             m_type = type;
-            SetBounds(x, y, width, height);
-            m_gp = CreatePath(x, y, width, height);
-        }
-        /// <summary>
-        /// Set path bounds.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        protected void SetBounds(float x, float y, float width, float height)
-        {
             m_x = x;
             m_y = y;
             m_width = width;
             m_height = height;
+            m_gp = CreatePath(x, y, width, height);
         }
 
         #endregion
@@ -294,5 +284,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         }
         #endregion
 
+
+        #region ICloneable ÉÅÉìÉo
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual IFigure Clone()
+        {
+            return FigureManager.CreateFigure(m_type, m_x, m_y, m_width, m_height);
+        }
+        #endregion
     }
 }

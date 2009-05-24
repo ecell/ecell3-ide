@@ -357,4 +357,7 @@
   <data name="CanvasMenuDeleteAlias" xml:space="preserve">
     <value>エイリアスの削除</value>
   </data>
+  <data name="CanvasMenuFigureSetting" xml:space="preserve">
+    <value>図の書式設定...</value>
+  </data>
 </root>
