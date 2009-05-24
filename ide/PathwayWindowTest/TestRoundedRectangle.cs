@@ -57,18 +57,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// 
         /// </summary>
         [Test()]
-        public void TestConstructorRoundedRectangleVars()
-        {
-            float[] vars = null;
-            RoundedRectangle testRoundedRectangle = new RoundedRectangle(vars);
-            Assert.IsNotNull(testRoundedRectangle, "Constructor of type, RoundedRectangle failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestCreatePath()
         {
             float x = 0;

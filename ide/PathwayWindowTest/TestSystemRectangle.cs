@@ -57,18 +57,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// 
         /// </summary>
         [Test()]
-        public void TestConstructorSystemRectangleVars()
-        {
-            float[] vars = null;
-            SystemRectangle testSystemRectangle = new SystemRectangle(vars);
-            Assert.IsNotNull(testSystemRectangle, "Constructor of type, SystemRectangle failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestCreatePath()
         {
             float x = 0;

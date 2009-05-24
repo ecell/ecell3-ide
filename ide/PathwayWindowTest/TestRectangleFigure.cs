@@ -57,18 +57,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// 
         /// </summary>
         [Test()]
-        public void TestConstructorRectangleFigureVars()
-        {
-            float[] vars = null;
-            RectangleFigure testRectangleFigure = new RectangleFigure(vars);
-            Assert.IsNotNull(testRectangleFigure, "Constructor of type, RectangleFigure failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestCreatePath()
         {
             float x = 0;
