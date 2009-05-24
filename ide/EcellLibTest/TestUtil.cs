@@ -1318,6 +1318,12 @@ namespace Ecell
             Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
             Assert.AreEqual(expectedkey, key, "key out parameter is not expected value.");
 
+            fullID = "Stepper:ODEStepper";
+            expectedtype = Constants.xpathStepper;
+            expectedkey = "ODEStepper";
+            Util.ParseFullID(fullID, out type, out key);
+            Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
+            Assert.AreEqual(expectedkey, key, "key out parameter is not expected value.");
         }
 
         /// <summary>
@@ -1394,7 +1400,6 @@ namespace Ecell
             Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
             Assert.AreEqual(expectedkey, key, "type out parameter is not expected value.");
             Assert.AreEqual(expectedpropName, propName, "type out parameter is not expected value.");
-
         }
 
         /// <summary>

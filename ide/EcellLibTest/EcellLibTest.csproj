@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{009F33C7-F664-495B-80EB-FCEA9664A3B1}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -98,6 +98,7 @@
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />
     <Compile Include="TestConsoleManager.cs" />
     <Compile Include="TestConstant.cs" />
+    <Compile Include="TestDataLogger.cs" />
     <Compile Include="TestDataManager.cs" />
     <Compile Include="TestDataStorer.cs" />
     <Compile Include="TestDMManager.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="TestEmlWriter.cs" />
     <Compile Include="Plugin\TestPluginData.cs" />
     <Compile Include="Plugin\TestPluginManager.cs" />
+    <Compile Include="TestLeml.cs" />
     <Compile Include="TestProject.cs" />
     <Compile Include="TestProjectInfo.cs" />
     <Compile Include="TestTemplate.cs" />

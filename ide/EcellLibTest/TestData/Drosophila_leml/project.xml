@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--ECell-IDE configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<ECellProject>
+  <Project>Drosophila</Project>
+  <Date>2008/04/09 17:07:41</Date>
+  <Creator />
+  <EditCount>2</EditCount>
+  <Comment>the oscillating Drosophila period protein(PER)</Comment>
+  <SimulationParameter>DefaultSets</SimulationParameter>
+</ECellProject>

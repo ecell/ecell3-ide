@@ -59,7 +59,10 @@ namespace Ecell
         /// File path of Drosophila Project.
         /// </summary>
         public const string Project_Drosophila = TestDirectory + "Drosophila/project.xml";
-
+        /// <summary>
+        /// File path of Drosophila Leml Project.
+        /// </summary>
+        public const string Project_Drosophila_LEML = TestDirectory + "Drosophila_leml/project.xml";
         /// <summary>
         /// File path of CoupledOscillator Project.
         /// </summary>
