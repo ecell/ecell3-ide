@@ -54,7 +54,11 @@
 <value>1</value>
 </property>
 </stepper>
-<initialcondition />
+<initialcondition>
+<id name="Process:/CELL/CYTOPLASM:R_toy7:K4">
+<value>1.2</value>
+</id>
+</initialcondition>
 </model>
 <loggerpolicy>
 <step>
