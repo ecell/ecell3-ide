@@ -253,36 +253,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 ResetPosition();
             }
         }
-        /// <summary>
-        /// Accessor for m_normalBrush.
-        /// </summary>
-        public Brush FillBrush
-        {
-            get { return this.m_fillBrush; }
-            set
-            {
-                this.m_fillBrush = value;
-                base.Brush = m_fillBrush;
-            }
-        }
+
         /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
         public Brush LineBrush
         {
-            get { return this.m_lineBrush; }
-            set {
-                this.m_lineBrush = value;
-                this.Pen = new Pen(value, 0);
-            }
-        }
-        /// <summary>
-        /// Accessor for m_highLightBrush.
-        /// </summary>
-        public Brush HighLightBrush
-        {
-            get { return this.m_highLightBrush; }
-            set { this.m_highLightBrush = value; }
+            get { return this.Pen.Brush; }
+            set { this.Pen = new Pen(value, 0); }
         }
 
         /// <summary>
@@ -301,7 +279,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 else
                 {
-                    this.Brush = m_fillBrush;
+                    this.Brush = m_setting.CreateBrush(m_path);
                     this.m_pText.Brush = Brushes.Transparent;
                     RefreshView();
                 }
@@ -320,7 +298,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 else if (m_selected)
                     this.Brush = m_highLightBrush;
                 else
-                    this.Brush = m_fillBrush;
+                    this.Brush = m_setting.CreateBrush(m_path);
             }
         }
 
@@ -411,6 +389,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
+            this.Brush = m_setting.CreateBrush(m_path);
             this.Figure = m_setting.Figure;
             RefreshView();
             if (m_setting.IconExists)
@@ -475,7 +454,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_selected)
                 this.Brush = m_highLightBrush;
             else
-                this.FillBrush = m_setting.CreateBrush(m_path);
+                this.Brush = m_setting.CreateBrush(m_path);
         }
 
         /// <summary>

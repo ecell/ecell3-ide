@@ -71,7 +71,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public PPathwayText()
         {
             base.LineBrush = Brushes.Black;
-            base.FillBrush = Brushes.White;
+            base.Brush = Brushes.White;
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
             this.m_tbox.Multiline = true;
@@ -156,7 +156,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 else
                 {
-                    this.Brush = m_fillBrush;
+                    this.Brush = m_setting.CreateBrush(m_path);
                 }
                 RaiseHightLightChanged();
             }

@@ -150,7 +150,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 else
                 {
-                    this.Brush = m_fillBrush;
+                    this.Brush = m_setting.CreateBrush(m_path);
                 }
                 RaiseHightLightChanged();
             }

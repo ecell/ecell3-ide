@@ -265,11 +265,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                     pCanvas.PPathwayObject.Path,
                     centerBrush.Brush,
                     fillBrush.Brush);
-                this.pCanvas.PPathwayObject.FillBrush = pthGrBrush;
+                this.pCanvas.PPathwayObject.Brush = pthGrBrush;
             }
             else
             {
-                this.pCanvas.PPathwayObject.FillBrush = fillBrush.Brush;
+                this.pCanvas.PPathwayObject.Brush = fillBrush.Brush;
             }
         }
         /// <summary>
