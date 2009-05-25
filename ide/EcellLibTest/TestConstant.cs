@@ -44,6 +44,15 @@ namespace Ecell
         /// </summary>
         public const string TestDirectory = "c:/temp/";
         /// <summary>
+        /// 
+        /// </summary>
+        public const string Script_File = TestDirectory + "1.ess";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string DM_Source_File = TestDirectory + "DMCompile/aProcess.cpp";
+        public const string DM_Source_File2 = TestDirectory + "DMCompile/bProcess.cpp";
+        /// <summary>
         /// File path of RBC model.
         /// </summary>
         public const string Model_RBC = TestDirectory + "rbc.eml";

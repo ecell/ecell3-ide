@@ -97,5 +97,118 @@ namespace Ecell
             Assert.AreEqual(d.MaxDiskSpace, dclone.MaxDiskSpace, "LoggerPolicy clone execute unexpected action.");
         }
         
+        /// <summary>
+        /// TestAccessor
+        /// </summary>
+        [Test()]
+        public void TestSaveLoggerProperty()
+        {
+            double expectedStart = 0.0;
+            double expectedEnd = 0.0;
+            string expectedDir = "";
+            string expectedPath = "";
+
+            SaveLoggerProperty p = new SaveLoggerProperty();
+            Assert.AreEqual(p.DirName, expectedDir, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(p.Start, expectedStart, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(p.End, expectedEnd, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(p.FullPath, expectedPath, "SaveLoggerProperty Accessor is unexpected value.");
+
+            expectedStart = 10.0;
+            expectedEnd = 100.0;
+            expectedDir = TestConstant.TestDirectory;
+            expectedPath = "Variable:/:P0:Value";
+            
+            p.DirName = expectedDir;
+            p.End = expectedEnd;
+            p.Start = expectedStart;
+            p.FullPath = expectedPath;
+
+            Assert.AreEqual(p.DirName, expectedDir, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(p.Start, expectedStart, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(p.End, expectedEnd, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(p.FullPath, expectedPath, "SaveLoggerProperty Accessor is unexpected value.");
+
+            SaveLoggerProperty d = new SaveLoggerProperty(expectedPath, expectedStart, expectedEnd, expectedDir);
+            Assert.AreEqual(d.DirName, expectedDir, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(d.Start, expectedStart, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(d.End, expectedEnd, "SaveLoggerProperty Accessor is unexpected value.");
+            Assert.AreEqual(d.FullPath, expectedPath, "SaveLoggerProperty Accessor is unexpected value.");
+        }
+
+        /// <summary>
+        /// TestAccessor
+        /// </summary>
+        [Test()]
+        public void TestLogData()
+        {
+            string expectedModeID = null;
+            string expectedKey = null;
+            string expectedPropName = null;
+            string expectedType = null;
+            bool expectedIsLoad = false;
+            string expectedFileName = null;
+
+            LogData data = new LogData();
+            Assert.AreEqual(expectedModeID, data.model, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedKey, data.key, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedType, data.type, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedPropName, data.propName, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedIsLoad, data.IsLoaded, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedFileName, data.FileName, "LogData accessor is unexpected value.");
+            Assert.IsNull(data.logValueList, "LogData accessor is unexpected value.");
+
+            expectedModeID = "Model";
+            expectedKey = "KeyData";
+            expectedType = "Type";
+            expectedPropName = "PropData";
+            expectedIsLoad = true;
+            expectedFileName = "FileName";
+
+            data.IsLoaded = expectedIsLoad;
+            data.FileName = expectedFileName;
+            Assert.AreEqual(expectedIsLoad, data.IsLoaded, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedFileName, data.FileName, "LogData accessor is unexpected value.");
+
+            LogData d = new LogData(expectedModeID, expectedKey, expectedType, expectedPropName, new List<LogValue>());
+            Assert.AreEqual(expectedModeID, d.model, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedKey, d.key, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedType, d.type, "LogData accessor is unexpected value.");
+            Assert.AreEqual(expectedPropName, d.propName, "LogData accessor is unexpected value.");
+            Assert.AreEqual(0, d.logValueList.Count, "LogData accessor is unexpected value.");
+        }
+
+        /// <summary>
+        /// TestAccessor
+        /// </summary>
+        [Test()]
+        public void TestLogValue()
+        {
+            double expectedAvg = double.NaN;
+            double expectedMax = double.NaN;
+            double expectedMin = double.NaN;
+            double expectedTime = double.NaN;
+            double expectedValue = double.NaN;
+
+            LogValue v = new LogValue();
+            Assert.AreEqual(v.avg, expectedAvg, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.max, expectedMax, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.min, expectedMin, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.time, expectedTime, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.value, expectedValue, "LogValue Accessor is unexpected value.");
+
+            expectedAvg = 0.1;
+            expectedMax = 0.2;
+            expectedMin = 0.3;
+            expectedTime = 0.4;
+            expectedValue = 0.5;
+
+            v = new LogValue(expectedTime, expectedValue, expectedAvg, expectedMin, expectedMax);
+            Assert.AreEqual(v.avg, expectedAvg, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.max, expectedMax, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.min, expectedMin, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.time, expectedTime, "LogValue Accessor is unexpected value.");
+            Assert.AreEqual(v.value, expectedValue, "LogValue Accessor is unexpected value.");
+        }
     }
 }

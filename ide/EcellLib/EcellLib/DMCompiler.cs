@@ -69,7 +69,6 @@ namespace Ecell
         /// </summary>
         public string SourceFile
         {
-            get { return this.m_sourceFile; }
             set { this.m_sourceFile = value; }
         }
 
@@ -80,15 +79,6 @@ namespace Ecell
         {
             get { return this.m_outputFile; }
             set { this.m_outputFile = value; }
-        }
-
-        /// <summary>
-        /// get / set the options.
-        /// </summary>
-        public string Option
-        {
-            get { return this.m_option; }
-            set { this.m_option = value; }
         }
         /// <summary>
         /// 

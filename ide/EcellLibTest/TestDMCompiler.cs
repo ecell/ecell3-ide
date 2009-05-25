@@ -45,7 +45,7 @@ namespace Ecell
     /// 
     /// </summary>
     [TestFixture()]
-    public class TestLeml
+    public class TestDMCompiler
     {
         private ApplicationEnvironment _env;
         private DataManager _unitUnderTest;
@@ -68,20 +68,18 @@ namespace Ecell
             _env = null;
         }
 
+        
         /// <summary>
-        /// TestLoad
+        /// TestScriptWriterForUnix
         /// </summary>
         [Test()]
-        public void TestLoadSaveLeml()
+        public void TestCompile()
         {
-            // Load Drosophila
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila_LEML);
+            string fileName = TestConstant.DM_Source_File;
+            DMCompiler.Compile(fileName, _env);
 
-            EcellObject obj = _unitUnderTest.GetEcellObject("Drosophila_leml", "/CELL/CYTOPLASM:R_toy10", Constants.xpathProcess);
-            EcellData data = obj.GetEcellData(Constants.xpathActivity);
-            Assert.IsTrue(data.Logged, "Logger info in leml is unexpected value.");            
-
-            _unitUnderTest.SaveProject();
+            fileName = TestConstant.DM_Source_File2;
+            DMCompiler.Compile(fileName, _env);
         }
 
     }

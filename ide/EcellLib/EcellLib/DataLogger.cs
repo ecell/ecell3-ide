@@ -112,7 +112,7 @@ namespace Ecell
         /// <summary>
         /// Creates the new "LogData" instance without any parameter.
         /// </summary>
-        private LogData()
+        public LogData()
         {
         }
 
@@ -345,7 +345,7 @@ namespace Ecell
         /// <summary>
         /// Creates the new "LogValue" instance without any parameter.
         /// </summary>
-        private LogValue()
+        public LogValue()
         {
         }
 

@@ -70,6 +70,8 @@
   <ItemGroup>
     <Compile Include="Exceptions\TestEcellException.cs" />
     <Compile Include="Job\TestExecuteParameter.cs" />
+    <Compile Include="Job\TestGlobusJob.cs" />
+    <Compile Include="Job\TestGlobusJobProxy.cs" />
     <Compile Include="Job\TestJob.cs" />
     <Compile Include="Job\TestJobManager.cs" />
     <Compile Include="Job\TestLocalJob.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="TestDataLogger.cs" />
     <Compile Include="TestDataManager.cs" />
     <Compile Include="TestDataStorer.cs" />
+    <Compile Include="TestDMCompiler.cs" />
     <Compile Include="TestDMManager.cs" />
     <Compile Include="Objects\TestEcellData.cs" />
     <Compile Include="Objects\TestEcellLayout.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="TestLeml.cs" />
     <Compile Include="TestProject.cs" />
     <Compile Include="TestProjectInfo.cs" />
+    <Compile Include="TestScriptWriter.cs" />
     <Compile Include="TestTemplate.cs" />
     <Compile Include="Action\TestUserAction.cs" />
     <Compile Include="TestUtil.cs" />

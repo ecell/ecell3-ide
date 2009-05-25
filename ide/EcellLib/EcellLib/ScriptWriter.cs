@@ -245,7 +245,6 @@ namespace Ecell
         /// <param name="sysObj">written system object.</param>
         public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
-            if (sysObj == null) return;
             m_exportSystem.Add(sysObj.Key, m_sysCount);
             string prefix = "";
             string data = "";
@@ -285,11 +284,7 @@ namespace Ecell
         /// <param name="sysObj">written system object.</param>
         public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
-            if (sysObj == null)
-                return;
             int count = m_exportSystem[sysObj.Key];
-            if (sysObj.Value == null)
-                return;
             foreach (EcellData d in sysObj.Value)
             {
                 if (!d.Settable)
@@ -308,8 +303,6 @@ namespace Ecell
         public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
             string curParam = m_currentProject.Info.SimulationParam;
-            if (curParam == null)
-                return;
             LoggerPolicy l = m_currentProject.LoggerPolicyDic[curParam];
             File.AppendAllText(fileName, "\n# Logger Policy\n");
             if (logList == null)
@@ -512,9 +505,9 @@ namespace Ecell
                 return;
             foreach (SaveLoggerProperty s in saveList)
             {
+                if (topdir == null)
+                    topdir = s.DirName;
                 string dir = topdir + "/" + Environment.MachineName + "/" + jobID;
-                if (dir == null)
-                    dir = s.DirName;
                 File.AppendAllText(
                     fileName,
                     "saveLoggerData(\"" + s.FullPath + "\",\"" + dir + "\"," +
