@@ -59,10 +59,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="cs"></param>
-        public ComponentItem(ComponentSetting cs)
+        public ComponentItem()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="cs"></param>
+        public ComponentItem(ComponentSetting cs)
+            : this()
+        {
             SetItems(cs);
         }
 
@@ -159,9 +167,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
-        private void SetItems(ComponentSetting cs)
+        public void SetItems(ComponentSetting cs)
         {
             this.groupBox.Text = cs.Name;
             // Set ToolCanvas.

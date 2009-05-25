@@ -882,6 +882,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripChangeLayer.Visible = isObject && !isRoot;
             toolStripMoveFront.Visible = isObject && !isRoot;
             toolStripMoveBack.Visible = isObject && !isRoot;
+            toolStripFigureSetting.Visible = isObject;
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
@@ -1273,8 +1274,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void FigureSettingClick(object sender, EventArgs e)
         {
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
-            ComponentItem item = new ComponentItem(obj.Setting);
-            
+            ComponentSetting cs = obj.Setting.Clone();
+            cs.Name = obj.EcellObject.FullID;
+            ComponentDialog dlg = new ComponentDialog(cs);
+            using (dlg)
+            {
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+                dlg.ApplyChange();
+                obj.Setting = cs;
+            }
         }
 
         /// <summary>
