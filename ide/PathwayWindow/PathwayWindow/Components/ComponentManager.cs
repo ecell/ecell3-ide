@@ -268,6 +268,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 
         #region Methods
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<ComponentSetting> GetAllSettings()
+        {
+            List<ComponentSetting> list = new List<ComponentSetting>();
+            list.AddRange(m_systemSettings.Values);
+            list.AddRange(m_processSettings.Values);
+            list.AddRange(m_variableSettings.Values);
+            list.AddRange(m_textSettings.Values);
+            list.AddRange(m_stepperSettings.Values);
+
+            return list;
+        }
+
+        /// <summary>
         /// Load ComponentSettings from default setting file.
         /// </summary>
         public void LoadSettings(string filename)
@@ -327,7 +343,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <param name="doc"></param>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public XmlNode ConvertToXmlNode(XmlDocument doc, ComponentSetting setting)
+        public static XmlNode ConvertToXmlNode(XmlDocument doc, ComponentSetting setting)
         {
             XmlElement cs = doc.CreateElement(ComponentConstants.xPathComponent);
             cs.SetAttribute(ComponentConstants.xPathType, setting.Type);
@@ -377,31 +393,59 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Get
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public PPathwayObject CreateNewComponent(string type)
+        public PPathwayObject CreateNewComponent(string type, string key)
+        {
+            ComponentSetting setting = GetSetting(type, key);
+            return setting.CreateTemplate();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public ComponentSetting GetSetting(string type, string key)
         {
             ComponentSetting setting;
             switch (type)
             {
                 case EcellObject.SYSTEM:
-                    setting = SystemSetting;
+                    if (m_systemSettings.ContainsKey(key))
+                        setting = m_systemSettings[key];
+                    else
+                        setting = m_systemSettings[m_defaultSystemName];
                     break;
                 case EcellObject.PROCESS:
-                    setting = ProcessSetting;
+                    if (m_processSettings.ContainsKey(key))
+                        setting = m_processSettings[key];
+                    else
+                        setting = m_processSettings[m_defaultProcessName];
                     break;
                 case EcellObject.VARIABLE:
-                    setting = VariableSetting;
+                    if (m_variableSettings.ContainsKey(key))
+                        setting = m_variableSettings[key];
+                    else
+                        setting = m_variableSettings[m_defaultVariableName];
                     break;
                 case EcellObject.TEXT:
-                    setting = TextSetting;
+                    if (m_textSettings.ContainsKey(key))
+                        setting = m_textSettings[key];
+                    else
+                        setting = m_textSettings[m_defaultTextName];
                     break;
                 case EcellObject.STEPPER:
-                    setting = StepperSetting;
+                    if (m_stepperSettings.ContainsKey(key))
+                        setting = m_stepperSettings[key];
+                    else
+                        setting = m_stepperSettings[m_defaultStepperName];
                     break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
             }
-            return setting.CreateTemplate();
+            return setting;
         }
 
         /// <summary>
@@ -420,14 +464,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 SetDefaultSetting(setting);
         }
 
-        /// <summary>
-        /// Create TabPage for PathwaySettingDialog
-        /// </summary>
-        /// <returns></returns>
-        public PropertyDialogPage ComponentSettingsPage
-        {
-            get { return new ComponentSettingsPage(this);}
-        }
         #endregion
 
         #region Private Methods

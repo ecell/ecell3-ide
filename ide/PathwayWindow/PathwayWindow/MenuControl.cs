@@ -1275,7 +1275,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
             ComponentSetting cs = obj.Setting.Clone();
-            cs.Name = obj.EcellObject.FullID;
+            cs.Name = obj.EcellObject.Key;
+            cs.IsDefault = false;
             ComponentDialog dlg = new ComponentDialog(cs);
             using (dlg)
             {

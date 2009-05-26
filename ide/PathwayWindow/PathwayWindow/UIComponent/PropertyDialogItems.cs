@@ -266,7 +266,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// 
         /// </summary>
-        public bool Enabled
+        public new bool Enabled
         {
             get { return comboBoxBrush.Enabled; }
             set 

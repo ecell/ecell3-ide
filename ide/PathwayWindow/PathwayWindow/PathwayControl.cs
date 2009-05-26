@@ -197,6 +197,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// Create TabPage for PathwaySettingDialog
+        /// </summary>
+        /// <returns></returns>
+        public PropertyDialogPage ComponentSettingsPage
+        {
+            get { return new ComponentSettingsPage(this); }
+        }
+
+        /// <summary>
         /// Get the TabPages for PropertyDialog.
         /// </summary>
         public List<IPropertyItem> PropertySettings
@@ -206,7 +215,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PropertyNode node = new PropertyNode(MessageResources.WindowPathway);
                 node.Nodes.Add(new PropertyNode(m_animCon.PathwaySettingsPage));
                 node.Nodes.Add(new PropertyNode(m_animCon.AnimationSettingsPage));
-                node.Nodes.Add(new PropertyNode(m_csManager.ComponentSettingsPage));
+                node.Nodes.Add(new PropertyNode(this.ComponentSettingsPage));
 
                 List<IPropertyItem> nodeList = new List<IPropertyItem>();
                 nodeList.Add(node);
@@ -545,7 +554,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Create PathwayObject and set to canvas.
-            PPathwayObject obj = m_csManager.CreateNewComponent(eo.Type);
+            PPathwayObject obj = m_csManager.CreateNewComponent(eo.Type, eo.Key);
             obj.Canvas = m_canvas;
             obj.EcellObject = eo;
 
@@ -1632,9 +1641,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             XmlElement status = doc.CreateElement(m_window.GetPluginName());
             XmlElement componentList = doc.CreateElement(ComponentConstants.xPathComponentList);
             status.AppendChild(componentList);
-            foreach (ComponentSetting cs in m_csManager.ProcessSettings.Values)
+            foreach (ComponentSetting cs in m_csManager.GetAllSettings())
             {
-                componentList.AppendChild(m_csManager.ConvertToXmlNode(doc, cs));
+                componentList.AppendChild(ComponentManager.ConvertToXmlNode(doc, cs));
             }
 
             return status;

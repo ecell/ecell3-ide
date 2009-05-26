@@ -35,17 +35,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     /// </summary>
     internal class ComponentSettingsPage : PropertyDialogPage
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        PathwayControl m_con = null;
+        /// <summary>
+        /// 
+        /// </summary>
         ComponentManager m_manager = null;
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="manager"></param>
-        public ComponentSettingsPage(ComponentManager manager)
+        /// <param name="control"></param>
+        public ComponentSettingsPage(PathwayControl control)
             : base()
         {
             InitializeComponent();
 
-            m_manager = manager;
+            m_con = control;
+            m_manager = control.ComponentManager;
 
             this.SuspendLayout();
             int top = 0;
@@ -72,7 +80,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 item.ApplyChange();
             }
             m_manager.SaveSettings();
-            m_manager.Control.ResetObjectSettings();
+            m_con.ResetObjectSettings();
 
         }
         /// <summary>
