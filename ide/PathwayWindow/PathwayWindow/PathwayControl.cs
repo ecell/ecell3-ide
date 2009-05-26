@@ -47,6 +47,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.Objects;
 using Ecell.Plugin;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -1009,11 +1010,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void SetNodeIcons()
         {
-            m_window.PluginManager.SetIconImage(Constants.xpathSystem, m_csManager.DefaultSystemSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathProcess, m_csManager.DefaultProcessSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathVariable, m_csManager.DefaultVariableSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathText, m_csManager.DefaultTextSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathStepper, m_csManager.DefaultStepperSetting.IconImage, true);
+            m_window.PluginManager.SetIconImage(Constants.xpathSystem, m_csManager.SystemSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathProcess, m_csManager.ProcessSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathVariable, m_csManager.VariableSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathText, m_csManager.TextSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathStepper, m_csManager.StepperSetting.IconImage, true);
         }
 
         #endregion
@@ -1619,5 +1620,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         #endregion
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public XmlNode GetPluginStatus()
+        {
+            XmlDocument doc =new XmlDocument();
+            XmlElement status = doc.CreateElement(m_window.GetPluginName());
+            XmlElement componentList = doc.CreateElement(ComponentConstants.xPathComponentList);
+            status.AppendChild(componentList);
+            foreach (ComponentSetting cs in m_csManager.ProcessSettings.Values)
+            {
+                componentList.AppendChild(m_csManager.ConvertToXmlNode(doc, cs));
+            }
+
+            return status;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public void SetPluginStatus(XmlNode status)
+        {
+            List<ComponentSetting> list = ComponentManager.LoadFromXML(status);
+            m_csManager.CheckAndRegisterComponent(list);
+        }
     }
 }

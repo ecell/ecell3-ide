@@ -36,7 +36,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     internal class ComponentSettingsPage : PropertyDialogPage
     {
         ComponentManager m_manager = null;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="manager"></param>
         public ComponentSettingsPage(ComponentManager manager)
             : base()
         {
@@ -58,6 +61,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
             this.ResumeLayout();
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public override void ApplyChange()
         {
             base.ApplyChange();
@@ -65,11 +71,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             {
                 item.ApplyChange();
             }
-            m_manager.SaveComponentSettings();
+            m_manager.SaveSettings();
             m_manager.Control.ResetObjectSettings();
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();

@@ -44,7 +44,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         [Test()]
         public void TestConstructorFigureBaseVars()
         {
-            float[] vars = null;
             FigureBase testFigureBase = new FigureBase();
             Assert.IsNotNull(testFigureBase, "Constructor of type, FigureBase failed to create instance.");
             Assert.Fail("Create or modify test(s).");

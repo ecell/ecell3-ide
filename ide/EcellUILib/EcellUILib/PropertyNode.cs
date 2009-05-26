@@ -62,6 +62,9 @@ namespace Ecell.IDE
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void ApplyChange()
         {
             if (m_page != null)
@@ -75,6 +78,9 @@ namespace Ecell.IDE
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void PropertyDialogClosing()
         {
             if (m_page != null)

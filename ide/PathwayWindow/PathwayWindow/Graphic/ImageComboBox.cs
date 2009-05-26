@@ -188,6 +188,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         /// </summary>
         public ImageComboBox()
         {
+            InitializeComponent();
+
             DrawMode = DrawMode.OwnerDrawFixed;
             imageList = new ImageList();
 

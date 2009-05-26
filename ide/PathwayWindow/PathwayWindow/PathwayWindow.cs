@@ -105,6 +105,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override System.Xml.XmlNode GetPluginStatus()
+        {
+            return m_con.GetPluginStatus();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void SetPluginStatus(System.Xml.XmlNode status)
+        {
+            m_con.SetPluginStatus(status);
+        }
+
+        /// <summary>
         /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns>the list of menu.</returns>

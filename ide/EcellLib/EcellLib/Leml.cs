@@ -54,6 +54,10 @@ namespace Ecell
                 // Load Logger
                 XmlNode loggers = GetNodeByKey(applicationData, LemlConstants.xPathLoggerList);
                 SetLogger(env, model, loggers);
+
+                // Load plugin settings
+                XmlNode settings = GetNodeByKey(applicationData, LemlConstants.xPathPluginSettings);
+                SetPluginSettings(env, settings);
             }
             catch (Exception ex)
             {
@@ -68,7 +72,7 @@ namespace Ecell
         /// <param name="xml"></param>
         /// <param name="key"></param>
         /// <returns>Selected XmlNode</returns>
-        private static XmlNode GetNodeByKey(XmlNode xml, string key)
+        public static XmlNode GetNodeByKey(XmlNode xml, string key)
         {
             XmlNode selected = null;
             foreach (XmlNode node in xml.ChildNodes)
@@ -237,7 +241,7 @@ namespace Ecell
         /// <param name="node"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        private static string GetStringAttribute(XmlNode node, string key)
+        public static string GetStringAttribute(XmlNode node, string key)
         {
             try
             {
@@ -260,7 +264,7 @@ namespace Ecell
         /// <param name="node"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        private static float GetFloatAttribute(XmlNode node, string key)
+        public static float GetFloatAttribute(XmlNode node, string key)
         {
             string value = GetStringAttribute(node, key);
             try
@@ -271,6 +275,21 @@ namespace Ecell
             {
                 Trace.WriteLine(ex);
                 return 0f;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
+        /// <param name="settings"></param>
+        private static void SetPluginSettings(ApplicationEnvironment env, XmlNode settings)
+        {
+            if (settings == null)
+                return;
+            foreach (XmlElement plugin in settings.ChildNodes)
+            {
+                env.PluginManager.SetPluginStatus(plugin.Name, plugin); 
             }
         }
 
@@ -341,6 +360,7 @@ namespace Ecell
                 }
                 xmlOut.WriteEndElement();
 
+                // Logger
                 xmlOut.WriteStartElement(LemlConstants.xPathLoggerList);
                 foreach (string name in env.LoggerManager.GetLoggerList())
                 {
@@ -348,7 +368,14 @@ namespace Ecell
                     WriteLoggerElement(xmlOut, entry);
                 }
                 xmlOut.WriteEndElement();
-                
+
+                // Plugin settings.
+                xmlOut.WriteStartElement(LemlConstants.xPathPluginSettings);
+                foreach (XmlNode status in env.PluginManager.GetPluginStatus())
+                {
+                    status.WriteTo(xmlOut);
+                }
+                xmlOut.WriteEndElement();
 
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
@@ -480,6 +507,10 @@ namespace Ecell
         /// 
         /// </summary>
         public const string xPathAlias = "Alias";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathPluginSettings = "PluginSettings";
         /// <summary>
         /// 
         /// </summary>

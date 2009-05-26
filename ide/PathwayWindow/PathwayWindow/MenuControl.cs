@@ -1283,6 +1283,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     return;
                 dlg.ApplyChange();
                 obj.Setting = cs;
+                m_con.ComponentManager.RegisterSetting(cs);
             }
         }
 

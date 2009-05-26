@@ -163,7 +163,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Accessor for default ComponentSetting for System.
         /// If it doesn't exist, null will be returned.
         /// </summary>
-        public ComponentSetting DefaultSystemSetting
+        public ComponentSetting SystemSetting
         {
             get
             {
@@ -178,7 +178,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Accessor for default ComponentSetting for Process.
         /// If it doesn't exist, null will be returned.
         /// </summary>
-        public ComponentSetting DefaultProcessSetting
+        public ComponentSetting ProcessSetting
         {
             get
             {
@@ -193,7 +193,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Accessor for default ComponentSetting for Variable.
         /// If it doesn't exist, null will be returned.
         /// </summary>
-        public ComponentSetting DefaultVariableSetting
+        public ComponentSetting VariableSetting
         {
             get
             {
@@ -208,7 +208,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Accessor for default ComponentSetting for Variable.
         /// If it doesn't exist, null will be returned.
         /// </summary>
-        public ComponentSetting DefaultTextSetting
+        public ComponentSetting TextSetting
         {
             get
             {
@@ -223,7 +223,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Accessor for default ComponentSetting for Variable.
         /// If it doesn't exist, null will be returned.
         /// </summary>
-        public ComponentSetting DefaultStepperSetting
+        public ComponentSetting StepperSetting
         {
             get
             {
@@ -242,10 +242,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             get
             {
                 List<ComponentSetting> list = new List<ComponentSetting>();
-                list.Add(DefaultSystemSetting);
-                list.Add(DefaultVariableSetting);
-                list.Add(DefaultProcessSetting);
-                list.Add(DefaultTextSetting);
+                list.Add(SystemSetting);
+                list.Add(VariableSetting);
+                list.Add(ProcessSetting);
+                list.Add(TextSetting);
                 return list;
             }
         }
@@ -270,13 +270,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// Load ComponentSettings from default setting file.
         /// </summary>
-        public void LoadComponentSettings(string filename)
+        public void LoadSettings(string filename)
         {
             List<ComponentSetting> list;
             try
             {
                 // Load ComponentSettings information from xml file.
-                list = ComponentSettingsLoader.LoadFromXML(filename);
+                list = ComponentManager.LoadFromXML(filename);
                 // Check and register ComponentSettings.
                 CheckAndRegisterComponent(list);
             }
@@ -289,73 +289,88 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         }
 
         /// <summary>
-        /// Save ComponentSettings
+        /// Check errors and register each ComponentSetting.
+        /// If any ComponentSettings in the xml file is invalid, these messages are shown.
         /// </summary>
-        public void SaveComponentSettings()
+        /// <param name="list"></param>
+        internal void CheckAndRegisterComponent(List<ComponentSetting> list)
         {
-            string filepath = GetUserSettingsFilePath();
-            FileStream fs = null;
-            XmlTextWriter xmlOut = null;
-            try
+            int csCount = 0;
+            string warnMessage = "";
+            foreach (ComponentSetting cs in list)
             {
-                // Create xml file
-                CheckFilePath();
-                fs = new FileStream(filepath, FileMode.Create);
-                xmlOut = new XmlTextWriter(fs, Encoding.UTF8);
-
-                // Use indenting for readability
-                xmlOut.Formatting = Formatting.Indented;
-                xmlOut.WriteStartDocument();
-
-                // Always begin file with identification and warning
-                xmlOut.WriteComment(ComponentConstants.xPathFileHeader1);
-                xmlOut.WriteComment(ComponentConstants.xPathFileHeader2);
-
-                // Application settings
-                xmlOut.WriteStartElement(ComponentConstants.xPathComponentList);
-                xmlOut.WriteAttributeString(ComponentConstants.xPathName, Application.ProductName);
-                xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, ComponentConstants.xPathVersion);
-
-                // Object settings
-                foreach (ComponentSetting setting in ComponentSettings)
+                List<string> lackInfos = cs.Validate();
+                if (lackInfos == null)
                 {
-                    xmlOut.WriteStartElement(ComponentConstants.xPathComponent);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathType, setting.Type);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathIsDafault, setting.IsDefault.ToString());
-                    xmlOut.WriteElementString(ComponentConstants.xPathName, setting.Name);
-                    xmlOut.WriteElementString(ComponentConstants.xPathIconFile, setting.IconFileName);
-                    xmlOut.WriteStartElement(ComponentConstants.xPathFigure);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathMode, ComponentConstants.xPathEdit);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathType, setting.Figure.Type);
-                    xmlOut.WriteElementString(ComponentConstants.xPathSize, setting.Figure.Coordinates);
-                    xmlOut.WriteElementString(ComponentConstants.xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathCenterBrush, BrushManager.ParseBrushToString(setting.CenterBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathIsGradation, setting.IsGradation.ToString());
-                    xmlOut.WriteEndElement();
-                    //xmlOut.WriteStartElement(xPathFigure);
-                    //xmlOut.WriteAttributeString(xPathMode, xPathView);
-                    //xmlOut.WriteAttributeString(xPathType, setting.Figure.Type);
-                    //xmlOut.WriteElementString(xPathSize, setting.Figure.Coordinates);
-                    //xmlOut.WriteElementString(xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
-                    //xmlOut.WriteElementString(xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
-                    //xmlOut.WriteEndElement();
-                    xmlOut.WriteEndElement();
+                    RegisterSetting(cs);
                 }
-                xmlOut.WriteEndElement();
-                xmlOut.WriteEndDocument();
+                else
+                {
+                    string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
+                    warnMessage += MessageResources.ErrCompInvalid + "\n";
+                    foreach (string lackInfo in lackInfos)
+                        warnMessage += "    " + name + " lacks " + lackInfo + "\n";
+                }
+                csCount++;
             }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrCompInvalid + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
 
-            }
-            finally
+            if (!string.IsNullOrEmpty(warnMessage))
             {
-                if (xmlOut != null) xmlOut.Close();
-                if (fs != null) fs.Close();
+                Debug.Print(warnMessage);
+                throw new ArgumentException(warnMessage);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="setting"></param>
+        /// <returns></returns>
+        public XmlNode ConvertToXmlNode(XmlDocument doc, ComponentSetting setting)
+        {
+            XmlElement cs = doc.CreateElement(ComponentConstants.xPathComponent);
+            cs.SetAttribute(ComponentConstants.xPathType, setting.Type);
+            cs.SetAttribute(ComponentConstants.xPathIsDafault, setting.IsDefault.ToString());
+
+            XmlNode name = doc.CreateElement(ComponentConstants.xPathName);
+            name.AppendChild(doc.CreateTextNode(setting.Name));
+            cs.AppendChild(name);
+
+            XmlNode icon = doc.CreateElement(ComponentConstants.xPathIconFile);
+            icon.AppendChild(doc.CreateTextNode(setting.IconFileName));
+            cs.AppendChild(icon);
+
+            XmlElement figure = doc.CreateElement(ComponentConstants.xPathFigure);
+            figure.SetAttribute(ComponentConstants.xPathMode, ComponentConstants.xPathEdit);
+            figure.SetAttribute(ComponentConstants.xPathType, setting.Figure.Type);
+            cs.AppendChild(figure);
+
+            XmlNode size = doc.CreateElement(ComponentConstants.xPathSize);
+            size.AppendChild(doc.CreateTextNode(setting.Figure.Coordinates));
+            figure.AppendChild(size);
+
+            XmlNode textBrush = doc.CreateElement(ComponentConstants.xPathTextBrush);
+            textBrush.AppendChild(doc.CreateTextNode(BrushManager.ParseBrushToString(setting.TextBrush)));
+            figure.AppendChild(textBrush);
+
+            XmlNode lineBrush = doc.CreateElement(ComponentConstants.xPathLineBrush);
+            lineBrush.AppendChild(doc.CreateTextNode(BrushManager.ParseBrushToString(setting.LineBrush)));
+            figure.AppendChild(lineBrush);
+
+            XmlNode fillBrush = doc.CreateElement(ComponentConstants.xPathFillBrush);
+            fillBrush.AppendChild(doc.CreateTextNode(BrushManager.ParseBrushToString(setting.FillBrush)));
+            figure.AppendChild(fillBrush);
+
+            XmlNode centerBrush = doc.CreateElement(ComponentConstants.xPathCenterBrush);
+            centerBrush.AppendChild(doc.CreateTextNode(BrushManager.ParseBrushToString(setting.CenterBrush)));
+            figure.AppendChild(centerBrush);
+
+            XmlNode isGradation = doc.CreateElement(ComponentConstants.xPathIsGradation);
+            isGradation.AppendChild(doc.CreateTextNode(setting.IsGradation.ToString()));
+            figure.AppendChild(isGradation);
+
+            return cs;
         }
 
         /// <summary>
@@ -369,19 +384,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             switch (type)
             {
                 case EcellObject.SYSTEM:
-                    setting = DefaultSystemSetting;
+                    setting = SystemSetting;
                     break;
                 case EcellObject.PROCESS:
-                    setting = DefaultProcessSetting;
+                    setting = ProcessSetting;
                     break;
                 case EcellObject.VARIABLE:
-                    setting = DefaultVariableSetting;
+                    setting = VariableSetting;
                     break;
                 case EcellObject.TEXT:
-                    setting = DefaultTextSetting;
+                    setting = TextSetting;
                     break;
                 case EcellObject.STEPPER:
-                    setting = DefaultStepperSetting;
+                    setting = StepperSetting;
                     break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
@@ -393,7 +408,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Register ComponentSetting onto this manager
         /// </summary>
         /// <param name="setting">ComponentSetting</param>
-        private void RegisterSetting(ComponentSetting setting)
+        public void RegisterSetting(ComponentSetting setting)
         {
             Dictionary<string, ComponentSetting> dic = GetSettingDictionary(setting.Type);
             if (dic.ContainsKey(setting.Name))
@@ -515,9 +530,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             CreateDefaultSettings();
             string filename = GetUserSettingsFilePath();
             if (File.Exists(filename))
-                LoadComponentSettings(filename);
+                LoadSettings(filename);
             else
-                SaveComponentSettings();
+                SaveSettings();
         }
 
         /// <summary>
@@ -578,47 +593,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                     throw new PathwayException(MessageResources.ErrUnknowType);
             }
         }
-
-        /// <summary>
-        /// Check errors and register each ComponentSetting.
-        /// If any ComponentSettings in the xml file is invalid, these messages are shown.
-        /// </summary>
-        /// <param name="list"></param>
-        private void CheckAndRegisterComponent(List<ComponentSetting> list)
-        {
-            int csCount = 0;
-            string warnMessage = "";
-            foreach (ComponentSetting cs in list)
-            {
-                List<string> lackInfos = cs.Validate();
-                if (lackInfos == null)
-                {
-                    RegisterSetting(cs);
-                }
-                else
-                {
-                    string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += MessageResources.ErrCompInvalid + "\n";
-                    foreach (string lackInfo in lackInfos)
-                        warnMessage += "    " + name + " lacks " + lackInfo + "\n";
-                }
-                csCount++;
-            }
-
-            if (!string.IsNullOrEmpty(warnMessage))
-            {
-                Debug.Print(warnMessage);
-                throw new ArgumentException(warnMessage);
-            }
-        }
         #endregion
-    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    internal class ComponentSettingsLoader
-    {
+        #region Loader
         /// <summary>
         /// Load ComponentSettings from xml file.
         /// </summary>
@@ -629,6 +606,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             XmlDocument xmlD = new XmlDocument();
             xmlD.Load(filename);
 
+            return LoadFromXML(xmlD);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlD"></param>
+        /// <returns></returns>
+        public static List<ComponentSetting> LoadFromXML(XmlNode xmlD)
+        {
             // Get Component List.
             XmlNode componentList = null;
             List<ComponentSetting> list = new List<ComponentSetting>();
@@ -637,7 +624,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 if (node.Name.Equals(ComponentConstants.xPathComponentList))
                     componentList = node;
             }
-            CheckFileVersion(componentList);
 
             // Create component.
             foreach (XmlNode componentNode in componentList.ChildNodes)
@@ -647,6 +633,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
             return list;
         }
+
         /// <summary>
         /// LoadComponentSetting
         /// </summary>
@@ -686,6 +673,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             return cs;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cs"></param>
+        /// <param name="parameterNode"></param>
         private static void LoadFigure(ComponentSetting cs, XmlNode parameterNode)
         {
             foreach (XmlNode figureNode in parameterNode.ChildNodes)
@@ -733,16 +725,59 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
         }
 
+        #endregion
+
+        #region Saver
+
         /// <summary>
-        /// Returns true when the fie version is correct.
+        /// Save ComponentSettings
         /// </summary>
-        /// <param name="xmlNode"></param>
-        private static void CheckFileVersion(XmlNode xmlNode)
+        public void SaveSettings()
         {
-            if (xmlNode == null
-                || xmlNode.Attributes[ComponentConstants.xPathFileVersion] == null
-                || !xmlNode.Attributes[ComponentConstants.xPathFileVersion].Value.Equals(ComponentConstants.xPathVersion))
-                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ComponentConstants.xPathVersion);
+            string filepath = GetUserSettingsFilePath();
+            FileStream fs = null;
+            XmlTextWriter xmlOut = null;
+            try
+            {
+                // Create xml file
+                CheckFilePath();
+                fs = new FileStream(filepath, FileMode.Create);
+                xmlOut = new XmlTextWriter(fs, Encoding.UTF8);
+
+                // Use indenting for readability
+                xmlOut.Formatting = Formatting.Indented;
+                xmlOut.WriteStartDocument();
+
+                // Always begin file with identification and warning
+                xmlOut.WriteComment(ComponentConstants.xPathFileHeader1);
+                xmlOut.WriteComment(ComponentConstants.xPathFileHeader2);
+
+                // Application settings
+                xmlOut.WriteStartElement(ComponentConstants.xPathComponentList);
+                xmlOut.WriteAttributeString(ComponentConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, ComponentConstants.xPathVersion);
+
+                // Object settings
+                foreach (ComponentSetting setting in ComponentSettings)
+                {
+                    XmlNode cs = ConvertToXmlNode(new XmlDocument(), setting);
+                    cs.WriteTo(xmlOut);
+                }
+                xmlOut.WriteEndElement();
+                xmlOut.WriteEndDocument();
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrCompInvalid + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
+
+            }
+            finally
+            {
+                if (xmlOut != null) xmlOut.Close();
+                if (fs != null) fs.Close();
+            }
         }
+        
+        #endregion
     }
 }

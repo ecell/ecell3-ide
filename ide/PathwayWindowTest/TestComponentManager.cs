@@ -45,7 +45,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public void TestLoadComponentSettings()
         {
             string filename = null;
-            _unitUnderTest.LoadComponentSettings(filename);
+            _unitUnderTest.LoadSettings(filename);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -55,7 +55,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         [Test()]
         public void TestSaveComponentSettings()
         {
-            _unitUnderTest.SaveComponentSettings();
+            _unitUnderTest.SaveSettings();
             Assert.Fail("Create or modify test(s).");
 
         }
