@@ -1147,7 +1147,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             list.Add(Constants.delegateShowPropertyWindow, new ShowDialogDelegate(this.ActivatePropertyWindow));
             return list;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void ActivatePropertyWindow()
         {
             this.Activate();
@@ -1502,5 +1504,27 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        #region IEcellPlugin ÉÅÉìÉo
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public System.Xml.XmlNode GetPluginStatus()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nstatus"></param>
+        public void SetPluginStatus(System.Xml.XmlNode nstatus)
+        {
+            ;
+        }
+
+        #endregion
     }
 }
