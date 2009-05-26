@@ -1661,5 +1661,27 @@ namespace Ecell.IDE.MainWindow
             m_browser.Url = new Uri("http://chaperone.e-cell.org/services/feedback/");
         }
 
+
+        #region IEcellPlugin ÉÅÉìÉo
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public XmlNode GetPluginStatus()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nstatus"></param>
+        public void SetPluginStatus(XmlNode nstatus)
+        {
+            ;
+        }
+
+        #endregion
     }
 }

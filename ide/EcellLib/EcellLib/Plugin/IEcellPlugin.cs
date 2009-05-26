@@ -39,6 +39,7 @@ using System.Windows.Forms;
 
 using Ecell.Logging;
 using Ecell.Objects;
+using System.Xml;
 
 namespace Ecell.Plugin
 {
@@ -71,6 +72,18 @@ namespace Ecell.Plugin
         List<IPropertyItem> GetPropertySettings();
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        XmlNode GetPluginStatus();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nstatus"></param>
+        void SetPluginStatus(XmlNode nstatus);
+
+        /// <summary>
         /// Initializes the plugin.
         /// </summary>
         void Initialize();
@@ -81,6 +94,10 @@ namespace Ecell.Plugin
         /// <param name="type">System status.</param>
         void ChangeStatus(ProjectStatus type); // 0:initial 1:load 2:run 3:suspend
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         Dictionary<string, Delegate> GetPublicDelegate();
     }
 }

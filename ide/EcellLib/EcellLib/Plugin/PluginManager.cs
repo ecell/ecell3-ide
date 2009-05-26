@@ -31,23 +31,18 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 using System;
-using System.Diagnostics;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Printing;
-using System.Text;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-using System.IO;
-using System.ComponentModel;
-
-using Ecell.Logging;
-using Ecell.Logger;
-using Ecell.Plugin;
-using Ecell.Objects;
+using System.Xml;
 using Ecell.Exceptions;
+using Ecell.Logger;
+using Ecell.Logging;
+using Ecell.Objects;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.Plugin
 {
@@ -678,6 +673,33 @@ namespace Ecell.Plugin
                 result.Add(p.GetPluginName(), p.GetVersionString());
             }
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<XmlNode> GetPluginStatus()
+        {
+            List<XmlNode> nodeList = new List<XmlNode>();
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                XmlNode node = p.GetPluginStatus();
+                if (node != null)
+                    nodeList.Add(node);
+            }
+            return nodeList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pluginName"></param>
+        /// <param name="status"></param>
+        public void SetPluginStatus(string pluginName, XmlNode status)
+        {
+            IEcellPlugin plugin = GetPlugin(pluginName);
+            plugin.SetPluginStatus(status);
         }
 
         /// <summary>

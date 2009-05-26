@@ -121,6 +121,10 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
 
 
         #region PluginBase
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));

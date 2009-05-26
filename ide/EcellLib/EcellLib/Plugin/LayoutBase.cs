@@ -33,6 +33,7 @@ using System.Text;
 using System.Drawing;
 using System.Reflection;
 using Ecell.Objects;
+using System.Xml;
 
 namespace Ecell.Plugin
 {
@@ -147,6 +148,23 @@ namespace Ecell.Plugin
         public virtual List<IPropertyItem> GetPropertySettings()
         {
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual XmlNode GetPluginStatus()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public virtual void SetPluginStatus(XmlNode status)
+        {
         }
 
         /// <summary>
