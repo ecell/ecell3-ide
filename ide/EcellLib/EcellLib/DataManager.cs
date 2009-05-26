@@ -1684,7 +1684,7 @@ namespace Ecell
 
                 if (string.IsNullOrEmpty(key))
                 {
-                    DataDelete4Model(modelID);
+//                    DataDelete4Model(modelID);
                 }
                 else if (key.Contains(":") || type.Equals(Constants.xpathStepper))
                 { // not system
@@ -1714,40 +1714,40 @@ namespace Ecell
             }
         }
 
-        /// <summary>
-        /// Deletes the "Model" using the model ID.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        private void DataDelete4Model(string modelID)
-        {
-            string message = "[" + modelID + "]";
-            //
-            // Delete the "Model".
-            //
-            bool isDelete = false;
-            foreach (EcellObject obj in m_currentProject.ModelList)
-            {
-                if (obj.ModelID == modelID)
-                {
-                    m_currentProject.ModelList.Remove((EcellModel)obj);
-                    isDelete = true;
-                    break;
-                }
-            }
-            Debug.Assert(isDelete);
+        ///// <summary>
+        ///// Deletes the "Model" using the model ID.
+        ///// </summary>
+        ///// <param name="modelID">The model ID</param>
+        //private void DataDelete4Model(string modelID)
+        //{
+        //    string message = "[" + modelID + "]";
+        //    //
+        //    // Delete the "Model".
+        //    //
+        //    bool isDelete = false;
+        //    foreach (EcellObject obj in m_currentProject.ModelList)
+        //    {
+        //        if (obj.ModelID == modelID)
+        //        {
+        //            m_currentProject.ModelList.Remove((EcellModel)obj);
+        //            isDelete = true;
+        //            break;
+        //        }
+        //    }
+        //    Debug.Assert(isDelete);
 
-            // Deletes "System"s.
-            if (m_currentProject.SystemDic.ContainsKey(modelID))
-            {
-                m_currentProject.SystemDic.Remove(modelID);
-            }
-            // Deletes "Stepper"s.
-            if (m_currentProject.StepperDic.ContainsKey(modelID))
-            {
-                m_currentProject.StepperDic.Remove(modelID);
-            }
-            MessageDeleteEntity(EcellObject.MODEL, message);
-        }
+        //    // Deletes "System"s.
+        //    if (m_currentProject.SystemDic.ContainsKey(modelID))
+        //    {
+        //        m_currentProject.SystemDic.Remove(modelID);
+        //    }
+        //    // Deletes "Stepper"s.
+        //    if (m_currentProject.StepperDic.ContainsKey(modelID))
+        //    {
+        //        m_currentProject.StepperDic.Remove(modelID);
+        //    }
+        //    MessageDeleteEntity(EcellObject.MODEL, message);
+        //}
 
         /// <summary>
         /// Deletes the "System" using the model ID and the key of the "EcellObject".
@@ -2342,21 +2342,6 @@ namespace Ecell
         private void CheckLoggerData(EcellObject oldObj, EcellObject newObj)
         {
             List<LoggerEntry> entList = m_env.LoggerManager.GetLoggerEntryForObject(oldObj.Key, oldObj.Type);
-            if (oldObj.Key != newObj.Key)
-            {
-                foreach (LoggerEntry m in entList)
-                {
-                    foreach (EcellData d in newObj.Value)
-                    {
-                        if (m.FullPN.EndsWith(":" + d.Name))
-                        {
-                            string orgFull = m.FullPN;
-                            m.FullPN = d.EntityPath;
-                            m_env.LoggerManager.LoggerChanged(orgFull, m);
-                        }
-                    }
-                }
-            }
 
             foreach (EcellData nd in newObj.Value)
             {

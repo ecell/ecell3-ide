@@ -68,6 +68,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="Events\TestDisplayFormatEventArgs.cs" />
     <Compile Include="Exceptions\TestEcellException.cs" />
     <Compile Include="Job\TestExecuteParameter.cs" />
     <Compile Include="Job\TestGlobusJob.cs" />

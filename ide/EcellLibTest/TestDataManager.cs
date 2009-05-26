@@ -92,6 +92,9 @@ namespace Ecell
             Assert.AreEqual(100.0, _unitUnderTest.SimulationTimeLimit, "SimulationTimeLimit is unexpected value.");
             Assert.AreEqual(20, _unitUnderTest.StepCount, "StepCount is unexpected value.");
 
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential2;
+            Assert.AreEqual(_unitUnderTest.DisplayFormat, ValueDataFormat.Exponential2, "DisplayFormat is unexpected value.");
         }
 
         /// <summary>
@@ -210,6 +213,12 @@ namespace Ecell
 
             string simDir = _unitUnderTest.GetSimulationResultSaveDirectory();
 
+            string dmDir = _unitUnderTest.GetDMDir();
+            Assert.IsNotNull(dmDir, "GetDMDir is unexpected value.");
+
+            _unitUnderTest.CurrentProject.Info.ProjectPath = null;
+            dmDir = _unitUnderTest.GetDMDir();
+            Assert.IsNull(dmDir, "GetDMDir is unexpected value.");
         }
 
         /// <summary>
@@ -463,6 +472,8 @@ namespace Ecell
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
+            string l_modelID = "Drosophila";
+            string l_parameterID = "NewParam";
             EcellObject sys = _unitUnderTest.GetEcellObject(modelID, key, type);
             bool l_isRecorded = false;
             bool l_isAnchor = false;
@@ -552,6 +563,64 @@ namespace Ecell
             d = variable.GetEcellData(Constants.xpathValue);
             d.Logged = true;
             _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:M", "Variable", variable);
+
+            // Test Change Stepper
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            EcellObject stepper = _unitUnderTest.GetEcellObject(modelID, "DE", Constants.xpathStepper);
+            stepper.Key = "DE1";
+            _unitUnderTest.DataChanged(modelID, "DE", Constants.xpathStepper, stepper);
+
+
+            // Test CheckDifference
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            EcellObject p = _unitUnderTest.GetEcellObject(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess);
+            EcellData d4 = p.GetEcellData(Constants.xpathActivity);
+            d4.Logged = true;
+            _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess, p);
+
+            // Class name changed at DefaultSets .
+            p = _unitUnderTest.GetEcellObject(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess);
+            EcellData d1 = p.GetEcellData(Constants.xpathExpression);
+            EcellData d2 = p.GetEcellData("K1");
+            EcellData d3 = p.GetEcellData("V1");
+            d4 = p.GetEcellData(Constants.xpathActivity);
+            d4.Logged = true;
+
+            d3.Name = "k";
+            d3.EntityPath = d3.EntityPath.Replace("V1", "k");
+            p.Value.Remove(d1);
+            p.Value.Remove(d2);
+            p.Classname = "ConstantFluxProcess";
+            _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess, p);
+
+            // ID changed.
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            p = _unitUnderTest.GetEcellObject(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess);
+            p.Key = "/CELL/CYTOPLASM:R_toy41";
+            _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess, p);
+
+            // Class name changed at No DefaultSets .
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            p = _unitUnderTest.GetEcellObject(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess);
+            d1 = p.GetEcellData(Constants.xpathExpression);
+            d2 = p.GetEcellData("K1");
+            d3 = p.GetEcellData("V1");
+            d4 = p.GetEcellData(Constants.xpathActivity);
+            d4.Logged = true;
+
+            d3.Name = "k";
+            d3.EntityPath = d3.EntityPath.Replace("V1", "k");
+            p.Value.Remove(d1);
+            p.Value.Remove(d2);
+            p.Classname = "ConstantFluxProcess";
+
+            Dictionary<string, double> l_initialList = new Dictionary<string, double>();
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy4:Activity", 0.1);
+
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
+            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_initialList);
+
+            _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:R_toy4", Constants.xpathProcess, p);
         }
 
         /// <summary>
@@ -747,6 +816,16 @@ namespace Ecell
             Directory.CreateDirectory(paramDir);
             FileStream stream = File.Create(Path.Combine(paramDir,"_2009_03_06_16_17_18_DefaultParameter.xml"));
             stream.Close();
+            try
+            {
+                _unitUnderTest.DeleteSimulationParameter(Constants.defaultSimParam, l_isRecorded, l_isAnchor);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
             try
             {
                 _unitUnderTest.DeleteSimulationParameter(Constants.defaultSimParam, l_isRecorded, l_isAnchor);
@@ -1183,6 +1262,27 @@ namespace Ecell
                 fullPN = "Variable:/CELL/CYTOPLASM:P0:Value";
                 _unitUnderTest.CurrentProject.Simulator = null;
                 value = _unitUnderTest.GetPropertyValue(fullPN);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetPropertyValue4Stepper()
+        {
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            string key = "DE";
+            string name = "CurrentTime";
+            _unitUnderTest.GetPropertyValue4Stepper(key, name);
+
+            name = "AAA";
+            try
+            {
+                _unitUnderTest.GetPropertyValue4Stepper(key, name);
                 Assert.Fail();
             }
             catch (Exception)
@@ -1761,6 +1861,22 @@ namespace Ecell
             catch (Exception)
             {
             }
+
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+
+            l_parameterID = "NewParam";
+            string l_modelID = "Drosophila";
+
+            Dictionary<string, double> l_initialList = new Dictionary<string, double>();
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy1:Activity", 0.1);
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy2:Activity", 0.2);
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy3:Activity", 0.3);
+
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
+            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_initialList);
+
+            _unitUnderTest.SetSimulationParameter(l_parameterID);
+            _unitUnderTest.SetSimulationParameter(Constants.defaultSimParam);
         }
         /// <summary>
         /// 
@@ -2049,13 +2165,21 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = Constants.defaultSimParam;
+            string l_parameterID = "NewParam";
             string l_modelID = "Drosophila";
+            
             Dictionary<string, double> l_initialList = new Dictionary<string,double>();
-            foreach(KeyValuePair<string, double> value in _unitUnderTest.CurrentProject.InitialCondition[l_parameterID][l_modelID])
-                l_initialList.Add(value.Key, value.Value);
-            _unitUnderTest.UpdateInitialCondition(null, l_modelID, l_initialList);
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy1:Activity", 0.1);
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy2:Activity", 0.2);
+            l_initialList.Add("Process:/CELL/CYTOPLASM:R_toy3:Activity", 0.3);
 
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
+            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_initialList);
+
+            l_initialList.Remove("Process:/CELL/CYTOPLASM:R_toy1:Activity");
+            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_initialList);
+
+            _unitUnderTest.UpdateInitialCondition(null, l_modelID, l_initialList);
         }
         
         /// <summary>

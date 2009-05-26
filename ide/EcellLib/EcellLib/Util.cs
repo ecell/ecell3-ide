@@ -1514,8 +1514,6 @@ namespace Ecell
         {
             switch (value)
             {
-                case ValueDataFormat.Normal:
-                    return "G";
                 case ValueDataFormat.Exponential1:
                     return "e1";
                 case ValueDataFormat.Exponential2:

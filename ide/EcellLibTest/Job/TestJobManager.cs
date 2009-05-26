@@ -513,6 +513,11 @@ namespace Ecell.Job
             int jobid = 0;
             _unitUnderTest.Stop(jobid);
 
+            LocalJobProxy proxy = new LocalJobProxy();
+            Job j = proxy.CreateJob();
+            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
+            _unitUnderTest.Stop(j.JobID);
+
         }
         /// <summary>
         /// 
@@ -520,6 +525,10 @@ namespace Ecell.Job
         [Test()]
         public void TestStopRunningJobs()
         {
+            LocalJobProxy proxy = new LocalJobProxy();
+            Job j = proxy.CreateJob();
+            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
+            j.Status = JobStatus.RUNNING;
             _unitUnderTest.StopRunningJobs();
 
         }
@@ -535,6 +544,12 @@ namespace Ecell.Job
             resultList = _unitUnderTest.GetSessionProxy(jobid);
             Assert.AreEqual(expectedList, resultList, "GetSessionProxy method returned unexpected result.");
 
+            LocalJobProxy proxy = new LocalJobProxy();
+            Job j = proxy.CreateJob();
+            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
+            resultList = _unitUnderTest.GetSessionProxy(j.JobID);
+            Assert.AreEqual(1, resultList.Count, "GetSessionProxy method returned unexpected result.");
+
         }
         /// <summary>
         /// 
@@ -548,6 +563,11 @@ namespace Ecell.Job
             resultString = _unitUnderTest.GetJobDirectory(jobid);
             Assert.AreEqual(expectedString, resultString, "GetJobDirectory method returned unexpected result.");
 
+            LocalJobProxy proxy = new LocalJobProxy();
+            Job j = proxy.CreateJob();
+            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
+            resultString = _unitUnderTest.GetJobDirectory(j.JobID);
+            Assert.IsNotNull(resultString, "GetJobDirectory method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -561,6 +581,13 @@ namespace Ecell.Job
             resultString = _unitUnderTest.GetStdout(jobid);
             Assert.AreEqual(expectedString, resultString, "GetStdout method returned unexpected result.");
 
+            LocalJobProxy proxy = new LocalJobProxy();
+            Job j = proxy.CreateJob();
+            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
+            resultString = _unitUnderTest.GetStdout(j.JobID);
+            Assert.AreEqual("", resultString, "GetStdout method returned unexpected result.");
+
+
         }
         /// <summary>
         /// 
@@ -572,6 +599,12 @@ namespace Ecell.Job
             string expectedString = null;
             string resultString = null;
             resultString = _unitUnderTest.GetStderr(jobid);
+            Assert.AreEqual(expectedString, resultString, "GetStderr method returned unexpected result.");
+
+            LocalJobProxy proxy = new LocalJobProxy();
+            Job j = proxy.CreateJob();
+            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
+            resultString = _unitUnderTest.GetStderr(j.JobID);
             Assert.AreEqual(expectedString, resultString, "GetStderr method returned unexpected result.");
 
         }

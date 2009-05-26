@@ -1557,6 +1557,87 @@ namespace Ecell
         }
 
         /// <summary>
+        /// TestGetDisplayFormat
+        /// </summary>
+        [Test()]
+        public void TestGetDisplayFormat()
+        {
+            string expectedValue = "G";
+            string resultValue = Util.GetDisplayFormat(ValueDataFormat.Normal);
+            Assert.AreEqual(expectedValue, resultValue, "GetDisplayFormat is unexpected value.");
+
+            expectedValue = "e1";
+            resultValue = Util.GetDisplayFormat(ValueDataFormat.Exponential1);
+            Assert.AreEqual(expectedValue, resultValue, "GetDisplayFormat is unexpected value.");
+
+            expectedValue = "e2";
+            resultValue = Util.GetDisplayFormat(ValueDataFormat.Exponential2);
+            Assert.AreEqual(expectedValue, resultValue, "GetDisplayFormat is unexpected value.");
+
+            expectedValue = "e3";
+            resultValue = Util.GetDisplayFormat(ValueDataFormat.Exponential3);
+            Assert.AreEqual(expectedValue, resultValue, "GetDisplayFormat is unexpected value.");
+
+            expectedValue = "e4";
+            resultValue = Util.GetDisplayFormat(ValueDataFormat.Exponential4);
+            Assert.AreEqual(expectedValue, resultValue, "GetDisplayFormat is unexpected value.");
+
+            expectedValue = "e5";
+            resultValue = Util.GetDisplayFormat(ValueDataFormat.Exponential5);
+            Assert.AreEqual(expectedValue, resultValue, "GetDisplayFormat is unexpected value.");
+
+        }
+
+        /// <summary>
+        /// TestDoesActivityChange
+        /// </summary>
+        [Test()]
+        public void TestDoesActivityChange()
+        {
+            EcellObject ngObj = EcellObject.CreateObject("Model", "/S0", "System", "System", new List<EcellData>());
+            EcellObject noldObj = EcellObject.CreateObject("Model", "/S0:P", Constants.xpathProcess, "ExpressionFluxProcess", new List<EcellData>());
+            EcellObject nnewObj = EcellObject.CreateObject("Model", "/S0:P", Constants.xpathProcess, "ExpressionFluxProcess", new List<EcellData>());
+            EcellData d1 = new EcellData(Constants.xpathActivity, new EcellValue(1.0), "Process:/S0:P");
+            EcellData d2 = new EcellData(Constants.xpathActivity, new EcellValue(2.0), "Process:/S0:P");
+            List<EcellData> l1 = new List<EcellData>();
+            List<EcellData> l2 = new List<EcellData>();
+            l1.Add(d1);
+            l2.Add(d2);
+            EcellObject ooldObj = EcellObject.CreateObject("Model", "/S0:P", Constants.xpathProcess, "ExpressionFluxProcess", l1);
+            EcellObject onewObj = EcellObject.CreateObject("Model", "/S0:P", Constants.xpathProcess, "ExpressionFluxProcess", l2);
+
+            // ok
+            bool res = Util.DoesActivityChange(ooldObj, ooldObj);
+            Assert.IsFalse(res, "DoesActivityChange is unexpected value.");
+            res = Util.DoesActivityChange(ooldObj, onewObj);
+            Assert.IsTrue(res, "DoesActivityChange is unexpected value.");
+            res = Util.DoesActivityChange(noldObj, onewObj);
+            Assert.IsTrue(res, "DoesActivityChange is unexpected value.");
+            res = Util.DoesActivityChange(ooldObj, nnewObj);
+            Assert.IsTrue(res, "DoesActivityChange is unexpected value.");
+
+
+            // ng
+            try
+            {
+                Util.DoesActivityChange(ngObj, onewObj);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                Util.DoesActivityChange(ooldObj, ngObj);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
         /// TestDoesVariableReferenceChange
         /// </summary>
         [Test()]

@@ -71,6 +71,15 @@ namespace Ecell.Plugin
                 return "AAA";
             }
 
+            public System.Xml.XmlNode GetPluginStatus()
+            {
+                return null;
+            }
+
+            public void SetPluginStatus(System.Xml.XmlNode status)
+            {
+            }
+
             public List<IPropertyItem> GetPropertySettings()
             {
                 List<IPropertyItem> result = new List<IPropertyItem>();
@@ -182,6 +191,15 @@ namespace Ecell.Plugin
             public String GetVersionString()
             {
                 return "AAA";
+            }
+
+            public System.Xml.XmlNode GetPluginStatus()
+            {
+                return null;
+            }
+
+            public void SetPluginStatus(System.Xml.XmlNode status)
+            {
             }
 
             public List<IPropertyItem> GetPropertySettings()
