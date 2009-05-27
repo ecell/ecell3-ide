@@ -350,6 +350,19 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
+        /// DataManager test that can not execute without loading plugins.
+        /// </summary>
+        [Test()]
+        public void TestDataMamanger()
+        {
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _env.DataManager.DisplayFormat = ValueDataFormat.Exponential2;
+            Assert.AreEqual(_env.DataManager.DisplayFormat, ValueDataFormat.Exponential2, "DisplayFormat is unexpected value.");
+            _env.DataManager.DisplayFormat = ValueDataFormat.Exponential2;
+
+        }
+
+        /// <summary>
         /// TestSelectChanged
         /// </summary>
         [Test()]

@@ -75,6 +75,9 @@ namespace Ecell
         [Test()]
         public void TestCompile()
         {
+            if (Directory.Exists(TestConstant.DM_Source_Directory))
+                Directory.Delete(TestConstant.DM_Source_Directory, true);
+
             string fileName = TestConstant.DM_Source_File;
             DMCompiler.Compile(fileName, _env);
 

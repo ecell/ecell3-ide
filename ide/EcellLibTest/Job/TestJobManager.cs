@@ -791,7 +791,6 @@ namespace Ecell.Job
 
             if (Directory.Exists(topDir))
                 Directory.Delete(topDir, true);
-
         }
     }
 }

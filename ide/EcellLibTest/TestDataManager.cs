@@ -95,6 +95,20 @@ namespace Ecell
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
             _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential2;
             Assert.AreEqual(_unitUnderTest.DisplayFormat, ValueDataFormat.Exponential2, "DisplayFormat is unexpected value.");
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential2;
+
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential1;
+            Assert.AreEqual(_unitUnderTest.DisplayStringFormat, "e1", "DisplayStringFormat is unexpected value.");
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential2;
+            Assert.AreEqual(_unitUnderTest.DisplayStringFormat, "e2", "DisplayStringFormat is unexpected value.");
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential3;
+            Assert.AreEqual(_unitUnderTest.DisplayStringFormat, "e3", "DisplayStringFormat is unexpected value.");
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential4;
+            Assert.AreEqual(_unitUnderTest.DisplayStringFormat, "e4", "DisplayStringFormat is unexpected value.");
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Exponential5;
+            Assert.AreEqual(_unitUnderTest.DisplayStringFormat, "e5", "DisplayStringFormat is unexpected value.");
+            _unitUnderTest.DisplayFormat = ValueDataFormat.Normal;
+            Assert.AreEqual(_unitUnderTest.DisplayStringFormat, "G", "DisplayStringFormat is unexpected value.");
         }
 
         /// <summary>
@@ -424,6 +438,16 @@ namespace Ecell
             variable.GetEcellData("Value").Logged = true;
             _unitUnderTest.DataAdd(variable);
 
+            EcellObject variable2 = _unitUnderTest.CreateDefaultObject("Drosophila", "/CELL1", "Variable");
+            variable2.ModelID = null;
+            _unitUnderTest.DataAdd(variable2);
+
+            MessageBox.Show("Click \"Cancel\" button on next dialog.");
+            EcellObject variable3 = _unitUnderTest.CreateDefaultObject("Drosophila", "/CELL3", "Variable");
+            _env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
+            _unitUnderTest.CurrentProject.SimulationStatus = SimulationStatus.Suspended;
+            _unitUnderTest.DataAdd(variable3);
+
         }
         /// <summary>
         /// 
@@ -685,6 +709,12 @@ namespace Ecell
             string type = "Variable";
             bool l_isRecorded = false;
             bool l_isAnchor = false;
+            _unitUnderTest.DataDelete(modelID, key, type, l_isRecorded, l_isAnchor);
+
+            MessageBox.Show("Click \"Cancel\" button on next dialog.");
+            key = "/CELL/CYTOPLASM:P1";
+            _env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
+            _unitUnderTest.CurrentProject.SimulationStatus = SimulationStatus.Suspended;
             _unitUnderTest.DataDelete(modelID, key, type, l_isRecorded, l_isAnchor);
         }
 
@@ -968,14 +998,16 @@ namespace Ecell
         [Test()]
         public void TestGetEcellObject()
         {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
-
             string modelId = "Drosophila";
             string key = null;
             string type = null;
             EcellObject resultEcellObject = null;
             resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
+            Assert.IsNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
 
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+
+            resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
             Assert.IsNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
 
             key = "/CELL";
@@ -988,7 +1020,7 @@ namespace Ecell
             type = "Variable";
             resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
             Assert.AreEqual(EcellObject.VARIABLE, resultEcellObject.Type, "GetEcellObject method returned unexpected result.");
-            Assert.AreEqual(key, resultEcellObject.Key, "GetEcellObject method returned unexpected result.");
+            Assert.AreEqual(key, resultEcellObject.Key, "GetEcellObject method returned unexpected result.");            
         }
 
         /// <summary>
@@ -1877,6 +1909,11 @@ namespace Ecell
 
             _unitUnderTest.SetSimulationParameter(l_parameterID);
             _unitUnderTest.SetSimulationParameter(Constants.defaultSimParam);
+
+            MessageBox.Show("Click \"Cancel\" button on next dialog.");
+            _env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
+            _unitUnderTest.CurrentProject.SimulationStatus = SimulationStatus.Suspended;
+            _unitUnderTest.SetSimulationParameter(l_parameterID);
         }
         /// <summary>
         /// 
@@ -1956,9 +1993,6 @@ namespace Ecell
             // Exception.
             try
             {
-                EcellObject process = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process");
-                process.SetEcellValue("Expression", new EcellValue("hoge"));
-                _unitUnderTest.DataChanged("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process", process);
                 timer.Start();
                 _unitUnderTest.StartSimulation(time);
                 timer.Stop();

@@ -202,8 +202,6 @@ namespace Ecell
             {
                 switch (this.m_format)
                 {
-                    case ValueDataFormat.Normal:
-                        return "G";
                     case ValueDataFormat.Exponential1:
                         return "e1";
                     case ValueDataFormat.Exponential2:
@@ -4546,28 +4544,6 @@ namespace Ecell
             catch (Exception)
             {
             }
-        }
-
-        /// <summary>
-        /// GetEcellValue
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private static EcellValue GetEcellValue(EcellData data)
-        {
-            double value = 0.0;
-            try
-            {
-                // Get new value.
-                string newValue = data.Value.ToString();
-                value = XmlConvert.ToDouble(newValue);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                value = Double.PositiveInfinity;
-            }
-            return new EcellValue(value);
         }
 
         /// <summary>
