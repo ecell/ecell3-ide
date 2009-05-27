@@ -504,6 +504,22 @@ namespace Ecell
             EcellObject system = _unitUnderTest.GetEcellObject("Drosophila", "System", "/CELL/CYTOPLASM", true);
             _unitUnderTest.DeleteSystem(system);
 
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+
+            string parameterID = "NewParam";
+            string modelID = "Drosophila";
+            string path = "Variable:/CELL/CYTOPLASM:P0:Value";
+            string key = "/CELL:CYTOPLASM";
+            Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+            foreach (EcellObject model in _unitUnderTest.ModelList)
+            {
+                newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
+            }
+            _env.DataManager.CurrentProject.InitialCondition[parameterID] = newInitialCondSets;
+            _env.DataManager.CurrentProject.InitialCondition[parameterID][modelID][path] = 1.0;
+
+            system = _env.DataManager.CurrentProject.GetEcellObject("Drosophila", "System", "/CELL:CYTOPLASM", true);
+            _env.DataManager.CurrentProject.DeleteSystem(system);
         }
         /// <summary>
         /// 
@@ -511,41 +527,108 @@ namespace Ecell
         [Test()]
         public void TestDeleteEntity()
         {
+            string parameterID = "NewParam";
+            string modelID = "Drosophila";
+            string path = "Variable:/CELL/CYTOPLASM:P0:Value";
+            Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+            foreach (EcellObject model in _unitUnderTest.ModelList)
+            {
+                newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
+            }
+            _unitUnderTest.InitialCondition[parameterID] = newInitialCondSets;
+            _unitUnderTest.InitialCondition[parameterID][modelID][path] = 1.0;
+
             EcellObject entity = _unitUnderTest.GetEcellObject("Drosophila", "Variable", "/CELL/CYTOPLASM:P0", true);
             _unitUnderTest.DeleteEntity(entity);
 
         }
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[Test()]
-        //public void TestAddSimulationParameter()
-        //{
-        //    EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM").Clone();
-        //    system.Key = _unitUnderTest.GetCopiedID(system.ModelID, system.Type, system.Key);
-        //    _unitUnderTest.AddSimulationParameter(system);
 
-        //    EcellObject entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:P0", "Variable").Clone();
-        //    entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
-        //    _unitUnderTest.AddSimulationParameter(entity);
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestDeleteInitialCondition()
+        {
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
 
-        //    entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process").Clone();
-        //    entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
-        //    _unitUnderTest.AddSimulationParameter(entity);
+            string parameterID = "NewParam";
+            string modelID = "Drosophila";
+            string path = "Variable:/CELL/CYTOPLASM:P0:Value";
+            string key = "/CELL/CYTOPLASM:P0";
+            Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+            foreach (EcellObject model in _unitUnderTest.ModelList)
+            {
+                newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
+            }
+            _unitUnderTest.InitialCondition[parameterID] = newInitialCondSets;
+            _unitUnderTest.InitialCondition[parameterID][modelID][path] = 1.0;
 
-        //    EcellObject text = new EcellText("Drosophila", "/:Text0", "Text", "Text", new List<EcellData>());
-        //    _unitUnderTest.AddSimulationParameter(text);
+            _unitUnderTest.DeleteInitialCondition(parameterID, path);
 
-        //}
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[Test()]
-        //public void TestDeleteSimulationParameter()
-        //{
-        //    EcellObject system = _unitUnderTest.GetSystem("Drosophila", "/CELL/CYTOPLASM");
-        //    _unitUnderTest.DeleteSimulationParameter(system);
+            EcellObject variable = _env.DataManager.GetEcellObject(modelID, key, Constants.xpathVariable);
+            _unitUnderTest.InitialCondition[parameterID][modelID][path] = 1.0;
+            _unitUnderTest.DeleteInitialCondition(variable);
+        }
 
-        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetStepper()
+        {
+            string paramID = "NewParam";
+            string modelID = "Drosophila";
+            string path = "Stepper::DE:MinStepInterval";
+            string spath = "System:/:CELL:Size";
+            string key = "DE";
+            string skey = "/CELL";
+
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _env.DataManager.CreateSimulationParameter(paramID);
+            _env.DataManager.CurrentProject.InitialCondition[paramID][modelID][path] = 1.0;
+            _env.DataManager.CurrentProject.InitialCondition[paramID][modelID][spath] = 100.0;
+            _env.DataManager.SetSimulationParameter(paramID);
+
+            _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathStepper, key, false);
+            _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathSystem, skey, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestUpdateInitialCondition()
+        {
+            string paramID = "NewParam";
+            string modelID = "Drosophila";
+            string path = "Variable:/CELL/CYTOPLASM:P0:Value";
+            string key = "/CELL/CYTOPLASM:P0";
+
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _env.DataManager.CreateSimulationParameter(paramID);
+            _env.DataManager.CurrentProject.InitialCondition[paramID][modelID][path] = 1.0;
+            _env.DataManager.SetSimulationParameter(paramID);
+
+            EcellObject oobj = _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathVariable, key, false);
+            EcellObject nobj = oobj.Clone();
+            EcellData d = nobj.GetEcellData(Constants.xpathValue);
+            d.Value = new EcellValue(100.0);
+            _env.DataManager.CurrentProject.UpdateInitialCondition(oobj, nobj);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestUpdateInitialCondition()
+        {
+            string paramID = "NewParam";
+            string modelID = "Drosophila";
+            string path = "Variable:/CELL/CYTOPLASM:P0:Value";
+            string key = "/CELL/CYTOPLASM:P0";
+
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _env.DataManager.CreateSimulationParameter(paramID);
+            _env.DataManager.CurrentProject.SetInitialCondition(paramID, paramID, 0.1);
+
     }
 }
