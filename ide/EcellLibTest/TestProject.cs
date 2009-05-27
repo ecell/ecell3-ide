@@ -619,7 +619,7 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestUpdateInitialCondition()
+        public void TestSetInitialCondition()
         {
             string paramID = "NewParam";
             string modelID = "Drosophila";
