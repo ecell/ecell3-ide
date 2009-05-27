@@ -629,6 +629,6 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             _env.DataManager.CreateSimulationParameter(paramID);
             _env.DataManager.CurrentProject.SetInitialCondition(paramID, paramID, 0.1);
-
+        }
     }
 }
