@@ -509,7 +509,7 @@ namespace Ecell
             string parameterID = "NewParam";
             string modelID = "Drosophila";
             string path = "Variable:/CELL/CYTOPLASM:P0:Value";
-            string key = "/CELL:CYTOPLASM";
+            string key = "/CELL/CYTOPLASM";
             Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
             foreach (EcellObject model in _unitUnderTest.ModelList)
             {
@@ -518,7 +518,7 @@ namespace Ecell
             _env.DataManager.CurrentProject.InitialCondition[parameterID] = newInitialCondSets;
             _env.DataManager.CurrentProject.InitialCondition[parameterID][modelID][path] = 1.0;
 
-            system = _env.DataManager.CurrentProject.GetEcellObject("Drosophila", "System", "/CELL:CYTOPLASM", true);
+            system = _env.DataManager.CurrentProject.GetEcellObject("Drosophila", "System", "/CELL/CYTOPLASM", true);
             _env.DataManager.CurrentProject.DeleteSystem(system);
         }
         /// <summary>
