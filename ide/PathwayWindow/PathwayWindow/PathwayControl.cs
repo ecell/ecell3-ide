@@ -601,9 +601,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj == null)
                 return;
             // Change data.
-            RectangleF rect = obj.Rect;
             obj.EcellObject = eo;
-            m_canvas.DataChanged(oldKey, eo.Key, obj, rect);
+            m_canvas.DataChanged(oldKey, eo.Key, obj);
+
+            // Change ComponentSetting.
+            if(!oldKey.Equals(eo.Key) && obj.Setting.Name.Equals(oldKey))
+                m_csManager.UpdateKey(eo.Type, oldKey, eo.Key);
+
         }
 
         /// <summary>

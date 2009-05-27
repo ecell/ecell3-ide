@@ -1346,13 +1346,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="newKey">The data type before value change.</param>
         /// <param name="obj">Changed value of object.</param>
         /// <param name="oldRect">oldRect.</param>
-        public void DataChanged(string oldKey, string newKey, PPathwayObject obj, RectangleF oldRect)
+        public void DataChanged(string oldKey, string newKey, PPathwayObject obj)
         {
             if (!oldKey.Equals(newKey))
             {
                 UpdateDictionaryKey(oldKey, newKey, obj);
                 if( !m_con.Window.IsLoading)
-                    MoveObject(oldKey, newKey, obj, oldRect);
+                    MoveObject(oldKey, newKey, obj);
                 RefreshEdges();
             }
             // Set Layer
@@ -1431,8 +1431,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="oldkey"></param>
         /// <param name="newkey"></param>
         /// <param name="obj"></param>
-        /// <param name="oldRect"></param>
-        private void MoveObject(string oldkey, string newkey, PPathwayObject obj, RectangleF oldRect)
+        private void MoveObject(string oldkey, string newkey, PPathwayObject obj)
         {
             PPathwaySystem system = m_systems[obj.EcellObject.ParentSystemID];
             string sysKey = system.EcellObject.Key;

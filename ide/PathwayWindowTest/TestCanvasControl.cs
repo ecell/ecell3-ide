@@ -572,7 +572,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string newKey = null;
             Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject obj = null;
             System.Drawing.RectangleF oldRect = new System.Drawing.RectangleF();
-            _unitUnderTest.DataChanged(oldKey, newKey, obj, oldRect);
+            _unitUnderTest.DataChanged(oldKey, newKey, obj);
             Assert.Fail("Create or modify test(s).");
 
         }

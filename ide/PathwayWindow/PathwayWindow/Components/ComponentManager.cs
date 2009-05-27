@@ -410,42 +410,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public ComponentSetting GetSetting(string type, string key)
         {
             ComponentSetting setting;
-            switch (type)
-            {
-                case EcellObject.SYSTEM:
-                    if (m_systemSettings.ContainsKey(key))
-                        setting = m_systemSettings[key];
-                    else
-                        setting = m_systemSettings[m_defaultSystemName];
-                    break;
-                case EcellObject.PROCESS:
-                    if (m_processSettings.ContainsKey(key))
-                        setting = m_processSettings[key];
-                    else
-                        setting = m_processSettings[m_defaultProcessName];
-                    break;
-                case EcellObject.VARIABLE:
-                    if (m_variableSettings.ContainsKey(key))
-                        setting = m_variableSettings[key];
-                    else
-                        setting = m_variableSettings[m_defaultVariableName];
-                    break;
-                case EcellObject.TEXT:
-                    if (m_textSettings.ContainsKey(key))
-                        setting = m_textSettings[key];
-                    else
-                        setting = m_textSettings[m_defaultTextName];
-                    break;
-                case EcellObject.STEPPER:
-                    if (m_stepperSettings.ContainsKey(key))
-                        setting = m_stepperSettings[key];
-                    else
-                        setting = m_stepperSettings[m_defaultStepperName];
-                    break;
-                default:
-                    throw new PathwayException(MessageResources.ErrUnknowType);
-            }
+            Dictionary<string, ComponentSetting> dic = GetSettingDictionary(type);
+            string defaultKey = GetDefaultKey(type);
+
+            if (dic.ContainsKey(key))
+                setting = dic[key];
+            else
+                setting = dic[defaultKey];
+
             return setting;
+
         }
 
         /// <summary>
@@ -461,7 +435,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // Resister
             dic.Add(setting.Name, setting);
             if (setting.IsDefault)
-                SetDefaultSetting(setting);
+                SetDefaultKey(setting.Type, setting.Name);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="setting"></param>
+        public void RemoveSetting(ComponentSetting setting)
+        {
+            Dictionary<string, ComponentSetting> dic = GetSettingDictionary(setting.Type);
+            if (dic.ContainsKey(setting.Name))
+                dic.Remove(setting.Name);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="oldKey"></param>
+        /// <param name="newKey"></param>
+        internal void UpdateKey(string type, string oldKey, string newKey)
+        {
+            ComponentSetting cs = GetSetting(type, oldKey);
+            RemoveSetting(cs);
+            cs.Name = newKey;
+            RegisterSetting(cs);
         }
 
         #endregion
@@ -603,27 +602,59 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         }
 
         /// <summary>
-        /// Set Default ComponentSetting.
+        /// 
         /// </summary>
-        /// <param name="setting"></param>
-        private void SetDefaultSetting(ComponentSetting setting)
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private string GetDefaultKey(string type)
         {
-            switch (setting.Type)
+            string key;
+            switch (type)
             {
                 case EcellObject.SYSTEM:
-                    m_defaultSystemName = setting.Name;
+                    key = m_defaultSystemName;
                     break;
                 case EcellObject.PROCESS:
-                    m_defaultProcessName = setting.Name;
+                    key = m_defaultProcessName;
                     break;
                 case EcellObject.VARIABLE:
-                    m_defaultVariableName = setting.Name;
+                    key = m_defaultVariableName;
                     break;
                 case EcellObject.TEXT:
-                    m_defaultTextName = setting.Name;
+                    key = m_defaultTextName;
                     break;
                 case EcellObject.STEPPER:
-                    m_defaultStepperName = setting.Name;
+                    key = m_defaultStepperName;
+                    break;
+                default:
+                    throw new PathwayException(MessageResources.ErrUnknowType);
+            }
+            return key;
+        }
+
+        /// <summary>
+        /// Set Default ComponentSetting.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="key"></param>
+        private void SetDefaultKey(string type, string key)
+        {
+            switch (type)
+            {
+                case EcellObject.SYSTEM:
+                    m_defaultSystemName = key;
+                    break;
+                case EcellObject.PROCESS:
+                    m_defaultProcessName = key;
+                    break;
+                case EcellObject.VARIABLE:
+                    m_defaultVariableName = key;
+                    break;
+                case EcellObject.TEXT:
+                    m_defaultTextName = key;
+                    break;
+                case EcellObject.STEPPER:
+                    m_defaultStepperName = key;
                     break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
