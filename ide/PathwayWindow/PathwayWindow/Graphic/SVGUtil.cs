@@ -135,6 +135,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
             return obj;
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="lineBrush"></param>
+        /// <param name="fillBrush"></param>
+        /// <returns></returns>
+        public static string SystemEllipse(RectangleF rect, string lineBrush, string fillBrush, float arcWidth)
+        {
+            string pos = "  M " + rect.X.ToString() + " " + rect.Y.ToString() + "\n";
+
+            float width = rect.Width;
+            float height = rect.Height;
+            float innerWidth = width - arcWidth * 2;
+            float halfWidth = width / 2;
+            float halfHeight = height / 2;
+
+            string outerPath = "  a " + halfWidth.ToString() + " " + halfHeight.ToString() + " 0 0 1 ";
+            string innerPath = "  a " + (halfWidth - arcWidth).ToString() + " " + (halfHeight - arcWidth).ToString() + " 0 0 0 ";
+
+            string obj = "<path d=\"" + pos
+            + "  m 0 " + halfHeight + "\n"
+            + outerPath + width + "0\n"
+            + outerPath + " -" + width + " 0\n"
+            + pos
+            + innerPath + innerWidth + "0\n"
+            + innerPath + " -" + innerWidth + " 0 Z\"\n"
+            + "fill=\"" + fillBrush + "\" stroke=\"" + lineBrush + "\" stroke-width=\"1\"/>\n";
+            return obj;
+        }
+
         /// <summary>
         /// Create Ellipse object.
         /// </summary>

@@ -124,6 +124,9 @@
     <Compile Include="Components\ComponentSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Figure\Diamond.cs" />
+    <Compile Include="Figure\SystemEllipse.cs" />
+    <Compile Include="Figure\Triangle.cs" />
     <Compile Include="Handler\PathwayResizeHandler.cs" />
     <Compile Include="Animation\AnimationControl.cs">
     </Compile>

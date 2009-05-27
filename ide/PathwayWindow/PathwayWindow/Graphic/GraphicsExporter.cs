@@ -55,7 +55,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
             writer.WriteLine(XML_HEADER);
             writer.WriteLine(CreateSVGHeader(canvas));
             // Create brushes.
-            foreach (ComponentSetting setting in canvas.Control.ComponentManager.ComponentSettings)
+            foreach (ComponentSetting setting in canvas.Control.ComponentManager.GetAllSettings())
                 writer.WriteLine(GetGradationBrush(setting));
             // Create SVG objects.
             foreach (PNode node in canvas.PCanvas.Root.ChildrenReference)
