@@ -586,9 +586,10 @@ class Session:
         '''
         self.theJobManager.TmpRootDir = tmpRoot
 
-    def RunSimParameterRange(self, topdir, modelName, num, count):
+    def RunSimParameterRange(self, groupName, topdir, modelName, num, count):
         '''
         Run the simulation by using the initial parameter within the range of parameters.
+        groupName : str : group name.
         topdir : str : top directory.
         modelName : str : model name.
         num : int : the number of samples
@@ -597,9 +598,34 @@ class Session:
         Return the list of int : the list of job id
         '''
         list = []
-        for value in self.theCommandManager.RunSimParameterRange(topdir, modelName, num, count):
+        for value in self.theCommandManager.RunSimParameterRange(groupName, topdir, modelName, num, count):
             list.append(value)
         return list
+
+    def RunSimParameterMatrix(self, groupName, topdir, modelName, count):
+        '''
+        Run the simulation by using the initial parameter within the range of parameters.
+        groupName : str : group name.
+        topdir : str : top directory.
+        modelName : str : model name.
+        count : double : the simulation time
+
+        Return the list of int : the list of job id
+        '''
+        list = []
+        for value in self.theCommandManager.RunSimParameterMatrix(groupName, topdir, modelName, count):
+            list.append(value)
+        return list
+
+    def CreateJobGroup(self, analysisName):
+        '''
+        Return the group name.
+        analysisName : str : analysis name.
+
+        Return the string : the group name.
+        '''
+
+        return self.theCommandManager.CreateJobGroup(analysisName)
 
 
 class EntityStub:
