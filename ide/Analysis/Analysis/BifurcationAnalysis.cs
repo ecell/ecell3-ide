@@ -112,13 +112,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private Dictionary<int, ExecuteParameter> m_execParam;
         /// <summary>
-        /// The number of data for Axis(50).
+        /// The number of data for Axis(20).
         /// </summary>
-        private static int s_num = 10;
+        private static int s_num = 30;
         /// <summary>
         /// The number of the interval of skip(5).
         /// </summary>
-        private static int s_skip = 3;
+        private static int s_skip = 5;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
         #endregion

@@ -80,6 +80,7 @@ namespace Ecell.Job
         private JobStatus m_status;
         private string m_stderr;
         private Dictionary<string, object> m_param;
+        private string m_groupName;
 
         static private string s_dmPath;
         static private int s_maxCount;
@@ -166,10 +167,22 @@ namespace Ecell.Job
             set { this.m_stderr = value; }
         }
 
+        /// <summary>
+        /// get / set the dictionary of parameter name and parameter data.
+        /// </summary>
         public Dictionary<string, object> Param
         {
             get { return this.m_param; }
             set { this.m_param = value; }
+        }
+
+        /// <summary>
+        /// get / set the group name.
+        /// </summary>
+        public string GroupName
+        {
+            get { return this.m_groupName; }
+            set { this.m_groupName = value; }
         }
 
         /// <summary>
