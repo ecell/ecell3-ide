@@ -212,7 +212,7 @@ namespace Ecell.Job
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        Dictionary<int, ExecuteParameter> RunSimParameterMatrix(string topDir, string modelName, double count, bool isStep);
+        Dictionary<int, ExecuteParameter> RunSimParameterMatrix(string groupName, string topDir, string modelName, double count, bool isStep);
         /// <summary>
         /// Run the simulation by using the initial parameter within the range of parameters.
         /// The number of sample is set. SetLoggerData and SetParameterRange should be called, before this function use.
@@ -223,7 +223,7 @@ namespace Ecell.Job
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        Dictionary<int, ExecuteParameter> RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep);
+        Dictionary<int, ExecuteParameter> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count, bool isStep);
         /// <summary>
         /// Execute the simulation with using the set parameters.
         /// </summary>
@@ -233,7 +233,7 @@ namespace Ecell.Job
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         /// <param name="setparam">the set parameters.</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        Dictionary<int, ExecuteParameter> RunSimParameterSet(string topDir, string modelName, double count, bool isStep, Dictionary<int, ExecuteParameter> setparam);
+        Dictionary<int, ExecuteParameter> RunSimParameterSet(string groupName, string topDir, string modelName, double count, bool isStep, Dictionary<int, ExecuteParameter> setparam);
         /// <summary>
         /// Run the jobs and execute this process until all SessionProxy is finished.
         /// </summary>
@@ -273,5 +273,19 @@ namespace Ecell.Job
         /// <param name="param">the analysis parameter.</param>
         /// <returns>return jobid.</returns>
         int CreateJobEntry(ExecuteParameter param);
+        /// <summary>
+        /// Create the job group
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        JobGroup CreateJobGroup(string name);
+        /// <summary>
+        /// Create the job group with the initial parameters.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="date"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        JobGroup CreateJobGroup(string name, string date, Dictionary<string, string> param);
     }
 }

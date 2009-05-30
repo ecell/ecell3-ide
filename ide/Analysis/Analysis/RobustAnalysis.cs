@@ -67,6 +67,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The max number of input data to be executed FFT.
         /// </summary>
         public const int MaxSize = 2097152;
+        static private string m_analysisName = "RobustAnalysis";
+        private JobGroup m_group;
         #endregion
 
         /// <summary>
@@ -203,13 +205,14 @@ namespace Ecell.IDE.Plugins.Analysis
             m_isRunning = true;
             m_owner.JobManager.SetParameterRange(paramList);
             m_owner.JobManager.SetLoggerData(saveList);
+            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
             if (m_param.IsRandomCheck == true)
             {
-                m_paramDic = m_owner.JobManager.RunSimParameterRange(tmpDir, model, num, simTime, false);
+                m_paramDic = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, model, num, simTime, false);
             }
             else
             {
-                m_paramDic = m_owner.JobManager.RunSimParameterMatrix(tmpDir, model, simTime, false);
+                m_paramDic = m_owner.JobManager.RunSimParameterMatrix(m_group.GroupName, tmpDir, model, simTime, false);
             }
 
             if (m_isRunning)

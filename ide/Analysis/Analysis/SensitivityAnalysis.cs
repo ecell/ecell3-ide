@@ -146,6 +146,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The list of entity path of activity data.
         /// </summary>
         private List<string> m_activityList = new List<string>();
+        static private string m_analysisName = "SensitivityAnalysis";
+        private JobGroup m_group;
         #endregion
 
         /// <summary>
@@ -311,7 +313,8 @@ namespace Ecell.IDE.Plugins.Analysis
             dManager.SimulationStop();
 
             m_owner.JobManager.SetLoggerData(m_saveList);
-            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);            
+            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
+            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, cTime, false, execDict);            
         }
 
         /// <summary>

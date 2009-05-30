@@ -651,6 +651,7 @@ namespace Ecell.Job
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             LocalJob.ClearJobID();
             string topDir = TestConstant.TestDirectory + "TestJob1";
+            string analysisName = "AAAAAA";
             string modelName = "Drosophila";
             double count = 10;
             bool isStep = false;
@@ -662,14 +663,15 @@ namespace Ecell.Job
             ExecuteParameter param = new ExecuteParameter(data);
             setparam.Add(0, param);
 
+            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName);
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = new Dictionary<int, ExecuteParameter>();
-            resultDictionary = _unitUnderTest.RunSimParameterSet(topDir, modelName, count, isStep, setparam);
+            resultDictionary = _unitUnderTest.RunSimParameterSet(g.GroupName, topDir, modelName, count, isStep, setparam);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterSet method returned unexpected result.");
             //
             SetLoggerData();
-            isStep = true;
-            resultDictionary = _unitUnderTest.RunSimParameterSet(topDir, modelName, count, isStep, setparam);
+            isStep = true;            
+            resultDictionary = _unitUnderTest.RunSimParameterSet(g.GroupName, topDir, modelName, count, isStep, setparam);
             Assert.IsNotEmpty(resultDictionary, "RunSimParameterSet method returned unexpected result.");
 
             _unitUnderTest.GetJobDirectory(1);
@@ -725,6 +727,7 @@ namespace Ecell.Job
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
 
             string topDir = TestConstant.TestDirectory + "TestJob";
+            string analysisName = "AAAAAA_200906011112";
             string modelName = "Drosophila";
             double count = 10;
             bool isStep = false;
@@ -737,12 +740,13 @@ namespace Ecell.Job
 
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = null;
-            resultDictionary = _unitUnderTest.RunSimParameterRange(topDir, modelName, num, count, isStep);
+            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName);
+            resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
             isStep = true;
             SetLoggerData();
-            resultDictionary = _unitUnderTest.RunSimParameterRange(topDir, modelName, num, count, isStep);
+            resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep);
             Assert.IsNotEmpty(resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
             if (Directory.Exists(topDir))
@@ -758,6 +762,7 @@ namespace Ecell.Job
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
 
             string topDir = TestConstant.TestDirectory + "TestJob";
+            string analysisName = "AAAAAA_200906011112";
             string modelName = "Drosophila";
             double count = 10;
             bool isStep = false;
@@ -767,7 +772,8 @@ namespace Ecell.Job
 
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = null;
-            resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
+            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName);
+            resultDictionary = _unitUnderTest.RunSimParameterMatrix(g.GroupName, topDir, modelName, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
 
             List<EcellParameterData> list = new List<EcellParameterData>();
@@ -776,7 +782,7 @@ namespace Ecell.Job
             _unitUnderTest.SetParameterRange(list);
 
             SetLoggerData();
-            resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
+            resultDictionary = _unitUnderTest.RunSimParameterMatrix(g.GroupName, topDir, modelName, count, isStep);
             Assert.IsNotEmpty(resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
 
             isStep = true;
@@ -786,7 +792,7 @@ namespace Ecell.Job
             list.Add(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 2.0, 0.0, 1.0));
             _unitUnderTest.SetParameterRange(list);
 
-            resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
+            resultDictionary = _unitUnderTest.RunSimParameterMatrix(g.GroupName, topDir, modelName, count, isStep);
             Assert.IsEmpty(resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
 
             if (Directory.Exists(topDir))

@@ -319,6 +319,17 @@ namespace Ecell
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="analysisName"></param>
+        /// <returns></returns>
+        public string CreateJobGroup(string analysisName)
+        {
+            JobGroup g = m_env.JobManager.CreateJobGroup(analysisName);
+            return g.GroupName;
+        }
+
+        /// <summary>
         /// Deletes the default stepper.
         /// </summary>
         public void DeleteDefaultStepperStub()
@@ -1019,7 +1030,7 @@ namespace Ecell
         /// <param name="num"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public List<int> RunSimParameterRange(string topDir, string modelName, int num, double count)
+        public List<int> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count)
         {
             List<EcellParameterData> pList = DataManager.GetParameterData();
             List<EcellObservedData> oList = DataManager.GetObservedData();
@@ -1032,7 +1043,7 @@ namespace Ecell
             }
             JobManager.SetLoggerData(sList);
 
-            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterRange(topDir, modelName, num, count, false);
+            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterRange(groupName, topDir, modelName, num, count, false);
             List<int> result = new List<int>();
             foreach (int jobid in jobList.Keys)
                 result.Add(jobid);
@@ -1047,7 +1058,7 @@ namespace Ecell
         /// <param name="modelName"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public List<int> RunSimParameterMatrix(string topDir, string modelName, double count)
+        public List<int> RunSimParameterMatrix(string groupName, string topDir, string modelName, double count)
         {
             List<EcellParameterData> pList = DataManager.GetParameterData();
             List<EcellObservedData> oList = DataManager.GetObservedData();
@@ -1060,7 +1071,7 @@ namespace Ecell
             }
             JobManager.SetLoggerData(sList);
 
-            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterMatrix(topDir, modelName, count, false);
+            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterMatrix(groupName, topDir, modelName, count, false);
             List<int> result = new List<int>();
             foreach (int jobid in jobList.Keys)
                 result.Add(jobid);

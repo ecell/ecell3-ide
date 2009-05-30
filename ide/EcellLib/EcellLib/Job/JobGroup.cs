@@ -40,7 +40,7 @@ namespace Ecell.Job
     {
         #region Fields
         private string m_analysisName;
-        private string m_groupName;
+        private string m_date;
         private Dictionary<string, string> m_analysisParameter;
         private List<Job> m_jogs;
         private AnalysisStatus m_status;
@@ -62,8 +62,16 @@ namespace Ecell.Job
         /// </summary>
         public string GroupName
         {
-            get { return this.m_groupName; }
-            set { this.m_groupName = value; }
+            get { return this.m_analysisName + "_" + m_date; }
+        }
+
+        /// <summary>
+        /// get / set the date string.
+        /// </summary>
+        public string DateString
+        {
+            get { return this.m_date; }
+            set { this.m_date = value; }
         }
 
         /// <summary>
@@ -104,7 +112,7 @@ namespace Ecell.Job
             this.m_analysisName = analysisName;
             DateTime dt = DateTime.Now;
             string dateString = dt.ToString("yyyyMMddHHmm");
-            this.m_groupName = analysisName + "_" + dateString;
+            m_date = dateString;
             this.m_analysisParameter = new Dictionary<string, string>();
             this.m_jogs = new List<Job>();
         }
@@ -118,7 +126,7 @@ namespace Ecell.Job
         public JobGroup(string analysisName, string date, Dictionary<string, string> param)
         {
             this.m_analysisName = analysisName;
-            this.m_groupName = analysisName + "_" + date;
+            this.m_date = date;
             this.m_analysisParameter = param;
             this.m_jogs = new List<Job>();
         }

@@ -121,6 +121,8 @@ namespace Ecell.IDE.Plugins.Analysis
         private static int s_skip = 5;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
+        static private string m_analysisName = "Bifurcation";
+        private JobGroup m_group;
         #endregion
 
         /// <summary>
@@ -266,7 +268,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
 
             m_owner.JobManager.SetLoggerData(saveList);
-            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
+            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
+            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
             if (m_isRunning)
             {
                 m_timer.Enabled = true;
@@ -768,7 +771,7 @@ namespace Ecell.IDE.Plugins.Analysis
             PrintResultData();
             m_owner.JobManager.ClearFinishedJobs();
             String tmpDir = m_owner.JobManager.TmpDir;
-            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, paramList);
+            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, paramList);
 
             m_timer.Enabled = true;
             m_timer.Start();

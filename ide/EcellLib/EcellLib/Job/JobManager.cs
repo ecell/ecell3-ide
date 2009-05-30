@@ -55,6 +55,7 @@ namespace Ecell.Job
         private Dictionary<string, JobProxy> m_proxyList = new Dictionary<string, JobProxy>();
         private Dictionary<int, Job> m_sessionList = new Dictionary<int, Job>();
         private Dictionary<int, ExecuteParameter> m_parameterDic = new Dictionary<int, ExecuteParameter>();
+        private Dictionary<string, JobGroup> m_groupDic = new Dictionary<string, JobGroup>();
 
         private Timer m_timer;
         /// <summary>
@@ -755,7 +756,7 @@ namespace Ecell.Job
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         /// <param name="setparam">the set parameters.</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        public Dictionary<int, ExecuteParameter> RunSimParameterSet(string topDir, string modelName, 
+        public Dictionary<int, ExecuteParameter> RunSimParameterSet(string groupName, string topDir, string modelName, 
             double count, bool isStep, Dictionary<int, ExecuteParameter> setparam)
         {
             Project prj = m_env.DataManager.CurrentProject;
@@ -771,6 +772,7 @@ namespace Ecell.Job
                 Dictionary<string, double> paramDic = setparam[i].ParamDic;
 
                 Job job = Proxy.CreateJob();
+                job.GroupName = groupName;
                 string dirName = topDir + "/" + job.JobID;
                 string fileName = topDir + "/" + job.JobID + ".ess";
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
@@ -809,7 +811,7 @@ namespace Ecell.Job
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        public Dictionary<int, ExecuteParameter> RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
+        public Dictionary<int, ExecuteParameter> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count, bool isStep)
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             Project prj = m_env.DataManager.CurrentProject;
@@ -840,7 +842,7 @@ namespace Ecell.Job
                 }
 
                 Job job = Proxy.CreateJob();
-
+                job.GroupName = groupName;
                 string dirName = topDir + "/" + job.JobID;
                 string fileName = topDir + "/" + job.JobID + ".ess";
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
@@ -927,7 +929,7 @@ namespace Ecell.Job
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        public Dictionary<int, ExecuteParameter> RunSimParameterMatrix(string topDir, string modelName, double count, bool isStep)
+        public Dictionary<int, ExecuteParameter> RunSimParameterMatrix(string groupName, string topDir, string modelName, double count, bool isStep)
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             m_parameterDic.Clear();
@@ -995,6 +997,7 @@ namespace Ecell.Job
                     }
 
                     Job job = Proxy.CreateJob();
+                    job.GroupName = groupName;
                     string dirName = topDir + "/" + job.JobID;
                     string fileName = topDir + "/" + job.JobID + ".ess";
                     string modelFileName = topDir + "/" + job.JobID + ".eml";
@@ -1167,6 +1170,32 @@ namespace Ecell.Job
             else
                 writer.WriteSimulationForTime(fileName, count, enc);
             writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public JobGroup CreateJobGroup(string name)
+        {
+            JobGroup group = new JobGroup(name);
+            m_groupDic.Add(group.GroupName, group);
+            return group;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="date"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public JobGroup CreateJobGroup(string name, string date, Dictionary<string, string> param)
+        {
+            JobGroup group = new JobGroup(name, date, param);
+            m_groupDic.Add(group.GroupName, group);
+            return group;
         }
     }
 }

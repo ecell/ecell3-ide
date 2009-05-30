@@ -101,6 +101,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The dictionary of estimation.
         /// </summary>
         private Dictionary<int, double> m_estimation;
+        static private string m_analysisName = "ParameterEstimation";
+        private JobGroup m_group;
         #endregion
 
         /// <summary>
@@ -193,7 +195,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_saveList == null) return;
             m_owner.JobManager.SetLoggerData(m_saveList);
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
-
+            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
             if (m_isRunning)
             {
                 m_generation = 0;
@@ -316,14 +318,14 @@ namespace Ecell.IDE.Plugins.Analysis
             m_timer.Stop();
             if (m_generation == 0)
             {
-                m_execParamList = m_owner.JobManager.RunSimParameterRange(tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
             }
             else
             {
                 FindElite();
                 SimplexCrossOver();
                 Mutate();
-                m_execParamList = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
             }
 
             m_generation++;
