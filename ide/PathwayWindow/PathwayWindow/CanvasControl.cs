@@ -581,13 +581,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     obj.CenterPointF = GetVacantPoint(sysKey);
                 }
-                else if (!obj.EcellObject.isFixed)
-                {
-                    MakeSpace(system, obj, false);
-                }
                 else if (!DoesSystemContains(sysKey, obj.CenterPointF))
                 {
-                    obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                    if (!obj.EcellObject.isFixed)
+                    {
+                        MakeSpace(system, obj, false);
+                    }
+                    else
+                    {
+                        obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                    }
                 }
             }
             else if (obj is PPathwaySystem)
@@ -751,9 +754,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         offset.X = offsetx;
                 }
             }
-            // Make new space.
             if (enlargeFlag)
             {
+                // Make new space.
                 foreach (PPathwayObject child in list)
                 {
                     if (child is PPathwayText)
@@ -792,6 +795,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     }
                 }
             }
+
             m_con.NotifyDataChanged(system, false);
 
             // Make parent system create space for this system.
@@ -880,6 +884,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // if obj is root system or layerID is null.
             PPathwayLayer layer = m_defaultLayer;
             string layerID = obj.EcellObject.Layer;
+            if (obj.Layer != null && obj.Layer.Name == layerID)
+                return;
+
             if (obj.EcellObject.Key.Equals(Constants.delimiterPath) || string.IsNullOrEmpty(layerID))
             {
                 // Set default layer.

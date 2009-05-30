@@ -538,12 +538,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (eo.Type.Equals(EcellObject.MODEL))
             {
                 this.CreateCanvas((EcellModel)eo);
-                //foreach (EcellObject child in eo.Children)
-                //{
-                //    if (!(child is EcellStepper))
-                //        continue;
-                //    DataAdd(child, isAnchor);
-                //}
                 return;
             }
 
@@ -829,6 +823,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             foreach (PPathwayObject obj in Canvas.Steppers.Values)
                 if (m_canvas.SelectedNodes.Contains(obj))
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
+
+            foreach (EcellObject eo in copyNodes)
+            {
+                // Reset logger
+                foreach (EcellData data in eo.Value)
+                {
+                    data.Logged = false;
+                }
+                if (!(eo is EcellProcess))
+                    continue;
+
+                // Reset Reference.
+                EcellProcess ep = (EcellProcess)eo;
+                List<EcellReference> list = new List<EcellReference>();
+                foreach (EcellReference er in ep.ReferenceList)
+                {
+                    foreach (EcellObject referer in copyNodes)
+                    {
+                        if(referer.Key.Equals(er.Key))
+                            list.Add(er);
+                    }
+                }
+                ep.ReferenceList = list;
+            }
 
             return copyNodes;
         }
