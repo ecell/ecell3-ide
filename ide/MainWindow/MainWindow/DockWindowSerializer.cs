@@ -97,6 +97,7 @@ namespace Ecell.IDE.MainWindow
                 // Form settings
                 xmlOut.WriteStartElement("Form");
                 xmlOut.WriteAttributeString("WindowState", window.WindowState.ToString());
+                xmlOut.WriteAttributeString("Screen", GetScreenNum(window) );
                 if (window.WindowState == FormWindowState.Maximized)
                 {
                     xmlOut.WriteAttributeString("Top", window.RestoreBounds.Top.ToString());
@@ -199,6 +200,7 @@ namespace Ecell.IDE.MainWindow
                     xmlOut.WriteAttributeString("ID", dockPanel.FloatWindows.IndexOf(fw).ToString());
                     xmlOut.WriteAttributeString("Bounds", rectConverter.ConvertToInvariantString(fw.Bounds));
                     xmlOut.WriteAttributeString("ZOrderIndex", fw.DockPanel.FloatWindows.IndexOf(fw).ToString());
+                    xmlOut.WriteAttributeString("Screen", GetScreenNum(fw));
                     xmlOut.WriteStartElement("NestedPanes");
                     xmlOut.WriteAttributeString("Count", fw.NestedPanes.Count.ToString());
                     foreach (DockPane pane in fw.NestedPanes)
@@ -228,6 +230,32 @@ namespace Ecell.IDE.MainWindow
                 if (xmlOut != null) xmlOut.Close();
                 if (fs != null) fs.Close();
             }
+        }
+
+        /// <summary>
+        /// Get Screen number.
+        /// </summary>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        private static string GetScreenNum(Form window)
+        {
+            int i = 0;
+            try
+            {
+                Screen[] screens = Screen.AllScreens;
+                Screen current = Screen.FromHandle(window.Handle);
+                int num = 0;
+                foreach (Screen screen in screens)
+                {
+                    if (screen == current)
+                        i = num;
+                    num++;
+                }
+            }
+            catch(Exception)
+            {
+            }
+            return i.ToString();
         }
 
         /// <summary>

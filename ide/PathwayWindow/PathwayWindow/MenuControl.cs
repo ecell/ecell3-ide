@@ -209,6 +209,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             bool menuFlag = m_con.ProjectStatus == ProjectStatus.Loaded;
 
+            // Set availability
             toolMenuExport.Enabled = menuFlag;
 
             toolMenuCut.Enabled = menuFlag;
@@ -218,6 +219,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             toolButtonAnimation.Enabled = menuFlag;
             toolMenuAnimation.Enabled = menuFlag;
+
+            // Set visibility.
+            toolButtonSeparator2.Visible = menuFlag;
+            toolButtonArrow.Visible = menuFlag;
+            toolButtonBidirArrow.Visible = menuFlag;
+            toolButtonConst.Visible = menuFlag;
         }
 
         private void InitializeComponent()
@@ -825,6 +832,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
             bool isInsideRoot = m_con.Canvas.IsInsideRoot(m_con.MousePosition);
+            bool isMenuOn = m_con.ProjectStatus == ProjectStatus.Loaded;
 
             // Set Popup menu visibility.
             if (isNull || (!isNull && node.Offset == PointF.Empty))
@@ -862,27 +870,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripIdShow.Visible = isObject;
             toolStripSeparator1.Visible = isObject;
             // Show Line menus.
-            toolStripOneWayArrow.Visible = isLine && !isOneway;
-            toolStripAnotherArrow.Visible = isLine && isOneway;
-            toolStripBidirArrow.Visible = isLine && (isOneway || isEffector);
-            toolStripConstant.Visible = isLine && !isEffector;
-            toolStripDeleteArrow.Visible = isLine;
+            toolStripOneWayArrow.Visible = isLine && !isOneway && isMenuOn;
+            toolStripAnotherArrow.Visible = isLine && isOneway && isMenuOn;
+            toolStripBidirArrow.Visible = isLine && (isOneway || isEffector) && isMenuOn;
+            toolStripConstant.Visible = isLine && !isEffector && isMenuOn;
+            toolStripDeleteArrow.Visible = isLine && isMenuOn;
             // Show Node / System edit menus.
-            toolStripCut.Visible = isObject && !isRoot;
-            toolStripCopy.Visible = isObject && !isRoot;
-            toolStripPaste.Visible = isCopiedObject && isInsideRoot;
-            toolStripDelete.Visible = (isObject && !isRoot) || isText;
-            toolStripSeparator2.Visible = isObject && !isRoot;
+            toolStripCut.Visible = isObject && !isRoot && isMenuOn;
+            toolStripCopy.Visible = isObject && !isRoot && isMenuOn;
+            toolStripPaste.Visible = isCopiedObject && isInsideRoot && isMenuOn;
+            toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isMenuOn;
+            toolStripSeparator2.Visible = isObject && !isRoot && isMenuOn;
             // Set Alias
-            toolStripAlias.Visible = isVariable;
-            toolStripDeleteAlias.Visible = isAlias;
+            toolStripAlias.Visible = isVariable && isMenuOn;
+            toolStripDeleteAlias.Visible = isAlias && isMenuOn;
             // Set Text menu.
-            toolStripTextAlign.Visible = isText;
+            toolStripTextAlign.Visible = isText && isMenuOn;
             // Show Layer menu.
-            toolStripChangeLayer.Visible = isObject && !isRoot;
+            toolStripChangeLayer.Visible = isObject && !isRoot && isMenuOn;
             toolStripMoveFront.Visible = isObject && !isRoot;
             toolStripMoveBack.Visible = isObject && !isRoot;
-            toolStripFigureSetting.Visible = isObject;
+            toolStripFigureSetting.Visible = isObject && isMenuOn;
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
