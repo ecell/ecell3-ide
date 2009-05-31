@@ -14,17 +14,18 @@ namespace Ecell.IDE
 {
     public partial class CommonContextMenu : Component
     {
-        #region MyRegion
-        
-        #endregion
+        #region Fields
         /// <summary>
         /// Target object.
         /// </summary>
         protected EcellObject m_object;
+
         /// <summary>
         /// Environment manager.
         /// </summary>
         protected ApplicationEnvironment m_env;
+        
+        #endregion
 
         #region Accessors
         /// <summary>
@@ -54,16 +55,22 @@ namespace Ecell.IDE
             {
                 this.m_object = value;
 
+                // Set Parent System
                 string parentSys = "";
                 if (value != null && value.ParentSystemID != null)
                     parentSys = value.ParentSystemID;
+
+                // 
                 bool isSystem = (value is EcellSystem);
                 bool isParentSys = string.IsNullOrEmpty(parentSys);
+                bool isLoaded = m_env.PluginManager.Status == ProjectStatus.Loaded;
 
-                addToolStripMenuItem.Visible = isSystem;
-                deleteToolStripMenuItem.Visible = !isParentSys;
-                mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys;
+                // Set Menu Visibility.
+                addToolStripMenuItem.Visible = isSystem && isLoaded;
+                deleteToolStripMenuItem.Visible = !isParentSys && isLoaded;
+                mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys && isLoaded;
                 mergeSystemToolStripMenuItem.Text = MessageResources.MergeSystem + "(" + parentSys + ")";
+                toolStripSeparator1.Visible = isLoaded;
 
                 if (m_env == null)
                     return;

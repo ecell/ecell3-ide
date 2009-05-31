@@ -69,6 +69,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         private Handle m_handle;
 
+        private List<ToolStripButton> m_buttons;
+
         /// <summary>
         /// 
         /// </summary>
@@ -195,6 +197,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             : this()
         {
             m_con = control;
+            m_buttons = new List<ToolStripButton>();
             m_con.ProjectStatusChange += new EventHandler(OnProjectStatusChange);
             commonMenu.Environment = m_con.Window.Environment;
             CreateToolButtons();
@@ -225,6 +228,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolButtonArrow.Visible = menuFlag;
             toolButtonBidirArrow.Visible = menuFlag;
             toolButtonConst.Visible = menuFlag;
+            foreach (ToolStripButton button in m_buttons)
+            {
+                button.Visible = menuFlag;
+            }
         }
 
         private void InitializeComponent()
@@ -367,7 +374,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // commonMenu
             // 
             this.commonMenu.Environment = null;
-            this.commonMenu.Object = null;
             // 
             // toolStripCut
             // 
@@ -801,6 +807,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
                 button.Click += new EventHandler(ButtonStateChanged);
                 toolButton.Items.Add(button);
+                m_buttons.Add(button);
             }
 
             // SelectMode is default.

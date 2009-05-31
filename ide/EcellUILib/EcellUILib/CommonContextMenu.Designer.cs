@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommonContextMenu));
             this.commonContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +42,7 @@
             this.parameterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.commonContextMenuStrip.SuspendLayout();
             // 
             // toolStripSeparator1
@@ -57,7 +56,7 @@
             this.addToolStripMenuItem,
             this.deleteToolStripMenuItem,
             this.mergeSystemToolStripMenuItem,
-            toolStripSeparator1,
+            this.toolStripSeparator1,
             this.loggingToolStripMenuItem,
             this.observedToolStripMenuItem,
             this.parameterToolStripMenuItem,
@@ -142,6 +141,7 @@
         private System.Windows.Forms.ContextMenuStrip commonContextMenuStrip;
         public System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1; 
         public System.Windows.Forms.ToolStripMenuItem loggingToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem observedToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
