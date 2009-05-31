@@ -305,6 +305,7 @@ namespace Ecell.Job
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
             m_sessionList.Add(job.JobID, job);
+            m_groupDic[job.GroupName].Jobs.Add(job);
 
             return job.JobID;
         }
@@ -314,7 +315,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="param">the analysis parameter.</param>
         /// <returns>return jobid.</returns>
-        public int CreateJobEntry(ExecuteParameter param)
+        public int CreateJobEntry(string groupName, ExecuteParameter param)
         {
             if (m_proxy == null)
                 return -1;
@@ -323,6 +324,7 @@ namespace Ecell.Job
             job.Status = JobStatus.FINISHED;
             m_parameterDic.Add(job.JobID, param);
             m_sessionList.Add(job.JobID, job);
+            m_groupDic[groupName].Jobs.Add(job);
 
             return job.JobID;
         }
@@ -439,6 +441,11 @@ namespace Ecell.Job
             }
             if (m_proxy != null)
                 m_proxy.Update();
+
+            foreach (JobGroup m in m_groupDic.Values)
+            {
+                m.UpdateStatus();
+            }
         }
 
         /// <summary>
@@ -1196,6 +1203,30 @@ namespace Ecell.Job
             JobGroup group = new JobGroup(name, date, param);
             m_groupDic.Add(group.GroupName, group);
             return group;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveJobGroup(string name)
+        {
+            if (!m_groupDic.ContainsKey(name))
+                return;
+
+            List<Job> delList = new List<Job>();
+            foreach (Job m in m_sessionList.Values)
+            {
+                if (name.Equals(m.GroupName))
+                    delList.Add(m);
+            }
+
+            foreach (Job m in delList)
+            {                
+                m_sessionList.Remove(m.JobID);
+            }
+            m_groupDic[name].Clear();
+            m_groupDic.Remove(name);
         }
     }
 }

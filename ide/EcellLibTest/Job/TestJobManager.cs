@@ -265,12 +265,13 @@ namespace Ecell.Job
             int expectedInt32 = 1;
             int resultInt32 = 0;
 
-            resultInt32 = manager.CreateJobEntry(param);
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            resultInt32 = manager.CreateJobEntry(g.GroupName, param);
             Assert.AreEqual(expectedInt32, resultInt32, "CreateJobEntry method returned unexpected result.");
 
             manager.Proxy = null;
             expectedInt32 = -1;
-            resultInt32 = manager.CreateJobEntry(param);
+            resultInt32 = manager.CreateJobEntry(g.GroupName, param);
             Assert.AreEqual(expectedInt32, resultInt32, "CreateJobEntry method returned unexpected result.");
         }
         /// <summary>
@@ -305,11 +306,12 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             LocalJob.ClearJobID();
 
-            manager.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             int jobID = 0;
             manager.ClearJob(jobID);
 
-            jobID = manager.CreateJobEntry(new ExecuteParameter());
+            jobID = manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             manager.ClearJob(jobID);
         }
         /// <summary>
@@ -345,7 +347,8 @@ namespace Ecell.Job
         [Test()]
         public void TestClearFinishedJobs()
         {
-            _unitUnderTest.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
+            _unitUnderTest.CreateJobEntry(g.GroupName, new ExecuteParameter());
             _unitUnderTest.ClearFinishedJobs();
 
         }
@@ -356,7 +359,8 @@ namespace Ecell.Job
         public void TestUpdate()
         {
             JobManager manager = new JobManager(_env);
-            manager.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = manager.CreateJobGroup("AAAAA");
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
                 job.Status = JobStatus.RUNNING;
             manager.Update();
@@ -410,8 +414,9 @@ namespace Ecell.Job
             List<Job> resultList = null;
             resultList = manager.GetFinishedJobList();
             Assert.AreEqual(expectedList, resultList, "GetFinishedJobList method returned unexpected result.");
+            JobGroup g = manager.CreateJobGroup("AAAAA");
 
-            manager.CreateJobEntry(new ExecuteParameter());
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             resultList = manager.GetFinishedJobList();
             Assert.IsNotEmpty(resultList, "GetFinishedJobList method returned unexpected result.");
 
@@ -428,8 +433,9 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = manager.IsFinished();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
+            JobGroup g = manager.CreateJobGroup("AAAAA");
 
-            manager.CreateJobEntry(new ExecuteParameter());
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
                 job.Status = JobStatus.RUNNING;
 
@@ -450,8 +456,8 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = manager.IsError();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsError method returned unexpected result.");
-
-            manager.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = manager.CreateJobGroup("AAAAA");
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
                 job.Status = JobStatus.ERROR;
 
@@ -472,8 +478,8 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.IsRunning();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsRunning method returned unexpected result.");
-
-            manager.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = manager.CreateJobGroup("AAAAA");
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
                 job.Status = JobStatus.RUNNING;
 
@@ -498,7 +504,8 @@ namespace Ecell.Job
         public void TestRunWaitFinish()
         {
             JobManager manager = new JobManager(_env);
-            manager.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = manager.CreateJobGroup("AAAAA");
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             //foreach (Job job in manager.GetFinishedJobList())
             //    job.Status = JobStatus.RUNNING;
 

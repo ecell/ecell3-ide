@@ -99,7 +99,8 @@ namespace Ecell.Job
         [Test()]
         public void TestUpdate()
         {
-            _unitUnderTest.Manager.CreateJobEntry(new ExecuteParameter());
+            JobGroup g = _unitUnderTest.Manager.CreateJobGroup("AAAA");
+            _unitUnderTest.Manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in _unitUnderTest.Manager.GetFinishedJobList())
                 job.Status = JobStatus.QUEUED;
             _unitUnderTest.Update();

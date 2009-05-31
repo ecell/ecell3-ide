@@ -317,6 +317,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string line;
             string[] ele;
 
+            JobGroup group = m_owner.JobManager.CreateJobGroup("RobustAnalysis");
             Dictionary<int, string> paramDic = new Dictionary<int, string>();
             int i = 0;
             foreach (string label in labels)
@@ -345,7 +346,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     if (j == 2) y = Convert.ToDouble(ele[j]);
                     p.AddParameter(paramDic[j - 1], Convert.ToDouble(ele[j]));
                 }
-                int jobid = m_owner.JobManager.CreateJobEntry(p);
+                int jobid = m_owner.JobManager.CreateJobEntry(group.GroupName, p);
                 AddJudgementData(jobid, x, y, result);
             }
         }

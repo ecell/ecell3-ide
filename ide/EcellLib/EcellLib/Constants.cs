@@ -656,17 +656,25 @@ namespace Ecell
     public enum AnalysisStatus
     {
         /// <summary>
-        /// Analysis status (analysis is not running)
+        /// Analysis status (another case)
         /// </summary>
-        Initialized = 0,
+        Waiting = 0,
         /// <summary>
-        /// Analysis status (this analysis is running).
+        /// Analysis status (this statis is that at least one job is running).
         /// </summary>
         Running = 1,
         /// <summary>
-        /// Analysis status (this analysis is already done).
+        /// Analysis status (this status is that all job is finished).
         /// </summary>
-        Completed = 2
+        Finished = 2,
+        /// <summary>
+        /// Analysis status (this status is that at least one job is stopped).
+        /// </summary>
+        Stopped = 3,
+        /// <summary>
+        /// Analysis status (this status is that at least one job is error).
+        /// </summary>
+        Error = 4
     }
 
     /// <summary>

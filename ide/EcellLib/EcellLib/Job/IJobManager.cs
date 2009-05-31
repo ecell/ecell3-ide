@@ -270,9 +270,10 @@ namespace Ecell.Job
         /// <summary>
         /// Create the job entry when the analysis result is loaded.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         /// <param name="param">the analysis parameter.</param>
         /// <returns>return jobid.</returns>
-        int CreateJobEntry(ExecuteParameter param);
+        int CreateJobEntry(string groupName, ExecuteParameter param);
         /// <summary>
         /// Create the job group
         /// </summary>

@@ -42,7 +42,7 @@ namespace Ecell.Job
         private string m_analysisName;
         private string m_date;
         private Dictionary<string, string> m_analysisParameter;
-        private List<Job> m_jogs;
+        private List<Job> m_jobs;
         private AnalysisStatus m_status;
         #endregion
 
@@ -88,8 +88,8 @@ namespace Ecell.Job
         /// </summary>
         public List<Job> Jobs
         {
-            get { return this.m_jogs; }
-            set { this.m_jogs = value; }
+            get { return this.m_jobs; }
+            set { this.m_jobs = value; }
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Ecell.Job
             string dateString = dt.ToString("yyyyMMddHHmm");
             m_date = dateString;
             this.m_analysisParameter = new Dictionary<string, string>();
-            this.m_jogs = new List<Job>();
+            this.m_jobs = new List<Job>();
         }
 
         /// <summary>
@@ -128,8 +128,52 @@ namespace Ecell.Job
             this.m_analysisName = analysisName;
             this.m_date = date;
             this.m_analysisParameter = param;
-            this.m_jogs = new List<Job>();
+            this.m_jobs = new List<Job>();
         }
         #endregion
+
+        /// <summary>
+        /// Update status.
+        /// </summary>
+        public void UpdateStatus()
+        {
+            AnalysisStatus status = AnalysisStatus.Finished;
+            foreach (Job m in m_jobs)
+            {
+                if (m.Status == JobStatus.RUNNING)
+                {
+                    status = AnalysisStatus.Running;
+                    break;
+                }
+                else if (m.Status == JobStatus.STOPPED)
+                {
+                    status = AnalysisStatus.Stopped;
+                }
+                else if (m.Status == JobStatus.ERROR ||
+                    (status != AnalysisStatus.Stopped &&
+                    status != AnalysisStatus.Running))
+                {
+                    status = AnalysisStatus.Error;
+                }
+                else if ((m.Status == JobStatus.NONE ||
+                    m.Status == JobStatus.QUEUED) &&
+                    (status == AnalysisStatus.Finished))
+                {
+                    status = AnalysisStatus.Waiting;
+                }
+            }
+            m_status = status;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
+        {
+            foreach (Job m in m_jobs)
+            {
+                m.Clear();
+            }
+        }
     }
 }
