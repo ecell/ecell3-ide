@@ -134,13 +134,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
-
+            
             // Set EventHandler for current canvas.
             if (m_con.Canvas == null)
                 return;
             if (!(e.Canvas is PToolBoxCanvas))
                 return;
             SetEventHandler((PToolBoxCanvas)e.Canvas, e);
+            // m_con.Canvas.PCanvas.Cursor = Cursors.Hand;
         }
 
         /// <summary>
