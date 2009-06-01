@@ -109,11 +109,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_timer.Stop();
                 return;
             }
-            if (!m_owner.JobManager.IsFinished())
+            if (!m_owner.JobManager.IsFinished(m_group.GroupName))
             {
                 if (m_isRunning == false)
                 {
-                    m_owner.JobManager.StopRunningJobs();
+                    m_owner.JobManager.Stop(m_group.GroupName, 0);
                     m_timer.Enabled = false;
                     m_timer.Stop();
                 }
@@ -131,7 +131,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.FinishedAnalysisByError();
                 return;
             }
-            if (m_owner.JobManager.IsError())
+            if (m_owner.JobManager.IsError(m_group.GroupName))
             {
                 if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
                 {
@@ -227,7 +227,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_owner.JobManager.StopRunningJobs();
+            m_owner.JobManager.Stop(m_group.GroupName, 0);
             m_isRunning = false;
             m_owner.StopRobustAnalysis();
         }
@@ -288,15 +288,16 @@ namespace Ecell.IDE.Plugins.Analysis
             List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();
             foreach (int jobid in m_paramDic.Keys)
             {
-                if (m_owner.JobManager.JobList[jobid].Status != JobStatus.FINISHED)
+                Job.Job j = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
+                if (j.Status != JobStatus.FINISHED)
                     continue;
-                double x = m_owner.JobManager.ParameterDic[jobid].GetParameter(xPath);
-                double y = m_owner.JobManager.ParameterDic[jobid].GetParameter(yPath);
+                double x = j.ExecParam.GetParameter(xPath);
+                double y = j.ExecParam.GetParameter(yPath);
                 bool isOK = true;
                 foreach (EcellObservedData p in judgeList)
                 {
                     Dictionary<double, double> logList =
-                        m_owner.JobManager.JobList[jobid].GetLogData(p.Key);
+                        j.GetLogData(p.Key);
 
                     double simTime = Convert.ToDouble(m_param.SimulationTime);
                     double winSize = Convert.ToDouble(m_param.WinSize);

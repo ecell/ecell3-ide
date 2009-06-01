@@ -311,11 +311,12 @@ namespace Ecell
         /// <summary>
         /// Create the job stub.
         /// </summary>
+        /// <param name="groupName"></param>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public JobStub CreateJobStub(int ID)
+        public JobStub CreateJobStub(string groupName, int ID)
         {
-            return new JobStub(this, ID);
+            return new JobStub(this, groupName, ID);
         }
 
         /// <summary>
@@ -918,62 +919,6 @@ namespace Ecell
         }
 
         #region JobManager
-        /// <summary>
-        /// Get the id list of queued jobs.
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetQueuedJobList()
-        {
-            List<int> result = new List<int>();
-            foreach (Job.Job j in JobManager.GetQueuedJobList())
-            {
-                result.Add(j.JobID);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Get the id list of running jobs.
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetRunningJobList()
-        {
-            List<int> result = new List<int>();
-            foreach (Job.Job j in JobManager.GetRunningJobList())
-            {
-                result.Add(j.JobID);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Get the id list of finished jobs.
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetFinishedJobList()
-        {
-            List<int> result = new List<int>();
-            foreach (Job.Job j in JobManager.GetFinishedJobList())
-            {
-                result.Add(j.JobID);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Get the id list of error jobs.
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetErrorJobList()
-        {
-            List<int> result = new List<int>();
-            foreach (Job.Job j in JobManager.GetErrorJobList())
-            {
-                result.Add(j.JobID);
-            }
-            return result;
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -1851,6 +1796,7 @@ namespace Ecell
             #region Fields
             private Job.Job m_job = null;
             private int m_id = 0;
+            private string m_groupName;
             private CommandManager m_cManager = null;
             #endregion
 
@@ -1867,12 +1813,13 @@ namespace Ecell
             /// </summary>
             /// <param name="manager">CommandManager</param>
             /// <param name="id">the job id.</param>
-            public JobStub(CommandManager manager, int id)
+            public JobStub(CommandManager manager, string groupName, int id)
             {
                 this.m_cManager = manager;
                 m_id = id;
-                if (m_cManager.JobManager.JobList.ContainsKey(id))
-                    m_job = m_cManager.JobManager.JobList[id];
+                m_groupName = groupName;
+                if (m_cManager.JobManager.GroupDic.ContainsKey(groupName))
+                    m_job = m_cManager.JobManager.GroupDic[groupName].GetJob(id);
             }
             #endregion
 
@@ -1888,10 +1835,10 @@ namespace Ecell
             /// </summary>
             public void Delete()
             {
-                if (!m_cManager.JobManager.JobList.ContainsKey(m_id))
+                if (!m_cManager.JobManager.GroupDic.ContainsKey(m_groupName))
                     return;
 
-                m_cManager.JobManager.JobList.Remove(m_id);
+                m_cManager.JobManager.GroupDic[m_groupName].DeleteJob(m_id);
                 this.m_id = 0;
                 this.m_job = null;
                 this.m_cManager = null;

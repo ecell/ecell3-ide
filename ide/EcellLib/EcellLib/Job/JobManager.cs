@@ -53,8 +53,7 @@ namespace Ecell.Job
         private int m_globalTimeOut = 0;
         private JobProxy m_proxy;
         private Dictionary<string, JobProxy> m_proxyList = new Dictionary<string, JobProxy>();
-        private Dictionary<int, Job> m_sessionList = new Dictionary<int, Job>();
-        private Dictionary<int, ExecuteParameter> m_parameterDic = new Dictionary<int, ExecuteParameter>();
+//        private Dictionary<int, Job> m_sessionList = new Dictionary<int, Job>();
         private Dictionary<string, JobGroup> m_groupDic = new Dictionary<string, JobGroup>();
 
         private Timer m_timer;
@@ -164,22 +163,13 @@ namespace Ecell.Job
             set { this.m_globalTimeOut = value; }
         }
 
-        /// <summary>
-        /// get the list of session.
-        /// </summary>
-        public Dictionary<int, Job> JobList
-        {
-            get { return this.m_sessionList; }
-        }
-
-        /// <summary>
-        /// get/set the list of parameters.
-        /// </summary>
-        public Dictionary<int, ExecuteParameter> ParameterDic
-        {
-            get { return this.m_parameterDic; }
-            set { this.m_parameterDic = value; }
-        }
+        ///// <summary>
+        ///// get the list of session.
+        ///// </summary>
+        //public Dictionary<int, Job> JobList
+        //{
+        //    get { return this.m_sessionList; }
+        //}
 
         /// <summary>
         /// get / set the using proxy for system.
@@ -188,6 +178,14 @@ namespace Ecell.Job
         {
             get { return this.m_proxy; }
             set { this.m_proxy = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<string, JobGroup> GroupDic
+        {
+            get { return this.m_groupDic; }
         }
 
         /// <summary>
@@ -304,7 +302,6 @@ namespace Ecell.Job
             job.ExtraFileList = extFile;
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
-            m_sessionList.Add(job.JobID, job);
             m_groupDic[job.GroupName].Jobs.Add(job);
 
             return job.JobID;
@@ -322,8 +319,7 @@ namespace Ecell.Job
 
             Job job = m_proxy.CreateJob();
             job.Status = JobStatus.FINISHED;
-            m_parameterDic.Add(job.JobID, param);
-            m_sessionList.Add(job.JobID, job);
+            job.ExecParam = param;
             m_groupDic[groupName].Jobs.Add(job);
 
             return job.JobID;
@@ -336,7 +332,7 @@ namespace Ecell.Job
         /// <param name="extFile">the list of extension file.</param>
         /// <param name="script">the script file.</param>
         /// <returns>the status of job.</returns>
-        public int RegisterEcellSession(string script, string arg, List<string> extFile)
+        public int RegisterEcellSession(string groupName, string script, string arg, List<string> extFile)
         {
             if (m_proxy == null)
                 return -1;
@@ -347,83 +343,48 @@ namespace Ecell.Job
             job.ExtraFileList = extFile;
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
-            m_sessionList.Add(job.JobID, job);
+            m_groupDic[groupName].Jobs.Add(job);
 
             return job.JobID;
         }
 
         /// <summary>
-        /// Delete the job. if jobID = 0, all jobs are deleted.
+        /// Clear the files of the selected jobs. if jobID = 0, all jobs are deleted.
         /// </summary>
         /// <param name="jobID">the ID of deleted job.</param>
-        public void ClearJob(int jobID)
+        public void ClearJob(string groupName, int jobID)
         {
+            if (string.IsNullOrEmpty(groupName) || !m_groupDic.ContainsKey(groupName))
+                return;
+
             if (jobID == 0)
             {
-                foreach (int job in m_sessionList.Keys)
-                    m_sessionList[job].Clear();
-                m_sessionList.Clear();
+                m_groupDic[groupName].Clear();
             }
             else
             {
-                if (m_sessionList.ContainsKey(jobID))                
-                    RemoveJob(jobID);            
+                m_groupDic[groupName].ClearJob(jobID);
             }
         }
 
-        private void RemoveJob(int jobID)
-        {
-            m_sessionList[jobID].Clear();
-            m_sessionList.Remove(jobID);
-        }
-
         /// <summary>
-        /// Delete the queued jobs.
+        /// Delete the selected jobs. if jobID = 0, all jobs are deleted.
         /// </summary>
-        public void ClearQueuedJobs()
+        /// <param name="groupName"></param>
+        /// <param name="jobID"></param>
+        public void DeleteJob(string groupName, int jobID)
         {
-            ClearJobsWithStatus(JobStatus.QUEUED);
-        }
+            if (string.IsNullOrEmpty(groupName) || !m_groupDic.ContainsKey(groupName))
+                return;
 
-        /// <summary>
-        /// Delete the running jobs.
-        /// </summary>
-        public void ClearRunningJobs()
-        {
-            ClearJobsWithStatus(JobStatus.RUNNING);
-        }
-
-        /// <summary>
-        /// Delete the error jobs.
-        /// </summary>
-        public void ClearErrorJobs()
-        {
-            ClearJobsWithStatus(JobStatus.ERROR);
-        }
-
-        /// <summary>
-        /// Delete the finished jobs.
-        /// </summary>
-        public void ClearFinishedJobs()
-        {
-            ClearJobsWithStatus(JobStatus.FINISHED);
-        }
-
-        /// <summary>
-        /// Delete jobs with JobStatus.
-        /// </summary>
-        /// <param name="status"></param>
-        private void ClearJobsWithStatus(JobStatus status)
-        {
-            List<int> delList = new List<int>();
-            foreach (int job in m_sessionList.Keys)
+            if (jobID == 0)
             {
-                if (m_sessionList[job].Status == status)
-                    delList.Add(job);
+                m_groupDic[groupName].Delete();
             }
-
-            foreach (int job in delList)
-                RemoveJob(job);
+            else
+            {
+                m_groupDic[groupName].DeleteJob(jobID);
+            }
         }
 
         /// <summary>
@@ -431,21 +392,12 @@ namespace Ecell.Job
         /// </summary>
         public void Update()
         {
-            foreach (Job job in m_sessionList.Values)
-            {
-                if (job.Status == JobStatus.QUEUED ||
-                    job.Status == JobStatus.RUNNING)
-                {
-                    job.Update();
-                }
-            }
-            if (m_proxy != null)
-                m_proxy.Update();
-
             foreach (JobGroup m in m_groupDic.Values)
             {
                 m.UpdateStatus();
             }
+            if (m_proxy != null)
+                m_proxy.Update();
         }
 
         /// <summary>
@@ -467,15 +419,6 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// Get the list of error jobs.
-        /// </summary>
-        /// <returns>List of SessionProxy.</returns>
-        public List<Job> GetErrorJobList()
-        {
-            return GetJobListWithStatus(JobStatus.ERROR);
-        }
-
-        /// <summary>
         /// Get the list of finished jobs.
         /// </summary>
         /// <returns>List of SessionProxy.</returns>
@@ -492,10 +435,13 @@ namespace Ecell.Job
         private List<Job> GetJobListWithStatus(JobStatus status)
         {
             List<Job> tmpList = new List<Job>();
-            foreach (Job job in m_sessionList.Values)
+            foreach (string name in m_groupDic.Keys)
             {
-                if (job.Status == status)
-                    tmpList.Add(job);
+                foreach (Job j in m_groupDic[name].Jobs)
+                {
+                    if (j.Status == status)
+                        tmpList.Add(j);
+                }
             }
             return tmpList;
         }
@@ -504,56 +450,57 @@ namespace Ecell.Job
         /// Check whether all jobs is finished.
         /// </summary>
         /// <returns>if all jobs is finished, retur true.</returns>
-        public bool IsFinished()
+        public bool IsFinished(string groupName)
         {
-            foreach (int job in m_sessionList.Keys)
+            if (string.IsNullOrEmpty(groupName))
             {
-                if (m_sessionList[job].Status == JobStatus.QUEUED ||
-                    m_sessionList[job].Status == JobStatus.RUNNING)
-                    return false;
+                foreach (string name in m_groupDic.Keys)
+                {
+                    bool res = m_groupDic[name].IsFinished();
+                    if (res == false)
+                        return false;
+                }
+                return true;
             }
-            return true;
+
+            return m_groupDic[groupName].IsFinished();
         }
 
         /// <summary>
         /// Check whther there are any error jobs.
         /// </summary>
         /// <returns>if there is error job, return true.</returns>
-        public bool IsError()
+        public bool IsError(string groupName)
         {
-            foreach (int job in m_sessionList.Keys)
+            if (string.IsNullOrEmpty(groupName))
             {
-                if (m_sessionList[job].Status == JobStatus.ERROR)
-                    return true;
+                foreach (string name in m_groupDic.Keys)
+                {
+                    bool res = m_groupDic[name].IsError();
+                    if (res == true)
+                        return true;
+                }
+                return false;
             }
-            return false;
-        }
 
-        /// <summary>
-        /// Check whether there are any error jobs.
-        /// </summary>
-        /// <returns>if there is running job, return true.</returns>
-        public bool IsRunning()
-        {
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.RUNNING)
-                    return true;
-            }
-            return false;
+            return m_groupDic[groupName].IsFinished();
         }
 
         /// <summary>
         /// Preapre to execute the process.
         /// Ex. script file, extra file, job directory and so on.
         /// </summary>
-        private void PrepareProcessRun()
+        private void PrepareProcessRun(string groupName)
         {
-            foreach (Job p in m_sessionList.Values)
+            foreach (string name in m_groupDic.Keys)
             {
-                if (p.Status == JobStatus.NONE)
+                if (!string.IsNullOrEmpty(groupName) &&
+                    !name.Equals(groupName))
+                    continue;
+                foreach (Job j in m_groupDic[name].Jobs)
                 {
-                    p.PrepareProcess();
+                    if (j.Status == JobStatus.NONE)
+                        j.PrepareProcess();
                 }
             }
         }
@@ -561,9 +508,9 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs.
         /// </summary>
-        public void Run()
+        public void Run(string groupName)
         {
-            PrepareProcessRun();
+            PrepareProcessRun(groupName);
             Update();
             m_timer.Enabled = true;
             m_timer.Start();
@@ -572,11 +519,11 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs and execute this process until all SessionProxy is finished.
         /// </summary>
-        public void RunWaitFinish()
+        public void RunWaitFinish(string groupName)
         {
-            PrepareProcessRun();
+            PrepareProcessRun(groupName);
 
-            while (!IsFinished())
+            while (!IsFinished(null))
             {
                 Update();
                 System.Threading.Thread.Sleep(m_updateInterval * 1000);
@@ -587,35 +534,20 @@ namespace Ecell.Job
         /// Stop the job with input ID of job. if jobid = 0, all job are stopped.
         /// </summary>
         /// <param name="jobid">stop the ID of job.</param>
-        public void Stop(int jobid)
+        public void Stop(string groupName, int jobid)
         {
-            if (jobid == 0)
+            foreach (string name in m_groupDic.Keys)
             {
-                foreach (int id in m_sessionList.Keys)
-                {
-                    m_sessionList[id].stop();
-                }
-                m_timer.Enabled = false;
-                m_timer.Stop();
-            }
-            else if (jobid > 0)
-            {
-                m_sessionList[jobid].stop();
-            }
-        }
+                if (!string.IsNullOrEmpty(groupName) &&
+                    !name.Equals(groupName))
+                    continue;
 
-        /// <summary>
-        /// Stop the running jobs.
-        /// </summary>
-        public void StopRunningJobs()
-        {
-            foreach (int id in m_sessionList.Keys)
-            {
-                if (m_sessionList[id].Status == JobStatus.QUEUED ||
-                    m_sessionList[id].Status == JobStatus.RUNNING ||
-                    m_sessionList[id].Status == JobStatus.NONE)
+                foreach (Job j in m_groupDic[groupName].Jobs)
                 {
-                    m_sessionList[id].stop();
+                    if (jobid == 0)
+                        j.stop();
+                    else if (jobid == j.JobID)
+                        j.stop();
                 }
             }
         }
@@ -625,20 +557,23 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="jobid">jobid.</param>
         /// <returns>the list of SessionProxy.</returns>
-        public List<Job> GetSessionProxy(int jobid)
+        public List<Job> GetSessionProxy(string groupName, int jobid)
         {
             List<Job> tmpList = new List<Job>();
-            if (jobid <= 0)
+            foreach (string name in m_groupDic.Keys)
             {
-                foreach (int job in m_sessionList.Keys)
-                {
-                    tmpList.Add(m_sessionList[job]);
-                }
-                return tmpList;
-            }
+                if (!string.IsNullOrEmpty(groupName) ||
+                    !name.Equals(groupName))
+                    continue;
 
-            if (m_sessionList.ContainsKey(jobid))
-                tmpList.Add(m_sessionList[jobid]);
+                foreach (Job job in m_groupDic[groupName].Jobs)
+                {
+                    if (jobid == 0)
+                        tmpList.Add(job);
+                    else if (jobid == job.JobID)
+                        tmpList.Add(job);
+                }
+            }
             return tmpList;
         }
 
@@ -647,12 +582,14 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="jobid">JobID.</param>
         /// <returns>Directory path.</returns>
-        public string GetJobDirectory(int jobid)
+        public string GetJobDirectory(string name, int jobid)
         {
-            string dir = null;
-            if (m_sessionList.ContainsKey(jobid))
-                dir = m_sessionList[jobid].JobDirectory;
-            return dir;
+            foreach (Job job in m_groupDic[name].Jobs)
+            {
+                if (job.JobID == jobid)
+                    return job.JobDirectory;
+            }
+            return null;
         }
 
         /// <summary>
@@ -660,11 +597,16 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="jobid">job id.</param>
         /// <returns>string</returns>
-        public string GetStdout(int jobid)
+        public string GetStdout(string name, int jobid)
         {
             string stdout = null;
-            if (m_sessionList.ContainsKey(jobid))
-                stdout = m_sessionList[jobid].GetStdOut();
+            if (!m_groupDic.ContainsKey(name))
+                return stdout;
+            foreach (Job job in m_groupDic[name].Jobs)
+            {
+                if (job.JobID == jobid)
+                    stdout = job.GetStdOut();
+            }
             return stdout;
 
         }
@@ -674,11 +616,16 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="jobid">job id.</param>
         /// <returns>string</returns>
-        public string GetStderr(int jobid)
+        public string GetStderr(string name, int jobid)
         {
             string stderr = null;
-            if (m_sessionList.ContainsKey(jobid))
-                stderr = m_sessionList[jobid].GetStdErr();
+            if (!m_groupDic.ContainsKey(name))
+                return stderr;
+            foreach (Job job in m_groupDic[name].Jobs)
+            {
+                if (job.JobID == jobid)
+                    stderr = job.GetStdErr();
+            }
             return stderr;
         }
 
@@ -712,7 +659,7 @@ namespace Ecell.Job
         {
             Update();
 
-            if (IsFinished())
+            if (IsFinished(null))
             {
                 m_timer.Enabled = false;
                 m_timer.Stop();
@@ -800,11 +747,11 @@ namespace Ecell.Job
                         modelName, count, isStep, paramDic);
                 }
 
-                m_parameterDic.Add(jobid, new ExecuteParameter(paramDic));
+                job.ExecParam = new ExecuteParameter(paramDic);
                 resList.Add(jobid, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
-            Run();
+            Run(groupName);
             return resList;
         }
 
@@ -868,11 +815,11 @@ namespace Ecell.Job
                     CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                         modelName, count, isStep, paramDic);
                 }
-                m_parameterDic.Add(jobid, new ExecuteParameter(paramDic));
+                job.ExecParam = new ExecuteParameter(paramDic);
                 resList.Add(jobid, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
-            Run();
+            Run(groupName);
             return resList;
         }
 
@@ -939,7 +886,6 @@ namespace Ecell.Job
         public Dictionary<int, ExecuteParameter> RunSimParameterMatrix(string groupName, string topDir, string modelName, double count, bool isStep)
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
-            m_parameterDic.Clear();
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
@@ -1024,14 +970,14 @@ namespace Ecell.Job
                         CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer, 
                             modelName, count, isStep, paramDic);
                     }
-                    m_parameterDic.Add(jobid, new ExecuteParameter(paramDic));
+                    job.ExecParam = new ExecuteParameter(paramDic);
                     resList.Add(jobid, new ExecuteParameter(paramDic));
                     Application.DoEvents();
                     j++;
                 }
                 i++;
             }
-            Run();
+            Run(groupName);
             return resList;
         }
 
@@ -1214,18 +1160,8 @@ namespace Ecell.Job
             if (!m_groupDic.ContainsKey(name))
                 return;
 
-            List<Job> delList = new List<Job>();
-            foreach (Job m in m_sessionList.Values)
-            {
-                if (name.Equals(m.GroupName))
-                    delList.Add(m);
-            }
-
-            foreach (Job m in delList)
-            {                
-                m_sessionList.Remove(m.JobID);
-            }
             m_groupDic[name].Clear();
+            m_groupDic[name].Delete();
             m_groupDic.Remove(name);
         }
     }

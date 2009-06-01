@@ -322,7 +322,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_owner.JobManager.StopRunningJobs();
+            m_owner.JobManager.Stop(m_group.GroupName, 0);
             m_isRunning = false;
             m_owner.StopSensitivityAnalysis();
         }
@@ -397,6 +397,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             foreach (int jobid in m_execParam.Keys)
             {
+                Job.Job job = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
                 List<double> resList = new List<double>();
                 string paramName = "";
                 foreach (string key in m_execParam[jobid].ParamDic.Keys)
@@ -408,7 +409,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 foreach (string path in headerList)
                 {
                     Dictionary<double, double> logList =
-                        m_owner.JobManager.JobList[jobid].GetLogData(path);
+                        job.GetLogData(path);
                     double value = 0.0;
                     foreach (double t in logList.Keys)
                         value = logList[t];
@@ -736,11 +737,11 @@ namespace Ecell.IDE.Plugins.Analysis
                     return;
                 }
 
-                if (!m_owner.JobManager.IsFinished())
+                if (!m_owner.JobManager.IsFinished(m_group.GroupName))
                 {
                     if (m_isRunning == false)
                     {
-                        m_owner.JobManager.StopRunningJobs();
+                        m_owner.JobManager.Stop(m_group.GroupName, 0);
                         m_timer.Enabled = false;
                         m_timer.Stop();
                     }

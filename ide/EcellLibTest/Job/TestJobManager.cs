@@ -76,8 +76,6 @@ namespace Ecell.Job
             Assert.AreEqual(env, testJobManager.Environment, "Environment is unexpected value.");
             Assert.AreEqual(0, testJobManager.GlobalTimeOut, "GlobalTimeOut is unexpected value.");
             Assert.AreEqual(false, testJobManager.IsTmpDirRemovable, "IsTmpDirRemovable is unexpected value.");
-            Assert.IsEmpty(testJobManager.JobList, "JobList is unexpected value.");
-            Assert.IsEmpty(testJobManager.ParameterDic, "ParameterDic is unexpected value.");
             Assert.IsNotNull(testJobManager.Proxy, "Proxy is unexpected value.");
             Assert.IsNotNull(testJobManager.TmpDir, "TmpDir is unexpected value.");
             Assert.IsNotNull(testJobManager.TmpRootDir, "TmpRootDir is unexpected value.");
@@ -99,10 +97,6 @@ namespace Ecell.Job
 
             testJobManager.UpdateInterval = 10;
             Assert.AreEqual(10, testJobManager.UpdateInterval, "UpdateInterval is unexpected value.");
-
-            testJobManager.ParameterDic = new Dictionary<int,ExecuteParameter>();
-            Assert.AreEqual(new Dictionary<int, ExecuteParameter>(), testJobManager.ParameterDic, "UpdateInterval is unexpected value.");
-
         }
         /// <summary>
         /// 
@@ -283,17 +277,18 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             LocalJob.ClearJobID();
 
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
             string script = null;
             string arg = null;
             List<string> extFile = null;
             int expectedInt32 = 1;
             int resultInt32 = 0;
-            resultInt32 = manager.RegisterEcellSession(script, arg, extFile);
+            resultInt32 = manager.RegisterEcellSession(g.GroupName, script, arg, extFile);
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterEcellSession method returned unexpected result.");
 
             manager.Proxy = null;
             expectedInt32 = -1;
-            resultInt32 = manager.RegisterEcellSession(script, arg, extFile);
+            resultInt32 = manager.RegisterEcellSession(g.GroupName, script, arg, extFile);
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterEcellSession method returned unexpected result.");
 
         }
@@ -309,48 +304,10 @@ namespace Ecell.Job
             JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             int jobID = 0;
-            manager.ClearJob(jobID);
+            manager.ClearJob(g.GroupName, jobID);
 
             jobID = manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
-            manager.ClearJob(jobID);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestClearQueuedJobs()
-        {
-            _unitUnderTest.ClearQueuedJobs();
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestClearRunningJobs()
-        {
-            _unitUnderTest.ClearRunningJobs();
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestClearErrorJobs()
-        {
-            _unitUnderTest.ClearErrorJobs();
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestClearFinishedJobs()
-        {
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
-            _unitUnderTest.CreateJobEntry(g.GroupName, new ExecuteParameter());
-            _unitUnderTest.ClearFinishedJobs();
-
+            manager.ClearJob(g.GroupName, jobID);
         }
         /// <summary>
         /// 
@@ -394,18 +351,6 @@ namespace Ecell.Job
         /// 
         /// </summary>
         [Test()]
-        public void TestGetErrorJobList()
-        {
-            List<Job> expectedList = new List<Job>();
-            List<Job> resultList = null;
-            resultList = _unitUnderTest.GetErrorJobList();
-            Assert.AreEqual(expectedList, resultList, "GetErrorJobList method returned unexpected result.");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetFinishedJobList()
         {
             JobManager manager = new JobManager(_env);
@@ -431,7 +376,7 @@ namespace Ecell.Job
 
             bool expectedBoolean = true;
             bool resultBoolean = false;
-            resultBoolean = manager.IsFinished();
+            resultBoolean = manager.IsFinished(null);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
             JobGroup g = manager.CreateJobGroup("AAAAA");
 
@@ -440,7 +385,7 @@ namespace Ecell.Job
                 job.Status = JobStatus.RUNNING;
 
             expectedBoolean = false;
-            resultBoolean = manager.IsFinished();
+            resultBoolean = manager.IsFinished(g.GroupName);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
 
         }
@@ -454,37 +399,16 @@ namespace Ecell.Job
 
             bool expectedBoolean = false;
             bool resultBoolean = false;
-            resultBoolean = manager.IsError();
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsError method returned unexpected result.");
             JobGroup g = manager.CreateJobGroup("AAAAA");
+            resultBoolean = manager.IsError(g.GroupName);
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsError method returned unexpected result.");
+
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
                 job.Status = JobStatus.ERROR;
 
             expectedBoolean = true;
-            resultBoolean = manager.IsError();
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestIsRunning()
-        {
-            JobManager manager = new JobManager(_env);
-
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsRunning();
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsRunning method returned unexpected result.");
-            JobGroup g = manager.CreateJobGroup("AAAAA");
-            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
-            foreach (Job job in manager.GetFinishedJobList())
-                job.Status = JobStatus.RUNNING;
-
-            expectedBoolean = true;
-            resultBoolean = manager.IsRunning();
+            resultBoolean = manager.IsError(g.GroupName);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
 
         }
@@ -494,7 +418,10 @@ namespace Ecell.Job
         [Test()]
         public void TestRun()
         {
-            _unitUnderTest.Run();
+            JobManager manager = new JobManager(_env);
+            JobGroup g = manager.CreateJobGroup("AAAAA");
+            manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
+            manager.Run(null);
 
         }
         /// <summary>
@@ -509,7 +436,7 @@ namespace Ecell.Job
             //foreach (Job job in manager.GetFinishedJobList())
             //    job.Status = JobStatus.RUNNING;
 
-            manager.RunWaitFinish();
+            manager.RunWaitFinish(null);
         }
         /// <summary>
         /// 
@@ -517,26 +444,15 @@ namespace Ecell.Job
         [Test()]
         public void TestStop()
         {
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
             int jobid = 0;
-            _unitUnderTest.Stop(jobid);
+            _unitUnderTest.Stop(g.GroupName, jobid);
 
             LocalJobProxy proxy = new LocalJobProxy();
             Job j = proxy.CreateJob();
+            j.GroupName = g.GroupName;
             _unitUnderTest.RegisterJob(j, "", "", new List<string>());
-            _unitUnderTest.Stop(j.JobID);
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestStopRunningJobs()
-        {
-            LocalJobProxy proxy = new LocalJobProxy();
-            Job j = proxy.CreateJob();
-            _unitUnderTest.RegisterJob(j, "", "", new List<string>());
-            j.Status = JobStatus.RUNNING;
-            _unitUnderTest.StopRunningJobs();
+            _unitUnderTest.Stop(g.GroupName, j.JobID);
 
         }
         /// <summary>
@@ -546,15 +462,17 @@ namespace Ecell.Job
         public void TestGetSessionProxy()
         {
             int jobid = 0;
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
             System.Collections.Generic.List<Ecell.Job.Job> expectedList = new List<Job>();
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
-            resultList = _unitUnderTest.GetSessionProxy(jobid);
+            resultList = _unitUnderTest.GetSessionProxy(g.GroupName, jobid);
             Assert.AreEqual(expectedList, resultList, "GetSessionProxy method returned unexpected result.");
 
             LocalJobProxy proxy = new LocalJobProxy();
             Job j = proxy.CreateJob();
+            j.GroupName = g.GroupName;
             _unitUnderTest.RegisterJob(j, "", "", new List<string>());
-            resultList = _unitUnderTest.GetSessionProxy(j.JobID);
+            resultList = _unitUnderTest.GetSessionProxy(g.GroupName, j.JobID);
             Assert.AreEqual(1, resultList.Count, "GetSessionProxy method returned unexpected result.");
 
         }
@@ -567,13 +485,15 @@ namespace Ecell.Job
             int jobid = 0;
             string expectedString = null;
             string resultString = null;
-            resultString = _unitUnderTest.GetJobDirectory(jobid);
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            resultString = _unitUnderTest.GetJobDirectory(g.GroupName, jobid);
             Assert.AreEqual(expectedString, resultString, "GetJobDirectory method returned unexpected result.");
 
             LocalJobProxy proxy = new LocalJobProxy();
             Job j = proxy.CreateJob();
+            j.GroupName = g.GroupName;
             _unitUnderTest.RegisterJob(j, "", "", new List<string>());
-            resultString = _unitUnderTest.GetJobDirectory(j.JobID);
+            resultString = _unitUnderTest.GetJobDirectory(g.GroupName, j.JobID);
             Assert.IsNotNull(resultString, "GetJobDirectory method returned unexpected result.");
         }
         /// <summary>
@@ -585,13 +505,15 @@ namespace Ecell.Job
             int jobid = 1;
             string expectedString = null;
             string resultString = null;
-            resultString = _unitUnderTest.GetStdout(jobid);
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            resultString = _unitUnderTest.GetStdout(g.GroupName, jobid);
             Assert.AreEqual(expectedString, resultString, "GetStdout method returned unexpected result.");
 
             LocalJobProxy proxy = new LocalJobProxy();
             Job j = proxy.CreateJob();
+            j.GroupName = g.GroupName;
             _unitUnderTest.RegisterJob(j, "", "", new List<string>());
-            resultString = _unitUnderTest.GetStdout(j.JobID);
+            resultString = _unitUnderTest.GetStdout(g.GroupName, j.JobID);
             Assert.AreEqual("", resultString, "GetStdout method returned unexpected result.");
 
 
@@ -605,13 +527,15 @@ namespace Ecell.Job
             int jobid = 1;
             string expectedString = null;
             string resultString = null;
-            resultString = _unitUnderTest.GetStderr(jobid);
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            resultString = _unitUnderTest.GetStderr(g.GroupName, jobid);
             Assert.AreEqual(expectedString, resultString, "GetStderr method returned unexpected result.");
 
             LocalJobProxy proxy = new LocalJobProxy();
             Job j = proxy.CreateJob();
+            j.GroupName = g.GroupName;
             _unitUnderTest.RegisterJob(j, "", "", new List<string>());
-            resultString = _unitUnderTest.GetStderr(j.JobID);
+            resultString = _unitUnderTest.GetStderr(g.GroupName, j.JobID);
             Assert.AreEqual(expectedString, resultString, "GetStderr method returned unexpected result.");
 
         }
@@ -681,12 +605,12 @@ namespace Ecell.Job
             resultDictionary = _unitUnderTest.RunSimParameterSet(g.GroupName, topDir, modelName, count, isStep, setparam);
             Assert.IsNotEmpty(resultDictionary, "RunSimParameterSet method returned unexpected result.");
 
-            _unitUnderTest.GetJobDirectory(1);
-            _unitUnderTest.GetStdout(1);
-            _unitUnderTest.GetStderr(1);
-            _unitUnderTest.GetSessionProxy(1);
-            _unitUnderTest.GetSessionProxy(-1);
-            _unitUnderTest.Stop(0);
+            _unitUnderTest.GetJobDirectory(g.GroupName, 1);
+            _unitUnderTest.GetStdout(g.GroupName, 1);
+            _unitUnderTest.GetStderr(g.GroupName, 1);
+            _unitUnderTest.GetSessionProxy(g.GroupName, 1);
+            _unitUnderTest.GetSessionProxy(g.GroupName, -1);
+            _unitUnderTest.Stop(g.GroupName, 0);
 
             if (Directory.Exists(topDir))
                 Directory.Delete(topDir, true);

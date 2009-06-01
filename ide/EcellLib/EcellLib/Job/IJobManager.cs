@@ -45,37 +45,27 @@ namespace Ecell.Job
         /// get / set the proxy of job.
         /// </summary>
         JobProxy Proxy { get; set; }
+        ///// <summary>
+        ///// get / set the dictionary of job id and job.
+        ///// </summary>
+        //Dictionary<int, Job> JobList { get; }
         /// <summary>
-        /// get / set the dictionary of job id and parameter data.
+        /// 
         /// </summary>
-        Dictionary<int, ExecuteParameter> ParameterDic { get; set; }
-        /// <summary>
-        /// get / set the dictionary of job id and job.
-        /// </summary>
-        Dictionary<int, Job> JobList { get; }
+        Dictionary<string, JobGroup> GroupDic { get; }
         #endregion
 
         /// <summary>
-        /// Clear the all error jobs.
+        /// Clear the files of the selected jobs.
         /// </summary>
-        void ClearErrorJobs();
-        /// <summary>
-        /// Delete the all finished jobs.
-        /// </summary>
-        void ClearFinishedJobs();
+        /// <param name="jobID">the deleted job.</param>
+        void ClearJob(string groupName, int jobID);
         /// <summary>
         /// Delete the selected jobs.
         /// </summary>
-        /// <param name="jobID">the deleted job.</param>
-        void ClearJob(int jobID);
-        /// <summary>
-        /// Delete the all queued jobs.
-        /// </summary>
-        void ClearQueuedJobs();
-        /// <summary>
-        /// Delete the all running jobs.
-        /// </summary>
-        void ClearRunningJobs();
+        /// <param name="groupName"></param>
+        /// <param name="jobID"></param>
+        void DeleteJob(string groupName, int jobID);
         /// <summary>
         /// Create the execute parameter.
         /// </summary>
@@ -119,26 +109,38 @@ namespace Ecell.Job
         /// <returns>the dictionary of property name and property value.</returns>
         Dictionary<string, object> GetEnvironmentProperty();
         /// <summary>
-        /// Get the list of error jobs.
-        /// </summary>
-        /// <returns>the list of jobs.</returns>
-        List<Job> GetErrorJobList();
-        /// <summary>
-        /// Get the list of finished jobs.
-        /// </summary>
-        /// <returns>the list of jobs.</returns>
-        List<Job> GetFinishedJobList();
-        /// <summary>
         /// Get the working directory of selected job.
         /// </summary>
         /// <param name="jobid">the ID of selected job.</param>
         /// <returns>the path of working directory.</returns>
-        string GetJobDirectory(int jobid);
+        string GetJobDirectory(string name, int jobid);
         /// <summary>
         /// Get the string of option.
         /// </summary>
         /// <returns>options for SystemProxy.</returns>
         string GetOptionList();
+        /// <summary>
+        /// Get the all list of SessionProxy or SessionProxy with jobid.
+        /// </summary>
+        /// <param name="jobid">jobid.</param>
+        /// <returns>the list of SessionProxy.</returns>
+        List<Job> GetSessionProxy(string name, int jobid);
+        /// <summary>
+        /// Get the stream of StdErr.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <returns>StreamReader</returns>
+        string GetStderr(string name, int jobid);
+        /// <summary>
+        /// Get the stream of StrOut.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <returns>StreamReader</returns>
+        string GetStdout(string name, int jobid);
+        /// </summary>
+        /// <returns>the list of jobs.</returns>
+        /// <summary>
+        List<Job> GetFinishedJobList();
         /// <summary>
         /// Get the list of queued jobs.
         /// </summary>
@@ -150,46 +152,24 @@ namespace Ecell.Job
         /// <returns>List of SessionProxy.</returns>
         List<Job> GetRunningJobList();
         /// <summary>
-        /// Get the all list of SessionProxy or SessionProxy with jobid.
-        /// </summary>
-        /// <param name="jobid">jobid.</param>
-        /// <returns>the list of SessionProxy.</returns>
-        List<Job> GetSessionProxy(int jobid);
-        /// <summary>
-        /// Get the stream of StdErr.
-        /// </summary>
-        /// <param name="jobid">job id.</param>
-        /// <returns>StreamReader</returns>
-        string GetStderr(int jobid);
-        /// <summary>
-        /// Get the stream of StrOut.
-        /// </summary>
-        /// <param name="jobid">job id.</param>
-        /// <returns>StreamReader</returns>
-        string GetStdout(int jobid);
-        /// <summary>
         /// Check whther there are any error jobs.
         /// </summary>
         /// <returns>if there is error job, return true.</returns>
-        bool IsError();
+        bool IsError(string name);
         /// <summary>
         /// Check whether all jobs is finished.
         /// </summary>
         /// <returns>if all jobs is finished, retur true.</returns>
-        bool IsFinished();
-        /// <summary>
-        /// Check whether there are any error jobs.
-        /// </summary>
-        /// <returns>if there is running job, return true.</returns>
-        bool IsRunning();
+        bool IsFinished(string name);
         /// <summary>
         /// Regist the session of e-cell.
         /// </summary>
+        /// <param name="groupName"></param>
         /// <param name="arg">the argument of script.</param>
         /// <param name="extFile">the list of extension file.</param>
         /// <param name="script">the script file.</param>
         /// <returns>the status of job.</returns>
-        int RegisterEcellSession(string script, string arg, List<string> extFile);
+        int RegisterEcellSession(string groupName, string script, string arg, List<string> extFile);
         /// <summary>
         /// Regist the jobs.
         /// </summary>
@@ -202,7 +182,7 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs.
         /// </summary>
-        void Run();
+        void Run(string groupName);
         /// <summary>
         /// Run the simulation by using the initial parameter according with ParameterRange object.
         /// SetLoggerData and SetParameterRange should be called, before this function use.
@@ -237,7 +217,7 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs and execute this process until all SessionProxy is finished.
         /// </summary>
-        void RunWaitFinish();
+        void RunWaitFinish(string groupName);
         /// <summary>
         /// Update the property of proxy.
         /// </summary>
@@ -258,11 +238,7 @@ namespace Ecell.Job
         /// Stop the job with input ID of job. if jobid = 0, all job are stopped.
         /// </summary>
         /// <param name="jobid">stop the ID of job.</param>
-        void Stop(int jobid);
-        /// <summary>
-        /// Stop the running jobs.
-        /// </summary>
-        void StopRunningJobs();
+        void Stop(string name, int jobid);
         /// <summary>
         /// Update the information of session.
         /// </summary>

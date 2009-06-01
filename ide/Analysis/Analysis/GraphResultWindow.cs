@@ -60,7 +60,15 @@ namespace Ecell.IDE.Plugins.Analysis
         private int y_index = 0;
         private Analysis m_owner;
         private AnalysisResultWindow m_win;
+        private string m_groupName;
         #endregion
+
+        public string GroupName
+        {
+            get { return this.m_groupName; }
+            set { this.m_groupName = value; }
+        }
+
 
         #region Constructor
         /// <summary>
@@ -255,8 +263,9 @@ namespace Ecell.IDE.Plugins.Analysis
 
             foreach (int jobid in m_win.JobList.Keys)
             {
-                double xd = m_owner.JobManager.ParameterDic[jobid].ParamDic[xPath];
-                double yd = m_owner.JobManager.ParameterDic[jobid].ParamDic[yPath];
+                Job.Job j = m_owner.JobManager.GroupDic[m_groupName].GetJob(jobid);
+                double xd = j.ExecParam.GetParameter(xPath);
+                double yd = j.ExecParam.GetParameter(yPath);
 
                 DrawPoint(xd, yd, m_win.JobList[jobid]);
             }
@@ -340,10 +349,11 @@ namespace Ecell.IDE.Plugins.Analysis
 
             foreach (int jobid in m_win.JobList.Keys)
             {
+                Job.Job j = m_owner.JobManager.GroupDic[m_groupName].GetJob(jobid);
                 writer.Write(m_win.JobList[jobid]);
                 foreach (string param in paramList)
                 {
-                    double data = m_owner.JobManager.ParameterDic[jobid].ParamDic[param];
+                    double data = j.ExecParam.GetParameter(param);
                     writer.Write("," + data);
                 }
                 writer.WriteLine("");

@@ -138,7 +138,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_param = m_owner.GetParameterEstimationParameter();
             m_mutation = m_param.Param.Initial;
             m_owner.ClearResult();
-            m_owner.JobManager.ClearJob(0);
 
             if (m_param.Population <= 0)
             {
@@ -210,7 +209,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_owner.JobManager.StopRunningJobs();
+            m_owner.JobManager.Stop(m_group.GroupName, 0);
             m_isRunning = false;
             m_owner.StopParameterEstimation();
         }
@@ -226,6 +225,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double value;
             String f = m_param.EstimationFormulator;
             List<String> fList = new List<string>();
+            Job.Job job = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
 
             if (m_param.Type == EstimationFormulatorType.Max ||
                 m_param.Type == EstimationFormulatorType.Min ||
@@ -234,7 +234,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 foreach (SaveLoggerProperty p in m_saveList)
                 {
                     Dictionary<double, double> logList =
-                        m_owner.JobManager.JobList[jobid].GetLogData(p.FullPath);
+                        job.GetLogData(p.FullPath);
                     value = 0.0;
                     if (logList.Count <= 0)
                     {
@@ -254,7 +254,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 int i = 0;
                 Dictionary<double, double> logList =
-                       m_owner.JobManager.JobList[jobid].GetLogData(p.FullPath);
+                       job.GetLogData(p.FullPath);
                 foreach (double v in logList.Values)
                 {
                     if (fList.Count <= i) fList.Add(f);
@@ -287,11 +287,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             String tmpDir = m_owner.JobManager.TmpDir;
-            if (!m_owner.JobManager.IsFinished())
+            if (!m_owner.JobManager.IsFinished(m_group.GroupName))
             {
                 if (m_isRunning == false)
                 {
-                    m_owner.JobManager.StopRunningJobs();
+                    m_owner.JobManager.Stop(m_group.GroupName, 0);
                     m_timer.Enabled = false;
                     m_timer.Stop();
                 }

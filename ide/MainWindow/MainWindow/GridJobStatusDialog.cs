@@ -108,10 +108,19 @@ namespace Ecell.IDE.MainWindow
         {
             if (e.RowIndex < 0) return;
 
+            string mes = null;
             int jobid = Convert.ToInt32(JobGridView[0, e.RowIndex].Value);
-            if (!m_manager.JobList.ContainsKey(jobid)) return;
-
-            JobMessageDialog dialog = new JobMessageDialog(m_manager.JobList[jobid].StdErr);
+            foreach (String name in m_manager.GroupDic.Keys)
+            {
+                foreach (Job.Job job in m_manager.GroupDic[name].Jobs)
+                {
+                    if (job.JobID == jobid)
+                        mes = m_manager.GetStderr(name, jobid);
+                }
+            }
+            if (string.IsNullOrEmpty(mes))
+                return;
+            JobMessageDialog dialog = new JobMessageDialog(mes);
             dialog.ShowDialog();
         }
 
@@ -123,9 +132,12 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void WinShown(object sender, EventArgs e)
         {
-            foreach (Ecell.Job.Job s in m_manager.JobList.Values)
+            foreach (string name in m_manager.GroupDic.Keys)
             {
-                JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                foreach (Ecell.Job.Job s in m_manager.GroupDic[name].Jobs)
+                {
+                    JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                }
             }
         }
 
@@ -137,7 +149,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEWClearButtonClick(object sender, EventArgs e)
         {
-            m_manager.ClearJob(0);
+            m_manager.ClearJob(null, 0);
             JobGridView.Rows.Clear();
         }
 
@@ -154,7 +166,7 @@ namespace Ecell.IDE.MainWindow
                 try
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    m_manager.ClearJob(jobid);
+                    m_manager.ClearJob(null, jobid);
                 }
                 catch (Exception ex)
                 {
@@ -162,9 +174,12 @@ namespace Ecell.IDE.MainWindow
                 }
             }
             JobGridView.Rows.Clear();
-            foreach (Ecell.Job.Job s in m_manager.JobList.Values)
+            foreach (string name in m_manager.GroupDic.Keys)
             {
-                JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                foreach (Ecell.Job.Job s in m_manager.GroupDic[name].Jobs)
+                {
+                    JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                }
             }
         }
 
@@ -188,9 +203,12 @@ namespace Ecell.IDE.MainWindow
         private void DEWUpdateButton_Click(object sender, EventArgs e)
         {
             JobGridView.Rows.Clear();
-            foreach (Ecell.Job.Job s in m_manager.JobList.Values)
+            foreach (string name in m_manager.GroupDic.Keys)
             {
-                JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                foreach (Ecell.Job.Job s in m_manager.GroupDic[name].Jobs)
+                {
+                    JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                }
             }
             if (JobGridView.SortedColumn != null)
                 JobGridView.Sort(JobGridView.SortedColumn, 
@@ -212,12 +230,12 @@ namespace Ecell.IDE.MainWindow
                 foreach (DataGridViewRow r in JobGridView.SelectedRows)
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    m_manager.Stop(jobid);
+                    m_manager.Stop(null, jobid);
                 }
                 return;
             }
 
-            m_manager.Stop(0);            
+            m_manager.Stop(null, 0);            
         }
 
         /// <summary>
@@ -233,9 +251,13 @@ namespace Ecell.IDE.MainWindow
                 foreach (DataGridViewRow r in JobGridView.SelectedRows)
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    m_manager.JobList[jobid].Status = JobStatus.QUEUED;
+                    foreach (string name in m_manager.GroupDic.Keys)
+                    {
+                        foreach (Job.Job job in m_manager.GroupDic[name].Jobs)
+                            job.Status = JobStatus.QUEUED;
+                    }
                 }
-                m_manager.Run();
+                m_manager.Run(null);
                 return;
             }
         }

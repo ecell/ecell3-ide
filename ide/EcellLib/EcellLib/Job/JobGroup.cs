@@ -127,10 +127,26 @@ namespace Ecell.Job
         {
             this.m_analysisName = analysisName;
             this.m_date = date;
-            this.m_analysisParameter = param;
+            this.m_analysisParameter = new Dictionary<string, string>();
+            foreach (string name in param.Keys)
+            {
+                this.m_analysisParameter.Add(name, param[name]);
+            }
             this.m_jobs = new List<Job>();
         }
         #endregion
+
+        private void UpdateJobStatus()
+        {
+            foreach (Job job in m_jobs)
+            {
+                if (job.Status == JobStatus.QUEUED ||
+                    job.Status == JobStatus.RUNNING)
+                {
+                    job.Update();
+                }
+            }
+        }
 
         /// <summary>
         /// Update status.
@@ -139,7 +155,7 @@ namespace Ecell.Job
         {
             AnalysisStatus status = AnalysisStatus.Finished;
             foreach (Job m in m_jobs)
-            {
+            {             
                 if (m.Status == JobStatus.RUNNING)
                 {
                     status = AnalysisStatus.Running;
@@ -168,12 +184,81 @@ namespace Ecell.Job
         /// <summary>
         /// 
         /// </summary>
-        public void Clear()
+        public void ClearJob(int jobid)
         {
             foreach (Job m in m_jobs)
             {
-                m.Clear();
+                if (jobid == m.JobID)
+                    m.Clear();
             }
+        }
+
+        public void Clear()
+        {
+            foreach (Job m in m_jobs)
+                m.Clear();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jobid"></param>
+        /// <returns></returns>
+        public Job GetJob(int jobid)
+        {
+            foreach (Job m in m_jobs)
+            {
+                if (m.JobID == jobid)
+                    return m;
+            }
+            return null;
+        }
+
+        public void DeleteJob(int jobid)
+        {
+            foreach (Job m in m_jobs)
+            {
+                if (m.JobID == jobid)
+                {
+                    m_jobs.Remove(m);
+                    return;
+                }
+            }
+        }
+
+        public void Delete()
+        {
+            m_jobs.Clear();
+            m_analysisParameter.Clear();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsFinished()
+        {
+            foreach (Job m in m_jobs)
+            {
+                if (m.Status == JobStatus.QUEUED ||
+                    m.Status == JobStatus.RUNNING)
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsError()
+        {
+            foreach (Job m in m_jobs)
+            {
+                if (m.Status == JobStatus.ERROR)
+                    return true;
+            }
+            return false;
         }
     }
 }

@@ -80,6 +80,7 @@ namespace Ecell.Job
         private JobStatus m_status;
         private string m_stderr;
         private Dictionary<string, object> m_param;
+        private ExecuteParameter m_execParam;
         private string m_groupName;
 
         static private string s_dmPath;
@@ -174,6 +175,15 @@ namespace Ecell.Job
         {
             get { return this.m_param; }
             set { this.m_param = value; }
+        }
+
+        /// <summary>
+        /// get / set the execution parameter.
+        /// </summary>
+        public ExecuteParameter ExecParam
+        {
+            get { return this.m_execParam; }
+            set { this.m_execParam = value; }
         }
 
         /// <summary>
