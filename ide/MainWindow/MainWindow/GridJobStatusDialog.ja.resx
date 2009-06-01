@@ -117,24 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="JobIDColumn.HeaderText" xml:space="preserve">
-    <value>ジョブID</value>
-  </data>
-  <data name="StatusColumn.HeaderText" xml:space="preserve">
-    <value>状態</value>
-  </data>
-  <data name="MachineColumn.HeaderText" xml:space="preserve">
-    <value>実行ノード</value>
-  </data>
-  <data name="ScriptColumn.HeaderText" xml:space="preserve">
-    <value>スクリプト名</value>
-  </data>
-  <data name="ArgumentColumn.HeaderText" xml:space="preserve">
-    <value>引数</value>
-  </data>
-  <data name="JobGridView.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="DEWStartButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -153,9 +135,6 @@
         /ml3hoWE6g7yDRKFlcxOZiUz+yhzkYJJYHLd7ca6b/n/fiYulrhNgtxC8ZLmTMv6l4MfxNIVAaLpWYgA
         AAAASUVORK5CYII=
 </value>
-  </data>
-  <data name="DEWStartButton.ToolTip" xml:space="preserve">
-    <value>ジョブの再開</value>
   </data>
   <data name="DEWStopButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -177,9 +156,6 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="DEWStopButton.ToolTip" xml:space="preserve">
-    <value>ジョブの停止</value>
-  </data>
   <data name="DEWDeleteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -199,9 +175,6 @@
         GFfWuLrGYrywjzeO7TEi6WSIGNvrv+a/ATaDKn6l8wwqAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="DEWDeleteButton.ToolTip" xml:space="preserve">
-    <value>ジョブの削除</value>
-  </data>
   <data name="DEWUpdateButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -220,9 +193,6 @@
         MpLXsVzsCQWP/rMPGaIdRY8LMpJ7bzDzOVgoDXv0VbqjtmeE76l6claLqh+AAHAA86EJxPPgzyEaaCK4
         w3ZIBXEbWlCDKOTf8w/PYnoXyUQ3ykBUfRo4gbgNUdB/xm/XmS+oR7ChpgAAAABJRU5ErkJggg==
 </value>
-  </data>
-  <data name="DEWUpdateButton.ToolTip" xml:space="preserve">
-    <value>ジョブ状況ペインの表示を更新</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -308,5 +278,41 @@
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="errorStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="jobDeleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="jobGroupDeleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="jobGroupRunToolStripMenuItem.Text" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="jobGroupStopToolStripMenuItem.Text" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="jobRunToolStripMenuItem.Text" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="jobStopToolStripMenuItem.Text" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="PropNameColumn.HeaderText" xml:space="preserve">
+    <value>プロパティ名</value>
+  </data>
+  <data name="PropValueColumn.HeaderText" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="queueStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>実行待ち</value>
+  </data>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>状態の変更</value>
   </data>
 </root>

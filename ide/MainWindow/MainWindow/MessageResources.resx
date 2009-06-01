@@ -252,4 +252,22 @@
   <data name="NameGeneral" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="NameStatusError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="NameStatusFinished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="NameStatusNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="NameStatusQueue" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="NameStatusRunning" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="NameStatusStopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
 </root>

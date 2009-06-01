@@ -385,6 +385,60 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusError {
+            get {
+                return ResourceManager.GetString("NameStatusError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Finished に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusFinished {
+            get {
+                return ResourceManager.GetString("NameStatusFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusNone {
+            get {
+                return ResourceManager.GetString("NameStatusNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Queued に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusQueue {
+            get {
+                return ResourceManager.GetString("NameStatusQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Running に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusRunning {
+            get {
+                return ResourceManager.GetString("NameStatusRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stopped に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusStopped {
+            get {
+                return ResourceManager.GetString("NameStatusStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The project root folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameWorkDir {

@@ -32,16 +32,31 @@
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             System.Windows.Forms.Label label2;
-            this.DialogToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.jobTreeView = new System.Windows.Forms.TreeView();
             this.parameterDataGridView = new System.Windows.Forms.DataGridView();
-            this.jobIDTextBox = new System.Windows.Forms.TextBox();
-            this.statusTextBox = new System.Windows.Forms.TextBox();
             this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PropValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jobIDTextBox = new System.Windows.Forms.TextBox();
+            this.statusTextBox = new System.Windows.Forms.TextBox();
+            this.jobContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.jobRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.queueStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.jobDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobGroupContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.jobGroupRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobGroupStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.jobGroupDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).BeginInit();
+            this.jobContextMenuStrip.SuspendLayout();
+            this.jobGroupContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -54,15 +69,10 @@
             resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
             // 
-            // DialogToolTip
-            // 
-            this.DialogToolTip.ShowAlways = true;
-            // 
             // jobTreeView
             // 
             resources.ApplyResources(this.jobTreeView, "jobTreeView");
             this.jobTreeView.Name = "jobTreeView";
-            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeNodeMouseClick);
             // 
             // parameterDataGridView
             // 
@@ -81,6 +91,16 @@
             this.parameterDataGridView.RowTemplate.Height = 21;
             this.parameterDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             // 
+            // PropNameColumn
+            // 
+            resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
+            this.PropNameColumn.Name = "PropNameColumn";
+            // 
+            // PropValueColumn
+            // 
+            resources.ApplyResources(this.PropValueColumn, "PropValueColumn");
+            this.PropValueColumn.Name = "PropValueColumn";
+            // 
             // jobIDTextBox
             // 
             resources.ApplyResources(this.jobIDTextBox, "jobIDTextBox");
@@ -93,15 +113,93 @@
             this.statusTextBox.Name = "statusTextBox";
             this.statusTextBox.ReadOnly = true;
             // 
-            // PropNameColumn
+            // jobContextMenuStrip
             // 
-            resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
-            this.PropNameColumn.Name = "PropNameColumn";
+            this.jobContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jobRunToolStripMenuItem,
+            this.jobStopToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.toolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.jobDeleteToolStripMenuItem});
+            this.jobContextMenuStrip.Name = "jobContextMenuStrip";
+            resources.ApplyResources(this.jobContextMenuStrip, "jobContextMenuStrip");
             // 
-            // PropValueColumn
+            // jobRunToolStripMenuItem
             // 
-            resources.ApplyResources(this.PropValueColumn, "PropValueColumn");
-            this.PropValueColumn.Name = "PropValueColumn";
+            this.jobRunToolStripMenuItem.Name = "jobRunToolStripMenuItem";
+            resources.ApplyResources(this.jobRunToolStripMenuItem, "jobRunToolStripMenuItem");
+            // 
+            // jobStopToolStripMenuItem
+            // 
+            this.jobStopToolStripMenuItem.Name = "jobStopToolStripMenuItem";
+            resources.ApplyResources(this.jobStopToolStripMenuItem, "jobStopToolStripMenuItem");
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.queueStatusToolStripMenuItem,
+            this.errorStatusToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            // 
+            // queueStatusToolStripMenuItem
+            // 
+            this.queueStatusToolStripMenuItem.Name = "queueStatusToolStripMenuItem";
+            resources.ApplyResources(this.queueStatusToolStripMenuItem, "queueStatusToolStripMenuItem");
+            this.queueStatusToolStripMenuItem.Tag = "Queued";
+            // 
+            // errorStatusToolStripMenuItem
+            // 
+            this.errorStatusToolStripMenuItem.Name = "errorStatusToolStripMenuItem";
+            resources.ApplyResources(this.errorStatusToolStripMenuItem, "errorStatusToolStripMenuItem");
+            this.errorStatusToolStripMenuItem.Tag = "Error";
+            this.errorStatusToolStripMenuItem.Click += new System.EventHandler(this.JobTree_ChangeJobStatus);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // jobDeleteToolStripMenuItem
+            // 
+            this.jobDeleteToolStripMenuItem.Name = "jobDeleteToolStripMenuItem";
+            resources.ApplyResources(this.jobDeleteToolStripMenuItem, "jobDeleteToolStripMenuItem");
+            // 
+            // jobGroupContextMenuStrip
+            // 
+            this.jobGroupContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jobGroupRunToolStripMenuItem,
+            this.jobGroupStopToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.jobGroupDeleteToolStripMenuItem});
+            this.jobGroupContextMenuStrip.Name = "jobGroupContextMenuStrip";
+            resources.ApplyResources(this.jobGroupContextMenuStrip, "jobGroupContextMenuStrip");
+            // 
+            // jobGroupRunToolStripMenuItem
+            // 
+            this.jobGroupRunToolStripMenuItem.Name = "jobGroupRunToolStripMenuItem";
+            resources.ApplyResources(this.jobGroupRunToolStripMenuItem, "jobGroupRunToolStripMenuItem");
+            // 
+            // jobGroupStopToolStripMenuItem
+            // 
+            this.jobGroupStopToolStripMenuItem.Name = "jobGroupStopToolStripMenuItem";
+            resources.ApplyResources(this.jobGroupStopToolStripMenuItem, "jobGroupStopToolStripMenuItem");
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // jobGroupDeleteToolStripMenuItem
+            // 
+            this.jobGroupDeleteToolStripMenuItem.Name = "jobGroupDeleteToolStripMenuItem";
+            resources.ApplyResources(this.jobGroupDeleteToolStripMenuItem, "jobGroupDeleteToolStripMenuItem");
             // 
             // GridJobStatusDialog
             // 
@@ -117,8 +215,9 @@
             this.Name = "GridJobStatusDialog";
             this.TabText = "Job status";
             this.Shown += new System.EventHandler(this.WinShown);
-            this.DockStateChanged += new System.EventHandler(this.GridJobStatusDialog_DockStateChanged);
             ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).EndInit();
+            this.jobContextMenuStrip.ResumeLayout(false);
+            this.jobGroupContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,12 +225,25 @@
 
         #endregion
 
-        internal System.Windows.Forms.ToolTip DialogToolTip;
         private System.Windows.Forms.TreeView jobTreeView;
         private System.Windows.Forms.DataGridView parameterDataGridView;
         private System.Windows.Forms.TextBox jobIDTextBox;
         private System.Windows.Forms.TextBox statusTextBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropValueColumn;
+        private System.Windows.Forms.ContextMenuStrip jobContextMenuStrip;
+        private System.Windows.Forms.ContextMenuStrip jobGroupContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem jobRunToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jobStopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem jobDeleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem queueStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem errorStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jobGroupRunToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jobGroupStopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem jobGroupDeleteToolStripMenuItem;
     }
 }

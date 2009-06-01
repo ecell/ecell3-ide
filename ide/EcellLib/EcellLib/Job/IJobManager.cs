@@ -181,8 +181,15 @@ namespace Ecell.Job
         int RegisterJob(Job job, string script, string arg, List<string> extFile);
         /// <summary>
         /// Run the jobs.
+        /// <param name="groupName">the executed group name.</param>
         /// </summary>
         void Run(string groupName);
+        /// <summary>
+        /// Run the job.
+        /// </summary>
+        /// <param name="groupName">group name of the executed job.</param>
+        /// <param name="jobid">job id of the executed job.</param>
+        void Run(string groupName, int jobid);
         /// <summary>
         /// Run the simulation by using the initial parameter according with ParameterRange object.
         /// SetLoggerData and SetParameterRange should be called, before this function use.

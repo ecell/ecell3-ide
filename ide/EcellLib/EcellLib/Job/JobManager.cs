@@ -517,6 +517,26 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Run the jobs.
+        /// </summary>
+        public void Run(string groupName, int jobid)
+        {
+            Job j = m_groupDic[groupName].GetJob(jobid);
+            if (j.Status != JobStatus.QUEUED)
+            {
+                j.Status = JobStatus.QUEUED;
+            }
+            j.PrepareProcess();
+
+            if (m_timer.Enabled = false)
+            {
+                Update();
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
+        }
+
+        /// <summary>
         /// Run the jobs and execute this process until all SessionProxy is finished.
         /// </summary>
         public void RunWaitFinish(string groupName)

@@ -87,36 +87,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Execute redraw process on simulation running at every 1sec.
-        /// </summary>
-        /// <param name="sender">object(Timer)</param>
-        /// <param name="e">EventArgs</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            m_timer.Enabled = false;
-            m_timer.Enabled = true;
-        }
-
-        /// <summary>
-        /// Event when this form is shown.
-        /// Display the all list of job that is got from SessionManager.
-        /// </summary>
-        /// <param name="sender">Form.</param>
-        /// <param name="e">EventArgs.</param>
-        private void WinShown(object sender, EventArgs e)
-        {
-            jobTreeView.Nodes.Clear();
-            m_pointDic.Clear();
-
-            m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
-
-            foreach (string name in m_manager.GroupDic.Keys)
-            {
-                AddJobGroup(name);
-            }
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="name"></param>
@@ -131,10 +101,12 @@ namespace Ecell.IDE.MainWindow
                 m_pointDic[analysisName] = node;
             }
             JobGroupTreeNode groupNode = new JobGroupTreeNode(name);
+            groupNode.ContextMenuStrip = jobGroupContextMenuStrip;
             m_pointDic[analysisName].Nodes.Add(groupNode);
             foreach (Job.Job job in group.Jobs)
             {
                 JobTreeNode jobNode = new JobTreeNode(name, job.JobID.ToString());
+                jobNode.ContextMenuStrip = jobContextMenuStrip;
                 groupNode.Nodes.Add(jobNode);
             }
         }
@@ -170,33 +142,45 @@ namespace Ecell.IDE.MainWindow
             this.Close();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GridJobStatusDialog_DockStateChanged(object sender, EventArgs e)
+        private void ClearInformation()
         {
-            ResetToolTip();
+            jobIDTextBox.Text = "";
+            statusTextBox.Text = "";
+            parameterDataGridView.Rows.Clear();
+        }
+
+        #region Events
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void FireTimer(object sender, EventArgs e)
+        {
+            m_timer.Enabled = false;
+            m_timer.Enabled = true;
         }
 
         /// <summary>
-        /// 
+        /// Event when this form is shown.
+        /// Display the all list of job that is got from SessionManager.
         /// </summary>
-        private void ResetToolTip()
+        /// <param name="sender">Form.</param>
+        /// <param name="e">EventArgs.</param>
+        private void WinShown(object sender, EventArgs e)
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
-            this.DialogToolTip = new System.Windows.Forms.ToolTip(this.components);
-//            this.DialogToolTip.SetToolTip(this.DEWStartButton, resources.GetString("DEWStartButton.ToolTip"));
-//            this.DialogToolTip.SetToolTip(this.DEWStopButton, resources.GetString("DEWStopButton.ToolTip"));
-//            this.DialogToolTip.SetToolTip(this.DEWDeleteButton, resources.GetString("DEWDeleteButton.ToolTip"));
-//            this.DialogToolTip.SetToolTip(this.DEWUpdateButton, resources.GetString("DEWUpdateButton.ToolTip"));
-            this.DialogToolTip.ShowAlways = true;
+            jobTreeView.Nodes.Clear();
+            m_pointDic.Clear();
 
+            m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
+
+            foreach (string name in m_manager.GroupDic.Keys)
+            {
+                AddJobGroup(name);
+            }
         }
 
-        private void TreeNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void JobTee_MouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
             if (!(node is JobTreeNode) && !(node is JobGroupTreeNode))
@@ -205,9 +189,11 @@ namespace Ecell.IDE.MainWindow
                 return;
             }
             if (node is JobTreeNode)
-            {
+            {                
                 JobTreeNode jobNode = node as JobTreeNode;
                 Job.Job job = m_manager.GroupDic[jobNode.GroupName].GetJob(Int32.Parse(node.Text));
+                jobIDTextBox.Text = job.JobID.ToString();
+                statusTextBox.Text = GetJobStatusString(job.Status);
                 foreach (string fullPN in job.ExecParam.ParamDic.Keys)
                 {
                     double data = job.ExecParam.ParamDic[fullPN];
@@ -217,6 +203,8 @@ namespace Ecell.IDE.MainWindow
             if (node is JobGroupTreeNode)
             {
                 JobGroup group = m_manager.GroupDic[node.Text];
+                jobIDTextBox.Text = group.GroupName;
+                statusTextBox.Text = GetAnalysisStatusString(group.Status);
                 foreach (string name in group.AnalysisParameter.Keys)
                 {
                     string data = group.AnalysisParameter[name];
@@ -225,34 +213,215 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
-        private void ClearInformation()
+        private void JobTree_RunJob(object sender, EventArgs e)
         {
-            jobIDTextBox.Text = "";
-            statusTextBox.Text = "";
-            parameterDataGridView.Rows.Clear();
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobTreeNode))
+                return;
+            JobTreeNode jnode = node as JobTreeNode;
+
+            m_manager.Run(jnode.GroupName, Int32.Parse(jnode.ID));
+        }
+
+        private void JobTree_StopJob(object sender, EventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobTreeNode))
+                return;
+            JobTreeNode jnode = node as JobTreeNode;
+
+            m_manager.Stop(jnode.GroupName, Int32.Parse(jnode.ID));
+        }
+
+        private void JobTree_DeleteJob(object sender, EventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobTreeNode))
+                return;
+            JobTreeNode jnode = node as JobTreeNode;
+
+            m_manager.DeleteJob(jnode.GroupName, Int32.Parse(jnode.ID));
+        }
+
+        private void JobTree_ChangeJobStatus(object sender, EventArgs e)
+        {
+            ToolStripMenuItem m = sender as ToolStripMenuItem;
+            if (m == null) return;
+            string status = m.Tag.ToString();
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobTreeNode))
+                return;
+            JobTreeNode jnode = node as JobTreeNode;
+
+            Job.Job j = m_manager.GroupDic[jnode.GroupName].GetJob(Int32.Parse(jnode.ID));
+            if (status.Equals("Queued"))
+                j.Status = JobStatus.QUEUED;
+            else if (status.Equals("Error"))
+                j.Status = JobStatus.ERROR;
+        }
+
+        private void JobTree_RunJobGroup(object sender, EventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobGroupTreeNode))
+                return;
+
+            JobGroupTreeNode jnode = node as JobGroupTreeNode;
+
+            m_manager.Run(jnode.GroupName);
+        }
+
+        private void JobTree_StopJobGroup(object sender, EventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobGroupTreeNode))
+                return;
+
+            JobGroupTreeNode jnode = node as JobGroupTreeNode;
+
+            m_manager.Stop(jnode.GroupName, 0);
+        }
+
+        private void JobTree_DelteJobGroup(object sender, EventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobGroupTreeNode))
+                return;
+
+            JobGroupTreeNode jnode = node as JobGroupTreeNode;
+
+            m_manager.DeleteJob(jnode.GroupName, 0);
+        }
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        private static string GetJobStatusString(JobStatus status)
+        {
+            switch (status)
+            {
+                case JobStatus.NONE:
+                    return MessageResources.NameStatusNone;
+                case JobStatus.QUEUED:
+                    return MessageResources.NameStatusQueue;
+                case JobStatus.RUNNING:
+                    return MessageResources.NameStatusRunning;
+                case JobStatus.FINISHED:
+                    return MessageResources.NameStatusFinished;
+                case JobStatus.STOPPED:
+                    return MessageResources.NameStatusStopped;
+                case JobStatus.ERROR:
+                    return MessageResources.NameStatusError;
+            }
+            return MessageResources.NameStatusNone;
+        }
+
+        private static string GetAnalysisStatusString(AnalysisStatus status)
+        {
+            switch (status)
+            {
+                case AnalysisStatus.Waiting:
+                    return MessageResources.NameStatusQueue;
+                case AnalysisStatus.Running:
+                    return MessageResources.NameStatusRunning;
+                case AnalysisStatus.Finished:
+                    return MessageResources.NameStatusFinished;
+                case AnalysisStatus.Stopped:
+                    return MessageResources.NameStatusStopped;
+                case AnalysisStatus.Error:
+                    return MessageResources.NameStatusError;
+            }
+            return MessageResources.NameStatusNone;
         }
     }
 
+    /// <summary>
+    /// TreeNode for JobGroup.
+    /// </summary>
     public class JobGroupTreeNode : TreeNode
     {
+        #region Fields
+        /// <summary>
+        /// group name.
+        /// </summary>
+        private string m_groupName;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructors.
+        /// </summary>
+        /// <param name="text">group name.</param>
         public JobGroupTreeNode(string text)
             : base(text)
         {
+            m_groupName = text;
         }
-    }
+        #endregion
 
-    public class JobTreeNode : TreeNode
-    {
-        private string m_groupName;
-        public JobTreeNode(string groupName, string text)
-            : base(text)
-        {
-            m_groupName = groupName;
-        }
+        #region Accessors
+        /// <summary>
+        /// get / set group name.
+        /// </summary>
         public string GroupName
         {
             get { return this.m_groupName; }
             set { this.m_groupName = value; }
         }
+        #endregion
+    }
+
+    /// <summary>
+    /// TreeNode for Job.
+    /// </summary>
+    public class JobTreeNode : TreeNode
+    {
+        #region Fields
+        /// <summary>
+        /// group name.
+        /// </summary>
+        private string m_groupName;
+        /// <summary>
+        /// job id.
+        /// </summary>
+        private string m_id;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="groupName">group name.</param>
+        /// <param name="text">job id.</param>
+        public JobTreeNode(string groupName, string text)
+            : base(text)
+        {
+            m_groupName = groupName;
+            m_id = text;
+        }
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// get / set group name.
+        /// </summary>
+        public string GroupName
+        {
+            get { return this.m_groupName; }
+            set { this.m_groupName = value; }
+        }
+
+        /// <summary>
+        /// get / set job id.
+        /// </summary>
+        public string ID
+        {
+            get { return this.m_id; }
+            set { this.m_id = value; }
+        }
+        #endregion
     }
 }
