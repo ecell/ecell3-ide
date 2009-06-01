@@ -146,14 +146,17 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The list of entity path of activity data.
         /// </summary>
         private List<string> m_activityList = new List<string>();
-        static private string m_analysisName = "SensitivityAnalysis";
+        private const string s_analysisName = "SensitivityAnalysis";
+        private const string s_step = "Step";
+        private const string s_relativePert = "Relative Perturbation";
+        private const string s_absolutePert = "Absolute Perturbation";
         private JobGroup m_group;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SensitivityAnalysis(Analysis owner)
+        public SensitivityAnalysis(Analysis owner, SensitivityAnalysisParameter param)
         {
             m_owner = owner;
 
@@ -166,6 +169,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_pertubateData = new Dictionary<string, double>();
             m_execParam = new Dictionary<int, ExecuteParameter>();
             m_saveList = new List<SaveLoggerProperty>();
+            m_param = param;
         }
 
         #region Accessors
@@ -178,6 +182,38 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
+
+        public Dictionary<string, string> GetAnalysisProperty()
+        {
+            Dictionary<string, string> paramDic = new Dictionary<string, string>();
+
+            paramDic.Add(s_step, m_param.Step.ToString());
+            paramDic.Add(s_relativePert, m_param.RelativePerturbation.ToString());
+            paramDic.Add(s_absolutePert, m_param.AbsolutePerturbation.ToString());
+
+            return paramDic;
+        }
+
+        public void SetAnalysisProperty(Dictionary<string, string> paramDic)
+        {
+            foreach (string key in paramDic.Keys)
+            {
+                switch (key)
+                {
+                    case s_step:
+                        m_param.Step = Int32.Parse(paramDic[key]);
+                        break;
+                        break;
+                    case s_relativePert:
+                        m_param.RelativePerturbation = Double.Parse(paramDic[key]);
+                        break;
+                    case s_absolutePert:
+                        m_param.AbsolutePerturbation = Double.Parse(paramDic[key]);
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Execute the sensitivity analysis.
         /// </summary>
@@ -185,7 +221,6 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             DataManager dManager = m_owner.DataManager;
             m_owner.ClearResult();
-            m_param = m_owner.GetSensitivityAnalysisParameter();
             m_model = "";
             List<string> modelList = m_owner.DataManager.GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
@@ -313,7 +348,8 @@ namespace Ecell.IDE.Plugins.Analysis
             dManager.SimulationStop();
 
             m_owner.JobManager.SetLoggerData(m_saveList);
-            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
+            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
+            m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, cTime, false, execDict);            
         }
 

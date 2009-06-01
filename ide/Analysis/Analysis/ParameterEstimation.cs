@@ -101,14 +101,24 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The dictionary of estimation.
         /// </summary>
         private Dictionary<int, double> m_estimation;
-        static private string m_analysisName = "ParameterEstimation";
+        private const string s_analysisName = "ParameterEstimation";
+        private const string s_estimateFormula = "Estimation Formulator";
+        private const string s_simTime = "Simulation Time";
+        private const string s_population = "Population";
+        private const string s_generation = "Generation";
+        private const string s_estimateType = "Estimation Type";
+        private const string s_m = "M";
+        private const string s_m0 = "Initial rate(Mutation)";
+        private const string s_mmax = "Max rate(Mutation)";
+        private const string s_k = "K(Mutation)";
+        private const string s_upsilon = "Upsilon";
         private JobGroup m_group;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ParameterEstimation(Analysis owner)
+        public ParameterEstimation(Analysis owner, ParameterEstimationParameter param)
         {
             m_owner = owner;
 
@@ -117,6 +127,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_timer.Interval = 5000;
             m_timer.Tick += new EventHandler(FireTimer);
             m_estimation = new Dictionary<int, double>();
+            m_param = param;
         }
 
         #region Accessors
@@ -129,13 +140,68 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
+
+        public Dictionary<string, string> GetAnalysisProperty()
+        {
+            Dictionary<string, string> paramDic = new Dictionary<string, string>();
+
+            paramDic.Add(s_estimateFormula, m_param.EstimationFormulator);
+            paramDic.Add(s_simTime, m_param.SimulationTime.ToString());
+            paramDic.Add(s_population, m_param.Population.ToString());
+            paramDic.Add(s_generation, m_param.Generation.ToString());
+            paramDic.Add(s_estimateType, m_param.Type.ToString());
+            paramDic.Add(s_m, m_param.Param.M.ToString());
+            paramDic.Add(s_m0, m_param.Param.Initial.ToString());
+            paramDic.Add(s_mmax, m_param.Param.Max.ToString());
+            paramDic.Add(s_k, m_param.Param.K.ToString());
+            paramDic.Add(s_upsilon, m_param.Param.Upsilon.ToString());
+
+            return paramDic;
+        }
+
+        public void SetAnalysisProperty(Dictionary<string, string> paramDic)
+        {
+            foreach (string key in paramDic.Keys)
+            {
+                switch (key)
+                {
+                    case s_estimateFormula:
+                        m_param.EstimationFormulator = paramDic[key];
+                        break;
+                    case s_simTime:
+                        m_param.SimulationTime = Double.Parse(paramDic[key]);
+                        break;
+                    case s_population:
+                        m_param.Population = Int32.Parse(paramDic[key]);
+                        break;
+                    case s_generation:
+                        m_param.Generation = Int32.Parse(paramDic[key]);
+                        break;
+                    case s_m:
+                        m_param.Param.M = Int32.Parse(paramDic[key]);
+                        break;
+                    case s_m0:
+                        m_param.Param.Initial = Double.Parse(paramDic[key]);
+                        break;
+                    case s_mmax:
+                        m_param.Param.Max = Double.Parse(paramDic[key]);
+                        break;
+                    case s_k:
+                        m_param.Param.K = Double.Parse(paramDic[key]);
+                        break;
+                    case s_upsilon:
+                        m_param.Param.Upsilon = Double.Parse(paramDic[key]);
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Execute the robust analysis.
         /// </summary>
         public void ExecuteAnalysis()
         {
             m_estimation.Clear();
-            m_param = m_owner.GetParameterEstimationParameter();
             m_mutation = m_param.Param.Initial;
             m_owner.ClearResult();
 
@@ -194,7 +260,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_saveList == null) return;
             m_owner.JobManager.SetLoggerData(m_saveList);
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
-            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
+            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
+            m_group.AnalysisParameter = GetAnalysisProperty();
             if (m_isRunning)
             {
                 m_generation = 0;

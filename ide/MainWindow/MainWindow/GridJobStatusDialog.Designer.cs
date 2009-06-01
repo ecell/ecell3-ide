@@ -29,143 +29,109 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
-            this.JobGridView = new System.Windows.Forms.DataGridView();
-            this.JobIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MachineColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ScriptColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArgumentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DEWStartButton = new System.Windows.Forms.Button();
-            this.DEWStopButton = new System.Windows.Forms.Button();
-            this.DEWDeleteButton = new System.Windows.Forms.Button();
-            this.DEWUpdateButton = new System.Windows.Forms.Button();
+            System.Windows.Forms.Label label2;
             this.DialogToolTip = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).BeginInit();
+            this.jobTreeView = new System.Windows.Forms.TreeView();
+            this.parameterDataGridView = new System.Windows.Forms.DataGridView();
+            this.jobIDTextBox = new System.Windows.Forms.TextBox();
+            this.statusTextBox = new System.Windows.Forms.TextBox();
+            this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PropValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // JobGridView
+            // label1
             // 
-            this.JobGridView.AllowUserToAddRows = false;
-            resources.ApplyResources(this.JobGridView, "JobGridView");
-            this.JobGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.JobGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.JobGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.JobIDColumn,
-            this.StatusColumn,
-            this.MachineColumn,
-            this.ScriptColumn,
-            this.ArgumentColumn});
-            this.JobGridView.Name = "JobGridView";
-            this.JobGridView.RowHeadersVisible = false;
-            this.JobGridView.RowTemplate.Height = 21;
-            this.JobGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
-            // JobIDColumn
+            // label2
             // 
-            this.JobIDColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.JobIDColumn, "JobIDColumn");
-            this.JobIDColumn.Name = "JobIDColumn";
-            this.JobIDColumn.ReadOnly = true;
-            // 
-            // StatusColumn
-            // 
-            this.StatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.StatusColumn, "StatusColumn");
-            this.StatusColumn.Name = "StatusColumn";
-            this.StatusColumn.ReadOnly = true;
-            // 
-            // MachineColumn
-            // 
-            this.MachineColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.MachineColumn, "MachineColumn");
-            this.MachineColumn.Name = "MachineColumn";
-            this.MachineColumn.ReadOnly = true;
-            // 
-            // ScriptColumn
-            // 
-            this.ScriptColumn.FillWeight = 50F;
-            resources.ApplyResources(this.ScriptColumn, "ScriptColumn");
-            this.ScriptColumn.Name = "ScriptColumn";
-            this.ScriptColumn.ReadOnly = true;
-            // 
-            // ArgumentColumn
-            // 
-            resources.ApplyResources(this.ArgumentColumn, "ArgumentColumn");
-            this.ArgumentColumn.Name = "ArgumentColumn";
-            this.ArgumentColumn.ReadOnly = true;
-            // 
-            // DEWStartButton
-            // 
-            resources.ApplyResources(this.DEWStartButton, "DEWStartButton");
-            this.DEWStartButton.Name = "DEWStartButton";
-            this.DialogToolTip.SetToolTip(this.DEWStartButton, resources.GetString("DEWStartButton.ToolTip"));
-            this.DEWStartButton.UseVisualStyleBackColor = true;
-            this.DEWStartButton.Click += new System.EventHandler(this.DEWStartButton_Click);
-            // 
-            // DEWStopButton
-            // 
-            resources.ApplyResources(this.DEWStopButton, "DEWStopButton");
-            this.DEWStopButton.Name = "DEWStopButton";
-            this.DialogToolTip.SetToolTip(this.DEWStopButton, resources.GetString("DEWStopButton.ToolTip"));
-            this.DEWStopButton.UseVisualStyleBackColor = true;
-            this.DEWStopButton.Click += new System.EventHandler(this.DEWStopButton_Click);
-            // 
-            // DEWDeleteButton
-            // 
-            resources.ApplyResources(this.DEWDeleteButton, "DEWDeleteButton");
-            this.DEWDeleteButton.Name = "DEWDeleteButton";
-            this.DialogToolTip.SetToolTip(this.DEWDeleteButton, resources.GetString("DEWDeleteButton.ToolTip"));
-            this.DEWDeleteButton.UseVisualStyleBackColor = true;
-            this.DEWDeleteButton.Click += new System.EventHandler(this.DEWDeleteButtonClick);
-            // 
-            // DEWUpdateButton
-            // 
-            resources.ApplyResources(this.DEWUpdateButton, "DEWUpdateButton");
-            this.DEWUpdateButton.FlatAppearance.BorderSize = 0;
-            this.DEWUpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.DEWUpdateButton.Name = "DEWUpdateButton";
-            this.DialogToolTip.SetToolTip(this.DEWUpdateButton, resources.GetString("DEWUpdateButton.ToolTip"));
-            this.DEWUpdateButton.UseVisualStyleBackColor = true;
-            this.DEWUpdateButton.Click += new System.EventHandler(this.DEWUpdateButton_Click);
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // DialogToolTip
             // 
             this.DialogToolTip.ShowAlways = true;
             // 
+            // jobTreeView
+            // 
+            resources.ApplyResources(this.jobTreeView, "jobTreeView");
+            this.jobTreeView.Name = "jobTreeView";
+            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeNodeMouseClick);
+            // 
+            // parameterDataGridView
+            // 
+            this.parameterDataGridView.AllowUserToAddRows = false;
+            this.parameterDataGridView.AllowUserToDeleteRows = false;
+            this.parameterDataGridView.AllowUserToResizeRows = false;
+            this.parameterDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.parameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.parameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PropNameColumn,
+            this.PropValueColumn});
+            resources.ApplyResources(this.parameterDataGridView, "parameterDataGridView");
+            this.parameterDataGridView.MultiSelect = false;
+            this.parameterDataGridView.Name = "parameterDataGridView";
+            this.parameterDataGridView.RowHeadersVisible = false;
+            this.parameterDataGridView.RowTemplate.Height = 21;
+            this.parameterDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            // 
+            // jobIDTextBox
+            // 
+            resources.ApplyResources(this.jobIDTextBox, "jobIDTextBox");
+            this.jobIDTextBox.Name = "jobIDTextBox";
+            this.jobIDTextBox.ReadOnly = true;
+            // 
+            // statusTextBox
+            // 
+            resources.ApplyResources(this.statusTextBox, "statusTextBox");
+            this.statusTextBox.Name = "statusTextBox";
+            this.statusTextBox.ReadOnly = true;
+            // 
+            // PropNameColumn
+            // 
+            resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
+            this.PropNameColumn.Name = "PropNameColumn";
+            // 
+            // PropValueColumn
+            // 
+            resources.ApplyResources(this.PropValueColumn, "PropValueColumn");
+            this.PropValueColumn.Name = "PropValueColumn";
+            // 
             // GridJobStatusDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.DEWStartButton);
-            this.Controls.Add(this.JobGridView);
-            this.Controls.Add(this.DEWStopButton);
-            this.Controls.Add(this.DEWDeleteButton);
-            this.Controls.Add(this.DEWUpdateButton);
+            this.Controls.Add(this.statusTextBox);
+            this.Controls.Add(label2);
+            this.Controls.Add(this.jobIDTextBox);
+            this.Controls.Add(this.parameterDataGridView);
+            this.Controls.Add(label1);
+            this.Controls.Add(this.jobTreeView);
             this.IsSavable = true;
             this.Name = "GridJobStatusDialog";
+            this.TabText = "Job status";
             this.Shown += new System.EventHandler(this.WinShown);
             this.DockStateChanged += new System.EventHandler(this.GridJobStatusDialog_DockStateChanged);
-            ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        /// <summary>
-        /// DataGridView to display the list of jobs.
-        /// </summary>
-        public System.Windows.Forms.DataGridView JobGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn JobIDColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StatusColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MachineColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ScriptColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentColumn;
-        private System.Windows.Forms.Button DEWDeleteButton;
-        private System.Windows.Forms.Button DEWStartButton;
-        private System.Windows.Forms.Button DEWStopButton;
-        private System.Windows.Forms.Button DEWUpdateButton;
         internal System.Windows.Forms.ToolTip DialogToolTip;
+        private System.Windows.Forms.TreeView jobTreeView;
+        private System.Windows.Forms.DataGridView parameterDataGridView;
+        private System.Windows.Forms.TextBox jobIDTextBox;
+        private System.Windows.Forms.TextBox statusTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PropNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PropValueColumn;
     }
 }

@@ -67,14 +67,23 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The max number of input data to be executed FFT.
         /// </summary>
         public const int MaxSize = 2097152;
-        static private string m_analysisName = "RobustAnalysis";
+
+        private const string s_analysisName = "RobustAnalysis";
+        private const string s_sampleNum = "Sample Num";
+        private const string s_simTime = "Simulation Time";
+        private const string s_isRandomCheck = "Random Check";
+        private const string s_winSize = "Window Size";
+        private const string s_maxInput = "Max Input for FFT";
+        private const string s_maxFreq = "Max Frequency of FFT";
+        private const string s_minFreq = "Min Frequency of FFT";
+
         private JobGroup m_group;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysis(Analysis owner)
+        public RobustAnalysis(Analysis owner, RobustAnalysisParameter param)
         {
             m_owner = owner;
 
@@ -82,6 +91,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_timer.Enabled = false;
             m_timer.Interval = 5000;
             m_timer.Tick += new EventHandler(FireTimer);
+            m_param = param;
         }
 
         #region accessors
@@ -146,12 +156,54 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
+
+        public Dictionary<string, string> GetAnalysisProperty()
+        {
+            Dictionary<string, string> paramDic = new Dictionary<string, string>();
+
+            paramDic.Add(s_simTime, m_param.SimulationTime.ToString());
+            paramDic.Add(s_winSize, m_param.WinSize.ToString());
+            paramDic.Add(s_maxInput, m_param.MaxData.ToString());
+            paramDic.Add(s_maxFreq, m_param.MaxFreq.ToString());
+            paramDic.Add(s_minFreq, m_param.MinFreq.ToString());
+            paramDic.Add(s_isRandomCheck, m_param.IsRandomCheck.ToString());
+
+            return paramDic;
+        }
+
+        public void SetAnalysisProperty(Dictionary<string, string> paramDic)
+        {
+            foreach (string key in paramDic.Keys)
+            {
+                switch (key)
+                {
+                    case s_simTime:
+                        m_param.SimulationTime = Double.Parse(paramDic[key]);
+                        break;
+                    case s_winSize:
+                        m_param.WinSize = Double.Parse(paramDic[key]);
+                        break;
+                    case s_maxInput:
+                        m_param.MaxData = Int32.Parse(paramDic[key]);
+                        break;
+                    case s_maxFreq:
+                        m_param.MaxFreq = Double.Parse(paramDic[key]);
+                        break;
+                    case s_minFreq:
+                        m_param.MinFreq = Double.Parse(paramDic[key]);
+                        break;
+                    case s_isRandomCheck:
+                        m_param.IsRandomCheck = Boolean.Parse(paramDic[key]);
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Execute the robust analysis.
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_param = m_owner.GetRobustAnalysisParameter();
             m_owner.ClearResult();
             String tmpDir = m_owner.JobManager.TmpDir;
             int num = m_param.SampleNum;
@@ -205,7 +257,8 @@ namespace Ecell.IDE.Plugins.Analysis
             m_isRunning = true;
             m_owner.JobManager.SetParameterRange(paramList);
             m_owner.JobManager.SetLoggerData(saveList);
-            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
+            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
+            m_group.AnalysisParameter = GetAnalysisProperty();
             if (m_param.IsRandomCheck == true)
             {
                 m_paramDic = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, model, num, simTime, false);

@@ -121,14 +121,19 @@ namespace Ecell.IDE.Plugins.Analysis
         private static int s_skip = 5;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
-        static private string m_analysisName = "Bifurcation";
+        private const string s_analysisName = "Bifurcation";
+        private const string s_simTime = "Simulation Time";
+        private const string s_winSize = "Window Size";
+        private const string s_maxInput = "Max Input for FFT";
+        private const string s_maxFreq = "Max Frequency of FFT";
+        private const string s_minFreq = "Min Frequency of FFT";
         private JobGroup m_group;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public BifurcationAnalysis(Analysis owner)
+        public BifurcationAnalysis(Analysis owner, BifurcationAnalysisParameter param)
         {
             m_owner = owner;
 
@@ -139,6 +144,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_timer.Enabled = false;
             m_timer.Interval = 5000;
             m_timer.Tick += new EventHandler(FireTimer);
+            m_param = param;
         }
 
         #region Accessors
@@ -151,12 +157,49 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
+        public Dictionary<string, string> GetAnalysisProperty()
+        {
+            Dictionary<string, string> paramDic = new Dictionary<string, string>();
+
+            paramDic.Add(s_simTime, m_param.SimulationTime.ToString());
+            paramDic.Add(s_winSize, m_param.WindowSize.ToString());
+            paramDic.Add(s_maxInput, m_param.MaxInput.ToString());
+            paramDic.Add(s_maxFreq, m_param.MaxFreq.ToString());
+            paramDic.Add(s_minFreq, m_param.MinFreq.ToString());
+
+            return paramDic;
+        }
+
+        public void SetAnalysisProperty(Dictionary<string, string> paramDic)
+        {
+            foreach (string key in paramDic.Keys)
+            {
+                switch (key)
+                {
+                    case s_simTime:
+                        m_param.SimulationTime = Double.Parse(paramDic[key]);
+                        break;
+                    case s_winSize:
+                        m_param.WindowSize = Double.Parse(paramDic[key]);
+                        break;
+                    case s_maxInput:
+                        m_param.MaxInput = Int32.Parse(paramDic[key]);
+                        break;
+                    case s_maxFreq:
+                        m_param.MaxFreq = Double.Parse(paramDic[key]);
+                        break;
+                    case s_minFreq:
+                        m_param.MinFreq = Double.Parse(paramDic[key]);
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Execute the bifurcation analysis.
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_param = m_owner.GetBifurcationAnalysisPrameter();
             m_resultPoint = 0;
             String tmpDir = m_owner.JobManager.TmpDir;
             double simTime = m_param.SimulationTime;
@@ -268,7 +311,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
 
             m_owner.JobManager.SetLoggerData(saveList);
-            m_group = m_owner.JobManager.CreateJobGroup(m_analysisName);
+            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
+            m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
             if (m_isRunning)
             {
@@ -350,8 +394,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 m_isDone = true;
             }
-
-
             return res;
         }
 

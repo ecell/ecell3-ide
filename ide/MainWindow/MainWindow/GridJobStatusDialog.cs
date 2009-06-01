@@ -52,6 +52,8 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         IJobManager m_manager;
         Timer m_timer;
+        private TreeNode m_topNode = null;
+        private Dictionary<string, TreeNode> m_pointDic = new Dictionary<string, TreeNode>();
         #endregion
 
         /// <summary>
@@ -64,7 +66,6 @@ namespace Ecell.IDE.MainWindow
 
             m_manager = manager;
 
-            JobGridView.CellDoubleClick += new DataGridViewCellEventHandler(JobGridViewDoubleClick);
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
             m_timer.Interval = 3000;
@@ -82,7 +83,6 @@ namespace Ecell.IDE.MainWindow
             {
                 m_timer.Enabled = false;
                 m_timer.Stop();
-                DEWUpdateButton_Click(null, new EventArgs());
             }
         }
 
@@ -94,34 +94,7 @@ namespace Ecell.IDE.MainWindow
         void FireTimer(object sender, EventArgs e)
         {
             m_timer.Enabled = false;
-            DEWUpdateButton_Click(null, new EventArgs());
             m_timer.Enabled = true;
-        }
-
-        /// <summary>
-        /// Event when the job entry is double clicked on GridView.
-        /// Display the log of this job.
-        /// </summary>
-        /// <param name="sender">DataGridView.</param>
-        /// <param name="e">DataGridViewCellEventArgs.</param>
-        void JobGridViewDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            string mes = null;
-            int jobid = Convert.ToInt32(JobGridView[0, e.RowIndex].Value);
-            foreach (String name in m_manager.GroupDic.Keys)
-            {
-                foreach (Job.Job job in m_manager.GroupDic[name].Jobs)
-                {
-                    if (job.JobID == jobid)
-                        mes = m_manager.GetStderr(name, jobid);
-                }
-            }
-            if (string.IsNullOrEmpty(mes))
-                return;
-            JobMessageDialog dialog = new JobMessageDialog(mes);
-            dialog.ShowDialog();
         }
 
         /// <summary>
@@ -132,53 +105,56 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void WinShown(object sender, EventArgs e)
         {
+            jobTreeView.Nodes.Clear();
+            m_pointDic.Clear();
+
+            m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
+
             foreach (string name in m_manager.GroupDic.Keys)
             {
-                foreach (Ecell.Job.Job s in m_manager.GroupDic[name].Jobs)
-                {
-                    JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
-                }
+                AddJobGroup(name);
             }
         }
 
         /// <summary>
-        /// Event when the clear button is clicked.
-        /// Delete the all jobs from SessionManager.
+        /// 
         /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void DEWClearButtonClick(object sender, EventArgs e)
+        /// <param name="name"></param>
+        public void AddJobGroup(string name)
         {
-            m_manager.ClearJob(null, 0);
-            JobGridView.Rows.Clear();
+            JobGroup group = m_manager.GroupDic[name];
+            string analysisName = group.AnalysisName;
+            if (!m_pointDic.ContainsKey(analysisName))
+            {
+                TreeNode node = new TreeNode(analysisName);
+                m_topNode.Nodes.Add(node);
+                m_pointDic[analysisName] = node;
+            }
+            JobGroupTreeNode groupNode = new JobGroupTreeNode(name);
+            m_pointDic[analysisName].Nodes.Add(groupNode);
+            foreach (Job.Job job in group.Jobs)
+            {
+                JobTreeNode jobNode = new JobTreeNode(name, job.JobID.ToString());
+                groupNode.Nodes.Add(jobNode);
+            }
         }
 
         /// <summary>
-        /// Event when the delete button is clicked.
-        /// Delete the selected job from SessionManager.
+        /// 
         /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void DEWDeleteButtonClick(object sender, EventArgs e)
+        /// <param name="name"></param>
+        public void DeleteJobGroup(string name)
         {
-            foreach (DataGridViewRow r in JobGridView.SelectedRows)
+            JobGroup group = m_manager.GroupDic[name];
+            string analysisName = group.AnalysisName;
+            if (!m_pointDic.ContainsKey(analysisName))
+                return;
+            foreach (TreeNode node in m_pointDic[analysisName].Nodes)
             {
-                try
+                if (node.Text.Equals(node))
                 {
-                    int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    m_manager.ClearJob(null, jobid);
-                }
-                catch (Exception ex)
-                {
-                    ex.ToString();
-                }
-            }
-            JobGridView.Rows.Clear();
-            foreach (string name in m_manager.GroupDic.Keys)
-            {
-                foreach (Ecell.Job.Job s in m_manager.GroupDic[name].Jobs)
-                {
-                    JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
+                    m_pointDic[analysisName].Nodes.Remove(node);
+                    return;
                 }
             }
         }
@@ -192,74 +168,6 @@ namespace Ecell.IDE.MainWindow
         private void CloseButtonClick(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        /// <summary>
-        /// Event when the update button is clicked.
-        /// Update the latest information of jobs that is got from SessionManager.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void DEWUpdateButton_Click(object sender, EventArgs e)
-        {
-            JobGridView.Rows.Clear();
-            foreach (string name in m_manager.GroupDic.Keys)
-            {
-                foreach (Ecell.Job.Job s in m_manager.GroupDic[name].Jobs)
-                {
-                    JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
-                }
-            }
-            if (JobGridView.SortedColumn != null)
-                JobGridView.Sort(JobGridView.SortedColumn, 
-                    (JobGridView.SortOrder == SortOrder.Ascending ?  
-                    ListSortDirection.Ascending :
-                    ListSortDirection.Descending));
-        }
-
-        /// <summary>
-        /// Event when the stop button is clicked.
-        /// Stop the selected jobs.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void DEWStopButton_Click(object sender, EventArgs e)
-        {
-            if (JobGridView.SelectedRows.Count > 0)
-            {
-                foreach (DataGridViewRow r in JobGridView.SelectedRows)
-                {
-                    int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    m_manager.Stop(null, jobid);
-                }
-                return;
-            }
-
-            m_manager.Stop(null, 0);            
-        }
-
-        /// <summary>
-        /// Event when the start button is clicked.
-        /// Start the selected job.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void DEWStartButton_Click(object sender, EventArgs e)
-        {
-            if (JobGridView.SelectedRows.Count > 0)
-            {
-                foreach (DataGridViewRow r in JobGridView.SelectedRows)
-                {
-                    int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    foreach (string name in m_manager.GroupDic.Keys)
-                    {
-                        foreach (Job.Job job in m_manager.GroupDic[name].Jobs)
-                            job.Status = JobStatus.QUEUED;
-                    }
-                }
-                m_manager.Run(null);
-                return;
-            }
         }
 
         /// <summary>
@@ -280,12 +188,71 @@ namespace Ecell.IDE.MainWindow
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             this.DialogToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.DialogToolTip.SetToolTip(this.DEWStartButton, resources.GetString("DEWStartButton.ToolTip"));
-            this.DialogToolTip.SetToolTip(this.DEWStopButton, resources.GetString("DEWStopButton.ToolTip"));
-            this.DialogToolTip.SetToolTip(this.DEWDeleteButton, resources.GetString("DEWDeleteButton.ToolTip"));
-            this.DialogToolTip.SetToolTip(this.DEWUpdateButton, resources.GetString("DEWUpdateButton.ToolTip"));
+//            this.DialogToolTip.SetToolTip(this.DEWStartButton, resources.GetString("DEWStartButton.ToolTip"));
+//            this.DialogToolTip.SetToolTip(this.DEWStopButton, resources.GetString("DEWStopButton.ToolTip"));
+//            this.DialogToolTip.SetToolTip(this.DEWDeleteButton, resources.GetString("DEWDeleteButton.ToolTip"));
+//            this.DialogToolTip.SetToolTip(this.DEWUpdateButton, resources.GetString("DEWUpdateButton.ToolTip"));
             this.DialogToolTip.ShowAlways = true;
 
+        }
+
+        private void TreeNodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode node = e.Node;
+            if (!(node is JobTreeNode) && !(node is JobGroupTreeNode))
+            {
+                ClearInformation();
+                return;
+            }
+            if (node is JobTreeNode)
+            {
+                JobTreeNode jobNode = node as JobTreeNode;
+                Job.Job job = m_manager.GroupDic[jobNode.GroupName].GetJob(Int32.Parse(node.Text));
+                foreach (string fullPN in job.ExecParam.ParamDic.Keys)
+                {
+                    double data = job.ExecParam.ParamDic[fullPN];
+                    parameterDataGridView.Rows.Add(new object[] { fullPN, data });
+                }
+            }
+            if (node is JobGroupTreeNode)
+            {
+                JobGroup group = m_manager.GroupDic[node.Text];
+                foreach (string name in group.AnalysisParameter.Keys)
+                {
+                    string data = group.AnalysisParameter[name];
+                    parameterDataGridView.Rows.Add(new object[] { name, data });
+                }
+            }
+        }
+
+        private void ClearInformation()
+        {
+            jobIDTextBox.Text = "";
+            statusTextBox.Text = "";
+            parameterDataGridView.Rows.Clear();
+        }
+    }
+
+    public class JobGroupTreeNode : TreeNode
+    {
+        public JobGroupTreeNode(string text)
+            : base(text)
+        {
+        }
+    }
+
+    public class JobTreeNode : TreeNode
+    {
+        private string m_groupName;
+        public JobTreeNode(string groupName, string text)
+            : base(text)
+        {
+            m_groupName = groupName;
+        }
+        public string GroupName
+        {
+            get { return this.m_groupName; }
+            set { this.m_groupName = value; }
         }
     }
 }

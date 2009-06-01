@@ -753,7 +753,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
             m_currentAnalysus = "RobustAnalysis";
             m_stopAnalysisItem.Enabled = true;
-            m_robustAnalysis = new RobustAnalysis(this);
+            m_robustAnalysis = new RobustAnalysis(this, m_robustParameter);
             m_robustAnalysis.ExecuteAnalysis();
         }
 
@@ -773,7 +773,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
             m_currentAnalysus = "ParameterEstimation";
             m_stopAnalysisItem.Enabled = true;
-            m_parameterEstimation = new ParameterEstimation(this);
+            m_parameterEstimation = new ParameterEstimation(this, m_estimationParameter);
             m_parameterEstimation.ExecuteAnalysis();
         }
 
@@ -793,7 +793,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
             m_currentAnalysus = "SensitivityAnalysis";
             m_stopAnalysisItem.Enabled = true;
-            m_sensitivityAnalysis = new SensitivityAnalysis(this);
+            m_sensitivityAnalysis = new SensitivityAnalysis(this, m_sensitivityParameter);
             m_sensitivityAnalysis.ExecuteAnalysis();
         }
 
@@ -813,7 +813,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_currentAnalysus = "BifurcationAnalysis";            
             m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
             m_stopAnalysisItem.Enabled = true;
-            m_bifurcationAnalysis = new BifurcationAnalysis(this);
+            m_bifurcationAnalysis = new BifurcationAnalysis(this, m_bifurcateParameter);
             m_bifurcationAnalysis.ExecuteAnalysis();
         }
 
