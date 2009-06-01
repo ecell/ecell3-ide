@@ -27,12 +27,10 @@
 // written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.Plugin
 {
@@ -73,10 +71,7 @@ namespace Ecell.Plugin
             // 
             // EcellDockContent
             // 
-            this.ClientSize = new System.Drawing.Size(392, 373);
-            this.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Location = new System.Drawing.Point(50, 50);
+            resources.ApplyResources(this, "$this");
             this.Name = "EcellDockContent";
             this.ResumeLayout(false);
 
@@ -115,6 +110,5 @@ namespace Ecell.Plugin
             return pos;
         }
         #endregion
-
     }
 }

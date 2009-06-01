@@ -173,6 +173,7 @@ namespace Ecell.IDE.MainWindow
             this.dockPanel.DockBackColor = System.Drawing.SystemColors.Control;
             this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
             this.dockPanel.Name = "dockPanel";
+            this.dockPanel.ShowDocumentIcon = true;
             dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
             dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
             autoHideStripSkin1.DockStripGradient = dockPanelGradient1;

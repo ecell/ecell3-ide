@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class EditModeItems : UserControl
+    internal class EditModeSettings : UserControl
     {
         private GroupBox groupBox;
         private PropertyBrushItem bgBrushItem;
@@ -48,7 +48,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private PropertyCheckBoxItem highQualityCheckBox;
         private AnimationControl m_control;
 
-        public EditModeItems()
+        public EditModeSettings()
         {
             InitializeComponent();
         }
@@ -56,7 +56,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public EditModeItems(AnimationControl control)
+        public EditModeSettings(AnimationControl control)
         {
             m_control = control;
             InitializeComponent();
@@ -73,7 +73,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditModeItems));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditModeSettings));
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.highQualityCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
             this.bgBrushItem = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();

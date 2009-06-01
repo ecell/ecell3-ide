@@ -38,16 +38,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     internal class PathwaySettingsPage : PropertyDialogPage
     {
         private AnimationControl m_con;
-        private EditModeItems m_editModeItems;
-        private ViewModeItems m_viewModeItems;
+        private EditModeSettings m_editModeItems;
+        private ViewModeSettings m_viewModeItems;
 
         public PathwaySettingsPage(AnimationControl control)
             : base()
         {
             InitializeComponent();
             m_con = control;
-            m_editModeItems = new EditModeItems(control);
-            m_viewModeItems = new ViewModeItems(control);
+            m_editModeItems = new EditModeSettings(control);
+            m_viewModeItems = new ViewModeSettings(control);
 
             this.SuspendLayout();
             this.Controls.Add(m_editModeItems);

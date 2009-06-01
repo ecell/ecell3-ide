@@ -173,7 +173,6 @@ namespace Ecell.IDE.MainWindow
         public void Initialize()
         {
             InitializeComponent();
-            dockPanel.ShowDocumentIcon = true;
 
             m_statusDialog = new GridJobStatusDialog(m_env.JobManager);
             SetDockContent(m_statusDialog);
@@ -574,7 +573,6 @@ namespace Ecell.IDE.MainWindow
         internal void SetStartUpWindow()
         {
             EcellWebBrowser content = new EcellWebBrowser(m_env, m_recentProjects);
-            content.DockHandler.DockPanel = this.dockPanel;
             SetDockContent(content);
             m_browser = content;
         }

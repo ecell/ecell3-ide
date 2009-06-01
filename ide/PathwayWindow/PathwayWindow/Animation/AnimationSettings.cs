@@ -40,7 +40,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class AnimationItems :     UserControl
+    internal class AnimationSettings : UserControl
     {
         private GroupBox edgeBox;
         private PropertyBrushItem edgeHighBrush;
@@ -60,12 +60,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         private AnimationControl animCon;
 
-        public AnimationItems()
+        public AnimationSettings()
         {
             InitializeComponent();
         }
 
-        public AnimationItems(AnimationControl control)
+        public AnimationSettings(AnimationControl control)
         {
             animCon = control;
             InitializeComponent();
@@ -83,7 +83,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationItems));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationSettings));
             this.edgeBox = new System.Windows.Forms.GroupBox();
             this.edgeLabel = new System.Windows.Forms.Label();
             this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();

@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class ViewModeItems : UserControl
+    internal class ViewModeSettings : UserControl
     {
         private GroupBox groupBox;
         private PropertyBrushItem bgBrush;
@@ -51,7 +51,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public ViewModeItems()
+        public ViewModeSettings()
         {
             InitializeComponent();
         }
@@ -59,7 +59,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public ViewModeItems(AnimationControl control)
+        public ViewModeSettings(AnimationControl control)
         {
             m_control = control;
             InitializeComponent();
@@ -74,7 +74,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewModeItems));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewModeSettings));
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.bgBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.edgeBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();

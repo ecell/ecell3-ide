@@ -29,62 +29,82 @@
 //
 
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
     /// <summary>
-    /// private class for AnimationSettingDialog
+    /// 
     /// </summary>
-    internal class AnimationSettingsPage : PropertyDialogPage
+    public class AnimationItemBase : UserControl, IAnimationItem
     {
-        private AnimationControl m_con;
-        private AnimationSettings m_animationItems;
+        #region Fields
+        /// <summary>
+        /// 
+        /// </summary>
+        protected CanvasControl _canvas;
+        
+        #endregion
 
-        public AnimationSettingsPage(AnimationControl control)
-            : base()
+        #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        public AnimationItemBase()
         {
             InitializeComponent();
-            m_con = control;
-            m_animationItems = new AnimationSettings(control);
-
-            this.SuspendLayout();
-            this.Controls.Add(m_animationItems);
-
-            this.ResumeLayout();
-            this.PerformLayout();
         }
 
-        public override void ApplyChange()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        public AnimationItemBase(CanvasControl canvas)
+            : this()
         {
-            try
-            {
-                base.ApplyChange();
-                m_animationItems.ApplyChanges();
-                m_con.SaveSettings();
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrUpdateConfig);
-            }
+            _canvas = canvas;
         }
 
-        public override void PropertyDialogClosing()
-        {
-            base.PropertyDialogClosing();
-            m_animationItems.ItemClosing();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationSettingsPage));
             this.SuspendLayout();
             // 
-            // AnimationSettingsPage
+            // AnimationItem
             // 
-            this.Name = "AnimationSettingsPage";
-            resources.ApplyResources(this, "$this");
+            this.Name = "AnimationItem";
+            this.Size = new System.Drawing.Size(369, 320);
             this.ResumeLayout(false);
-
         }
+        #endregion
+
+
+        #region IAnimationItem メンバ
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void SetPropForSimulation()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void UpdatePropForSimulation()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ResetPropForSimulation()
+        {
+        }
+
+        #endregion
     }
 }
