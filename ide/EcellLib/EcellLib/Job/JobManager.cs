@@ -43,6 +43,8 @@ namespace Ecell.Job
     /// </summary>
     public class JobManager: IJobManager
     {
+        #region Fields
+        public event JobUpdateEventHandler JobUpdateEvent;
         private ApplicationEnvironment m_env;
         private bool m_tmpDirRemovable = false;
         private string m_tmpRootDir = null;
@@ -53,10 +55,10 @@ namespace Ecell.Job
         private int m_globalTimeOut = 0;
         private JobProxy m_proxy;
         private Dictionary<string, JobProxy> m_proxyList = new Dictionary<string, JobProxy>();
-//        private Dictionary<int, Job> m_sessionList = new Dictionary<int, Job>();
         private Dictionary<string, JobGroup> m_groupDic = new Dictionary<string, JobGroup>();
-
         private Timer m_timer;
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
@@ -162,14 +164,6 @@ namespace Ecell.Job
             get { return this.m_globalTimeOut; }
             set { this.m_globalTimeOut = value; }
         }
-
-        ///// <summary>
-        ///// get the list of session.
-        ///// </summary>
-        //public Dictionary<int, Job> JobList
-        //{
-        //    get { return this.m_sessionList; }
-        //}
 
         /// <summary>
         /// get / set the using proxy for system.
@@ -398,6 +392,9 @@ namespace Ecell.Job
             }
             if (m_proxy != null)
                 m_proxy.Update();
+
+            if (JobUpdateEvent != null)
+                JobUpdateEvent(this, new EventArgs());
         }
 
         /// <summary>

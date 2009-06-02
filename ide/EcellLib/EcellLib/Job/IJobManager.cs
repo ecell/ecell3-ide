@@ -4,10 +4,19 @@ using System.Collections.Generic;
 namespace Ecell.Job
 {
     /// <summary>
+    /// EventHandler when job status is updated.
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
+    public delegate void JobUpdateEventHandler(object o, EventArgs e);
+
+    /// <summary>
     /// Interface of JobManager.
     /// </summary>
     public interface IJobManager
     {
+        event JobUpdateEventHandler JobUpdateEvent;
+
         #region Accessors
         /// <summary>
         /// get the temporary directory.

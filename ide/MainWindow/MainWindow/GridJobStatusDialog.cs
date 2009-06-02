@@ -65,6 +65,7 @@ namespace Ecell.IDE.MainWindow
             InitializeComponent();
 
             m_manager = manager;
+            m_manager.JobUpdateEvent += new JobUpdateEventHandler(UpdateJobStatus);
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -102,10 +103,12 @@ namespace Ecell.IDE.MainWindow
             }
             JobGroupTreeNode groupNode = new JobGroupTreeNode(name);
             groupNode.ContextMenuStrip = jobGroupContextMenuStrip;
+            SetImageAtJobGroupStatus(groupNode, group.Status);
             m_pointDic[analysisName].Nodes.Add(groupNode);
             foreach (Job.Job job in group.Jobs)
             {
                 JobTreeNode jobNode = new JobTreeNode(name, job.JobID.ToString());
+                SetImageAtJobStatus(jobNode, job.Status);
                 jobNode.ContextMenuStrip = jobContextMenuStrip;
                 groupNode.Nodes.Add(jobNode);
             }
@@ -150,6 +153,48 @@ namespace Ecell.IDE.MainWindow
         }
 
         #region Events
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
+        private void UpdateJobStatus(object o, EventArgs e)
+        {
+            foreach (string name in m_manager.GroupDic.Keys)
+            {
+                if (!m_pointDic.ContainsKey(name))
+                {
+                    AddJobGroup(name);
+                    continue;
+                }
+                JobTreeNode node = (JobTreeNode)m_pointDic[name];
+                JobGroup group = m_manager.GroupDic[name];
+
+                SetImageAtJobGroupStatus(node, group.Status);
+
+                foreach (Job.Job j in group.Jobs)
+                {
+                    bool isHit = false;
+                    foreach (TreeNode n in node.Nodes)
+                    {
+                        if (n.Text.Equals(j.JobID.ToString()))
+                        {
+                            SetImageAtJobStatus(n, j.Status);
+                            isHit = true;
+                            break;
+                        }
+                    }
+                    if (isHit)
+                        continue;
+
+                    JobTreeNode jn = new JobTreeNode(j.GroupName, j.JobID.ToString());
+                    jn.ContextMenuStrip = jobContextMenuStrip;
+                    SetImageAtJobStatus(jn, j.Status);
+                    node.Nodes.Add(jn);
+                }
+            }
+        }
+
         /// <summary>
         /// Execute redraw process on simulation running at every 1sec.
         /// </summary>
@@ -335,6 +380,52 @@ namespace Ecell.IDE.MainWindow
                     return MessageResources.NameStatusError;
             }
             return MessageResources.NameStatusNone;
+        }
+
+        private static void SetImageAtJobStatus(TreeNode node, JobStatus status)
+        {
+            switch (status)
+            {
+                case JobStatus.QUEUED:
+                    node.ImageIndex = 1;
+                    return;
+                case JobStatus.RUNNING:
+                    node.ImageIndex = 2;
+                    return;
+                case JobStatus.FINISHED:
+                    node.ImageIndex = 3;
+                    return;
+                case JobStatus.STOPPED:
+                    node.ImageIndex = 4;
+                    return;
+                case JobStatus.ERROR:
+                    node.ImageIndex = 5;
+                    return;
+            }
+            node.ImageIndex = 0;
+        }
+
+        private static void SetImageAtJobGroupStatus(TreeNode node, AnalysisStatus status)
+        {
+            switch (status)
+            {
+                case AnalysisStatus.Waiting:
+                    node.ImageIndex = 6;
+                    return;
+                case AnalysisStatus.Running:
+                    node.ImageIndex = 7;
+                    return;
+                case AnalysisStatus.Finished:
+                    node.ImageIndex = 8;
+                    return;
+                case AnalysisStatus.Stopped:
+                    node.ImageIndex = 9;
+                    return;
+                case AnalysisStatus.Error:
+                    node.ImageIndex = 10;
+                    return;
+            }
+            node.ImageIndex = -1;
         }
     }
 

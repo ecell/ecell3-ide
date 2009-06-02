@@ -104,7 +104,6 @@
   <ItemGroup>
     <Compile Include="Animation\AnimationConstants.cs" />
     <Compile Include="Animation\AnimationItemBase.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\AnimationSettings.cs">
       <SubType>UserControl</SubType>
@@ -113,7 +112,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\EdgeAnimatioinItem.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\EditModeSettings.cs">
       <SubType>UserControl</SubType>
@@ -123,7 +121,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\ViewModeSettings.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Components\ComponentItem.cs">
       <SubType>UserControl</SubType>
@@ -320,6 +317,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\AnimationDialog.resx">
       <DependentUpon>AnimationDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\ComponentDialog.ja.resx">
       <DependentUpon>ComponentDialog.cs</DependentUpon>

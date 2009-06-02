@@ -33,6 +33,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             System.Windows.Forms.Label label2;
             this.jobTreeView = new System.Windows.Forms.TreeView();
+            this.jobStatusImageList = new System.Windows.Forms.ImageList(this.components);
             this.parameterDataGridView = new System.Windows.Forms.DataGridView();
             this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PropValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +73,24 @@
             // jobTreeView
             // 
             resources.ApplyResources(this.jobTreeView, "jobTreeView");
+            this.jobTreeView.ImageList = this.jobStatusImageList;
             this.jobTreeView.Name = "jobTreeView";
+            // 
+            // jobStatusImageList
+            // 
+            this.jobStatusImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("jobStatusImageList.ImageStream")));
+            this.jobStatusImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.jobStatusImageList.Images.SetKeyName(0, "gear.png");
+            this.jobStatusImageList.Images.SetKeyName(1, "gear_pause.png");
+            this.jobStatusImageList.Images.SetKeyName(2, "gear_run.png");
+            this.jobStatusImageList.Images.SetKeyName(3, "gear_preferences.png");
+            this.jobStatusImageList.Images.SetKeyName(4, "gear_stop.png");
+            this.jobStatusImageList.Images.SetKeyName(5, "gear_error.png");
+            this.jobStatusImageList.Images.SetKeyName(6, "media_pause.png");
+            this.jobStatusImageList.Images.SetKeyName(7, "media_play_green.png");
+            this.jobStatusImageList.Images.SetKeyName(8, "check.png");
+            this.jobStatusImageList.Images.SetKeyName(9, "stop.png");
+            this.jobStatusImageList.Images.SetKeyName(10, "error.png");
             // 
             // parameterDataGridView
             // 
@@ -245,5 +263,6 @@
         private System.Windows.Forms.ToolStripMenuItem jobGroupStopToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem jobGroupDeleteToolStripMenuItem;
+        private System.Windows.Forms.ImageList jobStatusImageList;
     }
 }
