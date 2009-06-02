@@ -63,6 +63,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private string m_groupName;
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string GroupName
         {
             get { return this.m_groupName; }
@@ -313,7 +316,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Save the result of parameter estimation to the file.
         /// </summary>
-        /// <param name="writer">the save file name.</param>
+        /// <param name="fileName">the save file name.</param>
+        /// <param name="writer">the save filestream.</param>
         public void SaveParameterEstimationResult(string fileName, StreamWriter writer)
         {
             List<string> list = new List<string>();
@@ -332,7 +336,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Save the result of robust analysis to the file.
         /// </summary>
-        /// <param name="writer">the save file name.</param>
+        /// <param name="fileName">the save file name.</param>
+        /// <param name="writer">the save filestream.</param>
         public void SaveRobustAnalysisResult(string fileName, StreamWriter writer)
         {
 //            writer.WriteLine("#ROBUST");
@@ -364,7 +369,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Save the result of bifurcation analysis to the file.
         /// </summary>
-        /// <param name="writer">the save file name.</param>
+        /// <param name="fileName">the save file name.</param>
+        /// <param name="writer">the save filestream.</param>
         public void SaveBifurcationResult(string fileName, StreamWriter writer)
         {
             //            writer.WriteLine("#BIFURCATION");

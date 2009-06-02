@@ -140,7 +140,10 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -159,6 +162,10 @@ namespace Ecell.IDE.Plugins.Analysis
             return paramDic;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="paramDic"></param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)

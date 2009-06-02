@@ -47,6 +47,9 @@ namespace Ecell
         /// 
         /// </summary>
         public const string Script_File = TestDirectory + "1.ess";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string DM_Source_Directory = TestDirectory + "DMCompile/tmp";
         /// <summary>
         /// 

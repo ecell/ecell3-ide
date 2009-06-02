@@ -126,6 +126,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Print()
         {
             m_zCnt.DoPrint();

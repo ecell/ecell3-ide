@@ -146,9 +146,10 @@ namespace Ecell.Job
         /// <param name="jobid">job id.</param>
         /// <returns>StreamReader</returns>
         string GetStdout(string name, int jobid);
+        /// <summary>
+        /// Get the list of finished jobs.
         /// </summary>
         /// <returns>the list of jobs.</returns>
-        /// <summary>
         List<Job> GetFinishedJobList();
         /// <summary>
         /// Get the list of queued jobs.

@@ -267,6 +267,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 AddDM(d, null);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dmName"></param>
+        /// <param name="path"></param>
         public void AddDM(string dmName, string path)
         {
             DMNode dNode = new DMNode(dmName);

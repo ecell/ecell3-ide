@@ -65,6 +65,9 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void ClearResult()
         {
             SACCCGridView.Rows.Clear();
@@ -197,6 +200,11 @@ namespace Ecell.IDE.Plugins.Analysis
             SAFCCGridView.Rows.Add(r);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="fileName"></param>
         public void SaveSensitivityAnalysisResult(StreamWriter writer, string fileName)
         {
             List<string> list = new List<string>();

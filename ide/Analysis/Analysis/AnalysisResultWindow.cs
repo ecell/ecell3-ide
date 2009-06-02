@@ -84,6 +84,10 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<EcellDockContent> GetWindowsForms()
         {
             m_graphContent = new EcellDockContent();

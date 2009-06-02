@@ -525,7 +525,7 @@ namespace Ecell.Job
             }
             j.PrepareProcess();
 
-            if (m_timer.Enabled = false)
+            if (m_timer.Enabled == false)
             {
                 Update();
                 m_timer.Enabled = true;

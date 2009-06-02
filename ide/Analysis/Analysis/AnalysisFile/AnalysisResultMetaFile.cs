@@ -131,6 +131,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// </summary>
         /// <param name="path"></param>
         /// <param name="analysisName"></param>
+        /// <param name="labels"></param>
         public static void CreateGenerationData(string path, string analysisName, List<string> labels)
         {
             try
@@ -149,6 +150,13 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="analysisName"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public static bool LoadFile(string fileName, out string analysisName, out List<string> result)
         {
             analysisName = null;

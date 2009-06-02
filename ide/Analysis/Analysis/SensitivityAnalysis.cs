@@ -203,7 +203,6 @@ namespace Ecell.IDE.Plugins.Analysis
                     case s_step:
                         m_param.Step = Int32.Parse(paramDic[key]);
                         break;
-                        break;
                     case s_relativePert:
                         m_param.RelativePerturbation = Double.Parse(paramDic[key]);
                         break;
