@@ -141,4 +141,7 @@
   <data name="edgeBox.Text" xml:space="preserve">
     <value>エッジのアニメーション</value>
   </data>
+  <data name="MenuItem.Text" xml:space="preserve">
+    <value>エッジのアニメーションを追加</value>
+  </data>
 </root>

@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -54,6 +55,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         protected DataManager _dManager;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ToolStripMenuItem _menuItem;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public ToolStripMenuItem MenuItem
+        {
+            get { return _menuItem; }
+            set { _menuItem = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -81,36 +98,44 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
+            this._menuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SuspendLayout();
             // 
-            // AnimationItem
+            // MenuItem
             // 
-            this.Name = "AnimationItem";
+            this._menuItem.Name = "MenuItem";
+            this._menuItem.Size = new System.Drawing.Size(32, 19);
+            this._menuItem.Text = "MenuItem";
+            // 
+            // AnimationItemBase
+            // 
+            this.AutoScroll = true;
+            this.Name = "AnimationItemBase";
             this.Size = new System.Drawing.Size(369, 320);
             this.ResumeLayout(false);
+
         }
         #endregion
-
 
         #region IAnimationItem メンバ
         /// <summary>
         /// 
         /// </summary>
-        public virtual void SetPropForSimulation()
+        public virtual void SetProperty()
         {
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void UpdatePropForSimulation()
+        public virtual void UpdateProperty()
         {
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void ResetPropForSimulation()
+        public virtual void ResetProperty()
         {
         }
 
@@ -126,6 +151,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public virtual void ApplyChange()
         {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.Name;
         }
         #endregion
 

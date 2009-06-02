@@ -110,11 +110,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="canvas"></param>
-        public EdgeAnimatioinItem(CanvasControl canvas)
+        /// <param name="control"></param>
+        public EdgeAnimatioinItem(AnimationControl control)
             : this()
         {
-            _canvas = canvas;
+            _control = control;
         }
 
         /// <summary>
@@ -231,7 +231,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
         #endregion
 
@@ -239,7 +238,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void SetPropForSimulation()
+        public override void SetProperty()
         {
             // Set canvas
             _canvas = _control.Canvas;
@@ -268,7 +267,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void UpdatePropForSimulation()
+        public override void UpdateProperty()
         {
             foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
@@ -311,7 +310,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void ResetPropForSimulation()
+        public override void ResetProperty()
         {
             Brush editEdgeBrush = _control.EditEdgeBrush;
             float normalEdgeWidth = _control.EdgeWidth;
@@ -356,7 +355,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _ngEdgeBrush = edgeNGBrush.Brush;
 
             if (_control.DoesAnimationOnGoing)
-                UpdatePropForSimulation();
+                UpdateProperty();
 
         }
         #endregion

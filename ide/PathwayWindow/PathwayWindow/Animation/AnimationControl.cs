@@ -39,6 +39,7 @@ using AviFile;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Collections.Generic;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -553,6 +554,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _canvas = _con.Canvas;
             _canvas.BackGroundBrush = _viewBGBrush;
             _format = _con.Window.DataManager.DisplayStringFormat;
+            //
+            foreach (IAnimationItem item in _items)
+            {
+                item.SetProperty();
+            }
+
+            //
             foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
                 process.ViewMode = true;
@@ -600,6 +608,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if (_canvas == null)
                 return;
+            //
+            foreach (IAnimationItem item in _items)
+            {
+                item.UpdateProperty();
+            }
+
+            //
             foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
                 if (!process.Visible)
@@ -659,6 +674,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (_canvas == null)
                 return;
             _canvas.BackGroundBrush = _editBGBrush;
+
+            //
+            foreach (IAnimationItem item in _items)
+            {
+                item.ResetProperty();
+            }
+
             // Reset objects.
             foreach (PPathwayObject obj in _canvas.GetAllObjects())
                 obj.Refresh();
@@ -889,6 +911,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             else if (activity >= _thresholdHigh)
                 return _highEdgeBrush;
             return _viewEdgeBrush;
+        }
+
+        internal void ShowDialog()
+        {
+            AnimationDialog dlg = new AnimationDialog(this);
+            using (dlg)
+            {
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+                dlg.ApplyChange();
+            }
         }
     }
 }

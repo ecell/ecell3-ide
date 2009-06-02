@@ -1320,13 +1320,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void AnimationSettingClick(object sender, EventArgs e)
         {
-            AnimationDialog dlg = new AnimationDialog();
-            using (dlg)
-            {
-                if (dlg.ShowDialog() != DialogResult.OK)
-                    return;
-                dlg.ApplyChange();
-            }
+            m_con.Animation.ShowDialog();
         }
 
         /// <summary>

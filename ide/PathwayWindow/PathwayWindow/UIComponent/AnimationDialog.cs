@@ -35,10 +35,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             : this()
         {
             this._control = control;
-            foreach (IAnimationItem item in control.Items)
+            List<IAnimationItem> items =  control.Items;
+            foreach (IAnimationItem item in items)
             {
+                item.SetViewItem();
                 listBox.Items.Add(item);
             }
+            if (items.Count > 0)
+                this.panel.Controls.Add((AnimationItemBase)items[0]);
         }
         #endregion
 
@@ -61,9 +65,49 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         internal void ApplyChange()
         {
+            foreach (IAnimationItem item in _control.Items)
+            {
+                item.ApplyChange();
+            }
+        }
 
+        private void addPropertyViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addNodeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addEdgeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddItem(new EdgeAnimatioinItem(_control));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        public void AddItem(IAnimationItem item)
+        {
+            AnimationItemBase obj = (AnimationItemBase)item;
+            _control.Items.Add(obj);
+            this.listBox.Items.Add(obj);
+            this.panel.Controls.Clear();
+            this.panel.Controls.Add(obj);
+        }
+
+        private void AnimationDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.listBox.Items.Clear();
+            this.panel.Controls.Clear();
         }
     }
 }
