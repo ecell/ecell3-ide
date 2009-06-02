@@ -205,6 +205,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Animation Setting... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuAnimationSetting {
+            get {
+                return ResourceManager.GetString("CanvasMenuAnimationSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Set opposite direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuAnotherArrow {

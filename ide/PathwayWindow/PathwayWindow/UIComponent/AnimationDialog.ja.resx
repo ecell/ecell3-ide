@@ -133,6 +133,27 @@
   <data name="buttonCancel.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="addEdgeAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="addEdgeAnimationToolStripMenuItem.Text" xml:space="preserve">
+    <value>エッジアニメーションの追加</value>
+  </data>
+  <data name="addNodeAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="addNodeAnimationToolStripMenuItem.Text" xml:space="preserve">
+    <value>エンティティアニメーションの追加</value>
+  </data>
+  <data name="addPropertyViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="addPropertyViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>プロパティ表示の追加</value>
+  </data>
+  <data name="contextMenuAddItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 70</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>アニメーション設定</value>
   </data>

@@ -38,6 +38,7 @@ using System.Xml;
 using AviFile;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using System.Collections.Generic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -58,102 +59,104 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region Fields
+
+        private List<IAnimationItem> _items = new List<IAnimationItem>();
         /// <summary>
         /// High threshold of edge animation.
         /// </summary>
-        private float m_thresholdHigh = 100f;
+        private float _thresholdHigh = 100f;
         /// <summary>
         /// Low threshold of edge animation.
         /// </summary>
-        private float m_thresholdLow = 0f;
+        private float _thresholdLow = 0f;
         /// <summary>
         /// Normal edge width.
         /// </summary>
-        private float m_normalEdgeWidth = PPathwayLine.LINE_WIDTH;
+        private float _normalEdgeWidth = PPathwayLine.LINE_WIDTH;
         /// <summary>
         /// Max edge width on edge animation.
         /// </summary>
-        private float m_maxEdgeWidth = 20f;
+        private float _maxEdgeWidth = 20f;
         /// <summary>
         /// CanvasBrush on EditMode.
         /// </summary>
-        private Brush m_editBGBrush = Brushes.White;
+        private Brush _editBGBrush = Brushes.White;
         /// <summary>
         /// Edge brush on EditMode.
         /// </summary>
-        private Brush m_editEdgeBrush = Brushes.Black;
+        private Brush _editEdgeBrush = Brushes.Black;
         /// <summary>
         /// CanvasBrush on ViewMode.
         /// </summary>
-        private Brush m_viewBGBrush = Brushes.White;
+        private Brush _viewBGBrush = Brushes.White;
         /// <summary>
         /// Edge brush on ViewMode.
         /// </summary>
-        private Brush m_viewEdgeBrush = Brushes.LightGreen;
+        private Brush _viewEdgeBrush = Brushes.LightGreen;
         /// <summary>
         /// Low threshold edge brush on ViewMode.
         /// </summary>
-        private Brush m_lowEdgeBrush = Brushes.Gray;
+        private Brush _lowEdgeBrush = Brushes.Gray;
         /// <summary>
         /// High threshold edge brush on ViewMode.
         /// </summary>
-        private Brush m_highEdgeBrush = Brushes.Yellow;
+        private Brush _highEdgeBrush = Brushes.Yellow;
         /// <summary>
         /// NG edge brush on ViewMode.
         /// </summary>
-        private Brush m_ngEdgeBrush = Brushes.Red;
+        private Brush _ngEdgeBrush = Brushes.Red;
         /// <summary>
         /// Label brush on ViewMode.
         /// </summary>
-        private Brush m_propBrush = Brushes.Blue;
+        private Brush _propBrush = Brushes.Blue;
         /// <summary>
         /// 
         /// </summary>
-        private string m_format = "";
+        private string _format = "";
         /// <summary>
         /// 
         /// </summary>
-        private bool m_autoThreshold = false;
+        private bool _autoThreshold = false;
         /// <summary>
         /// 
         /// </summary>
-        private bool m_isRecordMovie = false;
+        private bool _isRecordMovie = false;
         /// <summary>
         /// Movie File
         /// </summary>
-        private string m_movieFile = "ecell.avi";
+        private string _movieFile = "ecell.avi";
         /// <summary>
         /// 
         /// </summary>
-        private AviManager m_aviManager = null;
+        private AviManager _aviManager = null;
         /// <summary>
         /// 
         /// </summary>
-        private VideoStream m_stream = null;
+        private VideoStream _stream = null;
         #endregion
 
         #region Object Fields
         /// <summary>
         /// PathwayControl.
         /// </summary>
-        protected PathwayControl m_con = null;
+        protected PathwayControl _con = null;
         /// <summary>
         /// CanvasControl.
         /// </summary>
-        protected CanvasControl m_canvas = null;
+        protected CanvasControl _canvas = null;
         /// <summary>
         /// DataManager
         /// </summary>
-        DataManager m_dManager = null;
+        DataManager _dManager = null;
         /// <summary>
         /// EventTimer for animation.
         /// </summary>
-        private Timer m_timer;
+        private Timer _timer;
 
         /// <summary>
         /// EventFlag isPausing
         /// </summary>
-        private bool m_isPausing = false;
+        private bool _isPausing = false;
         #endregion
 
         #region Accessors
@@ -162,7 +165,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public PathwayControl Control
         {
-            get { return m_con; }
+            get { return _con; }
         }
 
         /// <summary>
@@ -170,15 +173,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public CanvasControl Canvas
         {
-            get { return m_con.Canvas; }
+            get { return _con.Canvas; }
         }
 
         /// <summary>
         /// 
         /// </summary>
+        public List<IAnimationItem> Items
+        {
+            get { return _items; }
+            set { _items = value; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public bool DoesAnimationOnGoing
         {
-            get { return (m_con.ProjectStatus == ProjectStatus.Running || m_con.ProjectStatus == ProjectStatus.Stepping || m_con.ProjectStatus == ProjectStatus.Suspended); }
+            get { return (_con.ProjectStatus == ProjectStatus.Running || _con.ProjectStatus == ProjectStatus.Stepping || _con.ProjectStatus == ProjectStatus.Suspended); }
         }
 
         /// <summary>
@@ -186,8 +197,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public float ThresholdHigh
         {
-            get { return m_thresholdHigh; }
-            set { m_thresholdHigh = value; }
+            get { return _thresholdHigh; }
+            set { _thresholdHigh = value; }
         }
 
         /// <summary>
@@ -195,8 +206,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public float ThresholdLow
         {
-            get { return m_thresholdLow; }
-            set { m_thresholdLow = value; }
+            get { return _thresholdLow; }
+            set { _thresholdLow = value; }
         }
 
         /// <summary>
@@ -204,8 +215,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public float EdgeWidth
         {
-            get { return m_normalEdgeWidth; }
-            set { m_normalEdgeWidth = value; }
+            get { return _normalEdgeWidth; }
+            set { _normalEdgeWidth = value; }
         }
 
         /// <summary>
@@ -213,8 +224,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public float MaxEdgeWidth
         {
-            get { return m_maxEdgeWidth; }
-            set { m_maxEdgeWidth = value; }
+            get { return _maxEdgeWidth; }
+            set { _maxEdgeWidth = value; }
         }
 
         /// <summary>
@@ -236,8 +247,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush EditBGBrush
         {
-            get { return m_editBGBrush; }
-            set { m_editBGBrush = value; }
+            get { return _editBGBrush; }
+            set { _editBGBrush = value; }
         }
 
         /// <summary>
@@ -245,8 +256,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush ViewBGBrush
         {
-            get { return m_viewBGBrush; }
-            set { m_viewBGBrush = value; }
+            get { return _viewBGBrush; }
+            set { _viewBGBrush = value; }
         }
 
         /// <summary>
@@ -268,8 +279,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush EditEdgeBrush
         {
-            get { return m_editEdgeBrush; }
-            set { m_editEdgeBrush = value; }
+            get { return _editEdgeBrush; }
+            set { _editEdgeBrush = value; }
         }
 
         /// <summary>
@@ -277,8 +288,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush ViewEdgeBrush
         {
-            get { return m_viewEdgeBrush; }
-            set { m_viewEdgeBrush = value; }
+            get { return _viewEdgeBrush; }
+            set { _viewEdgeBrush = value; }
         }
 
         /// <summary>
@@ -286,8 +297,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush LowEdgeBrush
         {
-            get { return m_lowEdgeBrush; }
-            set { m_lowEdgeBrush = value; }
+            get { return _lowEdgeBrush; }
+            set { _lowEdgeBrush = value; }
         }
 
         /// <summary>
@@ -295,8 +306,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush HighEdgeBrush
         {
-            get { return m_highEdgeBrush; }
-            set { m_highEdgeBrush = value; }
+            get { return _highEdgeBrush; }
+            set { _highEdgeBrush = value; }
         }
 
         /// <summary>
@@ -304,8 +315,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush NgEdgeBrush
         {
-            get { return m_ngEdgeBrush; }
-            set { m_ngEdgeBrush = value; }
+            get { return _ngEdgeBrush; }
+            set { _ngEdgeBrush = value; }
         }
 
         /// <summary>
@@ -313,8 +324,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public Brush PropertyBrush
         {
-            get { return m_propBrush; }
-            set { m_propBrush = value; }
+            get { return _propBrush; }
+            set { _propBrush = value; }
         }
 
         /// <summary>
@@ -322,24 +333,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public bool AutoThreshold
         {
-            get { return m_autoThreshold; }
-            set { m_autoThreshold = value; }
+            get { return _autoThreshold; }
+            set { _autoThreshold = value; }
         }
         /// <summary>
         /// Get/Set m_isRecordMovie
         /// </summary>
         public bool DoesRecordMovie
         {
-            get { return m_isRecordMovie; }
-            set { m_isRecordMovie = value; }
+            get { return _isRecordMovie; }
+            set { _isRecordMovie = value; }
         }
         /// <summary>
         /// Get/Set m_movieFile
         /// </summary>
         public string AviFile
         {
-            get { return m_movieFile; }
-            set { m_movieFile = value; }
+            get { return _movieFile; }
+            set { _movieFile = value; }
         }
         /// <summary>
         /// get PropertyDialogTabPage for Animation settings.
@@ -365,23 +376,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="control"></param>
         public AnimationControl(PathwayControl control)
         {
-            m_con = control;
-            m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
-            m_con.ProjectStatusChange += new EventHandler(m_con_ProjectStatusChange);
-            m_con.AnimationChange += new EventHandler(m_con_AnimationChange);
+            _con = control;
+            _con.CanvasChange += new EventHandler(m_con_CanvasChange);
+            _con.ProjectStatusChange += new EventHandler(m_con_ProjectStatusChange);
+            _con.AnimationChange += new EventHandler(m_con_AnimationChange);
             LoadSettings();
-            m_dManager = m_con.Window.DataManager;
+            _dManager = _con.Window.DataManager;
             // Set Timer.
-            m_timer = new Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 200;
-            m_timer.Tick += new EventHandler(TimerFire);
+            _timer = new Timer();
+            _timer.Enabled = false;
+            _timer.Interval = 200;
+            _timer.Tick += new EventHandler(TimerFire);
         }
 
         void m_con_AnimationChange(object sender, EventArgs e)
         {
-            if (m_con.IsAnimation)
-                SetSimulation(m_con.ProjectStatus);
+            if (_con.IsAnimation)
+                SetSimulation(_con.ProjectStatus);
             else
                 StopSimulation();
         }
@@ -392,7 +403,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void Dispose()
         {
             StopSimulation();
-            m_con.ProjectStatusChange -= m_con_ProjectStatusChange;
+            _con.ProjectStatusChange -= m_con_ProjectStatusChange;
         }
 
         #endregion
@@ -405,7 +416,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e"></param>
         void m_con_CanvasChange(object sender, EventArgs e)
         {
-            m_canvas = m_con.Canvas;
+            _canvas = _con.Canvas;
         }
 
         /// <summary>
@@ -415,7 +426,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e"></param>
         void m_con_ProjectStatusChange(object sender, EventArgs e)
         {
-            ProjectStatus status = m_con.ProjectStatus;
+            ProjectStatus status = _con.ProjectStatus;
             // When simulation started.
             SetSimulation(status);
         }
@@ -449,43 +460,43 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e">EventArgs</param>
         public void TimerFire(object sender, EventArgs e)
         {
-            m_timer.Enabled = false;
+            _timer.Enabled = false;
             UpdatePropForSimulation();
-            m_timer.Enabled = true;
+            _timer.Enabled = true;
         }
         /// <summary>
         /// Start Simulation
         /// </summary>
         public void StartSimulation()
         {
-            if(!m_con.IsAnimation)
+            if(!_con.IsAnimation)
                 return;
-            if (m_autoThreshold)
-                m_thresholdHigh = 0f;
+            if (_autoThreshold)
+                _thresholdHigh = 0f;
             SetPropForSimulation();
             // Avi
-            if (m_isRecordMovie && m_aviManager == null)
+            if (_isRecordMovie && _aviManager == null)
             {
                 try
                 {
                     // Delete File.
-                    if (File.Exists(m_movieFile))
-                        File.Delete(m_movieFile);
+                    if (File.Exists(_movieFile))
+                        File.Delete(_movieFile);
                     // Create Movie.
-                    m_aviManager = new AviManager(m_movieFile, false);
-                    Bitmap bmp = new Bitmap(m_canvas.PCanvas.Camera.ToImage(640, 480, m_canvas.BackGroundBrush));
-                    m_stream = m_aviManager.AddVideoStream(false, 10, bmp);
+                    _aviManager = new AviManager(_movieFile, false);
+                    Bitmap bmp = new Bitmap(_canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush));
+                    _stream = _aviManager.AddVideoStream(false, 10, bmp);
                 }
                 catch(Exception e)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
-                    m_isRecordMovie = false;
-                    m_stream = null;
-                    m_aviManager = null;
+                    _isRecordMovie = false;
+                    _stream = null;
+                    _aviManager = null;
                 }
             }
             TimerStart();
-            m_isPausing = true;
+            _isPausing = true;
 
         }
         /// <summary>
@@ -494,7 +505,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void PauseSimulation()
         {
             TimerStop();
-            m_isPausing = true;
+            _isPausing = true;
         }
         /// <summary>
         /// Stop Simulation
@@ -503,13 +514,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             TimerStop();
             ResetPropForSimulation();
-            m_isPausing = false;
-            if (m_aviManager != null)
+            _isPausing = false;
+            if (_aviManager != null)
             {
                 //m_stream.Close();
-                m_aviManager.Close();
-                m_aviManager = null;
-                m_stream = null;
+                _aviManager.Close();
+                _aviManager = null;
+                _stream = null;
             }
         }
         /// <summary>
@@ -517,17 +528,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void TimerStart()
         {
-            m_isPausing = false;
-            m_timer.Enabled = true;
-            m_timer.Start();
+            _isPausing = false;
+            _timer.Enabled = true;
+            _timer.Start();
         }
         /// <summary>
         /// Stop Timer.
         /// </summary>
         public void TimerStop()
         {
-            m_timer.Enabled = false;
-            m_timer.Stop();
+            _timer.Enabled = false;
+            _timer.Stop();
         }
         #endregion
 
@@ -537,12 +548,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void SetPropForSimulation()
         {
-            if (m_con.Canvas == null)
+            if (_con.Canvas == null)
                 return;
-            m_canvas = m_con.Canvas;
-            m_canvas.BackGroundBrush = m_viewBGBrush;
-            m_format = m_con.Window.DataManager.DisplayStringFormat;
-            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            _canvas = _con.Canvas;
+            _canvas.BackGroundBrush = _viewBGBrush;
+            _format = _con.Window.DataManager.DisplayStringFormat;
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
                 process.ViewMode = true;
                 if (!process.Visible)
@@ -550,23 +561,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Line setting.
                 foreach (PPathwayLine line in process.Relations)
                 {
-                    line.EdgeBrush = m_viewEdgeBrush;
+                    line.EdgeBrush = _viewEdgeBrush;
                 }
                 // Set threshold
                 float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                if (m_autoThreshold)
+                if (_autoThreshold)
                     SetThreshold(activity);
             }
-            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            foreach (PPathwayVariable variable in _canvas.Variables.Values)
             {
                 if (!variable.Visible)
                     continue;
                 variable.MoveToFront();
                 variable.PPropertyText.Visible = true;
-                variable.PPropertyText.TextBrush = m_propBrush;
+                variable.PPropertyText.TextBrush = _propBrush;
                 variable.PPropertyText.MoveToFront();
             }
-            if (m_isPausing)
+            if (_isPausing)
                 UpdatePropForSimulation();
         }
 
@@ -576,10 +587,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="activity"></param>
         private void SetThreshold(float activity)
         {
-            if (activity > m_thresholdHigh)
-                m_thresholdHigh = activity;
-            if (activity < m_thresholdLow)
-                m_thresholdLow = activity;
+            if (activity > _thresholdHigh)
+                _thresholdHigh = activity;
+            if (activity < _thresholdLow)
+                _thresholdLow = activity;
         }
 
         /// <summary>
@@ -587,9 +598,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void UpdatePropForSimulation()
         {
-            if (m_canvas == null)
+            if (_canvas == null)
                 return;
-            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
                 if (!process.Visible)
                     continue;
@@ -605,10 +616,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                         line.SetEdge(brush, width);
                 }
                 // Set threshold
-                if (m_autoThreshold)
+                if (_autoThreshold)
                     SetThreshold(activity);
             }
-            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            foreach (PPathwayVariable variable in _canvas.Variables.Values)
             {
                 if (!variable.Visible)
                     continue;
@@ -617,7 +628,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 float width = GetEdgeWidth(molerConc);
                 Brush brush = GetEdgeBrush(molerConc);
 
-                variable.PPropertyText.Text = molerConc.ToString(m_format);
+                variable.PPropertyText.Text = molerConc.ToString(_format);
                 // Set Effector.
                 foreach (PPathwayLine line in variable.Relations)
                 {
@@ -626,16 +637,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 }
 
             }
-            m_canvas.PCanvas.Refresh();
+            _canvas.PCanvas.Refresh();
 
             // write video stream.
-            if (m_stream != null)
+            if (_stream != null)
             {
                 Bitmap bmp = new Bitmap(
-                    m_canvas.PCanvas.Camera.ToImage(640, 480, m_canvas.BackGroundBrush),
-                    m_stream.Width,
-                    m_stream.Height);
-                m_stream.AddFrame(bmp);
+                    _canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush),
+                    _stream.Width,
+                    _stream.Height);
+                _stream.AddFrame(bmp);
             }
         }
 
@@ -645,13 +656,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void ResetPropForSimulation()
         {
             TimerStop();
-            if (m_canvas == null)
+            if (_canvas == null)
                 return;
-            m_canvas.BackGroundBrush = m_editBGBrush;
+            _canvas.BackGroundBrush = _editBGBrush;
             // Reset objects.
-            foreach (PPathwayObject obj in m_canvas.GetAllObjects())
+            foreach (PPathwayObject obj in _canvas.GetAllObjects())
                 obj.Refresh();
-            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
                 if (!process.Visible)
                     continue;
@@ -659,10 +670,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 process.ViewMode = false;
                 foreach (PPathwayLine line in process.Relations)
                 {
-                    line.SetEdge(m_editEdgeBrush, m_normalEdgeWidth);
+                    line.SetEdge(_editEdgeBrush, _normalEdgeWidth);
                 }
             }
-            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            foreach (PPathwayVariable variable in _canvas.Variables.Values)
             {
                 if (!variable.Visible)
                     continue;
@@ -701,23 +712,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 xmlOut.WriteAttributeString(AnimationConstants.xPathName, Application.ProductName);
                 xmlOut.WriteAttributeString(AnimationConstants.xPathFileVersion, AnimationConstants.xPathVersion);
                 // Save settings.
-                xmlOut.WriteElementString(AnimationConstants.xPathHighQuality, m_con.HighQuality.ToString());
-                xmlOut.WriteElementString(AnimationConstants.xPathEditBGBrush, BrushManager.ParseBrushToString(m_editBGBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathEditEdgeBrush, BrushManager.ParseBrushToString(m_editEdgeBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathNormalEdgeWidth, m_normalEdgeWidth.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathHighQuality, _con.HighQuality.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathEditBGBrush, BrushManager.ParseBrushToString(_editBGBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathEditEdgeBrush, BrushManager.ParseBrushToString(_editEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathNormalEdgeWidth, _normalEdgeWidth.ToString());
 
-                xmlOut.WriteElementString(AnimationConstants.xPathViewBGBrush, BrushManager.ParseBrushToString(m_viewBGBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathViewEdgeBrush, BrushManager.ParseBrushToString(m_viewEdgeBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathMaxEdgeWidth, m_maxEdgeWidth.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathViewBGBrush, BrushManager.ParseBrushToString(_viewBGBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathViewEdgeBrush, BrushManager.ParseBrushToString(_viewEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathMaxEdgeWidth, _maxEdgeWidth.ToString());
 
-                xmlOut.WriteElementString(AnimationConstants.xPathHighEdgeBrush, BrushManager.ParseBrushToString(m_highEdgeBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathLowEdgeBrush, BrushManager.ParseBrushToString(m_lowEdgeBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathAutoThreshold, m_autoThreshold.ToString());
-                xmlOut.WriteElementString(AnimationConstants.xPathThresholdHigh, m_thresholdHigh.ToString());
-                xmlOut.WriteElementString(AnimationConstants.xPathThresholdLow, m_thresholdLow.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathHighEdgeBrush, BrushManager.ParseBrushToString(_highEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathLowEdgeBrush, BrushManager.ParseBrushToString(_lowEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathAutoThreshold, _autoThreshold.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathThresholdHigh, _thresholdHigh.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathThresholdLow, _thresholdLow.ToString());
 
-                xmlOut.WriteElementString(AnimationConstants.xPathNGEdgeBrush, BrushManager.ParseBrushToString(m_ngEdgeBrush));
-                xmlOut.WriteElementString(AnimationConstants.xPathPropertyBrush, BrushManager.ParseBrushToString(m_propBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathNGEdgeBrush, BrushManager.ParseBrushToString(_ngEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathPropertyBrush, BrushManager.ParseBrushToString(_propBrush));
 
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
@@ -757,59 +768,59 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 {
                     // EditBGBrush
                     case AnimationConstants.xPathEditBGBrush:
-                        m_editBGBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _editBGBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // EditEdgeBrush
                     case AnimationConstants.xPathEditEdgeBrush:
-                        m_editEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _editEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // NormalEdgeWidth
                     case AnimationConstants.xPathNormalEdgeWidth:
-                        m_normalEdgeWidth = float.Parse(setting.InnerText);
+                        _normalEdgeWidth = float.Parse(setting.InnerText);
                         break;
                     // ViewBGBrush
                     case AnimationConstants.xPathViewBGBrush:
-                        m_viewBGBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _viewBGBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // ViewEdgeBrush
                     case AnimationConstants.xPathViewEdgeBrush:
-                        m_viewEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _viewEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // MaxEdgeWidth
                     case AnimationConstants.xPathMaxEdgeWidth:
-                        m_maxEdgeWidth = float.Parse(setting.InnerText);
+                        _maxEdgeWidth = float.Parse(setting.InnerText);
                         break;
                     // HighEdgeBrush
                     case AnimationConstants.xPathHighEdgeBrush:
-                        m_highEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _highEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // LowEdgeBrush
                     case AnimationConstants.xPathLowEdgeBrush:
-                        m_lowEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _lowEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // ThresholdHigh
                     case AnimationConstants.xPathThresholdHigh:
-                        m_thresholdHigh = float.Parse(setting.InnerText);
+                        _thresholdHigh = float.Parse(setting.InnerText);
                         break;
                     // ThresholdLow
                     case AnimationConstants.xPathThresholdLow:
-                        m_thresholdLow = float.Parse(setting.InnerText);
+                        _thresholdLow = float.Parse(setting.InnerText);
                         break;
                     // NGEdgeBrush
                     case AnimationConstants.xPathNGEdgeBrush:
-                        m_ngEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _ngEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // PropertyBrush
                     case AnimationConstants.xPathPropertyBrush:
-                        m_propBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        _propBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
                     // AutoThreshold
                     case AnimationConstants.xPathAutoThreshold:
-                        m_autoThreshold = bool.Parse(setting.InnerText);
+                        _autoThreshold = bool.Parse(setting.InnerText);
                         break;
                     // AutoThreshold
                     case AnimationConstants.xPathHighQuality:
-                        m_con.HighQuality = bool.Parse(setting.InnerText);
+                        _con.HighQuality = bool.Parse(setting.InnerText);
                         break;
                 }
             }
@@ -840,7 +851,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float num = 0.0f;
             try
             {
-                num = (float)m_dManager.GetPropertyValue(fullPN);
+                num = (float)_dManager.GetPropertyValue(fullPN);
             }
             catch (Exception e)
             {
@@ -858,11 +869,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if (float.IsNaN(activity))
                 return 0f;
-            else if (activity <= m_thresholdLow || m_thresholdHigh == 0f)
+            else if (activity <= _thresholdLow || _thresholdHigh == 0f)
                 return 0f;
-            else if (activity >= m_thresholdHigh)
-                return m_maxEdgeWidth;
-            return m_maxEdgeWidth * activity / m_thresholdHigh;
+            else if (activity >= _thresholdHigh)
+                return _maxEdgeWidth;
+            return _maxEdgeWidth * activity / _thresholdHigh;
         }
         /// <summary>
         /// Get line color
@@ -872,12 +883,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private Brush GetEdgeBrush(float activity)
         {
             if (float.IsNaN(activity) || float.IsInfinity(activity))
-                return m_ngEdgeBrush;
-            else if (activity <= m_thresholdLow)
-                return m_lowEdgeBrush;
-            else if (activity >= m_thresholdHigh)
-                return m_highEdgeBrush;
-            return m_viewEdgeBrush;
+                return _ngEdgeBrush;
+            else if (activity <= _thresholdLow)
+                return _lowEdgeBrush;
+            else if (activity >= _thresholdHigh)
+                return _highEdgeBrush;
+            return _viewEdgeBrush;
         }
     }
 }

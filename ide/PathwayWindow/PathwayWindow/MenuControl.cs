@@ -124,6 +124,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripMoveFront;
         private ToolStripMenuItem toolStripMoveBack;
         private ToolStripMenuItem toolStripFigureSetting;
+        private ToolStripMenuItem toolStripAnimationSetting;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem toolStripOneWayArrow;
         private ToolStripMenuItem toolStripProperty;
@@ -262,6 +263,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripMoveFront = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveBack = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripFigureSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripAnimationSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripProperty = new System.Windows.Forms.ToolStripMenuItem();
             this.toolButton = new System.Windows.Forms.ToolStrip();
@@ -317,6 +319,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripMoveFront,
             this.toolStripMoveBack,
             this.toolStripFigureSetting,
+            this.toolStripAnimationSetting,
             this.toolStripSeparator3,
             this.commonMenu.loggingToolStripMenuItem,
             this.commonMenu.observedToolStripMenuItem,
@@ -476,12 +479,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveBack;
             this.toolStripMoveBack.Click += new System.EventHandler(this.MoveToBackClick);
             // 
-            // toolStripMoveBack
+            // toolStripFigureSetting
             // 
             this.toolStripFigureSetting.Name = "toolStripFigureSetting";
             this.toolStripFigureSetting.Size = new System.Drawing.Size(271, 22);
             this.toolStripFigureSetting.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuFigureSetting;
             this.toolStripFigureSetting.Click += new System.EventHandler(this.FigureSettingClick);
+            // 
+            // toolStripAnimationSetting
+            // 
+            this.toolStripAnimationSetting.Name = "toolStripAnimationSetting";
+            this.toolStripAnimationSetting.Size = new System.Drawing.Size(271, 22);
+            this.toolStripAnimationSetting.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAnimationSetting;
+            this.toolStripAnimationSetting.Click += new System.EventHandler(this.AnimationSettingClick);
             // 
             // toolStripSeparator3
             // 
@@ -1300,6 +1310,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 dlg.ApplyChange();
                 obj.Setting = cs;
                 m_con.ComponentManager.RegisterSetting(cs);
+            }
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AnimationSettingClick(object sender, EventArgs e)
+        {
+            AnimationDialog dlg = new AnimationDialog();
+            using (dlg)
+            {
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+                dlg.ApplyChange();
             }
         }
 

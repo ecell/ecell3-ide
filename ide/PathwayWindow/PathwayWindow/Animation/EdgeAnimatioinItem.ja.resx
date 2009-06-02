@@ -117,28 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="autoThresholdCheckBox.LabelText" xml:space="preserve">
-    <value>しきい値の自動設定</value>
-  </data>
-  <data name="edgeBox.Text" xml:space="preserve">
-    <value>エッジのアニメーション</value>
+  <data name="edgeLabel.Text" xml:space="preserve">
+    <value>ProcessのMolerActivityに最大、最小のしきい値を設定してください。しきい値を超えたProcessのエッジは色が変わります。</value>
   </data>
   <data name="edgeHighBrush.LabelText" xml:space="preserve">
     <value>矢印の色</value>
   </data>
-  <data name="edgeLabel.Text" xml:space="preserve">
-    <value>ProcessのMolerActivityに最大、最小のしきい値を設定してください。しきい値を超えたProcessのエッジは色が変わります。</value>
-  </data>
   <data name="edgeLowBrush.LabelText" xml:space="preserve">
     <value>矢印の色</value>
   </data>
-  <data name="edgeNGBrush.LabelText" xml:space="preserve">
-    <value>エラー色</value>
+  <data name="autoThresholdCheckBox.LabelText" xml:space="preserve">
+    <value>しきい値の自動設定</value>
   </data>
   <data name="thresholdHigh.LabelText" xml:space="preserve">
     <value>上限値</value>
   </data>
   <data name="thresholdLow.LabelText" xml:space="preserve">
     <value>下限値</value>
+  </data>
+  <data name="edgeNGBrush.LabelText" xml:space="preserve">
+    <value>エラー色</value>
+  </data>
+  <data name="edgeBox.Text" xml:space="preserve">
+    <value>エッジのアニメーション</value>
   </data>
 </root>

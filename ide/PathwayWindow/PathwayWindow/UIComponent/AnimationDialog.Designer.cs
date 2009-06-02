@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationDialog));
             this.listBox = new System.Windows.Forms.ListBox();
             this.buttonAdd = new System.Windows.Forms.Button();
@@ -36,6 +37,11 @@
             this.panel = new System.Windows.Forms.Panel();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.contextMenuAddItem = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addEdgeAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNodeAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addPropertyViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuAddItem.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox
@@ -76,6 +82,7 @@
             this.labelItems.AccessibleDescription = null;
             this.labelItems.AccessibleName = null;
             resources.ApplyResources(this.labelItems, "labelItems");
+            this.labelItems.BackColor = System.Drawing.Color.Transparent;
             this.labelItems.Font = null;
             this.labelItems.Name = "labelItems";
             // 
@@ -94,6 +101,7 @@
             this.buttonOK.AccessibleName = null;
             resources.ApplyResources(this.buttonOK, "buttonOK");
             this.buttonOK.BackgroundImage = null;
+            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOK.Font = null;
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -108,6 +116,46 @@
             this.buttonCancel.Font = null;
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // contextMenuAddItem
+            // 
+            this.contextMenuAddItem.AccessibleDescription = null;
+            this.contextMenuAddItem.AccessibleName = null;
+            resources.ApplyResources(this.contextMenuAddItem, "contextMenuAddItem");
+            this.contextMenuAddItem.BackgroundImage = null;
+            this.contextMenuAddItem.Font = null;
+            this.contextMenuAddItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addEdgeAnimationToolStripMenuItem,
+            this.addNodeAnimationToolStripMenuItem,
+            this.addPropertyViewToolStripMenuItem});
+            this.contextMenuAddItem.Name = "contextMenuAddItem";
+            // 
+            // addEdgeAnimationToolStripMenuItem
+            // 
+            this.addEdgeAnimationToolStripMenuItem.AccessibleDescription = null;
+            this.addEdgeAnimationToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.addEdgeAnimationToolStripMenuItem, "addEdgeAnimationToolStripMenuItem");
+            this.addEdgeAnimationToolStripMenuItem.BackgroundImage = null;
+            this.addEdgeAnimationToolStripMenuItem.Name = "addEdgeAnimationToolStripMenuItem";
+            this.addEdgeAnimationToolStripMenuItem.ShortcutKeyDisplayString = null;
+            // 
+            // addNodeAnimationToolStripMenuItem
+            // 
+            this.addNodeAnimationToolStripMenuItem.AccessibleDescription = null;
+            this.addNodeAnimationToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.addNodeAnimationToolStripMenuItem, "addNodeAnimationToolStripMenuItem");
+            this.addNodeAnimationToolStripMenuItem.BackgroundImage = null;
+            this.addNodeAnimationToolStripMenuItem.Name = "addNodeAnimationToolStripMenuItem";
+            this.addNodeAnimationToolStripMenuItem.ShortcutKeyDisplayString = null;
+            // 
+            // addPropertyViewToolStripMenuItem
+            // 
+            this.addPropertyViewToolStripMenuItem.AccessibleDescription = null;
+            this.addPropertyViewToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.addPropertyViewToolStripMenuItem, "addPropertyViewToolStripMenuItem");
+            this.addPropertyViewToolStripMenuItem.BackgroundImage = null;
+            this.addPropertyViewToolStripMenuItem.Name = "addPropertyViewToolStripMenuItem";
+            this.addPropertyViewToolStripMenuItem.ShortcutKeyDisplayString = null;
             // 
             // AnimationDialog
             // 
@@ -127,7 +175,10 @@
             this.Controls.Add(this.listBox);
             this.Font = null;
             this.Icon = null;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AnimationDialog";
+            this.contextMenuAddItem.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,5 +193,9 @@
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuAddItem;
+        private System.Windows.Forms.ToolStripMenuItem addEdgeAnimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addNodeAnimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addPropertyViewToolStripMenuItem;
     }
 }

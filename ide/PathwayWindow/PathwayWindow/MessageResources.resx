@@ -360,4 +360,7 @@
   <data name="CanvasMenuFigureSetting" xml:space="preserve">
     <value>Figure settings...</value>
   </data>
+  <data name="CanvasMenuAnimationSetting" xml:space="preserve">
+    <value>Animation Setting...</value>
+  </data>
 </root>
