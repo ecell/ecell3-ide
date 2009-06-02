@@ -74,22 +74,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private AnalysisResultWindow m_rWin = null;
         /// <summary>
-        /// Robust Analysis Class.
-        /// </summary>
-        private RobustAnalysis m_robustAnalysis;
-        /// <summary>
-        /// Parameter Estimation Class.
-        /// </summary>
-        private ParameterEstimation m_parameterEstimation;
-        /// <summary>
-        /// Bifurcation Analysis Calss.
-        /// </summary>
-        private BifurcationAnalysis m_bifurcationAnalysis;
-        /// <summary>
-        /// Sensitivity Analysis Class.
-        /// </summary>
-        private SensitivityAnalysis m_sensitivityAnalysis;
-        /// <summary>
         /// The parameter data for bifurcation analysis.
         /// </summary>
         private BifurcationAnalysisParameter m_bifurcateParameter;
@@ -242,38 +226,6 @@ namespace Ecell.IDE.Plugins.Analysis
         public void CloseAnalysisResultWindow()
         {
             m_rWin = null;
-        }
-
-        /// <summary>
-        /// Stop the robust analysis.
-        /// </summary>
-        public void StopRobustAnalysis()
-        {            
-            m_robustAnalysis = null;
-        }
-
-        /// <summary>
-        /// Stop the parameter estimation.
-        /// </summary>
-        public void StopParameterEstimation()
-        {
-            m_parameterEstimation = null;
-        }
-
-        /// <summary>
-        /// Stop the sensitivity analysis.
-        /// </summary>
-        public void StopSensitivityAnalysis()
-        {
-            m_sensitivityAnalysis = null;
-        }
-
-        /// <summary>
-        /// Stop the bifurcation analysis.
-        /// </summary>
-        public void StopBifurcationAnalysis()
-        {
-            m_bifurcationAnalysis = null;
         }
 
         /// <summary>
@@ -661,11 +613,11 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = new JobGroup(RobustAnalysis.s_analysisName);
-            m_robustAnalysis = new RobustAnalysis(this);
-            m_robustAnalysis.Group = g;
-            m_robustAnalysis.AnalysisParameter = m_robustParameter;
-            m_robustAnalysis.ExecuteAnalysis();
+            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName);
+            RobustAnalysis robustAnalysis = new RobustAnalysis(this);
+            robustAnalysis.Group = g;
+            robustAnalysis.AnalysisParameter = m_robustParameter;
+            robustAnalysis.ExecuteAnalysis();
         }
 
         /// <summary>
@@ -677,11 +629,11 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteParameterEstimation(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = new JobGroup(ParameterEstimation.s_analysisName);
-            m_parameterEstimation = new ParameterEstimation(this);
-            m_parameterEstimation.Group = g;
-            m_parameterEstimation.AnalysisParameter = m_estimationParameter;
-            m_parameterEstimation.ExecuteAnalysis();
+            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName);
+            ParameterEstimation parameterEstimation = new ParameterEstimation(this);
+            parameterEstimation.Group = g;
+            parameterEstimation.AnalysisParameter = m_estimationParameter;
+            parameterEstimation.ExecuteAnalysis();
         }
 
         /// <summary>
@@ -693,11 +645,11 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = new JobGroup(SensitivityAnalysis.s_analysisName);
-            m_sensitivityAnalysis = new SensitivityAnalysis(this);
-            m_sensitivityAnalysis.Group = g;
-            m_sensitivityAnalysis.AnalysisParameter = m_sensitivityParameter;
-            m_sensitivityAnalysis.ExecuteAnalysis();
+            JobGroup g = m_env.JobManager.CreateJobGroup(SensitivityAnalysis.s_analysisName);
+            SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis(this);
+            sensitivityAnalysis.Group = g;
+            sensitivityAnalysis.AnalysisParameter = m_sensitivityParameter;
+            sensitivityAnalysis.ExecuteAnalysis();
         }
 
         /// <summary>
@@ -708,12 +660,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
         {
-            ShowGridStatusDialog();           
-            JobGroup g = new JobGroup(BifurcationAnalysis.s_analysisName);
-            m_bifurcationAnalysis = new BifurcationAnalysis(this);
-            m_bifurcationAnalysis.Group = g;
-            m_bifurcationAnalysis.AnalysisParameter = m_bifurcateParameter;
-            m_bifurcationAnalysis.ExecuteAnalysis();
+            ShowGridStatusDialog();
+            JobGroup g = m_env.JobManager.CreateJobGroup(BifurcationAnalysis.s_analysisName);
+            BifurcationAnalysis bifurcationAnalysis = new BifurcationAnalysis(this);
+            bifurcationAnalysis.Group = g;
+            bifurcationAnalysis.AnalysisParameter = m_bifurcateParameter;
+            bifurcationAnalysis.ExecuteAnalysis();
         }
 
         /// <summary>
@@ -753,6 +705,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_env.JobManager.AnalysisDic.Add(BifurcationAnalysis.s_analysisName, new BifurcationAnalysis(this));
             m_env.JobManager.AnalysisDic.Add(SensitivityAnalysis.s_analysisName, new SensitivityAnalysis(this));
             m_env.JobManager.AnalysisDic.Add(RobustAnalysis.s_analysisName, new RobustAnalysis(this));
+
+            m_bifurcateParameter = new BifurcationAnalysisParameter();
+            m_estimationParameter = new ParameterEstimationParameter();
+            m_sensitivityParameter = new SensitivityAnalysisParameter();
+            m_robustParameter = new RobustAnalysisParameter();
         }
 
         /// <summary>

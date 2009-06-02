@@ -42,7 +42,6 @@ namespace Ecell.Job
         #region Fields
         private string m_analysisName;
         private string m_date;
-        private Dictionary<string, string> m_analysisParameter;
         private List<Job> m_jobs;
         private AnalysisStatus m_status;
         private string m_topDir;
@@ -102,8 +101,8 @@ namespace Ecell.Job
         /// </summary>
         public Dictionary<string, string> AnalysisParameter
         {
-            get { return this.m_analysisParameter; }
-            set { this.m_analysisParameter = value; }
+            get { return m_analysis.GetAnalysisProperty(); }
+            set { this.m_analysis.SetAnalysisProperty(value); }
         }
 
         /// <summary>
@@ -125,11 +124,20 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// get  the flag whether this job group is running.
+        /// get the flag whether this job group is running.
         /// </summary>
         public bool IsRunning
         {
             get { return this.m_isRunning; }
+        }
+
+        /// <summary>
+        /// get / set the analysis module for this job group.
+        /// </summary>
+        public IAnalysisModule AnalysisModule
+        {
+            get { return m_analysis; }
+            set { this.m_analysis = value; }
         }
 
         #endregion
@@ -141,11 +149,10 @@ namespace Ecell.Job
         /// <param name="analysisName"></param>
         public JobGroup(string analysisName)
         {
-            this.m_analysisName = analysisName;
+            this.m_analysisName = analysisName;           
             DateTime dt = DateTime.Now;
             string dateString = dt.ToString("yyyyMMddHHmm");
             m_date = dateString;
-            this.m_analysisParameter = new Dictionary<string, string>();
             this.m_jobs = new List<Job>();
         }
 
@@ -155,15 +162,10 @@ namespace Ecell.Job
         /// <param name="analysisName"></param>
         /// <param name="date"></param>
         /// <param name="param"></param>
-        public JobGroup(string analysisName, string date, Dictionary<string, string> param)
+        public JobGroup(string analysisName, string date)
         {
             this.m_analysisName = analysisName;
             this.m_date = date;
-            this.m_analysisParameter = new Dictionary<string, string>();
-            foreach (string name in param.Keys)
-            {
-                this.m_analysisParameter.Add(name, param[name]);
-            }
             this.m_jobs = new List<Job>();
         }
         #endregion
@@ -196,6 +198,11 @@ namespace Ecell.Job
         /// </summary>
         public void UpdateStatus()
         {
+            foreach (Job m in m_jobs)
+            {
+                m.Update();
+            }
+
             AnalysisStatus status = AnalysisStatus.Finished;
             int count = 0;
             foreach (Job m in m_jobs)
@@ -212,7 +219,7 @@ namespace Ecell.Job
                 {
                     status = AnalysisStatus.Stopped;
                 }
-                else if (m.Status == JobStatus.ERROR ||
+                else if (m.Status == JobStatus.ERROR &&
                     (status != AnalysisStatus.Stopped &&
                     status != AnalysisStatus.Running))
                 {
@@ -229,11 +236,12 @@ namespace Ecell.Job
             if (count != m_jobs.Count)
             {
                 m_isRunning = true;
+                m_status = AnalysisStatus.Running;
             }
-            else
+            else if (m_isRunning == true)
             {
-                m_analysis.NotifyAnalysisFinished();
                 m_isRunning = false;
+                m_analysis.NotifyAnalysisFinished();
             }
         }
 
@@ -289,7 +297,6 @@ namespace Ecell.Job
         public void Delete()
         {
             m_jobs.Clear();
-            m_analysisParameter.Clear();
         }
 
         /// <summary>

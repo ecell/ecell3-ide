@@ -101,6 +101,13 @@ namespace Ecell.IDE.MainWindow
                 m_topNode.Nodes.Add(node);
                 m_pointDic[analysisName] = node;
             }
+
+            foreach (TreeNode node in m_pointDic[analysisName].Nodes)
+            {
+                if (node.Text.Equals(name))
+                    return;
+            }
+
             JobGroupTreeNode groupNode = new JobGroupTreeNode(name);
             groupNode.ContextMenuStrip = jobGroupContextMenuStrip;
             SetImageAtJobGroupStatus(groupNode, group.Status);
@@ -168,13 +175,17 @@ namespace Ecell.IDE.MainWindow
         {
             foreach (string name in m_manager.GroupDic.Keys)
             {
-                if (!m_pointDic.ContainsKey(name))
-                {
-                    AddJobGroup(name);
-                    continue;
-                }
-                JobTreeNode node = (JobTreeNode)m_pointDic[name];
+                AddJobGroup(name);
                 JobGroup group = m_manager.GroupDic[name];
+                JobGroupTreeNode node = null;
+                foreach (TreeNode n in m_pointDic[group.AnalysisName].Nodes)
+                {
+                    if (n.Text.Equals(name))
+                    {
+                        node = (JobGroupTreeNode)n;
+                        break;
+                    }
+                }
 
                 SetImageAtJobGroupStatus(node, group.Status);
 
@@ -224,6 +235,7 @@ namespace Ecell.IDE.MainWindow
             m_pointDic.Clear();
 
             m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
+            jobTreeView.Nodes.Add(m_topNode);
 
             foreach (string name in m_manager.GroupDic.Keys)
             {
@@ -234,9 +246,9 @@ namespace Ecell.IDE.MainWindow
         private void JobTee_MouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
+            ClearInformation();
             if (!(node is JobTreeNode) && !(node is JobGroupTreeNode))
             {
-                ClearInformation();
                 return;
             }
             if (node is JobTreeNode)
@@ -440,22 +452,43 @@ namespace Ecell.IDE.MainWindow
             switch (status)
             {
                 case JobStatus.QUEUED:
-                    node.ImageIndex = 1;
+                    if (node.ImageIndex != 1)
+                    {
+                        node.ImageIndex = 1;
+                        node.SelectedImageIndex = 1;
+                    }
                     return;
                 case JobStatus.RUNNING:
-                    node.ImageIndex = 2;
+                    if (node.ImageIndex != 2)
+                    {
+                        node.ImageIndex = 2;
+                        node.SelectedImageIndex = 2;
+                    }
                     return;
                 case JobStatus.FINISHED:
-                    node.ImageIndex = 3;
+                    if (node.ImageIndex != 3)
+                    {
+                        node.ImageIndex = 3;
+                        node.SelectedImageIndex = 3;
+                    }
                     return;
                 case JobStatus.STOPPED:
-                    node.ImageIndex = 4;
+                    if (node.ImageIndex != 4)
+                    {
+                        node.ImageIndex = 4;
+                        node.SelectedImageIndex = 4;
+                    }
                     return;
                 case JobStatus.ERROR:
-                    node.ImageIndex = 5;
+                    if (node.ImageIndex != 5)
+                    {
+                        node.ImageIndex = 5;
+                        node.SelectedImageIndex = 5;
+                    }
                     return;
             }
             node.ImageIndex = 0;
+            node.SelectedImageIndex = 0;
         }
 
         private static void SetImageAtJobGroupStatus(TreeNode node, AnalysisStatus status)
@@ -463,22 +496,43 @@ namespace Ecell.IDE.MainWindow
             switch (status)
             {
                 case AnalysisStatus.Waiting:
-                    node.ImageIndex = 6;
+                    if (node.ImageIndex != 6)
+                    {
+                        node.ImageIndex = 6;
+                        node.SelectedImageIndex = 6;
+                    }
                     return;
                 case AnalysisStatus.Running:
-                    node.ImageIndex = 7;
+                    if (node.ImageIndex != 7)
+                    {
+                        node.ImageIndex = 7;
+                        node.SelectedImageIndex = 7;
+                    }
                     return;
                 case AnalysisStatus.Finished:
-                    node.ImageIndex = 8;
+                    if (node.ImageIndex != 8)
+                    {
+                        node.ImageIndex = 8;
+                        node.SelectedImageIndex = 8;
+                    }
                     return;
                 case AnalysisStatus.Stopped:
-                    node.ImageIndex = 9;
+                    if (node.ImageIndex != 9)
+                    {
+                        node.ImageIndex = 9;
+                        node.SelectedImageIndex = 9;
+                    }
                     return;
                 case AnalysisStatus.Error:
-                    node.ImageIndex = 10;
+                    if (node.ImageIndex != 10)
+                    {
+                        node.ImageIndex = 10;
+                        node.SelectedImageIndex = 10;
+                    }
                     return;
             }
             node.ImageIndex = -1;
+            node.SelectedImageIndex = -1;
         }
 
     }

@@ -288,7 +288,7 @@ namespace Ecell.Job
         /// <param name="date"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        JobGroup CreateJobGroup(string name, string date, Dictionary<string, string> param);
+        JobGroup CreateJobGroup(string name, string date);
         /// <summary>
         /// 
         /// </summary>

@@ -35,8 +35,6 @@
             this.jobTreeView = new System.Windows.Forms.TreeView();
             this.jobStatusImageList = new System.Windows.Forms.ImageList(this.components);
             this.parameterDataGridView = new System.Windows.Forms.DataGridView();
-            this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PropValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jobIDTextBox = new System.Windows.Forms.TextBox();
             this.statusTextBox = new System.Windows.Forms.TextBox();
             this.jobContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -56,6 +54,8 @@
             this.jobGroupSaveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.jobGroupDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PropValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).BeginInit();
@@ -78,6 +78,7 @@
             resources.ApplyResources(this.jobTreeView, "jobTreeView");
             this.jobTreeView.ImageList = this.jobStatusImageList;
             this.jobTreeView.Name = "jobTreeView";
+            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.JobTee_MouseClick);
             // 
             // jobStatusImageList
             // 
@@ -100,27 +101,17 @@
             this.parameterDataGridView.AllowUserToAddRows = false;
             this.parameterDataGridView.AllowUserToDeleteRows = false;
             this.parameterDataGridView.AllowUserToResizeRows = false;
+            resources.ApplyResources(this.parameterDataGridView, "parameterDataGridView");
             this.parameterDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.parameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.parameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PropNameColumn,
             this.PropValueColumn});
-            resources.ApplyResources(this.parameterDataGridView, "parameterDataGridView");
             this.parameterDataGridView.MultiSelect = false;
             this.parameterDataGridView.Name = "parameterDataGridView";
             this.parameterDataGridView.RowHeadersVisible = false;
             this.parameterDataGridView.RowTemplate.Height = 21;
             this.parameterDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            // 
-            // PropNameColumn
-            // 
-            resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
-            this.PropNameColumn.Name = "PropNameColumn";
-            // 
-            // PropValueColumn
-            // 
-            resources.ApplyResources(this.PropValueColumn, "PropValueColumn");
-            this.PropValueColumn.Name = "PropValueColumn";
             // 
             // jobIDTextBox
             // 
@@ -242,6 +233,17 @@
             this.jobGroupDeleteToolStripMenuItem.Name = "jobGroupDeleteToolStripMenuItem";
             resources.ApplyResources(this.jobGroupDeleteToolStripMenuItem, "jobGroupDeleteToolStripMenuItem");
             // 
+            // PropNameColumn
+            // 
+            resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
+            this.PropNameColumn.Name = "PropNameColumn";
+            this.PropNameColumn.ReadOnly = true;
+            // 
+            // PropValueColumn
+            // 
+            resources.ApplyResources(this.PropValueColumn, "PropValueColumn");
+            this.PropValueColumn.Name = "PropValueColumn";
+            // 
             // GridJobStatusDialog
             // 
             resources.ApplyResources(this, "$this");
@@ -270,8 +272,6 @@
         private System.Windows.Forms.DataGridView parameterDataGridView;
         private System.Windows.Forms.TextBox jobIDTextBox;
         private System.Windows.Forms.TextBox statusTextBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PropNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PropValueColumn;
         private System.Windows.Forms.ContextMenuStrip jobContextMenuStrip;
         private System.Windows.Forms.ContextMenuStrip jobGroupContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem jobRunToolStripMenuItem;
@@ -290,5 +290,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem jobGroupSaveStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jobGroupLoadToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PropNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PropValueColumn;
     }
 }

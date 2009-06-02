@@ -51,7 +51,7 @@ namespace Ecell.Job
         private string m_tmpDir = null;
         private int m_conc = -1;
         private int m_limitRetry = 5;
-        private int m_updateInterval = 5;
+        private int m_updateInterval = 5000;
         private int m_globalTimeOut = 0;
         private JobProxy m_proxy;
         private Dictionary<string, JobProxy> m_proxyList = new Dictionary<string, JobProxy>();
@@ -408,7 +408,9 @@ namespace Ecell.Job
             foreach (JobGroup m in m_groupDic.Values)
             {
                 if (m.IsRunning)
+                {
                     m.UpdateStatus();
+                }
             }
             if (m_proxy != null)
                 m_proxy.Update();
@@ -473,6 +475,7 @@ namespace Ecell.Job
             {
                 foreach (string name in m_groupDic.Keys)
                 {
+                    if (!m_groupDic[name].IsRunning) continue;
                     bool res = m_groupDic[name].IsFinished();
                     if (res == false)
                         return false;
@@ -506,8 +509,10 @@ namespace Ecell.Job
         /// <summary>
         /// Preapre to execute the process.
         /// Ex. script file, extra file, job directory and so on.
+        /// <param name="groupName"></param>
+        /// <param name="isForce"></param>
         /// </summary>
-        private void PrepareProcessRun(string groupName)
+        private void PrepareProcessRun(string groupName, bool isForce)
         {
             foreach (string name in m_groupDic.Keys)
             {
@@ -516,7 +521,7 @@ namespace Ecell.Job
                     continue;
                 foreach (Job j in m_groupDic[name].Jobs)
                 {
-                    if (j.Status == JobStatus.NONE)
+                    if (j.Status == JobStatus.NONE || isForce)
                         j.PrepareProcess();
                 }
             }
@@ -527,7 +532,7 @@ namespace Ecell.Job
         /// </summary>
         public void Run(string groupName)
         {
-            PrepareProcessRun(groupName);
+            PrepareProcessRun(groupName, true);
             m_groupDic[groupName].Run();
             if (m_timer.Enabled == false)
             {
@@ -563,7 +568,7 @@ namespace Ecell.Job
         /// </summary>
         public void RunWaitFinish(string groupName)
         {
-            PrepareProcessRun(groupName);
+            PrepareProcessRun(groupName, true);
 
             while (!IsFinished(null))
             {
@@ -775,8 +780,6 @@ namespace Ecell.Job
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
 
                 List<string> extFileList = ExtractExtFileList(m_logList);
-                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
-                    return new Dictionary<int, ExecuteParameter>();
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                 if (this.Proxy.IsIDE() == true)
@@ -845,8 +848,6 @@ namespace Ecell.Job
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
 
                 List<string> extFileList = ExtractExtFileList(m_logList);
-                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
-                    return new Dictionary<int, ExecuteParameter>();
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
@@ -999,8 +1000,6 @@ namespace Ecell.Job
                     string modelFileName = topDir + "/" + job.JobID + ".eml";
 
                     List<string> extFileList = ExtractExtFileList(m_logList);
-                    if (m_env.PluginManager.Status != ProjectStatus.Analysis)
-                        return new Dictionary<int, ExecuteParameter>();
                     int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                     if (this.Proxy.IsIDE())
@@ -1187,9 +1186,9 @@ namespace Ecell.Job
         /// <param name="date"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public JobGroup CreateJobGroup(string name, string date, Dictionary<string, string> param)
+        public JobGroup CreateJobGroup(string name, string date)
         {
-            JobGroup group = new JobGroup(name, date, param);
+            JobGroup group = new JobGroup(name, date);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }

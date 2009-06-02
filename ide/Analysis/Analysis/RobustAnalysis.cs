@@ -87,7 +87,10 @@ namespace Ecell.IDE.Plugins.Analysis
         public JobGroup Group
         {
             get { return this.m_group; }
-            set { this.m_group = value; }
+            set { 
+                this.m_group = value;
+                value.AnalysisModule = this;
+            }
         }
 
                 /// <summary>
@@ -121,7 +124,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            m_owner.StopRobustAnalysis();
 
             if (m_owner.JobManager.GetFinishedJobList().Count <= 0)
             {
@@ -273,7 +275,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
             m_owner.JobManager.SetParameterRange(paramList);
             m_owner.JobManager.SetLoggerData(saveList);
-            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
             if (m_param.IsRandomCheck == true)
             {

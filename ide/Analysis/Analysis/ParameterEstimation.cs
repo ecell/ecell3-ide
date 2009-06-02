@@ -123,7 +123,10 @@ namespace Ecell.IDE.Plugins.Analysis
         public JobGroup Group
         {
             get { return this.m_group; }
-            set { this.m_group = value; }
+            set { 
+                this.m_group = value;
+                value.AnalysisModule = this;
+            }
         }
 
         /// <summary>
@@ -307,7 +310,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_saveList == null) return;
             m_owner.JobManager.SetLoggerData(m_saveList);
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
-            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
                 m_generation = 0;
         }
@@ -387,7 +389,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (m_generation >= m_param.Generation)
             {
-                m_owner.StopParameterEstimation();
 
                 FindElite();
 

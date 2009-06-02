@@ -140,7 +140,10 @@ namespace Ecell.IDE.Plugins.Analysis
         public JobGroup Group
         {
             get { return this.m_group; }
-            set { this.m_group = value; }
+            set { 
+                this.m_group = value;
+                value.AnalysisModule = this; 
+            }
         }
 
         /// <summary>
@@ -348,7 +351,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
 
             m_owner.JobManager.SetLoggerData(saveList);
-            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
         }
@@ -808,7 +810,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (paramList.Count <= 0)
             {
                 PrintResultData();
-                m_owner.StopBifurcationAnalysis();
                 m_owner.ActivateResultWindow(true, false, false);
                 m_owner.FinishedAnalysis();
 

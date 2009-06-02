@@ -165,7 +165,10 @@ namespace Ecell.IDE.Plugins.Analysis
         public JobGroup Group
         {
             get { return this.m_group; }
-            set { this.m_group = value; }
+            set { 
+                this.m_group = value;
+                value.AnalysisModule = this;
+            }
         }
 
         /// <summary>
@@ -225,9 +228,17 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void NotifyAnalysisFinished()
         {
-            CreateEpsilonElastictyMatrix();
-            CalculateUnScaledControlCoefficient();
-            CalculateScaledControlCoefficient();         
+            try
+            {
+                CreateEpsilonElastictyMatrix();
+                CalculateUnScaledControlCoefficient();
+                CalculateScaledControlCoefficient();
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                return;
+            }
         }
 
         /// <summary>
@@ -370,7 +381,6 @@ namespace Ecell.IDE.Plugins.Analysis
             dManager.SimulationStop();
 
             m_owner.JobManager.SetLoggerData(m_saveList);
-            m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, cTime, false, execDict);            
         }
@@ -786,7 +796,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
                     return;
                 }
-                m_owner.StopSensitivityAnalysis();
 
                 CreateEpsilonElastictyMatrix();
                 CalculateUnScaledControlCoefficient();
