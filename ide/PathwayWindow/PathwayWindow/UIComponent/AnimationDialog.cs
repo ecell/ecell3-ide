@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,8 +10,14 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class AnimationDialog : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public AnimationDialog()
         {
             InitializeComponent();

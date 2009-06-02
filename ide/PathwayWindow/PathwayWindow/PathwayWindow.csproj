@@ -103,19 +103,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation\AnimationConstants.cs" />
-    <Compile Include="Animation\AnimationItems.cs">
+    <Compile Include="Animation\AnimationItemBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Animation\AnimationSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\AnimationSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Animation\EditModeItems.cs">
+    <Compile Include="Animation\EdgeAnimatioinItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Animation\EditModeSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Animation\IAnimationItem.cs" />
     <Compile Include="Animation\PathwaySettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Animation\ViewModeItems.cs">
+    <Compile Include="Animation\ViewModeSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Components\ComponentItem.cs">
@@ -239,12 +246,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Animation\AnimationItems.ja.resx">
-      <DependentUpon>AnimationItems.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\AnimationItemBase.resx">
+      <DependentUpon>AnimationItemBase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\AnimationItems.resx">
-      <DependentUpon>AnimationItems.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\AnimationSettings.ja.resx">
+      <DependentUpon>AnimationSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\AnimationSettings.resx">
+      <DependentUpon>AnimationSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\AnimationSettingsPage.ja.resx">
@@ -255,12 +266,20 @@
       <DependentUpon>AnimationSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\EditModeItems.ja.resx">
-      <DependentUpon>EditModeItems.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\EdgeAnimatioinItem.ja.resx">
+      <DependentUpon>EdgeAnimatioinItem.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\EditModeItems.resx">
-      <DependentUpon>EditModeItems.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\EdgeAnimatioinItem.resx">
+      <DependentUpon>EdgeAnimatioinItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\EditModeSettings.ja.resx">
+      <DependentUpon>EditModeSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\EditModeSettings.resx">
+      <DependentUpon>EditModeSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\PathwaySettingsPage.ja.resx">
@@ -271,12 +290,12 @@
       <DependentUpon>PathwaySettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\ViewModeItems.ja.resx">
-      <DependentUpon>ViewModeItems.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\ViewModeSettings.ja.resx">
+      <DependentUpon>ViewModeSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\ViewModeItems.resx">
-      <DependentUpon>ViewModeItems.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\ViewModeSettings.resx">
+      <DependentUpon>ViewModeSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\ComponentItem.ja.resx">

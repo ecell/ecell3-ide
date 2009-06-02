@@ -142,6 +142,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         /// <param name="rect"></param>
         /// <param name="lineBrush"></param>
         /// <param name="fillBrush"></param>
+        /// <param name="arcWidth"></param>
         /// <returns></returns>
         public static string SystemEllipse(RectangleF rect, string lineBrush, string fillBrush, float arcWidth)
         {

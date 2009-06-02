@@ -1352,7 +1352,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="oldKey">The ID before value change.</param>
         /// <param name="newKey">The data type before value change.</param>
         /// <param name="obj">Changed value of object.</param>
-        /// <param name="oldRect">oldRect.</param>
         public void DataChanged(string oldKey, string newKey, PPathwayObject obj)
         {
             if (!oldKey.Equals(newKey))

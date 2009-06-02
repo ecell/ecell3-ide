@@ -40,16 +40,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     public interface IAnimationItem
     {
         /// <summary>
-        /// 
+        /// Initialize Animation
         /// </summary>
         void SetPropForSimulation();
+
         /// <summary>
-        /// 
+        /// Update Animation
         /// </summary>
         void UpdatePropForSimulation();
+
         /// <summary>
-        /// 
+        /// Reset Animation.
         /// </summary>
         void ResetPropForSimulation();
+
+        /// <summary>
+        /// Set Setting Panel.
+        /// </summary>
+        void SetViewItem();
+
+        /// <summary>
+        /// Apply changes.
+        /// </summary>
+        void ApplyChange();
     }
 }

@@ -34,6 +34,9 @@ using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DiamondFigure : FigureBase
     {
     }

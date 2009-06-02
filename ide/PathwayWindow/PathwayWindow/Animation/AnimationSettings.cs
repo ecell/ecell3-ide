@@ -219,7 +219,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.variableBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         void aviOutputCheckBox_CheckedChanged(object sender, EventArgs e)

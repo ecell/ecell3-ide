@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -45,7 +46,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         protected CanvasControl _canvas;
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        protected AnimationControl _control;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected DataManager _dManager;
         #endregion
 
         #region Constructors
@@ -60,11 +68,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="canvas"></param>
-        public AnimationItemBase(CanvasControl canvas)
+        /// <param name="control"></param>
+        public AnimationItemBase(AnimationControl control)
             : this()
         {
-            _canvas = canvas;
+            _control = control;
+            _dManager = control.Control.Window.DataManager;
         }
 
         /// <summary>
@@ -105,6 +114,40 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void SetViewItem()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ApplyChange()
+        {
+        }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPN"></param>
+        /// <returns></returns>
+        protected float GetFloatValue(string fullPN)
+        {
+            float num = 0.0f;
+            try
+            {
+                num = (float)_dManager.GetPropertyValue(fullPN);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+                num = float.NaN;
+            }
+            return num;
+        }
+
     }
 }
