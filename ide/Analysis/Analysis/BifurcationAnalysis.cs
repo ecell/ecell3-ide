@@ -44,21 +44,13 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Class to manage the bifurcation analysis.
     /// </summary>
-    class BifurcationAnalysis
+    public class BifurcationAnalysis : IAnalysisModule
     {
         #region Fields
         /// <summary>
         /// Manage of session.
         /// </summary>
         private Analysis m_owner;
-        /// <summary>
-        /// Timer to update the status of jobs.
-        /// </summary>
-        private System.Windows.Forms.Timer m_timer;
-        /// <summary>
-        /// The flag whether the analysis is running.
-        /// </summary>
-        private bool m_isRunning = false;
         /// <summary>
         /// Model name to execute bifurcation analysis.
         /// </summary>
@@ -121,7 +113,7 @@ namespace Ecell.IDE.Plugins.Analysis
         private static int s_skip = 5;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
-        private const string s_analysisName = "Bifurcation";
+        public const string s_analysisName = "Bifurcation";
         private const string s_simTime = "Simulation Time";
         private const string s_winSize = "Window Size";
         private const string s_maxInput = "Max Input for FFT";
@@ -133,30 +125,42 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public BifurcationAnalysis(Analysis owner, BifurcationAnalysisParameter param)
+        public BifurcationAnalysis(Analysis owner)
         {
             m_owner = owner;
 
             m_result = new BifurcationResult[s_num + 1, s_num + 1];
             m_region = new int[(int)(s_num / s_skip) + 1, (int)(s_num / s_skip) + 1];
-
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 5000;
-            m_timer.Tick += new EventHandler(FireTimer);
-            m_param = param;
         }
 
         #region Accessors
         /// <summary>
-        /// get / set the flag whether the bifurcation analysis is running.
+        /// get / set the job group.
         /// </summary>
-        public bool IsRunning
+        public JobGroup Group
         {
-            get { return this.m_isRunning; }
+            get { return this.m_group; }
+            set { this.m_group = value; }
+        }
+
+        /// <summary>
+        /// set the analysis parameter.
+        /// </summary>
+        public object AnalysisParameter
+        {
+            set
+            {
+                BifurcationAnalysisParameter p = value as BifurcationAnalysisParameter;
+                if (p != null)
+                    m_param = p;
+            }
         }
         #endregion
 
+        /// <summary>
+        /// Get the property of analysis.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -170,6 +174,10 @@ namespace Ecell.IDE.Plugins.Analysis
             return paramDic;
         }
 
+        /// <summary>
+        /// Set the property of analysis.
+        /// </summary>
+        /// <param name="paramDic"></param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)
@@ -193,6 +201,36 @@ namespace Ecell.IDE.Plugins.Analysis
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Execute this function when this analysis is finished.
+        /// </summary>
+        public void NotifyAnalysisFinished()
+        {
+            JudgeBifurcationAnalysis();
+            int[,] respos = SearchPoint();
+            Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
+            if (paramList.Count <= 0)
+            {
+                return;
+            }
+            String tmpDir = m_owner.JobManager.TmpDir;
+            Group.Run();
+            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, paramList);
+        }
+
+        /// <summary>
+        /// Create the analysis instance.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public IAnalysisModule CreateNewInstance(JobGroup group)
+        {
+            BifurcationAnalysis instance = new BifurcationAnalysis(m_owner);
+            instance.Group = group;
+
+            return instance;
         }
 
         /// <summary>
@@ -228,7 +266,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
             if (saveList == null) return;
-            m_isRunning = true;
 
             int count = 0;
             m_owner.ClearResult();
@@ -314,21 +351,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
-            if (m_isRunning)
-            {
-                m_timer.Enabled = true;
-                m_timer.Start();
-            }
-        }
-
-        /// <summary>
-        /// Stop the bifurcation analysis.
-        /// </summary>
-        public void StopAnalysis()
-        {
-            m_owner.JobManager.Stop(m_group.GroupName, 0);
-            m_isRunning = false;
-            m_owner.StopSensitivityAnalysis();
         }
 
         /// <summary>
@@ -765,24 +787,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            if (!m_isRunning)
-            {
-                m_timer.Enabled = false;
-                m_timer.Stop();
-                return;
-            }
             if (!m_owner.JobManager.IsFinished(m_group.GroupName))
             {
-                if (m_isRunning == false)
-                {
                     m_owner.JobManager.Stop(m_group.GroupName, 0);
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                }
+
                 return;
             }
-            m_timer.Enabled = false;
-            m_timer.Stop();
 
             if (m_owner.JobManager.IsError(m_group.GroupName))
             {
@@ -798,7 +808,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (paramList.Count <= 0)
             {
                 PrintResultData();
-                m_isRunning = false;
                 m_owner.StopBifurcationAnalysis();
                 m_owner.ActivateResultWindow(true, false, false);
                 m_owner.FinishedAnalysis();
@@ -815,9 +824,6 @@ namespace Ecell.IDE.Plugins.Analysis
             //m_owner.JobManager.ClearFinishedJobs();
             String tmpDir = m_owner.JobManager.TmpDir;
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, paramList);
-
-            m_timer.Enabled = true;
-            m_timer.Start();
         }
         #endregion
 

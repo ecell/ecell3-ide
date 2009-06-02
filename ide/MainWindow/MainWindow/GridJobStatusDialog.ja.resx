@@ -315,4 +315,10 @@
   <data name="toolStripMenuItem1.Text" xml:space="preserve">
     <value>状態の変更</value>
   </data>
+  <data name="jobGroupLoadToolStripMenuItem.Text" xml:space="preserve">
+    <value>読み込み</value>
+  </data>
+  <data name="jobGroupSaveStripMenuItem.Text" xml:space="preserve">
+    <value>保存</value>
+  </data>
 </root>

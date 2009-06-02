@@ -149,7 +149,13 @@ namespace Ecell.IDE.MainWindow
         {
             jobIDTextBox.Text = "";
             statusTextBox.Text = "";
-            parameterDataGridView.Rows.Clear();
+            parameterDataGridView.Rows.Clear();            
+        }
+
+        public void Clear()
+        {
+            ClearInformation();
+            jobTreeView.Nodes.Clear();
         }
 
         #region Events
@@ -335,7 +341,54 @@ namespace Ecell.IDE.MainWindow
 
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
 
-            m_manager.DeleteJob(jnode.GroupName, 0);
+            m_manager.RemoveJobGroup(jnode.GroupName);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void JobTree_SaveJobGroup(object sender, EventArgs e)
+        {
+            // not implements
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void JobTree_LoadJobGroup(object sender, EventArgs e)
+        {
+            // not implements
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void JobTree_JobGroupContextOpening(object sender, CancelEventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobGroupTreeNode))
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            JobGroupTreeNode jnode = node as JobGroupTreeNode;
+            JobGroup g = m_manager.GroupDic[jnode.GroupName];
+            jobGroupRunToolStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished ||
+                g.Status == AnalysisStatus.Stopped || g.Status == AnalysisStatus.Error;
+            jobGroupStopToolStripMenuItem.Enabled = g.Status == AnalysisStatus.Running ||
+                g.Status == AnalysisStatus.Waiting;
+            jobGroupSaveStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished ||
+                g.Status == AnalysisStatus.Error;
+            jobGroupLoadToolStripMenuItem.Enabled = g.IsSaved;
+            jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
+                g.Status != AnalysisStatus.Waiting;
         }
         #endregion
 
@@ -427,6 +480,7 @@ namespace Ecell.IDE.MainWindow
             }
             node.ImageIndex = -1;
         }
+
     }
 
     /// <summary>

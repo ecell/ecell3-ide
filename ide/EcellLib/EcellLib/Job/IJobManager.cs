@@ -59,11 +59,19 @@ namespace Ecell.Job
         ///// </summary>
         //Dictionary<int, Job> JobList { get; }
         /// <summary>
-        /// 
+        /// get the dictionaty the group name and job group object.
         /// </summary>
         Dictionary<string, JobGroup> GroupDic { get; }
+        /// <summary>
+        /// get the dictionary the analysis name and analysis object.
+        /// </summary>
+        Dictionary<string, IAnalysisModule> AnalysisDic { get; }
         #endregion
 
+        /// <summary>
+        /// Clear the job and job group because the project is closed.
+        /// </summary>
+        void Clear();
         /// <summary>
         /// Clear the files of the selected jobs.
         /// </summary>
@@ -281,5 +289,10 @@ namespace Ecell.Job
         /// <param name="param"></param>
         /// <returns></returns>
         JobGroup CreateJobGroup(string name, string date, Dictionary<string, string> param);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        void RemoveJobGroup(string name);
     }
 }

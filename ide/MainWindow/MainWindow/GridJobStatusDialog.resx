@@ -1097,28 +1097,43 @@
     <value>178, 17</value>
   </metadata>
   <data name="jobGroupRunToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupRunToolStripMenuItem.Text" xml:space="preserve">
     <value>Run</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="jobGroupLoadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="jobGroupLoadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="jobGroupSaveStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="jobGroupSaveStripMenuItem.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="jobGroupDeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupDeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="jobGroupContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 76</value>
+    <value>153, 148</value>
   </data>
   <data name="&gt;&gt;jobGroupContextMenuStrip.Name" xml:space="preserve">
     <value>jobGroupContextMenuStrip</value>
@@ -1296,6 +1311,24 @@
     <value>jobGroupStopToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;jobGroupStopToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
+    <value>toolStripSeparator4</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;jobGroupLoadToolStripMenuItem.Name" xml:space="preserve">
+    <value>jobGroupLoadToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;jobGroupLoadToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;jobGroupSaveStripMenuItem.Name" xml:space="preserve">
+    <value>jobGroupSaveStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;jobGroupSaveStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">

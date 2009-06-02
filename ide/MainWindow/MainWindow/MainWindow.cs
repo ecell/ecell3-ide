@@ -772,6 +772,7 @@ namespace Ecell.IDE.MainWindow
         {
             this.Text = m_title;
             m_editCount = 0;
+            m_statusDialog.Clear();
         }
 
         /// <summary>

@@ -146,6 +146,7 @@
     <Compile Include="Job\ExecuteParameter.cs" />
     <Compile Include="Job\GlobusJob.cs" />
     <Compile Include="Job\GlobusJobProxy.cs" />
+    <Compile Include="Job\IAnalysisModule.cs" />
     <Compile Include="Job\JobGroup.cs" />
     <Compile Include="Leml.cs" />
     <Compile Include="Logger\LoggerEntry.cs" />

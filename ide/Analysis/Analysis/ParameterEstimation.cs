@@ -42,17 +42,9 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Class to manage the parameter estimation.
     /// </summary>
-    public class ParameterEstimation
+    public class ParameterEstimation : IAnalysisModule
     {
         #region Fields
-        /// <summary>
-        /// The flag whether the analysis is running.
-        /// </summary>
-        private bool m_isRunning = false;
-        /// <summary>
-        /// Timer to update the status of jobs.
-        /// </summary>
-        private System.Windows.Forms.Timer m_timer;
         /// <summary>
         /// Plugin controller.
         /// </summary>
@@ -101,7 +93,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The dictionary of estimation.
         /// </summary>
         private Dictionary<int, double> m_estimation;
-        private const string s_analysisName = "ParameterEstimation";
+        public const string s_analysisName = "ParameterEstimation";
         private const string s_estimateFormula = "Estimation Formulator";
         private const string s_simTime = "Simulation Time";
         private const string s_population = "Population";
@@ -118,30 +110,39 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ParameterEstimation(Analysis owner, ParameterEstimationParameter param)
+        public ParameterEstimation(Analysis owner)
         {
             m_owner = owner;
-
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 5000;
-            m_timer.Tick += new EventHandler(FireTimer);
             m_estimation = new Dictionary<int, double>();
-            m_param = param;
         }
 
         #region Accessors
         /// <summary>
-        /// get / set the flag whether the robust analysis is running.
+        /// get / set the job group.
         /// </summary>
-        public bool IsRunning
+        public JobGroup Group
         {
-            get { return this.m_isRunning; }
+            get { return this.m_group; }
+            set { this.m_group = value; }
+        }
+
+        /// <summary>
+        /// set the analysis parameter.
+        /// </summary>
+        public object AnalysisParameter
+        {
+            set
+            {
+                ParameterEstimationParameter p = value as ParameterEstimationParameter;
+                if (p != null)
+                    m_param = p;
+            }
         }
         #endregion
 
+
         /// <summary>
-        /// 
+        /// Get the property of analysis.
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, string> GetAnalysisProperty()
@@ -163,7 +164,7 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// 
+        /// Set the property of analysis.
         /// </summary>
         /// <param name="paramDic"></param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
@@ -202,6 +203,46 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
+
+        /// <summary>
+        /// Execute this function when this analysis is finished.
+        /// </summary>
+        public void NotifyAnalysisFinished()
+        {
+            String tmpDir = m_owner.JobManager.TmpDir;
+            if (m_generation >= m_param.Generation)
+            {
+                FindElite();
+                return;
+            }
+
+            if (m_generation == 0)
+            {
+                m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+            }
+            else
+            {
+                FindElite();
+                SimplexCrossOver();
+                Mutate();
+                m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+            }
+            m_generation++;
+        }
+
+        /// <summary>
+        /// Create the analysis instance.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public IAnalysisModule CreateNewInstance(JobGroup group)
+        {
+            ParameterEstimation instance = new ParameterEstimation(m_owner);
+            instance.Group = group;
+
+            return instance;
+        }
+
 
         /// <summary>
         /// Execute the robust analysis.
@@ -261,7 +302,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            m_isRunning = true;
             m_owner.JobManager.SetParameterRange(m_paramList);
             m_saveList = m_owner.GetPEObservedDataList();
             if (m_saveList == null) return;
@@ -269,23 +309,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
             m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
-            if (m_isRunning)
-            {
                 m_generation = 0;
-                m_timer.Enabled = true;
-                m_timer.Start();
-            }
-        }
-
-
-        /// <summary>
-        /// Stop the robust analysis.
-        /// </summary>
-        public void StopAnalysis()
-        {
-            m_owner.JobManager.Stop(m_group.GroupName, 0);
-            m_isRunning = false;
-            m_owner.StopParameterEstimation();
         }
 
 
@@ -354,29 +378,15 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            if (!m_isRunning)
-            {
-                m_timer.Enabled = false;
-                m_timer.Stop();
-                return;
-            }
             String tmpDir = m_owner.JobManager.TmpDir;
             if (!m_owner.JobManager.IsFinished(m_group.GroupName))
             {
-                if (m_isRunning == false)
-                {
                     m_owner.JobManager.Stop(m_group.GroupName, 0);
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                }
                 return;
             }
 
             if (m_generation >= m_param.Generation)
             {
-                m_isRunning = false;
-                m_timer.Enabled = false;
-                m_timer.Stop();
                 m_owner.StopParameterEstimation();
 
                 FindElite();
@@ -388,8 +398,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            m_timer.Enabled = false;
-            m_timer.Stop();
             if (m_generation == 0)
             {
                 m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
@@ -403,8 +411,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
 
             m_generation++;
-            m_timer.Enabled = true;
-            m_timer.Start();
         }
         #endregion
 

@@ -43,7 +43,7 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Class to manage the robust analysis.
     /// </summary>
-    public class RobustAnalysis
+    public class RobustAnalysis : IAnalysisModule
     {        
         #region Fields
         /// <summary>
@@ -54,21 +54,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Plugin controller.
         /// </summary>
         private Analysis m_owner;
-        /// <summary>
-        /// Timer to update the status of jobs.
-        /// </summary>
-        private System.Windows.Forms.Timer m_timer;
-        /// <summary>
-        /// The flag whether the analysis is running.
-        /// </summary>
-        private bool m_isRunning = false;
         private Dictionary<int, ExecuteParameter> m_paramDic;
         /// <summary>
         /// The max number of input data to be executed FFT.
         /// </summary>
         public const int MaxSize = 2097152;
 
-        private const string s_analysisName = "RobustAnalysis";
+        public const string s_analysisName = "RobustAnalysis";
         private const string s_sampleNum = "Sample Num";
         private const string s_simTime = "Simulation Time";
         private const string s_isRandomCheck = "Random Check";
@@ -83,24 +75,32 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysis(Analysis owner, RobustAnalysisParameter param)
+        public RobustAnalysis(Analysis owner)
         {
             m_owner = owner;
-
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 5000;
-            m_timer.Tick += new EventHandler(FireTimer);
-            m_param = param;
         }
 
         #region accessors
         /// <summary>
-        /// get / set the flag whether the robust analysis is running.
+        /// get / set the job group.
         /// </summary>
-        public bool IsRunning
+        public JobGroup Group
         {
-            get { return this.m_isRunning; }
+            get { return this.m_group; }
+            set { this.m_group = value; }
+        }
+
+                /// <summary>
+        /// set the analysis parameter.
+        /// </summary>
+        public object AnalysisParameter
+        {
+            set
+            {
+                RobustAnalysisParameter p = value as RobustAnalysisParameter;
+                if (p != null)
+                    m_param = p;
+            }
         }
         #endregion
 
@@ -113,25 +113,14 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            if (!m_isRunning)
-            {
-                m_timer.Enabled = false;
-                m_timer.Stop();
-                return;
-            }
             if (!m_owner.JobManager.IsFinished(m_group.GroupName))
             {
-                if (m_isRunning == false)
-                {
+
                     m_owner.JobManager.Stop(m_group.GroupName, 0);
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                }
+
                 return;
             }
-            m_isRunning = false;
-            m_timer.Enabled = false;
-            m_timer.Stop();
+
             m_owner.StopRobustAnalysis();
 
             if (m_owner.JobManager.GetFinishedJobList().Count <= 0)
@@ -157,7 +146,7 @@ namespace Ecell.IDE.Plugins.Analysis
         #endregion
 
         /// <summary>
-        /// 
+        /// Get the property of analysis.
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, string> GetAnalysisProperty()
@@ -175,7 +164,7 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// 
+        /// Set the property of analysis.
         /// </summary>
         /// <param name="paramDic"></param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
@@ -204,6 +193,27 @@ namespace Ecell.IDE.Plugins.Analysis
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Execute this function when this analysis is finished.
+        /// </summary>
+        public void NotifyAnalysisFinished()
+        {
+            JudgeRobustAnalysis();
+        }
+
+        /// <summary>
+        /// Create the analysis instance.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public IAnalysisModule CreateNewInstance(JobGroup group)
+        {
+            RobustAnalysis instance = new RobustAnalysis(m_owner);
+            instance.Group = group;
+
+            return instance;
         }
 
         /// <summary>
@@ -261,7 +271,6 @@ namespace Ecell.IDE.Plugins.Analysis
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
             if (saveList == null) return;
 
-            m_isRunning = true;
             m_owner.JobManager.SetParameterRange(paramList);
             m_owner.JobManager.SetLoggerData(saveList);
             m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
@@ -274,22 +283,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_paramDic = m_owner.JobManager.RunSimParameterMatrix(m_group.GroupName, tmpDir, model, simTime, false);
             }
-
-            if (m_isRunning)
-            {
-                m_timer.Enabled = true;
-                m_timer.Start();
-            }
-        }
-
-        /// <summary>
-        /// Stop the robust analysis.
-        /// </summary>
-        public void StopAnalysis()
-        {
-            m_owner.JobManager.Stop(m_group.GroupName, 0);
-            m_isRunning = false;
-            m_owner.StopRobustAnalysis();
         }
 
         /// <summary>

@@ -56,6 +56,7 @@ namespace Ecell.Job
         private JobProxy m_proxy;
         private Dictionary<string, JobProxy> m_proxyList = new Dictionary<string, JobProxy>();
         private Dictionary<string, JobGroup> m_groupDic = new Dictionary<string, JobGroup>();
+        private Dictionary<string, IAnalysisModule> m_analysisDic = new Dictionary<string, IAnalysisModule>();
         private Timer m_timer;
         #endregion
 
@@ -175,11 +176,19 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// get the dictionaty the group name and job group object.
         /// </summary>
         public Dictionary<string, JobGroup> GroupDic
         {
             get { return this.m_groupDic; }
+        }
+
+        /// <summary>
+        /// get the dictionary the analysis name and analysis object.
+        /// </summary>
+        public Dictionary<string, IAnalysisModule> AnalysisDic
+        {
+            get { return this.m_analysisDic; }
         }
 
         /// <summary>
@@ -362,7 +371,7 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// Delete the selected jobs. if jobID = 0, all jobs are deleted.
+        /// Delete the selected jobs. if jobID = 0, job group is deleted.
         /// </summary>
         /// <param name="groupName"></param>
         /// <param name="jobID"></param>
@@ -382,13 +391,24 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Clear the job and the job group because the project is closed.
+        /// </summary>
+        public void Clear()
+        {
+            foreach (string name in m_groupDic.Keys)
+                m_groupDic[name].Clear();
+            m_groupDic.Clear();
+        }
+
+        /// <summary>
         /// Update the information of session.
         /// </summary>
         public void Update()
         {
             foreach (JobGroup m in m_groupDic.Values)
             {
-                m.UpdateStatus();
+                if (m.IsRunning)
+                    m.UpdateStatus();
             }
             if (m_proxy != null)
                 m_proxy.Update();
@@ -508,9 +528,13 @@ namespace Ecell.Job
         public void Run(string groupName)
         {
             PrepareProcessRun(groupName);
-            Update();
-            m_timer.Enabled = true;
-            m_timer.Start();
+            m_groupDic[groupName].Run();
+            if (m_timer.Enabled == false)
+            {
+                Update();
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
         }
 
         /// <summary>
@@ -524,6 +548,7 @@ namespace Ecell.Job
                 j.Status = JobStatus.QUEUED;
             }
             j.PrepareProcess();
+            m_groupDic[groupName].Run();
 
             if (m_timer.Enabled == false)
             {
@@ -553,19 +578,20 @@ namespace Ecell.Job
         /// <param name="jobid">stop the ID of job.</param>
         public void Stop(string groupName, int jobid)
         {
-            foreach (string name in m_groupDic.Keys)
+            if (jobid == 0)
             {
-                if (!string.IsNullOrEmpty(groupName) &&
-                    !name.Equals(groupName))
-                    continue;
+                m_groupDic[groupName].Stop();
 
                 foreach (Job j in m_groupDic[groupName].Jobs)
                 {
-                    if (jobid == 0)
-                        j.stop();
-                    else if (jobid == j.JobID)
-                        j.stop();
+                    j.stop();
                 }
+            }
+            else
+            {
+                Job j = m_groupDic[groupName].GetJob(jobid);
+                if (j != null)
+                    j.stop();
             }
         }
 

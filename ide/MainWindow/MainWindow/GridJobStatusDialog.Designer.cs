@@ -51,6 +51,9 @@
             this.jobGroupContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.jobGroupRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobGroupStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.jobGroupLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobGroupSaveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.jobGroupDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             label1 = new System.Windows.Forms.Label();
@@ -194,10 +197,14 @@
             this.jobGroupContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.jobGroupRunToolStripMenuItem,
             this.jobGroupStopToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.jobGroupLoadToolStripMenuItem,
+            this.jobGroupSaveStripMenuItem,
             this.toolStripSeparator2,
             this.jobGroupDeleteToolStripMenuItem});
             this.jobGroupContextMenuStrip.Name = "jobGroupContextMenuStrip";
             resources.ApplyResources(this.jobGroupContextMenuStrip, "jobGroupContextMenuStrip");
+            this.jobGroupContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.JobTree_JobGroupContextOpening);
             // 
             // jobGroupRunToolStripMenuItem
             // 
@@ -208,6 +215,22 @@
             // 
             this.jobGroupStopToolStripMenuItem.Name = "jobGroupStopToolStripMenuItem";
             resources.ApplyResources(this.jobGroupStopToolStripMenuItem, "jobGroupStopToolStripMenuItem");
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            // 
+            // jobGroupLoadToolStripMenuItem
+            // 
+            this.jobGroupLoadToolStripMenuItem.Name = "jobGroupLoadToolStripMenuItem";
+            resources.ApplyResources(this.jobGroupLoadToolStripMenuItem, "jobGroupLoadToolStripMenuItem");
+            // 
+            // jobGroupSaveStripMenuItem
+            // 
+            this.jobGroupSaveStripMenuItem.Name = "jobGroupSaveStripMenuItem";
+            resources.ApplyResources(this.jobGroupSaveStripMenuItem, "jobGroupSaveStripMenuItem");
+            this.jobGroupSaveStripMenuItem.Click += new System.EventHandler(this.JobTree_SaveJobGroup);
             // 
             // toolStripSeparator2
             // 
@@ -264,5 +287,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem jobGroupDeleteToolStripMenuItem;
         private System.Windows.Forms.ImageList jobStatusImageList;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem jobGroupSaveStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jobGroupLoadToolStripMenuItem;
     }
 }

@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Ecell.Job
 {
@@ -44,6 +45,10 @@ namespace Ecell.Job
         private Dictionary<string, string> m_analysisParameter;
         private List<Job> m_jobs;
         private AnalysisStatus m_status;
+        private string m_topDir;
+        private bool m_isSaved;
+        private IAnalysisModule m_analysis;
+        private bool m_isRunning;
         #endregion
 
         #region Accessors
@@ -75,6 +80,24 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// get / set the topdir.
+        /// </summary>
+        public string TopDir
+        {
+            get { return this.m_topDir; }
+            set { this.m_topDir = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag whether this group is saved.
+        /// </summary>
+        public bool IsSaved
+        {
+            get { return this.m_isSaved; }
+            set { this.m_isSaved = value; }
+        }
+
+        /// <summary>
         /// get / set the analysis parameters.
         /// </summary>
         public Dictionary<string, string> AnalysisParameter
@@ -100,6 +123,15 @@ namespace Ecell.Job
             get { return this.m_status; }
             set { this.m_status = value; }
         }
+
+        /// <summary>
+        /// get  the flag whether this job group is running.
+        /// </summary>
+        public bool IsRunning
+        {
+            get { return this.m_isRunning; }
+        }
+
         #endregion
 
         #region Constructors
@@ -136,6 +168,17 @@ namespace Ecell.Job
         }
         #endregion
 
+
+        public void Run()
+        {
+            m_isRunning = true;
+        }
+
+        public void Stop()
+        {
+            m_isRunning = false;
+        }
+
         private void UpdateJobStatus()
         {
             foreach (Job job in m_jobs)
@@ -154,8 +197,12 @@ namespace Ecell.Job
         public void UpdateStatus()
         {
             AnalysisStatus status = AnalysisStatus.Finished;
+            int count = 0;
             foreach (Job m in m_jobs)
-            {             
+            {
+                if (m.Status != JobStatus.RUNNING &&
+                    m.Status != JobStatus.QUEUED)
+                    count++;
                 if (m.Status == JobStatus.RUNNING)
                 {
                     status = AnalysisStatus.Running;
@@ -179,6 +226,15 @@ namespace Ecell.Job
                 }
             }
             m_status = status;
+            if (count != m_jobs.Count)
+            {
+                m_isRunning = true;
+            }
+            else
+            {
+                m_analysis.NotifyAnalysisFinished();
+                m_isRunning = false;
+            }
         }
 
         /// <summary>
@@ -195,8 +251,12 @@ namespace Ecell.Job
 
         public void Clear()
         {
+            if (m_isSaved) return;
             foreach (Job m in m_jobs)
                 m.Clear();
+            if (!string.IsNullOrEmpty(m_topDir) && Directory.Exists(m_topDir))
+                Directory.Delete(m_topDir, true);
+                
         }
 
         /// <summary>

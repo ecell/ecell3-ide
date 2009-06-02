@@ -47,21 +47,13 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Class to manage the sensitivity analysis.
     /// </summary>
-    class SensitivityAnalysis
+    public class SensitivityAnalysis : IAnalysisModule
     {
         #region Fields
-        /// <summary>
-        /// Timer to update the status of jobs.
-        /// </summary>
-        private System.Windows.Forms.Timer m_timer;
         /// <summary>
         /// Plugin controller.
         /// </summary>
         private Analysis m_owner;
-        /// <summary>
-        /// The flag whether the analysis is running.
-        /// </summary>
-        private bool m_isRunning = false;
         /// <summary>
         /// The parameter for sensitivity analysis.
         /// </summary>
@@ -146,7 +138,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The list of entity path of activity data.
         /// </summary>
         private List<string> m_activityList = new List<string>();
-        private const string s_analysisName = "SensitivityAnalysis";
+        public const string s_analysisName = "SensitivityAnalysis";
         private const string s_step = "Step";
         private const string s_relativePert = "Relative Perturbation";
         private const string s_absolutePert = "Absolute Perturbation";
@@ -156,33 +148,44 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SensitivityAnalysis(Analysis owner, SensitivityAnalysisParameter param)
+        public SensitivityAnalysis(Analysis owner)
         {
             m_owner = owner;
-
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 5000;
-            m_timer.Tick += new EventHandler(FireTimer);
 
             m_currentData = new Dictionary<string, double>();
             m_pertubateData = new Dictionary<string, double>();
             m_execParam = new Dictionary<int, ExecuteParameter>();
             m_saveList = new List<SaveLoggerProperty>();
-            m_param = param;
         }
 
         #region Accessors
         /// <summary>
-        /// get / set the flag whether the sensitivity analysis is running.
+        /// get / set the job group.
         /// </summary>
-        public bool IsRunning
+        public JobGroup Group
         {
-            get { return this.m_isRunning; }
+            get { return this.m_group; }
+            set { this.m_group = value; }
+        }
+
+        /// <summary>
+        /// set the analysis parameter.
+        /// </summary>
+        public object AnalysisParameter
+        {
+            set
+            {
+                SensitivityAnalysisParameter p = value as SensitivityAnalysisParameter;
+                if (p != null)
+                    m_param = p;
+            }
         }
         #endregion
 
-
+        /// <summary>
+        /// Get the property of analysis.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -194,6 +197,10 @@ namespace Ecell.IDE.Plugins.Analysis
             return paramDic;
         }
 
+        /// <summary>
+        /// Set the property of analysis.
+        /// </summary>
+        /// <param name="paramDic"></param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)
@@ -211,6 +218,29 @@ namespace Ecell.IDE.Plugins.Analysis
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Execute this function when this analysis is finished.
+        /// </summary>
+        public void NotifyAnalysisFinished()
+        {
+            CreateEpsilonElastictyMatrix();
+            CalculateUnScaledControlCoefficient();
+            CalculateScaledControlCoefficient();         
+        }
+
+        /// <summary>
+        /// Create the analysis instance.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public IAnalysisModule CreateNewInstance(JobGroup group)
+        {
+            SensitivityAnalysis instance = new SensitivityAnalysis(m_owner);
+            instance.Group = group;
+
+            return instance;
         }
 
         /// <summary>
@@ -246,7 +276,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            m_isRunning = true;
             Dictionary<EcellObject, int> varList = GetVariableList(m_model);
             Dictionary<EcellObject, int> proList = GetProcessList(m_model);
             m_vNum = varList.Count;
@@ -265,12 +294,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
                 return;
-            }
-
-            if (m_isRunning)
-            {
-                m_timer.Enabled = true;
-                m_timer.Start();
             }
         }
 
@@ -350,16 +373,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_group = m_owner.JobManager.CreateJobGroup(s_analysisName);
             m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, cTime, false, execDict);            
-        }
-
-        /// <summary>
-        /// Stop the sensitivity analysis.
-        /// </summary>
-        public void StopAnalysis()
-        {
-            m_owner.JobManager.Stop(m_group.GroupName, 0);
-            m_isRunning = false;
-            m_owner.StopSensitivityAnalysis();
         }
 
         /// <summary>
@@ -765,26 +778,14 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             try
             {
-                if (!m_isRunning)
-                {
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                    return;
-                }
 
                 if (!m_owner.JobManager.IsFinished(m_group.GroupName))
                 {
-                    if (m_isRunning == false)
-                    {
+
                         m_owner.JobManager.Stop(m_group.GroupName, 0);
-                        m_timer.Enabled = false;
-                        m_timer.Stop();
-                    }
+
                     return;
                 }
-                m_isRunning = false;
-                m_timer.Enabled = false;
-                m_timer.Stop();
                 m_owner.StopSensitivityAnalysis();
 
                 CreateEpsilonElastictyMatrix();

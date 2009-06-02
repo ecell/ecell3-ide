@@ -882,6 +882,7 @@ namespace Ecell
                 this.m_env.ActionManager.Clear();
                 this.m_env.ReportManager.Clear();
                 this.m_env.LoggerManager.Clear();
+                this.m_env.JobManager.Clear();
                 this.m_parameterList.Clear();
                 this.m_observedList.Clear();
                 this.m_loggerEntry.Clear();

@@ -70,18 +70,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private ToolStripMenuItem m_showSensitiveAnalysisSetupItem;
         /// <summary>
-        /// 
-        /// </summary>
-        private ToolStripMenuItem m_stopAnalysisItem;
-        /// <summary>
-        /// 
-        /// </summary>
-        private ToolStripMenuItem m_saveAnalysisResultItem;
-        /// <summary>
-        /// 
-        /// </summary>
-        private ToolStripMenuItem m_loadAnalysisResultItem;
-        /// <summary>
         /// For to display the result of analysis.
         /// </summary>
         private AnalysisResultWindow m_rWin = null;
@@ -125,7 +113,6 @@ namespace Ecell.IDE.Plugins.Analysis
         private List<string> m_headerList = new List<string>();
         private Dictionary<string, List<double>> m_cccResult = new Dictionary<string, List<double>>();
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
-        private string m_currentAnalysus = null;
         #endregion
 
         /// <summary>
@@ -142,10 +129,6 @@ namespace Ecell.IDE.Plugins.Analysis
         public Analysis()
         {
             InitializeComponent();
-            m_bifurcateParameter = new BifurcationAnalysisParameter();
-            m_estimationParameter = new ParameterEstimationParameter();
-            m_robustParameter = new RobustAnalysisParameter();
-            m_sensitivityParameter = new SensitivityAnalysisParameter();
         }
 
         private void InitializeComponent()
@@ -170,41 +153,16 @@ namespace Ecell.IDE.Plugins.Analysis
             m_showSensitiveAnalysisSetupItem.Tag = 80;
             m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
 
-            ToolStripSeparator sep1 = new ToolStripSeparator();
-            sep1.Tag = 90;
-
-
-            m_stopAnalysisItem = new ToolStripMenuItem();
-            m_stopAnalysisItem.Text = MessageResources.MenuItemStopAnalysis;
-            m_stopAnalysisItem.Tag = 100;
-            m_stopAnalysisItem.Enabled = false;
-            m_stopAnalysisItem.Click += new EventHandler(StopAnalysis);
-
-            ToolStripSeparator sep2 = new ToolStripSeparator();
-            sep2.Tag = 120;
-
-            m_saveAnalysisResultItem = new ToolStripMenuItem();
-            m_saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
-            m_saveAnalysisResultItem.Tag = 150;
-            m_saveAnalysisResultItem.Enabled = false;
-            m_saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
-
-            m_loadAnalysisResultItem = new ToolStripMenuItem();
-            m_loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
-            m_loadAnalysisResultItem.Tag = 160;
-            m_loadAnalysisResultItem.Enabled = true;
-            m_loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
-
             analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
                 m_showRobustAnalysisSetupItem, m_showParameterEstimationSetupItem,
-                m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem, sep1, 
-                m_stopAnalysisItem, sep2,
-                m_saveAnalysisResultItem, m_loadAnalysisResultItem
+                m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem
+              
             });
             analysisMenu.Text = "Tools";
             analysisMenu.Name = MenuConstants.MenuItemTools;
         }
+
 
         /// <summary>
         /// Set the parameter set of bifurcation analysis in this form.
@@ -418,7 +376,6 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (m_rWin != null)
                 m_rWin.ClearResult();
-            m_saveAnalysisResultItem.Enabled = false;
         }
 
         /// <summary>
@@ -426,8 +383,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void FinishedAnalysis()
         {
-            m_saveAnalysisResultItem.Enabled = true;
-            m_stopAnalysisItem.Enabled = false;
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
 
@@ -436,7 +391,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void FinishedAnalysisByError()
         {
-            m_stopAnalysisItem.Enabled = false;
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
 
@@ -698,45 +652,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 dlg();
         }
 
-        private bool IsRunningAnalysis()
-        {
-            string message = "";
-            if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
-            {
-                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameRobustAnalysis);
-            }
-            if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
-            {
-                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameParameterEstimate);
-            }
-            if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
-            {
-                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameSensAnalysis);
-            }
-            if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
-            {
-                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameBifurcation);
-            }
-            if (String.IsNullOrEmpty(message))
-                return true;
-            if (Util.ShowYesNoDialog(message))
-            {
-                StopAnalysis();
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-                m_stopAnalysisItem.Enabled = false;
-                return true;
-            }
-            return false;
-        }
-
-        private void StopAnalysis()
-        {           
-            if (m_robustAnalysis != null) m_robustAnalysis.StopAnalysis();
-            if (m_parameterEstimation != null) m_parameterEstimation.StopAnalysis();
-            if (m_sensitivityAnalysis != null) m_sensitivityAnalysis.StopAnalysis();
-            if (m_bifurcationAnalysis != null) m_bifurcationAnalysis.StopAnalysis();
-        }
-
         /// <summary>
         /// Event when the menu to execute robust analysis is clicked.
         /// This program execute the program of robust analysis.
@@ -745,15 +660,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
-            if (!IsRunningAnalysis())
-            {
-                return;
-            }
             ShowGridStatusDialog();
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            m_currentAnalysus = "RobustAnalysis";
-            m_stopAnalysisItem.Enabled = true;
-            m_robustAnalysis = new RobustAnalysis(this, m_robustParameter);
+            JobGroup g = new JobGroup(RobustAnalysis.s_analysisName);
+            m_robustAnalysis = new RobustAnalysis(this);
+            m_robustAnalysis.Group = g;
+            m_robustAnalysis.AnalysisParameter = m_robustParameter;
             m_robustAnalysis.ExecuteAnalysis();
         }
 
@@ -765,15 +676,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteParameterEstimation(object sender, EventArgs e)
         {
-            if (!IsRunningAnalysis())
-            {
-                return;
-            }
             ShowGridStatusDialog();
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            m_currentAnalysus = "ParameterEstimation";
-            m_stopAnalysisItem.Enabled = true;
-            m_parameterEstimation = new ParameterEstimation(this, m_estimationParameter);
+            JobGroup g = new JobGroup(ParameterEstimation.s_analysisName);
+            m_parameterEstimation = new ParameterEstimation(this);
+            m_parameterEstimation.Group = g;
+            m_parameterEstimation.AnalysisParameter = m_estimationParameter;
             m_parameterEstimation.ExecuteAnalysis();
         }
 
@@ -785,15 +692,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
         {
-            if (!IsRunningAnalysis())
-            {
-                return;
-            }
             ShowGridStatusDialog();
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            m_currentAnalysus = "SensitivityAnalysis";
-            m_stopAnalysisItem.Enabled = true;
-            m_sensitivityAnalysis = new SensitivityAnalysis(this, m_sensitivityParameter);
+            JobGroup g = new JobGroup(SensitivityAnalysis.s_analysisName);
+            m_sensitivityAnalysis = new SensitivityAnalysis(this);
+            m_sensitivityAnalysis.Group = g;
+            m_sensitivityAnalysis.AnalysisParameter = m_sensitivityParameter;
             m_sensitivityAnalysis.ExecuteAnalysis();
         }
 
@@ -805,15 +708,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
         {
-            if (!IsRunningAnalysis())
-            {
-                return;
-            }
-            ShowGridStatusDialog();
-            m_currentAnalysus = "BifurcationAnalysis";            
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            m_stopAnalysisItem.Enabled = true;
-            m_bifurcationAnalysis = new BifurcationAnalysis(this, m_bifurcateParameter);
+            ShowGridStatusDialog();           
+            JobGroup g = new JobGroup(BifurcationAnalysis.s_analysisName);
+            m_bifurcationAnalysis = new BifurcationAnalysis(this);
+            m_bifurcationAnalysis.Group = g;
+            m_bifurcationAnalysis.AnalysisParameter = m_bifurcateParameter;
             m_bifurcationAnalysis.ExecuteAnalysis();
         }
 
@@ -828,19 +727,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_rWin.SensitivityAnalysisContent.Activate();
             if (isParameterWindow)
                 m_rWin.ParameterEsitmationContent.Activate();
-        }
-
-        /// <summary>
-        /// Stop the all process of analysis.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void StopAnalysis(object sender, EventArgs e)
-        {
-            if (!IsRunningAnalysis())
-            {
-                return;
-            }
         }
         #endregion
 
@@ -858,44 +744,15 @@ namespace Ecell.IDE.Plugins.Analysis
             return list;
         }
 
-        private void SaveAnalysisResult(object sender, EventArgs e)
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        public override void Initialize()
         {
-            if (m_currentAnalysus == null) return;
-
-            SaveFileDialog dialog = new SaveFileDialog();
-            using (dialog)
-            {
-                dialog.Filter = Constants.FilterCSVFile;
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-            }
-
-            if (m_currentAnalysus.Equals("RobustAnalysis"))
-                m_rWin.SaveRobustAnalysisResult(dialog.FileName);
-            else if (m_currentAnalysus.Equals("BifurcationAnalysis"))
-                m_rWin.SaveBifurcationResult(dialog.FileName);
-            else if (m_currentAnalysus.Equals("ParameterEstimation"))
-                m_rWin.SaveParameterEstimationResult(dialog.FileName);
-            else if (m_currentAnalysus.Equals("SensitivityAnalysis"))
-                m_rWin.SaveSensitivityAnalysisResult(dialog.FileName);
-        }
-
-        private void LoadAnalysisResult(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            using (dialog)
-            {
-                dialog.Filter = Constants.FilterCSVFile;
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-
-                // test code
-                //BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(m_env, dialog.FileName, "");
-                //f.Parameter = m_bifurcateParameter;
-                //f.Read();
-
-                m_rWin.LoadResultFile(dialog.FileName);
-            }
+            m_env.JobManager.AnalysisDic.Add(ParameterEstimation.s_analysisName, new ParameterEstimation(this));
+            m_env.JobManager.AnalysisDic.Add(BifurcationAnalysis.s_analysisName, new BifurcationAnalysis(this));
+            m_env.JobManager.AnalysisDic.Add(SensitivityAnalysis.s_analysisName, new SensitivityAnalysis(this));
+            m_env.JobManager.AnalysisDic.Add(RobustAnalysis.s_analysisName, new RobustAnalysis(this));
         }
 
         /// <summary>
@@ -916,12 +773,10 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (ProjectStatus.Loaded == type)
             {
-                StopAnalysis();
                 m_showBifurcationSetupItem.Enabled = true;
                 m_showParameterEstimationSetupItem.Enabled = true;
                 m_showRobustAnalysisSetupItem.Enabled = true;
                 m_showSensitiveAnalysisSetupItem.Enabled = true;
-                m_loadAnalysisResultItem.Enabled = true;
             }
             else
             {
@@ -929,7 +784,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_showParameterEstimationSetupItem.Enabled = false;
                 m_showRobustAnalysisSetupItem.Enabled = false;
                 m_showSensitiveAnalysisSetupItem.Enabled = false;
-                m_loadAnalysisResultItem.Enabled = false;
             }
         }
 
@@ -941,7 +795,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_paramList.Clear();
             m_observedList.Clear();
             ClearResult();
-            m_currentAnalysus = null;
         }
 
         /// <summary>
