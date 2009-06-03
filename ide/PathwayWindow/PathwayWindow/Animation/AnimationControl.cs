@@ -472,8 +472,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if(!_con.IsAnimation)
                 return;
-            if (_autoThreshold)
-                _thresholdHigh = 0f;
             SetPropForSimulation();
             // Avi
             if (_isRecordMovie && _aviManager == null)
@@ -561,21 +559,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
 
             //
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
-            {
-                process.ViewMode = true;
-                if (!process.Visible)
-                    continue;
-                // Line setting.
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    line.EdgeBrush = _viewEdgeBrush;
-                }
-                // Set threshold
-                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                if (_autoThreshold)
-                    SetThreshold(activity);
-            }
             foreach (PPathwayVariable variable in _canvas.Variables.Values)
             {
                 if (!variable.Visible)
@@ -587,18 +570,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             if (_isPausing)
                 UpdatePropForSimulation();
-        }
-
-        /// <summary>
-        /// Set threshold
-        /// </summary>
-        /// <param name="activity"></param>
-        private void SetThreshold(float activity)
-        {
-            if (activity > _thresholdHigh)
-                _thresholdHigh = activity;
-            if (activity < _thresholdLow)
-                _thresholdLow = activity;
         }
 
         /// <summary>
@@ -614,43 +585,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 item.UpdateProperty();
             }
 
-            //
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
-            {
-                if (!process.Visible)
-                    continue;
-
-                // Line setting.
-                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                float width = GetEdgeWidth(activity);
-                Brush brush = GetEdgeBrush(activity);
-
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    if (line.Info.LineType != LineType.Dashed)
-                        line.SetEdge(brush, width);
-                }
-                // Set threshold
-                if (_autoThreshold)
-                    SetThreshold(activity);
-            }
             foreach (PPathwayVariable variable in _canvas.Variables.Values)
             {
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
                 float molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                float width = GetEdgeWidth(molerConc);
-                Brush brush = GetEdgeBrush(molerConc);
-
                 variable.PPropertyText.Text = molerConc.ToString(_format);
-                // Set Effector.
-                foreach (PPathwayLine line in variable.Relations)
-                {
-                    if (line.Info.LineType == LineType.Dashed)
-                        line.SetEdge(brush, width);
-                }
-
             }
             _canvas.PCanvas.Refresh();
 
@@ -684,17 +625,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Reset objects.
             foreach (PPathwayObject obj in _canvas.GetAllObjects())
                 obj.Refresh();
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
-            {
-                if (!process.Visible)
-                    continue;
-                // Line setting.
-                process.ViewMode = false;
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    line.SetEdge(_editEdgeBrush, _normalEdgeWidth);
-                }
-            }
+
             foreach (PPathwayVariable variable in _canvas.Variables.Values)
             {
                 if (!variable.Visible)
@@ -882,36 +813,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             return num;
         }
-        /// <summary>
-        /// Get line width.
-        /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        private float GetEdgeWidth(float activity)
-        {
-            if (float.IsNaN(activity))
-                return 0f;
-            else if (activity <= _thresholdLow || _thresholdHigh == 0f)
-                return 0f;
-            else if (activity >= _thresholdHigh)
-                return _maxEdgeWidth;
-            return _maxEdgeWidth * activity / _thresholdHigh;
-        }
-        /// <summary>
-        /// Get line color
-        /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        private Brush GetEdgeBrush(float activity)
-        {
-            if (float.IsNaN(activity) || float.IsInfinity(activity))
-                return _ngEdgeBrush;
-            else if (activity <= _thresholdLow)
-                return _lowEdgeBrush;
-            else if (activity >= _thresholdHigh)
-                return _highEdgeBrush;
-            return _viewEdgeBrush;
-        }
 
         internal void ShowDialog()
         {
@@ -921,6 +822,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 dlg.ApplyChange();
+                _items.Clear();
+                _items.AddRange(dlg.Items);
             }
         }
     }

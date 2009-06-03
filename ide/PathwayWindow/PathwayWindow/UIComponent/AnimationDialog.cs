@@ -18,6 +18,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     {
         private AnimationControl _control;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<IAnimationItem> Items
+        {
+            get
+            {
+                List<IAnimationItem> list = new List<IAnimationItem>();
+                foreach (IAnimationItem item in listBox.Items)
+                {
+                    list.Add(item);
+                }
+                return list;
+            }
+        }
+
         #region Constructor
         /// <summary>
         /// 
@@ -55,12 +71,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
+            if (listBox.SelectedIndex < 0)
+                return;
 
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            contextMenuAddItem.Show(this.buttonAdd.Location);
+            Point point = this.Location;
+            point.Offset(this.buttonAdd.Location);
+            contextMenuAddItem.Show(point);
         }
 
         #endregion
@@ -88,7 +108,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void addEdgeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddItem(new EdgeAnimatioinItem(_control));
+            EdgeAnimatioinItem item = new EdgeAnimatioinItem(_control);
+            AddItem(item);
         }
 
         /// <summary>
@@ -98,6 +119,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public void AddItem(IAnimationItem item)
         {
             AnimationItemBase obj = (AnimationItemBase)item;
+            obj.SetViewItem();
             _control.Items.Add(obj);
             this.listBox.Items.Add(obj);
             this.panel.Controls.Clear();
@@ -106,7 +128,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void AnimationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.listBox.Items.Clear();
             this.panel.Controls.Clear();
         }
     }

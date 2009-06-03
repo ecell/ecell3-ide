@@ -46,8 +46,8 @@
             // 
             // listBox
             // 
-            this.listBox.FormattingEnabled = true;
             resources.ApplyResources(this.listBox, "listBox");
+            this.listBox.FormattingEnabled = true;
             this.listBox.Name = "listBox";
             this.listBox.SelectedIndexChanged += new System.EventHandler(this.listBox_SelectedIndexChanged);
             // 
@@ -78,15 +78,15 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.buttonOK, "buttonOK");
+            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.buttonCancel, "buttonCancel");
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -123,13 +123,13 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.listBox);
             this.Controls.Add(this.buttonOK);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.labelItems);
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.listBox);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AnimationDialog";

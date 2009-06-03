@@ -112,8 +112,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="control"></param>
         public EdgeAnimatioinItem(AnimationControl control)
-            : this()
+            : base(control)
         {
+            InitializeComponent();
             _control = control;
         }
 
@@ -231,6 +232,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         #endregion
 
@@ -297,7 +299,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 float width = GetEdgeWidth(molerConc);
                 Brush brush = GetEdgeBrush(molerConc);
 
-                variable.PPropertyText.Text = molerConc.ToString(_format);
                 // Set Effector.
                 foreach (PPathwayLine line in variable.Relations)
                 {

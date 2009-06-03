@@ -101,9 +101,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this._menuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SuspendLayout();
             // 
-            // MenuItem
+            // _menuItem
             // 
-            this._menuItem.Name = "MenuItem";
+            this._menuItem.Name = "_menuItem";
             this._menuItem.Size = new System.Drawing.Size(32, 19);
             this._menuItem.Text = "MenuItem";
             // 
@@ -111,7 +111,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             this.AutoScroll = true;
             this.Name = "AnimationItemBase";
-            this.Size = new System.Drawing.Size(369, 320);
+            this.Size = new System.Drawing.Size(476, 320);
             this.ResumeLayout(false);
 
         }
