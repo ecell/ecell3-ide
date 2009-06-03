@@ -1173,7 +1173,7 @@ namespace Ecell.Job
         /// <returns></returns>
         public JobGroup CreateJobGroup(string name)
         {
-            JobGroup group = new JobGroup(name);
+            JobGroup group = new JobGroup(this, name);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }
@@ -1187,7 +1187,7 @@ namespace Ecell.Job
         /// <returns></returns>
         public JobGroup CreateJobGroup(string name, string date)
         {
-            JobGroup group = new JobGroup(name, date);
+            JobGroup group = new JobGroup(this, name, date);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }

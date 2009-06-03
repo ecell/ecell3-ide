@@ -129,7 +129,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
                     new object[] { MessageResources.NameRobustAnalysis }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             if (m_owner.JobManager.IsError(m_group.GroupName))
@@ -143,7 +143,6 @@ namespace Ecell.IDE.Plugins.Analysis
             Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                 new object[] { MessageResources.NameRobustAnalysis }));
             m_owner.ActivateResultWindow(true, false, false);
-            m_owner.FinishedAnalysis();
         }
         #endregion
 
@@ -232,21 +231,21 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameMaxSample, 0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             if (simTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             if (maxSize > MaxSize)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSmaller,
                     new object[] { MessageResources.NameMaxSample, MaxSize }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
 
@@ -260,14 +259,14 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
                     new object[] { MessageResources.NameParameterData, 2 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             if (!m_param.IsRandomCheck && paramList.Count != 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 2 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();

@@ -250,7 +250,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
 
@@ -264,7 +264,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 2 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
@@ -800,7 +800,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
                 {
-                    m_owner.FinishedAnalysisByError();
                     return;
                 }
             }
@@ -811,7 +810,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 PrintResultData();
                 m_owner.ActivateResultWindow(true, false, false);
-                m_owner.FinishedAnalysis();
 
                 if (m_resultPoint <= 0)
                     Util.ShowWarningDialog(MessageResources.WarnNoBifurcation);

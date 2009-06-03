@@ -331,22 +331,6 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public void FinishedAnalysis()
-        {
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void FinishedAnalysisByError()
-        {
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-        }
-
-        /// <summary>
         /// Set the parameter entry to display the result.
         /// </summary>
         /// <param name="name">the parameter name.</param>

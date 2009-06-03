@@ -260,7 +260,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NamePopulation, 0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
 
                 return;
             }
@@ -268,7 +268,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameGenerationNum, 0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
 
                 return;
             }
@@ -276,7 +276,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
 
                 return;
             }
@@ -285,7 +285,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameEstimationForm, 1 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
 
                 return;
             }
@@ -300,7 +300,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 1 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
 
                 return;
             }
@@ -395,7 +395,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                     new object[] { MessageResources.NameParameterEstimate }));
                 m_owner.ActivateResultWindow(true, false, true);
-                m_owner.FinishedAnalysis();
                 return;
             }
 

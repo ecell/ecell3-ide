@@ -237,6 +237,7 @@ namespace Ecell.IDE.Plugins.Analysis
             catch (Exception)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                m_group.IsGroupError = true;
                 return;
             }
         }
@@ -269,21 +270,21 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameStepNum, 0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameAbsolutePert, 0.0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                    new object[] { MessageResources.NameRelativePert, 0.0 }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
                 return;
             }
 
@@ -605,10 +606,7 @@ namespace Ecell.IDE.Plugins.Analysis
             Matrix jocobianMatrix = epsilonMatrix * m_linkMatrix;
             if (jocobianMatrix.Determinant() == 0.0)
             {
-                String errmes = String.Format(MessageResources.ErrExecute,
-                    new object[] { MessageResources.NameSensAnalysis });
-                Util.ShowErrorDialog(errmes);
-                m_owner.FinishedAnalysisByError();
+                string errmes = String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis);
                 throw new IgnoreException(errmes);
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
@@ -825,7 +823,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                     new object[] { MessageResources.NameSensAnalysis }));
                 m_owner.ActivateResultWindow(false, true, false);
-                m_owner.FinishedAnalysis();
             }
             catch (IgnoreException ex)
             {
@@ -835,7 +832,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
                     new object[] { MessageResources.NameSensAnalysis }));
-                m_owner.FinishedAnalysisByError();
+                m_group.IsGroupError = true;
 
                 m_owner.Environment.LogManager.Append(
                         new ApplicationLogEntry(MessageType.Error, ex.ToString(), this));

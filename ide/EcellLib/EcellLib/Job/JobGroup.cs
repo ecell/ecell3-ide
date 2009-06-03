@@ -45,9 +45,11 @@ namespace Ecell.Job
         private List<Job> m_jobs;
         private AnalysisStatus m_status;
         private string m_topDir;
-        private bool m_isSaved;
+        private bool m_isSaved = false;
         private IAnalysisModule m_analysis;
-        private bool m_isRunning;
+        private bool m_isRunning = false;
+        private bool m_isGroupError = false;
+        private IJobManager m_manager;
         #endregion
 
         #region Accessors
@@ -132,6 +134,18 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public bool IsGroupError
+        {
+            set { 
+                this.m_isGroupError = value;
+                UpdateStatus();
+                m_manager.Update();
+            }
+        }
+
+        /// <summary>
         /// get / set the analysis module for this job group.
         /// </summary>
         public IAnalysisModule AnalysisModule
@@ -147,8 +161,9 @@ namespace Ecell.Job
         /// Constructors
         /// </summary>
         /// <param name="analysisName"></param>
-        public JobGroup(string analysisName)
+        public JobGroup(JobManager manger, string analysisName)
         {
+            m_manager = manger;
             this.m_analysisName = analysisName;           
             DateTime dt = DateTime.Now;
             string dateString = dt.ToString("yyyyMMddHHmm");
@@ -162,8 +177,9 @@ namespace Ecell.Job
         /// <param name="analysisName"></param>
         /// <param name="date"></param>
         /// <param name="param"></param>
-        public JobGroup(string analysisName, string date)
+        public JobGroup(JobManager manager, string analysisName, string date)
         {
+            m_manager = manager;
             this.m_analysisName = analysisName;
             this.m_date = date;
             this.m_jobs = new List<Job>();
@@ -235,6 +251,9 @@ namespace Ecell.Job
                     status = AnalysisStatus.Error;
                 }
             }
+            if (m_isGroupError)
+                status = AnalysisStatus.Error;
+
             m_status = status;
             if (count != m_jobs.Count)
             {
