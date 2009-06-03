@@ -133,7 +133,7 @@ namespace Ecell.IDE.MainWindow
                 return;
             foreach (TreeNode node in m_pointDic[analysisName].Nodes)
             {
-                if (node.Text.Equals(node))
+                if (node.Text.Equals(name))
                 {
                     m_pointDic[analysisName].Nodes.Remove(node);
                     return;
@@ -318,17 +318,25 @@ namespace Ecell.IDE.MainWindow
 
             Job.Job j = m_manager.GroupDic[jnode.GroupName].GetJob(Int32.Parse(jnode.ID));
             if (status.Equals("Queued"))
+            {
                 j.Status = JobStatus.QUEUED;
+                m_manager.GroupDic[jnode.GroupName].UpdateStatus();
+            }
             else if (status.Equals("Error"))
+            {
                 j.Status = JobStatus.ERROR;
+                m_manager.GroupDic[jnode.GroupName].UpdateStatus();
+            }
+            UpdateJobStatus(this, new EventArgs());
         }
 
         private void JobTree_RunJobGroup(object sender, EventArgs e)
         {
+            ToolStripMenuItem m = sender as ToolStripMenuItem;
+            if (m == null) return;
             TreeNode node = jobTreeView.SelectedNode;
             if (node == null || !(node is JobGroupTreeNode))
                 return;
-
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
 
             m_manager.Run(jnode.GroupName);
@@ -336,10 +344,11 @@ namespace Ecell.IDE.MainWindow
 
         private void JobTree_StopJobGroup(object sender, EventArgs e)
         {
+            ToolStripMenuItem m = sender as ToolStripMenuItem;
+            if (m == null) return;
             TreeNode node = jobTreeView.SelectedNode;
             if (node == null || !(node is JobGroupTreeNode))
                 return;
-
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
 
             m_manager.Stop(jnode.GroupName, 0);
@@ -347,13 +356,15 @@ namespace Ecell.IDE.MainWindow
 
         private void JobTree_DelteJobGroup(object sender, EventArgs e)
         {
+            ToolStripMenuItem m = sender as ToolStripMenuItem;
+            if (m == null) return;
             TreeNode node = jobTreeView.SelectedNode;
             if (node == null || !(node is JobGroupTreeNode))
                 return;
-
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
-
-            m_manager.RemoveJobGroup(jnode.GroupName);
+            string name = jnode.GroupName;
+            DeleteJobGroup(name);
+            m_manager.RemoveJobGroup(name);
         }
 
         /// <summary>

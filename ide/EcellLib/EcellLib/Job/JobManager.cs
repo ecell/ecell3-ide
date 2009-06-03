@@ -585,12 +585,11 @@ namespace Ecell.Job
         {
             if (jobid == 0)
             {
-                m_groupDic[groupName].Stop();
-
                 foreach (Job j in m_groupDic[groupName].Jobs)
                 {
                     j.stop();
                 }
+                m_groupDic[groupName].Stop();
             }
             else
             {

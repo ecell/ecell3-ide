@@ -179,6 +179,7 @@ namespace Ecell.Job
         public void Stop()
         {
             m_isRunning = false;
+            UpdateStatus();
         }
 
         private void UpdateJobStatus()
@@ -207,36 +208,37 @@ namespace Ecell.Job
             int count = 0;
             foreach (Job m in m_jobs)
             {
+
                 if (m.Status != JobStatus.RUNNING &&
                     m.Status != JobStatus.QUEUED)
                     count++;
-                if (m.Status == JobStatus.RUNNING)
+
+                if (m.Status == JobStatus.RUNNING ||
+                    (m_isRunning && m.Status == JobStatus.QUEUED))
                 {
                     status = AnalysisStatus.Running;
                     break;
                 }
-                else if (m.Status == JobStatus.STOPPED)
+                if (status != AnalysisStatus.Running &&
+                    (!m_isRunning && m.Status == JobStatus.QUEUED))
+                {
+                    status = AnalysisStatus.Waiting;
+                    break;
+                }
+                if (m.Status == JobStatus.STOPPED)
                 {
                     status = AnalysisStatus.Stopped;
                 }
                 else if (m.Status == JobStatus.ERROR &&
-                    (status != AnalysisStatus.Stopped &&
-                    status != AnalysisStatus.Running))
+                    status == AnalysisStatus.Finished)
                 {
                     status = AnalysisStatus.Error;
-                }
-                else if ((m.Status == JobStatus.NONE ||
-                    m.Status == JobStatus.QUEUED) &&
-                    (status == AnalysisStatus.Finished))
-                {
-                    status = AnalysisStatus.Waiting;
                 }
             }
             m_status = status;
             if (count != m_jobs.Count)
             {
-                m_isRunning = true;
-                m_status = AnalysisStatus.Running;
+//                m_status = AnalysisStatus.Running;
             }
             else if (m_isRunning == true)
             {
