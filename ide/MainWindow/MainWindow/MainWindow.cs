@@ -851,7 +851,6 @@ namespace Ecell.IDE.MainWindow
             }
 
             // Set Status.
-            m_statusDialog.ChangeStatus(status);
             m_status = status;
             ChangeUndoStatus(m_env.ActionManager.UndoStatus);
         }

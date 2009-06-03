@@ -79,7 +79,13 @@ namespace Ecell.Job
         private List<string> m_extraFile;
         private JobStatus m_status;
         private string m_stderr;
+        /// <summary>
+        /// Execution environment parameters.
+        /// </summary>
         private Dictionary<string, object> m_param;
+        /// <summary>
+        /// The set property data.
+        /// </summary>
         private ExecuteParameter m_execParam;
         private string m_groupName;
 
@@ -169,7 +175,7 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// get / set the dictionary of parameter name and parameter data.
+        /// get / set the exeuction environment parameter.
         /// </summary>
         public Dictionary<string, object> Param
         {
@@ -178,7 +184,7 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// get / set the execution parameter.
+        /// get / set the set parameter.
         /// </summary>
         public ExecuteParameter ExecParam
         {

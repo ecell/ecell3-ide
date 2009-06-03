@@ -50,9 +50,10 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// SessionManager
         /// </summary>
-        IJobManager m_manager;
-        Timer m_timer;
+        private IJobManager m_manager;
         private TreeNode m_topNode = null;
+        private Job.Job m_job = null;
+        private JobGroup m_group = null;
         private Dictionary<string, TreeNode> m_pointDic = new Dictionary<string, TreeNode>();
         #endregion
 
@@ -66,25 +67,6 @@ namespace Ecell.IDE.MainWindow
 
             m_manager = manager;
             m_manager.JobUpdateEvent += new JobUpdateEventHandler(UpdateJobStatus);
-
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 3000;
-            m_timer.Tick += new EventHandler(FireTimer);
-        }
-
-        public void ChangeStatus(ProjectStatus status)
-        {
-            if (status == ProjectStatus.Analysis)
-            {
-                m_timer.Enabled = true;
-                m_timer.Start();
-            }
-            else
-            {
-                m_timer.Enabled = false;
-                m_timer.Stop();
-            }
         }
 
         /// <summary>
@@ -152,6 +134,9 @@ namespace Ecell.IDE.MainWindow
             this.Close();
         }
 
+        /// <summary>
+        /// Clear information of job or job group.
+        /// </summary>
         private void ClearInformation()
         {
             jobIDTextBox.Text = "";
@@ -159,6 +144,9 @@ namespace Ecell.IDE.MainWindow
             parameterDataGridView.Rows.Clear();            
         }
 
+        /// <summary>
+        /// Project is closed.
+        /// </summary>
         public void Clear()
         {
             ClearInformation();
@@ -213,17 +201,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Execute redraw process on simulation running at every 1sec.
-        /// </summary>
-        /// <param name="sender">object(Timer)</param>
-        /// <param name="e">EventArgs</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            m_timer.Enabled = false;
-            m_timer.Enabled = true;
-        }
-
-        /// <summary>
         /// Event when this form is shown.
         /// Display the all list of job that is got from SessionManager.
         /// </summary>
@@ -247,6 +224,8 @@ namespace Ecell.IDE.MainWindow
         {
             TreeNode node = e.Node;
             ClearInformation();
+            m_job = null;
+            m_group = null;
             if (!(node is JobTreeNode) && !(node is JobGroupTreeNode))
             {
                 return;
@@ -262,6 +241,7 @@ namespace Ecell.IDE.MainWindow
                     double data = job.ExecParam.ParamDic[fullPN];
                     parameterDataGridView.Rows.Add(new object[] { fullPN, data });
                 }
+                m_job = job;
             }
             if (node is JobGroupTreeNode)
             {
@@ -273,6 +253,7 @@ namespace Ecell.IDE.MainWindow
                     string data = group.AnalysisParameter[name];
                     parameterDataGridView.Rows.Add(new object[] { name, data });
                 }
+                m_group = group;
             }
         }
 
@@ -413,6 +394,55 @@ namespace Ecell.IDE.MainWindow
             jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting;
         }
+
+        
+
+        private void JobGrid_ChangeProperty(object sender, DataGridViewCellParsingEventArgs e)
+        {
+            string name = "";
+            string orgdata = parameterDataGridView[e.ColumnIndex, e.RowIndex].Value.ToString();
+            try
+            {
+                if (m_job != null)
+                {
+                    Dictionary<string, double> newParam = new Dictionary<string, double>();
+                    foreach (DataGridViewRow r in parameterDataGridView.Rows)
+                    {
+                        string paramName = r.Cells[PropNameColumn.Index].Value.ToString();
+                        name = paramName;                        
+                        double value;
+                        if (r.Index == e.RowIndex)
+                            value = Double.Parse(e.Value.ToString());
+                        else
+                            value = Double.Parse(r.Cells[PropValueColumn.Index].Value.ToString());
+                        newParam.Add(paramName, value);
+                    }
+                    m_job.ExecParam = new ExecuteParameter(newParam);
+                }
+                else if (m_group != null)
+                {
+                    Dictionary<string, string> newParame = new Dictionary<string, string>();
+                    foreach (DataGridViewRow r in parameterDataGridView.Rows)
+                    {
+                        string paramName = r.Cells[PropNameColumn.Index].Value.ToString();
+                        string value;
+                        if (r.Index == e.RowIndex)
+                            value = e.Value.ToString();
+                        else
+                            value = r.Cells[PropValueColumn.Index].Value.ToString();
+                        newParame.Add(paramName, value);
+                    }
+                    name = m_group.GroupName;
+                    m_group.AnalysisParameter = newParame;
+                }
+            }
+            catch (Exception)
+            {
+                e.ParsingApplied = true;
+                e.Value = orgdata.ToString();
+                parameterDataGridView.Refresh();
+            }
+        }
         #endregion
 
         /// <summary>
@@ -545,7 +575,6 @@ namespace Ecell.IDE.MainWindow
             node.ImageIndex = -1;
             node.SelectedImageIndex = -1;
         }
-
     }
 
     /// <summary>

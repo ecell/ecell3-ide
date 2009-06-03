@@ -112,6 +112,7 @@
             this.parameterDataGridView.RowHeadersVisible = false;
             this.parameterDataGridView.RowTemplate.Height = 21;
             this.parameterDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.parameterDataGridView.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.JobGrid_ChangeProperty);
             // 
             // PropNameColumn
             // 

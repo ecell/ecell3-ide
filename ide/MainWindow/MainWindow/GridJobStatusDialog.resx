@@ -417,14 +417,20 @@
   <data name="&gt;&gt;jobTreeView.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="parameterDataGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
   <metadata name="PropNameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="PropNameColumn.HeaderText" xml:space="preserve">
+    <value>Property name</value>
+  </data>
   <metadata name="PropValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="parameterDataGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
+  <data name="PropValueColumn.HeaderText" xml:space="preserve">
+    <value>Value</value>
   </data>
   <data name="parameterDataGridView.Location" type="System.Drawing.Point, System.Drawing">
     <value>272, 63</value>
@@ -446,18 +452,6 @@
   </data>
   <data name="&gt;&gt;parameterDataGridView.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <metadata name="PropNameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="PropNameColumn.HeaderText" xml:space="preserve">
-    <value>Property name</value>
-  </data>
-  <metadata name="PropValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="PropValueColumn.HeaderText" xml:space="preserve">
-    <value>Value</value>
   </data>
   <data name="jobIDTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -511,28 +505,40 @@
     <value>17, 17</value>
   </metadata>
   <data name="jobRunToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>144, 22</value>
   </data>
   <data name="jobRunToolStripMenuItem.Text" xml:space="preserve">
     <value>Run</value>
   </data>
   <data name="jobStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>144, 22</value>
   </data>
   <data name="jobStopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>141, 6</value>
+  </data>
+  <data name="queueStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 22</value>
+  </data>
+  <data name="queueStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>Queue</value>
+  </data>
+  <data name="errorStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 22</value>
+  </data>
+  <data name="errorStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>Error</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>144, 22</value>
   </data>
   <data name="toolStripMenuItem1.Text" xml:space="preserve">
     <value>Change status</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>141, 6</value>
   </data>
   <data name="jobDeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 22</value>
@@ -549,29 +555,17 @@
   <data name="&gt;&gt;jobContextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="queueStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="queueStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>Queue</value>
-  </data>
-  <data name="errorStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="errorStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>Error</value>
-  </data>
   <metadata name="jobGroupContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>178, 17</value>
   </metadata>
   <data name="jobGroupRunToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>103, 22</value>
   </data>
   <data name="jobGroupRunToolStripMenuItem.Text" xml:space="preserve">
     <value>Run</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>103, 22</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
@@ -580,7 +574,7 @@
     <value>100, 6</value>
   </data>
   <data name="jobGroupLoadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>103, 22</value>
   </data>
   <data name="jobGroupLoadToolStripMenuItem.Text" xml:space="preserve">
     <value>Load</value>
@@ -595,13 +589,13 @@
     <value>100, 6</value>
   </data>
   <data name="jobGroupDeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>103, 22</value>
   </data>
   <data name="jobGroupDeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="jobGroupContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 148</value>
+    <value>104, 126</value>
   </data>
   <data name="&gt;&gt;jobGroupContextMenuStrip.Name" xml:space="preserve">
     <value>jobGroupContextMenuStrip</value>
