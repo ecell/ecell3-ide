@@ -73,7 +73,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             if (listBox.SelectedIndex < 0)
                 return;
+            AnimationItemBase item = (AnimationItemBase)listBox.SelectedItem;
+            listBox.Items.Remove(item);
 
+            panel.Controls.Clear();
+            if(listBox.Items.Count > 0)
+                panel.Controls.Add((AnimationItemBase)listBox.Items[0]);
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -129,6 +134,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void AnimationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.panel.Controls.Clear();
+        }
+
+        private void listBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+                return;
+            string txt = ((ListBox)sender).Items[e.Index].ToString();
+            e.Graphics.DrawString(txt, e.Font, Brushes.Black, e.Bounds);
+            e.DrawFocusRectangle();
+
         }
     }
 }

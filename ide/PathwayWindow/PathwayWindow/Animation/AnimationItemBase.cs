@@ -34,6 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.ComponentModel;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -59,7 +60,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         protected ToolStripMenuItem _menuItem;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected List<PPathwaySystem> _systems = new List<PPathwaySystem>();
+        /// <summary>
+        /// 
+        /// </summary>
+        protected List<PPathwayStepper> _steppers = new List<PPathwayStepper>();
+        /// <summary>
+        /// 
+        /// </summary>
+        protected List<PPathwayProcess> _processes = new List<PPathwayProcess>();
+        /// <summary>
+        /// 
+        /// </summary>
+        protected List<PPathwayVariable> _variables = new List<PPathwayVariable>();
 
+        #endregion
+
+        #region Properties
         /// <summary>
         /// 
         /// </summary>
@@ -70,7 +90,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             get { return _menuItem; }
             set { _menuItem = value; }
         }
-
+        
         #endregion
 
         #region Constructors
@@ -123,6 +143,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public virtual void SetProperty()
         {
+            if (_control == null)
+                return;
+            // Set canvas
+            _canvas = _control.Canvas;
+
+            _systems.AddRange(_canvas.Systems.Values);
+            _steppers.AddRange(_canvas.Steppers.Values);
+            _processes.AddRange(_canvas.Processes.Values);
+            _variables.AddRange(_canvas.Variables.Values);
         }
 
         /// <summary>
@@ -137,6 +166,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public virtual void ResetProperty()
         {
+            _systems.Clear();
+            _steppers.Clear();
+            _processes.Clear();
+            _variables.Clear();
         }
 
         /// <summary>

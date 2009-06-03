@@ -137,10 +137,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // edgeBox
             // 
-            this.edgeBox.AccessibleDescription = null;
-            this.edgeBox.AccessibleName = null;
             resources.ApplyResources(this.edgeBox, "edgeBox");
-            this.edgeBox.BackgroundImage = null;
             this.edgeBox.Controls.Add(this.edgeLabel);
             this.edgeBox.Controls.Add(this.edgeHighBrush);
             this.edgeBox.Controls.Add(this.edgeLowBrush);
@@ -148,86 +145,54 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeBox.Controls.Add(this.thresholdHigh);
             this.edgeBox.Controls.Add(this.thresholdLow);
             this.edgeBox.Controls.Add(this.edgeNGBrush);
-            this.edgeBox.Font = null;
             this.edgeBox.Name = "edgeBox";
             this.edgeBox.TabStop = false;
             // 
             // edgeLabel
             // 
-            this.edgeLabel.AccessibleDescription = null;
-            this.edgeLabel.AccessibleName = null;
-            resources.ApplyResources(this.edgeLabel, "edgeLabel");
             this.edgeLabel.AutoEllipsis = true;
             this.edgeLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.edgeLabel.Font = null;
+            resources.ApplyResources(this.edgeLabel, "edgeLabel");
             this.edgeLabel.Name = "edgeLabel";
             // 
             // edgeHighBrush
             // 
-            this.edgeHighBrush.AccessibleDescription = null;
-            this.edgeHighBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeHighBrush, "edgeHighBrush");
-            this.edgeHighBrush.BackgroundImage = null;
-            this.edgeHighBrush.Font = null;
             this.edgeHighBrush.Name = "edgeHighBrush";
             // 
             // edgeLowBrush
             // 
-            this.edgeLowBrush.AccessibleDescription = null;
-            this.edgeLowBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeLowBrush, "edgeLowBrush");
-            this.edgeLowBrush.BackgroundImage = null;
-            this.edgeLowBrush.Font = null;
             this.edgeLowBrush.Name = "edgeLowBrush";
             // 
             // autoThresholdCheckBox
             // 
-            this.autoThresholdCheckBox.AccessibleDescription = null;
-            this.autoThresholdCheckBox.AccessibleName = null;
             resources.ApplyResources(this.autoThresholdCheckBox, "autoThresholdCheckBox");
-            this.autoThresholdCheckBox.BackgroundImage = null;
             this.autoThresholdCheckBox.Checked = false;
-            this.autoThresholdCheckBox.Font = null;
             this.autoThresholdCheckBox.Name = "autoThresholdCheckBox";
             // 
             // thresholdHigh
             // 
-            this.thresholdHigh.AccessibleDescription = null;
-            this.thresholdHigh.AccessibleName = null;
             resources.ApplyResources(this.thresholdHigh, "thresholdHigh");
-            this.thresholdHigh.BackgroundImage = null;
-            this.thresholdHigh.Font = null;
             this.thresholdHigh.Name = "thresholdHigh";
             this.thresholdHigh.Validating += new System.ComponentModel.CancelEventHandler(this.HighThresholdValidating);
             // 
             // thresholdLow
             // 
-            this.thresholdLow.AccessibleDescription = null;
-            this.thresholdLow.AccessibleName = null;
             resources.ApplyResources(this.thresholdLow, "thresholdLow");
-            this.thresholdLow.BackgroundImage = null;
-            this.thresholdLow.Font = null;
             this.thresholdLow.Name = "thresholdLow";
             this.thresholdLow.Validating += new System.ComponentModel.CancelEventHandler(this.LowThresholdValidating);
             // 
             // edgeNGBrush
             // 
-            this.edgeNGBrush.AccessibleDescription = null;
-            this.edgeNGBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeNGBrush, "edgeNGBrush");
-            this.edgeNGBrush.BackgroundImage = null;
-            this.edgeNGBrush.Font = null;
             this.edgeNGBrush.Name = "edgeNGBrush";
             // 
             // EdgeAnimatioinItem
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.edgeBox);
-            this.Font = null;
             this.Name = "EdgeAnimatioinItem";
+            resources.ApplyResources(this, "$this");
             this.edgeBox.ResumeLayout(false);
             this.edgeBox.PerformLayout();
             this.ResumeLayout(false);
@@ -242,11 +207,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void SetProperty()
         {
-            // Set canvas
-            _canvas = _control.Canvas;
+            base.SetProperty();
+
+            if (_autoThreshold)
+                _thresholdHigh = 0;
 
             _format = _dManager.DisplayStringFormat;
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            foreach (PPathwayProcess process in _processes)
             {
                 process.ViewMode = true;
 
@@ -271,7 +238,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void UpdateProperty()
         {
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            foreach (PPathwayProcess process in _processes)
             {
                 if (!process.Visible)
                     continue;
@@ -290,7 +257,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (_autoThreshold)
                     SetThreshold(activity);
             }
-            foreach (PPathwayVariable variable in _canvas.Variables.Values)
+            foreach (PPathwayVariable variable in _variables)
             {
                 if (!variable.Visible)
                     continue;
@@ -315,7 +282,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             Brush editEdgeBrush = _control.EditEdgeBrush;
             float normalEdgeWidth = _control.EdgeWidth;
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            foreach (PPathwayProcess process in _processes)
             {
                 if (!process.Visible)
                     continue;
@@ -326,7 +293,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     line.SetEdge(editEdgeBrush, normalEdgeWidth);
                 }
             }
-
+            base.ResetProperty();
         }
 
         /// <summary>
