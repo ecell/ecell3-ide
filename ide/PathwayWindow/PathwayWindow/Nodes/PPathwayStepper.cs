@@ -66,10 +66,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected override void RefreshSettings()
         {
             base.RefreshSettings();
-            //foreach (PPathwayProcess process in m_canvas.Processes.Values)
-            //{
-            //    process.RefreshStepperIcon();
-            //}
+
+            // Refresh Processes
+            if (m_canvas == null)
+                return;
+            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            {
+                process.RefreshStepperIcon();
+            }
         }
     }
 }
