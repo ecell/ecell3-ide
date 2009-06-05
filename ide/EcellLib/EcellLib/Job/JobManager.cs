@@ -530,9 +530,9 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs.
         /// </summary>
-        public void Run(string groupName)
+        public void Run(string groupName, bool isForce)
         {
-            PrepareProcessRun(groupName, true);
+            PrepareProcessRun(groupName, isForce);
             m_groupDic[groupName].Run();
             if (m_timer.Enabled == false)
             {
@@ -796,7 +796,7 @@ namespace Ecell.Job
                 resList.Add(jobid, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
-            Run(groupName);
+            Run(groupName, false);
             return resList;
         }
 
@@ -862,7 +862,7 @@ namespace Ecell.Job
                 resList.Add(jobid, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
-            Run(groupName);
+            Run(groupName, false);
             return resList;
         }
 
@@ -1018,7 +1018,7 @@ namespace Ecell.Job
                 }
                 i++;
             }
-            Run(groupName);
+            Run(groupName, false);
             return resList;
         }
 

@@ -104,13 +104,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private Dictionary<int, ExecuteParameter> m_execParam;
         /// <summary>
-        /// The number of data for Axis(20).
+        /// The number of data for Axis(50).
         /// </summary>
-        private static int s_num = 30;
+        private static int s_num = 10;
         /// <summary>
         /// The number of the interval of skip(5).
         /// </summary>
-        private static int s_skip = 5;
+        private static int s_skip = 3;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
         public const string s_analysisName = "Bifurcation";
@@ -212,6 +212,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void NotifyAnalysisFinished()
         {
             JudgeBifurcationAnalysis();
+            PrintResultData();
             int[,] respos = SearchPoint();
             Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
             if (paramList.Count <= 0)
@@ -287,7 +288,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
             
-
             Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
             int jobid = 0;
             foreach (EcellParameterData p in paramList)
@@ -353,6 +353,33 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.JobManager.SetLoggerData(saveList);
             m_group.AnalysisParameter = GetAnalysisProperty();
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
+        }
+
+        /// <summary>
+        /// Prepare to execute the analysis again.
+        /// </summary>
+        public void PrepareReAnalysis()
+        {
+            for (int i = 0; i <= s_num; i++)
+            {
+                for (int j = 0; j <= s_num; j++)
+                {
+                    m_result[i, j] = BifurcationResult.None;
+                }
+            }
+            for (int i = 0; i <= (int)(s_num / s_skip); i++)
+            {
+                for (int j = 0; j <= (int)(s_num / s_skip); j++)
+                {
+                    m_region[i, j] = 1;
+                }
+            }
+
+            m_execParam.Clear();
+            foreach (Job.Job j in m_group.Jobs)
+            {
+                m_execParam.Add(j.JobID, j.ExecParam);
+            }
         }
 
         /// <summary>
@@ -780,52 +807,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
             return false;
         }
-
-        #region Events
-        /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            if (!m_owner.JobManager.IsFinished(m_group.GroupName))
-            {
-                    m_owner.JobManager.Stop(m_group.GroupName, 0);
-
-                return;
-            }
-
-            if (m_owner.JobManager.IsError(m_group.GroupName))
-            {
-                if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
-                {
-                    return;
-                }
-            }
-            JudgeBifurcationAnalysis();
-            int[,] respos = SearchPoint();
-            Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
-            if (paramList.Count <= 0)
-            {
-                PrintResultData();
-                m_owner.ActivateResultWindow(true, false, false);
-
-                if (m_resultPoint <= 0)
-                    Util.ShowWarningDialog(MessageResources.WarnNoBifurcation);
-                else
-                    Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
-                            new object[] { MessageResources.NameBifurcation }));
-
-                return;
-            }
-            PrintResultData();
-            //m_owner.JobManager.ClearFinishedJobs();
-            String tmpDir = m_owner.JobManager.TmpDir;
-            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, paramList);
-        }
-        #endregion
-
     }
 
     /// <summary>

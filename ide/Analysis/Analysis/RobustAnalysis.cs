@@ -107,45 +107,6 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
-
-        #region Events
-        /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            if (!m_owner.JobManager.IsFinished(m_group.GroupName))
-            {
-
-                    m_owner.JobManager.Stop(m_group.GroupName, 0);
-
-                return;
-            }
-
-
-            if (m_owner.JobManager.GetFinishedJobList().Count <= 0)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
-                    new object[] { MessageResources.NameRobustAnalysis }));
-                m_group.IsGroupError = true;
-                return;
-            }
-            if (m_owner.JobManager.IsError(m_group.GroupName))
-            {
-                if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
-                {
-                    return;
-                }                
-            }
-            JudgeRobustAnalysis();
-            Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
-                new object[] { MessageResources.NameRobustAnalysis }));
-            m_owner.ActivateResultWindow(true, false, false);
-        }
-        #endregion
-
         /// <summary>
         /// Get the property of analysis.
         /// </summary>
@@ -215,6 +176,13 @@ namespace Ecell.IDE.Plugins.Analysis
             instance.Group = group;
 
             return instance;
+        }
+
+        /// <summary>
+        /// Prepare to execute the analysis again.
+        /// </summary>
+        public void PrepareReAnalysis()
+        {
         }
 
         /// <summary>

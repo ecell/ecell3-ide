@@ -310,6 +310,13 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Prepare to execute the analysis again.
+        /// </summary>
+        public void PrepareReAnalysis()
+        {
+        }
+
+        /// <summary>
         /// Create the execute parameters and get the simulation data at one step.
         /// </summary>
         /// <param name="varList">the variable list.</param>
@@ -776,69 +783,6 @@ namespace Ecell.IDE.Plugins.Analysis
         }
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            try
-            {
-
-                if (!m_owner.JobManager.IsFinished(m_group.GroupName))
-                {
-
-                        m_owner.JobManager.Stop(m_group.GroupName, 0);
-
-                    return;
-                }
-
-                CreateEpsilonElastictyMatrix();
-                CalculateUnScaledControlCoefficient();
-                CalculateScaledControlCoefficient();
-
-                m_owner.SetSensitivityHeader(m_activityList);
-                for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
-                {
-                    List<double> res = new List<double>();
-                    for (int j = 0; j < m_scaledCCCMatrix.ColumnCount; j++)
-                    {
-                        res.Add(m_scaledCCCMatrix[i, j]);
-                    }
-                    m_owner.AddSensitivityDataOfCCC(m_valueList[i], res);
-                }
-                for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
-                {
-                    List<double> res = new List<double>();
-                    for (int j = 0; j < m_scaledFCCMatrix.ColumnCount; j++)
-                    {
-                        res.Add(m_scaledFCCMatrix[i, j]);
-                    }
-                    m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
-                }
-                m_owner.UpdateResultColor();
-
-                Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
-                    new object[] { MessageResources.NameSensAnalysis }));
-                m_owner.ActivateResultWindow(false, true, false);
-            }
-            catch (IgnoreException ex)
-            {
-                Trace.WriteLine(ex);
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
-                    new object[] { MessageResources.NameSensAnalysis }));
-                m_group.IsGroupError = true;
-
-                m_owner.Environment.LogManager.Append(
-                        new ApplicationLogEntry(MessageType.Error, ex.ToString(), this));
-            }
-        }
-        #endregion
     }
 
     /// <summary>

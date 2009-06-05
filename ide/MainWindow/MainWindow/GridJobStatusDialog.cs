@@ -320,7 +320,8 @@ namespace Ecell.IDE.MainWindow
                 return;
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
 
-            m_manager.Run(jnode.GroupName);
+            m_manager.GroupDic[jnode.GroupName].AnalysisModule.PrepareReAnalysis();
+            m_manager.Run(jnode.GroupName, true);
         }
 
         private void JobTree_StopJobGroup(object sender, EventArgs e)
@@ -394,11 +395,10 @@ namespace Ecell.IDE.MainWindow
             jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting;
         }
-
-        
-
+       
         private void JobGrid_ChangeProperty(object sender, DataGridViewCellParsingEventArgs e)
         {
+            e.ParsingApplied = true;
             string name = "";
             string orgdata = parameterDataGridView[e.ColumnIndex, e.RowIndex].Value.ToString();
             try
@@ -438,7 +438,6 @@ namespace Ecell.IDE.MainWindow
             }
             catch (Exception)
             {
-                e.ParsingApplied = true;
                 e.Value = orgdata.ToString();
                 parameterDataGridView.Refresh();
             }

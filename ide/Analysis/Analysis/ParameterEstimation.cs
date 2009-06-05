@@ -314,6 +314,14 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_generation = 0;
         }
 
+        /// <summary>
+        /// Prepare to execute the analysis again.
+        /// </summary>
+        public void PrepareReAnalysis()
+        {
+            // not implements
+        }
+
 
         /// <summary>
         /// Get the estimation value of job.
@@ -371,49 +379,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
             return value;
         }
-
-        #region Events
-        /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            String tmpDir = m_owner.JobManager.TmpDir;
-            if (!m_owner.JobManager.IsFinished(m_group.GroupName))
-            {
-                    m_owner.JobManager.Stop(m_group.GroupName, 0);
-                return;
-            }
-
-            if (m_generation >= m_param.Generation)
-            {
-
-                FindElite();
-
-                Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
-                    new object[] { MessageResources.NameParameterEstimate }));
-                m_owner.ActivateResultWindow(true, false, true);
-                return;
-            }
-
-            if (m_generation == 0)
-            {
-                m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
-            }
-            else
-            {
-                FindElite();
-                SimplexCrossOver();
-                Mutate();
-                m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
-            }
-
-            m_generation++;
-        }
-        #endregion
-
         #region Algorithm
         /// <summary>
         /// Find the elite sample in this generation.

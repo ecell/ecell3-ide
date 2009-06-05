@@ -421,7 +421,7 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             JobGroup g = manager.CreateJobGroup("AAAAA");
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
-            manager.Run(null);
+            manager.Run(null, true);
 
         }
         /// <summary>

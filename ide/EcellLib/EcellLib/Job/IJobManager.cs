@@ -201,7 +201,7 @@ namespace Ecell.Job
         /// Run the jobs.
         /// <param name="groupName">the executed group name.</param>
         /// </summary>
-        void Run(string groupName);
+        void Run(string groupName, bool isForce);
         /// <summary>
         /// Run the job.
         /// </summary>

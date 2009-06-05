@@ -73,5 +73,9 @@ namespace Ecell.Job
         /// Execute this analysis.
         /// </summary>
         void ExecuteAnalysis();
+        /// <summary>
+        /// Prepare to execute the analysis again.
+        /// </summary>
+        void PrepareReAnalysis();
     }
 }
