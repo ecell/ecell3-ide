@@ -216,7 +216,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             foreach (PPathwayProcess process in _processes)
             {
                 process.ViewMode = true;
-
+                process.Stepper.Visible = false;
                 if (!process.Visible)
                     continue;
                 // Line setting.
@@ -288,6 +288,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Line setting.
                 process.ViewMode = false;
+                process.Stepper.Visible = true;
                 foreach (PPathwayLine line in process.Relations)
                 {
                     line.SetEdge(editEdgeBrush, normalEdgeWidth);

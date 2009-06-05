@@ -60,5 +60,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.m_pText.MoveToFront();
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override void RefreshSettings()
+        {
+            base.RefreshSettings();
+            //foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            //{
+            //    process.RefreshStepperIcon();
+            //}
+        }
     }
 }

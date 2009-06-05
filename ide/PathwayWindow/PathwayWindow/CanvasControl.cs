@@ -635,8 +635,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void SetStepperPosition()
         {
+            if (!m_systems.ContainsKey(Constants.delimiterPath))
+                return;
+
             int i = 0;
-            PPathwaySystem root = m_systems["/"];
+            PPathwaySystem root = m_systems[Constants.delimiterPath];
             foreach (PPathwayStepper stepper in m_steppers.Values)
             {
                 stepper.X = root.Right + 10;

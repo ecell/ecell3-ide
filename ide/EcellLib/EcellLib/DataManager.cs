@@ -400,7 +400,6 @@ namespace Ecell
         public void LoadProject(ProjectInfo info)
         {
             List<EcellObject> passList = new List<EcellObject>();
-            List<EcellObject> stepperList = new List<EcellObject>();
             string message = null;
             string projectID = null;
             Project project = null;
@@ -441,8 +440,8 @@ namespace Ecell
                 }
                 foreach (string storedModelID in project.SystemDic.Keys)
                 {
+                    passList.AddRange(project.StepperDic[storedModelID]);
                     passList.AddRange(project.SystemDic[storedModelID]);
-                    stepperList.AddRange(project.StepperDic[storedModelID]);
                 }
 
                 // Set current project.
@@ -465,10 +464,6 @@ namespace Ecell
                     if (passList != null && passList.Count > 0)
                     {
                         this.m_env.PluginManager.DataAdd(passList);
-                    }
-                    if (stepperList != null && stepperList.Count > 0)
-                    {
-                        this.m_env.PluginManager.DataAdd(stepperList);
                     }
                     foreach (string paramID in this.GetSimulationParameterIDs())
                     {

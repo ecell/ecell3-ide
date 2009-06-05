@@ -46,7 +46,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayProcess : PPathwayEntity
     {
-        #region Static readonly fields
+        #region Fields
+        /// <summary>
+        /// 
+        /// </summary>
+        private PPathwayObject _stepper = null;
         #endregion
 
         #region Accessors
@@ -59,6 +63,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
+                RefreshStepperIcon();
                 ResetEdges();
             }
         }
@@ -77,6 +82,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 ChangePath(value);
                 base.ViewMode = value;
             }
+        }
+
+        /// <summary>
+        /// Stepper Icon.
+        /// </summary>
+        public PPathwayObject Stepper
+        {
+            get { return _stepper; }
+            set { _stepper = value; }
         }
 
         #endregion
@@ -183,6 +197,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             m_relations.Clear();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void RefreshStepperIcon()
+        {
+            if (_stepper == null)
+                _stepper = m_canvas.Control.ComponentManager.StepperSetting.CreateTemplate();
+
+            EcellValue value = m_ecellObj.GetEcellValue(EcellProcess.STEPPERID);
+            if(value == null)
+                return;
+            PPathwayStepper stepper = null;
+            if(!m_canvas.Steppers.TryGetValue((string)value, out stepper))
+                return;
+
+            this.AddChild(_stepper);
+            _stepper.Width = 10;
+            _stepper.Height = 10;
+            _stepper.X = this.Right - 10;
+            _stepper.Y = this.Bottom - 10;
+
+            _stepper.LineBrush = stepper.Setting.LineBrush;
+            _stepper.Brush = stepper.Setting.CreateBrush(_stepper.Path);
+            _stepper.MoveToFront();
+        }
+
         /// <summary>
         /// Event on Dispose
         /// </summary>
