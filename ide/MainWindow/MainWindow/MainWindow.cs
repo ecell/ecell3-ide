@@ -922,6 +922,9 @@ namespace Ecell.IDE.MainWindow
             PropertyNode node2 = new PropertyNode(MessageResources.NameGeneral);
             node2.Nodes.Add(new PropertyNode(new GeneralConfigurationPage(m_env.DataManager)));
 
+            PropertyNode node3 = new PropertyNode(MessageResources.NameLanguageSetting);
+            node2.Nodes.Add(new PropertyNode(new LanguageSettingPage()));
+
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
             nodeList.Add(node1);
             nodeList.Add(node2);
@@ -1473,8 +1476,11 @@ namespace Ecell.IDE.MainWindow
             {
                 if (ipd.ShowDialog() != DialogResult.OK)
                     return;
-                Util.SetLanguage(ipd.Language);
                 LoadWindowSetting(ipd.FilePath);
+
+                if (ipd.Language.Equals(Util.GetLanguage()))
+                    return;
+                Util.SetLanguage(ipd.Language);
                 Util.ShowNoticeDialog(MessageResources.ConfirmRestart);
             }
         }

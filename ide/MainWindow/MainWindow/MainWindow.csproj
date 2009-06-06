@@ -148,6 +148,9 @@
     <Compile Include="JobMessageDialog.Designer.cs">
       <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="LanguageSettingPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -244,6 +247,14 @@
     <EmbeddedResource Include="JobMessageDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>JobMessageDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LanguageSettingPage.ja.resx">
+      <DependentUpon>LanguageSettingPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LanguageSettingPage.resx">
+      <DependentUpon>LanguageSettingPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.ja.resx">
       <SubType>Designer</SubType>

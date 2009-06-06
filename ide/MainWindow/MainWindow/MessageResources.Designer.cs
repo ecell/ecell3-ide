@@ -358,6 +358,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Language に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameLanguageSetting {
+            get {
+                return ResourceManager.GetString("NameLanguageSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Model に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameModel {

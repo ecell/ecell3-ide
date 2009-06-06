@@ -216,6 +216,9 @@
   <data name="NameJobManage" xml:space="preserve">
     <value>ジョブ管理</value>
   </data>
+  <data name="NameLanguageSetting" xml:space="preserve">
+    <value>言語</value>
+  </data>
   <data name="NameModel" xml:space="preserve">
     <value>モデル</value>
   </data>
