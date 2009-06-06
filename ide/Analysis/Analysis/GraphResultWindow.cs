@@ -247,6 +247,8 @@ namespace Ecell.IDE.Plugins.Analysis
             m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = isAutoX;
             m_zCnt.GraphPane.YAxis.Scale.MaxAuto = isAutoY;
+            m_zCnt.GraphPane.XAxis.Scale.MinAuto = isAutoX;
+            m_zCnt.GraphPane.YAxis.Scale.MinAuto = isAutoY;
         }
 
         /// <summary>

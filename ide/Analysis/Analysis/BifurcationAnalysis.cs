@@ -106,11 +106,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// The number of data for Axis(50).
         /// </summary>
-        private static int s_num = 10;
+        private static int s_num = 7;
         /// <summary>
         /// The number of the interval of skip(5).
         /// </summary>
-        private static int s_skip = 3;
+        private static int s_skip = 2;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
         public const string s_analysisName = "Bifurcation";

@@ -90,9 +90,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private double m_mutation;
         /// <summary>
-        /// The dictionary of estimation.
+        /// The dictionary for the estimation of generation.
         /// </summary>
         private Dictionary<int, double> m_estimation;
+        private Dictionary<int, Dictionary<int, ExecuteParameter>> m_execParamDic;
         public const string s_analysisName = "ParameterEstimation";
         private const string s_estimateFormula = "Estimation Formulator";
         private const string s_simTime = "Simulation Time";
@@ -114,6 +115,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             m_owner = owner;
             m_estimation = new Dictionary<int, double>();
+            m_execParamDic = new Dictionary<int, Dictionary<int, ExecuteParameter>>();
         }
 
         #region Accessors
@@ -219,16 +221,27 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            if (m_generation == 0)
+            if (m_execParamDic.ContainsKey(m_generation))
             {
-                m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                if (m_generation != 0)
+                    FindElite();
+                m_execParamList = m_execParamDic[m_generation];
+                m_owner.JobManager.Run(m_group.GroupName, false);
             }
             else
             {
-                FindElite();
-                SimplexCrossOver();
-                Mutate();
-                m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                if (m_generation == 0)
+                {
+                    m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                }
+                else
+                {
+                    FindElite();
+                    SimplexCrossOver();
+                    Mutate();
+                    m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                }
+                m_execParamDic.Add(m_generation, m_execParamList);
             }
             m_generation++;
         }
@@ -255,6 +268,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_estimation.Clear();
             m_mutation = m_param.Param.Initial;
             m_owner.ClearResult();
+            m_execParamDic.Clear();
 
             if (m_param.Population <= 0)
             {
@@ -311,7 +325,8 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.JobManager.SetLoggerData(m_saveList);
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
             m_group.AnalysisParameter = GetAnalysisProperty();
-                m_generation = 0;
+            m_generation = 0;
+            m_owner.JobManager.Run(m_group.GroupName, true);
         }
 
         /// <summary>
@@ -319,7 +334,24 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void PrepareReAnalysis()
         {
-            // not implements
+            m_estimation.Clear();
+            m_mutation = m_param.Param.Initial;
+            m_owner.ClearResult();
+
+            m_execParamList = new Dictionary<int, ExecuteParameter>();
+            foreach (Job.Job j in m_group.Jobs)
+            {
+                foreach (int gene in m_execParamDic.Keys)
+                {
+                    if (m_execParamDic[gene].ContainsKey(j.JobID))
+                    {
+                        m_execParamDic[gene][j.JobID] = j.ExecParam;
+                        break;
+                    }
+                }
+            }
+            m_execParamList = m_execParamDic[0];
+            m_generation = 0;
         }
 
 

@@ -536,7 +536,7 @@ namespace Ecell.Job
             m_groupDic[groupName].Run();
             if (m_timer.Enabled == false)
             {
-                Update();
+                //Update();
                 m_timer.Enabled = true;
                 m_timer.Start();
             }
@@ -704,13 +704,14 @@ namespace Ecell.Job
         /// <param name="e">EventArgs.</param>
         void UpdateTimeFire(object sender, EventArgs e)
         {
-            Update();
-
             if (IsFinished(null))
             {
                 m_timer.Enabled = false;
                 m_timer.Stop();
             }
+            // This function should be executed before the above for loop,
+            // but execute to reexecute the analysis after the for loop.
+            Update();
         }
 
         //======================================================
@@ -778,7 +779,7 @@ namespace Ecell.Job
                 string fileName = topDir + "/" + job.JobID + ".ess";
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
 
-                List<string> extFileList = ExtractExtFileList(m_logList);
+                List<string> extFileList = ExtractExtFileList(topDir + "/" + job.JobID, m_logList);
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                 if (this.Proxy.IsIDE() == true)
@@ -846,7 +847,7 @@ namespace Ecell.Job
                 string fileName = topDir + "/" + job.JobID + ".ess";
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
 
-                List<string> extFileList = ExtractExtFileList(m_logList);
+                List<string> extFileList = ExtractExtFileList(topDir + "/" + job.JobID, m_logList);
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
@@ -886,13 +887,14 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="logList">the list of logger information.</param>
         /// <returns>the list of file.</returns>
-        private static List<string> ExtractExtFileList(List<SaveLoggerProperty> logList)
+        private static List<string> ExtractExtFileList(string topDir, List<SaveLoggerProperty> logList)
         {
             List<string> resList = new List<string>();
             foreach (SaveLoggerProperty s in logList)
             {
                 string outName = Util.GetOutputFileName(s.FullPath);
-                string fileName = s.DirName + "/" + outName;
+                string fileName = topDir + "/" + outName;
+                s.DirName = topDir;
                 resList.Add(fileName);
             }
             return resList;
@@ -998,7 +1000,7 @@ namespace Ecell.Job
                     string fileName = topDir + "/" + job.JobID + ".ess";
                     string modelFileName = topDir + "/" + job.JobID + ".eml";
 
-                    List<string> extFileList = ExtractExtFileList(m_logList);
+                    List<string> extFileList = ExtractExtFileList(topDir + "/" + job.JobID, m_logList);
                     int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                     if (this.Proxy.IsIDE())
