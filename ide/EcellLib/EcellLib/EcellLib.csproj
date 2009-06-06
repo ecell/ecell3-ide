@@ -148,6 +148,7 @@
     <Compile Include="Job\GlobusJobProxy.cs" />
     <Compile Include="Job\IAnalysisModule.cs" />
     <Compile Include="Job\JobGroup.cs" />
+    <Compile Include="Job\JobUpdateEventArgs.cs" />
     <Compile Include="Leml.cs" />
     <Compile Include="Logger\LoggerEntry.cs" />
     <Compile Include="Logger\LoggerEventArgs.cs" />

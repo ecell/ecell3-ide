@@ -10,7 +10,7 @@ namespace Ecell.Job
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
-    public delegate void JobUpdateEventHandler(object o, EventArgs e);
+    public delegate void JobUpdateEventHandler(object o, JobUpdateEventArgs e);
 
     /// <summary>
     /// Interface of JobManager.
@@ -296,5 +296,5 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name"></param>
         void RemoveJobGroup(string name);
-    }
+    }   
 }

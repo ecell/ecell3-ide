@@ -138,6 +138,9 @@
   <data name="ErrStartupApp" xml:space="preserve">
     <value>このファイル形式に関連付けられたアプリケーションが見つかりません。</value>
   </data>
+  <data name="NameAnalysis" xml:space="preserve">
+    <value>解析</value>
+  </data>
   <data name="NameLogArchives" xml:space="preserve">
     <value>ログアーカイブ</value>
   </data>

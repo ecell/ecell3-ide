@@ -124,6 +124,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameAnalysis {
+            get {
+                return ResourceManager.GetString("NameAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   DMS に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameDMs {

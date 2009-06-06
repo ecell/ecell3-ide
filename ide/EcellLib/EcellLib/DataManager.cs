@@ -57,6 +57,7 @@ using Ecell.SBML;
 using Ecell.Action;
 using Ecell.Plugin;
 using Ecell.Events;
+using Ecell.Job;
 
 namespace Ecell
 {
@@ -444,6 +445,9 @@ namespace Ecell
                     passList.AddRange(project.SystemDic[storedModelID]);
                 }
 
+                // Load analysis directory.
+                LoadAnalysisDirectory(project);
+
                 // Set current project.
                 m_currentProject = project;
 
@@ -473,6 +477,43 @@ namespace Ecell
                     m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.ProjectFile));
                     m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadAnalysisDirectory(Project project)
+        {
+            string path = project.GetAnalysisDirectory();
+            if (path == null || !Directory.Exists(path))
+                return;
+
+            string[] dirs = Directory.GetDirectories(path);
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                DirectoryInfo d = new DirectoryInfo(dirs[i]);
+                string groupName = d.Name;
+                string[] ele = groupName.Split(new char[] { '_' });
+                if (ele.Length != 2) continue;
+                string analysisName = ele[0];
+                string date = ele[1];
+               
+                if (!m_env.JobManager.AnalysisDic.ContainsKey(analysisName))
+                    continue;
+
+                // load model
+                // not implement
+                List<EcellObject> systemObjList = new List<EcellObject>();
+                List<EcellObject> stepperObjList = new List<EcellObject>();
+
+                // create job group and analysis.
+                JobGroup g = m_env.JobManager.CreateJobGroup(analysisName, date, systemObjList, stepperObjList);
+                IAnalysisModule analysis = m_env.JobManager.AnalysisDic[analysisName].CreateNewInstance(g);
+
+                // load analysis parameters.
+                analysis.LoadAnalysisInfo(dirs[i]);
+                analysis.LoadAnalysisData(dirs[i]);
             }
         }
 

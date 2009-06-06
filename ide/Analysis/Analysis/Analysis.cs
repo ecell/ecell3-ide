@@ -803,32 +803,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
-        private void LoadAnalysisNameData()
-        {
-            string path = DataManager.CurrentProject.GetAnalysisDirectory();
-            if (path == null || !Directory.Exists(path))
-                return;
-
-            string[] dirs = Directory.GetDirectories(path);
-            for (int i = 0; i < dirs.Length ; i++)
-            {
-                DirectoryInfo d = new DirectoryInfo(dirs[i]);
-                string groupName = d.Name;
-                string[] ele = groupName.Split(new char[] { '_' });
-                if (ele.Length != 2) continue;                
-                string analysisName = ele[0];
-                string date = ele[1];
-
-                // load model
-                // not implement
-                List<EcellObject> systemObjList = new List<EcellObject>();
-                List<EcellObject> stepperObjList = new List<EcellObject>();
-                JobGroup g = m_env.JobManager.CreateJobGroup(analysisName, date, systemObjList, stepperObjList);
-                IAnalysisModule analysis = m_env.JobManager.AnalysisDic[analysisName].CreateNewInstance(g);
-                analysis.LoadAnalysisInfo(dirs[i]);
-                analysis.LoadAnalysisData(dirs[i]);
-            }
-        }
 
         /// <summary>
         ///  The event sequence on changing value of data at other plugin.

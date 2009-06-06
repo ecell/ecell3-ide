@@ -34,6 +34,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private RevisionRootNode m_revisionNode = null;
         /// <summary>
+        /// Analysis tree node in TreeView.
+        /// </summary>
+        private AnalysisRootNode m_analysisNode = null;
+        /// <summary>
         /// DM tree node in TreeView
         /// </summary>
         private DMRootNode m_DMNode = null;
@@ -88,7 +92,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             this.treeView1.ImageList = m_owner.Environment.PluginManager.NodeImageList;
             m_propDict = new Dictionary<string, EcellData>();
             m_lastSelectedNode = null;
+            m_owner.Environment.JobManager.JobUpdateEvent += new Ecell.Job.JobUpdateEventHandler(UpdateJobStatus);
         }
+
         #endregion
 
         #region Methods for EcellPlugin
@@ -252,6 +258,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_logNode.Tag = null;
             m_prjNode.Nodes.Add(m_logNode);
             SetLogEntry(m_logNode);
+
+            // Create AnalysisNode.
+            m_analysisNode = new AnalysisRootNode(MessageResources.NameAnalysis);
+            m_analysisNode.Tag = null;
+            m_prjNode.Nodes.Add(m_analysisNode);
         }
 
         /// <summary>
@@ -281,6 +292,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             dNode.Tag = dmName;
             dNode.ContextMenuStrip = this.contextMenuStripDM;
             m_DMNode.Nodes.Add(dNode);
+        }
+
+        /// <summary>
+        /// Set the analysis node in the load project.
+        /// </summary>
+        private void SetAnalysisNode()
+        {
+            m_analysisNode.Nodes.Clear();
+
+            foreach (string groupname in m_owner.Environment.JobManager.GroupDic.Keys)
+            {
+                AnalysisNode node = new AnalysisNode(groupname);
+                node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
+                node.SelectedImageIndex = node.ImageIndex;
+                node.Tag = groupname;
+
+                m_analysisNode.Nodes.Add(node);
+            }
         }
 
         /// <summary>
@@ -548,6 +577,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_paramNode = null;
             m_logNode = null;
             m_DMNode = null;
+            m_analysisNode = null;
         }
 
         #endregion
@@ -1492,6 +1522,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (desc == null) return;
             Util.ShowNoticeDialog(desc.Description);
         }
+
+        /// <summary>
+        /// Update the job status.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
+        private void UpdateJobStatus(object o, Ecell.Job.JobUpdateEventArgs e)
+        {
+            if (m_analysisNode == null)
+                return;
+            if (e.Type == Ecell.Job.JobUpdateType.AddJobGroup ||
+                e.Type == Ecell.Job.JobUpdateType.DeleteJobGroup)
+            {
+                SetAnalysisNode();
+            }
+        }
         #endregion
 
         #region ShortCuts
@@ -1690,6 +1736,34 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         /// <param name="text"></param>
         internal RevisionNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// TreeNode for the root of analysis.
+    /// </summary>
+    internal class AnalysisRootNode : TreeNode
+    {
+        /// <summary>
+        /// Constructors.
+        /// </summary>
+        /// <param name="text">"Analysis"</param>
+        internal AnalysisRootNode(string text)
+            : base(text)
+        {
+        }
+    }
+    /// <summary>
+    /// TreeNode for the analysis.
+    /// </summary>
+    internal class AnalysisNode : TreeNode
+    {
+        /// <summary>
+        /// Constructors.
+        /// </summary>
+        /// <param name="text">group name.</param>
+        internal AnalysisNode (string text)
             : base(text)
         {
         }

@@ -1,4 +1,4 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
@@ -32,44 +32,61 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Logger
+namespace Ecell.Job
 {
-    /// <summary>
-    /// LoggerEventArgs
-    /// </summary>
-    public class LoggerEventArgs : EventArgs
+    public class JobUpdateEventArgs : EventArgs
     {
         #region Fields
-        private string m_orgFullPN;
-        private LoggerEntry m_entry;
-        #endregion
-
-        #region Accessors
         /// <summary>
-        /// get / set the logger entry.
+        /// the type of job update.
         /// </summary>
-        public LoggerEntry Entry
-        {
-            get { return m_entry; }
-        }
-        /// <summary>
-        /// get / set the original full PN.
-        /// </summary>
-        public string OriginalFullPN
-        {
-            get { return m_orgFullPN; }
-        }
+        private JobUpdateType m_type;
         #endregion
 
         /// <summary>
-        /// Constructors
+        /// get / set the type of job update.
         /// </summary>
-        /// <param name="orgFullPN"></param>
-        /// <param name="entry"></param>
-        public LoggerEventArgs(string orgFullPN, LoggerEntry entry)
+        public JobUpdateType Type
         {
-            m_orgFullPN = orgFullPN;
-            m_entry = entry;
+            get { return this.m_type; }
+            set { this.m_type = value; }
         }
+
+        /// <summary>
+        /// Constructors.
+        /// </summary>
+        /// <param name="args"></param>
+        public JobUpdateEventArgs(JobUpdateType args)
+        {
+            m_type = args;
+        }
+
+    }
+
+    /// <summary>
+    /// The update type.
+    /// </summary>
+    public enum JobUpdateType
+    {
+        /// <summary>
+        /// Add the job group.
+        /// </summary>
+        AddJobGroup = 1,
+        /// <summary>
+        /// Delete the job group.
+        /// </summary>
+        DeleteJobGroup = 2,
+        /// <summary>
+        /// Update the job and the job group.
+        /// </summary>
+        Update = 3,
+        /// <summary>
+        /// Add the job.
+        /// </summary>
+        AddJob = 4,
+        /// <summary>
+        /// Delete the job.
+        /// </summary>
+        DeleteJob = 5        
     }
 }

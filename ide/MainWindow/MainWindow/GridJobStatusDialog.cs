@@ -160,8 +160,29 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="o"></param>
         /// <param name="e"></param>
-        private void UpdateJobStatus(object o, EventArgs e)
+        private void UpdateJobStatus(object o, JobUpdateEventArgs e)
         {
+            if (e.Type == JobUpdateType.DeleteJobGroup)
+            {
+                foreach (string analysisname in m_pointDic.Keys)
+                {
+                    foreach (TreeNode n in m_pointDic[analysisname].Nodes)
+                    {
+                        List<TreeNode> delList = new List<TreeNode>();
+                        foreach (TreeNode n1 in n.Nodes)
+                        {
+                            if (m_manager.GroupDic.ContainsKey(n1.Text))
+                                continue;
+                            delList.Add(n1);
+                        }
+                        foreach (TreeNode n1 in delList)
+                        {
+                            n.Nodes.Remove(n1);
+                        }
+                    }
+                }
+            }
+
             foreach (string name in m_manager.GroupDic.Keys)
             {
                 AddJobGroup(name);
@@ -309,7 +330,7 @@ namespace Ecell.IDE.MainWindow
                 j.Status = JobStatus.ERROR;
                 m_manager.GroupDic[jnode.GroupName].UpdateStatus();
             }
-            UpdateJobStatus(this, new EventArgs());
+            UpdateJobStatus(this, new JobUpdateEventArgs(JobUpdateType.Update));
         }
 
         private void JobTree_RunJobGroup(object sender, EventArgs e)

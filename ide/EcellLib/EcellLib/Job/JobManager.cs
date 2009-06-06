@@ -306,6 +306,7 @@ namespace Ecell.Job
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
             m_groupDic[job.GroupName].Jobs.Add(job);
+            OnJobUpdate(JobUpdateType.AddJob);
 
             return job.JobID;
         }
@@ -324,6 +325,7 @@ namespace Ecell.Job
             job.Status = JobStatus.FINISHED;
             job.ExecParam = param;
             m_groupDic[groupName].Jobs.Add(job);
+            OnJobUpdate(JobUpdateType.AddJob);
 
             return job.JobID;
         }
@@ -347,6 +349,7 @@ namespace Ecell.Job
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
             m_groupDic[groupName].Jobs.Add(job);
+            OnJobUpdate(JobUpdateType.AddJob);
 
             return job.JobID;
         }
@@ -368,6 +371,7 @@ namespace Ecell.Job
             {
                 m_groupDic[groupName].ClearJob(jobID);
             }
+            OnJobUpdate(JobUpdateType.DeleteJob);
         }
 
         /// <summary>
@@ -388,6 +392,7 @@ namespace Ecell.Job
             {
                 m_groupDic[groupName].DeleteJob(jobID);
             }
+            OnJobUpdate(JobUpdateType.DeleteJob);
         }
 
         /// <summary>
@@ -398,6 +403,16 @@ namespace Ecell.Job
             foreach (string name in m_groupDic.Keys)
                 m_groupDic[name].Clear();
             m_groupDic.Clear();
+            OnJobUpdate(JobUpdateType.DeleteJobGroup);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void OnJobUpdate(JobUpdateType type)
+        {
+            if (JobUpdateEvent != null)
+                JobUpdateEvent(this, new JobUpdateEventArgs(type));
         }
 
         /// <summary>
@@ -415,8 +430,7 @@ namespace Ecell.Job
             if (m_proxy != null)
                 m_proxy.Update();
 
-            if (JobUpdateEvent != null)
-                JobUpdateEvent(this, new EventArgs());
+            OnJobUpdate(JobUpdateType.Update);
         }
 
         /// <summary>
@@ -597,6 +611,7 @@ namespace Ecell.Job
                 if (j != null)
                     j.stop();
             }
+            OnJobUpdate(JobUpdateType.Update);
         }
 
         /// <summary>
@@ -798,6 +813,7 @@ namespace Ecell.Job
                 Application.DoEvents();
             }
             Run(groupName, false);
+            OnJobUpdate(JobUpdateType.Update);
             return resList;
         }
 
@@ -864,6 +880,7 @@ namespace Ecell.Job
                 Application.DoEvents();
             }
             Run(groupName, false);
+            OnJobUpdate(JobUpdateType.Update);
             return resList;
         }
 
@@ -1021,6 +1038,7 @@ namespace Ecell.Job
                 i++;
             }
             Run(groupName, false);
+            OnJobUpdate(JobUpdateType.Update);
             return resList;
         }
 
@@ -1175,6 +1193,7 @@ namespace Ecell.Job
         {
             JobGroup group = new JobGroup(this, name, sysObjList, stepperList);
             m_groupDic.Add(group.GroupName, group);
+            OnJobUpdate(JobUpdateType.AddJobGroup);
             return group;
         }
 
@@ -1189,6 +1208,7 @@ namespace Ecell.Job
         {
             JobGroup group = new JobGroup(this, name, date, sysObjList, stepperList);
             m_groupDic.Add(group.GroupName, group);
+            OnJobUpdate(JobUpdateType.AddJobGroup);
             return group;
         }
 
@@ -1204,6 +1224,7 @@ namespace Ecell.Job
             m_groupDic[name].Clear();
             m_groupDic[name].Delete();
             m_groupDic.Remove(name);
+            OnJobUpdate(JobUpdateType.DeleteJobGroup);
         }
     }
 }
