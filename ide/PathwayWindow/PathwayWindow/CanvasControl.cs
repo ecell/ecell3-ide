@@ -1386,8 +1386,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void UpdateDictionaryKey(string oldkey, string newkey, PPathwayObject obj)
         {
             // Change Path
-            PPathwaySystem system = m_systems[obj.EcellObject.ParentSystemID];
-            obj.ParentObject = system;
+            if (!(obj is PPathwayStepper))
+            {
+                PPathwaySystem system = m_systems[obj.EcellObject.ParentSystemID];
+                obj.ParentObject = system;
+            }
             if (obj is PPathwaySystem)
             {
                 if (!m_systems.ContainsKey(oldkey))
@@ -1442,6 +1445,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="obj"></param>
         private void MoveObject(string oldkey, string newkey, PPathwayObject obj)
         {
+            if (obj is PPathwayStepper)
+                return;
+
             PPathwaySystem system = m_systems[obj.EcellObject.ParentSystemID];
             string sysKey = system.EcellObject.Key;
 
@@ -1676,7 +1682,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_selectedNodes.Count == 0)
                 return;
             foreach (PPathwayObject obj in m_selectedNodes)
-                GetObject(obj.EcellObject.Key, obj.EcellObject.Type).Selected = false;
+                obj.Selected = false;
             lock (this)
                 m_selectedNodes.Clear();
         }
