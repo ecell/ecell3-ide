@@ -96,10 +96,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private ApplicationEnvironment m_env;
         /// <summary>
-        /// base directory of loading project.
-        /// </summary>
-        private string m_currentDir;
-        /// <summary>
         /// delegate function of loading model.
         /// </summary>
         public delegate void LoadModelDelegate(string modelID);
@@ -201,25 +197,12 @@ namespace Ecell.IDE.MainWindow
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
 
-        private void ResetCurrentDirectory()
-        {
-            string currentDir = Util.GetBaseDir();
-
-            if (currentDir == null)
-            {
-                currentDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
-                    + "\\e-cell\\project";
-            }
-            m_currentDir = currentDir;
-        }
-
         /// <summary>
         /// Load plugins.
         /// </summary>
         void LoadPlugins()
         {
             m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            ResetCurrentDirectory();
 
             // Load plugins
             foreach (string pluginDir in Util.GetPluginDirs())
@@ -921,9 +904,8 @@ namespace Ecell.IDE.MainWindow
 
             PropertyNode node2 = new PropertyNode(MessageResources.NameGeneral);
             node2.Nodes.Add(new PropertyNode(new GeneralConfigurationPage(m_env.DataManager)));
-
-            PropertyNode node3 = new PropertyNode(MessageResources.NameLanguageSetting);
             node2.Nodes.Add(new PropertyNode(new LanguageSettingPage()));
+            node2.Nodes.Add(new PropertyNode(new RootFolderSettingPage()));
 
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
             nodeList.Add(node1);
@@ -1018,7 +1000,7 @@ namespace Ecell.IDE.MainWindow
         private void LoadProjectMenuClick(object sender, EventArgs e)
         {
 
-            ProjectExplorerDialog ped = new ProjectExplorerDialog(m_currentDir);
+            ProjectExplorerDialog ped = new ProjectExplorerDialog(Util.GetBaseDir());
             using (ped)
             {
                 if (ped.ShowDialog() != DialogResult.OK)
@@ -1312,7 +1294,6 @@ namespace Ecell.IDE.MainWindow
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
                 Util.SetBaseDir(dialog.SelectedPath);
-                ResetCurrentDirectory();
             }
         }
 

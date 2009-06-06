@@ -89,8 +89,6 @@ namespace Ecell.IDE.MainWindow
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
-            this.setRootDirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
@@ -487,24 +485,9 @@ namespace Ecell.IDE.MainWindow
             // MenuItemSetup
             // 
             this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setRootDirToolStripMenuItem,
-            this.setIDEToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.MenuItemSetup.Name = "MenuItemSetup";
             resources.ApplyResources(this.MenuItemSetup, "MenuItemSetup");
-            // 
-            // setRootDirToolStripMenuItem
-            // 
-            this.setRootDirToolStripMenuItem.Name = "setRootDirToolStripMenuItem";
-            resources.ApplyResources(this.setRootDirToolStripMenuItem, "setRootDirToolStripMenuItem");
-            this.setRootDirToolStripMenuItem.Tag = "100";
-            this.setRootDirToolStripMenuItem.Click += new System.EventHandler(this.SetRootDirMenuClick);
-            // 
-            // setIDEToolStripMenuItem
-            // 
-            this.setIDEToolStripMenuItem.Name = "setIDEToolStripMenuItem";
-            resources.ApplyResources(this.setIDEToolStripMenuItem, "setIDEToolStripMenuItem");
-            this.setIDEToolStripMenuItem.Click += new System.EventHandler(this.SetupIDEMenuClick);
             // 
             // settingsToolStripMenuItem
             // 
@@ -678,10 +661,6 @@ namespace Ecell.IDE.MainWindow
         System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem MenuItemSetup;
-        /// <summary>
-        /// MenuItem to set the working directory.
-        /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem setRootDirToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemRun;
         private System.Windows.Forms.ToolStripMenuItem MenuItemHelp;
         private System.Windows.Forms.ToolStripMenuItem MenuItemView;
@@ -698,7 +677,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem loadWindowSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
