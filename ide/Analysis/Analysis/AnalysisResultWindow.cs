@@ -210,6 +210,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
                 // not implement.
                 List<EcellObject> sysObjList = new List<EcellObject>();
+                List<EcellObject> stepperObjList = new List<EcellObject>();
 
                 reader = new StreamReader(filename, Encoding.ASCII);
 
@@ -223,7 +224,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 else if (analysisName.Equals("RobustAnalysis"))
                 {
-                    LoadRobustAnalysisResult(reader, labels, sysObjList);
+                    LoadRobustAnalysisResult(reader, labels, sysObjList, stepperObjList);
                 }
                 else if (analysisName.Equals("SensitivityAnalysis"))
                 {
@@ -319,14 +320,12 @@ namespace Ecell.IDE.Plugins.Analysis
             m_graphResultWindow.PostGraphSet();
         }
 
-        private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels, List<EcellObject> sysObjList)
+        private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
             string line;
             string[] ele;
 
-
-
-            JobGroup group = m_owner.JobManager.CreateJobGroup("RobustAnalysis", sysObjList);
+            JobGroup group = m_owner.JobManager.CreateJobGroup("RobustAnalysis", sysObjList, stepperList);
             Dictionary<int, string> paramDic = new Dictionary<int, string>();
             int i = 0;
             foreach (string label in labels)

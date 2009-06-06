@@ -528,6 +528,10 @@ namespace Ecell
         /// </summary>
         public const string DMDirName = "DMs";
         /// <summary>
+        /// Analysis directory name.
+        /// </summary>
+        public const string AnalysisDirName = "Analysis";
+        /// <summary>
         /// Parameter directory name
         /// </summary>
         public const string ParameterDirName = "Parameters";

@@ -599,7 +599,8 @@ namespace Ecell.IDE.Plugins.Analysis
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
             List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName, sysObj);
+            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName, sysObj, stepperObj);
             RobustAnalysis robustAnalysis = new RobustAnalysis(this);
             robustAnalysis.Group = g;
             robustAnalysis.AnalysisParameter = m_robustParameter;
@@ -617,7 +618,8 @@ namespace Ecell.IDE.Plugins.Analysis
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
             List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName, sysObj);
+            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName, sysObj, stepperObj);
             ParameterEstimation parameterEstimation = new ParameterEstimation(this);
             parameterEstimation.Group = g;
             parameterEstimation.AnalysisParameter = m_estimationParameter;
@@ -635,7 +637,8 @@ namespace Ecell.IDE.Plugins.Analysis
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
             List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            JobGroup g = m_env.JobManager.CreateJobGroup(SensitivityAnalysis.s_analysisName, sysObj);
+            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(SensitivityAnalysis.s_analysisName, sysObj, stepperObj);
             SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis(this);
             sensitivityAnalysis.Group = g;
             sensitivityAnalysis.AnalysisParameter = m_sensitivityParameter;
@@ -653,7 +656,8 @@ namespace Ecell.IDE.Plugins.Analysis
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
             List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            JobGroup g = m_env.JobManager.CreateJobGroup(BifurcationAnalysis.s_analysisName, sysObj);
+            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(BifurcationAnalysis.s_analysisName, sysObj, stepperObj);
             BifurcationAnalysis bifurcationAnalysis = new BifurcationAnalysis(this);
             bifurcationAnalysis.Group = g;
             bifurcationAnalysis.AnalysisParameter = m_bifurcateParameter;
@@ -751,9 +755,14 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
         public override void DataAdd(List<EcellObject> data)
-        {
+        {           
             foreach (EcellObject obj in data)
             {
+                if (obj.Type == Constants.xpathProject)
+                {
+                    LoadAnalysisNameData();
+                    continue;
+                }
                 if (obj.Children != null)
                 {
                     foreach (EcellObject child in obj.Children)
@@ -791,6 +800,33 @@ namespace Ecell.IDE.Plugins.Analysis
                         m_observedList[d.EntityPath] = d;
                     }
                 }
+            }
+        }
+
+        private void LoadAnalysisNameData()
+        {
+            string path = DataManager.CurrentProject.GetAnalysisDirectory();
+            if (path == null || !Directory.Exists(path))
+                return;
+
+            string[] dirs = Directory.GetDirectories(path);
+            for (int i = 0; i < dirs.Length ; i++)
+            {
+                DirectoryInfo d = new DirectoryInfo(dirs[i]);
+                string groupName = d.Name;
+                string[] ele = groupName.Split(new char[] { '_' });
+                if (ele.Length != 2) continue;                
+                string analysisName = ele[0];
+                string date = ele[1];
+
+                // load model
+                // not implement
+                List<EcellObject> systemObjList = new List<EcellObject>();
+                List<EcellObject> stepperObjList = new List<EcellObject>();
+                JobGroup g = m_env.JobManager.CreateJobGroup(analysisName, date, systemObjList, stepperObjList);
+                IAnalysisModule analysis = m_env.JobManager.AnalysisDic[analysisName].CreateNewInstance(g);
+                analysis.LoadAnalysisInfo(dirs[i]);
+                analysis.LoadAnalysisData(dirs[i]);
             }
         }
 

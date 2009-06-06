@@ -253,6 +253,42 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
+
+        /// <summary>
+        /// Load the analysis model, parameters, logs and result.
+        /// </summary>
+        /// <param name="dirName">the top directory of the loaded analysis.</param>
+        public void LoadAnalysisInfo(string dirName)
+        {
+            // parameter load
+            // not implement
+
+        }
+
+        /// <summary>
+        /// Save the analysis model, parameters, logs and result.
+        /// </summary>
+        /// <param name="dirName">the top directory of the saved analysis.</param>
+        public void SaveAnalysisInfo(string dirName)
+        {
+        }
+
+        /// <summary>
+        /// Load the parameters and result of log data.
+        /// </summary>
+        /// <param name="dirName">the top directory of the loaded analysis.</param>
+        public void LoadAnalysisData(string dirName)
+        {
+        }
+
+        /// <summary>
+        /// Save the parameters and result of log data.
+        /// </summary>
+        /// <param name="dirName">the top directory of the saved analysis.</param>
+        public void SaveAnalysisData(string dirName)
+        {
+        }
+
         /// <summary>
         /// Judge the robustness from the simulation result.
         /// </summary>

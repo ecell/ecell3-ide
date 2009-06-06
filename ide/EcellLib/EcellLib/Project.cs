@@ -618,6 +618,23 @@ namespace Ecell
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Get analysis path in project.
+        /// </summary>
+        /// <returns></returns>
+        public string GetAnalysisDirectory()
+        {
+            string path = null;
+            if (this.Info.ProjectPath != null)
+                path = Path.Combine(this.Info.ProjectPath, Constants.DMDirName);
+            else
+                return path;
+            if (!Directory.Exists(path))
+                return null;
+            return path;
+        }
+
         /// <summary>
         /// Initialize objects.
         /// </summary>

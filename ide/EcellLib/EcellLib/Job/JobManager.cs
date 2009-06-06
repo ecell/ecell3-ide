@@ -1171,9 +1171,9 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList)
+        public JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
-            JobGroup group = new JobGroup(this, name, sysObjList);
+            JobGroup group = new JobGroup(this, name, sysObjList, stepperList);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }
@@ -1185,9 +1185,9 @@ namespace Ecell.Job
         /// <param name="date"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList)
+        public JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
-            JobGroup group = new JobGroup(this, name, date, sysObjList);
+            JobGroup group = new JobGroup(this, name, date, sysObjList, stepperList);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }

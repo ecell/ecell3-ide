@@ -559,43 +559,43 @@
     <value>178, 17</value>
   </metadata>
   <data name="jobGroupRunToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupRunToolStripMenuItem.Text" xml:space="preserve">
     <value>Run</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="jobGroupLoadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupLoadToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load</value>
+    <value>View result</value>
   </data>
   <data name="jobGroupSaveStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupSaveStripMenuItem.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="jobGroupDeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobGroupDeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="jobGroupContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 126</value>
+    <value>153, 148</value>
   </data>
   <data name="&gt;&gt;jobGroupContextMenuStrip.Name" xml:space="preserve">
     <value>jobGroupContextMenuStrip</value>

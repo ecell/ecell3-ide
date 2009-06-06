@@ -53,6 +53,7 @@ namespace Ecell.Job
         private bool m_isGroupError = false;
         private IJobManager m_manager;
         private List<EcellObject> m_sysObj;
+        private List<EcellObject> m_stepperObj;
         #endregion
 
         #region Accessors
@@ -166,6 +167,15 @@ namespace Ecell.Job
             set { this.m_sysObj = value; }
         }
 
+        /// <summary>
+        /// get / set the stepper list.
+        /// </summary>
+        public List<EcellObject> StepperObjectList
+        {
+            get { return m_stepperObj; }
+            set { this.m_stepperObj = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -173,7 +183,7 @@ namespace Ecell.Job
         /// Constructors
         /// </summary>
         /// <param name="analysisName"></param>
-        public JobGroup(JobManager manger, string analysisName, List<EcellObject> sysObj)
+        public JobGroup(IJobManager manger, string analysisName, List<EcellObject> sysObj, List<EcellObject> stepperList)
         {
             m_manager = manger;
             this.m_analysisName = analysisName;           
@@ -182,6 +192,7 @@ namespace Ecell.Job
             m_date = dateString;
             this.m_jobs = new List<Job>();
             this.m_sysObj = sysObj;
+            this.m_stepperObj = stepperList;
         }
 
         /// <summary>
@@ -190,13 +201,14 @@ namespace Ecell.Job
         /// <param name="analysisName"></param>
         /// <param name="date"></param>
         /// <param name="param"></param>
-        public JobGroup(JobManager manager, string analysisName, string date, List<EcellObject> sysObj)
+        public JobGroup(IJobManager manager, string analysisName, string date, List<EcellObject> sysObj, List<EcellObject> stepperList)
         {
             m_manager = manager;
             this.m_analysisName = analysisName;
             this.m_date = date;
             this.m_jobs = new List<Job>();
             this.m_sysObj = sysObj;
+            this.m_stepperObj = stepperList;
         }
         #endregion
 

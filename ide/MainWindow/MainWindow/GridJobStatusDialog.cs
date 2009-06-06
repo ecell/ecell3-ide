@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -356,7 +357,20 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void JobTree_SaveJobGroup(object sender, EventArgs e)
         {
-            // not implements
+             ToolStripMenuItem m = sender as ToolStripMenuItem;
+            if (m == null) return;
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobGroupTreeNode))
+                return;
+            JobGroupTreeNode jnode = node as JobGroupTreeNode;
+            string name = jnode.GroupName;
+
+            string path = m_manager.Environment.DataManager.CurrentProject.Info.ProjectPath;
+            string dirName = path + "/" + Constants.AnalysisDirName + "/" + name;
+            if (!Directory.Exists(dirName))
+                Directory.CreateDirectory(dirName);
+
+            m_manager.GroupDic[name].AnalysisModule.SaveAnalysisInfo(dirName);
         }
 
         /// <summary>
@@ -364,7 +378,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void JobTree_LoadJobGroup(object sender, EventArgs e)
+        private void JobTree_ViewResultJobGroup(object sender, EventArgs e)
         {
             // not implements
         }

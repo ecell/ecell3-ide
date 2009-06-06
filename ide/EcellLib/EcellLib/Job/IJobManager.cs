@@ -282,7 +282,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList);
+        JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList, List<EcellObject> stepperList);
         /// <summary>
         /// Create the job group with the initial parameters.
         /// </summary>
@@ -290,7 +290,7 @@ namespace Ecell.Job
         /// <param name="date"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList);
+        JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList, List<EcellObject> stepperList);
         /// <summary>
         /// 
         /// </summary>

@@ -234,7 +234,7 @@
             // 
             this.jobGroupLoadToolStripMenuItem.Name = "jobGroupLoadToolStripMenuItem";
             resources.ApplyResources(this.jobGroupLoadToolStripMenuItem, "jobGroupLoadToolStripMenuItem");
-            this.jobGroupLoadToolStripMenuItem.Click += new System.EventHandler(this.JobTree_LoadJobGroup);
+            this.jobGroupLoadToolStripMenuItem.Click += new System.EventHandler(this.JobTree_ViewResultJobGroup);
             // 
             // jobGroupSaveStripMenuItem
             // 
