@@ -326,7 +326,9 @@ namespace Ecell
         /// <returns></returns>
         public string CreateJobGroup(string analysisName)
         {
-            JobGroup g = m_env.JobManager.CreateJobGroup(analysisName);
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysobj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(analysisName, sysobj);
             return g.GroupName;
         }
 

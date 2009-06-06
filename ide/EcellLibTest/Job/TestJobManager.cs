@@ -259,7 +259,7 @@ namespace Ecell.Job
             int expectedInt32 = 1;
             int resultInt32 = 0;
 
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>());
             resultInt32 = manager.CreateJobEntry(g.GroupName, param);
             Assert.AreEqual(expectedInt32, resultInt32, "CreateJobEntry method returned unexpected result.");
 
@@ -277,7 +277,7 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             LocalJob.ClearJobID();
 
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA", new List<EcellObject>());
             string script = null;
             string arg = null;
             List<string> extFile = null;
@@ -301,7 +301,7 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             LocalJob.ClearJobID();
 
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA", new List<EcellObject>());
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             int jobID = 0;
             manager.ClearJob(g.GroupName, jobID);
@@ -316,7 +316,7 @@ namespace Ecell.Job
         public void TestUpdate()
         {
             JobManager manager = new JobManager(_env);
-            JobGroup g = manager.CreateJobGroup("AAAAA");
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>());
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
                 job.Status = JobStatus.RUNNING;
@@ -359,7 +359,7 @@ namespace Ecell.Job
             List<Job> resultList = null;
             resultList = manager.GetFinishedJobList();
             Assert.AreEqual(expectedList, resultList, "GetFinishedJobList method returned unexpected result.");
-            JobGroup g = manager.CreateJobGroup("AAAAA");
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>());
 
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             resultList = manager.GetFinishedJobList();
@@ -378,7 +378,7 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = manager.IsFinished(null);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
-            JobGroup g = manager.CreateJobGroup("AAAAA");
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>());
 
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach (Job job in manager.GetFinishedJobList())
@@ -399,7 +399,7 @@ namespace Ecell.Job
 
             bool expectedBoolean = false;
             bool resultBoolean = false;
-            JobGroup g = manager.CreateJobGroup("AAAAA");
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>());
             resultBoolean = manager.IsError(g.GroupName);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsError method returned unexpected result.");
 
@@ -419,7 +419,7 @@ namespace Ecell.Job
         public void TestRun()
         {
             JobManager manager = new JobManager(_env);
-            JobGroup g = manager.CreateJobGroup("AAAAA");
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>());
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             manager.Run(null, true);
 
@@ -431,7 +431,7 @@ namespace Ecell.Job
         public void TestRunWaitFinish()
         {
             JobManager manager = new JobManager(_env);
-            JobGroup g = manager.CreateJobGroup("AAAAA");
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>());
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             //foreach (Job job in manager.GetFinishedJobList())
             //    job.Status = JobStatus.RUNNING;
@@ -444,7 +444,7 @@ namespace Ecell.Job
         [Test()]
         public void TestStop()
         {
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>());
             int jobid = 0;
             _unitUnderTest.Stop(g.GroupName, jobid);
 
@@ -462,7 +462,7 @@ namespace Ecell.Job
         public void TestGetSessionProxy()
         {
             int jobid = 0;
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>());
             System.Collections.Generic.List<Ecell.Job.Job> expectedList = new List<Job>();
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetSessionProxy(g.GroupName, jobid);
@@ -485,7 +485,7 @@ namespace Ecell.Job
             int jobid = 0;
             string expectedString = null;
             string resultString = null;
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>());
             resultString = _unitUnderTest.GetJobDirectory(g.GroupName, jobid);
             Assert.AreEqual(expectedString, resultString, "GetJobDirectory method returned unexpected result.");
 
@@ -505,7 +505,7 @@ namespace Ecell.Job
             int jobid = 1;
             string expectedString = null;
             string resultString = null;
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>());
             resultString = _unitUnderTest.GetStdout(g.GroupName, jobid);
             Assert.AreEqual(expectedString, resultString, "GetStdout method returned unexpected result.");
 
@@ -527,7 +527,7 @@ namespace Ecell.Job
             int jobid = 1;
             string expectedString = null;
             string resultString = null;
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>());
             resultString = _unitUnderTest.GetStderr(g.GroupName, jobid);
             Assert.AreEqual(expectedString, resultString, "GetStderr method returned unexpected result.");
 
@@ -594,7 +594,8 @@ namespace Ecell.Job
             ExecuteParameter param = new ExecuteParameter(data);
             setparam.Add(0, param);
 
-            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName);
+            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName, 
+                _env.DataManager.CurrentProject.SystemDic[modelName]);
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = new Dictionary<int, ExecuteParameter>();
             resultDictionary = _unitUnderTest.RunSimParameterSet(g.GroupName, topDir, modelName, count, isStep, setparam);
@@ -671,7 +672,8 @@ namespace Ecell.Job
 
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = null;
-            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName);
+            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName,
+                _env.DataManager.CurrentProject.SystemDic[modelName]);
             resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
@@ -703,7 +705,8 @@ namespace Ecell.Job
 
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = null;
-            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName);
+            JobGroup g = _unitUnderTest.CreateJobGroup(analysisName,
+                _env.DataManager.CurrentProject.SystemDic[modelName]);
             resultDictionary = _unitUnderTest.RunSimParameterMatrix(g.GroupName, topDir, modelName, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
 

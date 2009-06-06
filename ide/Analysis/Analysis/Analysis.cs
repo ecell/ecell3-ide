@@ -597,7 +597,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName);
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName, sysObj);
             RobustAnalysis robustAnalysis = new RobustAnalysis(this);
             robustAnalysis.Group = g;
             robustAnalysis.AnalysisParameter = m_robustParameter;
@@ -613,7 +615,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteParameterEstimation(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName);
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName, sysObj);
             ParameterEstimation parameterEstimation = new ParameterEstimation(this);
             parameterEstimation.Group = g;
             parameterEstimation.AnalysisParameter = m_estimationParameter;
@@ -629,7 +633,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = m_env.JobManager.CreateJobGroup(SensitivityAnalysis.s_analysisName);
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(SensitivityAnalysis.s_analysisName, sysObj);
             SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis(this);
             sensitivityAnalysis.Group = g;
             sensitivityAnalysis.AnalysisParameter = m_sensitivityParameter;
@@ -645,7 +651,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
         {
             ShowGridStatusDialog();
-            JobGroup g = m_env.JobManager.CreateJobGroup(BifurcationAnalysis.s_analysisName);
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(BifurcationAnalysis.s_analysisName, sysObj);
             BifurcationAnalysis bifurcationAnalysis = new BifurcationAnalysis(this);
             bifurcationAnalysis.Group = g;
             bifurcationAnalysis.AnalysisParameter = m_bifurcateParameter;

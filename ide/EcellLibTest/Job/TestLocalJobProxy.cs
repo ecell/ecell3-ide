@@ -98,7 +98,7 @@ namespace Ecell.Job
         [Test()]
         public void TestUpdate()
         {
-            JobGroup g = _unitUnderTest.Manager.CreateJobGroup("AAAA");
+            JobGroup g = _unitUnderTest.Manager.CreateJobGroup("AAAA", new List<Ecell.Objects.EcellObject>());
             _unitUnderTest.Manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             foreach(Job job in _unitUnderTest.Manager.GetFinishedJobList())
                 job.Status = JobStatus.QUEUED;

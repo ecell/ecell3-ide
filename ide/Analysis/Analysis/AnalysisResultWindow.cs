@@ -208,6 +208,9 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
                     return;
 
+                // not implement.
+                List<EcellObject> sysObjList = new List<EcellObject>();
+
                 reader = new StreamReader(filename, Encoding.ASCII);
 
                 if (analysisName.Equals("BifurcationAnalysis"))
@@ -220,7 +223,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 else if (analysisName.Equals("RobustAnalysis"))
                 {
-                    LoadRobustAnalysisResult(reader, labels);
+                    LoadRobustAnalysisResult(reader, labels, sysObjList);
                 }
                 else if (analysisName.Equals("SensitivityAnalysis"))
                 {
@@ -316,12 +319,14 @@ namespace Ecell.IDE.Plugins.Analysis
             m_graphResultWindow.PostGraphSet();
         }
 
-        private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels)
+        private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels, List<EcellObject> sysObjList)
         {
             string line;
             string[] ele;
 
-            JobGroup group = m_owner.JobManager.CreateJobGroup("RobustAnalysis");
+
+
+            JobGroup group = m_owner.JobManager.CreateJobGroup("RobustAnalysis", sysObjList);
             Dictionary<int, string> paramDic = new Dictionary<int, string>();
             int i = 0;
             foreach (string label in labels)

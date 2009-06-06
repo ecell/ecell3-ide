@@ -763,7 +763,7 @@ namespace Ecell.Job
         {
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName]; 
+            List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             if (!Directory.Exists(topDir))
             {
@@ -785,12 +785,12 @@ namespace Ecell.Job
                 if (this.Proxy.IsIDE() == true)
                 {
                     CreateLocalScript(topDir, dirName, fileName, writer,
-                        modelName, count, isStep, paramDic);
+                        modelName, count, isStep, sysList, paramDic);
                 }
                 else
                 {
                     CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
-                        modelName, count, isStep, paramDic);
+                        modelName, count, isStep, sysList, paramDic);
                 }
 
                 job.ExecParam = new ExecuteParameter(paramDic);
@@ -816,7 +816,7 @@ namespace Ecell.Job
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
             if (!Directory.Exists(topDir))
@@ -851,13 +851,13 @@ namespace Ecell.Job
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
-                    CreateLocalScript(topDir, dirName, fileName, writer, 
-                        modelName, count, isStep, paramDic);
+                    CreateLocalScript(topDir, dirName, fileName, writer,
+                        modelName, count, isStep, sysList, paramDic);
                 }
                 else
                 {
                     CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
-                        modelName, count, isStep, paramDic);
+                        modelName, count, isStep, sysList, paramDic);
                 }
                 job.ExecParam = new ExecuteParameter(paramDic);
                 resList.Add(jobid, new ExecuteParameter(paramDic));
@@ -933,7 +933,7 @@ namespace Ecell.Job
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {
@@ -1005,13 +1005,13 @@ namespace Ecell.Job
 
                     if (this.Proxy.IsIDE())
                     {
-                        CreateLocalScript(topDir, dirName, fileName, writer, 
-                            modelName, count, isStep, paramDic);
+                        CreateLocalScript(topDir, dirName, fileName, writer,
+                            modelName, count, isStep, sysList, paramDic);
                     }
                     else
                     {
-                        CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer, 
-                            modelName, count, isStep, paramDic);
+                        CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
+                            modelName, count, isStep, sysList, paramDic);
                     }
                     job.ExecParam = new ExecuteParameter(paramDic);
                     resList.Add(jobid, new ExecuteParameter(paramDic));
@@ -1025,10 +1025,9 @@ namespace Ecell.Job
         }
 
         private void CreateUnixScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
-            ScriptWriter writer, string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
+            ScriptWriter writer, string modelName, double count, bool isStep, List<EcellObject> sysList,
+            Dictionary<string, double> paramDic)
         {
-            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
-
             Encoding enc = Encoding.GetEncoding(51932);
             SetLogTopDirectory(dirName);
             if (!Directory.Exists(dirName))
@@ -1098,10 +1097,9 @@ namespace Ecell.Job
         }
 
         private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,
-                string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
+                string modelName, double count, bool isStep, List<EcellObject> sysList,
+            Dictionary<string, double> paramDic)
         {
-            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
-
             Encoding enc = Encoding.GetEncoding(932);
             SetLogTopDirectory(dirName);
             if (!Directory.Exists(dirName))
@@ -1173,9 +1171,9 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public JobGroup CreateJobGroup(string name)
+        public JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList)
         {
-            JobGroup group = new JobGroup(this, name);
+            JobGroup group = new JobGroup(this, name, sysObjList);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }
@@ -1187,9 +1185,9 @@ namespace Ecell.Job
         /// <param name="date"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public JobGroup CreateJobGroup(string name, string date)
+        public JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList)
         {
-            JobGroup group = new JobGroup(this, name, date);
+            JobGroup group = new JobGroup(this, name, date, sysObjList);
             m_groupDic.Add(group.GroupName, group);
             return group;
         }

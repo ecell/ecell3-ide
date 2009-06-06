@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Ecell.Objects;
+
 namespace Ecell.Job
 {
     /// <summary>
@@ -280,7 +282,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        JobGroup CreateJobGroup(string name);
+        JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList);
         /// <summary>
         /// Create the job group with the initial parameters.
         /// </summary>
@@ -288,7 +290,7 @@ namespace Ecell.Job
         /// <param name="date"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        JobGroup CreateJobGroup(string name, string date);
+        JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList);
         /// <summary>
         /// 
         /// </summary>
