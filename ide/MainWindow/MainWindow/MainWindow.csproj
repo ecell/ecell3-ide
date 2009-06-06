@@ -124,7 +124,7 @@
     </Compile>
     <Compile Include="DockWindowSerializer.cs">
     </Compile>
-    <Compile Include="GeneralConfigurationPage.cs">
+    <Compile Include="UIComponents\GeneralConfigurationPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GridJobStatusDialog.cs">
@@ -139,7 +139,7 @@
     <Compile Include="InitialPreferencesDialog.designer.cs">
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="JobManagerDialog.cs">
+    <Compile Include="UIComponents\JobManagerSettingPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="JobMessageDialog.cs">
@@ -148,7 +148,7 @@
     <Compile Include="JobMessageDialog.Designer.cs">
       <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="LanguageSettingPage.cs">
+    <Compile Include="UIComponents\LanguageSettingPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MessageResources.Designer.cs">
@@ -173,7 +173,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -208,11 +207,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>EcellWebBrowser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GeneralConfigurationPage.ja.resx">
+    <EmbeddedResource Include="UIComponents\GeneralConfigurationPage.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GeneralConfigurationPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GeneralConfigurationPage.resx">
+    <EmbeddedResource Include="UIComponents\GeneralConfigurationPage.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GeneralConfigurationPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -232,13 +231,13 @@
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="JobManagerDialog.ja.resx">
+    <EmbeddedResource Include="UIComponents\JobManagerSettingPage.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>JobManagerDialog.cs</DependentUpon>
+      <DependentUpon>JobManagerSettingPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JobManagerDialog.resx">
+    <EmbeddedResource Include="UIComponents\JobManagerSettingPage.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>JobManagerDialog.cs</DependentUpon>
+      <DependentUpon>JobManagerSettingPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JobMessageDialog.ja.resx">
       <SubType>Designer</SubType>
@@ -248,11 +247,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LanguageSettingPage.ja.resx">
+    <EmbeddedResource Include="UIComponents\LanguageSettingPage.ja.resx">
       <DependentUpon>LanguageSettingPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="LanguageSettingPage.resx">
+    <EmbeddedResource Include="UIComponents\LanguageSettingPage.resx">
       <DependentUpon>LanguageSettingPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -310,15 +309,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="EcellWebBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -330,6 +320,9 @@
     </Compile>
     <Compile Include="UIComponents\DockToolStripMenuItem.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIComponents\RootFolderSettingPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

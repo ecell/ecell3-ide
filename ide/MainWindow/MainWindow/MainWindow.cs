@@ -917,7 +917,7 @@ namespace Ecell.IDE.MainWindow
         public List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node1 = new PropertyNode(MessageResources.NameJobManage);            
-            node1.Nodes.Add(new PropertyNode(new JobManagerDialog(m_env.JobManager)));
+            node1.Nodes.Add(new PropertyNode(new JobManagerSettingPage(m_env.JobManager)));
 
             PropertyNode node2 = new PropertyNode(MessageResources.NameGeneral);
             node2.Nodes.Add(new PropertyNode(new GeneralConfigurationPage(m_env.DataManager)));
@@ -1295,12 +1295,12 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// The action of [Setup]->[ModelEditor] menu click.
+        /// The action of [Setup]->[Set Root Directory] menu click.
         /// Set base directory of e-cell for loading plugin.
         /// </summary>
         /// <param name="sender">object(ToolStripMenuItem)</param>
         /// <param name="e">EventArgs</param>
-        private void ModelEditorMenuClick(object sender, EventArgs e)
+        private void SetRootDirMenuClick(object sender, EventArgs e)
         {
             string currentDir = Util.GetBaseDir();
 

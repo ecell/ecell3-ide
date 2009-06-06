@@ -89,7 +89,7 @@ namespace Ecell.IDE.MainWindow
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
-            this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setRootDirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
@@ -487,18 +487,18 @@ namespace Ecell.IDE.MainWindow
             // MenuItemSetup
             // 
             this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modelEditorToolStripMenuItem,
+            this.setRootDirToolStripMenuItem,
             this.setIDEToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.MenuItemSetup.Name = "MenuItemSetup";
             resources.ApplyResources(this.MenuItemSetup, "MenuItemSetup");
             // 
-            // modelEditorToolStripMenuItem
+            // setRootDirToolStripMenuItem
             // 
-            this.modelEditorToolStripMenuItem.Name = "modelEditorToolStripMenuItem";
-            resources.ApplyResources(this.modelEditorToolStripMenuItem, "modelEditorToolStripMenuItem");
-            this.modelEditorToolStripMenuItem.Tag = "100";
-            this.modelEditorToolStripMenuItem.Click += new System.EventHandler(this.ModelEditorMenuClick);
+            this.setRootDirToolStripMenuItem.Name = "setRootDirToolStripMenuItem";
+            resources.ApplyResources(this.setRootDirToolStripMenuItem, "setRootDirToolStripMenuItem");
+            this.setRootDirToolStripMenuItem.Tag = "100";
+            this.setRootDirToolStripMenuItem.Click += new System.EventHandler(this.SetRootDirMenuClick);
             // 
             // setIDEToolStripMenuItem
             // 
@@ -681,7 +681,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// MenuItem to set the working directory.
         /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem modelEditorToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem setRootDirToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemRun;
         private System.Windows.Forms.ToolStripMenuItem MenuItemHelp;
         private System.Windows.Forms.ToolStripMenuItem MenuItemView;

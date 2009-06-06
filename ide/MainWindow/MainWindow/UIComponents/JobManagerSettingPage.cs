@@ -39,12 +39,12 @@ using Ecell.IDE;
 using Ecell.Job;
 using Ecell.Exceptions;
 
-namespace Ecell.IDE.MainWindow
+namespace Ecell.IDE.MainWindow.UIComponents
 {
     /// <summary>
     /// Job manage page in the common setting dialog.
     /// </summary>
-    public class JobManagerDialog : PropertyDialogPage
+    public class JobManagerSettingPage : PropertyDialogPage
     {
         #region Fields
         private IJobManager m_manager;
@@ -62,7 +62,7 @@ namespace Ecell.IDE.MainWindow
         /// Constructor.
         /// </summary>
         /// <param name="manager"></param>
-        public JobManagerDialog(IJobManager manager)
+        public JobManagerSettingPage(IJobManager manager)
         {
             InitializeComponent();
             m_manager = manager;
@@ -93,7 +93,7 @@ namespace Ecell.IDE.MainWindow
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobManagerDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobManagerSettingPage));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.envComboBox = new System.Windows.Forms.ComboBox();

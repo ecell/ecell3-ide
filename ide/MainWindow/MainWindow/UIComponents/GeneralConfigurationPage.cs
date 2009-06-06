@@ -39,7 +39,7 @@ using System.Windows.Forms;
 using Ecell.IDE;
 using Ecell.Exceptions;
 
-namespace Ecell.IDE.MainWindow
+namespace Ecell.IDE.MainWindow.UIComponents
 {
     /// <summary>
     /// GeneralConfigurationPage
