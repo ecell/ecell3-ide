@@ -67,10 +67,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         ToolStripMenuItem m_showSaveWin;
         /// <summary>
-        /// The menu item for [Setup] -> [TraceWindow].
-        /// </summary>
-//        ToolStripMenuItem m_setupWin;
-        /// <summary>
         /// The current TracerWindow.
         /// </summary>
         private TraceWindow m_win = null;

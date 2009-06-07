@@ -150,7 +150,6 @@ namespace Ecell
             string systemLog = "System:/:CELL:SIZE";
 
             System.Text.Encoding enc = System.Text.Encoding.GetEncoding(51932);
-            int jobID = 0;
             double count = 1.0;
             ScriptWriter writer = new ScriptWriter(_unitUnderTest.CurrentProject);
             List<SaveLoggerProperty> m_logList = new List<SaveLoggerProperty>();

@@ -320,7 +320,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void TestNotifyRemoveLayer()
         {
             string name = null;
-            bool isAnchored = false;
             //_unitUnderTest.NotifyRemoveLayer(name, isAnchored);
             Assert.Fail("Create or modify test(s).");
 
@@ -343,8 +342,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestNotifyMergeLayer()
         {
-            string oldName = null;
-            string newName = null;
             //_unitUnderTest.NotifyMergeLayer(oldName, newName);
             Assert.Fail("Create or modify test(s).");
 
@@ -355,7 +352,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestNotifyLayerChange()
         {
-            bool isAnchored = false;
             //_unitUnderTest.NotifyLayerChange(isAnchored);
             Assert.Fail("Create or modify test(s).");
 
@@ -450,7 +446,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestGetSurroundedObject()
         {
-            System.Drawing.RectangleF rect = new System.Drawing.RectangleF();
             System.Collections.Generic.List<Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject> expectedList = null;
             System.Collections.Generic.List<Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject> resultList = null;
             //resultList = _unitUnderTest.GetSurroundedObject(rect);
@@ -571,7 +566,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string oldKey = null;
             string newKey = null;
             Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject obj = null;
-            System.Drawing.RectangleF oldRect = new System.Drawing.RectangleF();
             _unitUnderTest.DataChanged(oldKey, newKey, obj);
             Assert.Fail("Create or modify test(s).");
 
@@ -783,7 +777,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestMoveSelectedObjects()
         {
-            System.Drawing.PointF offset = new System.Drawing.PointF();
             //_unitUnderTest.MoveSelectedObjects(offset);
             Assert.Fail("Create or modify test(s).");
 
@@ -794,7 +787,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestNotifyMoveObjects()
         {
-            bool isAnchored = false;
             //_unitUnderTest.NotifyMoveObjects(isAnchored);
             Assert.Fail("Create or modify test(s).");
 

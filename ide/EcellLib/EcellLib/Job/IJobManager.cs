@@ -77,13 +77,14 @@ namespace Ecell.Job
         /// <summary>
         /// Clear the files of the selected jobs.
         /// </summary>
+        /// <param name="groupName">the group name,</param>
         /// <param name="jobID">the deleted job.</param>
         void ClearJob(string groupName, int jobID);
         /// <summary>
         /// Delete the selected jobs.
         /// </summary>
-        /// <param name="groupName"></param>
-        /// <param name="jobID"></param>
+        /// <param name="groupName">the group name.</param>
+        /// <param name="jobID">the job id of deleted job.</param>
         void DeleteJob(string groupName, int jobID);
         /// <summary>
         /// Create the execute parameter.
@@ -130,6 +131,7 @@ namespace Ecell.Job
         /// <summary>
         /// Get the working directory of selected job.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">the ID of selected job.</param>
         /// <returns>the path of working directory.</returns>
         string GetJobDirectory(string name, int jobid);
@@ -141,18 +143,21 @@ namespace Ecell.Job
         /// <summary>
         /// Get the all list of SessionProxy or SessionProxy with jobid.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">jobid.</param>
         /// <returns>the list of SessionProxy.</returns>
         List<Job> GetSessionProxy(string name, int jobid);
         /// <summary>
         /// Get the stream of StdErr.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">job id.</param>
         /// <returns>StreamReader</returns>
         string GetStderr(string name, int jobid);
         /// <summary>
         /// Get the stream of StrOut.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">job id.</param>
         /// <returns>StreamReader</returns>
         string GetStdout(string name, int jobid);
@@ -174,11 +179,13 @@ namespace Ecell.Job
         /// <summary>
         /// Check whther there are any error jobs.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <returns>if there is error job, return true.</returns>
         bool IsError(string name);
         /// <summary>
         /// Check whether all jobs is finished.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <returns>if all jobs is finished, retur true.</returns>
         bool IsFinished(string name);
         /// <summary>
@@ -214,6 +221,7 @@ namespace Ecell.Job
         /// Run the simulation by using the initial parameter according with ParameterRange object.
         /// SetLoggerData and SetParameterRange should be called, before this function use.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="count">simulation time or simulation step.</param>
@@ -224,6 +232,7 @@ namespace Ecell.Job
         /// Run the simulation by using the initial parameter within the range of parameters.
         /// The number of sample is set. SetLoggerData and SetParameterRange should be called, before this function use.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="num">the number of sample.</param>
@@ -234,6 +243,7 @@ namespace Ecell.Job
         /// <summary>
         /// Execute the simulation with using the set parameters.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="count">simulation time or simulation step.</param>
@@ -244,6 +254,7 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs and execute this process until all SessionProxy is finished.
         /// </summary>
+        ///<param name="groupName">the group name.</param>
         void RunWaitFinish(string groupName);
         /// <summary>
         /// Update the property of proxy.
@@ -264,6 +275,7 @@ namespace Ecell.Job
         /// <summary>
         /// Stop the job with input ID of job. if jobid = 0, all job are stopped.
         /// </summary>
+        /// <param name="name">the group name.</param>
         /// <param name="jobid">stop the ID of job.</param>
         void Stop(string name, int jobid);
         /// <summary>
@@ -278,23 +290,26 @@ namespace Ecell.Job
         /// <returns>return jobid.</returns>
         int CreateJobEntry(string groupName, ExecuteParameter param);
         /// <summary>
-        /// Create the job group
+        /// Create the job group.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the group name.</param>
+        /// <param name="sysObjList">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper object.</param>
         /// <returns></returns>
         JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList, List<EcellObject> stepperList);
         /// <summary>
-        /// Create the job group with the initial parameters.
+        /// Create the job group.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="date"></param>
-        /// <param name="param"></param>
+        /// <param name="name">the group name.</param>
+        /// <param name="date">the date</param>
+        /// <param name="sysObjList">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper object.</param>
         /// <returns></returns>
         JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList, List<EcellObject> stepperList);
         /// <summary>
-        /// 
+        /// Remove the job group.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the group name.</param>
         void RemoveJobGroup(string name);
     }   
 }

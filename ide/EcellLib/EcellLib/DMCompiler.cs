@@ -49,7 +49,6 @@ namespace Ecell
         private string m_sourceFile;
         private string m_outputFile;
         private string m_dmFile;
-        private string m_option;
         #endregion
 
         #region Constructor
@@ -59,7 +58,6 @@ namespace Ecell
         public DMCompiler()
         {
             m_sourceFile = null;
-            m_option = "";
         }
         #endregion
 

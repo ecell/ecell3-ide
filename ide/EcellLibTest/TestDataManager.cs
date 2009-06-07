@@ -880,7 +880,6 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
             EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
             _unitUnderTest.AddStepperID(l_stepper);
 
@@ -1398,7 +1397,6 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            string l_parameterID = "DefaultParameter";
             string l_modelID = "Drosophila";
             List<EcellObject> resultList = null;
             resultList = _unitUnderTest.GetStepper(l_modelID);

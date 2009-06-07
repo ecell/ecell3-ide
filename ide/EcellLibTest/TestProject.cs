@@ -518,7 +518,7 @@ namespace Ecell
             _env.DataManager.CurrentProject.InitialCondition[parameterID] = newInitialCondSets;
             _env.DataManager.CurrentProject.InitialCondition[parameterID][modelID][path] = 1.0;
 
-            system = _env.DataManager.CurrentProject.GetEcellObject("Drosophila", "System", "/CELL/CYTOPLASM", true);
+            system = _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathSystem, key, true);
             _env.DataManager.CurrentProject.DeleteSystem(system);
         }
         /// <summary>
@@ -622,9 +622,6 @@ namespace Ecell
         public void TestSetInitialCondition()
         {
             string paramID = "NewParam";
-            string modelID = "Drosophila";
-            string path = "Variable:/CELL/CYTOPLASM:P0:Value";
-            string key = "/CELL/CYTOPLASM:P0";
 
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             _env.DataManager.CreateSimulationParameter(paramID);

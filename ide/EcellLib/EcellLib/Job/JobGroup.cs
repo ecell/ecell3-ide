@@ -42,17 +42,53 @@ namespace Ecell.Job
     public class JobGroup
     {
         #region Fields
+        /// <summary>
+        /// Analysis name.
+        /// </summary>
         private string m_analysisName;
+        /// <summary>
+        /// Date executed this job group
+        /// </summary>
         private string m_date;
+        /// <summary>
+        /// The list of jobs that this job group is managed.
+        /// </summary>
         private List<Job> m_jobs;
+        /// <summary>
+        /// The status of this job group.
+        /// </summary>
         private AnalysisStatus m_status;
+        /// <summary>
+        /// The top directory of this job group.
+        /// </summary>
         private string m_topDir;
+        /// <summary>
+        /// The flag whether this job group is saved.
+        /// </summary>
         private bool m_isSaved = false;
+        /// <summary>
+        /// Analysis module related with this job group.
+        /// </summary>
         private IAnalysisModule m_analysis;
+        /// <summary>
+        /// The flag whether this group is running.
+        /// </summary>
         private bool m_isRunning = false;
+        /// <summary>
+        ///  The flag whether this group is error.
+        /// </summary>
         private bool m_isGroupError = false;
+        /// <summary>
+        /// JobManager.
+        /// </summary>
         private IJobManager m_manager;
+        /// <summary>
+        /// the list of system object.
+        /// </summary>
         private List<EcellObject> m_sysObj;
+        /// <summary>
+        /// the list of stepper object.
+        /// </summary>
         private List<EcellObject> m_stepperObj;
         #endregion
 
@@ -138,7 +174,7 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// set the error when this job group is failed to analysis.
         /// </summary>
         public bool IsGroupError
         {
@@ -182,10 +218,13 @@ namespace Ecell.Job
         /// <summary>
         /// Constructors
         /// </summary>
-        /// <param name="analysisName"></param>
-        public JobGroup(IJobManager manger, string analysisName, List<EcellObject> sysObj, List<EcellObject> stepperList)
+        /// <param name="manager">JobManager.</param>
+        /// <param name="analysisName">the analysis name.</param>
+        /// <param name="sysObj">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper object.</param>
+        public JobGroup(IJobManager manager, string analysisName, List<EcellObject> sysObj, List<EcellObject> stepperList)
         {
-            m_manager = manger;
+            m_manager = manager;
             this.m_analysisName = analysisName;           
             DateTime dt = DateTime.Now;
             string dateString = dt.ToString("yyyyMMddHHmm");
@@ -198,9 +237,11 @@ namespace Ecell.Job
         /// <summary>
         /// Constructors with the initial parameters.
         /// </summary>
-        /// <param name="analysisName"></param>
-        /// <param name="date"></param>
-        /// <param name="param"></param>
+        /// <param name="manager">JobManager.</param>
+        /// <param name="analysisName">the analysis name.</param>
+        /// <param name="date">the date</param>
+        /// <param name="sysObj">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper object.</param>
         public JobGroup(IJobManager manager, string analysisName, string date, List<EcellObject> sysObj, List<EcellObject> stepperList)
         {
             m_manager = manager;
@@ -212,18 +253,26 @@ namespace Ecell.Job
         }
         #endregion
 
-
+        /// <summary>
+        /// Start this job group.
+        /// </summary>
         public void Run()
         {
             m_isRunning = true;
         }
 
+        /// <summary>
+        /// Stop this job group.
+        /// </summary>
         public void Stop()
         {
             m_isRunning = false;
             UpdateStatus();
         }
 
+        /// <summary>
+        /// Update status of job in this job group.
+        /// </summary>
         private void UpdateJobStatus()
         {
             foreach (Job job in m_jobs)
@@ -293,7 +342,7 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Clear the directory of selected job.
         /// </summary>
         public void ClearJob(int jobid)
         {
@@ -304,21 +353,23 @@ namespace Ecell.Job
             }
         }
 
+        /// <summary>
+        /// Clear the job directory in this job group.
+        /// </summary>
         public void Clear()
         {
             if (m_isSaved) return;
             foreach (Job m in m_jobs)
                 m.Clear();
             if (!string.IsNullOrEmpty(m_topDir) && Directory.Exists(m_topDir))
-                Directory.Delete(m_topDir, true);
-                
+                Directory.Delete(m_topDir, true);                
         }
 
         /// <summary>
-        /// 
+        /// Get the job from this job group.
         /// </summary>
-        /// <param name="jobid"></param>
-        /// <returns></returns>
+        /// <param name="jobid">the job id of selected job.</param>
+        /// <returns>job object.</returns>
         public Job GetJob(int jobid)
         {
             foreach (Job m in m_jobs)
@@ -329,6 +380,10 @@ namespace Ecell.Job
             return null;
         }
 
+        /// <summary>
+        /// Delete the selected job in this job group.
+        /// </summary>
+        /// <param name="jobid"></param>
         public void DeleteJob(int jobid)
         {
             foreach (Job m in m_jobs)
@@ -341,13 +396,16 @@ namespace Ecell.Job
             }
         }
 
+        /// <summary>
+        /// Delete the all job in this job group.
+        /// </summary>
         public void Delete()
         {
             m_jobs.Clear();
         }
 
         /// <summary>
-        /// 
+        /// Check whether this job group is finished.
         /// </summary>
         /// <returns></returns>
         public bool IsFinished()
@@ -362,7 +420,7 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Check whether this job group is error.
         /// </summary>
         /// <returns></returns>
         public bool IsError()
@@ -375,6 +433,10 @@ namespace Ecell.Job
             return false;
         }
 
+        /// <summary>
+        /// Save the job group in the selected directory.
+        /// </summary>
+        /// <param name="topdir">the top directory to save the job group.</param>
         public void SaveJobGroup(string topdir)
         {
             if (!Directory.Exists(topdir))

@@ -53,18 +53,6 @@ namespace Ecell.IDE.Plugins.Simulation
         /// The owner of this object.
         /// </summary>
         private Simulation m_owner = null;
-        /// <summary>
-        /// loaded stepper list.
-        /// </summary>
-        private List<EcellObject> m_steppList = null;
-        /// <summary>
-        /// List of value for selected stepper.
-        /// </summary>
-        private List<EcellData> m_selectValue;
-
-        private List<string> m_stepperClasses;
-
-        private Dictionary<string, Dictionary<string, Dictionary<string, StepperConfiguration>>> m_originalStepperConfigurations;
 
         private bool freqByStepTextBox_filledWithDefaultValue = false;
 
@@ -142,8 +130,6 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="modelID">model ID</param>
         public void ChangeModelID(string modelID)
         {
-            int j = 0;
-
             string param = paramCombo.Text;
         }
 
@@ -205,69 +191,6 @@ namespace Ecell.IDE.Plugins.Simulation
             m_simParamSets.RemoveCurrent();
         }
 
-        /// <summary>
-        /// The action of clicking Delete Button on SimulationSetup.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void DeleteStepperClick(object sender, EventArgs e)
-        {
-            StepperConfiguration sc = (StepperConfiguration)steppersBindingSource.Current;
-            if (sc == null)
-                return;
-
-            if (steppersBindingSource.Count <= 1)
-            {
-                Util.ShowWarningDialog(MessageResources.ErrDelStep);
-                return;
-            }
-
-            bool stillInUse = false;
-            foreach (EcellObject sysObj in m_owner.DataManager.GetData(
-                ((PerModelSimulationParameter)perModelSimulationParameterBindingSource.Current).ModelID, null))
-            {
-                // XXX: unlikely to happen, for safety.
-                if (sysObj.Children == null)
-                    continue;
-
-                EcellData data = sysObj.GetEcellData(Constants.xpathStepperID);
-                if (data != null && (string)data.Value == sc.Name)
-                {
-                    stillInUse = true;
-                    break;
-                }
-
-                foreach (EcellObject obj in sysObj.Children)
-                {
-                    if (obj.Type == Constants.xpathProcess)
-                    {
-                        data = obj.GetEcellData(Constants.xpathStepperID);
-                        if (data != null && (string)data.Value == sc.Name)
-                        {
-                            stillInUse = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (stillInUse)
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrStepperStillInUse, sc.Name));
-                return;
-            }
-
-            steppersBindingSource.RemoveCurrent();
-
-            // 削除した後にListBoxの順番が更新されていません。
-            // なにかいい方法があったらそちらに変更しましょう。
-            for (int i = 0; i < steppersBindingSource.Count; i++)
-            {
-                steppersBindingSource.ResetItem(i);
-            }
-            m_isStepperAddOrDelete = true;
-        }
-
         public bool IsExistParameterSet(string name)
         {
             for (int i = 0; i < m_simParamSets.Count; i++)
@@ -293,44 +216,6 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
         #endregion
-
-        private void ResetStepperProperties(StepperConfiguration sc)
-        {
-            sc.Properties.Clear();
-            Dictionary<string, StepperConfiguration> scs = null;
-            Dictionary<string, Dictionary<string, StepperConfiguration>> pmsc = null;
-            StepperConfiguration original = null;
-            if (m_originalStepperConfigurations.TryGetValue(((SimulationParameterSet)m_simParamSets.Current).Name, out pmsc))
-                pmsc.TryGetValue(((PerModelSimulationParameter)perModelSimulationParameterBindingSource.Current).ModelID, out scs);
-
-            if (scs != null && steppersBindingSource.Current != null &&
-                scs.TryGetValue(((StepperConfiguration)steppersBindingSource.Current).Name, out original) &&
-                original.ClassName == sc.ClassName)
-            {
-                sc.Properties.AddRange(original.Properties);
-            }
-            else
-            {
-                foreach (EcellData data in m_owner.DataManager.GetStepperProperty(sc.ClassName))
-                {
-                    if (data.Value.IsList || !data.Settable)
-                        continue;
-                    sc.Properties.Add(
-                        new MutableKeyValuePair<string, string>(
-                            data.Name, data.Value.ToString()));
-                }
-            }
-        }
-
-        private void stepCombo_SelectedValueChanged(object sender, EventArgs e)
-        {
-            StepperConfiguration sc = (StepperConfiguration)steppersBindingSource.Current;
-            if (sc == null)
-                return;
-            sc.ClassName = (string)((ComboBox)sender).SelectedValue;
-            ResetStepperProperties(sc);
-            propertiesBindingSource.ResetBindings(false);
-        }
 
         private void m_simParamSets_CurrentChanged(object sender, EventArgs e)
         {

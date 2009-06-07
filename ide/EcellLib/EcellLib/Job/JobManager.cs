@@ -314,6 +314,7 @@ namespace Ecell.Job
         /// <summary>
         /// Create the job entry when the analysis result is loaded.
         /// </summary>
+        /// <param name="groupName">the group name,</param>
         /// <param name="param">the analysis parameter.</param>
         /// <returns>return jobid.</returns>
         public int CreateJobEntry(string groupName, ExecuteParameter param)
@@ -333,6 +334,7 @@ namespace Ecell.Job
         /// <summary>
         /// Regist the session of e-cell.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         /// <param name="arg">the argument of script.</param>
         /// <param name="extFile">the list of extension file.</param>
         /// <param name="script">the script file.</param>
@@ -357,6 +359,7 @@ namespace Ecell.Job
         /// <summary>
         /// Clear the files of the selected jobs. if jobID = 0, all jobs are deleted.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         /// <param name="jobID">the ID of deleted job.</param>
         public void ClearJob(string groupName, int jobID)
         {
@@ -377,8 +380,8 @@ namespace Ecell.Job
         /// <summary>
         /// Delete the selected jobs. if jobID = 0, job group is deleted.
         /// </summary>
-        /// <param name="groupName"></param>
-        /// <param name="jobID"></param>
+        /// <param name="groupName">the group name.</param>
+        /// <param name="jobID">the job id of deleted job.</param>
         public void DeleteJob(string groupName, int jobID)
         {
             if (string.IsNullOrEmpty(groupName) || !m_groupDic.ContainsKey(groupName))
@@ -482,6 +485,7 @@ namespace Ecell.Job
         /// <summary>
         /// Check whether all jobs is finished.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <returns>if all jobs is finished, retur true.</returns>
         public bool IsFinished(string groupName)
         {
@@ -503,6 +507,7 @@ namespace Ecell.Job
         /// <summary>
         /// Check whther there are any error jobs.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <returns>if there is error job, return true.</returns>
         public bool IsError(string groupName)
         {
@@ -580,6 +585,7 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs and execute this process until all SessionProxy is finished.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         public void RunWaitFinish(string groupName)
         {
             PrepareProcessRun(groupName, true);
@@ -594,6 +600,7 @@ namespace Ecell.Job
         /// <summary>
         /// Stop the job with input ID of job. if jobid = 0, all job are stopped.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         /// <param name="jobid">stop the ID of job.</param>
         public void Stop(string groupName, int jobid)
         {
@@ -617,6 +624,7 @@ namespace Ecell.Job
         /// <summary>
         /// Get the all list of SessionProxy or SessionProxy with jobid.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <param name="jobid">jobid.</param>
         /// <returns>the list of SessionProxy.</returns>
         public List<Job> GetSessionProxy(string groupName, int jobid)
@@ -642,6 +650,7 @@ namespace Ecell.Job
         /// <summary>
         /// Get the job directory of session correspond to jobID.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">JobID.</param>
         /// <returns>Directory path.</returns>
         public string GetJobDirectory(string name, int jobid)
@@ -657,6 +666,7 @@ namespace Ecell.Job
         /// <summary>
         /// Get the stream of StrOut.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">job id.</param>
         /// <returns>string</returns>
         public string GetStdout(string name, int jobid)
@@ -676,6 +686,7 @@ namespace Ecell.Job
         /// <summary>
         /// Get the stream of StdErr.
         /// </summary>
+        /// <param name="name">the group name</param>
         /// <param name="jobid">job id.</param>
         /// <returns>string</returns>
         public string GetStderr(string name, int jobid)
@@ -767,6 +778,7 @@ namespace Ecell.Job
         /// <summary>
         /// Execute the simulation with using the set parameters.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="count">simulation time or simulation step.</param>
@@ -821,6 +833,7 @@ namespace Ecell.Job
         /// Run the simulation by using the initial parameter within the range of parameters.
         /// The number of sample is set. SetLoggerData and SetParameterRange should be called, before this function use.
         /// </summary>
+        /// <param name="groupName">the group name</param>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="num">the number of sample.</param>
@@ -902,6 +915,7 @@ namespace Ecell.Job
         /// <summary>
         /// Extract the list of file from the information of logger.
         /// </summary>
+        /// <param name="topDir">top directory.</param>
         /// <param name="logList">the list of logger information.</param>
         /// <returns>the list of file.</returns>
         private static List<string> ExtractExtFileList(string topDir, List<SaveLoggerProperty> logList)
@@ -940,6 +954,7 @@ namespace Ecell.Job
         /// Run the simulation by using the initial parameter according with ParameterRange object.
         /// SetLoggerData and SetParameterRange should be called, before this function use.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="count">simulation time or simulation step.</param>
@@ -1042,6 +1057,20 @@ namespace Ecell.Job
             return resList;
         }
 
+        /// <summary>
+        /// Create the script for linux.
+        /// </summary>
+        /// <param name="jobID">the job id.</param>
+        /// <param name="topDir">the top directory.</param>
+        /// <param name="dirName">the execute directory.</param>
+        /// <param name="fileName">the script file.</param>
+        /// <param name="modelFile">the model file.</param>
+        /// <param name="writer">the file writer.</param>
+        /// <param name="modelName">the model name.</param>
+        /// <param name="count">the simulation time.</param>
+        /// <param name="isStep">the flag whetehr simulation is step.</param>
+        /// <param name="sysList">the list of system object.</param>
+        /// <param name="paramDic">the dictionary of parameters.</param>
         private void CreateUnixScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
             ScriptWriter writer, string modelName, double count, bool isStep, List<EcellObject> sysList,
             Dictionary<string, double> paramDic)
@@ -1114,6 +1143,18 @@ namespace Ecell.Job
                 m_logList, Proxy.GetData(GlobusJob.TOPDIR_NAME));
         }
 
+        /// <summary>
+        /// Create the script for windows.
+        /// </summary>
+        /// <param name="topDir">the top directory.</param>
+        /// <param name="dirName">the execute directory.</param>
+        /// <param name="fileName">the script file.</param>
+        /// <param name="writer">the file writer.</param>
+        /// <param name="modelName">the model name.</param>
+        /// <param name="count">the simulation time.</param>
+        /// <param name="isStep">the flag whetehr simulation is step.</param>
+        /// <param name="sysList">the list of system object.</param>
+        /// <param name="paramDic">the dictionary of parameters.</param>
         private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,
                 string modelName, double count, bool isStep, List<EcellObject> sysList,
             Dictionary<string, double> paramDic)
@@ -1185,9 +1226,11 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Create the job group.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the group name.</param>
+        /// <param name="sysObjList">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper object.</param>
         /// <returns></returns>
         public JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
@@ -1198,11 +1241,12 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Create the job group.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="date"></param>
-        /// <param name="param"></param>
+        /// <param name="name">the group name.</param>
+        /// <param name="date">the date</param>
+        /// <param name="sysObjList">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper object.</param>
         /// <returns></returns>
         public JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
@@ -1213,9 +1257,9 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Remove the job group.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the group name.</param>
         public void RemoveJobGroup(string name)
         {
             if (!m_groupDic.ContainsKey(name))
