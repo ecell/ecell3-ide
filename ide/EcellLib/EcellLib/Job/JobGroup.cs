@@ -374,5 +374,24 @@ namespace Ecell.Job
             }
             return false;
         }
+
+        public void SaveJobGroup(string topdir)
+        {
+            if (!Directory.Exists(topdir))
+                Directory.CreateDirectory(topdir);
+
+            string modelDir = topdir + "/" + Constants.ModelDirName;
+            string logDir = topdir + "/" + Constants.LogDirName;
+
+            string modelFile = modelDir + "/" + m_date + ".eml";
+
+            List<EcellObject> writeList = new List<EcellObject>();
+            writeList.AddRange(StepperObjectList);
+            writeList.AddRange(SystemObjectList);
+            EmlWriter.Create(modelFile, writeList, false);
+
+            AnalysisModule.SaveAnalysisInfo(modelDir);
+            AnalysisModule.SaveAnalysisData(logDir);
+        }
     }
 }

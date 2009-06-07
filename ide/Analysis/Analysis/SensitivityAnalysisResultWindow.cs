@@ -201,48 +201,6 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="fileName"></param>
-        public void SaveSensitivityAnalysisResult(StreamWriter writer, string fileName)
-        {
-            List<string> list = new List<string>();
-            list.Add("CCC");
-            list.Add("FCC");
-            string metaFile = fileName + ".meta";
-            AnalysisResultMetaFile.CreateTableMetaFile(metaFile, "SensitivityAnalysis", list);
-//            writer.WriteLine("#SENSITIVITY");
-//            writer.WriteLine("#CCC");
-            foreach (DataGridViewRow r in SACCCGridView.Rows)
-            {
-                foreach (DataGridViewCell c in r.Cells)
-                {
-                    if (c.Value == null)
-                        writer.Write(",");
-                    else
-                        writer.Write(c.Value.ToString() + ",");
-                }
-                writer.WriteLine("");
-            }
-            writer.WriteLine("");
-//            writer.WriteLine("#FCC");
-            foreach (DataGridViewRow r in SAFCCGridView.Rows)
-            {
-                foreach (DataGridViewCell c in r.Cells)
-                {
-                    if (c.Value == null)
-                        writer.Write(",");
-                    else
-                        writer.Write(c.Value.ToString() + ",");
-                }
-                writer.WriteLine("");
-            }
-
-
-        }
-
-        /// <summary>
         /// Update the color of result by using the result value.
         /// </summary>
         public void UpdateResultColor()

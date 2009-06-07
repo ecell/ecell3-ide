@@ -494,29 +494,6 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// Save the result of sensitivity analysis to the file.
-        /// </summary>
-        /// <param name="fileName">the save file name.</param>
-        public void SaveSensitivityAnalysisResult(string fileName)
-        {
-            StreamWriter writer = null;
-            try
-            {
-                writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_sensResultWindow.SaveSensitivityAnalysisResult(writer, fileName);
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
-                    new object[] { fileName }));
-            }
-            finally
-            {
-                writer.Close();
-            }
-        }
-
-        /// <summary>
         /// Update the color of result by using the result value.
         /// </summary>
         public void UpdateResultColor()

@@ -759,8 +759,7 @@ namespace Ecell.IDE.Plugins.Analysis
             foreach (EcellObject obj in data)
             {
                 if (obj.Type == Constants.xpathProject)
-                {
-                    LoadAnalysisNameData();
+                {                    
                     continue;
                 }
                 if (obj.Children != null)

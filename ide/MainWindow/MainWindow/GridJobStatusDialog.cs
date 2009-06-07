@@ -388,10 +388,8 @@ namespace Ecell.IDE.MainWindow
 
             string path = m_manager.Environment.DataManager.CurrentProject.Info.ProjectPath;
             string dirName = path + "/" + Constants.AnalysisDirName + "/" + name;
-            if (!Directory.Exists(dirName))
-                Directory.CreateDirectory(dirName);
 
-            m_manager.GroupDic[name].AnalysisModule.SaveAnalysisInfo(dirName);
+            m_manager.GroupDic[name].SaveJobGroup(dirName);
         }
 
         /// <summary>

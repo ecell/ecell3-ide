@@ -32,6 +32,7 @@ using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 
 using MathNet.Numerics;
@@ -41,6 +42,8 @@ using Ecell.Logging;
 using Ecell.Job;
 using Ecell.Objects;
 using Ecell.Exceptions;
+
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
@@ -316,6 +319,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the loaded analysis.</param>
         public void LoadAnalysisInfo(string dirName)
         {
+            string paramFile = dirName + "/" + m_group.DateString + ".param";
+            string resultFile = dirName + "/" + m_group.DateString + ".result";
         }
 
         /// <summary>
@@ -324,6 +329,55 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the saved analysis.</param>
         public void SaveAnalysisInfo(string dirName)
         {
+            string paramFile = dirName + "/" + m_group.DateString + ".param";
+            string resultFile = dirName + "/" + m_group.DateString + ".result";
+
+            List<string> list = new List<string>();
+            list.Add("CCC");
+            list.Add(m_activityList.Count.ToString());
+            list.Add(m_valueList.Count.ToString());
+            list.Add("FCC");
+            list.Add(m_activityList.Count.ToString());
+            list.Add(m_activityList.Count.ToString());
+            string metaFile = resultFile + ".meta";
+            AnalysisResultMetaFile.CreateTableMetaFile(metaFile, "SensitivityAnalysis", list);
+
+            StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);
+            writer.Write("Item");
+            foreach (string name in m_activityList)
+            {
+                writer.Write("," + name);
+            }
+            writer.WriteLine("");
+
+            for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
+            {
+                writer.Write(m_valueList[i]);
+                for (int j = 0; j < m_scaledCCCMatrix.ColumnCount; j++)
+                {
+                    writer.Write(m_scaledCCCMatrix[i, j] + ",");
+                }
+                writer.WriteLine("");
+            }
+            writer.WriteLine("");
+
+            writer.Write("Item");
+            foreach (string name in m_activityList)
+            {
+                writer.Write("," + name);
+            }
+            writer.WriteLine("");
+
+            for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
+            {
+                writer.Write(m_activityList[i]);
+                for (int j = 0; j < m_scaledFCCMatrix.ColumnCount; j++)
+                {
+                    writer.Write(m_scaledFCCMatrix[i, j] + ",");
+                }
+                writer.WriteLine("");
+            }
+            writer.WriteLine("");
         }
 
         /// <summary>

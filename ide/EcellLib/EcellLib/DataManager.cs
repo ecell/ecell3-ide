@@ -511,6 +511,9 @@ namespace Ecell
                 JobGroup g = m_env.JobManager.CreateJobGroup(analysisName, date, systemObjList, stepperObjList);
                 IAnalysisModule analysis = m_env.JobManager.AnalysisDic[analysisName].CreateNewInstance(g);
 
+                string modelDir = dirs[i] + "/" + Constants.ModelDirName;
+                string logDir = dirs[i] + "/" + Constants.LogDirName;
+
                 // load analysis parameters.
                 analysis.LoadAnalysisInfo(dirs[i]);
                 analysis.LoadAnalysisData(dirs[i]);

@@ -814,6 +814,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the loaded analysis.</param>
         public void LoadAnalysisInfo(string dirName)
         {
+            string paramFile = dirName + "/" + m_group.DateString + ".param";
+            string resultFile = dirName + "/" + m_group.DateString + ".result";
         }
 
         /// <summary>
@@ -822,6 +824,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the saved analysis.</param>
         public void SaveAnalysisInfo(string dirName)
         {
+            string paramFile = dirName + "/" + m_group.DateString + ".param";
+            string resultFile = dirName + "/" + m_group.DateString + ".result";
         }
 
         /// <summary>

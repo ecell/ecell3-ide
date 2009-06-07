@@ -532,6 +532,14 @@ namespace Ecell
         /// </summary>
         public const string AnalysisDirName = "Analysis";
         /// <summary>
+        /// Model directory name.
+        /// </summary>
+        public const string ModelDirName = "Model";
+        /// <summary>
+        /// Logs directory name.
+        /// </summary>
+        public const string LogDirName = "Logs";
+        /// <summary>
         /// Parameter directory name
         /// </summary>
         public const string ParameterDirName = "Parameters";

@@ -80,22 +80,22 @@ namespace Ecell.Job
         /// <summary>
         /// Load the analysis model, parameters and result.
         /// </summary>
-        /// <param name="dirName">the top directory of the loaded analysis.</param>
+        /// <param name="dirName">the top directory[Model] of the loaded analysis.</param>
         void LoadAnalysisInfo(string dirName);
         /// <summary>
         /// Save the analysis model, parameters and result.
         /// </summary>
-        /// <param name="dirName">the top directory of the saved analysis.</param>
+        /// <param name="dirName">the top directory[Model] of the saved analysis.</param>
         void SaveAnalysisInfo(string dirName);
         /// <summary>
         /// Load the parameters and result of log data.
         /// </summary>
-        /// <param name="dirName">the top directory of the loaded analysis.</param>
+        /// <param name="dirName">the top directory[Logs] of the loaded analysis.</param>
         void LoadAnalysisData(string dirName);
         /// <summary>
         /// Save the parameters and result of log data.
         /// </summary>
-        /// <param name="dirName">the top directory of the saved analysis.</param>
+        /// <param name="dirName">the top directory[Logs] of the saved analysis.</param>
         void SaveAnalysisData(string dirName);
     }
 }

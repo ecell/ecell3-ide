@@ -113,11 +113,21 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
                 XmlTextWriter writer = CreateWriter(path);
                 BeginWrite(writer, AnalysisResultMetaFileConst.xTableData, analysisName);
 
-                foreach (string tableName in tables)
+                for (int i = 0; i < tables.Count; i++)
                 {
-                    writer.WriteElementString(AnalysisResultMetaFileConst.xTableName, tableName);
+                    if (i % 3 == 0)
+                    {
+                        writer.WriteElementString(AnalysisResultMetaFileConst.xTableName, tables[i]);
+                    }
+                    else if (i % 3 == 1)
+                    {
+                        writer.WriteElementString(AnalysisResultMetaFileConst.xColumnCount, tables[i]);
+                    }
+                    else if (i % 3 == 2)
+                    {
+                        writer.WriteElementString(AnalysisResultMetaFileConst.xRowCount, tables[i]);
+                    }
                 }
-
                 EndWrite(writer);
             }
             catch (Exception)
@@ -297,5 +307,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// 
         /// </summary>
         public const string xVersion = "version";
+        public const string xRowCount = "rowcount";
+        public const string xColumnCount = "columncount";
     }
 }
