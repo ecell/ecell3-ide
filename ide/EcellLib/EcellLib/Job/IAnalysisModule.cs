@@ -31,6 +31,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Ecell.Objects;
+
 namespace Ecell.Job
 {
     /// <summary>
@@ -47,6 +49,14 @@ namespace Ecell.Job
         /// set the analysis parameter.
         /// </summary>
         object AnalysisParameter { set; }
+        /// <summary>
+        /// get / set the parameter list.
+        /// </summary>
+        List<EcellParameterData> ParameterDataList { get; set; }
+        /// <summary>
+        /// get / set the observed list.
+        /// </summary>
+        List<EcellObservedData> ObservedDataList { get; set; }
         #endregion
 
         /// <summary>
@@ -97,5 +107,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="dirName">the top directory[Logs] of the saved analysis.</param>
         void SaveAnalysisData(string dirName);
+
+        
     }
 }

@@ -39,6 +39,8 @@ using Ecell.Job;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
+
 namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
@@ -126,6 +128,14 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Analysis name.
         /// </summary>
         public const string s_analysisName = "Bifurcation";
+        /// <summary>
+        /// The list of parameter entry.
+        /// </summary>
+        private List<EcellParameterData> m_paramList = new List<EcellParameterData>();
+        /// <summary>
+        /// The list of observed entry.
+        /// </summary>
+        private List<EcellObservedData> m_observedList = new List<EcellObservedData>();
         #endregion
 
         /// <summary>
@@ -163,6 +173,24 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (p != null)
                     m_param = p;
             }
+        }
+
+        /// <summary>
+        /// get / set the parameter list.
+        /// </summary>
+        public List<EcellParameterData> ParameterDataList
+        {
+            get { return this.m_paramList; }
+            set { this.m_paramList = value; }
+        }
+
+        /// <summary>
+        /// get / set the observed list.
+        /// </summary>
+        public List<EcellObservedData> ObservedDataList
+        {
+            get { return this.m_observedList; }
+            set { this.m_observedList = value; }
         }
         #endregion
 
@@ -266,6 +294,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (modelList.Count > 0) m_model = modelList[0];
 
             List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
+            List<EcellObservedData> observedList = m_owner.DataManager.GetObservedData();
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
@@ -276,6 +305,17 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
             if (saveList == null) return;
+
+            m_paramList.Clear();
+            foreach (EcellParameterData p in paramList)
+            {
+                m_paramList.Add(p.Copy());
+            }
+            m_observedList.Clear();
+            foreach (EcellObservedData o in observedList)
+            {
+                m_observedList.Add(o.Copy());
+            }
 
             int count = 0;
             m_owner.ClearResult();
@@ -684,7 +724,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private void JudgeBifurcationAnalysis()
         {
-            List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();
             foreach (int jobid in m_execParam.Keys)
             {
                 Job.Job j = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
@@ -694,7 +733,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 double y = j.ExecParam.GetParameter(m_yPath);
 
                 bool isOK = true;
-                foreach (EcellObservedData p in judgeList)
+                foreach (EcellObservedData p in m_observedList)
                 {
                     Dictionary<double, double> logList =
                         j.GetLogData(p.Key);
@@ -820,8 +859,23 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the loaded analysis.</param>
         public void LoadAnalysisInfo(string dirName)
         {
+            List<string> labels;
+            string analysisName;
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string metaFile = resultFile + ".meta";
+
+            // Load the meta file of result.
+            if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
+                return;
+
+            // Load the result file.
+            // not implement.
+
+            // Load the parameter file.
+            BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(this, paramFile);
+            f.Read();
+            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -831,7 +885,17 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SaveAnalysisInfo(string dirName)
         {
             string paramFile = dirName + "/" + m_group.DateString + ".param";
-            string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string resultFile = dirName + "/" + m_group.DateString + ".result";        
+            string metaFile = resultFile + ".meta";
+
+            // Save the meta file of result.
+
+            // Save the result file.
+
+            // Save the parameter file.
+            BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(this, paramFile);
+            f.Parameter = m_param;
+            f.Write();
         }
 
         /// <summary>

@@ -36,6 +36,7 @@ using System.Xml;
 using System.IO;
 
 using Ecell;
+using Ecell.Job;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
@@ -49,7 +50,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// <summary>
         /// ApplicationEnvironment.
         /// </summary>
-        protected ApplicationEnvironment m_env;
+        protected IAnalysisModule m_analysis;
         /// <summary>
         /// File path.
         /// </summary>
@@ -68,11 +69,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="env">Environment.</param>
+        /// <param name="analysis">Analysis module.</param>
         /// <param name="path">filename,</param>
-        public AnalysisParameterFile(ApplicationEnvironment env, string path)
+        public AnalysisParameterFile(IAnalysisModule analysis, string path)
         {
-            m_env = env;
+            m_analysis = analysis;
             m_path = path;
         }
         #endregion
@@ -103,7 +104,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         {
             m_writer.WriteStartElement(AnalysisParameterConstants.xProperties);
             m_writer.WriteStartElement(AnalysisParameterConstants.xUnknownProperties);
-            List<EcellParameterData> paramList = m_env.DataManager.GetParameterData();
+            List<EcellParameterData> paramList = m_analysis.ParameterDataList;
             foreach (EcellParameterData param in paramList)
             {               
                 m_writer.WriteStartElement(AnalysisParameterConstants.xUnknownData);
@@ -119,7 +120,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             m_writer.WriteEndElement();
 
             m_writer.WriteStartElement(AnalysisParameterConstants.xObservedProperties);
-            List<EcellObservedData> obserList = m_env.DataManager.GetObservedData();
+            List<EcellObservedData> obserList = m_analysis.ObservedDataList; ;
             foreach (EcellObservedData obj in obserList)
             {
                 m_writer.WriteStartElement(AnalysisParameterConstants.xObservedData);
@@ -272,7 +273,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
                 double step = Double.Parse(GetElementString(node, AnalysisParameterConstants.xStep));
 
                 EcellParameterData p = new EcellParameterData(fullPN, max, min, step);
-                //m_env.DataManager.SetParameterData(p);
+                m_analysis.ParameterDataList.Add(p);
             }
         }
 
@@ -305,7 +306,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
                 double rate = Double.Parse(GetElementString(node, AnalysisParameterConstants.xRate));
 
                 EcellObservedData o = new EcellObservedData(fullPN, max, min, differ, rate);
-                //m_env.DataManager.SetObservedData(o);
+                m_analysis.ObservedDataList.Add(o);
             }
         }
     }

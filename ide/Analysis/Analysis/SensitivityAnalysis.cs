@@ -192,12 +192,30 @@ namespace Ecell.IDE.Plugins.Analysis
                     m_param = p;
             }
         }
+
+        /// <summary>
+        /// get / set the parameter list.
+        /// </summary>
+        public List<EcellParameterData> ParameterDataList
+        {
+            get { return new List<EcellParameterData>(); }
+            set { }
+        }
+
+        /// <summary>
+        /// get / set the observed list.
+        /// </summary>
+        public List<EcellObservedData> ObservedDataList
+        {
+            get { return new List<EcellObservedData>(); }
+            set { }
+        }
         #endregion
 
         /// <summary>
         /// Get the property of analysis.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the dictionary of analysis parameters.</returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -212,7 +230,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Set the property of analysis.
         /// </summary>
-        /// <param name="paramDic"></param>
+        /// <param name="paramDic">the dictionary of parameters.</param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)
@@ -254,8 +272,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Create the analysis instance.
         /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
+        /// <param name="group">the job group.</param>
+        /// <returns>Return new SensitivityAnalysis object.</returns>
         public IAnalysisModule CreateNewInstance(JobGroup group)
         {
             SensitivityAnalysis instance = new SensitivityAnalysis(m_owner);
@@ -330,8 +348,12 @@ namespace Ecell.IDE.Plugins.Analysis
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
             string metaFile = resultFile + ".meta";
+
+            // Load the meta file of result.
             if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
                 return;
+
+            // Load the result file.
             int ccolcount = Int32.Parse(labels[1]);
             int crowcount = Int32.Parse(labels[2]);
             int fcolcount = Int32.Parse(labels[4]);
@@ -340,7 +362,8 @@ namespace Ecell.IDE.Plugins.Analysis
             double[,] fmatrix = new double[fcolcount, frowcount];
             LoadAnalysisResultFile(resultFile, cmatrix, fmatrix);
 
-            SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(m_owner.Environment, paramFile);
+            // Load the parameter file.
+            SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(this, paramFile);
             f.Read();
             m_param = f.Parameter;
         }
@@ -353,7 +376,9 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string metaFile = resultFile + ".meta";
 
+            // Save the meta file of result.
             List<string> list = new List<string>();
             list.Add("CCC");
             list.Add(m_activityList.Count.ToString());
@@ -361,13 +386,31 @@ namespace Ecell.IDE.Plugins.Analysis
             list.Add("FCC");
             list.Add(m_activityList.Count.ToString());
             list.Add(m_activityList.Count.ToString());
-            string metaFile = resultFile + ".meta";
-            AnalysisResultMetaFile.CreateTableMetaFile(metaFile, "SensitivityAnalysis", list);
+            AnalysisResultMetaFile.CreateTableMetaFile(metaFile, s_analysisName, list);
 
+            // Save the result file.
             SaveAnalysisResultFile(resultFile);
-            SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(m_owner.Environment, paramFile);
+
+            // Save the parameter file.
+            SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(this, paramFile);
             f.Parameter = m_param;
             f.Write();
+        }
+
+        /// <summary>
+        /// Load the parameters and result of log data.
+        /// </summary>
+        /// <param name="dirName">the top directory of the loaded analysis.</param>
+        public void LoadAnalysisData(string dirName)
+        {
+        }
+
+        /// <summary>
+        /// Save the parameters and result of log data.
+        /// </summary>
+        /// <param name="dirName">the top directory of the saved analysis.</param>
+        public void SaveAnalysisData(string dirName)
+        {
         }
 
         private void LoadAnalysisResultFile(string resultFile, double[,] cmatrix, double[,] fmatrix)
@@ -430,7 +473,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     for (i = 1; i < ele.Length; i++)
                     {
                         if (String.IsNullOrEmpty(ele[i])) continue;
-                        fmatrix[i-1,j] = Convert.ToDouble(ele[i]);
+                        fmatrix[i - 1, j] = Convert.ToDouble(ele[i]);
                     }
                     m_valueList.Add(ele[0]);
                 }
@@ -478,22 +521,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 writer.WriteLine("");
             }
             writer.WriteLine("");
-        }
-
-        /// <summary>
-        /// Load the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the loaded analysis.</param>
-        public void LoadAnalysisData(string dirName)
-        {
-        }
-
-        /// <summary>
-        /// Save the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the saved analysis.</param>
-        public void SaveAnalysisData(string dirName)
-        {
         }
 
         /// <summary>

@@ -31,12 +31,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 
 using Ecell.Objects;
 using Ecell.Job;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
+
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
@@ -54,11 +57,26 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Plugin controller.
         /// </summary>
         private Analysis m_owner;
+        /// <summary>
+        /// The dictionary of execution parameters.
+        /// </summary>
         private Dictionary<int, ExecuteParameter> m_paramDic;
         /// <summary>
         /// The max number of input data to be executed FFT.
         /// </summary>
         public const int MaxSize = 2097152;
+        /// <summary>
+        /// The list of parameter entry.
+        /// </summary>
+        private List<EcellParameterData> m_paramList = new List<EcellParameterData>();
+        /// <summary>
+        /// The list of observed entry.
+        /// </summary>
+        private List<EcellObservedData> m_observedList = new List<EcellObservedData>();
+        /// <summary>
+        /// Dictionary of judgement data.
+        /// </summary>
+        private Dictionary<int, bool> m_judgeResult = new Dictionary<int, bool>();
         /// <summary>
         /// Job group related with this analysis.
         /// </summary>
@@ -97,7 +115,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// set the analysis parameter.
         /// </summary>
         public object AnalysisParameter
@@ -109,6 +127,25 @@ namespace Ecell.IDE.Plugins.Analysis
                     m_param = p;
             }
         }
+
+        /// <summary>
+        /// get / set the parameter list.
+        /// </summary>
+        public List<EcellParameterData> ParameterDataList
+        {
+            get { return this.m_paramList; }
+            set { this.m_paramList = value; }
+        }
+
+        /// <summary>
+        /// get / set the observed list.
+        /// </summary>
+        public List<EcellObservedData> ObservedDataList
+        {
+            get { return this.m_observedList; }
+            set { this.m_observedList = value; }
+        }
+
         #endregion
 
         /// <summary>
@@ -172,8 +209,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Create the analysis instance.
         /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
+        /// <param name="group">the job group.</param>
+        /// <returns>Return new RobustAnalysis object.</returns>
         public IAnalysisModule CreateNewInstance(JobGroup group)
         {
             RobustAnalysis instance = new RobustAnalysis(m_owner);
@@ -226,6 +263,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (modelList.Count > 0) model = modelList[0];
 
             List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
+            List<EcellObservedData> observedList = m_owner.DataManager.GetObservedData();
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
@@ -243,6 +281,17 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
             if (saveList == null) return;
+
+            m_paramList.Clear();
+            foreach (EcellParameterData p in paramList)
+            {
+                m_paramList.Add(p.Copy());
+            }
+            m_observedList.Clear();
+            foreach (EcellObservedData o in observedList)
+            {
+                m_observedList.Add(o.Copy());
+            }
 
             m_owner.JobManager.SetParameterRange(paramList);
             m_owner.JobManager.SetLoggerData(saveList);
@@ -264,11 +313,23 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the loaded analysis.</param>
         public void LoadAnalysisInfo(string dirName)
         {
+            List<string> labels;
+            string analysisName;
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
-            // parameter load
-            // not implement
+            string metaFile = resultFile + ".meta";
 
+            // Load the meta file of result.
+            if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
+                return;
+
+            // Load the result file.
+            LoadAnalysisResultFile(resultFile);
+
+            // Load the parameter file.
+            RobustAnalysisParameterFile f = new RobustAnalysisParameterFile(this, paramFile);
+            f.Read();
+            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -279,6 +340,51 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string metaFile = resultFile + ".meta";
+
+            // Save the meta file of result.
+            List<string> list = new List<string>();
+            foreach (EcellParameterData p in m_paramList)
+            {
+                list.Add(p.Key);
+            }
+            AnalysisResultMetaFile.CreatePlotMetaFile(metaFile, s_analysisName, list);
+
+            // Save the result file.
+            SaveAnalysisResultFile(resultFile);
+
+            // Save the parameter file.
+            RobustAnalysisParameterFile f = new RobustAnalysisParameterFile(this, paramFile);
+            f.Parameter = m_param;
+            f.Write();
+        }
+
+        private void LoadAnalysisResultFile(string resultFile)
+        {
+            string line;
+            string[] ele;
+            StreamReader reader;
+            reader = new StreamReader(resultFile, Encoding.ASCII);
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#")) continue;
+                ele = line.Split(new char[] { ',' });
+                if (ele.Length != 2)
+                    continue;
+                int jobid = Int32.Parse(ele[0]);
+                bool result = Convert.ToBoolean(ele[1]);
+                m_judgeResult.Add(jobid, result);
+            }            
+        }
+
+        private void SaveAnalysisResultFile(string resultFile)
+        {
+            StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);
+
+            foreach (Job.Job j in m_group.Jobs)
+            {
+                writer.WriteLine(j.JobID + "," + m_judgeResult[j.JobID]);
+            }
         }
 
         /// <summary>
@@ -308,16 +414,16 @@ namespace Ecell.IDE.Plugins.Analysis
             double xmin = 0.0;
             double ymax = 0.0;
             double ymin = 0.0;
-            List<EcellParameterData> pList = m_owner.DataManager.GetParameterData();
-            if (pList == null) return;
-            if (pList.Count < 2)
+            
+            if (m_paramList == null) return;
+            if (m_paramList.Count < 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
                     new object[] { MessageResources.NameParameterData, 2 }));
                 return;
             }
             int count = 0;
-            foreach (EcellParameterData r in pList)
+            foreach (EcellParameterData r in m_paramList)
             {
                 bool isX = false;
                 bool isY = false;
@@ -350,7 +456,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_owner.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
-            List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();
             foreach (int jobid in m_paramDic.Keys)
             {
                 Job.Job j = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
@@ -359,7 +464,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 double x = j.ExecParam.GetParameter(xPath);
                 double y = j.ExecParam.GetParameter(yPath);
                 bool isOK = true;
-                foreach (EcellObservedData p in judgeList)
+                foreach (EcellObservedData p in m_observedList)
                 {
                     Dictionary<double, double> logList =
                         j.GetLogData(p.Key);
@@ -391,6 +496,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     }
                 }
                 m_owner.AddJudgementData(jobid, x, y, isOK);
+                m_judgeResult[jobid] = isOK;
             }
         }
 

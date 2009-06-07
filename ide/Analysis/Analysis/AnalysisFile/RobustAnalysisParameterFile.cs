@@ -33,6 +33,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Ecell.Job;
+
 namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
 {
     /// <summary>
@@ -59,10 +61,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="env">Environment.</param>
+        /// <param name="analysis">analysis module.</param>
         /// <param name="path">file name.</param>
-        public RobustAnalysisParameterFile(ApplicationEnvironment env, string path)
-            : base(env, path)
+        public RobustAnalysisParameterFile(IAnalysisModule analysis, string path)
+            : base(analysis, path)
         {
 
         }

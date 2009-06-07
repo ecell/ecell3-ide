@@ -37,6 +37,8 @@ using Ecell;
 using Ecell.Objects;
 using Ecell.Job;
 
+using Ecell.IDE.Plugins.Analysis.AnalysisFile;
+
 namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
@@ -151,6 +153,24 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (p != null)
                     m_param = p;
             }
+        }
+
+        /// <summary>
+        /// get / set the parameter list.
+        /// </summary>
+        public List<EcellParameterData> ParameterDataList
+        {
+            get { return this.m_paramList; }
+            set { this.m_paramList = value; }
+        }
+
+        /// <summary>
+        /// get / set the observed list.
+        /// </summary>
+        public List<EcellObservedData> ObservedDataList
+        {
+            get { return new List<EcellObservedData>(); }
+            set { }
         }
         #endregion
 
@@ -428,8 +448,23 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the loaded analysis.</param>
         public void LoadAnalysisInfo(string dirName)
         {
+            List<string> labels;
+            string analysisName;
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string metaFile = resultFile + ".meta";
+
+            // Load the meta file of result.
+            if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
+                return;
+
+            // Load the result file.
+            // not implement.
+
+            // Load the parameter file.
+            ParameterEstimationParameterFile f = new ParameterEstimationParameterFile(this, paramFile);
+            f.Read();
+            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -440,6 +475,16 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string metaFile = resultFile + ".meta";
+
+            // Save the meta file of result.
+
+            // Save the result file.
+
+            // Save the parameter file.
+            ParameterEstimationParameterFile f = new ParameterEstimationParameterFile(this, paramFile);
+            f.Parameter = m_param;
+            f.Write();
         }
 
         /// <summary>
