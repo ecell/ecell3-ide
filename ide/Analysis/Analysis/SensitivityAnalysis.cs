@@ -480,6 +480,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_scaledCCCMatrix = Matrix.Create(cmatrix);
             m_scaledFCCMatrix = Matrix.Create(fmatrix);
+
+            reader.Close();
         }
 
 
@@ -521,6 +523,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 writer.WriteLine("");
             }
             writer.WriteLine("");
+            writer.Close();
         }
 
         /// <summary>

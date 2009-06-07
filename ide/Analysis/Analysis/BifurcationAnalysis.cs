@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -870,7 +871,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
 
             // Load the result file.
-            // not implement.
+            LoadAnalysisResultFile(resultFile);
 
             // Load the parameter file.
             BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(this, paramFile);
@@ -889,13 +890,54 @@ namespace Ecell.IDE.Plugins.Analysis
             string metaFile = resultFile + ".meta";
 
             // Save the meta file of result.
+            List<string> list = new List<string>();
+            AnalysisResultMetaFile.CreatePlotMetaFile(metaFile, s_analysisName, list);
 
             // Save the result file.
+            SaveAnalysisResultFile(resultFile);
 
             // Save the parameter file.
             BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(this, paramFile);
             f.Parameter = m_param;
             f.Write();
+        }
+
+        private void SaveAnalysisResultFile(string resultFile)
+        {
+            StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);
+
+            for (int i = 0; i <= s_num; i++)
+            {
+                for (int j = 0; j <= s_num; j++)
+                {
+                    writer.Write(Type2Int(m_result[i, j]) + ",");
+                }
+                writer.WriteLine("");
+            }
+
+            writer.Close();
+        }
+
+        private void LoadAnalysisResultFile(string resultFile)
+        {
+            string line;
+            string[] ele;
+            StreamReader reader;
+            reader = new StreamReader(resultFile, Encoding.ASCII);
+            int i = 0;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#")) continue;
+                ele = line.Split(new char[] { ',' });
+
+                for (int j = 0; j < ele.Length - 1; j++)
+                {
+                    int d = Int32.Parse(ele[j]);
+                    m_result[i, j] = Int2Type(d);
+                }
+                i++;
+            }
+            reader.Close();
         }
 
         /// <summary>
@@ -912,6 +954,38 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the saved analysis.</param>
         public void SaveAnalysisData(string dirName)
         {
+        }
+
+        static private BifurcationResult Int2Type(int d)
+        {
+            switch (d)
+            {
+                case -1:
+                    return BifurcationResult.None;
+                case 0:
+                    return BifurcationResult.OK;
+                case 1:
+                    return BifurcationResult.NG;
+                case 2:
+                    return BifurcationResult.FindOk;
+            }
+            return BifurcationResult.None;
+        }
+
+        static private int Type2Int(BifurcationResult type)
+        {
+            switch (type)
+            {
+                case BifurcationResult.None:
+                    return -1;
+                case BifurcationResult.OK:
+                    return 0;
+                case BifurcationResult.NG:
+                    return 1;
+                case BifurcationResult.FindOk:
+                    return 2;
+            }
+            return -1;
         }
     }
 

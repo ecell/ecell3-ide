@@ -344,10 +344,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
             // Save the meta file of result.
             List<string> list = new List<string>();
-            foreach (EcellParameterData p in m_paramList)
-            {
-                list.Add(p.Key);
-            }
             AnalysisResultMetaFile.CreatePlotMetaFile(metaFile, s_analysisName, list);
 
             // Save the result file.
@@ -373,8 +369,9 @@ namespace Ecell.IDE.Plugins.Analysis
                     continue;
                 int jobid = Int32.Parse(ele[0]);
                 bool result = Convert.ToBoolean(ele[1]);
-                m_judgeResult.Add(jobid, result);
-            }            
+                m_judgeResult[jobid] = result;
+            }
+            reader.Close();
         }
 
         private void SaveAnalysisResultFile(string resultFile)
@@ -385,6 +382,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 writer.WriteLine(j.JobID + "," + m_judgeResult[j.JobID]);
             }
+            writer.Close();
         }
 
         /// <summary>

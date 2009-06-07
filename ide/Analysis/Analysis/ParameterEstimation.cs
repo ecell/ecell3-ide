@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 
 using Ecell;
@@ -459,7 +460,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
 
             // Load the result file.
-            // not implement.
+            LoadAnalysisResultFile(resultFile);
 
             // Load the parameter file.
             ParameterEstimationParameterFile f = new ParameterEstimationParameterFile(this, paramFile);
@@ -478,13 +479,65 @@ namespace Ecell.IDE.Plugins.Analysis
             string metaFile = resultFile + ".meta";
 
             // Save the meta file of result.
+            List<string> list = new List<string>();
+            AnalysisResultMetaFile.CreatePlotMetaFile(metaFile, s_analysisName, list);
 
             // Save the result file.
+            SaveAnalysisResultFile(resultFile);
 
             // Save the parameter file.
             ParameterEstimationParameterFile f = new ParameterEstimationParameterFile(this, paramFile);
             f.Parameter = m_param;
             f.Write();
+        }
+
+        private void LoadAnalysisResultFile(string resultFile)
+        {
+            int pos = 0;
+            string line;
+            string[] ele;
+            StreamReader reader;
+            Dictionary<string, double> param = new Dictionary<string, double>();
+            reader = new StreamReader(resultFile, Encoding.ASCII);
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#")) continue;
+                if (line.Length <= 1)
+                {
+                    pos++;
+                    continue;
+                }
+                ele = line.Split(new char[] { ',' });
+                if (pos == 0)
+                {
+                    int g = Int32.Parse(ele[0]);
+                    double d = double.Parse(ele[1]);
+                    m_estimation[g] = d;
+                }
+                else if (pos == 1)
+                {
+                    string path = ele[0];
+                    double d = double.Parse(ele[1]);
+                }
+            }
+            m_elite = new ExecuteParameter(param);
+            reader.Close();
+        }
+
+        private void SaveAnalysisResultFile(string resultFile)
+        {
+            StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);
+            foreach (int g in m_estimation.Keys)
+            {
+                writer.WriteLine(g + "," + m_estimation[g]);
+            }
+            writer.WriteLine("");
+
+            foreach (string name in m_elite.ParamDic.Keys)
+            {
+                writer.WriteLine(name + "," + m_elite.ParamDic[name]);
+            }
+            writer.Close();
         }
 
         /// <summary>
