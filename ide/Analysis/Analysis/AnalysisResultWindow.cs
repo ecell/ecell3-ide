@@ -226,10 +226,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     LoadRobustAnalysisResult(reader, labels, sysObjList, stepperObjList);
                 }
-                else if (analysisName.Equals("SensitivityAnalysis"))
-                {
-                    LoadSensitivityAnalysisResult(reader);
-                }
             }
             catch (Exception)
             {
@@ -359,69 +355,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
-        private void LoadSensitivityAnalysisResult(StreamReader reader)
-        {
-            bool isFirst = true;
-            int readPos = 1;
-            string line;
-            string[] ele;
-            int i;
-            while ((line = reader.ReadLine()) != null)
-            {
-                if (line.StartsWith("#"))
-                {
-                    continue;
-                }
-                if (line.Length <= 1)
-                {
-                    isFirst = true;
-                    readPos++;
-                    continue;
-                }
-
-                if (readPos == 1)
-                {
-
-                    if (isFirst)
-                    {                        
-                        List<string> headList = new List<string>();
-                        ele = line.Split(new char[] { ',' });
-                        for (i = 1; i < ele.Length; i++)
-                        {
-                            if (String.IsNullOrEmpty(ele[i])) continue;
-                            headList.Add(ele[i]);
-                        }
-                        m_sensResultWindow.SetSensitivityHeader(headList);
-                        isFirst = false;
-                        continue;
-                    }
-                    List<double> valList = new List<double>();
-                    ele = line.Split(new char[] { ',' });
-                    for (i = 1; i < ele.Length; i++)
-                    {
-                        if (String.IsNullOrEmpty(ele[i])) continue;
-                        valList.Add(Convert.ToDouble(ele[i]));
-                    }
-                    m_sensResultWindow.AddSensitivityDataOfCCC(ele[0], valList);
-                }
-                else if (readPos == 2)
-                {
-                    if (isFirst)
-                    {
-                        isFirst = false;
-                        continue;
-                    }
-                    List<double> valList = new List<double>();
-                    ele = line.Split(new char[] { ',' });
-                    for (i = 1; i < ele.Length; i++)
-                    {
-                        if (String.IsNullOrEmpty(ele[i])) continue;
-                        valList.Add(Convert.ToDouble(ele[i]));
-                    }
-                    m_sensResultWindow.AddSensitivityDataOfFCC(ele[0], valList);                    
-                }
-            }
-        }
 
         /// <summary>
         /// Save the result of bifurcation analysis to the file.

@@ -55,10 +55,6 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// </summary>
         protected string m_path;
         /// <summary>
-        /// ModelID.
-        /// </summary>
-        protected string m_model;
-        /// <summary>
         /// 
         /// </summary>
         protected XmlTextWriter m_writer;
@@ -72,14 +68,12 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="env"></param>
-        /// <param name="model"></param>
-        /// <param name="path"></param>
-        public AnalysisParameterFile(ApplicationEnvironment env, string path, string model)
+        /// <param name="env">Environment.</param>
+        /// <param name="path">filename,</param>
+        public AnalysisParameterFile(ApplicationEnvironment env, string path)
         {
             m_env = env;
             m_path = path;
-            m_model = model;
         }
         #endregion
         /// <summary>
@@ -278,7 +272,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
                 double step = Double.Parse(GetElementString(node, AnalysisParameterConstants.xStep));
 
                 EcellParameterData p = new EcellParameterData(fullPN, max, min, step);
-                m_env.DataManager.SetParameterData(p);
+                //m_env.DataManager.SetParameterData(p);
             }
         }
 
@@ -311,7 +305,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
                 double rate = Double.Parse(GetElementString(node, AnalysisParameterConstants.xRate));
 
                 EcellObservedData o = new EcellObservedData(fullPN, max, min, differ, rate);
-                m_env.DataManager.SetObservedData(o);
+                //m_env.DataManager.SetObservedData(o);
             }
         }
     }

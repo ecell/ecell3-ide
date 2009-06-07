@@ -93,8 +93,14 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The dictionary for the estimation of generation.
         /// </summary>
         private Dictionary<int, double> m_estimation;
+        /// <summary>
+        /// Job group related with this analysis.
+        /// </summary>
+        private JobGroup m_group;
+        /// <summary>
+        /// Dictionary with the generation and the execution parameters.
+        /// </summary>
         private Dictionary<int, Dictionary<int, ExecuteParameter>> m_execParamDic;
-        public const string s_analysisName = "ParameterEstimation";
         private const string s_estimateFormula = "Estimation Formulator";
         private const string s_simTime = "Simulation Time";
         private const string s_population = "Population";
@@ -105,7 +111,10 @@ namespace Ecell.IDE.Plugins.Analysis
         private const string s_mmax = "Max rate(Mutation)";
         private const string s_k = "K(Mutation)";
         private const string s_upsilon = "Upsilon";
-        private JobGroup m_group;
+        /// <summary>
+        /// Analysis name.
+        /// </summary>
+        public const string s_analysisName = "ParameterEstimation";
         #endregion
 
         /// <summary>

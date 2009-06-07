@@ -141,11 +141,17 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The list of entity path of activity data.
         /// </summary>
         private List<string> m_activityList = new List<string>();
-        public const string s_analysisName = "SensitivityAnalysis";
+        /// <summary>
+        /// Job group related with this analysis.
+        /// </summary>
+        private JobGroup m_group;
         private const string s_step = "Step";
         private const string s_relativePert = "Relative Perturbation";
         private const string s_absolutePert = "Absolute Perturbation";
-        private JobGroup m_group;
+        /// <summary>
+        /// Analysis name.
+        /// </summary>
+        public const string s_analysisName = "SensitivityAnalysis";
         #endregion
 
         /// <summary>
@@ -319,8 +325,24 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="dirName">the top directory of the loaded analysis.</param>
         public void LoadAnalysisInfo(string dirName)
         {
+            List<string> labels;
+            string analysisName;
             string paramFile = dirName + "/" + m_group.DateString + ".param";
             string resultFile = dirName + "/" + m_group.DateString + ".result";
+            string metaFile = resultFile + ".meta";
+            if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
+                return;
+            int ccolcount = Int32.Parse(labels[1]);
+            int crowcount = Int32.Parse(labels[2]);
+            int fcolcount = Int32.Parse(labels[4]);
+            int frowcount = Int32.Parse(labels[5]);
+            double[,] cmatrix = new double[ccolcount, crowcount];
+            double[,] fmatrix = new double[fcolcount, frowcount];
+            LoadAnalysisResultFile(resultFile, cmatrix, fmatrix);
+
+            SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(m_owner.Environment, paramFile);
+            f.Read();
+            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -342,6 +364,84 @@ namespace Ecell.IDE.Plugins.Analysis
             string metaFile = resultFile + ".meta";
             AnalysisResultMetaFile.CreateTableMetaFile(metaFile, "SensitivityAnalysis", list);
 
+            SaveAnalysisResultFile(resultFile);
+            SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(m_owner.Environment, paramFile);
+            f.Parameter = m_param;
+            f.Write();
+        }
+
+        private void LoadAnalysisResultFile(string resultFile, double[,] cmatrix, double[,] fmatrix)
+        {
+            StreamReader reader;
+            reader = new StreamReader(resultFile, Encoding.ASCII);
+            bool isFirst = true;
+            int readPos = 1;
+            string line;
+            string[] ele;
+            int i, j;
+            j = 0;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#"))
+                {
+                    continue;
+                }
+                if (line.Length <= 1)
+                {
+                    isFirst = true;
+                    readPos++;
+                    continue;
+                }
+
+                if (readPos == 1)
+                {
+                    if (isFirst)
+                    {
+                        List<string> headList = new List<string>();
+                        ele = line.Split(new char[] { ',' });
+                        for (i = 1; i < ele.Length; i++)
+                        {
+                            if (String.IsNullOrEmpty(ele[i])) continue;
+                            headList.Add(ele[i]);
+                        }
+                        m_activityList = headList;
+                        isFirst = false;
+                        j = 0;
+                        continue;
+                    }
+                    ele = line.Split(new char[] { ',' });
+                    for (i = 1; i < ele.Length; i++)
+                    {
+                        if (String.IsNullOrEmpty(ele[i])) continue;
+                        cmatrix[i - 1, j] = Convert.ToDouble(ele[i]);
+                    }
+                    j++;
+                }
+                else if (readPos == 2)
+                {
+                    if (isFirst)
+                    {
+                        j = 0;
+                        isFirst = false;
+                        continue;
+                    }
+                    List<double> valList = new List<double>();
+                    ele = line.Split(new char[] { ',' });
+                    for (i = 1; i < ele.Length; i++)
+                    {
+                        if (String.IsNullOrEmpty(ele[i])) continue;
+                        fmatrix[i-1,j] = Convert.ToDouble(ele[i]);
+                    }
+                    m_valueList.Add(ele[0]);
+                }
+            }
+            m_scaledCCCMatrix = Matrix.Create(cmatrix);
+            m_scaledFCCMatrix = Matrix.Create(fmatrix);
+        }
+
+
+        private void SaveAnalysisResultFile(string resultFile)
+        {
             StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);
             writer.Write("Item");
             foreach (string name in m_activityList)

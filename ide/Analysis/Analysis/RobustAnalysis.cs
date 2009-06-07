@@ -59,8 +59,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The max number of input data to be executed FFT.
         /// </summary>
         public const int MaxSize = 2097152;
-
-        public const string s_analysisName = "RobustAnalysis";
+        /// <summary>
+        /// Job group related with this analysis.
+        /// </summary>
+        private JobGroup m_group;
         private const string s_sampleNum = "Sample Num";
         private const string s_simTime = "Simulation Time";
         private const string s_isRandomCheck = "Random Check";
@@ -68,8 +70,10 @@ namespace Ecell.IDE.Plugins.Analysis
         private const string s_maxInput = "Max Input for FFT";
         private const string s_maxFreq = "Max Frequency of FFT";
         private const string s_minFreq = "Min Frequency of FFT";
-
-        private JobGroup m_group;
+        /// <summary>
+        /// Analysis name.
+        /// </summary>
+        public const string s_analysisName = "RobustAnalysis";
         #endregion
 
         /// <summary>

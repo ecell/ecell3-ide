@@ -111,15 +111,21 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The number of the interval of skip(5).
         /// </summary>
         private static int s_skip = 2;
+        /// <summary>
+        /// Job group related with this analysis.
+        /// </summary>
+        private JobGroup m_group;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
-        public const string s_analysisName = "Bifurcation";
         private const string s_simTime = "Simulation Time";
         private const string s_winSize = "Window Size";
         private const string s_maxInput = "Max Input for FFT";
         private const string s_maxFreq = "Max Frequency of FFT";
         private const string s_minFreq = "Min Frequency of FFT";
-        private JobGroup m_group;
+        /// <summary>
+        /// Analysis name.
+        /// </summary>
+        public const string s_analysisName = "Bifurcation";
         #endregion
 
         /// <summary>

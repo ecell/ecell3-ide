@@ -55,15 +55,14 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
         #endregion
 
-                #region Constructors
+        #region Constructors
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="env"></param>
-        /// <param name="path"></param>
-        /// <param name="model"></param>
-        public ParameterEstimationParameterFile(ApplicationEnvironment env, string path, string model)
-            : base(env, path, model)
+        /// <param name="env">Environment.</param>
+        /// <param name="path">file name.</param>
+        public ParameterEstimationParameterFile(ApplicationEnvironment env, string path)
+            : base(env, path)
         {
 
         }

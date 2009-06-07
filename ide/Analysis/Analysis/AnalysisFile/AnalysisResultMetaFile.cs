@@ -213,7 +213,9 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
                     analysisName = GetStringAttribute(indexData, AnalysisResultMetaFileConst.xName);
                     foreach (XmlNode node in indexData.ChildNodes)
                     {
-                        if (!node.Name.Equals(AnalysisResultMetaFileConst.xTableName))
+                        if (!node.Name.Equals(AnalysisResultMetaFileConst.xTableName) &&
+                            !node.Name.Equals(AnalysisResultMetaFileConst.xRowCount) &&
+                            !node.Name.Equals(AnalysisResultMetaFileConst.xColumnCount))
                             continue;
                         result.Add(node.InnerText);
                     }
@@ -276,38 +278,44 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
     public class AnalysisResultMetaFileConst
     {
         /// <summary>
-        /// 
+        /// Plot data (for all analysis)
         /// </summary>
         public const string xPlotData = "PlotData";
         /// <summary>
-        /// 
+        /// Table data (for Sensitivity)
         /// </summary>
         public const string xTableData = "TableData";
         /// <summary>
-        /// 
+        /// Genaration value (for Parameter estimation)
         /// </summary>
         public const string xGenerationData = "GenerationData";
         /// <summary>
-        /// 
+        /// Label name (for all analysis)
         /// </summary>
         public const string xLabel = "Label";
         /// <summary>
-        /// 
+        /// Table name (for Sensitivity)
         /// </summary>
         public const string xTableName = "TableName";
         /// <summary>
-        /// 
+        /// Name (for all analysis)
         /// </summary>
         public const string xName = "name";
         /// <summary>
-        /// 
+        /// Classname (for all analysis)
         /// </summary>
         public const string xClassName = "classname";
         /// <summary>
-        /// 
+        /// Version (for all analysis)
         /// </summary>
         public const string xVersion = "version";
+        /// <summary>
+        /// Row count (for Sensitivity)
+        /// </summary>
         public const string xRowCount = "rowcount";
+        /// <summary>
+        /// Column count (for Sensitivity)
+        /// </summary>
         public const string xColumnCount = "columncount";
     }
 }
