@@ -80,6 +80,19 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Create the proxy for session.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <returns>Class of proxy for session.</returns>
+        public override Job CreateJob(int jobid)
+        {
+            Job j = new GlobusJob(jobid);
+            j.Param = m_optDic;
+
+            return j;
+        }
+
+        /// <summary>
         /// Create the proxy of session with initial parameters.
         /// </summary>
         /// <param name="script"></param>

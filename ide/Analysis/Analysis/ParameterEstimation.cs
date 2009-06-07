@@ -540,22 +540,6 @@ namespace Ecell.IDE.Plugins.Analysis
             writer.Close();
         }
 
-        /// <summary>
-        /// Load the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the loaded analysis.</param>
-        public void LoadAnalysisData(string dirName)
-        {
-        }
-
-        /// <summary>
-        /// Save the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the saved analysis.</param>
-        public void SaveAnalysisData(string dirName)
-        {
-        }
-
         #region Algorithm
         /// <summary>
         /// Find the elite sample in this generation.

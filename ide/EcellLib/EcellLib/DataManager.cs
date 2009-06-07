@@ -515,8 +515,8 @@ namespace Ecell
                 string logDir = dirs[i] + "/" + Constants.LogDirName;
 
                 // load analysis parameters.
-                analysis.LoadAnalysisInfo(dirs[i]);
-                analysis.LoadAnalysisData(dirs[i]);
+                analysis.LoadAnalysisInfo(modelDir);
+                g.LoadJobEntry(logDir);
             }
         }
 

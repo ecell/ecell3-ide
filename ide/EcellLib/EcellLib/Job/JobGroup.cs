@@ -445,6 +445,11 @@ namespace Ecell.Job
             string modelDir = topdir + "/" + Constants.ModelDirName;
             string logDir = topdir + "/" + Constants.LogDirName;
 
+            if (!Directory.Exists(modelDir))
+                Directory.CreateDirectory(modelDir);
+            if (!Directory.Exists(logDir))
+                Directory.CreateDirectory(logDir);
+
             string modelFile = modelDir + "/" + m_date + ".eml";
 
             List<EcellObject> writeList = new List<EcellObject>();
@@ -453,7 +458,63 @@ namespace Ecell.Job
             EmlWriter.Create(modelFile, writeList, false);
 
             AnalysisModule.SaveAnalysisInfo(modelDir);
-            AnalysisModule.SaveAnalysisData(logDir);
+            SaveJobEntry(logDir);
+            m_topDir = topdir;
+            IsSaved = true;
+        }
+
+        private void SaveJobEntry(string topdir)
+        {
+            foreach (Job j in m_jobs)
+            {
+                string logdir = topdir + "/" + j.JobID;
+                if (!Directory.Exists(logdir))
+                    Directory.CreateDirectory(logdir);
+
+                // save parameter file.
+                string paramFile = logdir + "/" + GroupName + "_" + j.JobID + ".param";
+                JobParameterFile f = new JobParameterFile(j, paramFile);
+                f.Write();
+
+                // save script file.
+                string scriptFile = logdir + "/" + GroupName + "_" + j.JobID + ".ess";
+                File.Copy(j.Argument, scriptFile);
+
+                // save log file.
+                foreach (string srcname in j.ExtraFileList)
+                {
+                    string filename = Path.GetFileName(srcname);
+                    string dstname = logdir + "/" + filename;
+                    File.Copy(srcname, dstname);
+                }
+            }                       
+        }
+
+        public void LoadJobEntry(string topdir)
+        {
+            string[] dirs = Directory.GetDirectories(topdir);
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                DirectoryInfo d = new DirectoryInfo(dirs[i]);
+                int jobid = Int32.Parse(d.Name);
+                                
+                string paramFile = dirs[i] + "/" + GroupName + "_" + jobid + ".param";
+                string scriptFile = dirs[i] + "/" + GroupName + "_" + jobid + ".ess";
+                string[] files = Directory.GetFiles(dirs[i], "*.ecd");
+                List<string> extFileList = new List<string>();
+                for (int j = 0; j < files.Length; j++)
+                {
+                    extFileList.Add(files[j]);
+                }
+                Job job = m_manager.CreateJobEntry(jobid, GroupName); ;
+                JobParameterFile f = new JobParameterFile(job, paramFile);
+                f.Read();
+
+                job.ExtraFileList = extFileList;
+                job.Argument = scriptFile;
+
+                m_jobs.Add(job);
+            }
         }
     }
 }

@@ -56,6 +56,17 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Constructors with job id.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        public LocalJob(int jobid)
+            : base(jobid)
+        {
+            this.JobDirectory = "";
+            this.Machine = "Local";
+        }
+
+        /// <summary>
         /// Retry this session.
         /// </summary>
         public override void retry()
@@ -238,7 +249,7 @@ namespace Ecell.Job
                 StreamReader hReader = new StreamReader(extFileName, Encoding.UTF8);
                 char splitter = '\t';
                 string ext = Path.GetExtension(extFileName);
-                if (!string.IsNullOrEmpty(ext) || ext.ToLower().Equals(".csv"))
+                if (!string.IsNullOrEmpty(ext) || ext.ToLower().Equals(".ecd"))
                     splitter = ',';
 
                 while (!hReader.EndOfStream)

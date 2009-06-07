@@ -332,6 +332,23 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Create the job entry for the saved job.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <param name="groupName">the group name.</param>
+        /// <returns>return job.</returns>
+        public Job CreateJobEntry(int jobid, string groupName)
+        {
+            LocalJobProxy p = new LocalJobProxy();
+            Job job = p.CreateJob(jobid);
+            job.Status = JobStatus.FINISHED;
+            job.ExecParam = new ExecuteParameter();
+            m_groupDic[groupName].Jobs.Add(job);
+
+            return job;
+        }
+
+        /// <summary>
         /// Regist the session of e-cell.
         /// </summary>
         /// <param name="groupName">the group name.</param>

@@ -73,6 +73,15 @@ namespace Ecell.Job
             m_process.BeginErrorReadLine();
             m_process.BeginOutputReadLine();
         }
+
+        /// <summary>
+        /// Constructors with job id.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        public GlobusJob(int jobid)
+            : base(jobid)
+        {
+        }
         #endregion
         /// <summary>
         /// Retry this job.
@@ -314,10 +323,7 @@ namespace Ecell.Job
                 if (key == null)
                     return result;
 
-                string fileName = key.Replace("/", "_");
-                fileName = fileName.Replace(":", "_");
-                fileName = fileName.Replace("__", "_");
-                fileName = fileName + ".ecd";
+                string fileName = Util.GetOutputFileName(key); 
 
                 // èâä˙âª
                 // grid-proxy-init

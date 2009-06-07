@@ -290,6 +290,13 @@ namespace Ecell.Job
         /// <returns>return jobid.</returns>
         int CreateJobEntry(string groupName, ExecuteParameter param);
         /// <summary>
+        /// Create the job entry for the saved job.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <param name="groupName">the group name.</param>
+        /// <returns>return job.</returns>
+        Job CreateJobEntry(int jobid, string groupName);
+        /// <summary>
         /// Create the job group.
         /// </summary>
         /// <param name="name">the group name.</param>

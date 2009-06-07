@@ -318,7 +318,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_observedList.Add(o.Copy());
             }
 
-            int count = 0;
             m_owner.ClearResult();
             for (int i = 0; i <= s_num; i++)
             {
@@ -333,11 +332,46 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     m_region[i, j] = 1;
                 }
+            }            
+            SetList(true);
+
+            if (m_xMax == m_xMin)
+            {
+                m_xMax = m_xMin + 1.0;
+                m_xMin = m_xMin - 1.0;
             }
-            
-            Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
+            if (m_yMax == m_yMin)
+            {
+                m_yMax = m_yMin + 1.0;
+                m_yMin = m_yMin - 1.0;
+            }
+            m_owner.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
+
             int jobid = 0;
-            foreach (EcellParameterData p in paramList)
+            Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
+            for (int i = 0; i <= s_num; i = i + s_skip)
+            {
+                double xd = m_xList[i];
+                for (int j = 0; j <= s_num; j = j + s_skip)
+                {
+                    double yd = m_yList[j];
+                    Dictionary<string, double> paramDic = new Dictionary<string,double>();
+                    paramDic.Add(m_xPath, xd);
+                    paramDic.Add(m_yPath, yd);
+                    tmpDic.Add(jobid, new ExecuteParameter(paramDic));
+                    jobid++;
+                }
+            }
+
+            m_owner.JobManager.SetLoggerData(saveList);
+            m_group.AnalysisParameter = GetAnalysisProperty();
+            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
+        }
+
+        private void SetList(bool isSetAxis)
+        {
+            int count = 0;
+            foreach (EcellParameterData p in m_paramList)
             {
                 double step = (p.Max - p.Min) / (double)s_num;
                 bool isX = false;
@@ -349,7 +383,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     m_xMax = p.Max;
                     m_xMin = p.Min;
                     m_xList.Clear();
-                    for (int i = 0  ; i <= s_num ; i++ )
+                    for (int i = 0; i <= s_num; i++)
                     {
                         double d = p.Min + step * i;
                         m_xList.Add(d);
@@ -368,38 +402,10 @@ namespace Ecell.IDE.Plugins.Analysis
                         m_yList.Add(d);
                     }
                 }
-                m_owner.SetResultEntryBox(p.Key, isX, isY);
+                if (isSetAxis)
+                    m_owner.SetResultEntryBox(p.Key, isX, isY);
                 count++;
             }
-            if (m_xMax == m_xMin)
-            {
-                m_xMax = m_xMin + 1.0;
-                m_xMin = m_xMin - 1.0;
-            }
-            if (m_yMax == m_yMin)
-            {
-                m_yMax = m_yMin + 1.0;
-                m_yMin = m_yMin - 1.0;
-            }
-            m_owner.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
-
-            for (int i = 0; i <= s_num; i = i + s_skip)
-            {
-                double xd = m_xList[i];
-                for (int j = 0; j <= s_num; j = j + s_skip)
-                {
-                    double yd = m_yList[j];
-                    Dictionary<string, double> paramDic = new Dictionary<string,double>();
-                    paramDic.Add(m_xPath, xd);
-                    paramDic.Add(m_yPath, yd);
-                    tmpDic.Add(jobid, new ExecuteParameter(paramDic));
-                    jobid++;
-                }
-            }
-
-            m_owner.JobManager.SetLoggerData(saveList);
-            m_group.AnalysisParameter = GetAnalysisProperty();
-            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
         }
 
         /// <summary>
@@ -877,6 +883,8 @@ namespace Ecell.IDE.Plugins.Analysis
             BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(this, paramFile);
             f.Read();
             m_param = f.Parameter;
+
+            SetList(false);
         }
 
         /// <summary>
@@ -938,22 +946,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 i++;
             }
             reader.Close();
-        }
-
-        /// <summary>
-        /// Load the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the loaded analysis.</param>
-        public void LoadAnalysisData(string dirName)
-        {
-        }
-
-        /// <summary>
-        /// Save the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the saved analysis.</param>
-        public void SaveAnalysisData(string dirName)
-        {
         }
 
         static private BifurcationResult Int2Type(int d)

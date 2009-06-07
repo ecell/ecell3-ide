@@ -1276,8 +1276,11 @@ namespace Ecell
         /// <returns></returns>
         public static string GetOutputFileName(string key)
         {
-            string fileName = key.Replace(":", "_"); ;
-            return fileName.Replace("/", "_") + ".csv";
+            string fileName = key.Replace("/", "_");
+            fileName = fileName.Replace(":", "_");
+            fileName = fileName.Replace("__", "_");
+            fileName = fileName + ".ecd";
+            return fileName;
         }
 
         /// <summary>

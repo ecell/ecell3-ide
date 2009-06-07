@@ -252,6 +252,22 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Constructors with job id.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        public Job(int jobid)
+        {
+            this.m_argument = "";
+            this.m_extraFile = new List<string>();
+            this.m_jobDirectory = "";
+            this.m_jobId = jobid;
+            this.m_processId = -1;
+            this.m_scriptFile = "";
+            this.m_status = JobStatus.NONE;
+            this.m_machine = Environment.MachineName;
+        }
+
+        /// <summary>
         /// Constructor with initial parameters.
         /// </summary>
         /// <param name="exeFile">script file name.</param>

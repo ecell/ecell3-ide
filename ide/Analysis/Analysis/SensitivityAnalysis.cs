@@ -397,22 +397,6 @@ namespace Ecell.IDE.Plugins.Analysis
             f.Write();
         }
 
-        /// <summary>
-        /// Load the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the loaded analysis.</param>
-        public void LoadAnalysisData(string dirName)
-        {
-        }
-
-        /// <summary>
-        /// Save the parameters and result of log data.
-        /// </summary>
-        /// <param name="dirName">the top directory of the saved analysis.</param>
-        public void SaveAnalysisData(string dirName)
-        {
-        }
-
         private void LoadAnalysisResultFile(string resultFile, double[,] cmatrix, double[,] fmatrix)
         {
             StreamReader reader;

@@ -75,6 +75,13 @@ namespace Ecell.Job
         public abstract Job CreateJob();
 
         /// <summary>
+        /// Create the proxy for session.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <returns>Class of proxy for session.</returns>
+        public abstract Job CreateJob(int jobid);
+
+        /// <summary>
         /// Create the proxy for session with initial parameters.
         /// </summary>
         /// <param name="script">script file name.</param>
