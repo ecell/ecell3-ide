@@ -187,7 +187,7 @@ namespace Ecell
         /// <summary>
         /// Current Model
         /// </summary>
-        public EcellObject Model
+        public EcellModel Model
         {
             get { return m_modelList[0]; }
         }

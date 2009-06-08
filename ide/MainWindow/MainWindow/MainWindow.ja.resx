@@ -718,4 +718,7 @@
         AAA=
 </value>
   </data>
+  <data name="exportSBMLMenuItem.Text" xml:space="preserve">
+    <value>SBML形式で出力(&amp;M)...</value>
+  </data>
 </root>

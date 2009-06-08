@@ -38,6 +38,7 @@ using libsbml;
 using Ecell.Exceptions;
 using Ecell.Objects;
 using System.IO;
+using System.Diagnostics;
 
 namespace Ecell.SBML
 {
@@ -46,10 +47,28 @@ namespace Ecell.SBML
     /// </summary>
     public class EML2SBML
     {
-        private int aSBMLLevel;
-        private List<string> ID_Namespace = new List<string>();
+        private static int aSBMLLevel;
+        private static List<string> ID_Namespace = new List<string>();
 
-        public void convertToSBMLModel(EcellModel anEml, string aBaseName, int aLevel, int aVersion )
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="anEml"></param>
+        /// <param name="filename"></param>
+        public static void SaveSBML(EcellModel anEml, string filename)
+        {
+            SBMLDocument aSBMLDocument = convertToSBMLModel(anEml, anEml.ModelID, 2, 3);
+            libsbml.libsbml.writeSBML(aSBMLDocument, filename);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="anEml"></param>
+        /// <param name="aBaseName"></param>
+        /// <param name="aLevel"></param>
+        /// <param name="aVersion"></param>
+        public static SBMLDocument convertToSBMLModel(EcellModel anEml, string aBaseName, int aLevel, int aVersion)
         {
             aSBMLLevel = aLevel;
             SBMLDocument aSBMLDocument = new SBMLDocument();
@@ -63,9 +82,11 @@ namespace Ecell.SBML
             setEssentialEntity(aSBMLModel);
 
             //return libsbml.libsbml.writeSBMLToString( aSBMLDocument );
+
+            return aSBMLDocument;
         }
 
-        private void createModel(EcellObject anEml, Model aSBMLModel)
+        private static void createModel(EcellObject anEml, Model aSBMLModel)
         {
             // set System
             createSystem(anEml, aSBMLModel);
@@ -73,27 +94,27 @@ namespace Ecell.SBML
             // set Species
             foreach(EcellObject variable in anEml.Children)
             {
-                if(!(variable is EcellVariable))
+                if(!(variable is EcellVariable) || variable.LocalID.Equals(EcellSystem.SIZE))
                     continue;
-                createSpecies(anEml, aSBMLModel);
+                createSpecies(variable, aSBMLModel);
             }
             // set Reaction
             foreach(EcellObject process in anEml.Children)
             {
                 if(!(process is EcellProcess))
                     continue;
-                createReaction(anEml, aSBMLModel);
+                createReaction(process, aSBMLModel);
             }
             // create SubSystem by iterating calling createModel
-            foreach(EcellSystem system in anEml.Children)
+            foreach (EcellObject system in anEml.Children)
             {
                 if(!(system is EcellSystem))
                     continue;
-                createModel( anEml, aSBMLModel);
+                createModel( system, aSBMLModel);
             }
         }
 
-        private void createSystem(EcellObject anEml, Model aSBMLModel)
+        private static void createSystem(EcellObject anEml, Model aSBMLModel)
         {
             if ( anEml.LocalID == "SBMLParameter" || anEml.LocalID == "SBMLRule" )
                 return;
@@ -126,7 +147,8 @@ namespace Ecell.SBML
                     aCompartment.setSize(size);
 
                     EcellValue value = anEml.GetEcellValue("Fixed");
-                    aCompartment.setConstant(Convert.ToBoolean((int)value));
+                    if(value != null)
+                        aCompartment.setConstant(Convert.ToBoolean((int)value));
                 }
                 // set Dimensions of Compartment
                 else if( child.LocalID == "Dimensions" )
@@ -140,7 +162,7 @@ namespace Ecell.SBML
             {
                 aCompartment.setOutside( "default" );
             }       
-            else if (anEml.ParentSystemID != null)
+            else if (!string.IsNullOrEmpty(anEml.ParentSystemID))
             {
                 aCompartment.setOutside(
                     getCurrentCompartment( anEml.ParentSystemID ));
@@ -156,7 +178,7 @@ namespace Ecell.SBML
             return systems[ systems.Length -1 ];
         }
 
-        private void createReaction(EcellObject anEml, Model aSBMLModel)
+        private static void createReaction(EcellObject anEml, Model aSBMLModel)
         {
             EcellProcess aProcess = (EcellProcess)anEml;
             List<EcellReference> aVariableReferenceList = aProcess.ReferenceList;
@@ -443,7 +465,7 @@ namespace Ecell.SBML
             }
         }
 
-        private ASTNode setDelayType(ASTNode anASTNode)
+        private static ASTNode setDelayType(ASTNode anASTNode)
         {
             long aNumChildren = anASTNode.getNumChildren();
 
@@ -464,7 +486,7 @@ namespace Ecell.SBML
 
         }
 
-        private string getVariableReferenceId(string aVariableReference, string aCurrentSystem )
+        private static string getVariableReferenceId(string aVariableReference, string aCurrentSystem)
         {
 
             int aFirstColon = aVariableReference.IndexOf(":");
@@ -537,7 +559,7 @@ namespace Ecell.SBML
             }
         }
 
-        private void createSpecies(EcellObject anEml, Model aSBMLModel)
+        private static void createSpecies(EcellObject anEml, Model aSBMLModel)
         {
             string aCurrentCompartment = getCurrentCompartment( anEml.ParentSystemID );
             Compartment aCurrentCompartmentObj = aSBMLModel.getCompartment( aCurrentCompartment );
@@ -598,7 +620,8 @@ namespace Ecell.SBML
                     }
                     else
                     {
-                        throw new EcellException("Unrepresentable property; " + aFullPN);
+                        Trace.WriteLine("Unrepresentable property; " + aFullPN);
+                        //throw new EcellException("Unrepresentable property; " + aFullPN);
                     }
                 }
             }
@@ -688,14 +711,15 @@ namespace Ecell.SBML
                         }
                         else
                         {
-                            throw new EcellException("Unrepresentable property: " + aFullPN);
+                            Trace.WriteLine("Unrepresentable property; " + aFullPN);
+                            //throw new EcellException("Unrepresentable property: " + aFullPN);
                         }
                     }
                 }
             }
         }
 
-        private void setEssentialEntity(Model aSBMLModel)
+        private static void setEssentialEntity(Model aSBMLModel)
         {
             //
             //  set N_A Parameter

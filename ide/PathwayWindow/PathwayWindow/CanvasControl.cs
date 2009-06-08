@@ -179,7 +179,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_canvasId.
+        /// Accessor for m_modelId.
         /// </summary>
         public string ModelID
         {
@@ -188,7 +188,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_pathwayView.
+        /// Accessor for PathwayControl.
         /// </summary>
         public PathwayControl Control
         {
@@ -197,7 +197,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_pathwayCanvas.
+        /// Accessor for PPathwayCanvas.
         /// </summary>
         public PPathwayCanvas PCanvas
         {
@@ -1195,7 +1195,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         /// <param name="key">The key of selected object.</param>
         /// <param name="type">The type of selected object.</param>
-        /// <returns>A list which contains all PathwayElements of this object</returns>
+        /// <returns>A list which contains all PPathwayObjects of this object</returns>
         public PPathwayObject GetObject(string key, string type)
         {
             if (key == null || type == null)

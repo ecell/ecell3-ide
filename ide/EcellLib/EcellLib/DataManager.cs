@@ -358,6 +358,20 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="filename"></param>
+        public void ExportSBML(string filename)
+        {
+            EcellModel model = m_currentProject.Model;
+            model.Children.Clear();
+            model.Children.AddRange(m_currentProject.SystemDic[model.ModelID]);
+
+            Trace.WriteLine("Export SBML: " + filename);
+            EML2SBML.SaveSBML(model, filename);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="path"></param>
         public void ImportDM(string path)
         {

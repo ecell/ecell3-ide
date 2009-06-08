@@ -789,6 +789,7 @@ namespace Ecell.IDE.MainWindow
             projectWizardMenuItem.Enabled = unInitialized || loaded;
             closeProjectToolStripMenuItem.Enabled = loaded;
             exportModelToolStripMenuItem.Enabled = (suspend || loaded);
+            exportSBMLMenuItem.Enabled = (suspend || loaded);
             importModelToolStripMenuItem.Enabled = unInitialized || loaded;
             importScriptToolStripMenuItem.Enabled = loaded;
             saveScriptToolStripMenuItem.Enabled = loaded;
@@ -1202,6 +1203,25 @@ namespace Ecell.IDE.MainWindow
                 Trace.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);
             }
+        }
+
+        private void exportSBMLMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.Filter = Constants.FilterSBMLFile;
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    m_env.DataManager.ExportSBML(saveFileDialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message);
+            }
+            
         }
 
         /// <summary>
