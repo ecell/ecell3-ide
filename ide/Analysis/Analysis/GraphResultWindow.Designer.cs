@@ -67,6 +67,7 @@
             // RAXComboBox
             // 
             resources.ApplyResources(this.RAXComboBox, "RAXComboBox");
+            this.RAXComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RAXComboBox.FormattingEnabled = true;
             this.RAXComboBox.Name = "RAXComboBox";
             this.RAXComboBox.SelectedIndexChanged += new System.EventHandler(this.XSelectedIndexChanged);
@@ -74,10 +75,10 @@
             // RAYComboBox
             // 
             resources.ApplyResources(this.RAYComboBox, "RAYComboBox");
+            this.RAYComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RAYComboBox.FormattingEnabled = true;
             this.RAYComboBox.Name = "RAYComboBox";
             this.RAYComboBox.SelectedIndexChanged += new System.EventHandler(this.YSelectedIndexChanged);
-
             // 
             // GraphResultWindow
             // 

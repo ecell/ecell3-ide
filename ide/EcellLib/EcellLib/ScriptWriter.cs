@@ -196,12 +196,11 @@ namespace Ecell
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        public void WriteModelEntry(string fileName, Encoding enc, string modelName)
+        public void WriteModelEntry(string fileName, Encoding enc, string modelName, List<EcellObject> stepperList)
         {
             File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
             File.AppendAllText(fileName, "# Stepper\n", enc);
-            foreach (EcellObject stepObj in
-                m_currentProject.StepperDic[modelName])
+            foreach (EcellObject stepObj in stepperList)
             {
                 File.AppendAllText(fileName, "stepperStub" + m_stepperCount + "=session.createStepperStub(\"" + stepObj.Key + "\")\n", enc);
                 File.AppendAllText(fileName, "stepperStub" + m_stepperCount + ".create(\"" + stepObj.Classname + "\")\n", enc);
@@ -216,11 +215,10 @@ namespace Ecell
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        public void WriteModelProperty(string fileName, Encoding enc, string modelName)
+        public void WriteModelProperty(string fileName, Encoding enc, string modelName, List<EcellObject> stepperList)
         {
             File.AppendAllText(fileName, "\n# Stepper\n", enc);
-            foreach (EcellObject stepObj in
-                m_currentProject.StepperDic[modelName])
+            foreach (EcellObject stepObj in stepperList)
             {
                 int count = m_exportStepper[stepObj.Key];
                 foreach (EcellData d in stepObj.Value)

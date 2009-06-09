@@ -152,6 +152,7 @@
             this.jobDeleteToolStripMenuItem});
             this.jobContextMenuStrip.Name = "jobContextMenuStrip";
             resources.ApplyResources(this.jobContextMenuStrip, "jobContextMenuStrip");
+            this.jobContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.JobTree_JobContextOpening);
             // 
             // jobRunToolStripMenuItem
             // 

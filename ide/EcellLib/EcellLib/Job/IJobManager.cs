@@ -257,6 +257,18 @@ namespace Ecell.Job
         ///<param name="groupName">the group name.</param>
         void RunWaitFinish(string groupName);
         /// <summary>
+        /// Rerun jobs after the script is created.
+        /// </summary>
+        /// <param name="jobid">Job id</param>
+        /// <param name="groupName">group name</param>
+        /// <param name="topDir">the top directory</param>
+        /// <param name="modelName">the model name</param>
+        /// <param name="count">simulation time or simulation step.</param>
+        /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        /// <param name="paramDic">the execution parameter.</param>
+        void ReRunSimParameterSet(int jobid, string groupName, string topDir, string modelName,
+                    double count, bool isStep, ExecuteParameter paramDic);
+        /// <summary>
         /// Update the property of proxy.
         /// </summary>
         /// <param name="list">the list of new property.</param>

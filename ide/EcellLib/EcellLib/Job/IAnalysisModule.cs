@@ -61,6 +61,14 @@ namespace Ecell.Job
         /// get the flag this analysis is enable to judge.
         /// </summary>
         bool IsEnableReJudge { get; }
+        /// <summary>
+        /// get the flag this analysis is step execution.
+        /// </summary>
+        bool IsStep { get; }
+        /// <summary>
+        /// get the simulation time or the step count.
+        /// </summary>
+        double Count { get; }
         #endregion
 
         /// <summary>

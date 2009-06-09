@@ -71,9 +71,9 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Add the job grouping.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the group name.</param>
         public void AddJobGroup(string name)
         {
             JobGroup group = m_manager.GroupDic[name];
@@ -105,9 +105,9 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Delete the job grouping.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the group name.</param>
         public void DeleteJobGroup(string name)
         {
             JobGroup group = m_manager.GroupDic[name];
@@ -158,10 +158,10 @@ namespace Ecell.IDE.MainWindow
 
         #region Events
         /// <summary>
-        /// 
+        /// Update the drawing area when the status of job is updated.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        /// <param name="o">JobManager</param>
+        /// <param name="e">JobUpdateEventArgs.</param>
         private void UpdateJobStatus(object o, JobUpdateEventArgs e)
         {
             if (m_topNode == null)
@@ -255,6 +255,11 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// Click the node on the job tree.
+        /// </summary>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs</param>
         private void JobTee_MouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
@@ -306,16 +311,34 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// Click the run menu on the job node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs.</param>
         private void JobTree_RunJob(object sender, EventArgs e)
         {
             TreeNode node = jobTreeView.SelectedNode;
             if (node == null || !(node is JobTreeNode))
                 return;
             JobTreeNode jnode = node as JobTreeNode;
+            JobGroup g = m_manager.GroupDic[jnode.GroupName];
+            Job.Job j = m_manager.GroupDic[jnode.GroupName].GetJob(Int32.Parse(jnode.ID));
+            string modelID = m_manager.Environment.DataManager.CurrentProject.Model.ModelID;
+            bool isStep = g.AnalysisModule.IsStep;
+            double count = g.AnalysisModule.Count;
+
+            m_manager.ReRunSimParameterSet(Int32.Parse(jnode.ID), jnode.GroupName, 
+                m_manager.TmpDir, modelID, count, isStep, j.ExecParam);
 
             m_manager.Run(jnode.GroupName, Int32.Parse(jnode.ID));
         }
 
+        /// <summary>
+        /// Click the stop menu on job node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem.</param>
+        /// <param name="e">EventArgs.</param>
         private void JobTree_StopJob(object sender, EventArgs e)
         {
             TreeNode node = jobTreeView.SelectedNode;
@@ -326,6 +349,11 @@ namespace Ecell.IDE.MainWindow
             m_manager.Stop(jnode.GroupName, Int32.Parse(jnode.ID));
         }
 
+        /// <summary>
+        /// Click the delete menu on job node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_DeleteJob(object sender, EventArgs e)
         {
             TreeNode node = jobTreeView.SelectedNode;
@@ -336,6 +364,11 @@ namespace Ecell.IDE.MainWindow
             m_manager.DeleteJob(jnode.GroupName, Int32.Parse(jnode.ID));
         }
 
+        /// <summary>
+        /// Click the change status menu on job node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_ChangeJobStatus(object sender, EventArgs e)
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
@@ -360,11 +393,21 @@ namespace Ecell.IDE.MainWindow
             UpdateJobStatus(this, new JobUpdateEventArgs(JobUpdateType.Update));
         }
 
+        /// <summary>
+        /// Click the run menu on the job group node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_RunJobGroup(object sender, EventArgs e)
         {
-
+            // not implement
         }
 
+        /// <summary>
+        /// Click the judgement menu on the job group node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs.</param>
         private void JobTree_JudgementJobGroup(object sender, EventArgs e)
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
@@ -377,6 +420,11 @@ namespace Ecell.IDE.MainWindow
             m_manager.GroupDic[jnode.GroupName].AnalysisModule.Judgement();
         }
 
+        /// <summary>
+        /// Click the stop menu on the job group node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_StopJobGroup(object sender, EventArgs e)
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
@@ -389,6 +437,11 @@ namespace Ecell.IDE.MainWindow
             m_manager.Stop(jnode.GroupName, 0);
         }
 
+        /// <summary>
+        /// Click the delete menu on the job group node.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_DelteJobGroup(object sender, EventArgs e)
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
@@ -404,10 +457,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Click the save menu on the job group node
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_SaveJobGroup(object sender, EventArgs e)
         {
              ToolStripMenuItem m = sender as ToolStripMenuItem;
@@ -425,10 +478,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Click the view menu on the job group node.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void JobTree_ViewResultJobGroup(object sender, EventArgs e)
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
@@ -443,10 +496,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Opening the context menu on the job group node.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TreeNode.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void JobTree_JobGroupContextOpening(object sender, CancelEventArgs e)
         {
             TreeNode node = jobTreeView.SelectedNode;
@@ -467,7 +520,36 @@ namespace Ecell.IDE.MainWindow
             jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting;
         }
-       
+
+        /// <summary>
+        /// Opening the context menu on the job node.
+        /// </summary>
+        /// <param name="sender">TreeNode.</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void JobTree_JobContextOpening(object sender, CancelEventArgs e)
+        {
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobTreeNode))
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            JobTreeNode jnode = node as JobTreeNode;
+            JobGroup g = m_manager.GroupDic[jnode.GroupName];
+            Job.Job j = m_manager.GroupDic[jnode.GroupName].GetJob(Int32.Parse(jnode.ID));
+            jobRunToolStripMenuItem.Enabled = !g.IsSaved;
+            jobStopToolStripMenuItem.Enabled = (j.Status == JobStatus.RUNNING || j.Status == JobStatus.QUEUED || j.Status == JobStatus.NONE);
+            jobDeleteToolStripMenuItem.Enabled = (g.Status != AnalysisStatus.Running &&
+                g.Status != AnalysisStatus.Waiting) &&
+                (j.Status == JobStatus.ERROR || j.Status == JobStatus.FINISHED || j.Status == JobStatus.STOPPED || j.Status == JobStatus.NONE);
+        }
+
+        /// <summary>
+        /// Change the property of DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellParsingEventArgs</param>
         private void JobGrid_ChangeProperty(object sender, DataGridViewCellParsingEventArgs e)
         {
             e.ParsingApplied = true;
@@ -517,10 +599,10 @@ namespace Ecell.IDE.MainWindow
         #endregion
 
         /// <summary>
-        /// 
+        /// Get the status string from JobStatus.
         /// </summary>
-        /// <param name="status"></param>
-        /// <returns></returns>
+        /// <param name="status">JobStatus</param>
+        /// <returns>the status string.</returns>
         private static string GetJobStatusString(JobStatus status)
         {
             switch (status)
@@ -541,6 +623,11 @@ namespace Ecell.IDE.MainWindow
             return MessageResources.NameStatusNone;
         }
 
+        /// <summary>
+        /// Get the status string from AnalysisStatus.
+        /// </summary>
+        /// <param name="status">AnalysisStatus.</param>
+        /// <returns>the status string.</returns>
         private static string GetAnalysisStatusString(AnalysisStatus status)
         {
             switch (status)
@@ -559,6 +646,11 @@ namespace Ecell.IDE.MainWindow
             return MessageResources.NameStatusNone;
         }
 
+        /// <summary>
+        /// Set the image of job node refered with JobStatus.
+        /// </summary>
+        /// <param name="node">Job node.</param>
+        /// <param name="status">the status string.</param>
         private static void SetImageAtJobStatus(TreeNode node, JobStatus status)
         {
             switch (status)
@@ -603,6 +695,11 @@ namespace Ecell.IDE.MainWindow
             node.SelectedImageIndex = 0;
         }
 
+        /// <summary>
+        /// Set the image of job group node refered with AnalysisStatus.
+        /// </summary>
+        /// <param name="node">the job group node.</param>
+        /// <param name="status">AnalysisStatus.</param>
         private static void SetImageAtJobGroupStatus(TreeNode node, AnalysisStatus status)
         {
             switch (status)

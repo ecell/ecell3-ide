@@ -795,6 +795,32 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Rerun jobs after the script is created.
+        /// </summary>
+        /// <param name="jobid">Job id</param>
+        /// <param name="groupName">group name</param>
+        /// <param name="topDir">the top directory</param>
+        /// <param name="modelName">the model name</param>
+        /// <param name="count">simulation time or simulation step.</param>
+        /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        /// <param name="paramDic">the execution parameter.</param>
+        public void ReRunSimParameterSet(int jobid, string groupName, string topDir, string modelName,
+            double count, bool isStep, ExecuteParameter paramDic)
+        {
+            Project prj = m_env.DataManager.CurrentProject;
+            ScriptWriter writer = new ScriptWriter(prj);
+            List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
+            List<EcellObject> stepperList = m_groupDic[groupName].StepperObjectList;
+
+            string dirName = topDir + "/" + jobid;
+            string fileName = topDir + "/" + jobid + ".ess";
+            string modelFileName = topDir + "/" + jobid + ".eml";
+
+            CreateLocalScript(topDir, dirName, fileName, writer,
+                modelName, count, isStep, sysList, stepperList, paramDic.ParamDic);
+        }
+
+        /// <summary>
         /// Execute the simulation with using the set parameters.
         /// </summary>
         /// <param name="groupName">the group name</param>
@@ -810,6 +836,7 @@ namespace Ecell.Job
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
+            List<EcellObject> stepperList = m_groupDic[groupName].StepperObjectList;
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             if (!Directory.Exists(topDir))
             {
@@ -831,12 +858,12 @@ namespace Ecell.Job
                 if (this.Proxy.IsIDE() == true)
                 {
                     CreateLocalScript(topDir, dirName, fileName, writer,
-                        modelName, count, isStep, sysList, paramDic);
+                        modelName, count, isStep, sysList, stepperList, paramDic);
                 }
                 else
                 {
                     CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
-                        modelName, count, isStep, sysList, paramDic);
+                        modelName, count, isStep, sysList, stepperList, paramDic);
                 }
 
                 job.ExecParam = new ExecuteParameter(paramDic);
@@ -865,6 +892,7 @@ namespace Ecell.Job
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
+            List<EcellObject> stepperList = m_groupDic[groupName].StepperObjectList;
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
             if (!Directory.Exists(topDir))
@@ -900,12 +928,12 @@ namespace Ecell.Job
                 if (this.Proxy.IsIDE() == true)
                 {
                     CreateLocalScript(topDir, dirName, fileName, writer,
-                        modelName, count, isStep, sysList, paramDic);
+                        modelName, count, isStep, sysList, stepperList, paramDic);
                 }
                 else
                 {
                     CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
-                        modelName, count, isStep, sysList, paramDic);
+                        modelName, count, isStep, sysList, stepperList, paramDic);
                 }
                 job.ExecParam = new ExecuteParameter(paramDic);
                 resList.Add(jobid, new ExecuteParameter(paramDic));
@@ -985,6 +1013,7 @@ namespace Ecell.Job
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
+            List<EcellObject> stepperList = m_groupDic[groupName].StepperObjectList;
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {
@@ -1057,12 +1086,12 @@ namespace Ecell.Job
                     if (this.Proxy.IsIDE())
                     {
                         CreateLocalScript(topDir, dirName, fileName, writer,
-                            modelName, count, isStep, sysList, paramDic);
+                            modelName, count, isStep, sysList, stepperList, paramDic);
                     }
                     else
                     {
                         CreateUnixScript(jobid, topDir, dirName, fileName, modelFileName, writer,
-                            modelName, count, isStep, sysList, paramDic);
+                            modelName, count, isStep, sysList, stepperList, paramDic);
                     }
                     job.ExecParam = new ExecuteParameter(paramDic);
                     resList.Add(jobid, new ExecuteParameter(paramDic));
@@ -1092,7 +1121,7 @@ namespace Ecell.Job
         /// <param name="paramDic">the dictionary of parameters.</param>
         private void CreateUnixScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
             ScriptWriter writer, string modelName, double count, bool isStep, List<EcellObject> sysList,
-            Dictionary<string, double> paramDic)
+            List<EcellObject> stepperList, Dictionary<string, double> paramDic)
         {
             Encoding enc = Encoding.GetEncoding(51932);
             SetLogTopDirectory(dirName);
@@ -1176,7 +1205,7 @@ namespace Ecell.Job
         /// <param name="paramDic">the dictionary of parameters.</param>
         private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,
                 string modelName, double count, bool isStep, List<EcellObject> sysList,
-            Dictionary<string, double> paramDic)
+                List<EcellObject> stepperList, Dictionary<string, double> paramDic)
         {
             Encoding enc = Encoding.GetEncoding(932);
             SetLogTopDirectory(dirName);
@@ -1188,8 +1217,8 @@ namespace Ecell.Job
             writer.ClearScriptInfo();
             File.WriteAllText(fileName, "", enc);
             writer.WritePrefix(fileName, enc);
-            writer.WriteModelEntry(fileName, enc, modelName);
-            writer.WriteModelProperty(fileName, enc, modelName);
+            writer.WriteModelEntry(fileName, enc, modelName, stepperList);
+            writer.WriteModelProperty(fileName, enc, modelName, stepperList);
             File.AppendAllText(fileName, "\n# System\n", enc);
             foreach (EcellObject sysObj in sysList)
             {

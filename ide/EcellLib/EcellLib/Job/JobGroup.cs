@@ -477,8 +477,9 @@ namespace Ecell.Job
                 f.Write();
 
                 // save script file.
-                string scriptFile = logdir + "/" + GroupName + "_" + j.JobID + ".ess";
-                File.Copy(j.Argument, scriptFile);
+                string scriptFile = logdir + "/" + GroupName + "_" + j.JobID + ".ess";                
+                if (!Path.GetFullPath(scriptFile).Equals(Path.GetFullPath(j.Argument)))
+                    File.Copy(j.Argument, scriptFile);
 
                 // save log file.
                 foreach (string srcname in j.ExtraFileList)
@@ -487,7 +488,8 @@ namespace Ecell.Job
                     string dstname = logdir + "/" + filename;
                     if (!File.Exists(srcname))
                         continue;
-                    File.Copy(srcname, dstname);
+                    if (!Path.GetFullPath(srcname).Equals(Path.GetFullPath(dstname)))
+                        File.Copy(srcname, dstname);
                 }
             }                       
         }

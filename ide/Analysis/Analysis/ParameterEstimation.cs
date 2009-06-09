@@ -183,6 +183,23 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             get { return false; }
         }
+
+
+        /// <summary>
+        /// get the flag this analysis is step execution.
+        /// </summary>
+        public bool IsStep
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// get the simulation time or the step count.
+        /// </summary>
+        public double Count
+        {
+            get { return m_param.SimulationTime; }
+        }
         #endregion
 
 

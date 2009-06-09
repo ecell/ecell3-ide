@@ -166,7 +166,7 @@ namespace Ecell
 
             string fileName = TestConstant.Script_File;
             File.WriteAllText(fileName, "", enc);            
-            writer.WriteModelEntry(fileName, enc, "Drosophila");
+            writer.WriteModelEntry(fileName, enc, "Drosophila", _unitUnderTest.CurrentProject.StepperDic["Drosophila"]);
             foreach (EcellObject sysObj in _unitUnderTest.CurrentProject.SystemList)
             {
                 EcellObject tmpObj = sysObj.Clone();
