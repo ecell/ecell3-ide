@@ -88,9 +88,6 @@ namespace Ecell.SBML
 
         private static void createModel(EcellObject anEml, Model aSBMLModel)
         {
-            // set System
-            createSystem(anEml, aSBMLModel);
-
             // set Species
             foreach(EcellObject variable in anEml.Children)
             {
@@ -110,7 +107,9 @@ namespace Ecell.SBML
             {
                 if(!(system is EcellSystem))
                     continue;
-                createModel( system, aSBMLModel);
+                // set System
+                createSystem(system, aSBMLModel);
+                createModel(system, aSBMLModel);
             }
         }
 
@@ -124,10 +123,11 @@ namespace Ecell.SBML
 
             // set ID ROOT System and Other System
             string aCompartmentID = "";
-            if( anEml.LocalID == "/" )
+            if (anEml.LocalID == "/")
                 aCompartmentID = "default"; // Root system
             else
-                aCompartmentID = "default" + anEml.Key.Replace( "/", "__" );
+                aCompartmentID = anEml.LocalID;
+            //  aCompartmentID = "default" + anEml.Key.Replace( "/", "__" );
 
             ID_Namespace.Add( aCompartmentID );
                 
@@ -189,14 +189,13 @@ namespace Ecell.SBML
             if ( anEml.ParentSystemID == "/SBMLRule" )
             {
                 // get Process Class
-                //bool aDelayFlag = false;
+                bool aDelayFlag = false;
 
-                //[ anExpression, aDelayFlag ] =
-                //convertExpression(
-                //    anExpression,
-                //    aVariableReferenceList,
-                //    aProcess.ParentSystemID,
-                //    ID_Namespace );
+                anExpression = convertExpression(
+                    anExpression,
+                    aVariableReferenceList,
+                    aProcess.ParentSystemID,
+                    ID_Namespace );
 
 
                 if( aProcess.Classname == "ExpressionAlgebraicProcess" )
@@ -283,33 +282,34 @@ namespace Ecell.SBML
                     {
                         // convert Expression of the ECELL format to
                         // SBML kineticLaw formula
-                        // setExpressionAnnotation( aKineticLaw, anExpression )
+                        // setExpressionAnnotation( aKineticLaw, anExpression );
                         bool aDelayFlag = false;
-                        //[ anExpression, aDelayFlag ] =
-                        //  convertExpression( anExpression,
-                        //                     aVariableReferenceList,
-                        //                     aProcess.ParentSystemID,
-                        //                     ID_Namespace );
+                        anExpression = convertExpression(anExpression,
+                                             aVariableReferenceList,
+                                             aProcess.ParentSystemID,
+                                             ID_Namespace);
 
                         // get Current System Id
                         string CompartmentOfReaction = "";
                         foreach (EcellReference aVariableReference in aVariableReferenceList)
                         {
+                            if (aVariableReference.Coefficient == 0)
+                                continue;
+
                             int aFirstColon = aVariableReference.FullID.IndexOf(":");
                             int aLastColon = aVariableReference.FullID.LastIndexOf(":");
-
-                            if( aVariableReference.Coefficient != 0 )
+                            string sysKey = aVariableReference.FullID.Substring(aFirstColon + 1, aLastColon - aFirstColon - 1);
+                            string localID = "";
+                            if (sysKey.Equals("."))
                             {
-                                if( aVariableReference.FullID.Substring(aFirstColon+1, aLastColon) == "." )
-                                {
-                                    int aLastSlash = aProcess.ParentSystemID.LastIndexOf( "/" );
-                                    CompartmentOfReaction = aProcess.ParentSystemID.Substring(aLastSlash+1);
-                                }
-                                else
-                                {
-                                    int aLastSlash = aVariableReference.Key.LastIndexOf( "/" );
-                                    CompartmentOfReaction = aVariableReference.Key.Substring(aLastSlash+1, aLastColon);
-                                }
+                                Util.ParseSystemKey(aProcess.ParentSystemID, out sysKey, out localID);
+                                CompartmentOfReaction = localID;
+                            }
+                            else
+                            {
+                                string dummy;
+                                Util.ParseSystemKey(sysKey, out dummy, out localID);
+                                CompartmentOfReaction = localID;
                             }
                         }
 
@@ -465,15 +465,41 @@ namespace Ecell.SBML
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="anExpression"></param>
+        /// <param name="aVariableReferenceList"></param>
+        /// <param name="aSystemKey"></param>
+        /// <param name="ID_Namespace"></param>
+        /// <returns></returns>
+        private static string convertExpression(string anExpression, List<EcellReference> aVariableReferenceList, string aSystemKey, List<string> ID_Namespace)
+        {
+            string sbmlExpression = anExpression;
+            string type;
+            string sysKey;
+            string localID;
+            // Replace entity key.
+            foreach (EcellReference er in aVariableReferenceList)
+            {
+                Util.ParseFullID(er.FullID, out type, out sysKey, out localID);
+                sbmlExpression = sbmlExpression.Replace(er.Name, localID);
+            }
+
+            Util.ParseSystemKey(aSystemKey, out sysKey, out localID);
+            sbmlExpression = sbmlExpression.Replace("self.getSuperSystem().SizeN_A", localID + " * N_A");
+            sbmlExpression = sbmlExpression.Replace(".Value", "");
+            sbmlExpression = sbmlExpression.Replace(".MolarConc", " / (" + localID + " * N_A)");
+            return sbmlExpression;
+        }
+
         private static ASTNode setDelayType(ASTNode anASTNode)
         {
             long aNumChildren = anASTNode.getNumChildren();
 
             if ( aNumChildren == 2 )
             { 
-                if ( anASTNode.isFunction() == true &&
-                     anASTNode.getName() == "delay" )
-                    
+                if ( anASTNode.isFunction() == true && anASTNode.getName() == "delay" )
                     anASTNode.setType( libsbml.libsbml.AST_FUNCTION_DELAY );
 
                 setDelayType(anASTNode.getLeftChild());
@@ -491,8 +517,10 @@ namespace Ecell.SBML
 
             int aFirstColon = aVariableReference.IndexOf(":");
             int aLastColon = aVariableReference.LastIndexOf(":");
-            string aSystemKey = aVariableReference.Substring(aFirstColon + 1, aLastColon);
-            string aVariableID = aVariableReference.Substring(aLastColon+1);
+            string type;
+            string aSystemKey;
+            string aVariableID;
+            Util.ParseFullID(aVariableReference, out type, out aSystemKey, out aVariableID);
 
             // set Species Id to Reactant object
             string aSpeciesReferencePath ="";
@@ -725,25 +753,22 @@ namespace Ecell.SBML
             //  set N_A Parameter
             //
             bool isAbogadroNumber = false;
-
-            if( aSBMLLevel == 1 )
+            foreach (ParameterStruct aParameter in SbmlFunctions.getParameter(aSBMLModel))
             {
-                foreach (ParameterStruct aParameter in SbmlFunctions.getParameter(aSBMLModel))
-                    if( aParameter.Name == "N_A" )
-                        isAbogadroNumber = true;
-            }
-            else if( aSBMLLevel == 2 )
-            {
-                foreach (ParameterStruct aParameter in SbmlFunctions.getParameter(aSBMLModel))
-                    if(( aParameter.ID == "N_A" ))
-                        isAbogadroNumber = true;
+                if (aSBMLLevel == 1 && aParameter.Name == "N_A")
+                    isAbogadroNumber = true;
+                else if (aSBMLLevel == 2 && aParameter.ID == "N_A")
+                    isAbogadroNumber = true;
             }
             if ( !isAbogadroNumber )
             {
                 // create Parameter object
                 Parameter aParameter = aSBMLModel.createParameter();
                 // set Parameter Name
-                aParameter.setName( "N_A" );
+                if (aSBMLLevel == 1)
+                    aParameter.setName("N_A");
+                else if (aSBMLLevel == 2)
+                    aParameter.setId("N_A");
                 // set Parameter Value
                 aParameter.setValue(6.0221367e+23);
                 // set Parameter Constant
@@ -753,25 +778,23 @@ namespace Ecell.SBML
             // ------------
             // set EmptySet
             // ------------
-
             bool isEmptySet = false;
-
-            if (aSBMLLevel == 1)
+            foreach (SpeciesStruct aSpecies in SbmlFunctions.getSpecies(aSBMLModel))
             {
-                foreach(SpeciesStruct aSpecies in SbmlFunctions.getSpecies( aSBMLModel ))
-                    if( aSpecies.Name == "EmptySet" )
-                        isEmptySet = true;
+                if (aSBMLLevel == 1 && aSpecies.Name == "EmptySet")
+                    isEmptySet = true;
+                else if (aSBMLLevel == 2 && aSpecies.ID == "EmptySet")
+                    isEmptySet = true;
             }
-            else if (aSBMLLevel == 2)
-                foreach (SpeciesStruct aSpecies in SbmlFunctions.getSpecies(aSBMLModel))
-                    if( aSpecies.ID == "EmptySet" )
-                        isEmptySet = true;
             if (!isEmptySet)
             {
                 // create Species object
                 Species aSpecies = aSBMLModel.createSpecies();
                 // set Species Name
-                aSpecies.setName("EmptySet");
+                if (aSBMLLevel == 1)
+                    aSpecies.setName("EmptySet");
+                else if (aSBMLLevel == 2)
+                    aSpecies.setId("EmptySet");
                 // set Species Compartment
                 aSpecies.setCompartment("default");
                 // set Species Amount

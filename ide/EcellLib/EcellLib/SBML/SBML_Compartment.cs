@@ -84,18 +84,18 @@ namespace Ecell.SBML
 
         private double getOutsideSize(string anOutsideCompartment)
         {
-        if ( anOutsideCompartment == "" )
-            return 1f;
-        else
-            return this.Model.CompartmentSize[ anOutsideCompartment ];
+            if ( anOutsideCompartment == "" )
+                return 1f;
+            else
+                return this.Model.CompartmentSize[ anOutsideCompartment ];
         }
 
         private string getOutsideUnit(string anOutsideCompartment)
         {
-        if ( anOutsideCompartment == "" )
-            return "";
-        else
-            return this.Model.CompartmentUnit[ anOutsideCompartment ];
+            if ( anOutsideCompartment == "" )
+                return "";
+            else
+                return this.Model.CompartmentUnit[ anOutsideCompartment ];
         }
 
         public double getCompartmentSize(CompartmentStruct aCompartment)
@@ -110,12 +110,12 @@ namespace Ecell.SBML
 
         public string getCompartmentUnit(CompartmentStruct aCompartment)
         {
-        if ( this.Model.Level == 1 )
-            return this.Model.CompartmentUnit[ aCompartment.Name ];
-        else if (this.Model.Level == 2)
-            return this.Model.CompartmentUnit[ aCompartment.ID ];
-        else
-            throw new EcellException();
-    }
+            if ( this.Model.Level == 1 )
+                return this.Model.CompartmentUnit[ aCompartment.Name ];
+            else if (this.Model.Level == 2)
+                return this.Model.CompartmentUnit[ aCompartment.ID ];
+            else
+                throw new EcellException();
+        }
     }
 }

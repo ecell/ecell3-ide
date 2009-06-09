@@ -146,7 +146,7 @@ namespace Ecell.SBML
                             if( variableName == "" )
                             {
                                 VariableReferenceStruct varRef = new VariableReferenceStruct(
-                                    "Param" + this.ParameterNumber.ToString(),
+                                    aName,
                                     "Variable:/SBMLParameter:" + aName,
                                     0 );
                                 this.VariableReferenceList.Add( varRef );
