@@ -365,6 +365,7 @@ namespace Ecell
             m_simulator = CreateSimulatorInstance();
         }
 
+
         /// <summary>
         /// Loads the eml formatted file and returns the model ID.
         /// </summary>
@@ -627,7 +628,7 @@ namespace Ecell
         {
             string path = null;
             if (this.Info.ProjectPath != null)
-                path = Path.Combine(this.Info.ProjectPath, Constants.DMDirName);
+                path = Path.Combine(this.Info.ProjectPath, Constants.AnalysisDirName);
             else
                 return path;
             if (!Directory.Exists(path))

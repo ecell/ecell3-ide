@@ -145,6 +145,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public BifurcationAnalysis(Analysis owner)
         {
             m_owner = owner;
+            m_param = new BifurcationAnalysisParameter();
 
             m_result = new BifurcationResult[s_num + 1, s_num + 1];
             m_region = new int[(int)(s_num / s_skip) + 1, (int)(s_num / s_skip) + 1];
@@ -433,6 +434,15 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_execParam.Add(j.JobID, j.ExecParam);
             }
+        }
+
+        /// <summary>
+        /// Print the current result.
+        /// </summary>
+        public void PrintResult()
+        {
+            m_owner.ClearResult();
+            PrintResultData();
         }
 
         /// <summary>
@@ -881,8 +891,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             // Load the parameter file.
             BifurcationAnlaysisParameterFile f = new BifurcationAnlaysisParameterFile(this, paramFile);
+            f.Parameter = m_param;
             f.Read();
-            m_param = f.Parameter;
 
             SetList(false);
         }

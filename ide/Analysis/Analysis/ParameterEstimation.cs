@@ -126,6 +126,8 @@ namespace Ecell.IDE.Plugins.Analysis
         public ParameterEstimation(Analysis owner)
         {
             m_owner = owner;
+            m_param = new ParameterEstimationParameter();
+
             m_estimation = new Dictionary<int, double>();
             m_execParamDic = new Dictionary<int, Dictionary<int, ExecuteParameter>>();
         }
@@ -384,6 +386,22 @@ namespace Ecell.IDE.Plugins.Analysis
             m_generation = 0;
         }
 
+        /// <summary>
+        /// Print the current result.
+        /// </summary>
+        public void PrintResult()
+        {
+            int gene = 0;
+            double res = 0.0;
+            foreach (int g in m_estimation.Keys)
+            {
+                m_owner.AddEstimationData(g, m_estimation[g]);
+                gene = g;
+                res = m_estimation[g];
+            }
+            m_owner.AddEstimateParameter(m_elite, res, gene);
+        }
+
 
         /// <summary>
         /// Get the estimation value of job.
@@ -464,8 +482,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             // Load the parameter file.
             ParameterEstimationParameterFile f = new ParameterEstimationParameterFile(this, paramFile);
+            f.Parameter = m_param;
             f.Read();
-            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -587,8 +605,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_estimation.Add(m_generation, value);
             m_elite = m_execParamList[elite];
-            m_owner.AddEstimateParameter(m_elite, value, m_generation);
-            m_owner.AddEstimationData(m_generation, value);
             m_eliteNum = elite;
         }
 

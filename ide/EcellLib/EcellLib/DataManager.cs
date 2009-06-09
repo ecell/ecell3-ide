@@ -459,11 +459,11 @@ namespace Ecell
                     passList.AddRange(project.SystemDic[storedModelID]);
                 }
 
-                // Load analysis directory.
-                LoadAnalysisDirectory(project);
-
                 // Set current project.
                 m_currentProject = project;
+
+                // Load analysis directory.
+                LoadAnalysisDirectory(project);
 
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
@@ -516,21 +516,31 @@ namespace Ecell
                 if (!m_env.JobManager.AnalysisDic.ContainsKey(analysisName))
                     continue;
 
+                string modelDir = dirs[i] + "/" + Constants.ModelDirName;
+                string logDir = dirs[i] + "/" + Constants.LogDirName;
+
                 // load model
-                // not implement
-                List<EcellObject> systemObjList = new List<EcellObject>();
-                List<EcellObject> stepperObjList = new List<EcellObject>();
+                string modelFile = modelDir + "/" + date + ".eml";                
+                ProjectInfo info = ProjectInfoLoader.Load(modelFile);
+                string projectID = info.Name;
+                Project aproject = new Project(info, m_env);
+                aproject.LoadModel();
+
+                List<EcellObject> systemObjList = aproject.SystemDic[aproject.Model.ModelID];
+                List<EcellObject> stepperObjList = aproject.StepperDic[aproject.Model.ModelID];
 
                 // create job group and analysis.
                 JobGroup g = m_env.JobManager.CreateJobGroup(analysisName, date, systemObjList, stepperObjList);
                 IAnalysisModule analysis = m_env.JobManager.AnalysisDic[analysisName].CreateNewInstance(g);
 
-                string modelDir = dirs[i] + "/" + Constants.ModelDirName;
-                string logDir = dirs[i] + "/" + Constants.LogDirName;
 
                 // load analysis parameters.
                 analysis.LoadAnalysisInfo(modelDir);
                 g.LoadJobEntry(logDir);
+                g.IsSaved = true;
+                g.TopDir = dirs[i];
+                g.UpdateStatus();
+                m_env.JobManager.Update();
             }
         }
 

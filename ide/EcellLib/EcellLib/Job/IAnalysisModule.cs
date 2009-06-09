@@ -96,6 +96,10 @@ namespace Ecell.Job
         /// Save the analysis model, parameters and result.
         /// </summary>
         /// <param name="dirName">the top directory[Model] of the saved analysis.</param>
-        void SaveAnalysisInfo(string dirName);     
+        void SaveAnalysisInfo(string dirName);
+        /// <summary>
+        /// Print the current result of analysis.
+        /// </summary>
+        void PrintResult();
     }
 }

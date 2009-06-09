@@ -263,6 +263,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_analysisNode = new AnalysisRootNode(MessageResources.NameAnalysis);
             m_analysisNode.Tag = null;
             m_prjNode.Nodes.Add(m_analysisNode);
+            SetAnalysisNode();
         }
 
         /// <summary>

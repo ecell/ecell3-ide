@@ -100,6 +100,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public RobustAnalysis(Analysis owner)
         {
             m_owner = owner;
+            m_param = new RobustAnalysisParameter();
         }
 
         #region accessors
@@ -156,6 +157,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
 
+            paramDic.Add(s_sampleNum, m_param.SampleNum.ToString());
             paramDic.Add(s_simTime, m_param.SimulationTime.ToString());
             paramDic.Add(s_winSize, m_param.WinSize.ToString());
             paramDic.Add(s_maxInput, m_param.MaxData.ToString());
@@ -176,6 +178,9 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 switch (key)
                 {
+                    case s_sampleNum:
+                        m_param.SampleNum = Int32.Parse(paramDic[key]);
+                        break;
                     case s_simTime:
                         m_param.SimulationTime = Double.Parse(paramDic[key]);
                         break;
@@ -224,6 +229,62 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void PrepareReAnalysis()
         {
+        }
+
+        /// <summary>
+        /// Print the current result.
+        /// </summary>
+        public void PrintResult()
+        {
+            string xPath = "";
+            string yPath = "";
+            double xmax = 0.0;
+            double xmin = 0.0;
+            double ymax = 0.0;
+            double ymin = 0.0;
+            m_owner.ClearResult();
+
+            int count = 0;
+            foreach (EcellParameterData r in m_paramList)
+            {
+                bool isX = false;
+                bool isY = false;
+                if (count == 0)
+                {
+                    isX = true;
+                    xPath = r.Key;
+                    xmax = r.Max;
+                    xmin = r.Min;
+                }
+                else if (count == 1)
+                {
+                    isY = true;
+                    yPath = r.Key;
+                    ymax = r.Max;
+                    ymin = r.Min;
+                }
+                m_owner.SetResultEntryBox(r.Key, isX, isY);
+                count++;
+            }
+            if (xmax == xmin)
+            {
+                xmax = xmin + 1.0;
+                xmin = xmin - 1.0;
+            }
+            if (ymax == ymin)
+            {
+                ymax = ymax + 1.0;
+                ymin = ymin - 1.0;
+            }
+            m_owner.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
+
+            foreach (Job.Job j in m_owner.JobManager.GroupDic[m_group.GroupName].Jobs)
+            {
+                double x = j.ExecParam.GetParameter(xPath);
+                double y = j.ExecParam.GetParameter(yPath);
+
+                m_owner.AddJudgementData(j.JobID, x, y, m_judgeResult[j.JobID]);
+            }
         }
 
         /// <summary>
@@ -328,8 +389,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             // Load the parameter file.
             RobustAnalysisParameterFile f = new RobustAnalysisParameterFile(this, paramFile);
+            f.Parameter = m_param;
             f.Read();
-            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -389,14 +450,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Judge the robustness from the simulation result.
         /// </summary>
         private void JudgeRobustAnalysis()
-        {
-            string xPath = "";
-            string yPath = "";
-            double xmax = 0.0;
-            double xmin = 0.0;
-            double ymax = 0.0;
-            double ymin = 0.0;
-            
+        {            
             if (m_paramList == null) return;
             if (m_paramList.Count < 2)
             {
@@ -404,47 +458,12 @@ namespace Ecell.IDE.Plugins.Analysis
                     new object[] { MessageResources.NameParameterData, 2 }));
                 return;
             }
-            int count = 0;
-            foreach (EcellParameterData r in m_paramList)
-            {
-                bool isX = false;
-                bool isY = false;
-                if (count == 0)
-                {
-                    isX = true;
-                    xPath = r.Key;
-                    xmax = r.Max;
-                    xmin = r.Min;
-                }
-                else if (count == 1)
-                {
-                    isY = true;
-                    yPath = r.Key;
-                    ymax = r.Max;
-                    ymin = r.Min;
-                }
-                m_owner.SetResultEntryBox(r.Key, isX, isY);
-                count++;
-            }
-            if (xmax == xmin)
-            {
-                xmax = xmin + 1.0;
-                xmin = xmin - 1.0;
-            }
-            if (ymax == ymin)
-            {
-                ymax = ymax + 1.0;
-                ymin = ymin - 1.0;
-            }
-            m_owner.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
             foreach (int jobid in m_paramDic.Keys)
             {
                 Job.Job j = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
                 if (j.Status != JobStatus.FINISHED)
                     continue;
-                double x = j.ExecParam.GetParameter(xPath);
-                double y = j.ExecParam.GetParameter(yPath);
                 bool isOK = true;
                 foreach (EcellObservedData p in m_observedList)
                 {
@@ -477,7 +496,6 @@ namespace Ecell.IDE.Plugins.Analysis
                         break;
                     }
                 }
-                m_owner.AddJudgementData(jobid, x, y, isOK);
                 m_judgeResult[jobid] = isOK;
             }
         }

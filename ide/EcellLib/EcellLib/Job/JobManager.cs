@@ -323,6 +323,7 @@ namespace Ecell.Job
                 return -1;
 
             Job job = m_proxy.CreateJob();
+            job.GroupName = groupName;
             job.Status = JobStatus.FINISHED;
             job.ExecParam = param;
             m_groupDic[groupName].Jobs.Add(job);
@@ -341,6 +342,7 @@ namespace Ecell.Job
         {
             LocalJobProxy p = new LocalJobProxy();
             Job job = p.CreateJob(jobid);
+            job.GroupName = groupName;
             job.Status = JobStatus.FINISHED;
             job.ExecParam = new ExecuteParameter();
             m_groupDic[groupName].Jobs.Add(job);

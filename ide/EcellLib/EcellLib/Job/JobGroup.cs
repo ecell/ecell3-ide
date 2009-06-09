@@ -500,7 +500,7 @@ namespace Ecell.Job
                                 
                 string paramFile = dirs[i] + "/" + GroupName + "_" + jobid + ".param";
                 string scriptFile = dirs[i] + "/" + GroupName + "_" + jobid + ".ess";
-                string[] files = Directory.GetFiles(dirs[i], "*.ecd");
+                string[] files = Directory.GetFiles(dirs[i], "*.csv");
                 List<string> extFileList = new List<string>();
                 for (int j = 0; j < files.Length; j++)
                 {
@@ -512,8 +512,7 @@ namespace Ecell.Job
 
                 job.ExtraFileList = extFileList;
                 job.Argument = scriptFile;
-
-                m_jobs.Add(job);
+                job.JobDirectory = dirs[i];
             }
         }
     }

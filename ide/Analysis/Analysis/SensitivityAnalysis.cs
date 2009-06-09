@@ -160,6 +160,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public SensitivityAnalysis(Analysis owner)
         {
             m_owner = owner;
+            m_param = new SensitivityAnalysisParameter();
 
             m_currentData = new Dictionary<string, double>();
             m_pertubateData = new Dictionary<string, double>();
@@ -364,8 +365,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             // Load the parameter file.
             SensitivityAnalysisParameterFile f = new SensitivityAnalysisParameterFile(this, paramFile);
+            f.Parameter = m_param;
             f.Read();
-            m_param = f.Parameter;
         }
 
         /// <summary>
@@ -515,6 +516,35 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void PrepareReAnalysis()
         {
+        }
+
+        /// <summary>
+        /// Print the current result.
+        /// </summary>
+        public void PrintResult()
+        {
+            m_owner.ClearResult();
+            m_owner.SetSensitivityHeader(m_activityList);
+            for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
+            {
+                List<double> res = new List<double>();
+                for (int j = 0; j < m_scaledCCCMatrix.ColumnCount; j++)
+                {
+                    res.Add(m_scaledCCCMatrix[i, j]);
+                }
+                m_owner.AddSensitivityDataOfCCC(m_valueList[i], res);
+            }
+
+            for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
+            {
+                List<double> res = new List<double>();
+                for (int j = 0; j < m_scaledFCCMatrix.ColumnCount; j++)
+                {
+                    res.Add(m_scaledFCCMatrix[i, j]);
+                }
+                m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
+            }
+            m_owner.UpdateResultColor();
         }
 
         /// <summary>

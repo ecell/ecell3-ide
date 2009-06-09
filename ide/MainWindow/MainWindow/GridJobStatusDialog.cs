@@ -142,7 +142,7 @@ namespace Ecell.IDE.MainWindow
         {
             jobIDTextBox.Text = "";
             statusTextBox.Text = "";
-            parameterDataGridView.Rows.Clear();            
+            parameterDataGridView.Rows.Clear();
         }
 
         /// <summary>
@@ -152,6 +152,8 @@ namespace Ecell.IDE.MainWindow
         {
             ClearInformation();
             jobTreeView.Nodes.Clear();
+            m_topNode = null;
+            m_pointDic.Clear();
         }
 
         #region Events
@@ -162,6 +164,14 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void UpdateJobStatus(object o, JobUpdateEventArgs e)
         {
+            if (m_topNode == null)
+            {
+                if (m_manager.Environment.DataManager.CurrentProject == null)
+                    return;
+                m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
+                jobTreeView.Nodes.Add(m_topNode);                
+            }
+
             if (e.Type == JobUpdateType.DeleteJobGroup)
             {
                 foreach (string analysisname in m_pointDic.Keys)
@@ -233,12 +243,15 @@ namespace Ecell.IDE.MainWindow
             jobTreeView.Nodes.Clear();
             m_pointDic.Clear();
 
-            m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
-            jobTreeView.Nodes.Add(m_topNode);
-
-            foreach (string name in m_manager.GroupDic.Keys)
+            if (m_manager.Environment.DataManager.CurrentProject != null)
             {
-                AddJobGroup(name);
+                m_topNode = new TreeNode(m_manager.Environment.DataManager.CurrentProject.Info.Name);
+                jobTreeView.Nodes.Add(m_topNode);
+
+                foreach (string name in m_manager.GroupDic.Keys)
+                {
+                    AddJobGroup(name);
+                }
             }
         }
 
@@ -368,6 +381,7 @@ namespace Ecell.IDE.MainWindow
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
             string name = jnode.GroupName;
             DeleteJobGroup(name);
+            m_manager.GroupDic[name].IsSaved = false;
             m_manager.RemoveJobGroup(name);
         }
 
@@ -399,7 +413,15 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void JobTree_ViewResultJobGroup(object sender, EventArgs e)
         {
-            // not implements
+            ToolStripMenuItem m = sender as ToolStripMenuItem;
+            if (m == null) return;
+            TreeNode node = jobTreeView.SelectedNode;
+            if (node == null || !(node is JobGroupTreeNode))
+                return;
+            JobGroupTreeNode jnode = node as JobGroupTreeNode;
+            string name = jnode.GroupName;
+
+            m_manager.GroupDic[name].AnalysisModule.PrintResult();
         }
 
         /// <summary>
@@ -424,7 +446,7 @@ namespace Ecell.IDE.MainWindow
                 g.Status == AnalysisStatus.Waiting;
             jobGroupSaveStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished ||
                 g.Status == AnalysisStatus.Error;
-            jobGroupLoadToolStripMenuItem.Enabled = g.IsSaved;
+            jobGroupLoadToolStripMenuItem.Enabled = g.IsSaved || g.Status == AnalysisStatus.Finished;
             jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting;
         }
