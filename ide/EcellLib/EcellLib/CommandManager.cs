@@ -1444,9 +1444,17 @@ namespace Ecell
                         }
                         data.Value = EcellReference.ConvertToEcellValue(list);
                     }
+                    else if (data.Name.Equals(EcellSystem.SIZE))
+                    {
+                        data.Value = new EcellValue(Convert.ToDouble(value));
+                        string systemID = m_ecellObject.ParentSystemID;
+                        EcellObject sysObj = m_cManager.DataManager.GetEcellObject(m_ecellObject.ModelID,
+                            systemID, Constants.xpathSystem);
+                        ((EcellSystem)sysObj).SizeInVolume = Convert.ToDouble(value);
+                    }
                     else if (data.Value.IsDouble)
                     {
-                        data.Value = new EcellValue(XmlConvert.ToDouble(value));
+                        data.Value = new EcellValue(Convert.ToDouble(value));
                     }
                     else if (data.Value.IsInt)
                     {

@@ -2665,6 +2665,7 @@ namespace Ecell
 
         public void UpdatePropertyForDataChanged(EcellObject variable, EcellData updateData)
         {
+            if (variable.Key.EndsWith(EcellSystem.SIZE)) return;
             string variablePath = Constants.delimiterPath + Constants.delimiterColon + "V0";
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
             string sysID = variable.ParentSystemID;
@@ -4056,6 +4057,7 @@ namespace Ecell
             // Initializes
             //
             simulator.Initialize();
+ 
             //
             // Sets the "Settable" and "Not Savable" properties
             //

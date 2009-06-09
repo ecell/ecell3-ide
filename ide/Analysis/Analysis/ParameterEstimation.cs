@@ -63,7 +63,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Range of pameter to use parameter estimation.
         /// </summary>
-        private List<EcellParameterData> m_paramList;
+        private List<EcellParameterData> m_paramList = new List<EcellParameterData>();
         /// <summary>
         /// Obserbed data list to calculate the estimation.
         /// </summary>
@@ -275,6 +275,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 m_execParamDic.Add(m_generation, m_execParamList);
             }
+            m_group.Status = AnalysisStatus.Running;
             m_generation++;
         }
 
@@ -355,7 +356,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_saveList = m_owner.GetPEObservedDataList();
             if (m_saveList == null) return;
             m_owner.JobManager.SetLoggerData(m_saveList);
-            m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
             m_group.AnalysisParameter = GetAnalysisProperty();
             m_generation = 0;
             m_owner.JobManager.Run(m_group.GroupName, true);
@@ -393,6 +393,8 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             int gene = 0;
             double res = 0.0;
+            m_owner.ClearResult();
+            m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
             foreach (int g in m_estimation.Keys)
             {
                 m_owner.AddEstimationData(g, m_estimation[g]);
@@ -536,6 +538,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     string path = ele[0];
                     double d = double.Parse(ele[1]);
+                    param[path] = d;
                 }
             }
             m_elite = new ExecuteParameter(param);

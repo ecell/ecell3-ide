@@ -444,8 +444,7 @@ namespace Ecell.IDE.MainWindow
                 g.Status == AnalysisStatus.Stopped || g.Status == AnalysisStatus.Error;
             jobGroupStopToolStripMenuItem.Enabled = g.Status == AnalysisStatus.Running ||
                 g.Status == AnalysisStatus.Waiting;
-            jobGroupSaveStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished ||
-                g.Status == AnalysisStatus.Error;
+            jobGroupSaveStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished;
             jobGroupLoadToolStripMenuItem.Enabled = g.IsSaved || g.Status == AnalysisStatus.Finished;
             jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting;
