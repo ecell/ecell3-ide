@@ -485,6 +485,8 @@ namespace Ecell.Job
                 {
                     string filename = Path.GetFileName(srcname);
                     string dstname = logdir + "/" + filename;
+                    if (!File.Exists(srcname))
+                        continue;
                     File.Copy(srcname, dstname);
                 }
             }                       

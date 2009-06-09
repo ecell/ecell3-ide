@@ -147,6 +147,13 @@ namespace Ecell.IDE.Plugins.Analysis
             set { this.m_observedList = value; }
         }
 
+        /// <summary>
+        /// get the flag this analysis is enable to judge.
+        /// </summary>
+        public bool IsEnableReJudge
+        {
+            get { return true; }
+        }
         #endregion
 
         /// <summary>
@@ -367,6 +374,49 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
+        /// <summary>
+        /// Get the flag whether this property is editable.
+        /// </summary>
+        /// <param name="key">the property name.</param>
+        /// <returns>true or false.</returns>
+        public bool IsEnableEditProperty(string key)
+        {
+            switch (key)
+            {
+                case s_sampleNum:
+                    return false;
+                case s_simTime:
+                    return false;
+                case s_winSize:
+                    return false;
+                case s_maxInput:
+                    return true;
+                case s_maxFreq:
+                    return true;
+                case s_minFreq:
+                    return true;
+                case s_isRandomCheck:
+                    return false;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Judgement.
+        /// </summary>
+        public void Judgement()
+        {
+            if (m_paramDic == null)
+                m_paramDic = new Dictionary<int, ExecuteParameter>();
+            m_paramDic.Clear();
+            foreach (Job.Job j in m_group.Jobs)
+            {
+                m_paramDic.Add(j.JobID, j.ExecParam);
+            }
+            JudgeRobustAnalysis();
+            PrintResult();
+            m_owner.ActivateResultWindow(true, false, false);
+        }
 
         /// <summary>
         /// Load the analysis model, parameters, logs and result.

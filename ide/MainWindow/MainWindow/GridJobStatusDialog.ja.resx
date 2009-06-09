@@ -288,8 +288,8 @@
   <data name="jobGroupDeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="jobGroupRunToolStripMenuItem.Text" xml:space="preserve">
-    <value>実行</value>
+  <data name="jobGroupJudgementToolStripMenuItem.Text" xml:space="preserve">
+    <value>再判定</value>
   </data>
   <data name="jobGroupStopToolStripMenuItem.Text" xml:space="preserve">
     <value>停止</value>

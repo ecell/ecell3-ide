@@ -194,6 +194,14 @@ namespace Ecell.IDE.Plugins.Analysis
             get { return this.m_observedList; }
             set { this.m_observedList = value; }
         }
+
+        /// <summary>
+        /// get the flag this analysis is enable to judge.
+        /// </summary>
+        public bool IsEnableReJudge
+        {
+            get { return true; }
+        }
         #endregion
 
         /// <summary>
@@ -248,7 +256,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void NotifyAnalysisFinished()
         {
             JudgeBifurcationAnalysis();
-            PrintResultData();
+            PrintResultData(false);
             int[,] respos = SearchPoint();
             Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
             if (paramList.Count <= 0)
@@ -271,6 +279,48 @@ namespace Ecell.IDE.Plugins.Analysis
             instance.Group = group;
 
             return instance;
+        }
+
+        /// <summary>
+        /// Get the flag whether this property is editable.
+        /// </summary>
+        /// <param name="key">the property name.</param>
+        /// <returns>true or false.</returns>
+        public bool IsEnableEditProperty(string key)
+        {
+            switch (key)
+            {
+                case s_simTime:
+                    return false;
+                case s_winSize:
+                    return false;
+                case s_maxInput:
+                    return true;
+                case s_maxFreq:
+                    return true;
+                case s_minFreq:
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Judgement.
+        /// </summary>
+        public void Judgement()
+        {
+            m_owner.ClearResult();
+            if (m_execParam == null)
+                m_execParam = new Dictionary<int, ExecuteParameter>();
+            m_execParam.Clear();
+            foreach (Job.Job j in m_group.Jobs)
+            {
+                m_execParam.Add(j.JobID, j.ExecParam);
+            }
+
+            JudgeBifurcationAnalysis();
+            PrintResultData(true);
+            m_owner.ActivateResultWindow(true, false, false);
         }
 
         /// <summary>
@@ -442,7 +492,9 @@ namespace Ecell.IDE.Plugins.Analysis
         public void PrintResult()
         {
             m_owner.ClearResult();
-            PrintResultData();
+            SetList(true);
+            PrintResultData(true);
+            m_owner.ActivateResultWindow(true, false, false);
         }
 
         /// <summary>
@@ -615,7 +667,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Print the edge data of bifurcation analysis.
         /// </summary>
-        private void PrintResultData()
+        private void PrintResultData(bool isWrite)
         {
             int count = 0;
             for (int i = 0; i <= s_num; i++)
@@ -668,7 +720,7 @@ namespace Ecell.IDE.Plugins.Analysis
                                             m_result[i+1, j] == BifurcationResult.NG)
                                             isDraw = true;
                                     }
-                                    if (isDraw)
+                                    if (isDraw && isWrite)
                                     {
                                         List<PointF> list = new List<PointF>();
                                         list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
@@ -691,7 +743,7 @@ namespace Ecell.IDE.Plugins.Analysis
                                             m_result[i, j + 1] == BifurcationResult.NG)
                                             isDraw = true;
                                     }
-                                    if (isDraw)
+                                    if (isDraw && isWrite)
                                     {
                                         List<PointF> list = new List<PointF>();
                                         list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
@@ -708,14 +760,14 @@ namespace Ecell.IDE.Plugins.Analysis
                                     }
                                     else
                                     {
-                                        if (m_result[i, j + n] == BifurcationResult.NG)
+                                        if (m_result[i, j + n] == BifurcationResult.NG && isWrite)
                                         {
                                             List<PointF> list = new List<PointF>();
                                             list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
                                             list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
                                             m_owner.AddJudgementDataForBifurcation(list);
                                         }
-                                        else if (m_result[i + m, j] == BifurcationResult.NG)
+                                        else if (m_result[i + m, j] == BifurcationResult.NG && isWrite)
                                         {
                                             List<PointF> list = new List<PointF>();
                                             list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
@@ -727,9 +779,12 @@ namespace Ecell.IDE.Plugins.Analysis
                             }
                         }
 
-                        List<PointF> plist = new List<PointF>();
-                        plist.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
-                        m_owner.AddJudgementDataForBifurcation(plist);
+                        if (isWrite)
+                        {
+                            List<PointF> plist = new List<PointF>();
+                            plist.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                            m_owner.AddJudgementDataForBifurcation(plist);
+                        }
                         count++;
                     }
                 }

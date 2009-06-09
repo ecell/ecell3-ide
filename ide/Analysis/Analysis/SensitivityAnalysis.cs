@@ -211,6 +211,14 @@ namespace Ecell.IDE.Plugins.Analysis
             get { return new List<EcellObservedData>(); }
             set { }
         }
+
+        /// <summary>
+        /// get the flag this analysis is enable to judge.
+        /// </summary>
+        public bool IsEnableReJudge
+        {
+            get { return false; }
+        }
         #endregion
 
         /// <summary>
@@ -337,6 +345,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
+        /// <summary>
+        /// Judgement.
+        /// </summary>
+        public void Judgement()
+        {
+        }
 
         /// <summary>
         /// Load the analysis model, parameters, logs and result.
@@ -359,8 +373,8 @@ namespace Ecell.IDE.Plugins.Analysis
             int crowcount = Int32.Parse(labels[2]);
             int fcolcount = Int32.Parse(labels[4]);
             int frowcount = Int32.Parse(labels[5]);
-            double[,] cmatrix = new double[ccolcount, crowcount];
-            double[,] fmatrix = new double[fcolcount, frowcount];
+            double[,] cmatrix = new double[crowcount, ccolcount];
+            double[,] fmatrix = new double[frowcount, fcolcount];
             LoadAnalysisResultFile(resultFile, cmatrix, fmatrix);
 
             // Load the parameter file.
@@ -441,8 +455,9 @@ namespace Ecell.IDE.Plugins.Analysis
                     for (i = 1; i < ele.Length; i++)
                     {
                         if (String.IsNullOrEmpty(ele[i])) continue;
-                        cmatrix[i - 1, j] = Convert.ToDouble(ele[i]);
+                        cmatrix[j, i - 1] = Convert.ToDouble(ele[i]);
                     }
+                    m_valueList.Add(ele[0]);
                     j++;
                 }
                 else if (readPos == 2)
@@ -458,9 +473,9 @@ namespace Ecell.IDE.Plugins.Analysis
                     for (i = 1; i < ele.Length; i++)
                     {
                         if (String.IsNullOrEmpty(ele[i])) continue;
-                        fmatrix[i - 1, j] = Convert.ToDouble(ele[i]);
+                        fmatrix[j, i - 1] = Convert.ToDouble(ele[i]);
                     }
-                    m_valueList.Add(ele[0]);
+                    j++;
                 }
             }
             m_scaledCCCMatrix = Matrix.Create(cmatrix);
@@ -519,6 +534,16 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Get the flag whether this property is editable.
+        /// </summary>
+        /// <param name="key">the property name.</param>
+        /// <returns>true or false.</returns>
+        public bool IsEnableEditProperty(string key)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Print the current result.
         /// </summary>
         public void PrintResult()
@@ -545,6 +570,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
             }
             m_owner.UpdateResultColor();
+            m_owner.ActivateResultWindow(false, true, false);
         }
 
         /// <summary>

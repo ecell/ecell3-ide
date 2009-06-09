@@ -175,6 +175,14 @@ namespace Ecell.IDE.Plugins.Analysis
             get { return new List<EcellObservedData>(); }
             set { }
         }
+
+        /// <summary>
+        /// get the flag this analysis is enable to judge.
+        /// </summary>
+        public bool IsEnableReJudge
+        {
+            get { return false; }
+        }
         #endregion
 
 
@@ -362,6 +370,14 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Judgement.
+        /// </summary>
+        public void Judgement()
+        {
+            return;
+        }
+
+        /// <summary>
         /// Prepare to execute the analysis again.
         /// </summary>
         public void PrepareReAnalysis()
@@ -387,6 +403,16 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Get the flag whether this property is editable.
+        /// </summary>
+        /// <param name="key">the property name.</param>
+        /// <returns>true or false.</returns>
+        public bool IsEnableEditProperty(string key)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Print the current result.
         /// </summary>
         public void PrintResult()
@@ -402,6 +428,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 res = m_estimation[g];
             }
             m_owner.AddEstimateParameter(m_elite, res, gene);
+            m_owner.ActivateResultWindow(true, false, true);
         }
 
 

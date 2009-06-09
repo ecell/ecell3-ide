@@ -57,6 +57,10 @@ namespace Ecell.Job
         /// get / set the observed list.
         /// </summary>
         List<EcellObservedData> ObservedDataList { get; set; }
+        /// <summary>
+        /// get the flag this analysis is enable to judge.
+        /// </summary>
+        bool IsEnableReJudge { get; }
         #endregion
 
         /// <summary>
@@ -101,5 +105,15 @@ namespace Ecell.Job
         /// Print the current result of analysis.
         /// </summary>
         void PrintResult();
+        /// <summary>
+        /// Judgement.
+        /// </summary>
+        void Judgement();
+        /// <summary>
+        /// Get the flag whether this property is editable.
+        /// </summary>
+        /// <param name="key">the property name.</param>
+        /// <returns>true or false.</returns>
+        bool IsEnableEditProperty(string key);
     }
 }

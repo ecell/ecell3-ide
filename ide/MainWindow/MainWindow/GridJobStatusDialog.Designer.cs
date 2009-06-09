@@ -32,6 +32,7 @@
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             System.Windows.Forms.Label label2;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.jobTreeView = new System.Windows.Forms.TreeView();
             this.jobStatusImageList = new System.Windows.Forms.ImageList(this.components);
             this.parameterDataGridView = new System.Windows.Forms.DataGridView();
@@ -49,8 +50,9 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.jobDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobGroupContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.jobGroupRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobGroupStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.jobGroupJudgementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.jobGroupLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobGroupSaveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +118,8 @@
             // 
             // PropNameColumn
             // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            this.PropNameColumn.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
             this.PropNameColumn.Name = "PropNameColumn";
             this.PropNameColumn.ReadOnly = true;
@@ -202,8 +206,9 @@
             // jobGroupContextMenuStrip
             // 
             this.jobGroupContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.jobGroupRunToolStripMenuItem,
             this.jobGroupStopToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.jobGroupJudgementToolStripMenuItem,
             this.toolStripSeparator4,
             this.jobGroupLoadToolStripMenuItem,
             this.jobGroupSaveStripMenuItem,
@@ -213,17 +218,22 @@
             resources.ApplyResources(this.jobGroupContextMenuStrip, "jobGroupContextMenuStrip");
             this.jobGroupContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.JobTree_JobGroupContextOpening);
             // 
-            // jobGroupRunToolStripMenuItem
-            // 
-            this.jobGroupRunToolStripMenuItem.Name = "jobGroupRunToolStripMenuItem";
-            resources.ApplyResources(this.jobGroupRunToolStripMenuItem, "jobGroupRunToolStripMenuItem");
-            this.jobGroupRunToolStripMenuItem.Click += new System.EventHandler(this.JobTree_RunJobGroup);
-            // 
             // jobGroupStopToolStripMenuItem
             // 
             this.jobGroupStopToolStripMenuItem.Name = "jobGroupStopToolStripMenuItem";
             resources.ApplyResources(this.jobGroupStopToolStripMenuItem, "jobGroupStopToolStripMenuItem");
             this.jobGroupStopToolStripMenuItem.Click += new System.EventHandler(this.JobTree_StopJobGroup);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            // 
+            // jobGroupJudgementToolStripMenuItem
+            // 
+            this.jobGroupJudgementToolStripMenuItem.Name = "jobGroupJudgementToolStripMenuItem";
+            resources.ApplyResources(this.jobGroupJudgementToolStripMenuItem, "jobGroupJudgementToolStripMenuItem");
+            this.jobGroupJudgementToolStripMenuItem.Click += new System.EventHandler(this.JobTree_JudgementJobGroup);
             // 
             // toolStripSeparator4
             // 
@@ -291,7 +301,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem queueStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorStatusToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem jobGroupRunToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jobGroupJudgementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jobGroupStopToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem jobGroupDeleteToolStripMenuItem;
@@ -301,5 +311,6 @@
         private System.Windows.Forms.ToolStripMenuItem jobGroupLoadToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropValueColumn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }

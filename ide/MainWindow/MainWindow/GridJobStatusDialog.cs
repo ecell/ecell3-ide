@@ -286,7 +286,21 @@ namespace Ecell.IDE.MainWindow
                 foreach (string name in group.AnalysisParameter.Keys)
                 {
                     string data = group.AnalysisParameter[name];
-                    parameterDataGridView.Rows.Add(new object[] { name, data });
+                    DataGridViewRow r = new DataGridViewRow();
+                    DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                    c1.Value = name;
+                    DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                    c2.Value = data;
+                    bool isReadOnly = !group.AnalysisModule.IsEnableEditProperty(name);
+                    r.Cells.Add(c1);
+                    r.Cells.Add(c2);
+
+                    parameterDataGridView.Rows.Add(r);
+                    if (isReadOnly)
+                    {
+                        c2.Style.ForeColor = Color.Silver;
+                        c2.ReadOnly = true;
+                    }
                 }
                 m_group = group;
             }
@@ -348,6 +362,11 @@ namespace Ecell.IDE.MainWindow
 
         private void JobTree_RunJobGroup(object sender, EventArgs e)
         {
+
+        }
+
+        private void JobTree_JudgementJobGroup(object sender, EventArgs e)
+        {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
             if (m == null) return;
             TreeNode node = jobTreeView.SelectedNode;
@@ -355,8 +374,7 @@ namespace Ecell.IDE.MainWindow
                 return;
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
 
-            m_manager.GroupDic[jnode.GroupName].AnalysisModule.PrepareReAnalysis();
-            m_manager.Run(jnode.GroupName, true);
+            m_manager.GroupDic[jnode.GroupName].AnalysisModule.Judgement();
         }
 
         private void JobTree_StopJobGroup(object sender, EventArgs e)
@@ -440,8 +458,8 @@ namespace Ecell.IDE.MainWindow
 
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
             JobGroup g = m_manager.GroupDic[jnode.GroupName];
-            jobGroupRunToolStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished ||
-                g.Status == AnalysisStatus.Stopped || g.Status == AnalysisStatus.Error;
+            jobGroupJudgementToolStripMenuItem.Enabled = (g.Status == AnalysisStatus.Finished ||
+                g.Status == AnalysisStatus.Stopped || g.Status == AnalysisStatus.Error) && g.AnalysisModule.IsEnableReJudge;
             jobGroupStopToolStripMenuItem.Enabled = g.Status == AnalysisStatus.Running ||
                 g.Status == AnalysisStatus.Waiting;
             jobGroupSaveStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished;
