@@ -69,6 +69,10 @@ namespace Ecell.Job
         /// get the simulation time or the step count.
         /// </summary>
         double Count { get; }
+        /// <summary>
+        /// get the flag whether this analysis have any result.
+        /// </summary>
+        bool IsExistResult { get; }
         #endregion
 
         /// <summary>

@@ -512,13 +512,13 @@ namespace Ecell.IDE.MainWindow
             JobGroupTreeNode jnode = node as JobGroupTreeNode;
             JobGroup g = m_manager.GroupDic[jnode.GroupName];
             jobGroupJudgementToolStripMenuItem.Enabled = (g.Status == AnalysisStatus.Finished ||
-                g.Status == AnalysisStatus.Stopped || g.Status == AnalysisStatus.Error) && g.AnalysisModule.IsEnableReJudge;
+                g.Status == AnalysisStatus.Error) && g.AnalysisModule.IsEnableReJudge;
             jobGroupStopToolStripMenuItem.Enabled = g.Status == AnalysisStatus.Running ||
                 g.Status == AnalysisStatus.Waiting;
             jobGroupSaveStripMenuItem.Enabled = g.Status == AnalysisStatus.Finished;
-            jobGroupLoadToolStripMenuItem.Enabled = g.IsSaved || g.Status == AnalysisStatus.Finished;
+            jobGroupLoadToolStripMenuItem.Enabled = (g.IsSaved || g.Status == AnalysisStatus.Finished) && g.AnalysisModule.IsExistResult;
             jobGroupDeleteToolStripMenuItem.Enabled = g.Status != AnalysisStatus.Running &&
-                g.Status != AnalysisStatus.Waiting;
+                g.Status != AnalysisStatus.Waiting;            
         }
 
         /// <summary>

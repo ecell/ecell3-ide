@@ -81,6 +81,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Job group related with this analysis.
         /// </summary>
         private JobGroup m_group;
+        /// <summary>
+        /// The flag whether this analysis have any result.
+        /// </summary>
+        private bool m_isExistResult = false;
         private const string s_sampleNum = "Sample Num";
         private const string s_simTime = "Simulation Time";
         private const string s_isRandomCheck = "Random Check";
@@ -170,6 +174,14 @@ namespace Ecell.IDE.Plugins.Analysis
         public double Count
         {
             get { return m_param.SimulationTime; }
+        }
+
+        /// <summary>
+        /// get the flag whether this analysis have any result.
+        /// </summary>
+        public bool IsExistResult
+        {
+            get { return m_isExistResult; }
         }
         #endregion
 
@@ -304,6 +316,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             foreach (Job.Job j in m_owner.JobManager.GroupDic[m_group.GroupName].Jobs)
             {
+                if (!m_judgeResult.ContainsKey(j.JobID)) continue;
                 double x = j.ExecParam.GetParameter(xPath);
                 double y = j.ExecParam.GetParameter(yPath);
 
@@ -498,6 +511,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 int jobid = Int32.Parse(ele[0]);
                 bool result = Convert.ToBoolean(ele[1]);
                 m_judgeResult[jobid] = result;
+                m_isExistResult = true;
             }
             reader.Close();
         }
@@ -564,6 +578,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     }
                 }
                 m_judgeResult[jobid] = isOK;
+                m_isExistResult = true;
             }
         }
 

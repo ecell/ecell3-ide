@@ -145,6 +145,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Job group related with this analysis.
         /// </summary>
         private JobGroup m_group;
+        /// <summary>
+        /// The flag whether this analysis have any result.
+        /// </summary>
+        private bool m_isExistResult = false;
         private const string s_step = "Step";
         private const string s_relativePert = "Relative Perturbation";
         private const string s_absolutePert = "Absolute Perturbation";
@@ -235,6 +239,14 @@ namespace Ecell.IDE.Plugins.Analysis
         public double Count
         {
             get { return m_param.Step; }
+        }
+
+        /// <summary>
+        /// get the flag whether this analysis have any result.
+        /// </summary>
+        public bool IsExistResult
+        {
+            get { return m_isExistResult; }
         }
         #endregion
 
@@ -497,6 +509,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_scaledCCCMatrix = Matrix.Create(cmatrix);
             m_scaledFCCMatrix = Matrix.Create(fmatrix);
+            m_isExistResult = true;
 
             reader.Close();
         }
@@ -908,6 +921,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             m_scaledFCCMatrix = InvDiag(m_activityBuffer) * m_unscaledFCCMatrix;
             m_scaledFCCMatrix = m_scaledFCCMatrix * Diag(m_activityBuffer);
+            m_isExistResult = true;
         }
 
         /// <summary>

@@ -802,7 +802,7 @@ namespace Ecell.Job
         /// <param name="topDir">the top directory</param>
         /// <param name="modelName">the model name</param>
         /// <param name="count">simulation time or simulation step.</param>
-        /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        /// <param                            name="isStep">the flag use simulation time or simulation step.</param>
         /// <param name="paramDic">the execution parameter.</param>
         public void ReRunSimParameterSet(int jobid, string groupName, string topDir, string modelName,
             double count, bool isStep, ExecuteParameter paramDic)
@@ -853,6 +853,8 @@ namespace Ecell.Job
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
 
                 List<string> extFileList = ExtractExtFileList(topDir + "/" + job.JobID, m_logList);
+                if (m_groupDic[groupName].Status == AnalysisStatus.Stopped)
+                    return new Dictionary<int, ExecuteParameter>();
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                 if (this.Proxy.IsIDE() == true)
@@ -924,6 +926,9 @@ namespace Ecell.Job
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
 
                 List<string> extFileList = ExtractExtFileList(topDir + "/" + job.JobID, m_logList);
+
+                if (m_groupDic[groupName].Status == AnalysisStatus.Stopped)
+                    return new Dictionary<int, ExecuteParameter>();
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
@@ -1081,6 +1086,9 @@ namespace Ecell.Job
                     string modelFileName = topDir + "/" + job.JobID + ".eml";
 
                     List<string> extFileList = ExtractExtFileList(topDir + "/" + job.JobID, m_logList);
+                    if (m_groupDic[groupName].Status == AnalysisStatus.Stopped)
+                        return new Dictionary<int, ExecuteParameter>();
+
                     int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
 
                     if (this.Proxy.IsIDE())

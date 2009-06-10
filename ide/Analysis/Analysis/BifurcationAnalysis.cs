@@ -118,6 +118,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Job group related with this analysis.
         /// </summary>
         private JobGroup m_group;
+        /// <summary>
+        /// The flag whether this analysis have any result.
+        /// </summary>
+        private bool m_isExistResult = false;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
         private const string s_simTime = "Simulation Time";
@@ -218,6 +222,14 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             get { return m_param.SimulationTime; }
         }
+
+        /// <summary>
+        /// get the flag whether this analysis have any result.
+        /// </summary>
+        public bool IsExistResult
+        {
+            get { return m_isExistResult; }
+        }
         #endregion
 
         /// <summary>
@@ -277,6 +289,7 @@ namespace Ecell.IDE.Plugins.Analysis
             Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
             if (paramList.Count <= 0)
             {
+                m_isExistResult = true;
                 return;
             }
             String tmpDir = m_owner.JobManager.TmpDir;
@@ -335,6 +348,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
 
             JudgeBifurcationAnalysis();
+            m_isExistResult = true;
             PrintResultData(true);
             m_owner.ActivateResultWindow(true, false, false);
         }
@@ -1026,6 +1040,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 i++;
             }
+            m_isExistResult = true;
             reader.Close();
         }
 

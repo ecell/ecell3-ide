@@ -104,6 +104,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Dictionary with the generation and the execution parameters.
         /// </summary>
         private Dictionary<int, Dictionary<int, ExecuteParameter>> m_execParamDic;
+        /// <summary>
+        /// The flag whether this analysis have any result.
+        /// </summary>
+        private bool m_isExistResult = false;
         private const string s_estimateFormula = "Estimation Formulator";
         private const string s_simTime = "Simulation Time";
         private const string s_population = "Population";
@@ -200,8 +204,15 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             get { return m_param.SimulationTime; }
         }
-        #endregion
 
+        /// <summary>
+        /// get the flag whether this analysis have any result.
+        /// </summary>
+        public bool IsExistResult
+        {
+            get { return m_isExistResult; }
+        }
+        #endregion
 
         /// <summary>
         /// Get the property of analysis.
@@ -301,6 +312,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_execParamDic.Add(m_generation, m_execParamList);
             }
             m_group.Status = AnalysisStatus.Running;
+            m_isExistResult = true;
             m_generation++;
         }
 
@@ -586,6 +598,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
             m_elite = new ExecuteParameter(param);
+            m_isExistResult = true;
             reader.Close();
         }
 
