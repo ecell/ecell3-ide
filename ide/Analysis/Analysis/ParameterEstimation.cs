@@ -567,6 +567,10 @@ namespace Ecell.IDE.Plugins.Analysis
             f.Write();
         }
 
+        /// <summary>
+        /// Load the analysis result file.
+        /// </summary>
+        /// <param name="resultFile">the result file.</param>
         private void LoadAnalysisResultFile(string resultFile)
         {
             int pos = 0;
@@ -602,6 +606,10 @@ namespace Ecell.IDE.Plugins.Analysis
             reader.Close();
         }
 
+        /// <summary>
+        /// Save the analysis result file.
+        /// </summary>
+        /// <param name="resultFile">the result file.</param>
         private void SaveAnalysisResultFile(string resultFile)
         {
             StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);

@@ -276,10 +276,13 @@ namespace Ecell.IDE.MainWindow
                 Job.Job job = m_manager.GroupDic[jobNode.GroupName].GetJob(Int32.Parse(node.Text));
                 jobIDTextBox.Text = job.JobID.ToString();
                 statusTextBox.Text = GetJobStatusString(job.Status);
-                foreach (string fullPN in job.ExecParam.ParamDic.Keys)
+                if (job.ExecParam != null)
                 {
-                    double data = job.ExecParam.ParamDic[fullPN];
-                    parameterDataGridView.Rows.Add(new object[] { fullPN, data });
+                    foreach (string fullPN in job.ExecParam.ParamDic.Keys)
+                    {
+                        double data = job.ExecParam.ParamDic[fullPN];
+                        parameterDataGridView.Rows.Add(new object[] { fullPN, data });
+                    }
                 }
                 m_job = job;
             }

@@ -107,13 +107,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private Dictionary<int, ExecuteParameter> m_execParam;
         /// <summary>
-        /// The number of data for Axis(50).
+        /// The number of data for Axis(20).
         /// </summary>
-        private static int s_num = 7;
+        private static int s_num = 19;
         /// <summary>
-        /// The number of the interval of skip(5).
+        /// The number of the interval of skip(4).
         /// </summary>
-        private static int s_skip = 2;
+        private static int s_skip = 4;
         /// <summary>
         /// Job group related with this analysis.
         /// </summary>
@@ -449,6 +449,10 @@ namespace Ecell.IDE.Plugins.Analysis
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
         }
 
+        /// <summary>
+        /// Set the axis data of graph.
+        /// </summary>
+        /// <param name="isSetAxis">the flag whether this axis is set.</param>
         private void SetList(bool isSetAxis)
         {
             int count = 0;
@@ -1005,6 +1009,10 @@ namespace Ecell.IDE.Plugins.Analysis
             f.Write();
         }
 
+        /// <summary>
+        /// Save the analysis result file.
+        /// </summary>
+        /// <param name="resultFile">the result file.</param>
         private void SaveAnalysisResultFile(string resultFile)
         {
             StreamWriter writer = new StreamWriter(resultFile, false, Encoding.ASCII);
@@ -1021,6 +1029,10 @@ namespace Ecell.IDE.Plugins.Analysis
             writer.Close();
         }
 
+        /// <summary>
+        /// Load the analysis result file.
+        /// </summary>
+        /// <param name="resultFile">the result file.</param>
         private void LoadAnalysisResultFile(string resultFile)
         {
             string line;
