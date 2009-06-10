@@ -684,6 +684,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas != null)
                 m_canvas.Dispose();
             Canvas = null;
+            m_csManager.ClearSettings();
         }
 
         /// <summary>

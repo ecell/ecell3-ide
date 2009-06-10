@@ -558,16 +558,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 item.SetProperty();
             }
 
-            //
-            foreach (PPathwayVariable variable in _canvas.Variables.Values)
-            {
-                if (!variable.Visible)
-                    continue;
-                variable.MoveToFront();
-                variable.PPropertyText.Visible = true;
-                variable.PPropertyText.TextBrush = _propBrush;
-                variable.PPropertyText.MoveToFront();
-            }
             if (_isPausing)
                 UpdatePropForSimulation();
         }
@@ -579,22 +569,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if (_canvas == null)
                 return;
-            //
+            // Do animation
             foreach (IAnimationItem item in _items)
             {
                 item.UpdateProperty();
             }
 
-            foreach (PPathwayVariable variable in _canvas.Variables.Values)
-            {
-                if (!variable.Visible)
-                    continue;
-                // Variable setting.
-                float molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                variable.PPropertyText.Text = molerConc.ToString(_format);
-            }
             _canvas.PCanvas.Refresh();
-
             // write video stream.
             if (_stream != null)
             {
@@ -625,15 +606,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Reset objects.
             foreach (PPathwayObject obj in _canvas.GetAllObjects())
                 obj.Refresh();
-
-            foreach (PPathwayVariable variable in _canvas.Variables.Values)
-            {
-                if (!variable.Visible)
-                    continue;
-                // Line setting.
-                variable.PPropertyText.Text = "";
-                variable.PPropertyText.Visible = false;
-            }
         }
         #endregion
 

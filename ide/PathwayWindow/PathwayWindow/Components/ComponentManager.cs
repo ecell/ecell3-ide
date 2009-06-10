@@ -466,7 +466,39 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         #endregion
 
         #region Private Methods
-        private void CreateDefaultSettings()
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void ClearSettings()
+        {
+            ComponentSetting cs;
+            
+            cs = StepperSetting;
+            m_stepperSettings.Clear();
+            RegisterSetting(cs);
+
+            cs = SystemSetting;
+            m_systemSettings.Clear();
+            RegisterSetting(cs);
+
+            cs = TextSetting;
+            m_textSettings.Clear();
+            RegisterSetting(cs);
+
+            cs = ProcessSetting;
+            m_processSettings.Clear();
+            RegisterSetting(cs);
+
+            cs = VariableSetting;
+            m_variableSettings.Clear();
+            RegisterSetting(cs);
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void CreateDefaultSettings()
         {
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
