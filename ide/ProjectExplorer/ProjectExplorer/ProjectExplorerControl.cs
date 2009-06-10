@@ -18,7 +18,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     {
         #region Fields
         /// <summary>
-        /// 
+        /// The flag whether tree node is expand.
         /// </summary>
         private bool m_isExpland = false;
         /// <summary>
@@ -62,11 +62,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         ProjectExplorer m_owner;
         /// <summary>
-        /// 
+        /// Sorter by name.
         /// </summary>
         System.Collections.IComparer m_nameSorter;
         /// <summary>
-        /// 
+        /// Sorter by type.
         /// </summary>
         System.Collections.IComparer m_typeSorter;
 
@@ -99,7 +99,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         #region Methods for EcellPlugin
         /// <summary>
-        /// 
+        /// Change the status of project.
         /// </summary>
         /// <param name="type"></param>
         internal void ChangeStatus(ProjectStatus type)
@@ -108,9 +108,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_prjNode.Text = m_owner.Environment.DataManager.CurrentProjectID;
         }
         /// <summary>
-        /// 
+        /// Add the node with loading the project.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the list of EcellObjects.</param>
         public void DataAdd(List<EcellObject> data)
         {
             if (data == null)
@@ -267,7 +267,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Set the DMs to nodes.
         /// </summary>
         private void SetDMNodes()
         {
@@ -281,7 +281,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Add the DM node from the selected path.
         /// </summary>
         /// <param name="dmName"></param>
         /// <param name="path"></param>
@@ -305,7 +305,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             foreach (string groupname in m_owner.Environment.JobManager.GroupDic.Keys)
             {
                 AnalysisNode node = new AnalysisNode(groupname);
-                node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
+                node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathAnalysis);
                 node.SelectedImageIndex = node.ImageIndex;
                 node.Tag = groupname;
 
@@ -314,7 +314,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Set the revision node in the load project.
         /// </summary>
         private void SetRevisions()
         {
@@ -341,12 +341,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Change the object in the load project.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
+        /// <param name="modelID">the original model ID.</param>
+        /// <param name="key">the original key.</param>
+        /// <param name="type">the original type.</param>
+        /// <param name="data">the new object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -402,11 +402,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Delete the object from the load project.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">the model ID of deleted object.</param>
+        /// <param name="key">the key of deleted object.</param>
+        /// <param name="type">the type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -434,11 +434,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Select the set node.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">the model ID of selected object.</param>
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
         public void AddSelect(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -455,11 +455,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Unselect the set node.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">the model ID of unselected object.</param>
+        /// <param name="key">the key of unselected object.</param>
+        /// <param name="type">the type of unselected object.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -478,9 +478,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Set the log entry in the load project.
         /// </summary>
-        /// <param name="node"></param>
+        /// <param name="node">the top node.</param>
         private void SetLogEntry(TreeNode node)
         {
             List<string> logList = m_owner.Environment.DataManager.GetLogDataList();
@@ -510,7 +510,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Refresh the log entry node.
         /// </summary>
         public void RefreshLogEntry()
         {
@@ -521,10 +521,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Add the parameter node.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
+        /// <param name="projectID">the project id.</param>
+        /// <param name="parameterID">the parameter id.</param>
         public void ParameterAdd(string projectID, string parameterID)
         {
             if (m_paramNode == null)
@@ -546,10 +546,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Delete the parameter node.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
+        /// <param name="projectID">the project id.</param>
+        /// <param name="parameterID">the parameter id.</param>
         public void ParameterDelete(string projectID, string parameterID)
         {
             if (m_paramNode == null)
@@ -566,7 +566,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Clear the all nodes.
         /// </summary>
         public void Clear()
         {
@@ -596,10 +596,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Change the drag mode.
         /// </summary>
-        /// <param name="oList"></param>
-        /// <param name="fileList"></param>
+        /// <param name="oList">the list of dragged object.</param>
+        /// <param name="fileList">the list of log file.</param>
         private void EnterDragMode(List<EcellObject> oList, List<string> fileList)
         {
             EcellDragObject dobj = null;
@@ -647,9 +647,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Change selected Object
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">the model ID of changed object.</param>
+        /// <param name="key">the key of changed obect.</param>
+        /// <param name="type">the type of changed object,</param>
         public void ChangeObject(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -841,9 +841,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Show DM editor.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">the dm file.</param>
         private void DisplayDMEditor(string path)
         {
             DMEditor edit = new DMEditor(path, m_owner.Environment);
@@ -851,9 +851,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Show DM editor with application.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">the dm file.</param>
         private void DisplayDMWithApp(string path)
         {
             try
@@ -882,10 +882,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Click the create DM menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewNewDm(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -914,10 +914,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Click the display dm menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs.</param>
         private void TreeViewDMDisplay(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -927,10 +927,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Click the display dm with application menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewLogDisplayWithApp(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -944,10 +944,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Click the node.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs</param>
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             // Check null.
@@ -1007,7 +1007,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Set the enable of popupmenu.
         /// </summary>
         private void SetPopupMenuAvailability()
         {
@@ -1038,10 +1038,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Double click the node.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs</param>
         private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
@@ -1089,10 +1089,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Sort by name.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewSortByName(object sender, EventArgs e)
         {
             treeView1.TreeViewNodeSorter = m_nameSorter;
@@ -1100,11 +1100,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             toolStripButtonSortByName.Checked = true;
             toolStripButtonSortByType.Checked = false;
         }
+
         /// <summary>
-        /// 
+        /// Sort by type.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewSortByType(object sender, EventArgs e)
         {
             treeView1.TreeViewNodeSorter = m_typeSorter;
@@ -1112,11 +1113,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             toolStripButtonSortByName.Checked = false;
             toolStripButtonSortByType.Checked = true;
         }
+
         /// <summary>
-        /// 
+        /// Drag the object in TreeView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">ItemDragEventArgs</param>
         private void TreeViewItemDrag(object sender, ItemDragEventArgs e)
         {
             List<string> fileList = new List<string>();
@@ -1144,11 +1146,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }            
             EnterDragMode(oList, fileList);
         }
+
         /// <summary>
-        /// 
+        /// Event before collapse.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TreeView</param>
+        /// <param name="e">TreeViewCancelEventArgs</param>
         private void TreeViewBeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             if (m_isExpland)
@@ -1157,10 +1160,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
         /// <summary>
-        /// 
+        /// Event before expand.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TreeView</param>
+        /// <param name="e">TreeViewCancelEventArgs</param>
         private void TreeViewBeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (m_isExpland)
@@ -1168,11 +1171,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 e.Cancel = true;
             }
         }
+
         /// <summary>
-        /// 
+        /// Click the export log menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewExportLog(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1204,11 +1208,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
+
         /// <summary>
-        /// 
+        /// Click the show log menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewShowLogOnGraph(object sender, EventArgs e)
         {       
             if (m_lastSelectedNode == null)
@@ -1221,11 +1226,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             dlg(tag.Key, true);
         }
+
         /// <summary>
-        /// 
+        /// Click the add simulation sets menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs.</param>
         private void TreeViewAddSimulationSet(object sender, EventArgs e)
         {
             InputNameDialog dlg = new InputNameDialog();
@@ -1237,11 +1243,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     m_owner.DataManager.CurrentProject.Info.SimulationParam);
             }
         }
+
         /// <summary>
-        /// 
+        /// Click the copy simulation sets menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewCopySimulationSet(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1263,11 +1270,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             m_owner.DataManager.CopySimulationParameter(newParam, name);
         }
+
         /// <summary>
-        /// 
+        /// Click the delete simulation sets menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewDeleteSimulationSet(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1285,11 +1293,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 Util.ShowErrorDialog(ex.Message);
             }
         }
+
         /// <summary>
-        /// 
+        /// Click the export model menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewExportModel(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1309,21 +1318,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.DataManager.ExportModel(modelList, fileName);
             }
         }
+
         /// <summary>
-        /// 
+        /// Click the create revision menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewCreateNewRevision(object sender, EventArgs e)
         {
             m_owner.DataManager.CreateNewRevision();
             SetRevisions();
         }
+
         /// <summary>
-        /// 
+        /// Click the load revision menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewLoadRevision(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1332,11 +1343,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner.DataManager.LoadRevision(m_lastSelectedNode.Text);
             SetRevisions();
         }
+
         /// <summary>
-        /// 
+        /// Click the config the simulation sets menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs.</param>
         private void TreeViewConfigureSimulationSet(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1347,11 +1359,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     "", (string)m_lastSelectedNode.Tag, Constants.xpathParameters);
             }
         }
+
         /// <summary>
-        /// 
+        /// Click the compress zip menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewCompressZip(object sender, EventArgs e)
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
@@ -1360,6 +1373,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             CompressZip(dir, filename);
         }
 
+        /// <summary>
+        /// Compress to zip file.
+        /// </summary>
+        /// <param name="dir">the source directory.</param>
+        /// <param name="filename">the destination file name.</param>
         private void CompressZip(string dir, string filename)
         {
             m_saveFileDialog.Filter = Constants.FilterZipFile;
@@ -1371,7 +1389,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
-        private void projectSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Click the set the project menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeViewSetProject(object sender, EventArgs e)
         {
             ProjectInfo info = m_owner.Environment.DataManager.CurrentProject.Info;
             ProjectSettingDialog dialog = new ProjectSettingDialog(info);
@@ -1386,10 +1409,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Click the close project menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewCloseProject(object sender, EventArgs e)
         {
             if (m_owner.Environment.ActionManager.Undoable)
@@ -1409,7 +1432,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner.Environment.DataManager.CloseProject();
         }
 
-        private void importDMToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Click the import DM menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeViewImportDM(object sender, EventArgs e)
         {
             FolderBrowserDialog win = new FolderBrowserDialog();
             win.Description = MessageResources.SelectDMDir;
@@ -1424,7 +1452,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
-        private void exportRevisionEMLMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Click the export revision menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeViewExportRevision(object sender, EventArgs e)
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
             // Set Dialog.
@@ -1444,7 +1477,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
-        private void exportRevisionZipMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Click the export revision to Zip menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeViewExportRevisionToZip(object sender, EventArgs e)
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
             string dir = project.Info.ProjectPath;
@@ -1453,6 +1491,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             CompressZip(revision, filename);
         }
 
+        /// <summary>
+        /// Click the delete stepper menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewDeleteStepper(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null)
@@ -1487,6 +1530,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// Click the add Stepper menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewAddStepper(object sender, EventArgs e)
         {
             InputNameDialog dlg = new InputNameDialog();
@@ -1508,6 +1556,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// Click the property of DM menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void TreeViewDMProperty(object sender, EventArgs e)
         {
             DMDescriptor desc = null;
@@ -1527,8 +1580,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Update the job status.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        /// <param name="o">JobManager</param>
+        /// <param name="e">JobUpdateEventArgs</param>
         private void UpdateJobStatus(object o, Ecell.Job.JobUpdateEventArgs e)
         {
             if (m_analysisNode == null)

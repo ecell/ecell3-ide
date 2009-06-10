@@ -133,7 +133,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
-        ///   DMS に類似しているローカライズされた文字列を検索します。
+        ///   DMs に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameDMs {
             get {

@@ -328,6 +328,10 @@ namespace Ecell
         /// <summary>
         /// Reserved XML path name for action.
         /// </summary>
+        public const string xpathAnalysis = "Analysis";
+        /// <summary>
+        /// Reserved XML path name for action.
+        /// </summary>
         public const string xpathAction = "Action";
         /// <summary>
         /// Reserved XML path name for activity.

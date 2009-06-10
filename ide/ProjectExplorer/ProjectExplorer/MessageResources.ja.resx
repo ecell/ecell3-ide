@@ -133,13 +133,16 @@
     <value>{0} が入力されていません。</value>
   </data>
   <data name="ErrProjectUnsaved" xml:space="preserve">
-    <value>DMを作成する前にプロジェクトを保存してください。</value>
+    <value>ダイナミックモジュールを作成する前にプロジェクトを保存してください。</value>
   </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>このファイル形式に関連付けられたアプリケーションが見つかりません。</value>
   </data>
   <data name="NameAnalysis" xml:space="preserve">
     <value>解析</value>
+  </data>
+  <data name="NameDMs" xml:space="preserve">
+    <value>ダイナミックモジュール</value>
   </data>
   <data name="NameLogArchives" xml:space="preserve">
     <value>ログアーカイブ</value>
@@ -169,9 +172,9 @@
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>
   <data name="SelectDMDir" xml:space="preserve">
-    <value>DMディレクトリを選択してください。</value>
+    <value>ダイナミックモジュールディレクトリを選択してください。</value>
   </data>
   <data name="WarnDMName" xml:space="preserve">
-    <value>DMの名前は、ProcessもしくはStepperで終わる必要があります。</value>
+    <value>ダイナミックモジュールの名前は、ProcessもしくはStepperで終わる必要があります。</value>
   </data>
 </root>

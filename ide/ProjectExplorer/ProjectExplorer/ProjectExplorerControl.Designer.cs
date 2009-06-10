@@ -172,7 +172,7 @@
             // 
             this.importDMToolStripMenuItem.Name = "importDMToolStripMenuItem";
             resources.ApplyResources(this.importDMToolStripMenuItem, "importDMToolStripMenuItem");
-            this.importDMToolStripMenuItem.Click += new System.EventHandler(this.importDMToolStripMenuItem_Click);
+            this.importDMToolStripMenuItem.Click += new System.EventHandler(this.TreeViewImportDM);
             // 
             // contextMenuStripModel
             // 
@@ -301,7 +301,7 @@
             // 
             this.projectSettingsToolStripMenuItem.Name = "projectSettingsToolStripMenuItem";
             resources.ApplyResources(this.projectSettingsToolStripMenuItem, "projectSettingsToolStripMenuItem");
-            this.projectSettingsToolStripMenuItem.Click += new System.EventHandler(this.projectSettingsToolStripMenuItem_Click);
+            this.projectSettingsToolStripMenuItem.Click += new System.EventHandler(this.TreeViewSetProject);
             // 
             // createNewRevisionOnProjectToolStripMenuItem
             // 
@@ -358,13 +358,13 @@
             // 
             this.exportRevisionEMLMenuItem.Name = "exportRevisionEMLMenuItem";
             resources.ApplyResources(this.exportRevisionEMLMenuItem, "exportRevisionEMLMenuItem");
-            this.exportRevisionEMLMenuItem.Click += new System.EventHandler(this.exportRevisionEMLMenuItem_Click);
+            this.exportRevisionEMLMenuItem.Click += new System.EventHandler(this.TreeViewExportRevision);
             // 
             // exportRevisionZipMenuItem
             // 
             this.exportRevisionZipMenuItem.Name = "exportRevisionZipMenuItem";
             resources.ApplyResources(this.exportRevisionZipMenuItem, "exportRevisionZipMenuItem");
-            this.exportRevisionZipMenuItem.Click += new System.EventHandler(this.exportRevisionZipMenuItem_Click);
+            this.exportRevisionZipMenuItem.Click += new System.EventHandler(this.TreeViewExportRevisionToZip);
             // 
             // contextMenuStripStepper
             // 

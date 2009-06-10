@@ -44,6 +44,7 @@
             this.imageList1.Images.SetKeyName(5, "dm");
             this.imageList1.Images.SetKeyName(6, "Parameters");
             this.imageList1.Images.SetKeyName(7, "Log");
+            this.imageList1.Images.SetKeyName(8, "Analysis");
 
         }
 
