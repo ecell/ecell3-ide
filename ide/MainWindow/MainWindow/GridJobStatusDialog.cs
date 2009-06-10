@@ -68,6 +68,7 @@ namespace Ecell.IDE.MainWindow
 
             m_manager = manager;
             m_manager.JobUpdateEvent += new JobUpdateEventHandler(UpdateJobStatus);
+            jobTreeView.TreeViewNodeSorter = new JobSorter();
         }
 
         /// <summary>
@@ -748,6 +749,42 @@ namespace Ecell.IDE.MainWindow
         }
     }
 
+    #region Internal Classes
+    /// <summary>
+    /// Sort class by name of object.
+    /// </summary>
+    public class JobSorter : IComparer<TreeNode>, System.Collections.IComparer
+    {
+        /// <summary>
+        /// Compare with two object by name.
+        /// </summary>
+        /// <param name="tx">compared object.</param>
+        /// <param name="ty">compare object.</param>
+        /// <returns>sort result.</returns>
+        public int Compare(TreeNode tx, TreeNode ty)
+        {
+            if (tx is JobTreeNode && ty is JobTreeNode)
+            {
+                JobTreeNode j1 = tx as JobTreeNode;
+                JobTreeNode j2 = ty as JobTreeNode;
+                int i1 = Int32.Parse(j1.ID);
+                int i2 = Int32.Parse(j2.ID);
+                return i1 - i2;
+            }
+            return string.Compare(tx.Text, ty.Text);
+        }
+        /// <summary>
+        /// Compare function for object.
+        /// </summary>
+        /// <param name="x">compared object.</param>
+        /// <param name="y">compare object.</param>
+        /// <returns>sort result.</returns>
+        int System.Collections.IComparer.Compare(object x, object y)
+        {
+            return Compare(x as TreeNode, y as TreeNode);
+        }
+    }
+
     /// <summary>
     /// TreeNode for JobGroup.
     /// </summary>
@@ -834,4 +871,5 @@ namespace Ecell.IDE.MainWindow
         }
         #endregion
     }
+    #endregion
 }
