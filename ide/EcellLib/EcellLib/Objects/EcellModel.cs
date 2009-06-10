@@ -62,7 +62,7 @@ namespace Ecell.Objects
         /// <summary>
         /// 
         /// </summary>
-        private string m_err = null;
+        private string m_err = "";
         #endregion
 
         #region Constractors

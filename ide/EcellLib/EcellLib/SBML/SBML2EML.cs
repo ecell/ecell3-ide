@@ -78,7 +78,7 @@ namespace Ecell.SBML
             //
             // Set Stepper.
             //
-            EcellObject stepper = EcellObject.CreateObject(modelId, "DE", EcellObject.STEPPER, "FixedODE1Stepper", null);
+            EcellObject stepper = EcellObject.CreateObject(modelId, "DE", EcellObject.STEPPER, "FixedODE1Stepper", new List<EcellData>());
             modelObject.Children.Add(stepper);
 
             //

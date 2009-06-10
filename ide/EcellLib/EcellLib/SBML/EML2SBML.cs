@@ -264,6 +264,9 @@ namespace Ecell.SBML
 
                 foreach(EcellData aProperty in anEml.Value)
                 {
+                    if (!aProperty.Loadable)
+                        continue;
+
                     string aFullPN = aProcess.FullID + ":" + aProperty.Name;
 
                     // set Name property ( Name )
@@ -313,14 +316,14 @@ namespace Ecell.SBML
                             }
                         }
 
-                        if( CompartmentOfReaction == "" )
-                        {
-                            anExpression = "(" + anExpression + ")/default/N_A";
-                        }
-                        else
-                        {   
-                            anExpression = "(" + anExpression + ")/" + CompartmentOfReaction + "/N_A";
-                        }
+                        //if( CompartmentOfReaction == "" )
+                        //{
+                        //    anExpression = "(" + anExpression + ")/default/N_A";
+                        //}
+                        //else
+                        //{   
+                        //    anExpression = "(" + anExpression + ")/" + CompartmentOfReaction + "/N_A";
+                        //}
 
                         // set KineticLaw Formula
                         if ( aDelayFlag == false )

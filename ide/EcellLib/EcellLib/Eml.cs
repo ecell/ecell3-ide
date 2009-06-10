@@ -291,15 +291,7 @@ namespace Ecell
     public class EmlReader : EcellXmlReader
     {
         private XmlDocument m_doc;
-
-        private WrappedSimulator m_simulator;
-
         private string m_modelID;
-
-        private Dictionary<string, object> m_processPropertyDic;
-
-        private bool m_isWarn = false;
-
 
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
@@ -310,9 +302,7 @@ namespace Ecell
         {
             m_doc = new XmlDocument();
             m_doc.Load(filename);
-            m_simulator = sim;
             m_modelID = Path.GetFileNameWithoutExtension(filename);
-            m_processPropertyDic = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -326,26 +316,13 @@ namespace Ecell
             string systemID,
             string flag)
         {
-            bool isCreated = true;
             XmlNode nodeClass = node.Attributes.GetNamedItem(Constants.xpathClass);
             XmlNode nodeID = node.Attributes.GetNamedItem(Constants.xpathID.ToLower());
             if (!this.IsValidNode(nodeClass) || !this.IsValidNode(nodeID))
             {
                 throw new EmlParseException("Invalid entity node found");
             }
-            // 4 "EcellCoreLib"
-            try
-            {
-                m_simulator.CreateEntity(
-                    nodeClass.InnerText,
-                    Util.BuildFullID(flag, systemID, nodeID.InnerText));
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex.ToString());
-                isCreated = false;
-                m_isWarn = true;
-            }
+
             // 4 children
             List<EcellData> ecellDataList = new List<EcellData>();
             XmlNodeList nodePropertyList = node.ChildNodes;
@@ -376,15 +353,7 @@ namespace Ecell
                     systemID + Constants.delimiterColon +
                     nodeID.InnerText + Constants.delimiterColon +
                     nodePropertyName.InnerText;
-                if (flag.Equals(Constants.xpathVariable))
-                {
-                    if (isCreated == true)
-                        m_simulator.LoadEntityProperty(entityPath, ecellValue.Value);
-                }
-                else
-                {
-                    m_processPropertyDic[entityPath] = ecellValue.Value;
-                }
+
                 EcellData ecellData = new EcellData(nodePropertyName.InnerText, ecellValue, entityPath);
                 ecellDataList.Add(ecellData);
             }
@@ -469,16 +438,6 @@ namespace Ecell
             if (!IsValidNode(stepperClass) || !IsValidNode(stepperID))
                 throw new SimulationParameterParseException("Invalid stepper node found");
 
-            try
-            {
-                m_simulator.CreateStepper(stepperClass.InnerText, stepperID.InnerText);
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.ToString());
-                m_isWarn = true;
-            }
-
             //
             // 4 children
             //
@@ -512,10 +471,6 @@ namespace Ecell
                     //
                     // 4 "EcellCoreLib"
                     //
-                    m_simulator.LoadStepperProperty(
-                        stepperID.InnerText,
-                        propertyName.InnerText,
-                        ecellValue.Value);
                     EcellData ecellData = new EcellData(
                             propertyName.InnerText, ecellValue,
                             propertyName.InnerText);
@@ -573,17 +528,6 @@ namespace Ecell
                 {
                     parentPath = Constants.delimiterPath;
                 }
-                try
-                {
-                    m_simulator.CreateEntity(
-                            systemClass.InnerText,
-                            systemClass.InnerText + Constants.delimiterColon + parentPath
-                                + Constants.delimiterColon + childPath);
-                }
-                catch (Exception e)
-                {
-                    throw new EmlParseException("Failed to create a System entity", e);
-                }
             }
 
             List<EcellData> ecellDataList = new List<EcellData>();
@@ -593,6 +537,9 @@ namespace Ecell
             {
                 if (systemProperty.Name.Equals(Constants.xpathVariable.ToLower()))
                 {
+                    //
+                    // Parse Variable
+                    //
                     EcellObject variable = ParseEntity(
                             systemProperty,
                             systemID.InnerText,
@@ -601,6 +548,9 @@ namespace Ecell
                 }
                 else if (systemProperty.Name.Equals(Constants.xpathProcess.ToLower()))
                 {
+                    //
+                    // Parse Process
+                    //
                     EcellObject process = ParseEntity(
                             systemProperty,
                             systemID.InnerText,
@@ -610,6 +560,9 @@ namespace Ecell
                 }
                 else if (systemProperty.Name.Equals(Constants.xpathText.ToLower()))
                 {
+                    //
+                    // Parse Text
+                    //
                     EcellObject text = ParseText(
                             systemProperty,
                             systemID.InnerText,
@@ -633,9 +586,7 @@ namespace Ecell
                             parentPath + Constants.delimiterColon +
                             childPath + Constants.delimiterColon +
                             systemPropertyName.InnerText;
-                        m_simulator.LoadEntityProperty(
-                                entityPath,
-                                ecellValue.Value);
+
                         EcellData ecellData = new EcellData(
                                 systemPropertyName.InnerText,
                                 ecellValue,
@@ -670,7 +621,6 @@ namespace Ecell
 
         public EcellModel Parse()
         {
-            m_isWarn = false;
             EcellModel modelObject = (EcellModel)EcellObject.CreateObject(
                     m_modelID, "", Constants.xpathModel, "", new List<EcellData>());
 
@@ -690,30 +640,6 @@ namespace Ecell
                 modelObject.Children.Add(ParseSystem(systemNode));
             }
 
-            List<string> removeList = new List<string>();
-            foreach (KeyValuePair<string, object> pair in m_processPropertyDic)
-            {
-                try
-                {
-                    m_simulator.LoadEntityProperty(pair.Key, pair.Value);
-                }
-                catch (WrappedException e)
-                {
-                    e.ToString();
-                    m_isWarn = true;
-                }
-                if (pair.Key.EndsWith(Constants.xpathVRL))
-                    removeList.Add(pair.Key);
-            }
-            foreach (string entityPath in removeList)
-            {
-                m_processPropertyDic.Remove(entityPath);
-            }
-            if (m_isWarn == true)
-            {
-                modelObject.ErrMsg = MessageResources.WarnLoadDM;
-            }
-
             return modelObject;
         }
 
@@ -726,8 +652,129 @@ namespace Ecell
         {
             EmlReader reader = new EmlReader(fileName, sim);
             EcellModel model = reader.Parse();
-
+            InitializeModel(model, sim);
             return model;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelObject"></param>
+        /// <param name="simulator"></param>
+        public static void InitializeModel(EcellModel modelObject, WrappedSimulator simulator)
+        {
+            bool isWarn = false;
+            string errMsg = MessageResources.WarnLoadDM + "\n";
+            Dictionary<string, object> processPropertyDic = new Dictionary<string, object>();
+
+            // Initialize object
+            foreach (EcellObject obj in modelObject.Children)
+            {
+                // Initialize Stepper
+                if (obj is EcellStepper)
+                {
+                    try
+                    {
+                        simulator.CreateStepper(obj.Classname, obj.Key);
+                    }
+                    catch (Exception e)
+                    {
+                        errMsg += obj.FullID + ":" + e.Message + "\n";
+                        Trace.WriteLine(e.ToString());
+                        isWarn = true;
+                    }
+                    foreach (EcellData data in obj.Value)
+                    {
+                        simulator.LoadStepperProperty(
+                            obj.Key,
+                            data.Name,
+                            data.Value.Value);
+                    }
+                }
+                else if (obj is EcellSystem)
+                {
+                    // Initialize System
+                    if (!obj.Key.Equals(Constants.delimiterPath))
+                    {
+                        try
+                        {
+                            simulator.CreateEntity(
+                                    obj.Classname,
+                                    obj.FullID);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new EmlParseException("Failed to create a System entity", e);
+                        }
+                    }
+                    foreach (EcellData data in obj.Value)
+                    {
+                        simulator.LoadEntityProperty(
+                            data.EntityPath,
+                            data.Value.Value);
+                    }
+
+                    // Initialize Entity
+                    foreach (EcellObject entity in obj.Children)
+                    {
+                        bool isCreated = true;
+                        // 4 "EcellCoreLib"
+                        try
+                        {
+                            simulator.CreateEntity(
+                                entity.Classname,
+                                entity.FullID);
+                        }
+                        catch (Exception e)
+                        {
+                            errMsg += entity.FullID + ":" + e.Message + "\n";
+                            Trace.WriteLine(e.ToString());
+                            isCreated = false;
+                            isWarn = true;
+                        }
+
+                        foreach (EcellData data in entity.Value)
+                        {
+                            string entityPath = data.EntityPath;
+                            if (obj.Type.Equals(Constants.xpathVariable))
+                            {
+                                if (isCreated == true)
+                                    simulator.LoadEntityProperty(entityPath, data.Value.Value);
+                            }
+                            else
+                            {
+                                processPropertyDic[entityPath] = data.Value.Value;
+                            }
+                        }
+                    }
+                }
+            }
+            // 
+            List<string> removeList = new List<string>();
+            foreach (KeyValuePair<string, object> pair in processPropertyDic)
+            {
+                try
+                {
+                    simulator.LoadEntityProperty(pair.Key, pair.Value);
+                }
+                catch (WrappedException e)
+                {
+                    e.ToString();
+                    isWarn = true;
+                    errMsg += pair.Key + ":" + e.Message + "\n";
+                }
+                if (pair.Key.EndsWith(Constants.xpathVRL))
+                    removeList.Add(pair.Key);
+            }
+            foreach (string entityPath in removeList)
+            {
+                processPropertyDic.Remove(entityPath);
+            }
+            if (isWarn)
+            {
+                modelObject.ErrMsg = errMsg;
+            }
+
         }
     }
 }

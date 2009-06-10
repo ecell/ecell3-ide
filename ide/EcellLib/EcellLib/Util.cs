@@ -1048,6 +1048,15 @@ namespace Ecell
         /// <summary>
         /// Get the DM direcory from register.
         /// </summary>
+        /// <returns></returns>
+        public static string[] GetDMDirs()
+        {
+            return GetDMDirs(null);
+        }
+
+        /// <summary>
+        /// Get the DM direcory from register.
+        /// </summary>
         /// <returns>DM directory.</returns>
         public static string[] GetDMDirs(string currentProjectPath)
         {

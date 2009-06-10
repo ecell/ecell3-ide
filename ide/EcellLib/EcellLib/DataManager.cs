@@ -338,6 +338,8 @@ namespace Ecell
         {
             try
             {
+                // Load model
+                WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
                 EcellModel model = (EcellModel)SBML2EML.Convert(filename);
                 // Save eml.
                 string dir = Path.GetDirectoryName(filename);
