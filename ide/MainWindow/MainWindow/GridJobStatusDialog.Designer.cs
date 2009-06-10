@@ -32,8 +32,7 @@
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             System.Windows.Forms.Label label2;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.jobTreeView = new System.Windows.Forms.TreeView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.jobStatusImageList = new System.Windows.Forms.ImageList(this.components);
             this.parameterDataGridView = new System.Windows.Forms.DataGridView();
             this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,15 +57,15 @@
             this.jobGroupSaveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.jobGroupDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.jobTreeView = new System.Windows.Forms.TreeView();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.panel1 = new System.Windows.Forms.Panel();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).BeginInit();
             this.jobContextMenuStrip.SuspendLayout();
             this.jobGroupContextMenuStrip.SuspendLayout();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -78,13 +77,6 @@
             // 
             resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
-            // 
-            // jobTreeView
-            // 
-            resources.ApplyResources(this.jobTreeView, "jobTreeView");
-            this.jobTreeView.ImageList = this.jobStatusImageList;
-            this.jobTreeView.Name = "jobTreeView";
-            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.JobTee_MouseClick);
             // 
             // jobStatusImageList
             // 
@@ -122,8 +114,8 @@
             // 
             // PropNameColumn
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            this.PropNameColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
+            this.PropNameColumn.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
             this.PropNameColumn.Name = "PropNameColumn";
             this.PropNameColumn.ReadOnly = true;
@@ -268,28 +260,36 @@
             resources.ApplyResources(this.jobGroupDeleteToolStripMenuItem, "jobGroupDeleteToolStripMenuItem");
             this.jobGroupDeleteToolStripMenuItem.Click += new System.EventHandler(this.JobTree_DelteJobGroup);
             // 
-            // splitContainer1
+            // jobTreeView
             // 
-            resources.ApplyResources(this.splitContainer1, "splitContainer1");
-            this.splitContainer1.Name = "splitContainer1";
+            resources.ApplyResources(this.jobTreeView, "jobTreeView");
+            this.jobTreeView.ImageList = this.jobStatusImageList;
+            this.jobTreeView.Name = "jobTreeView";
+            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.JobTee_MouseClick);
             // 
-            // splitContainer1.Panel1
+            // splitter1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.jobTreeView);
+            resources.ApplyResources(this.splitter1, "splitter1");
+            this.splitter1.Name = "splitter1";
+            this.splitter1.TabStop = false;
             // 
-            // splitContainer1.Panel2
+            // panel1
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.parameterDataGridView);
-            this.splitContainer1.Panel2.Controls.Add(this.statusTextBox);
-            this.splitContainer1.Panel2.Controls.Add(this.jobIDTextBox);
-            this.splitContainer1.Panel2.Controls.Add(label1);
-            this.splitContainer1.Panel2.Controls.Add(label2);
+            this.panel1.Controls.Add(this.parameterDataGridView);
+            this.panel1.Controls.Add(this.statusTextBox);
+            this.panel1.Controls.Add(this.jobIDTextBox);
+            this.panel1.Controls.Add(label1);
+            this.panel1.Controls.Add(label2);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
             // 
             // GridJobStatusDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.jobTreeView);
             this.IsSavable = true;
             this.Name = "GridJobStatusDialog";
             this.TabText = "Job status";
@@ -297,17 +297,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.parameterDataGridView)).EndInit();
             this.jobContextMenuStrip.ResumeLayout(false);
             this.jobGroupContextMenuStrip.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            this.splitContainer1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TreeView jobTreeView;
         private System.Windows.Forms.DataGridView parameterDataGridView;
         private System.Windows.Forms.TextBox jobIDTextBox;
         private System.Windows.Forms.TextBox statusTextBox;
@@ -332,6 +329,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PropNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PropValueColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TreeView jobTreeView;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
