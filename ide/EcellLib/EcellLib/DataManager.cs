@@ -341,6 +341,7 @@ namespace Ecell
                 // Load model
                 WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
                 EcellModel model = (EcellModel)SBML2EML.Convert(filename);
+                EmlReader.InitializeModel(model, sim);
                 // Save eml.
                 string dir = Path.GetDirectoryName(filename);
                 string modelFileName = Path.GetFileNameWithoutExtension(filename) + Constants.FileExtEML;

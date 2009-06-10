@@ -539,7 +539,7 @@ namespace Ecell.Objects
                     return;
                 }
             }
-            string entytyPath = this.m_type + ":" + this.m_key + ":" + name;
+            string entytyPath = m_type + ":" + ParentSystemID + ":" + LocalID + ":" + name;
             EcellData data = new EcellData(name, value, entytyPath);
             m_ecellDatas.Add(data);
         }

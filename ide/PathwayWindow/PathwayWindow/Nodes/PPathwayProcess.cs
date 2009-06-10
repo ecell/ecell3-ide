@@ -138,6 +138,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 base.AddPath(m_figure.GraphicsPath, false);
             }
             base.CenterPointF = centerPos;
+            RefreshStepperIcon();
         }
 
         /// <summary>
@@ -203,9 +204,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         internal void RefreshStepperIcon()
         {
-            if (_stepper == null)
-                _stepper = m_canvas.Control.ComponentManager.StepperSetting.CreateTemplate();
+            if (m_canvas == null)
+                return;
 
+            // Create Stepper Icon
+            if (_stepper == null)
+            {
+                _stepper = m_canvas.Control.ComponentManager.StepperSetting.CreateTemplate();
+                _stepper.Pickable = false;
+            }
             EcellValue value = m_ecellObj.GetEcellValue(EcellProcess.STEPPERID);
             if(value == null)
                 return;
@@ -214,6 +221,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             this.AddChild(_stepper);
+            _stepper.AddPath(stepper.Figure.CreatePath(_stepper.Rect), false);
             _stepper.Width = 10;
             _stepper.Height = 10;
             _stepper.X = this.Right - 10;

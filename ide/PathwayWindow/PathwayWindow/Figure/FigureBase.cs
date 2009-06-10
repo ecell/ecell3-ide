@@ -231,6 +231,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             return new GraphicsPath();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public GraphicsPath CreatePath(RectangleF rect)
+        {
+            return CreatePath(rect.X, rect.Y, rect.Width, rect.Height);
+        }
         /// <summary>
         /// Return a contact point between an outer point and an inner point.
         /// </summary>

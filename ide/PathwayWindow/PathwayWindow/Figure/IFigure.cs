@@ -84,6 +84,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <param name="height"></param>
         GraphicsPath CreatePath(float x, float y, float width, float height);
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        GraphicsPath CreatePath(RectangleF rect);
+        /// <summary>
         /// Create SVG object.
         /// </summary>
         /// <param name="rect"></param>

@@ -619,8 +619,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
                 if (!obj.EcellObject.isFixed && system != null)
                     MakeSpace(system, obj, false);
+
+
             }
-            else if (obj is PPathwayStepper)
+            // If this obj is root system, Refresh OverView.
+            if (obj is PPathwayStepper || obj.EcellObject.Key.Equals(Constants.delimiterPath))
             {
                 SetStepperPosition();
             }
