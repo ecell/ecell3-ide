@@ -530,7 +530,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Load new project
             if (EcellObject.PROJECT.Equals(eo.Type))
             {
-                this.Clear();
                 return;
             }
 
