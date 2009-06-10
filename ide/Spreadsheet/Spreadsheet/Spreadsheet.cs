@@ -1279,6 +1279,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 
         private void m_dManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
+            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+                return;
             ResetPropForSimulation();
         }
 
