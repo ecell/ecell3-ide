@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage perModelSimulationParametersPage;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationDialog));
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label3;
@@ -39,6 +39,8 @@
             this.initialParameters = new System.Windows.Forms.DataGridView();
             this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.initialContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.initialConditionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.modelCombo = new System.Windows.Forms.ComboBox();
             this.perModelSimulationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -67,8 +69,6 @@
             this.freqByStepTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.simSettingToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.initialContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             perModelSimulationParametersPage = new System.Windows.Forms.TabPage();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -76,6 +76,7 @@
             label4 = new System.Windows.Forms.Label();
             perModelSimulationParametersPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).BeginInit();
+            this.initialContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perModelSimulationParameterBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_simParamSets)).BeginInit();
@@ -87,7 +88,6 @@
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.initialContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // perModelSimulationParametersPage
@@ -103,7 +103,6 @@
             // 
             this.initialParameters.AllowUserToAddRows = false;
             this.initialParameters.AllowUserToResizeRows = false;
-            resources.ApplyResources(this.initialParameters, "initialParameters");
             this.initialParameters.AutoGenerateColumns = false;
             this.initialParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -120,6 +119,7 @@
             this.valueDataGridViewTextBoxColumn1});
             this.initialParameters.ContextMenuStrip = this.initialContextMenuStrip;
             this.initialParameters.DataSource = this.initialConditionsBindingSource;
+            resources.ApplyResources(this.initialParameters, "initialParameters");
             this.initialParameters.MultiSelect = false;
             this.initialParameters.Name = "initialParameters";
             this.initialParameters.RowHeadersVisible = false;
@@ -142,6 +142,20 @@
             this.valueDataGridViewTextBoxColumn1.FillWeight = 20F;
             resources.ApplyResources(this.valueDataGridViewTextBoxColumn1, "valueDataGridViewTextBoxColumn1");
             this.valueDataGridViewTextBoxColumn1.Name = "valueDataGridViewTextBoxColumn1";
+            // 
+            // initialContextMenuStrip
+            // 
+            this.initialContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.initialContextMenuStrip.Name = "initialContextMenuStrip";
+            resources.ApplyResources(this.initialContextMenuStrip, "initialContextMenuStrip");
+            this.initialContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.initialContextMenuStrip_Opening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // initialConditionsBindingSource
             // 
@@ -359,20 +373,6 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
-            // initialContextMenuStrip
-            // 
-            this.initialContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem});
-            this.initialContextMenuStrip.Name = "initialContextMenuStrip";
-            resources.ApplyResources(this.initialContextMenuStrip, "initialContextMenuStrip");
-            this.initialContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.initialContextMenuStrip_Opening);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
             // SimulationConfigurationDialog
             // 
             this.AcceptButton = this.SSApplyButton;
@@ -382,9 +382,9 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.SSApplyButton);
             this.Controls.Add(this.SSCloseButton);
+            this.Controls.Add(this.configurationLabel);
             this.Controls.Add(this.SSDeleteButton);
             this.Controls.Add(this.SSCreateButton);
-            this.Controls.Add(this.configurationLabel);
             this.Controls.Add(this.paramCombo);
             this.Name = "SimulationConfigurationDialog";
             this.Load += new System.EventHandler(this.SimulationConfigurationDialog_Load);
@@ -393,6 +393,7 @@
             perModelSimulationParametersPage.ResumeLayout(false);
             perModelSimulationParametersPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).EndInit();
+            this.initialContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.perModelSimulationParameterBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_simParamSets)).EndInit();
@@ -407,7 +408,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.initialContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

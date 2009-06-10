@@ -120,10 +120,6 @@
   <metadata name="perModelSimulationParametersPage.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="initialParameters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
   <data name="keyDataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>FullPN</value>
   </data>
@@ -156,17 +152,21 @@
   <metadata name="initialConditionsBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 54</value>
   </metadata>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="initialParameters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="initialParameters.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="initialParameters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 38</value>
+    <value>0, 0</value>
   </data>
   <data name="initialParameters.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 6, 6, 6</value>
   </data>
   <data name="initialParameters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>439, 286</value>
+    <value>411, 320</value>
   </data>
   <data name="initialParameters.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -190,7 +190,7 @@
     <value>True</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 12</value>
+    <value>4, 12</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 12</value>
@@ -223,10 +223,10 @@
     <value>17, 17</value>
   </metadata>
   <data name="modelCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 9</value>
+    <value>93, 9</value>
   </data>
   <data name="modelCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>365, 20</value>
+    <value>312, 20</value>
   </data>
   <data name="modelCombo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -247,7 +247,7 @@
     <value>4, 21</value>
   </data>
   <data name="perModelSimulationParametersPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 330</value>
+    <value>411, 320</value>
   </data>
   <data name="perModelSimulationParametersPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -373,7 +373,7 @@
     <value>Top, Right</value>
   </data>
   <data name="SSCreateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>407, 10</value>
+    <value>369, 12</value>
   </data>
   <data name="SSCreateButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 23</value>
@@ -394,16 +394,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SSCreateButton.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="paramCombo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="paramCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 12</value>
+    <value>119, 14</value>
   </data>
   <data name="paramCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>303, 20</value>
+    <value>244, 20</value>
   </data>
   <data name="paramCombo.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -424,7 +424,7 @@
     <value>Top, Right</value>
   </data>
   <data name="SSDeleteButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 10</value>
+    <value>404, 12</value>
   </data>
   <data name="SSDeleteButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 23</value>
@@ -445,13 +445,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SSDeleteButton.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="SSApplyButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="SSApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>321, 402</value>
+    <value>277, 392</value>
   </data>
   <data name="SSApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -478,7 +478,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 402</value>
+    <value>357, 392</value>
   </data>
   <data name="SSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -505,7 +505,7 @@
     <value>True</value>
   </data>
   <data name="configurationLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 15</value>
+    <value>12, 17</value>
   </data>
   <data name="configurationLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 12</value>
@@ -526,7 +526,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;configurationLabel.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -868,7 +868,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="loggingPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 330</value>
+    <value>411, 320</value>
   </data>
   <data name="loggingPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -895,7 +895,7 @@
     <value>12, 41</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 355</value>
+    <value>419, 345</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -925,7 +925,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>487, 437</value>
+    <value>443, 427</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1108,6 +1108,12 @@
   <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;deleteToolStripMenuItem.Name" xml:space="preserve">
+    <value>deleteToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;deleteToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;initialConditionsBindingSource.Name" xml:space="preserve">
     <value>initialConditionsBindingSource</value>
   </data>
@@ -1149,12 +1155,6 @@
   </data>
   <data name="&gt;&gt;simSettingToolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deleteToolStripMenuItem.Name" xml:space="preserve">
-    <value>deleteToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;deleteToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SimulationConfigurationDialog</value>

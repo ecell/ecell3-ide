@@ -32,7 +32,7 @@
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             System.Windows.Forms.Label label2;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.jobStatusImageList = new System.Windows.Forms.ImageList(this.components);
             this.parameterDataGridView = new System.Windows.Forms.DataGridView();
             this.PropNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,7 +101,7 @@
             this.parameterDataGridView.AllowUserToResizeRows = false;
             resources.ApplyResources(this.parameterDataGridView, "parameterDataGridView");
             this.parameterDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.parameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.parameterDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.parameterDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PropNameColumn,
             this.PropValueColumn});
@@ -114,8 +114,8 @@
             // 
             // PropNameColumn
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
-            this.PropNameColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            this.PropNameColumn.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.PropNameColumn, "PropNameColumn");
             this.PropNameColumn.Name = "PropNameColumn";
             this.PropNameColumn.ReadOnly = true;
