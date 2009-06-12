@@ -1366,6 +1366,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception e)
             {
+                Util.ShowErrorDialog(e.Message);
                 Debug.WriteLine(e.Message);
             }
         }

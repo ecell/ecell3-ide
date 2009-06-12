@@ -278,4 +278,7 @@
         AAAD/wAAA/8AAAP/AACH/wAA
 </value>
   </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
 </root>
