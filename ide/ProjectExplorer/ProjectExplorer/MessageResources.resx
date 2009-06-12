@@ -153,6 +153,9 @@
   <data name="NameName" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="NameNewStepper" xml:space="preserve">
+    <value>New Stepper</value>
+  </data>
   <data name="NameParameters" xml:space="preserve">
     <value>Parameters</value>
   </data>

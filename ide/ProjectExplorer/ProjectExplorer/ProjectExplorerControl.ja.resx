@@ -281,4 +281,10 @@
   <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="stepperToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stepper...</value>
+  </data>
 </root>

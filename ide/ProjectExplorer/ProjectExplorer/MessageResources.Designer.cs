@@ -169,6 +169,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   New Stepper に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameNewStepper {
+            get {
+                return ResourceManager.GetString("NameNewStepper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Parameters に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameParameters {

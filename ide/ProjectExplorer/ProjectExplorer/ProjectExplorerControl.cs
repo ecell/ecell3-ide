@@ -1234,7 +1234,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs.</param>
         private void TreeViewAddSimulationSet(object sender, EventArgs e)
         {
-            InputNameDialog dlg = new InputNameDialog();
+            InputNameDialog dlg = new InputNameDialog(false);
             dlg.OwnerForm = m_owner;
 
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -1532,20 +1532,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs</param>
         private void TreeViewAddStepper(object sender, EventArgs e)
         {
-            InputNameDialog dlg = new InputNameDialog();
+            InputNameDialog dlg = new InputNameDialog(true);            
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string name = dlg.InputText;
                 string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
-                List<EcellObject> list = m_owner.DataManager.GetStepper(modelID);
-                foreach (EcellObject obj in list)
-                {
-                    if (obj.Key.Equals(name))
-                    {
-                        Util.ShowErrorDialog(MessageResources.ErrAlreadyExistStepper);
-                        return;
-                    }
-                }
                 EcellObject sobj = m_owner.DataManager.CreateDefaultObject(modelID, name, Constants.xpathStepper);
                 m_owner.DataManager.DataAdd(sobj);
             }

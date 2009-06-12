@@ -151,7 +151,10 @@
     <value>モデル</value>
   </data>
   <data name="NameName" xml:space="preserve">
-    <value>DMの名前</value>
+    <value>名前</value>
+  </data>
+  <data name="NameNewStepper" xml:space="preserve">
+    <value>新規Stepper</value>
   </data>
   <data name="NameParameters" xml:space="preserve">
     <value>パラメータ</value>
