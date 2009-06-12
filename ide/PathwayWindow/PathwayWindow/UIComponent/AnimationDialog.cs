@@ -103,7 +103,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void addPropertyViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            PropertyViewAnimationItem item = new PropertyViewAnimationItem();
+            AddItem(item);
         }
 
         private void addNodeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -140,8 +141,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             if (e.Index < 0)
                 return;
-            string txt = ((ListBox)sender).Items[e.Index].ToString();
-            e.Graphics.DrawString(txt, e.Font, Brushes.Black, e.Bounds);
+            string text = ((ListBox)sender).Items[e.Index].ToString();
+            e.Graphics.DrawString(text, e.Font, Brushes.Black, e.Bounds);
             e.DrawFocusRectangle();
 
         }

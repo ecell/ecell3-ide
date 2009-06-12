@@ -117,238 +117,241 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="edgeBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="edgeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="edgeLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 26</value>
-  </data>
-  <data name="edgeLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>439, 35</value>
-  </data>
-  <data name="edgeLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="edgeLabel.Text" xml:space="preserve">
-    <value>Set upper and lower threshold of Process MolarActivity. The edge of the process whose MolarActivity exceeds the threshold is discolored. </value>
-  </data>
-  <data name="&gt;&gt;edgeLabel.Name" xml:space="preserve">
-    <value>edgeLabel</value>
-  </data>
-  <data name="&gt;&gt;edgeLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;thresholdLow.Parent" xml:space="preserve">
+    <value>edgeBox</value>
   </data>
   <data name="&gt;&gt;edgeLabel.Parent" xml:space="preserve">
     <value>edgeBox</value>
   </data>
-  <data name="&gt;&gt;edgeLabel.ZOrder" xml:space="preserve">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="thresholdHigh.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 66</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="thresholdHigh.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;autoThresholdCheckBox.Parent" xml:space="preserve">
+    <value>edgeBox</value>
+  </data>
+  <data name="thresholdLow.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="edgeBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="thresholdHigh.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="autoThresholdCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="edgeNGBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 166</value>
   </data>
   <data name="edgeHighBrush.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="edgeHighBrush.LabelText" xml:space="preserve">
-    <value>Arrow color</value>
-  </data>
-  <data name="edgeHighBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>239, 64</value>
-  </data>
-  <data name="edgeHighBrush.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 28</value>
-  </data>
-  <data name="edgeHighBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;edgeHighBrush.Name" xml:space="preserve">
-    <value>edgeHighBrush</value>
-  </data>
-  <data name="&gt;&gt;edgeHighBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;edgeHighBrush.Parent" xml:space="preserve">
+  <data name="&gt;&gt;thresholdHigh.Parent" xml:space="preserve">
     <value>edgeBox</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="edgeLowBrush.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="edgeLowBrush.LabelText" xml:space="preserve">
-    <value>Arrow color</value>
-  </data>
-  <data name="edgeLowBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>239, 98</value>
-  </data>
-  <data name="edgeLowBrush.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 28</value>
-  </data>
-  <data name="edgeLowBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="edgeBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Name" xml:space="preserve">
     <value>edgeLowBrush</value>
   </data>
-  <data name="&gt;&gt;edgeLowBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="edgeHighBrush.LabelText" xml:space="preserve">
+    <value>Arrow color</value>
+  </data>
+  <data name="&gt;&gt;edgeNGBrush.Name" xml:space="preserve">
+    <value>edgeNGBrush</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
   </data>
-  <data name="&gt;&gt;edgeLowBrush.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="autoThresholdCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="autoThresholdCheckBox.LabelText" xml:space="preserve">
-    <value>Auto Threshold</value>
-  </data>
-  <data name="autoThresholdCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 132</value>
-  </data>
   <data name="autoThresholdCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 28</value>
   </data>
-  <data name="autoThresholdCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Animation oｆ Edge</value>
   </data>
-  <data name="&gt;&gt;autoThresholdCheckBox.Name" xml:space="preserve">
-    <value>autoThresholdCheckBox</value>
+  <data name="&gt;&gt;edgeHighBrush.Name" xml:space="preserve">
+    <value>edgeHighBrush</value>
   </data>
-  <data name="&gt;&gt;autoThresholdCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;autoThresholdCheckBox.Parent" xml:space="preserve">
-    <value>edgeBox</value>
-  </data>
-  <data name="&gt;&gt;autoThresholdCheckBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="thresholdHigh.AutoSize" type="System.Boolean, mscorlib">
+  <data name="edgeNGBrush.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="thresholdHigh.LabelText" xml:space="preserve">
-    <value>Upper threshold</value>
+  <data name="thresholdLow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 99</value>
   </data>
-  <data name="thresholdHigh.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 66</value>
+  <data name="thresholdLow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="thresholdHigh.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 27</value>
-  </data>
-  <data name="thresholdHigh.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;thresholdHigh.Name" xml:space="preserve">
-    <value>thresholdHigh</value>
-  </data>
-  <data name="&gt;&gt;thresholdHigh.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;thresholdHigh.Parent" xml:space="preserve">
+  <data name="&gt;&gt;edgeBox.Name" xml:space="preserve">
     <value>edgeBox</value>
+  </data>
+  <data name="&gt;&gt;autoThresholdCheckBox.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="thresholdLow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 27</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="thresholdLow.AutoSize" type="System.Boolean, mscorlib">
+  <data name="&gt;&gt;edgeNGBrush.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="edgeHighBrush.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 28</value>
+  </data>
+  <data name="&gt;&gt;edgeHighBrush.Parent" xml:space="preserve">
+    <value>edgeBox</value>
+  </data>
+  <data name="edgeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="edgeNGBrush.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 28</value>
+  </data>
+  <data name="&gt;&gt;edgeBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="autoThresholdCheckBox.LabelText" xml:space="preserve">
+    <value>Auto Threshold</value>
+  </data>
+  <data name="&gt;&gt;edgeBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="edgeNGBrush.LabelText" xml:space="preserve">
+    <value>Error color</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>EdgeAnimatioinItem</value>
+  </data>
+  <data name="thresholdHigh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 27</value>
+  </data>
+  <data name="&gt;&gt;thresholdLow.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="edgeNGBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="edgeBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;edgeLowBrush.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="edgeLowBrush.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="edgeLabel.Text" xml:space="preserve">
+    <value>Set upper and lower threshold of Process MolarActivity. The edge of the process whose MolarActivity exceeds the threshold is discolored. </value>
+  </data>
+  <data name="&gt;&gt;edgeLowBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>476, 219</value>
+  </data>
+  <data name="edgeBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>476, 219</value>
+  </data>
+  <data name="&gt;&gt;edgeBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="edgeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>439, 35</value>
+  </data>
+  <data name="edgeLowBrush.LabelText" xml:space="preserve">
+    <value>Arrow color</value>
+  </data>
+  <data name="edgeBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;edgeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;autoThresholdCheckBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;thresholdHigh.Name" xml:space="preserve">
+    <value>thresholdHigh</value>
+  </data>
+  <data name="autoThresholdCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="thresholdLow.LabelText" xml:space="preserve">
     <value>Lower threshold</value>
   </data>
-  <data name="thresholdLow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 99</value>
+  <data name="edgeHighBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>239, 64</value>
   </data>
-  <data name="thresholdLow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 27</value>
-  </data>
-  <data name="thresholdLow.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;thresholdLow.Name" xml:space="preserve">
-    <value>thresholdLow</value>
-  </data>
-  <data name="&gt;&gt;thresholdLow.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;thresholdLow.Parent" xml:space="preserve">
-    <value>edgeBox</value>
-  </data>
-  <data name="&gt;&gt;thresholdLow.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="edgeNGBrush.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="edgeNGBrush.LabelText" xml:space="preserve">
-    <value>Error color</value>
-  </data>
-  <data name="edgeNGBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 166</value>
-  </data>
-  <data name="edgeNGBrush.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="edgeLowBrush.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 28</value>
   </data>
-  <data name="edgeNGBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;thresholdLow.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;edgeNGBrush.Name" xml:space="preserve">
-    <value>edgeNGBrush</value>
+  <data name="edgeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 26</value>
+  </data>
+  <data name="edgeHighBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;edgeLabel.Name" xml:space="preserve">
+    <value>edgeLabel</value>
+  </data>
+  <data name="thresholdHigh.LabelText" xml:space="preserve">
+    <value>Upper threshold</value>
+  </data>
+  <data name="edgeLowBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;autoThresholdCheckBox.Name" xml:space="preserve">
+    <value>autoThresholdCheckBox</value>
+  </data>
+  <data name="autoThresholdCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 132</value>
+  </data>
+  <data name="&gt;&gt;edgeHighBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;thresholdHigh.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.2943.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;edgeLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="edgeLowBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>239, 98</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
   </data>
-  <data name="&gt;&gt;edgeNGBrush.ZOrder" xml:space="preserve">
+  <data name="edgeLabel.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="edgeBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="edgeBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="edgeBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 219</value>
-  </data>
-  <data name="edgeBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
   </data>
   <data name="edgeBox.Text" xml:space="preserve">
     <value>Animation of Edge</value>
   </data>
-  <data name="&gt;&gt;edgeBox.Name" xml:space="preserve">
-    <value>edgeBox</value>
-  </data>
-  <data name="&gt;&gt;edgeBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;edgeBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;edgeBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;thresholdLow.Name" xml:space="preserve">
+    <value>thresholdLow</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 219</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>EdgeAnimatioinItem</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.2903.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
 </root>

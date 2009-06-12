@@ -122,6 +122,9 @@
     <Compile Include="Animation\PathwaySettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Animation\PropertyViewAnimationItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Animation\ViewModeSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -288,6 +291,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\PathwaySettingsPage.resx">
       <DependentUpon>PathwaySettingsPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\PropertyViewAnimationItem.ja.resx">
+      <DependentUpon>PropertyViewAnimationItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\PropertyViewAnimationItem.resx">
+      <DependentUpon>PropertyViewAnimationItem.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\ViewModeSettings.ja.resx">

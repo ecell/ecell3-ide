@@ -90,7 +90,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             get { return _menuItem; }
             set { _menuItem = value; }
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public new string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
         #endregion
 
         #region Constructors
@@ -192,7 +202,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <returns></returns>
         public override string ToString()
         {
-            return this.Name;
+            return this.Text;
         }
         #endregion
 

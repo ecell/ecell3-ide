@@ -126,6 +126,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// Get ComboBox.
         /// </summary>
+        /// 
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public ComboBox ComboBox
         {
             get {return m_comboBox;}
