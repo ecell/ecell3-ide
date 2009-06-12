@@ -531,17 +531,6 @@ class Session:
             list.append(value)
         return list
 
-    def GetErrorJobList(self):
-        ''' 
-        Get the list of error jobs.
-
-        Return the list of int : the list of job id.
-        '''
-        list = []
-        for value in self.theCommandManager.GetErrorJobList():
-            list.append(value)
-        return list
-
     def GetFinishedJobList(self):
         ''' 
         Get the list of finished jobs.
@@ -729,7 +718,7 @@ class EntityStub:
         self.theEntity.SetProperty(aPropertyName, aValue)
 
 class JobStub:
-    def __init__(self, aCommandManager, aJobManager, aID):
+    def __init__(self, aCommandManager, aJobManager, aName, aID):
         '''
         Constructor.
         
@@ -738,7 +727,8 @@ class JobStub:
         self.theCommandManager = aCommandManager
         self.theJobManager = aJobManager
         self.theJobID = aID
-        self.theJob = self.theCommandManager.CreateJobStrub(aID)
+        self.theName = aName
+        self.theJob = self.theCommandManager.CreateJobStrub(aName, aID)
 
     def create(self):
         '''
