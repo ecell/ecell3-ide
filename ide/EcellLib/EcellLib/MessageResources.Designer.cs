@@ -196,6 +196,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   At least one Stepper is required in the model. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrDelStep {
+            get {
+                return ResourceManager.GetString("ErrDelStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Entity {0} already exists in this project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistObj {
@@ -498,6 +507,15 @@ namespace Ecell {
         internal static string ErrSetSimParam {
             get {
                 return ResourceManager.GetString("ErrSetSimParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There is at least one Entity that refers to the Stepper {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrStepperStillInUse {
+            get {
+                return ResourceManager.GetString("ErrStepperStillInUse", resourceCulture);
             }
         }
         

@@ -378,4 +378,10 @@
   <data name="InfoStartStepSim" xml:space="preserve">
     <value>ステップ実行を開始しました[{0}]。</value>
   </data>
+  <data name="ErrDelStep" xml:space="preserve">
+    <value>少なくともモデルには１つのステッパーが必要です。</value>
+  </data>
+  <data name="ErrStepperStillInUse" xml:space="preserve">
+    <value>Stepper {0} を参照するエンティティが少なくとも1つ存在します。</value>
+  </data>
 </root>

@@ -1734,50 +1734,39 @@ namespace Ecell
             if (deleteObj == null)
                 return;
 
-            try
+            foreach (EcellData data in deleteObj.Value)
             {
-                foreach (EcellData data in deleteObj.Value)
+                if (GetParameterData(data.EntityPath) != null)
                 {
-                    if (GetParameterData(data.EntityPath) != null)
-                    {
-                        RemoveParameterData(new EcellParameterData(data.EntityPath, 0.0));
-                    }
-                    if (GetObservedData(data.EntityPath) != null)
-                    {
-                        RemoveObservedData(new EcellObservedData(data.EntityPath, 0.0));
-                    }
+                    RemoveParameterData(new EcellParameterData(data.EntityPath, 0.0));
                 }
+                if (GetObservedData(data.EntityPath) != null)
+                {
+                    RemoveObservedData(new EcellObservedData(data.EntityPath, 0.0));
+                }
+            }
 
-                if (string.IsNullOrEmpty(key))
-                {
-//                    DataDelete4Model(modelID);
-                }
-                else if (key.Contains(":") || type.Equals(Constants.xpathStepper))
-                { // not system
-                    m_env.LoggerManager.NodeRemoved(deleteObj);
-                    DataDelete4Node(modelID, key, type, true, isRecorded, false);
-                }
-                else
-                { // system
-                    m_env.LoggerManager.SystemRemoved(deleteObj);
-                    DataDelete4System(modelID, key, true, isRecorded);
-                }
-            }
-            catch (Exception ex)
+            if (string.IsNullOrEmpty(key))
             {
-                throw new EcellException(string.Format(MessageResources.ErrDelete,
-                    new object[] { key }), ex);
+                //                    DataDelete4Model(modelID);
             }
-            finally
-            {
-                m_env.PluginManager.DataDelete(modelID, key, type);
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new DataDeleteAction(deleteObj));
-                if (type.Equals(EcellObject.SYSTEM))
-                    m_env.PluginManager.RaiseRefreshEvent();
-                if (isRecorded && isAnchor)
-                    this.m_env.ActionManager.AddAction(new AnchorAction());
+            else if (key.Contains(":") || type.Equals(Constants.xpathStepper))
+            { // not system
+                m_env.LoggerManager.NodeRemoved(deleteObj);
+                DataDelete4Node(modelID, key, type, true, isRecorded, false);
             }
+            else
+            { // system
+                m_env.LoggerManager.SystemRemoved(deleteObj);
+                DataDelete4System(modelID, key, true, isRecorded);
+            }
+            m_env.PluginManager.DataDelete(modelID, key, type);
+            if (isRecorded)
+                m_env.ActionManager.AddAction(new DataDeleteAction(deleteObj));
+            if (type.Equals(EcellObject.SYSTEM))
+                m_env.PluginManager.RaiseRefreshEvent();
+            if (isRecorded && isAnchor)
+                this.m_env.ActionManager.AddAction(new AnchorAction());
         }
 
         ///// <summary>
@@ -3197,6 +3186,16 @@ namespace Ecell
             int point = -1;
             List<EcellObject> storedStepperList
                 = m_currentProject.StepperDic[stepper.ModelID];
+            if (storedStepperList.Count <= 1)
+            {
+                throw new EcellException(MessageResources.ErrDelStep);
+            }
+            if (m_currentProject.IsUsedStepper(stepper.Key))
+            {
+                throw new EcellException(string.Format(MessageResources.ErrStepperStillInUse, stepper.Key));
+            }
+
+
             for (int i = 0; i < storedStepperList.Count; i++)
             {
                 if (storedStepperList[i].Key.Equals(stepper.Key))

@@ -380,4 +380,10 @@ New revision {0}:{1} was created.</value>
   <data name="InfoStartStepSim" xml:space="preserve">
     <value>Start step simulation [{0}].</value>
   </data>
+  <data name="ErrDelStep" xml:space="preserve">
+    <value>At least one Stepper is required in the model.</value>
+  </data>
+  <data name="ErrStepperStillInUse" xml:space="preserve">
+    <value>There is at least one Entity that refers to the Stepper {0}</value>
+  </data>
 </root>

@@ -687,6 +687,36 @@ namespace Ecell
                 Directory.Delete(prjPath, true);
         }
 
+        /// <summary>
+        /// Check whether this stepper is used.
+        /// </summary>
+        /// <param name="stepperID">the checked stepper ID.</param>
+        /// <returns>if stepper is used, return true.</returns>
+        public bool IsUsedStepper(string stepperID)
+        {
+            foreach (EcellObject sysobj in m_systemDic[Model.ModelID])
+            {
+                EcellData d = sysobj.GetEcellData(Constants.xpathStepperID);
+                if (d != null) 
+                {
+                    if (stepperID.Equals(d.Value.ToString()))
+                        return true;
+                }
+                if (sysobj.Children == null)
+                    continue;
+                foreach (EcellObject child in sysobj.Children)
+                {
+                    if (!(child is EcellProcess))
+                        continue;
+                    EcellData d1 = child.GetEcellData(Constants.xpathStepperID);
+                    if (d1 == null) continue;
+                    if (stepperID.Equals(d1.Value.ToString()))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         #region Methods for Save
         /// <summary>
         /// 

@@ -1508,11 +1508,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 List<EcellObject> list = m_owner.DataManager.GetStepper(m_owner.DataManager.CurrentProject.Model.ModelID);
                 EcellObject sobj = null;
-                if (list == null || list.Count <= 1)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrDelStep);
-                    return;
-                }
                 foreach (EcellObject obj in list)
                 {
                     if (obj.Key.Equals(name))
