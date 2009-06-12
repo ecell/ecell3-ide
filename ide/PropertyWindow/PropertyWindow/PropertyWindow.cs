@@ -128,6 +128,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_time.Enabled = false;
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(FireTimer);
+
+            this.TabText = this.Text;
         }
 
         /// <summary>
