@@ -908,6 +908,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripMoveFront.Visible = isObject && !isRoot;
             toolStripMoveBack.Visible = isObject && !isRoot;
             toolStripFigureSetting.Visible = isObject && isMenuOn;
+            toolStripAnimationSetting.Visible = isNull && isMenuOn;
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;

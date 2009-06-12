@@ -103,8 +103,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void addPropertyViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PropertyViewAnimationItem item = new PropertyViewAnimationItem(_control);
-            AddItem(item);
+            foreach (IAnimationItem item in this.listBox.Items)
+            {
+                if (!(item is PropertyViewAnimationItem))
+                    continue;
+                this.panel.Controls.Clear();
+                this.panel.Controls.Add((AnimationItemBase)item);
+                return;
+            }
+
+            PropertyViewAnimationItem newItem = new PropertyViewAnimationItem(_control);
+            AddItem(newItem);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private bool IsExistItem(Type type)
+        {
+            return false;
         }
 
         private void addNodeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -114,8 +133,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void addEdgeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EdgeAnimatioinItem item = new EdgeAnimatioinItem(_control);
-            AddItem(item);
+            foreach (IAnimationItem item in this.listBox.Items)
+            {
+                if (!(item is EdgeAnimatioinItem))
+                    continue;
+                this.panel.Controls.Clear();
+                this.panel.Controls.Add((AnimationItemBase)item);
+                return;
+            }
+
+            EdgeAnimatioinItem newItem = new EdgeAnimatioinItem(_control);
+            AddItem(newItem);
         }
 
         /// <summary>

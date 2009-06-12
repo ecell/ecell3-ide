@@ -45,11 +45,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        private string _format = "";
-
-        /// <summary>
-        /// 
-        /// </summary>
         private bool _autoThreshold = false;
 
         /// <summary>
@@ -245,8 +240,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             if (_autoThreshold)
                 _thresholdHigh = 0;
-
-            _format = _dManager.DisplayStringFormat;
             foreach (PPathwayProcess process in _processes)
             {
                 process.ViewMode = true;

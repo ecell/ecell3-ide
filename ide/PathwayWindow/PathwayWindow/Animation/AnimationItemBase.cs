@@ -76,6 +76,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         protected List<PPathwayVariable> _variables = new List<PPathwayVariable>();
+        /// <summary>
+        /// 
+        /// </summary>
+        private string _format = "";
 
         #endregion
 
@@ -162,6 +166,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _steppers.AddRange(_canvas.Steppers.Values);
             _processes.AddRange(_canvas.Processes.Values);
             _variables.AddRange(_canvas.Variables.Values);
+
+            _format = _dManager.DisplayStringFormat;
+
         }
 
         /// <summary>
@@ -226,5 +233,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             return num;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPN"></param>
+        /// <returns></returns>
+        protected string GetTextValue(string fullPN)
+        {
+            float value = GetFloatValue(fullPN);
+            string text = value.ToString(_format);
+            return text;
+        }
     }
 }
