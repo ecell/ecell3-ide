@@ -115,7 +115,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             : base(control)
         {
             InitializeComponent();
-            _control = control;
         }
 
         /// <summary>

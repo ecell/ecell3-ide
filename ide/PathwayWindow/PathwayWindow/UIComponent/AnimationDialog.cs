@@ -103,7 +103,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void addPropertyViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PropertyViewAnimationItem item = new PropertyViewAnimationItem();
+            PropertyViewAnimationItem item = new PropertyViewAnimationItem(_control);
             AddItem(item);
         }
 
