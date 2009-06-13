@@ -77,6 +77,17 @@ namespace Ecell.Plugin
         /// <returns>layout type of this algorithm</returns>
         LayoutType GetLayoutType();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         string GetLayoutName();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        ILayoutPanel GetPanel();
+
     }
 }

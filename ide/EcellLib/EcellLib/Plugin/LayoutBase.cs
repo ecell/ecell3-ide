@@ -42,8 +42,14 @@ namespace Ecell.Plugin
     /// </summary>
     public abstract class LayoutBase: IEcellPlugin, ILayoutAlgorithm
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected ApplicationEnvironment m_env;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
@@ -190,5 +196,14 @@ namespace Ecell.Plugin
         /// </summary>
         /// <returns></returns>
         public abstract string GetLayoutName();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual ILayoutPanel GetPanel()
+        {
+            return null;
+        }
     }
 }
