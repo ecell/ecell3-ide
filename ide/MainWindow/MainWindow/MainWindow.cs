@@ -730,6 +730,11 @@ namespace Ecell.IDE.MainWindow
             // nothing
         }
 
+        /// <summary>
+        /// The event sequence when the simulation parameter is updated.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The updated parameter ID.</param>
         public void ParameterUpdate(string projectID, string parameterID)
         {
         }
@@ -839,6 +844,10 @@ namespace Ecell.IDE.MainWindow
             ChangeUndoStatus(m_env.ActionManager.UndoStatus);
         }
 
+        /// <summary>
+        /// Replace the recent project,
+        /// </summary>
+        /// <param name="info">the recent project.</param>
         private void CheckAndReplaceRecentProject(ProjectInfo info)
         {
             if (info.ProjectType == ProjectType.Template)
@@ -895,9 +904,9 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Get the list of property shown in Common Setting Dialog.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of IPropertyItem.</returns>
         public List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node1 = new PropertyNode(MessageResources.NameJobManage);            
@@ -935,9 +944,9 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Get the list of public delegation function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the dictionary of name and delegation function</returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
@@ -1083,6 +1092,11 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// Show the dialog to confirm to override the project.
+        /// </summary>
+        /// <param name="project">the override project.</param>
+        /// <returns>if ok is true.</returns>
         private bool ConfirmOverwrite(Project project)
         {
             if(!Util.IsExistProject(project.Info.Name))
@@ -1105,10 +1119,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Click ToolStripMenuItem to save as ...
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Å@Get current project.
@@ -1399,6 +1413,11 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// Click ToolStripMenuItem to display the about E-Cell IDE.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ShowAboutDialog(object sender, EventArgs e)
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
@@ -1413,12 +1432,17 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
-
+        /// <summary>
+        /// Activate the grid status dialog.
+        /// </summary>
         private void ShowGridStatusDialog()
         {
             m_statusDialog.Activate();
         }
 
+        /// <summary>
+        /// Show the form to edit script.
+        /// </summary>
         private void ShowScriptEditor()
         {
             ScriptEditor edit = new ScriptEditor(m_env);
@@ -1549,8 +1573,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Event when the status of ReportManager is updated.
         /// </summary>
+        /// <param name="o">ReportManager.</param>
+        /// <param name="e">StatusUpdateEventArgs</param>
         private void ReportManager_StatusUpdated(object o, StatusUpdateEventArgs e)
         {
             bool isExeDoEvents = false;
@@ -1569,10 +1595,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Event when Undo status is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ActionManager.</param>
+        /// <param name="e">UndoStatusChangedEventArgs</param>
         void ActionManager_UndoStatusChanged(object sender, UndoStatusChangedEventArgs e)
         {
             ChangeUndoStatus(e.Status);
@@ -1581,7 +1607,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Change availability of undo/redo function
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">UndoStatus.</param>
         private void ChangeUndoStatus(UndoStatus status)
         {
             bool prjStatus = m_status == ProjectStatus.Loaded;
@@ -1597,17 +1623,18 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Event to change the value of progress bar.
         /// </summary>
         private void ReportManager_ProgressValueUpdated(object o, ProgressReportEventArgs e)
         {
             genericProgressBar.Value = (e.Value == 100 ? 0 : e.Value);
         }
+
         /// <summary>
-        /// 
+        /// Click ToolStripMenuItem to import SBML,
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ImportSBMLMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -1632,6 +1659,11 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// Get the ToolStripMenuItem from menu name.
+        /// </summary>
+        /// <param name="name">the menu name.</param>
+        /// <returns> the ToolStripMenuItem</returns>
         public ToolStripMenuItem GetRootMenuItem(string name)
         {
             switch (name)
@@ -1657,10 +1689,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Click ToolStripMenuItem to display home page of feedback.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_browser.Url = new Uri("http://chaperone.e-cell.org/services/feedback/");
@@ -1670,18 +1702,18 @@ namespace Ecell.IDE.MainWindow
         #region IEcellPlugin ÉÅÉìÉo
 
         /// <summary>
-        /// 
+        /// Get the information of Plugin.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the information of Plugin.</returns>
         public XmlNode GetPluginStatus()
         {
             return null;
         }
 
         /// <summary>
-        /// 
+        /// Set the information of Plugin.
         /// </summary>
-        /// <param name="nstatus"></param>
+        /// <param name="status">the information of Plugin.</param>
         public void SetPluginStatus(XmlNode nstatus)
         {
             ;

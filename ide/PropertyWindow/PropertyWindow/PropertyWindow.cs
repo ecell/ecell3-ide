@@ -60,6 +60,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// The displayed object.
         /// </summary>
         private EcellObject m_current = null;
+        /// <summary>
+        /// Propery data shown ContextMenuStripItem
+        /// </summary>
         private EcellData m_data = null;
         /// <summary>
         /// Variable Reference List.
@@ -82,26 +85,26 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         private bool m_isChanging = false;
         /// <summary>
-        /// 
+        /// ComboBox to edit the classname.
         /// </summary>
         private DataGridViewComboBoxEditingControl m_combo = null;
         /// <summary>
-        /// 
+        /// The list of string for non data properties.
         /// </summary>
         private List<string> m_nonDataProps;
         /// <summary>
-        /// 
+        /// ComboBox to edit the classname of Stepper.
         /// </summary>
         private DataGridViewComboBoxCell m_stepperIDComboBox;
-
         /// <summary>
         /// The application environment associated to this object.
         /// </summary>
         protected ApplicationEnvironment m_env = null;
-        #endregion
-
+        /// <summary>
+        /// Prefix for new property.
+        /// </summary>
         private const string s_newPropPrefix = "userDefined";
-
+        #endregion
 
         /// <summary>
         /// The application environment associated to this plugin
@@ -285,6 +288,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return m_env.DataManager.GetEcellObject(modelID, key, type);
         }
 
+        /// <summary>
+        /// Update expression.
+        /// </summary>
+        /// <param name="express">expression string.</param>
         private void UpdateExpression(string express)
         {
             EcellObject obj = m_current.Clone();
@@ -392,6 +399,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return row;
         }
 
+        /// <summary>
+        /// Add the non data property to DataGridView.
+        /// </summary>
+        /// <param name="propName">the property name.</param>
+        /// <param name="propValue">the property value.</param>
+        /// <param name="readOnly">the flag whether this property is readonly.</param>
+        /// <returns>Added DataGridViewRow.</returns>
         DataGridViewRow AddNonDataProperty(string propName, string propValue, bool readOnly)
         {
             DataGridViewRow row = new DataGridViewRow();
@@ -482,6 +496,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return row;
         }
 
+        /// <summary>
+        /// Reload the propety of object.
+        /// </summary>
         private void ReloadProperties()
         {
             m_propDic = null;
@@ -546,6 +563,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             label1.Text = m_current.FullID;
         }
 
+        /// <summary>
+        /// Update the property of object in the simulation.
+        /// </summary>
         private void UpdateProperties()
         {
             if (m_current == null)
@@ -787,11 +807,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
-
         /// <summary>
-        /// 
+        /// Get the list of property shown in Common Setting Dialog.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of IPropertyItem.</returns>
         public List<IPropertyItem> GetPropertySettings()
         {
             return null;
@@ -867,6 +886,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 VarRefListCellClicked(c, e);
         }
 
+        /// <summary>
+        /// Click on cell for VariableReferneceList.
+        /// </summary>
+        /// <param name="o">DataGridViewCell.</param>
+        /// <param name="e">EventArgs.</param>
         void VarRefListCellClicked(object o, EventArgs e)
         {
             DataGridViewCell c = o as DataGridViewCell;
@@ -1058,40 +1082,40 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         #region IDataHandler ÉÅÉìÉo
         /// <summary>
-        /// 
+        /// The event sequence on advancing time.
         /// </summary>
-        /// <param name="time"></param>
+        /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
         }
         /// <summary>
-        /// 
+        /// The event sequence on adding the logger at other plugin.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">Logger entry data.</param>
         public void LoggerAdd(LoggerEntry entry)
         {
         }
         /// <summary>
-        /// 
+        /// The event sequence when the user adds the simulation parameter.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID/</param>
         public void ParameterAdd(string projectID, string parameterID)
         {
         }
         /// <summary>
-        /// 
+        /// The event sequence when the user deletes the simulation parameter.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
         public void ParameterDelete(string projectID, string parameterID)
         {
         }
         /// <summary>
-        /// 
+        /// The event sequence when the user updates the simulation parameter.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The set parameter ID.</param>
         public void ParameterUpdate(string projectID, string parameterID)
         {
             if (parameterID == m_env.DataManager.GetCurrentSimulationParameterID() &&
@@ -1109,41 +1133,41 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
         /// <summary>
-        /// 
+        /// The event sequence when the user sets the simulation parameter.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="parameterID"></param>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The set parameter ID.</param>
         public void ParameterSet(string projectID, string parameterID)
         {
         }
         /// <summary>
-        /// 
+        /// The event process when user removes the selected objects.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
         }
         /// <summary>
-        /// 
+        /// Reset all selected objects.
         /// </summary>
         public void ResetSelect()
         {
         }
         /// <summary>
-        /// 
+        /// Notify a plugin that it should save model-related information if necessary.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="directory"></param>
+        /// <param name="modelID">ModelID of a model which is going to be saved</param>
+        /// <param name="directory">A saved file must be under this directory </param>
         public void SaveModel(string modelID, string directory)
         {
         }
         #endregion
         /// <summary>
-        /// 
+        /// Get the list of public delegation function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the dictionary of name and delegation function</returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
@@ -1151,28 +1175,35 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return list;
         }
         /// <summary>
-        /// 
+        /// The public delegation to activate this form.
         /// </summary>
         public void ActivatePropertyWindow()
         {
             this.Activate();
         }
         /// <summary>
-        /// 
+        /// Initialize of this plugin.
         /// </summary>
         public void Initialize()
         {
         }
         /// <summary>
-        /// 
+        /// Get the window forms of each plugin.
+        /// DockContent is a docking window class of WeifenLuo.WinFormsUI plugin.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>UserControl.</returns>
+        //List<UserControl> GetWindowsForms();
         public IEnumerable<EcellDockContent> GetWindowsForms()
         {
             return new EcellDockContent[] { this };
         }
 
-        
+        #region Events
+        /// <summary>
+        /// Click the new property ToolStripMenuItem.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem.</param>
+        /// <param name="e">EventArgs.</param>
         private void defineANewPropertyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<int> existingPropsIndices = new List<int>();
@@ -1200,8 +1231,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 m_current.Key, m_current.Type, m_current);
         }
 
+        /// <summary>
+        /// Delete the property of ToolStripMenuItem.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void deleteThisPropertyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {            
             if (m_propDic == null)
                 return;
 
@@ -1232,6 +1268,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
 
+        /// <summary>
+        /// Open the contextmenustrip.
+        /// Check on/of of ContextMenuStipItem.
+        /// </summary>
+        /// <param name="sender">ContextMenuStrip.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (m_dgv.CurrentRow == null ||
@@ -1280,6 +1322,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_data = tag != null ? tag as EcellData : null;
         }
 
+        /// <summary>
+        /// Change the selection of ComboBox.
+        /// </summary>
+        /// <param name="sender">DataGridViewComboBoxEditingControl</param>
+        /// <param name="e">EventArgs</param>
         private void combo_selectedIndexChanged(object sender, EventArgs e)
         {
             string newClassName = (string)((DataGridViewComboBoxEditingControl)sender).SelectedItem;
@@ -1326,6 +1373,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             ReloadProperties();
         }
 
+        /// <summary>
+        /// End to edit the current cell.
+        /// </summary>
+        /// <param name="sender">DataGridViewCell.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         void m_dgv_CellEndEdit(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
             if (m_combo != null)
@@ -1335,6 +1387,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
 
+        /// <summary>
+        /// Event when UserContorl to edit cell is shown.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewEditingControlShowingEventArgs</param>
         private void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             DataGridViewCell cell = m_dgv[1, m_dgv.CurrentCell.RowIndex];
@@ -1348,7 +1405,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
 
-
+        /// <summary>
+        /// Event when mouse is moved on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
         private void MouseMoveOnDataGridView(object sender, MouseEventArgs e)
         {
             DataGridView v = sender as DataGridView;
@@ -1389,6 +1450,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         }
 
+        /// <summary>
+        /// Click ToolStripMenuItem of logging.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem.</param>
+        /// <param name="e">EventArgs</param>
         private void ClickLoggingMenu(object sender, EventArgs e)
         {
             if (m_data == null) return;
@@ -1409,6 +1475,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 m_current.Key, m_current.Type, m_current);
         }
 
+        /// <summary>
+        /// Click ToolStripMenuItem to manage the observed data.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickObservedDataMenu(object sender, EventArgs e)
         {
             if (m_data == null) return;
@@ -1430,6 +1501,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
 
+        /// <summary>
+        /// Click ToolStripMenuItem to manage the unknown data.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickUnknownParameterMenu(object sender, EventArgs e)
         {
             if (m_data == null) return;
@@ -1462,15 +1538,21 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
 
+        /// <summary>
+        /// Click ToolStripMenuItem to show property.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickShowPropertyMenu(object sender, EventArgs e)
         {
             PropertyEditor.Show(m_env, m_current);
         }
+
         /// <summary>
-        /// 
+        /// Press key on DataGridView.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1507,22 +1589,22 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        #endregion
 
         #region IEcellPlugin ÉÅÉìÉo
-
         /// <summary>
-        /// 
+        /// Get the information of Plugin.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the information of Plugin.</returns>
         public System.Xml.XmlNode GetPluginStatus()
         {
             return null;
         }
 
         /// <summary>
-        /// 
+        /// Set the information of Plugin.
         /// </summary>
-        /// <param name="nstatus"></param>
+        /// <param name="status">the information of Plugin.</param>
         public void SetPluginStatus(System.Xml.XmlNode nstatus)
         {
             ;

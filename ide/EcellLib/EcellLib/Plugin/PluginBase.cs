@@ -146,27 +146,27 @@ namespace Ecell.Plugin
         public abstract string GetVersionString();
 
         /// <summary>
-        /// 
+        /// Get the list of property shown in Common Setting Dialog.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of IPropertyItem.</returns>
         public virtual List<IPropertyItem> GetPropertySettings()
         {
             return null;
         }
 
         /// <summary>
-        /// 
+        /// Get the information of Plugin.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the information of Plugin.</returns>
         public virtual XmlNode GetPluginStatus()
         {
             return null;
         }
 
         /// <summary>
-        /// 
+        /// Set the information of Plugin.
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">the information of Plugin.</param>
         public virtual void SetPluginStatus(XmlNode status)
         {
         }
@@ -321,7 +321,7 @@ namespace Ecell.Plugin
         /// The event sequence when the user updates the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The set parameter ID.</param>
+        /// <param name="parameterID">The updated parameter ID.</param>
         public virtual void ParameterUpdate(string projectID, string parameterID)
         {
             // do nothing
@@ -402,9 +402,9 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the list of public delegation function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the dictionary of name and delegation function</returns>
         public virtual Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
