@@ -176,12 +176,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetProperty()
         {
-            base.ResetProperty();
             foreach (PPathwayVariable variable in _variables)
             {
                 variable.PPropertyText.Visible = false;
                 variable.PPropertyText.Text = "";
             }
+            base.ResetProperty();
         }
         #endregion
 

@@ -159,6 +159,7 @@
     <Compile Include="Objects\EcellProject.cs" />
     <Compile Include="Objects\EcellStepper.cs" />
     <Compile Include="Plugin\IAnalysis.cs" />
+    <Compile Include="Plugin\ILayoutPanel.cs" />
     <Compile Include="Plugin\IPropertyItem.cs" />
     <Compile Include="Plugin\PluginData.cs" />
     <Compile Include="ProcessConverter.cs" />
