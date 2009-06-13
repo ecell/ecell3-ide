@@ -287,4 +287,10 @@
   <data name="stepperToolStripMenuItem.Text" xml:space="preserve">
     <value>Stepper...</value>
   </data>
+  <data name="deleteJobGroupToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="viewResultToolStripMenuItem.Text" xml:space="preserve">
+    <value>結果表示...</value>
+  </data>
 </root>

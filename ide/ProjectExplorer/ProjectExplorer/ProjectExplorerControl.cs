@@ -308,6 +308,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathAnalysis);
                 node.SelectedImageIndex = node.ImageIndex;
                 node.Tag = groupname;
+                node.ContextMenuStrip = contextMenuStripJobGroup;
 
                 m_analysisNode.Nodes.Add(node);
             }
@@ -1579,6 +1580,35 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 SetAnalysisNode();
             }
         }
+
+        /// <summary>
+        /// View result on the job group.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeView_ViewResult(object sender, EventArgs e)
+        {
+            string groupName = m_lastSelectedNode.Text;
+            if (m_owner.Environment.JobManager.GroupDic.ContainsKey(groupName))
+            {
+                m_owner.Environment.JobManager.GroupDic[groupName].AnalysisModule.PrintResult();
+            }
+        }
+
+        /// <summary>
+        /// Delete the job group.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeView_DeleteJobGroup(object sender, EventArgs e)
+        {
+            string groupName = m_lastSelectedNode.Text;
+            if (m_owner.Environment.JobManager.GroupDic.ContainsKey(groupName))
+            {
+                m_owner.Environment.JobManager.GroupDic[groupName].IsSaved = false;
+                m_owner.Environment.JobManager.RemoveJobGroup(groupName);
+            }
+        }
         #endregion
 
         #region ShortCuts
@@ -1623,6 +1653,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
     }
 
     #region Node classes

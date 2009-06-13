@@ -65,6 +65,7 @@ namespace Ecell.IDE.MainWindow
             : base()
         {
             InitializeComponent();
+            this.TabText = this.Text;
 
             m_manager = manager;
             m_manager.JobUpdateEvent += new JobUpdateEventHandler(UpdateJobStatus);
@@ -269,6 +270,11 @@ namespace Ecell.IDE.MainWindow
             m_group = null;
             if (!(node is JobTreeNode) && !(node is JobGroupTreeNode))
             {
+                return;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                jobTreeView.SelectedNode = e.Node;
                 return;
             }
             if (node is JobTreeNode)
