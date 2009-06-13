@@ -39,6 +39,7 @@ using Ecell.Exceptions;
 using Ecell.Objects;
 using System.IO;
 using System.Diagnostics;
+using EcellCoreLib;
 
 namespace Ecell.SBML
 {
@@ -47,8 +48,31 @@ namespace Ecell.SBML
     /// </summary>
     public class EML2SBML
     {
-        private static int aSBMLLevel;
         private static List<string> ID_Namespace = new List<string>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        public static void Convert(string filename)
+        {
+            string sbml = filename.Replace(Constants.FileExtEML, Constants.FileExtSBML);
+            Convert(filename, sbml);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="emlfile"></param>
+        /// <param name="output"></param>
+        public static void Convert(string emlfile, string output)
+        {
+            if (!File.Exists(emlfile))
+                throw new EcellException(string.Format(MessageResources.ErrFindFile, emlfile));
+            WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
+            EcellModel model = EmlReader.Parse(emlfile, sim);
+            SaveSBML(model, output);
+        }
 
         /// <summary>
         /// 
@@ -70,7 +94,6 @@ namespace Ecell.SBML
         /// <param name="aVersion"></param>
         public static SBMLDocument convertToSBMLModel(EcellModel anEml, string aBaseName, int aLevel, int aVersion)
         {
-            aSBMLLevel = aLevel;
             SBMLDocument aSBMLDocument = new SBMLDocument();
             aSBMLDocument.setLevelAndVersion((long)aLevel, (long)aVersion);
 
@@ -130,10 +153,10 @@ namespace Ecell.SBML
             //  aCompartmentID = "default" + anEml.Key.Replace( "/", "__" );
 
             ID_Namespace.Add( aCompartmentID );
-                
-            if( aSBMLLevel == 1 )
+
+            if (aSBMLModel.getLevel() == 1)
                 aCompartment.setName( aCompartmentID );
-            else if( aSBMLLevel == 2 )
+            else if (aSBMLModel.getLevel() == 2)
                 aCompartment.setId( aCompartmentID );
                     
             foreach(EcellObject child in anEml.Children)
@@ -148,7 +171,7 @@ namespace Ecell.SBML
 
                     EcellValue value = anEml.GetEcellValue("Fixed");
                     if(value != null)
-                        aCompartment.setConstant(Convert.ToBoolean((int)value));
+                        aCompartment.setConstant(System.Convert.ToBoolean((int)value));
                 }
                 // set Dimensions of Compartment
                 else if( child.LocalID == "Dimensions" )
@@ -256,9 +279,9 @@ namespace Ecell.SBML
                 KineticLaw aKineticLaw = aSBMLModel.createKineticLaw();
 
                 // set Reaction ID
-                if( aSBMLLevel == 1 )
+                if (aSBMLModel.getLevel() == 1)
                     aReaction.setName( anEml.LocalID );
-                if( aSBMLLevel == 2 )
+                if (aSBMLModel.getLevel() == 2)
                     aReaction.setId( anEml.LocalID );
 
 
@@ -273,10 +296,10 @@ namespace Ecell.SBML
                     if ( aProperty.Name == "Name" )
                     {
                         // set Reaction Name
-                        if( aSBMLLevel == 1 )
+                        if (aSBMLModel.getLevel() == 1)
                         {
                         }
-                        else if( aSBMLLevel == 2 )
+                        else if (aSBMLModel.getLevel() == 2)
                             aReaction.setName( (string)aProperty.Value );
 
                     }
@@ -615,10 +638,10 @@ namespace Ecell.SBML
                         
 
                 // set Parameter ID
-                if( aSBMLLevel == 1 )
+                if (aSBMLModel.getLevel() == 1)
                     aParameter.setName( aParameterID );
 
-                else if (aSBMLLevel == 2)
+                else if (aSBMLModel.getLevel() == 2)
                     aParameter.setId( aParameterID );
 
 
@@ -630,10 +653,10 @@ namespace Ecell.SBML
                     // set Parameter Name
                     if ( aProperty.Name == "Name" )
                     {
-                        if( aSBMLLevel == 1 )
+                        if (aSBMLModel.getLevel() == 1)
                         {
                         }
-                        if( aSBMLLevel == 2 )
+                        if (aSBMLModel.getLevel() == 2)
                         {
                             aParameter.setName( (string)aProperty.Value );
                         }
@@ -647,7 +670,7 @@ namespace Ecell.SBML
                     // set Constant 
                     else if ( aProperty.Name == "Fixed" )
                     {
-                        aParameter.setConstant(Convert.ToBoolean( (int)aProperty.Value) );
+                        aParameter.setConstant(System.Convert.ToBoolean((int)aProperty.Value));
                     }
                     else
                     {
@@ -678,9 +701,9 @@ namespace Ecell.SBML
 
                     ID_Namespace.Add( aSpeciesID );
 
-                    if( aSBMLLevel == 1 )
+                    if (aSBMLModel.getLevel() == 1)
                         aSpecies.setName( aSpeciesID );
-                    if( aSBMLLevel == 2 )
+                    if (aSBMLModel.getLevel() == 2)
                         aSpecies.setId( aSpeciesID );
 
 
@@ -698,10 +721,10 @@ namespace Ecell.SBML
                         // set Species Name
                         if ( aProperty.Name == "Name" )
                         {
-                            if( aSBMLLevel == 1 )
+                            if (aSBMLModel.getLevel() == 1)
                             {
                             }
-                            else if( aSBMLLevel == 2 )
+                            else if (aSBMLModel.getLevel() == 2)
                             {
                                 aSpecies.setName( (string)aProperty.Value );
                             }
@@ -717,7 +740,7 @@ namespace Ecell.SBML
                         // set Species Constant
                         else if ( aProperty.Name == "Fixed" )
                         {
-                            aSpecies.setConstant(Convert.ToBoolean((int)aProperty.Value));
+                            aSpecies.setConstant(System.Convert.ToBoolean((int)aProperty.Value));
                         }
                         // set Concentration by rule
                         else if ( aProperty.Name == "MolarConc" )
@@ -725,7 +748,7 @@ namespace Ecell.SBML
                             // XXX: units are just eventually correct here, because
                             // SBML falls back to mole and liter for substance and
                             // volume of the species if these are unspecified.
-                            if (aSBMLLevel == 1)
+                            if (aSBMLModel.getLevel() == 1)
                             {
                                 double compVol;
                                 if (aCurrentCompartmentObj != null)
@@ -758,9 +781,9 @@ namespace Ecell.SBML
             bool isAbogadroNumber = false;
             foreach (ParameterStruct aParameter in SbmlFunctions.getParameter(aSBMLModel))
             {
-                if (aSBMLLevel == 1 && aParameter.Name == "N_A")
+                if (aSBMLModel.getLevel() == 1 && aParameter.Name == "N_A")
                     isAbogadroNumber = true;
-                else if (aSBMLLevel == 2 && aParameter.ID == "N_A")
+                else if (aSBMLModel.getLevel() == 2 && aParameter.ID == "N_A")
                     isAbogadroNumber = true;
             }
             if ( !isAbogadroNumber )
@@ -768,9 +791,9 @@ namespace Ecell.SBML
                 // create Parameter object
                 Parameter aParameter = aSBMLModel.createParameter();
                 // set Parameter Name
-                if (aSBMLLevel == 1)
+                if (aSBMLModel.getLevel() == 1)
                     aParameter.setName("N_A");
-                else if (aSBMLLevel == 2)
+                else if (aSBMLModel.getLevel() == 2)
                     aParameter.setId("N_A");
                 // set Parameter Value
                 aParameter.setValue(6.0221367e+23);
@@ -784,9 +807,9 @@ namespace Ecell.SBML
             bool isEmptySet = false;
             foreach (SpeciesStruct aSpecies in SbmlFunctions.getSpecies(aSBMLModel))
             {
-                if (aSBMLLevel == 1 && aSpecies.Name == "EmptySet")
+                if (aSBMLModel.getLevel() == 1 && aSpecies.Name == "EmptySet")
                     isEmptySet = true;
-                else if (aSBMLLevel == 2 && aSpecies.ID == "EmptySet")
+                else if (aSBMLModel.getLevel() == 2 && aSpecies.ID == "EmptySet")
                     isEmptySet = true;
             }
             if (!isEmptySet)
@@ -794,9 +817,9 @@ namespace Ecell.SBML
                 // create Species object
                 Species aSpecies = aSBMLModel.createSpecies();
                 // set Species Name
-                if (aSBMLLevel == 1)
+                if (aSBMLModel.getLevel() == 1)
                     aSpecies.setName("EmptySet");
-                else if (aSBMLLevel == 2)
+                else if (aSBMLModel.getLevel() == 2)
                     aSpecies.setId("EmptySet");
                 // set Species Compartment
                 aSpecies.setCompartment("default");

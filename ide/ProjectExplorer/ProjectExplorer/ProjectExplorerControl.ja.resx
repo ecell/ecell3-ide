@@ -131,19 +131,28 @@
     <value>名前でソート</value>
   </data>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="editToolStripMenuItem.Text" xml:space="preserve">
     <value>編集...</value>
   </data>
   <data name="compileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="compileToolStripMenuItem.Text" xml:space="preserve">
     <value>DMのコンパイル</value>
   </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
   <data name="contextMenuStripDM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 48</value>
+    <value>153, 98</value>
   </data>
   <data name="importDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 22</value>
@@ -160,8 +169,17 @@
   <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
     <value>EML出力...</value>
   </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 6</value>
+  </data>
+  <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
+  </data>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>追加</value>
+  </data>
   <data name="contextMenuStripModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 26</value>
+    <value>123, 54</value>
   </data>
   <data name="plotGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
@@ -265,8 +283,47 @@
   <data name="loadRevisionMenuItem.Text" xml:space="preserve">
     <value>リビジョン読込</value>
   </data>
+  <data name="exportRevisionEMLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="exportRevisionEMLMenuItem.Text" xml:space="preserve">
+    <value>EML出力...</value>
+  </data>
+  <data name="exportRevisionZipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="exportRevisionZipMenuItem.Text" xml:space="preserve">
+    <value>Zip圧縮...</value>
+  </data>
   <data name="contextMenuStripRevision.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 26</value>
+    <value>135, 70</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 22</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="contextMenuStripStepper.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
+  </data>
+  <data name="viewResultToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
+  </data>
+  <data name="viewResultToolStripMenuItem.Text" xml:space="preserve">
+    <value>結果表示...</value>
+  </data>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 6</value>
+  </data>
+  <data name="deleteJobGroupToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
+  </data>
+  <data name="deleteJobGroupToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="contextMenuStripJobGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 54</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -277,20 +334,5 @@
         EAAAAAAAAAAAAAAAAACPhwAAjwMAAIwDAACIAwAAiAMAAIgHAACAPwAAgD8AAIA/AACAPwAAgH8AAAP/
         AAAD/wAAA/8AAAP/AACH/wAA
 </value>
-  </data>
-  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="addToolStripMenuItem.Text" xml:space="preserve">
-    <value>追加</value>
-  </data>
-  <data name="stepperToolStripMenuItem.Text" xml:space="preserve">
-    <value>Stepper...</value>
-  </data>
-  <data name="deleteJobGroupToolStripMenuItem.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="viewResultToolStripMenuItem.Text" xml:space="preserve">
-    <value>結果表示...</value>
   </data>
 </root>
