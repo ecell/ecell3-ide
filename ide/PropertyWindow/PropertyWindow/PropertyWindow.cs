@@ -685,7 +685,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     m_stepperIDComboBox.Items.Remove(key);
                 }
             }
-            else if (type == m_current.Type)
+            if (type == m_current.Type)
             {
                 if (modelID == m_current.ModelID && key == m_current.Key)
                     Clear();

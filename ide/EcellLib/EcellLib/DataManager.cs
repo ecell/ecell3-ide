@@ -3210,9 +3210,6 @@ namespace Ecell
                 Trace.WriteLine(string.Format(MessageResources.InfoDel,
                     new object[] { stepper.Type, stepper.Key }));
             }
-            if (isRecorded)
-                m_env.ActionManager.AddAction(new DeleteStepperAction(stepper));
-            m_env.PluginManager.DataDelete(stepper.ModelID, stepper.Key, stepper.Type);
         }
 
         /// <summary>
