@@ -1504,6 +1504,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else if (obj is PPathwayStepper)
             {
                 m_steppers.Remove(key);
+                SetStepperPosition();
             }
 
             RemoveObject(obj);
