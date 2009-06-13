@@ -569,11 +569,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 obj.ParentObject = system;
             }
 
+            // Set DragEvent
+            if (obj is PPathwayObject && !(obj is PPathwayStepper))
+                obj.AddInputEventListener(new NodeDragHandler(this));
+
             // Set Position.
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayEntity)
             {
-                obj.AddInputEventListener(new NodeDragHandler(this));
                 if (m_con.Window.IsLoading)
                 {
                 }
@@ -595,7 +598,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             else if (obj is PPathwaySystem)
             {
-                obj.AddInputEventListener(new NodeDragHandler(this));
                 if (!hasCoords && !string.IsNullOrEmpty(sysKey))
                 {
                     float maxX = system.X + system.OffsetX;
@@ -1378,6 +1380,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 RefreshOverView();
                 SetStepperPosition();
             }
+            if (obj is PPathwayStepper)
+                SetStepperPosition();
         }
 
         /// <summary>
