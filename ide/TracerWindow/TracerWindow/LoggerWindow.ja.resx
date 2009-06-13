@@ -147,4 +147,7 @@
   <data name="windowToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ</value>
   </data>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>Y軸変更</value>
+  </data>
 </root>

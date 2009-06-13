@@ -849,7 +849,6 @@ namespace Ecell
 
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
                 m_env.Console.Flush();
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             }
             catch (Exception ex)
             {
@@ -3456,16 +3455,11 @@ namespace Ecell
                         if (m_remainTime < m_defaultTime)
                         {
                             m_currentProject.Simulator.Run(m_remainTime);
-                            // ˆêŽž’âŽ~‚µ‚½‚Æ‚«‚É“¯‚¶ŽžŠÔ‚ªÄ“xŽÀs‚³‚ê‚é
-                            if (cTime != m_currentProject.Simulator.GetCurrentTime())
-                                this.m_remainTime = 0.0;
+                            return;
                         }
                         else
                         {
                             m_currentProject.Simulator.Run(m_defaultTime);
-                            // ˆêŽž’âŽ~‚µ‚½‚Æ‚«‚É“¯‚¶ŽžŠÔ‚ªÄ“xŽÀs‚³‚ê‚é
-                            if (cTime != m_currentProject.Simulator.GetCurrentTime())
-                                this.m_remainTime = this.m_remainTime - m_defaultTime;
                         }
                     }
                     Application.DoEvents();

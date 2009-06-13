@@ -496,8 +496,8 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_timeText.Text = "0";
                 m_time = 0.0;
             }
-            m_stepText.Enabled = isLoaded || (isSuspended && !m_isStepping);
-            m_stepUnitCombo.Enabled = isLoaded || (isSuspended && !m_isStepping);
+            m_stepText.Enabled = isLoaded || isSuspended;
+            m_stepUnitCombo.Enabled = isLoaded || isSuspended;
             m_paramsCombo.Enabled = isLoaded;
 
             m_type = type;
