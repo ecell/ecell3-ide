@@ -123,7 +123,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\PropertyViewAnimationItem.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\ViewModeSettings.cs">
       <SubType>UserControl</SubType>

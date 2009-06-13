@@ -1532,7 +1532,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs</param>
         private void TreeViewAddStepper(object sender, EventArgs e)
         {
-            InputNameDialog dlg = new InputNameDialog(true);            
+            InputNameDialog dlg = new InputNameDialog(true);
+            dlg.OwnerForm = m_owner;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string name = dlg.InputText;

@@ -94,6 +94,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         if (obj.Key.Equals(name))
                         {
                             Util.ShowErrorDialog(MessageResources.ErrAlreadyExistStepper);
+                            e.Cancel = true;
                             return;
                         }
                     }
