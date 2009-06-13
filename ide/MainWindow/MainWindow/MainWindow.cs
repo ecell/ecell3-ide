@@ -1205,6 +1205,7 @@ namespace Ecell.IDE.MainWindow
 
             try
             {
+                saveFileDialog.FileName = "";
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.Filter = Constants.FilterEmlFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -1223,6 +1224,7 @@ namespace Ecell.IDE.MainWindow
         {
             try
             {
+                saveFileDialog.FileName = "";
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.Filter = Constants.FilterSBMLFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -1248,6 +1250,7 @@ namespace Ecell.IDE.MainWindow
         {
             try
             {
+                saveFileDialog.FileName = "";
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.Filter = Constants.FilterEssFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
