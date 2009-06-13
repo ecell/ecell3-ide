@@ -110,6 +110,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             : base(control)
         {
             InitializeComponent();
+
+            this._highEdgeBrush = _control.HighEdgeBrush;
+            this._lowEdgeBrush = _control.LowEdgeBrush;
+            this._ngEdgeBrush = _control.NgEdgeBrush;
+            this._autoThreshold = _control.AutoThreshold;
+            this._maxEdgeWidth = _control.MaxEdgeWidth;
+            this._thresholdHigh = _control.ThresholdHigh;
+            this._thresholdLow = _control.ThresholdLow;
         }
 
         /// <summary>

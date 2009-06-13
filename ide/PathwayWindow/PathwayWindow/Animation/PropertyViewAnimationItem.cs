@@ -76,7 +76,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.propertyCombobox.ComboBox.Items.Add("MolarConc");
             this.propertyCombobox.ComboBox.Items.Add("NumverConc");
             this.propertyCombobox.ComboBox.Items.Add("Value");
-            this.propertyBrush.Brush = Brushes.Blue;
+            this.propertyBrush.Brush = _control.PropertyBrush;
         }
 
         /// <summary>

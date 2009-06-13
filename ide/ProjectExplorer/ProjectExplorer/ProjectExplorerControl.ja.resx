@@ -152,7 +152,10 @@
     <value>プロパティ</value>
   </data>
   <data name="contextMenuStripDM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 98</value>
+    <value>144, 76</value>
+  </data>
+  <data name="contextMenuStripDMCollection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 48</value>
   </data>
   <data name="importDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 22</value>
@@ -160,8 +163,8 @@
   <data name="importDMToolStripMenuItem.Text" xml:space="preserve">
     <value>DMの読み込み</value>
   </data>
-  <data name="contextMenuStripDMCollection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 48</value>
+  <data name="contextMenuStripModel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 54</value>
   </data>
   <data name="exportModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 22</value>
@@ -178,8 +181,8 @@
   <data name="addToolStripMenuItem.Text" xml:space="preserve">
     <value>追加</value>
   </data>
-  <data name="contextMenuStripModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 54</value>
+  <data name="contextMenuStripLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 76</value>
   </data>
   <data name="plotGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
@@ -202,8 +205,8 @@
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
     <value>出力...</value>
   </data>
-  <data name="contextMenuStripLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 76</value>
+  <data name="contextMenuSimulationSetCollection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 26</value>
   </data>
   <data name="addSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 22</value>
@@ -211,8 +214,8 @@
   <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>追加...</value>
   </data>
-  <data name="contextMenuSimulationSetCollection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 26</value>
+  <data name="contextMenuStripSimulationSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 76</value>
   </data>
   <data name="copySimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 22</value>
@@ -235,8 +238,8 @@
   <data name="configureSimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>設定...</value>
   </data>
-  <data name="contextMenuStripSimulationSet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 76</value>
+  <data name="contextMenuStripProject.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 98</value>
   </data>
   <data name="projectSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 22</value>
@@ -265,8 +268,8 @@
   <data name="closeToolStripMenuItem.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="contextMenuStripProject.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 98</value>
+  <data name="contextMenuStripRevisions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 26</value>
   </data>
   <data name="createNewRevisionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
@@ -274,8 +277,8 @@
   <data name="createNewRevisionMenuItem.Text" xml:space="preserve">
     <value>リビジョン作成</value>
   </data>
-  <data name="contextMenuStripRevisions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 26</value>
+  <data name="contextMenuStripRevision.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 70</value>
   </data>
   <data name="loadRevisionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
@@ -295,8 +298,8 @@
   <data name="exportRevisionZipMenuItem.Text" xml:space="preserve">
     <value>Zip圧縮...</value>
   </data>
-  <data name="contextMenuStripRevision.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 70</value>
+  <data name="contextMenuStripStepper.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
   </data>
   <data name="deleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 22</value>
@@ -304,8 +307,8 @@
   <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="contextMenuStripStepper.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 26</value>
+  <data name="contextMenuStripJobGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 54</value>
   </data>
   <data name="viewResultToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 22</value>
@@ -321,9 +324,6 @@
   </data>
   <data name="deleteJobGroupToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>
-  </data>
-  <data name="contextMenuStripJobGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 54</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

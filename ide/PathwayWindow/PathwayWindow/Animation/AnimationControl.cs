@@ -190,7 +190,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public bool DoesAnimationOnGoing
         {
-            get { return (_con.ProjectStatus == ProjectStatus.Running || _con.ProjectStatus == ProjectStatus.Stepping || _con.ProjectStatus == ProjectStatus.Suspended); }
+            get
+            {
+                bool prjStatus =(_con.ProjectStatus == ProjectStatus.Running || _con.ProjectStatus == ProjectStatus.Stepping || _con.ProjectStatus == ProjectStatus.Suspended);
+                bool doesAnimation = prjStatus && _con.IsAnimation;
+                return doesAnimation;
+            }
         }
 
         /// <summary>
