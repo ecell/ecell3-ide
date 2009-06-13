@@ -269,6 +269,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Controls.Add(this.panel);
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_LayerView;
             this.Name = "LayerView";
+            this.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowLayer;
             this.TabText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowLayer;
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
