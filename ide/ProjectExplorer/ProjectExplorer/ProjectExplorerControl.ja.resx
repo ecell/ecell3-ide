@@ -335,4 +335,7 @@
         AAAD/wAAA/8AAAP/AACH/wAA
 </value>
   </data>
+  <data name="exportModelSBMLToolStripMenuItem.Text" xml:space="preserve">
+    <value>SBML出力...</value>
+  </data>
 </root>

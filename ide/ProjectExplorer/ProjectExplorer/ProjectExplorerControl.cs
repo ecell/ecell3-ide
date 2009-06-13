@@ -1188,6 +1188,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (tag == null || tag.Type != Constants.xpathLog)
                 return;
 
+            m_saveFileDialog.FileName = "";
             string logFile = tag.Key;
             string ext = Path.GetExtension(logFile);
             if (!string.IsNullOrEmpty(ext) &&
@@ -1298,7 +1299,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// Click the export model menu.
+        /// Click the export model to eml menu.
         /// </summary>
         /// <param name="sender">ToolStripMenuItem</param>
         /// <param name="e">EventArgs</param>
@@ -1313,12 +1314,39 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             List<string> modelList = new List<string>();
             modelList.Add(name);
 
+            m_saveFileDialog.FileName = "";
             m_saveFileDialog.Filter = Constants.FilterEmlFile;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = m_saveFileDialog.FileName;
 
                 m_owner.DataManager.ExportModel(modelList, fileName);
+            }
+        }
+
+        /// <summary>
+        /// Click the export model to sbml menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeViewExportModel2SBML(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null)
+                return;
+            TagData tag = m_lastSelectedNode.Tag as TagData;
+            if (tag == null || tag.Type != Constants.xpathModel)
+                return;
+            String name = tag.ModelID;
+            List<string> modelList = new List<string>();
+            modelList.Add(name);
+
+            m_saveFileDialog.FileName = "";
+            m_saveFileDialog.Filter = Constants.FilterSBMLFile;
+            if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = m_saveFileDialog.FileName;
+
+                m_owner.DataManager.ExportSBML(fileName);
             }
         }
 
@@ -1382,7 +1410,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="dir">the source directory.</param>
         /// <param name="filename">the destination file name.</param>
         private void CompressZip(string dir, string filename)
-        {
+        {           
             m_saveFileDialog.Filter = Constants.FilterZipFile;
             m_saveFileDialog.FileName = filename;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
