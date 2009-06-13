@@ -771,7 +771,8 @@ namespace Ecell
                 {
                     foreach (EcellObject obj in systemList)
                     {
-                        EcellObject sysObj = obj.Clone();
+//                        EcellObject sysObj = obj.Clone();
+                        EcellObject sysObj = obj;
                         if (sysObj.Children == null)
                         {
                             storedList.Add(sysObj);
@@ -783,7 +784,7 @@ namespace Ecell
                             {
                                 if (!d.Value.IsDouble)
                                     continue;
-                                EcellValue v = GetEntityProperty(d.EntityPath);
+                                EcellValue v = GetEntityProperty(d.EntityPath);                                
                                 d.Value = v;
                             }
                         }

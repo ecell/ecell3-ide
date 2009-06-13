@@ -741,6 +741,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     m_time.Enabled = false;
                     m_time.Stop();
+                    m_current = m_env.DataManager.GetEcellObject(m_current.ModelID, m_current.Key, m_current.Type);
                     ResetProperty();
                 }
             }
