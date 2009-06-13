@@ -547,7 +547,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Create PathwayObject and set to canvas.
-            PPathwayObject obj = m_csManager.CreateNewComponent(eo.Type, eo.Key);
+            PPathwayObject obj = m_csManager.CreateNewComponent(eo.Type, eo.Layout.Figure);
             obj.Canvas = m_canvas;
             obj.EcellObject = eo;
 
@@ -595,11 +595,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             // Change data.
             obj.EcellObject = eo;
+            if (!obj.Setting.Name.Equals(eo.Layout.Figure))
+                obj.Setting = m_csManager.GetSetting(eo.Type, eo.Layout.Figure);
             m_canvas.DataChanged(oldKey, eo.Key, obj);
 
-            // Change ComponentSetting.
-            if(!oldKey.Equals(eo.Key) && obj.Setting.Name.Equals(oldKey))
-                m_csManager.UpdateKey(eo.Type, oldKey, eo.Key);
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.UpdatePropForSimulation();
 
         }
 
@@ -712,6 +714,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (!m_canvas.ModelID.Equals(modelID))
                 return;
             m_canvas.SelectChanged(key, type);
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.UpdatePropForSimulation();
+
         }
 
         /// <summary>
@@ -728,6 +734,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (!m_canvas.ModelID.Equals(modelID))
                 return;
             m_canvas.AddSelect(key, type);
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.UpdatePropForSimulation();
+
         }
 
         /// <summary>
@@ -744,6 +754,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (!m_canvas.ModelID.Equals(modelID))
                 return;
             m_canvas.RemoveSelect(key, type);
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.UpdatePropForSimulation();
+
         }
 
         /// <summary>
@@ -754,6 +768,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
             m_canvas.ResetSelect();
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.UpdatePropForSimulation();
 
         }
 

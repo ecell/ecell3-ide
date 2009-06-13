@@ -452,15 +452,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="oldKey"></param>
-        /// <param name="newKey"></param>
-        internal void UpdateKey(string type, string oldKey, string newKey)
+        /// <returns></returns>
+        internal string GetRandomKey()
         {
-            ComponentSetting cs = GetSetting(type, oldKey);
-            RemoveSetting(cs);
-            cs.Name = newKey;
-            RegisterSetting(cs);
+            return Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
         }
 
         #endregion

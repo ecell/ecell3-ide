@@ -40,13 +40,8 @@ namespace Ecell.Objects
     /// This class contains 4 float variable and 1 string variable which show the layout of EcellObject.
     /// </summary>
     [Serializable]
-    public struct EcellLayout : ICloneable
+    public class EcellLayout : ICloneable
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string Aliases = "Aliases";
-
         #region Fields
         /// <summary>
         /// RectangleF
@@ -60,9 +55,20 @@ namespace Ecell.Objects
         /// Layer
         /// </summary>
         private string m_layer;
+        /// <summary>
+        /// 
+        /// </summary>
+        private string m_figure;
 	    #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public EcellLayout()
+            : this(new Rectangle())
+        {
+        }
         /// <summary>
         /// Constructor with RectangleF.
         /// </summary>
@@ -72,6 +78,7 @@ namespace Ecell.Objects
             m_rect = rect;
             m_offset = PointF.Empty;
             m_layer = "";
+            m_figure = "";
         }
 
         /// <summary>
@@ -106,6 +113,15 @@ namespace Ecell.Objects
         public static EcellLayout Empty
         {
             get { return new EcellLayout(); }
+        }
+
+        /// <summary>
+        /// get/set the Figure property.
+        /// </summary>
+        public string Figure
+        {
+            get { return m_figure; }
+            set { m_figure = value; }
         }
 
         /// <summary>
@@ -283,56 +299,6 @@ namespace Ecell.Objects
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
-        public static List<EcellLayout> ConvertFromEcellValue(EcellValue value)
-        {
-            List<EcellLayout> aliases = new List<EcellLayout>();
-            if (value == null || !value.IsList)
-                return aliases;
-
-            List<object> list = (List<object>)value.Value;
-            foreach (object obj in list)
-            {
-                List<object> aliasObj = (List<object>)obj;
-                EcellLayout alias = new EcellLayout();
-                alias.X = (float)(double)aliasObj[0];
-                alias.Y = (float)(double)aliasObj[1];
-                alias.Width = (float)(double)aliasObj[2];
-                alias.Height = (float)(double)aliasObj[3];
-                alias.OffsetX = (float)(double)aliasObj[4];
-                alias.OffsetY = (float)(double)aliasObj[5];
-                alias.Layer = (string)aliasObj[6];
-                aliases.Add(alias);
-            }
-            return aliases;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="aliases"></param>
-        /// <returns></returns>
-        public static EcellValue ConvertToEcellValue(List<EcellLayout> aliases)
-        {
-            List<object> list = new List<object>();
-            foreach (EcellLayout alias in aliases)
-            {
-                List<object> aliasObj = new List<object>();
-                aliasObj.Add((double)alias.X);
-                aliasObj.Add((double)alias.Y);
-                aliasObj.Add((double)alias.Width);
-                aliasObj.Add((double)alias.Height);
-                aliasObj.Add((double)alias.OffsetX);
-                aliasObj.Add((double)alias.OffsetY);
-                aliasObj.Add(alias.Layer);
-                list.Add(aliasObj);
-            }
-            return new EcellValue(list);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
         public bool Contains(PointF pt)
@@ -400,6 +366,7 @@ namespace Ecell.Objects
             layout.Rect = m_rect;
             layout.Offset = m_offset;
             layout.Layer = m_layer;
+            layout.Figure = m_figure;
             return layout;
         }
         #endregion

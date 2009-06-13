@@ -148,7 +148,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetProperty()
         {
             base.SetProperty();
-
+            _property = this.propertyCombobox.ComboBox.Text;
             foreach (PPathwayVariable variable in _variables)
             {
                 variable.PPropertyText.Visible = true;

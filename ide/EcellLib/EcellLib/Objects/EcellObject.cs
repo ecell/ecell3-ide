@@ -654,7 +654,7 @@ namespace Ecell.Objects
         {
             EcellObject newEcellObject =
                 CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
-            newEcellObject.Layout = this.m_layout;
+            newEcellObject.Layout = this.m_layout.Clone();
             newEcellObject.Children = this.CopyChildren();
             newEcellObject.isFixed = m_isFixed;
             return newEcellObject;

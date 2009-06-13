@@ -1301,7 +1301,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
             ComponentSetting cs = obj.Setting.Clone();
-            cs.Name = obj.EcellObject.Key;
+            cs.Name = m_con.ComponentManager.GetRandomKey();
             cs.IsDefault = false;
             ComponentDialog dlg = new ComponentDialog(cs);
             using (dlg)
@@ -1312,6 +1312,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 obj.Setting = cs;
                 m_con.ComponentManager.RegisterSetting(cs);
             }
+            EcellObject eo = obj.EcellObject;
+            eo.Layout.Figure = cs.Name;
+            m_con.NotifyDataChanged(eo.Key, eo, true, true);
         }
         
         /// <summary>

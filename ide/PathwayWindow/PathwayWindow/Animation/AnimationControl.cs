@@ -267,20 +267,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// Get EdgeBrush
-        /// </summary>
-        public Brush EdgeBrush
-        {
-            get
-            {
-                if (DoesAnimationOnGoing)
-                    return ViewEdgeBrush;
-                else
-                    return EditEdgeBrush;
-            }
-        }
-
-        /// <summary>
         /// Get/Set m_editEdgeBrush
         /// </summary>
         public Brush EditEdgeBrush
@@ -398,9 +384,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         void m_con_AnimationChange(object sender, EventArgs e)
         {
             if (_con.IsAnimation)
+            {
+                SetPropForSimulation();
                 SetSimulation(_con.ProjectStatus);
+            }
             else
+            {
+                ResetPropForSimulation();
                 StopSimulation();
+            }
         }
 
         /// <summary>
@@ -791,6 +783,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             return num;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         internal void ShowDialog()
         {
             AnimationDialog dlg = new AnimationDialog(this);

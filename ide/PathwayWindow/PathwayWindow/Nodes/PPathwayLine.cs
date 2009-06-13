@@ -192,7 +192,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 else
                 {
-                    this.EdgeBrush = m_canvas.Control.Animation.EdgeBrush;
+                    this.EdgeBrush = DefaultEdgeBrush;
                 }
             }
         }
@@ -233,7 +233,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_variable.Relations.Add(this);
             m_process.Relations.Add(this);
 
-            SetEdge(canvas.Control.Animation.EdgeBrush, canvas.Control.Animation.EdgeWidth);
+            SetEdge(DefaultEdgeBrush, LINE_WIDTH);
             base.Pickable = (variable.Visible && process.Visible);
             base.Visible = (variable.Visible && process.Visible);
 

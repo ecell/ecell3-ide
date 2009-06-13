@@ -154,7 +154,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             AnimationItemBase obj = (AnimationItemBase)item;
             obj.SetViewItem();
-            _control.Items.Add(obj);
             this.listBox.Items.Add(obj);
             this.panel.Controls.Clear();
             this.panel.Controls.Add(obj);
