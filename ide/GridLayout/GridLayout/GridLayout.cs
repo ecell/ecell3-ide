@@ -192,6 +192,15 @@ namespace Ecell.IDE.Plugins.GridLayout
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override ILayoutPanel GetPanel()
+        {
+            return base.GetPanel();
+        }
+
+        /// <summary>
         /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns></returns>
@@ -496,7 +505,6 @@ namespace Ecell.IDE.Plugins.GridLayout
             Random ran = new Random();
 
             // Repeat simulated annealing steps
-            float t = m_initialT;
             int k = isFromScratch ? 0 : (int)(m_kmax * 0.95f);
 
             while (k < m_kmax)

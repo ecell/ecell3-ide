@@ -80,5 +80,14 @@ namespace Ecell.IDE
         }
 
         #endregion
+
+        #region Inherited
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ApplyChange()
+        {
+        }
+        #endregion
     }
 }

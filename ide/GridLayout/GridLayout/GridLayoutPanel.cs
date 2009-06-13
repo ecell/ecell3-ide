@@ -32,16 +32,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Plugin
+namespace Ecell.IDE.Plugins.GridLayout
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface ILayoutPanel
+    public class GridLayoutPanel : LayoutPanel
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        void ApplyChange();
     }
 }

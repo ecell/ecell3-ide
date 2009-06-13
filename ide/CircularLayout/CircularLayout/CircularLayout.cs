@@ -583,6 +583,15 @@ namespace Ecell.IDE.Plugins.CircularLayout
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override ILayoutPanel GetPanel()
+        {
+            return base.GetPanel();
+        }
+
+        /// <summary>
         /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns></returns>

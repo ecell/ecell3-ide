@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4FFE2BEB-049B-46E4-88C9-50F6BCA79CC0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GridLayoutPanel.cs" />
     <Compile Include="MessageResGridLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,6 +107,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EcellUILib\EcellUILib\EcellUILib.csproj">
+      <Project>{E5C2E8CC-7BF7-4D64-9AE4-8A83C3EEFDBA}</Project>
+      <Name>EcellUILib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
