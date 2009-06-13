@@ -87,6 +87,10 @@ namespace Ecell.Job
         /// <summary>
         /// Delete the job.
         /// </summary>
-        DeleteJob = 5        
+        DeleteJob = 5,
+        /// <summary>
+        /// Save the job group.
+        /// </summary>
+        SaveJobGroup
     }
 }

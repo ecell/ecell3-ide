@@ -330,5 +330,10 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name">the group name.</param>
         void RemoveJobGroup(string name);
+        /// <summary>
+        /// Save the job group.
+        /// </summary>
+        /// <param name="name">the group name.</param>
+        void SaveJobGroup(string name);
     }   
 }

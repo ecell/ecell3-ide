@@ -460,9 +460,13 @@ namespace Ecell.Job
             AnalysisModule.SaveAnalysisInfo(modelDir);
             SaveJobEntry(logDir);
             m_topDir = topdir;
-            IsSaved = true;
+            m_manager.SaveJobGroup(GroupName);
         }
 
+        /// <summary>
+        /// Save the jobs in this job group.
+        /// </summary>
+        /// <param name="topdir">the directory to save the jobs.</param>
         private void SaveJobEntry(string topdir)
         {
             foreach (Job j in m_jobs)

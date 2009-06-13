@@ -122,7 +122,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The flag whether this analysis have any result.
         /// </summary>
         private bool m_isExistResult = false;
+        /// <summary>
+        /// The flag whether this analysis is executed.
+        /// </summary>
         private bool m_isDone = false;
+        /// <summary>
+        /// The number of bifurcation points.
+        /// </summary>
         private int m_resultPoint = 0;
         private const string s_simTime = "Simulation Time";
         private const string s_winSize = "Window Size";
@@ -289,6 +295,10 @@ namespace Ecell.IDE.Plugins.Analysis
             Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
             if (paramList.Count <= 0)
             {
+                if (m_resultPoint <= 0)
+                {
+                    Util.ShowNoticeDialog(MessageResources.WarnNoBifurcation);
+                }
                 m_isExistResult = true;
                 return;
             }
@@ -498,6 +508,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void PrepareReAnalysis()
         {
+            m_resultPoint = 0;
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)

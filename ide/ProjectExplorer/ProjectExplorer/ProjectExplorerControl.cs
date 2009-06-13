@@ -304,6 +304,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             foreach (string groupname in m_owner.Environment.JobManager.GroupDic.Keys)
             {
+                if (!m_owner.Environment.JobManager.GroupDic[groupname].IsSaved)
+                    continue;
                 AnalysisNode node = new AnalysisNode(groupname);
                 node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathAnalysis);
                 node.SelectedImageIndex = node.ImageIndex;
@@ -1575,7 +1577,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_analysisNode == null)
                 return;
             if (e.Type == Ecell.Job.JobUpdateType.AddJobGroup ||
-                e.Type == Ecell.Job.JobUpdateType.DeleteJobGroup)
+                e.Type == Ecell.Job.JobUpdateType.DeleteJobGroup ||
+                e.Type == Ecell.Job.JobUpdateType.SaveJobGroup)
             {
                 SetAnalysisNode();
             }

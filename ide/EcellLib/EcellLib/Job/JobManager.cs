@@ -1326,5 +1326,15 @@ namespace Ecell.Job
             m_groupDic.Remove(name);
             OnJobUpdate(JobUpdateType.DeleteJobGroup);
         }
+
+        /// <summary>
+        /// Save the job group.
+        /// </summary>
+        /// <param name="name">the group name.</param>
+        public void SaveJobGroup(string name)
+        {
+            m_groupDic[name].IsSaved = true;
+            OnJobUpdate(JobUpdateType.SaveJobGroup);
+        }
     }
 }

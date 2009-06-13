@@ -322,6 +322,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
                 m_owner.AddJudgementData(j.JobID, x, y, m_judgeResult[j.JobID]);
             }
+            m_owner.ActivateResultWindow(true, false, false);
         }
 
         /// <summary>
