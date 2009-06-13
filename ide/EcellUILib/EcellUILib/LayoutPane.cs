@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Ecell.Plugin;
+using System.Windows.Forms;
 
 namespace Ecell.IDE
 {
@@ -40,9 +41,46 @@ namespace Ecell.IDE
     /// </summary>
     public class LayoutPane : EcellDockContent
     {
+        #region Fields
         private System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.TabControl tabControl;
 
+        private ApplicationEnvironment _env = null;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// 
+        /// </summary>
+        public LayoutPane()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public LayoutPane(ApplicationEnvironment env)
+        {
+            InitializeComponent();
+            _env = env;
+
+            foreach (ILayoutPanel panel in _env.PluginManager.GetLayoutPanels())
+            {
+                SetPanel((LayoutPanel)panel);
+            }
+        }
+
+        private void SetPanel(LayoutPanel panel)
+        {
+            TabPage page = new TabPage(panel.Text);
+            page.Controls.Add(panel);
+            tabControl.TabPages.Add(page);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void InitializeComponent()
         {
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -81,5 +119,8 @@ namespace Ecell.IDE
             this.ResumeLayout(false);
 
         }
+
+        #endregion
+
     }
 }

@@ -42,6 +42,7 @@ namespace Ecell.IDE
     /// </summary>
     public class PropertyDialogPage : UserControl, IPropertyItem
     {
+        #region Properties
         /// <summary>
         /// 
         /// </summary>
@@ -53,6 +54,9 @@ namespace Ecell.IDE
             set { base.Text = value; }
         }
 
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
@@ -62,6 +66,25 @@ namespace Ecell.IDE
             this.AutoScroll = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialogPage));
+            this.SuspendLayout();
+            // 
+            // PropertyDialogPage
+            // 
+            resources.ApplyResources(this, "$this");
+            this.Name = "PropertyDialogPage";
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        #region Inherited Methods
         /// <summary>
         /// Initialize
         /// </summary>
@@ -83,20 +106,6 @@ namespace Ecell.IDE
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void InitializeComponent()
-        {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialogPage));
-            this.SuspendLayout();
-            // 
-            // PropertyDialogPage
-            // 
-            resources.ApplyResources(this, "$this");
-            this.Name = "PropertyDialogPage";
-            this.ResumeLayout(false);
-
-        }
+        #endregion
     }
 }

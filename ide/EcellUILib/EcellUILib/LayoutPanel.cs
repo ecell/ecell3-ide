@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
@@ -40,6 +41,31 @@ namespace Ecell.IDE
     /// </summary>
     public class LayoutPanel : UserControl
     {
+        #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public override string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+        
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// 
+        /// </summary>
+        public LayoutPanel()
+        {
+            InitializeComponent();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -52,5 +78,7 @@ namespace Ecell.IDE
             this.ResumeLayout(false);
 
         }
+
+        #endregion
     }
 }

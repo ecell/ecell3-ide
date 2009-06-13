@@ -720,6 +720,22 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<ILayoutPanel> GetLayoutPanels()
+        {
+            List<ILayoutPanel> panels = new List<ILayoutPanel>();
+            foreach (ILayoutAlgorithm layoutAlgorithm in m_layoutAlgorithmList)
+            {
+                ILayoutPanel panel = layoutAlgorithm.GetPanel();
+                if (panel == null)
+                    continue;
+                panels.Add(panel);
+            }
+            return panels;
+        }
+        /// <summary>
         /// Set the position of EcellObject.
         /// Actually, nothing will be done by this plugin.
         /// </summary>
