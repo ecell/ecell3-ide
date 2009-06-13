@@ -3456,11 +3456,12 @@ namespace Ecell
                         if (m_remainTime < m_defaultTime)
                         {
                             m_currentProject.Simulator.Run(m_remainTime);
-                            return;
+                            m_remainTime = 0.0;
                         }
                         else
                         {
                             m_currentProject.Simulator.Run(m_defaultTime);
+                            m_remainTime = m_remainTime - m_defaultTime;
                         }
                     }
                     Application.DoEvents();

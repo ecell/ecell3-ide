@@ -74,7 +74,6 @@
             this.createNewRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripRevision = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportRevisionEMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportRevisionZipMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripStepper = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -367,7 +366,6 @@
             // 
             this.contextMenuStripRevision.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadRevisionMenuItem,
-            this.exportRevisionEMLMenuItem,
             this.exportRevisionZipMenuItem});
             this.contextMenuStripRevision.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripRevision, "contextMenuStripRevision");
@@ -377,12 +375,6 @@
             this.loadRevisionMenuItem.Name = "loadRevisionMenuItem";
             resources.ApplyResources(this.loadRevisionMenuItem, "loadRevisionMenuItem");
             this.loadRevisionMenuItem.Click += new System.EventHandler(this.TreeViewLoadRevision);
-            // 
-            // exportRevisionEMLMenuItem
-            // 
-            this.exportRevisionEMLMenuItem.Name = "exportRevisionEMLMenuItem";
-            resources.ApplyResources(this.exportRevisionEMLMenuItem, "exportRevisionEMLMenuItem");
-            this.exportRevisionEMLMenuItem.Click += new System.EventHandler(this.TreeViewExportRevision);
             // 
             // exportRevisionZipMenuItem
             // 
@@ -491,7 +483,6 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDMToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportRevisionEMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportRevisionZipMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;

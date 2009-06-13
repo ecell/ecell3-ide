@@ -1026,7 +1026,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             loadRevisionMenuItem.Enabled = !simulation && (saved || revision);
             createNewRevisionMenuItem.Enabled = !simulation && saved;
             createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
-            exportRevisionEMLMenuItem.Enabled = !current;
+//            exportRevisionEMLMenuItem.Enabled = !current;
             exportRevisionZipMenuItem.Enabled = !current;
 
             // Zip
@@ -1507,6 +1507,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 File.Copy(model, fileName, true);
             }
         }
+
+        
 
         /// <summary>
         /// Click the export revision to Zip menu.

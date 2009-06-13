@@ -338,4 +338,7 @@
   <data name="exportModelSBMLToolStripMenuItem.Text" xml:space="preserve">
     <value>SBML出力...</value>
   </data>
+  <data name="exportRevisionSBMLToolStripMenuItem.Text" xml:space="preserve">
+    <value>SBML出力...</value>
+  </data>
 </root>
