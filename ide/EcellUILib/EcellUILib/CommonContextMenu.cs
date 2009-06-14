@@ -294,11 +294,12 @@ namespace Ecell.IDE
                     new EcellObservedData(fullID, Convert.ToDouble(d.Value.ToString())));
             }
         }
+
         /// <summary>
-        /// 
+        /// The action of selecting [Add ...] menu on popup menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object(ToolStripMenuItem)</param>
+        /// <param name="e">EventArgs</param>
         private void ClickAddToolStripMenuItem(object sender, EventArgs e)
         {
             ToolStripMenuItem item = sender as ToolStripMenuItem;
@@ -307,35 +308,51 @@ namespace Ecell.IDE
             m_env.DataManager.DataAdd(eo);
             m_env.PluginManager.SelectChanged(eo);
         }
+
         /// <summary>
-        /// 
+        /// The action of selecting [Property] menu on popup menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object(ToolStripMenuItem)</param>
+        /// <param name="e">EventArgs</param>
         private void ClickPropertyToolStripMenuItem(object sender, EventArgs e)
         {
             ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateShowPropertyWindow) as ShowDialogDelegate;
             if (dlg != null)
                 dlg();
         }
+
         /// <summary>
-        /// 
+        /// The action of selecting [Delete] menu on popup menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object(ToolStripMenuItem)</param>
+        /// <param name="e">EventArgs</param>
         private void ClickDeleteToolStripMenuItem(object sender, EventArgs e)
         {
-            m_env.DataManager.DataDelete(m_object);
+            try
+            {
+                m_env.DataManager.DataDelete(m_object);
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>
-        /// 
+        /// The action of selecting [Merge to upper system] menu on popup menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object(ToolStripMenuItem)</param>
+        /// <param name="e">EventArgs</param>
         private void ClickMergeSystemToolStripMenuItem(object sender, EventArgs e)
         {
-            m_env.DataManager.DataMerge(m_object.ModelID, m_object.Key);
+            try
+            {
+                m_env.DataManager.DataMerge(m_object.ModelID, m_object.Key);
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
         #endregion
 
