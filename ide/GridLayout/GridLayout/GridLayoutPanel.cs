@@ -48,6 +48,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         private System.Windows.Forms.TextBox initialT;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox naturalLength;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         
         #endregion
@@ -74,6 +75,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridLayoutPanel));
             this.label1 = new System.Windows.Forms.Label();
             this.defMargin = new System.Windows.Forms.TextBox();
             this.annealingRepeats = new System.Windows.Forms.TextBox();
@@ -82,86 +84,61 @@ namespace Ecell.IDE.Plugins.GridLayout
             this.label3 = new System.Windows.Forms.Label();
             this.naturalLength = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 13);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Default grid margin";
             // 
             // defMargin
             // 
-            this.defMargin.Location = new System.Drawing.Point(178, 10);
+            resources.ApplyResources(this.defMargin, "defMargin");
             this.defMargin.Name = "defMargin";
-            this.defMargin.Size = new System.Drawing.Size(91, 19);
-            this.defMargin.TabIndex = 1;
-            this.defMargin.Text = "30";
-            this.defMargin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.defMargin.Validating += new System.ComponentModel.CancelEventHandler(this.defMargin_Validating);
             // 
             // annealingRepeats
             // 
-            this.annealingRepeats.Location = new System.Drawing.Point(178, 44);
+            resources.ApplyResources(this.annealingRepeats, "annealingRepeats");
             this.annealingRepeats.Name = "annealingRepeats";
-            this.annealingRepeats.Size = new System.Drawing.Size(91, 19);
-            this.annealingRepeats.TabIndex = 3;
-            this.annealingRepeats.Text = "250";
-            this.annealingRepeats.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.annealingRepeats.Validating += new System.ComponentModel.CancelEventHandler(this.annealingRepeats_Validating);
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 47);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(149, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Simulated annealing repeats";
             // 
             // initialT
             // 
-            this.initialT.Location = new System.Drawing.Point(178, 79);
+            resources.ApplyResources(this.initialT, "initialT");
             this.initialT.Name = "initialT";
-            this.initialT.Size = new System.Drawing.Size(91, 19);
-            this.initialT.TabIndex = 5;
-            this.initialT.Text = "60";
-            this.initialT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.initialT.Validating += new System.ComponentModel.CancelEventHandler(this.initialT_Validating);
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 82);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Initial temperature";
             // 
             // naturalLength
             // 
-            this.naturalLength.Location = new System.Drawing.Point(178, 114);
+            resources.ApplyResources(this.naturalLength, "naturalLength");
             this.naturalLength.Name = "naturalLength";
-            this.naturalLength.Size = new System.Drawing.Size(91, 19);
-            this.naturalLength.TabIndex = 7;
-            this.naturalLength.Text = "4";
-            this.naturalLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.naturalLength.Validating += new System.ComponentModel.CancelEventHandler(this.naturalLength_Validating);
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 117);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Natural length";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
             // 
             // GridLayoutPanel
             // 
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.naturalLength);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.initialT);
@@ -171,7 +148,7 @@ namespace Ecell.IDE.Plugins.GridLayout
             this.Controls.Add(this.defMargin);
             this.Controls.Add(this.label1);
             this.Name = "GridLayoutPanel";
-            this.Text = "Grid Layout";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 
