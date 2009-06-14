@@ -47,6 +47,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// <param name="algorithm"></param>
         public GridLayoutPanel(ILayoutAlgorithm algorithm)
         {
+            InitializeComponent();
             m_algorithm = algorithm;
         }
 
@@ -67,7 +68,6 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// </summary>
         public override void ApplyChange()
         {
-            base.ApplyChange();
             GridLayout alogorithm = (GridLayout)m_algorithm;
         }
     }

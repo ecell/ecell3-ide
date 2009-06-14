@@ -55,10 +55,34 @@ namespace Ecell.Plugin
         /// <summary>
         /// 
         /// </summary>
+        protected int m_subIndex = 0;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
             set { m_env = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ILayoutPanel Panel
+        {
+            get { return m_panel; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int SubIndex
+        {
+            get { return m_subIndex; }
+            set { m_subIndex = value; }
         }
 
         /// <summary>
@@ -202,13 +226,5 @@ namespace Ecell.Plugin
         /// <returns></returns>
         public abstract string GetLayoutName();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public ILayoutPanel Panel
-        {
-            get { return m_panel; }
-        }
     }
 }

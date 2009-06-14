@@ -89,5 +89,11 @@ namespace Ecell.Plugin
         /// <returns></returns>
         ILayoutPanel Panel { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        int SubIndex { get; set; }
+
     }
 }

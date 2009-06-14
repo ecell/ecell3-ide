@@ -89,7 +89,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// ToolBox interface.
         /// </summary>
         private Stencils m_toolBox;
-
+        /// <summary>
+        /// 
+        /// </summary>
         private LayoutPane m_layout;
 
         /// <summary>
@@ -468,8 +470,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
         internal void ApplyButton_Click(object sender, EventArgs e)
         {
-
-            throw new NotImplementedException();
+            ILayoutAlgorithm algorithm = m_layout.CurrentAlgorithm;
+            int subIndex = algorithm.SubIndex;
+            DoLayout(algorithm, subIndex, true);
         }
 
 
@@ -517,13 +520,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Get DockContents of PathwayWindow.
         /// </summary>
         /// <returns></returns>
-        internal IEnumerable<EcellDockContent> GetDockContents()
+        internal IEnumerable<EcellDockContent> GetWindowForms()
         {
             return new EcellDockContent[] {
                 m_pathwayView,
                 m_layerView,
-                //m_overView,
                 m_toolBox,
+                m_layout
             };
         }
 

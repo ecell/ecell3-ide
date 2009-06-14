@@ -44,8 +44,14 @@ namespace Ecell.IDE
         #region Fields
         public System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.TabControl tabControl;
-
+        /// <summary>
+        /// 
+        /// </summary>
         private ApplicationEnvironment _env = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        private ILayoutAlgorithm m_algorithm = null; 
         #endregion
 
         /// <summary>
@@ -53,7 +59,7 @@ namespace Ecell.IDE
         /// </summary>
         public ILayoutAlgorithm CurrentAlgorithm
         {
-            get { return null; }
+            get { return m_algorithm; }
         }
 
         #region Constructor
@@ -77,6 +83,8 @@ namespace Ecell.IDE
             {
                 SetPanel((LayoutPanel)panel);
             }
+            if(tabControl.TabPages.Count > 0)
+                SetAlgorithm(tabControl.TabPages[0]);
         }
 
         private void SetPanel(LayoutPanel panel)
@@ -105,6 +113,7 @@ namespace Ecell.IDE
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(345, 238);
             this.tabControl.TabIndex = 0;
+            this.tabControl.TabIndexChanged += new System.EventHandler(this.tabControl_TabIndexChanged);
             // 
             // ApplyButton
             // 
@@ -124,11 +133,24 @@ namespace Ecell.IDE
             this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "LayoutPane";
+            this.Text = "Layout Settings.";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private void tabControl_TabIndexChanged(object sender, EventArgs e)
+        {
+            TabPage page = tabControl.SelectedTab;
+            SetAlgorithm(page);
+        }
+
+        private void SetAlgorithm(TabPage page)
+        {
+            ILayoutPanel panel = (ILayoutPanel)page.Controls[0];
+            m_algorithm = panel.Algorithm;
+        }
 
     }
 }

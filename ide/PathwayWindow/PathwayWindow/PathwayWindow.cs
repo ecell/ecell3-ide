@@ -148,7 +148,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>UserControl with pathway canvases, etc.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            return m_con.GetDockContents();
+            return m_con.GetWindowForms();
         }
 
         /// <summary>
