@@ -418,6 +418,32 @@ namespace Ecell.Job
         /// 
         /// </summary>
         [Test()]
+        public void TestJobGroupSaveAndLoad()
+        {
+            // Load plugins
+            foreach (string pluginDir in Util.GetPluginDirs())
+            {
+                string[] files = Directory.GetFiles(
+                    pluginDir,
+                    Constants.delimiterWildcard + Constants.FileExtPlugin);
+                foreach (string fileName in files)
+                {
+                    _env.PluginManager.LoadPlugin(fileName);
+                }
+            }
+
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            foreach (string groupName in _env.JobManager.GroupDic.Keys)
+            {
+                string topdir = TestConstant.TestDirectory + "Drosophila/Analysis/" + groupName;
+                _env.JobManager.GroupDic[groupName].SaveJobGroup(topdir);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
         public void TestRun()
         {
             JobManager manager = new JobManager(_env);

@@ -46,6 +46,14 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
+        public const string SBMLOUT_FILE = "sbmlout.sbml";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SUSPEND_FILE = "suspend.eml";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string Script_File = TestDirectory + "1.ess";
         /// <summary>
         /// 

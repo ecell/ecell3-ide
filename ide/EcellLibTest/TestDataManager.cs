@@ -1743,7 +1743,47 @@ namespace Ecell
                 Util.SetBaseDir(basedir);
                 Assert.Fail();
             }
+
+            try
+            {
+                string fileName = TestConstant.TestDirectory + TestConstant.SUSPEND_FILE;
+                _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+                _unitUnderTest.StartStepSimulation(1.0);
+                List<string> modelList = new List<string>();
+                modelList.Add("Drosophila");
+                _unitUnderTest.ExportModel(modelList, fileName);
+                _unitUnderTest.SimulationStop();
+            }
+            catch (Exception)
+            {
+                Util.SetBaseDir(basedir);
+                Assert.Fail();
+            }
+
             Util.SetBaseDir(basedir);
+
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestExportSBML()
+        {
+            string basedir = Util.GetBaseDir();
+            Util.SetBaseDir(TestConstant.TestDirectory);
+
+            try
+            {
+                string filename = TestConstant.TestDirectory + TestConstant.SBMLOUT_FILE;
+                _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+                _unitUnderTest.ExportSBML(filename);
+            }
+            catch (Exception)
+            {
+                Util.SetBaseDir(basedir);
+                Assert.Fail();
+            }
         }
 
         /// <summary>
