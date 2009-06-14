@@ -126,7 +126,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
-        private bool m_isAnimation = true;
+        private bool m_isAnimation = false;
 
         /// <summary>
         /// 
@@ -553,6 +553,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             m_canvas.DataAdd(obj, eo.IsPosSet);
             NotifySetPosition(obj);
+
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.SetPropForSimulation();
         }
 
         /// <summary>
@@ -601,7 +605,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.UpdatePropForSimulation();
+                m_animCon.SetPropForSimulation();
 
         }
 
@@ -716,7 +720,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.SelectChanged(key, type);
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.UpdatePropForSimulation();
+                m_animCon.SetPropForSimulation();
 
         }
 
@@ -736,7 +740,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.AddSelect(key, type);
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.UpdatePropForSimulation();
+                m_animCon.SetPropForSimulation();
 
         }
 
@@ -756,7 +760,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.RemoveSelect(key, type);
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.UpdatePropForSimulation();
+                m_animCon.SetPropForSimulation();
 
         }
 
@@ -770,7 +774,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.ResetSelect();
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.UpdatePropForSimulation();
+                m_animCon.SetPropForSimulation();
 
         }
 

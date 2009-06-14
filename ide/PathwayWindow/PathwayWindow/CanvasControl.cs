@@ -1885,8 +1885,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     obj.ResetPosition();
                     obj.Invalid = false;
-                    obj.ViewMode = m_con.Animation.DoesAnimationOnGoing;
-                    //obj.RefreshView();
                 }
                 NotifyResetSelect();
             }

@@ -192,7 +192,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             get
             {
-                bool prjStatus =(_con.ProjectStatus == ProjectStatus.Running || _con.ProjectStatus == ProjectStatus.Stepping || _con.ProjectStatus == ProjectStatus.Suspended);
+                bool prjStatus =(_con.ProjectStatus == ProjectStatus.Running
+                    || _con.ProjectStatus == ProjectStatus.Stepping
+                    || _con.ProjectStatus == ProjectStatus.Suspended
+                    || _con.ProjectStatus == ProjectStatus.Loaded);
                 bool doesAnimation = prjStatus && _con.IsAnimation;
                 return doesAnimation;
             }
@@ -232,20 +235,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             get { return _maxEdgeWidth; }
             set { _maxEdgeWidth = value; }
-        }
-
-        /// <summary>
-        /// Get BGBrush
-        /// </summary>
-        public Brush BGBrush
-        {
-            get
-            {
-                if (DoesAnimationOnGoing)
-                    return ViewBGBrush;
-                else
-                    return EditBGBrush;
-            }
         }
 
         /// <summary>
@@ -383,16 +372,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void m_con_AnimationChange(object sender, EventArgs e)
         {
-            if (_con.IsAnimation)
-            {
-                SetPropForSimulation();
-                SetSimulation(_con.ProjectStatus);
-            }
-            else
-            {
-                ResetPropForSimulation();
-                StopSimulation();
-            }
+            SetSimulationStatus();
         }
 
         /// <summary>
@@ -424,30 +404,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e"></param>
         void m_con_ProjectStatusChange(object sender, EventArgs e)
         {
-            ProjectStatus status = _con.ProjectStatus;
-            // When simulation started.
-            SetSimulation(status);
+            SetSimulationStatus();
         }
 
-        private void SetSimulation(ProjectStatus status)
+        internal void SetSimulationStatus()
         {
-            if (status == ProjectStatus.Running)
+            if (_con.IsAnimation)
             {
-                StartSimulation();
-            }
-            else if (status == ProjectStatus.Stepping)
-            {
-                StartSimulation();
-            }
-            else if (status == ProjectStatus.Suspended)
-            {
-                PauseSimulation();
+                ProjectStatus status = _con.ProjectStatus;
+                if (status == ProjectStatus.Running || status == ProjectStatus.Stepping)
+                {
+                    StartSimulation();
+                }
+                else
+                {
+                    SetPropForSimulation();
+                    UpdatePropForSimulation();
+                    PauseSimulation();
+                }
             }
             else
             {
                 StopSimulation();
             }
         }
+
         #endregion
 
         #region Methods to control TimerEvent
@@ -796,6 +777,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 dlg.ApplyChange();
                 _items.Clear();
                 _items.AddRange(dlg.Items);
+
+                // Set Animation Status.
+                if (_items.Count > 0)
+                    _con.Menu.SetAnimation(true);
+                else
+                    _con.Menu.SetAnimation(false);
+                SetSimulationStatus();
             }
         }
     }

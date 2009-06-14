@@ -567,7 +567,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             // toolButtonViewMode
             // 
-            this.toolButtonAnimation.Checked = true;
+            this.toolButtonAnimation.Checked = false;
             this.toolButtonAnimation.CheckOnClick = true;
             this.toolButtonAnimation.Image = ((System.Drawing.Image)(resources.GetObject("toolButtonViewMode.Image")));
             this.toolButtonAnimation.Name = "toolButtonViewMode";
