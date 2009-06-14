@@ -44,6 +44,10 @@ namespace Ecell.Action
     {
         #region Fields
         /// <summary>
+        /// A parameter ID.
+        /// </summary>
+        private string m_paramID;
+        /// <summary>
         /// An object before changing.
         /// </summary>
         private EcellObject m_oldObj;
@@ -56,10 +60,12 @@ namespace Ecell.Action
         /// <summary>
         /// The constructor for DataChangeAction with initial parameters.
         /// </summary>
+        /// <param name="paramID">A parameter ID.</param>
         /// <param name="oldObj">An object before changing.</param>
         /// <param name="newObj">An object after changing.</param>
-        public DataChangeAction(EcellObject oldObj, EcellObject newObj)
+        public DataChangeAction(string paramID, EcellObject oldObj, EcellObject newObj)
         {
+            m_paramID = paramID;
             m_oldObj = oldObj.Clone();
             m_newObj = newObj.Clone();
         }
@@ -78,7 +84,10 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
+            string paramID = m_env.DataManager.CurrentProject.Info.SimulationParam;
+            m_env.DataManager.CurrentProject.Info.SimulationParam = m_paramID;
             m_env.DataManager.DataChanged(m_oldObj.ModelID, m_oldObj.Key, m_oldObj.Type, m_newObj.Clone(), false, false);
+            m_env.DataManager.CurrentProject.Info.SimulationParam = paramID;
         }
         /// <summary>
         /// Unexecute this action.
@@ -86,7 +95,10 @@ namespace Ecell.Action
         /// </summary>
         public override void UnExecute()
         {
+            string paramID = m_env.DataManager.CurrentProject.Info.SimulationParam;
+            m_env.DataManager.CurrentProject.Info.SimulationParam = m_paramID;
             m_env.DataManager.DataChanged(m_newObj.ModelID, m_newObj.Key, m_newObj.Type, m_oldObj.Clone(), false, false);
+            m_env.DataManager.CurrentProject.Info.SimulationParam = paramID;
         }
     }
 }

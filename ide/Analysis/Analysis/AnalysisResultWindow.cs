@@ -66,6 +66,14 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             get { return this.m_paramContent; }
         }
+
+        /// <summary>
+        /// get the graph window.
+        /// </summary>
+        public GraphResultWindow GraphWindow
+        {
+            get { return this.m_graphResultWindow; }
+        }
         #endregion
 
         #region Constructor

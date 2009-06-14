@@ -130,6 +130,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The number of bifurcation points.
         /// </summary>
         private int m_resultPoint = 0;
+        private bool m_isRegist = false;
         private const string s_simTime = "Simulation Time";
         private const string s_winSize = "Window Size";
         private const string s_maxInput = "Max Input for FFT";
@@ -289,6 +290,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void NotifyAnalysisFinished()
         {
+            if (m_isRegist)
+                return;
             JudgeBifurcationAnalysis();
             PrintResultData(false);
             int[,] respos = SearchPoint();
@@ -304,7 +307,9 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             String tmpDir = m_owner.JobManager.TmpDir;
             Group.Run();
+            m_isRegist = true;
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, paramList);
+            m_isRegist = false;
         }
 
         /// <summary>

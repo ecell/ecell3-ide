@@ -1399,7 +1399,7 @@ namespace Ecell
 
                 // Record Action.
                 if (isRecorded)
-                    this.m_env.ActionManager.AddAction(new DataChangeAction(oldObj, ecellObject));
+                    this.m_env.ActionManager.AddAction(new DataChangeAction(CurrentProject.Info.SimulationParam, oldObj, ecellObject));
                 // 4 System & Entity
                 if (ecellObject.Type.Equals(Constants.xpathModel))
                 {

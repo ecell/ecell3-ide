@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GridLayoutPanel.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MessageResGridLayout.Designer.cs">
       <AutoGen>True</AutoGen>
