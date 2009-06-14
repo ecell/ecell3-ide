@@ -199,6 +199,7 @@ namespace Ecell
                 eo.Width = GetFloatAttribute(node, LemlConstants.xPathWidth);
                 eo.Height = GetFloatAttribute(node, LemlConstants.xPathHeight);
                 eo.Layer = GetStringAttribute(node, LemlConstants.xPathLayer);
+                eo.Layout.Figure  = GetStringAttribute(node, LemlConstants.xPathFigure);
                 eo.isFixed = true;
             }
         }
@@ -247,7 +248,7 @@ namespace Ecell
             {
                 XmlAttribute attribute = node.Attributes[key];
                 if (attribute == null)
-                    return null;
+                    return "";
                 else
                     return attribute.Value;
             }
@@ -422,6 +423,7 @@ namespace Ecell
             xmlOut.WriteAttributeString(LemlConstants.xPathType, eo.Type);
             xmlOut.WriteAttributeString(LemlConstants.xPathKey, eo.Key);
             xmlOut.WriteAttributeString(LemlConstants.xPathLayer, eo.Layer);
+            xmlOut.WriteAttributeString(LemlConstants.xPathFigure, eo.Layout.Figure);
             xmlOut.WriteAttributeString(LemlConstants.xPathX, eo.X.ToString());
             xmlOut.WriteAttributeString(LemlConstants.xPathY, eo.Y.ToString());
             xmlOut.WriteAttributeString(LemlConstants.xPathOffsetX, eo.OffsetX.ToString());
@@ -499,6 +501,10 @@ namespace Ecell
         /// 
         /// </summary>
         public const string xPathLayer = "Layer";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathFigure = "Figure";
         /// <summary>
         /// 
         /// </summary>

@@ -1062,11 +1062,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void SetNodeIcons()
         {
-            m_window.PluginManager.SetIconImage(Constants.xpathSystem, m_csManager.SystemSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathProcess, m_csManager.ProcessSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathVariable, m_csManager.VariableSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathText, m_csManager.TextSetting.IconImage, false);
-            m_window.PluginManager.SetIconImage(Constants.xpathStepper, m_csManager.StepperSetting.IconImage, true);
+            List<ComponentSetting> settings = m_csManager.GetAllSettings();
+            int i = 0;
+            int count = settings.Count;
+            bool flag;
+            foreach (ComponentSetting cs in settings)
+            {
+                i++;
+                flag = (i == count);
+                string key = (cs.IsDefault)? cs.Type : cs.Name;
+                m_window.PluginManager.SetIconImage(key, cs.IconImage, flag);
+            }
         }
 
         #endregion

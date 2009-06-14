@@ -1299,10 +1299,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void FigureSettingClick(object sender, EventArgs e)
         {
+            // Get setting
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
-            ComponentSetting cs = obj.Setting.Clone();
-            cs.Name = m_con.ComponentManager.GetRandomKey();
-            cs.IsDefault = false;
+            ComponentSetting cs = obj.Setting;
+            if (cs.IsDefault)
+            {
+                cs = obj.Setting.Clone();
+                cs.Name = m_con.ComponentManager.GetRandomKey();
+                cs.IsDefault = false;
+            }
+
+            // Show Setting Dialog.
             ComponentDialog dlg = new ComponentDialog(cs);
             using (dlg)
             {
@@ -1312,9 +1319,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 obj.Setting = cs;
                 m_con.ComponentManager.RegisterSetting(cs);
             }
+
+            // Update.
             EcellObject eo = obj.EcellObject;
             eo.Layout.Figure = cs.Name;
             m_con.NotifyDataChanged(eo.Key, eo, true, true);
+            m_con.SetNodeIcons();
         }
         
         /// <summary>

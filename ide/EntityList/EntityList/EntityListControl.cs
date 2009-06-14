@@ -104,16 +104,36 @@ namespace Ecell.IDE.Plugins.EntityList
             ResetSearchTextBox();
         }
 
-        void PluginManager_NodeImageListChange(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PluginManager_NodeImageListChange(object sender, EventArgs e)
         {
             for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
                 EcellObject obj = (EcellObject)objectListDataGrid.Rows[i].Tag;
-                Image image = m_iconList.Images[obj.Type];
+                Image image = GetIconImage(obj);
                 objectListDataGrid.Rows[i].Cells[0].Value = image;
             }
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private Image GetIconImage(EcellObject obj)
+        {
+            Image image;
+            if (m_iconList.Images.ContainsKey(obj.Layout.Figure))
+                image = m_iconList.Images[obj.Layout.Figure];
+            else
+                image = m_iconList.Images[obj.Type];
+            return image;
+        }
+
         #endregion
 
         #region Inherited from PluginBase
@@ -197,7 +217,7 @@ namespace Ecell.IDE.Plugins.EntityList
             DataGridViewRow rs = new DataGridViewRow();
             {
                 DataGridViewImageCell c = new DataGridViewImageCell();
-                c.Value = m_iconList.Images[obj.Type];
+                c.Value = GetIconImage(obj);
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
             }

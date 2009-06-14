@@ -530,9 +530,15 @@ namespace Ecell.Plugin
         /// <param name="eventFrag">image type</param>
         public void SetIconImage(string key, Image image, bool eventFrag)
         {
-            m_imageList.Images.RemoveByKey(key);
-            m_imageList.Images.Add(key, image);
-
+            if (m_imageList.Images.ContainsKey(key))
+            {
+                int i = GetImageIndex(key);
+                m_imageList.Images[i] = image;
+            }
+            else
+            {
+                m_imageList.Images.Add(key, image);
+            }
             if (eventFrag)
                 RaiseNodeImageListChange();
         }
