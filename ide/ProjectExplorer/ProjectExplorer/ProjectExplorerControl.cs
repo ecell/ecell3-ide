@@ -127,7 +127,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     if (GetTargetModel(obj.ModelID) != null)
                         continue;
                     TreeNode node = new TreeNode(obj.ModelID);
-                    node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj.Type);
+                    node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj);
                     node.SelectedImageIndex = node.ImageIndex;
                     node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
                     node.ContextMenuStrip = this.contextMenuStripModel;
@@ -684,7 +684,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 new TreeNode(name + "[logged]"):
                 new TreeNode(name);
 
-            node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj.Type);
+            node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj);
             node.SelectedImageIndex = node.ImageIndex;
             node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
             node.Name = name;

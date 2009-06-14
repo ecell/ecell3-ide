@@ -100,7 +100,7 @@ namespace Ecell.IDE
                 if (obj.Type == "Model")
                 {
                     TreeNode node = new TreeNode(obj.ModelID);
-                    node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
+                    node.ImageIndex = m_pManager.GetImageIndex(obj);
                     node.SelectedImageIndex = node.ImageIndex;
                     m_prjNode.Nodes.Add(node);
                     dict.Add(obj.ModelID, node);
@@ -113,7 +113,7 @@ namespace Ecell.IDE
                     if (obj.Key == "/")
                     {
                         node = new TreeNode(obj.Key);
-                        node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
+                        node.ImageIndex = m_pManager.GetImageIndex(obj);
                         node.SelectedImageIndex = node.ImageIndex;
                         current.Nodes.Add(node);
                     }
@@ -131,7 +131,7 @@ namespace Ecell.IDE
                         if (target != null)
                         {
                             node = new TreeNode(elements[elements.Length - 1]);
-                            node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
+                            node.ImageIndex = m_pManager.GetImageIndex(obj);
                             node.SelectedImageIndex = node.ImageIndex;
                             target.Nodes.Add(node);
                         }
@@ -158,7 +158,7 @@ namespace Ecell.IDE
                             if (isHit == true) continue;
 
                             TreeNode childNode = new TreeNode(names[names.Length - 1]);
-                            childNode.ImageIndex = m_pManager.GetImageIndex(eo.Type);
+                            childNode.ImageIndex = m_pManager.GetImageIndex(eo);
                             childNode.SelectedImageIndex = childNode.ImageIndex;
                             childNode.Tag = eo.FullID;
                             node.Nodes.Add(childNode);

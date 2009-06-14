@@ -551,6 +551,21 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetImageIndex(EcellObject obj)
+        {
+            int i = -1;
+            if (m_imageList.Images.ContainsKey(obj.Layout.Figure))
+                i = m_imageList.Images.IndexOfKey(obj.Layout.Figure);
+            else if (m_imageList.Images.ContainsKey(obj.Type))
+                i = m_imageList.Images.IndexOfKey(obj.Type);
+            return i;
+        }
+
+        /// <summary>
         /// load the plugin and control the plugin.
         /// </summary>
         /// <param name="path">path of plugin dll.</param>
