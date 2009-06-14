@@ -103,6 +103,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// </summary>
         public GridLayout()
         {
+            m_panel = new GridLayoutPanel(this);
         }
 
         /// <summary>
@@ -189,15 +190,6 @@ namespace Ecell.IDE.Plugins.GridLayout
         public override string GetLayoutName()
         {
             return "Grid";
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override ILayoutPanel GetPanel()
-        {
-            return base.GetPanel();
         }
 
         /// <summary>

@@ -44,6 +44,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// </summary>
         public new const string TYPE = "SystemEllipse";
 
+        
+        /// <summary>
+        /// Constructor without params.
+        /// </summary>
+        public SystemEllipse()
+        {
+            Initialize(0, 0, 1, 1, TYPE);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public SystemEllipse(float x, float y, float width, float height)
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>

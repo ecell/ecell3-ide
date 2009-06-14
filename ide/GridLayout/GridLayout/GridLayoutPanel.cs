@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.GridLayout
 {
@@ -39,5 +40,35 @@ namespace Ecell.IDE.Plugins.GridLayout
     /// </summary>
     public class GridLayoutPanel : LayoutPanel
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="algorithm"></param>
+        public GridLayoutPanel(ILayoutAlgorithm algorithm)
+        {
+            m_algorithm = algorithm;
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // GridLayoutPanel
+            // 
+            this.Name = "GridLayoutPanel";
+            this.Text = "Grid Layout";
+            this.ResumeLayout(false);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void ApplyChange()
+        {
+            base.ApplyChange();
+            GridLayout alogorithm = (GridLayout)m_algorithm;
+        }
     }
 }

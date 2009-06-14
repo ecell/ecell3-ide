@@ -73,6 +73,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
                     return new RoundedRectangle(x, y, width, height);
                 case SystemRectangle.TYPE:
                     return new SystemRectangle(x, y, width, height);
+                case SystemEllipse.TYPE:
+                    return new SystemEllipse(x, y, width, height);
                 default:
                     return new FigureBase(x, y, width, height);
             }
@@ -90,6 +92,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             list.Add(RectangleFigure.TYPE);
             list.Add(RoundedRectangle.TYPE);
             list.Add(SystemRectangle.TYPE);
+            list.Add(SystemEllipse.TYPE);
             return list;
         }
 

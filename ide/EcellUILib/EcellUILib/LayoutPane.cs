@@ -42,11 +42,19 @@ namespace Ecell.IDE
     public class LayoutPane : EcellDockContent
     {
         #region Fields
-        private System.Windows.Forms.Button ApplyButton;
+        public System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.TabControl tabControl;
 
         private ApplicationEnvironment _env = null;
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ILayoutAlgorithm CurrentAlgorithm
+        {
+            get { return null; }
+        }
 
         #region Constructor
         /// <summary>

@@ -87,7 +87,7 @@ namespace Ecell.Plugin
         /// 
         /// </summary>
         /// <returns></returns>
-        ILayoutPanel GetPanel();
+        ILayoutPanel Panel { get; }
 
     }
 }

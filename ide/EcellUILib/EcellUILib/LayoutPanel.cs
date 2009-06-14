@@ -33,14 +33,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
+using Ecell.Plugin;
 
 namespace Ecell.IDE
 {
     /// <summary>
     /// 
     /// </summary>
-    public class LayoutPanel : UserControl
+    public class LayoutPanel : UserControl, ILayoutPanel
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ILayoutAlgorithm m_algorithm = null;
+
         #region Properties
         /// <summary>
         /// 
@@ -89,6 +95,15 @@ namespace Ecell.IDE
         public virtual void ApplyChange()
         {
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual ILayoutAlgorithm Algorithm
+        {
+            get { return m_algorithm; }
+        }
+
         #endregion
     }
 }

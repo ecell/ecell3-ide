@@ -150,15 +150,6 @@ namespace Ecell.IDE.Plugins.AlignLayout
             return "Align";
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override ILayoutPanel GetPanel()
-        {
-            return base.GetPanel();
-        }
-
         #region Private Methods
         /// <summary>
         /// Get aligned value.

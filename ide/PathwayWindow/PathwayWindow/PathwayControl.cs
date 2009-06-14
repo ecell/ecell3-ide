@@ -90,6 +90,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         private Stencils m_toolBox;
 
+        private LayoutPane m_layout;
+
         /// <summary>
         /// ProjectStatus
         /// </summary>
@@ -353,6 +355,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_pathwayView = new PathwayView(this);
             m_layerView = new LayerView(this);
             m_toolBox = new Stencils(this);
+            m_layout = new LayoutPane(m_window.Environment);
+            m_layout.ApplyButton.Click += new EventHandler(ApplyButton_Click);
 
             m_window.PluginManager.Refresh += new EventHandler(PluginManager_Refresh);
         }
@@ -460,6 +464,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             return layoutFlag;
         }
+
+
+        internal void ApplyButton_Click(object sender, EventArgs e)
+        {
+
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Set layout.

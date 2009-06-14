@@ -50,6 +50,11 @@ namespace Ecell.Plugin
         /// <summary>
         /// 
         /// </summary>
+        protected ILayoutPanel m_panel = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
@@ -201,9 +206,9 @@ namespace Ecell.Plugin
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual ILayoutPanel GetPanel()
+        public ILayoutPanel Panel
         {
-            return null;
+            get { return m_panel; }
         }
     }
 }

@@ -749,7 +749,7 @@ namespace Ecell.Plugin
             List<ILayoutPanel> panels = new List<ILayoutPanel>();
             foreach (ILayoutAlgorithm layoutAlgorithm in m_layoutAlgorithmList)
             {
-                ILayoutPanel panel = layoutAlgorithm.GetPanel();
+                ILayoutPanel panel = layoutAlgorithm.Panel;
                 if (panel == null)
                     continue;
                 panels.Add(panel);

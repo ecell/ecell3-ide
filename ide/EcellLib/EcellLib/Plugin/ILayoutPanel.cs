@@ -42,6 +42,11 @@ namespace Ecell.Plugin
         /// <summary>
         /// 
         /// </summary>
+        ILayoutAlgorithm Algorithm { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         void ApplyChange();
     }
 }
