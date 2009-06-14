@@ -1452,10 +1452,7 @@ namespace Ecell.IDE.MainWindow
         private void ShowScriptEditor()
         {
             ScriptEditor edit = new ScriptEditor(m_env);
-            using (edit)
-            {
-                edit.ShowDialog();
-            }
+            edit.Show();
         }
 
         /// <summary>

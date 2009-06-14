@@ -126,6 +126,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             foreach (TagData tag in entry.Keys)
             {
+                if (tag.FileName != null) continue;
                 SaveEntrySelectView.Rows.Add(new object[] {true, tag.M_path});
             }
         }

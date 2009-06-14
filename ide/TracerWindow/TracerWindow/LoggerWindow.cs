@@ -188,7 +188,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             foreach (string fileName in dobj.LogList)
             {
-                ImportLog(fileName);
+                ImportLog(fileName, null);
             }
             //m_owner.CurrentWin = tWin;
         }
@@ -248,7 +248,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         private void importLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportLog(null);
+            ImportLog(null, null);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -559,7 +559,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// 
         /// </summary>
         /// <param name="fileName"></param>
-        public void ImportLog(string fileName)
+        public void ImportLog(string fileName, TraceWindow win)
         {
             try
             {
@@ -571,7 +571,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     fileName = m_openFileDialog.FileName;
                 }
 
-                if (m_logList.ContainsKey(fileName)) return;
+                if (m_logList.ContainsKey(fileName))
+                {
+                    if (win != null)
+                    {
+                        m_owner.ChangeDisplayStatus(m_logList[fileName], win.Name, true);
+                    }
+                    return;
+                }
 
                 LogData log = m_owner.DataManager.LoadSimulationResult(fileName);
                 if (log.logValueList.Count <= 0)
@@ -585,7 +592,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 LoggerEntry entry = new LoggerEntry(log.model, log.key, log.type, propName);
                 entry.IsLoaded = true;
                 entry.FileName = fileName;
-                m_logList.Add(fileName, entry);
+                m_logList.Add(fileName, entry);                
 
                 m_owner.LoggerManager_LoggerAddEvent(null, new LoggerEventArgs(entry.FullPN, entry));
             }
@@ -610,7 +617,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             if ((int)keyData == (int)Keys.Control + (int)Keys.I)
             {
-                ImportLog(null);
+                ImportLog(null, null);
             }
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
             {

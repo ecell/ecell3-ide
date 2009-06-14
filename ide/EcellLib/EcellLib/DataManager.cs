@@ -309,25 +309,26 @@ namespace Ecell
         /// <param name="fileName">the source file name.</param>
         public void ExecuteScript(string fileName)
         {
-            PythonEngine engine = new PythonEngine();
+            PythonEngine m_engine = new PythonEngine();
 
-            engine.AddToPath(Directory.GetCurrentDirectory());
-            engine.AddToPath(Util.GetAnalysisDir());
+            m_engine.AddToPath(Directory.GetCurrentDirectory());
+            m_engine.AddToPath(Util.GetAnalysisDir());
             string scriptFile = fileName;
             m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
             m_env.Console.Flush();
 
             MemoryStream standardOutput = new MemoryStream();
-            engine.SetStandardOutput(standardOutput);
-            engine.Execute("from EcellIDE import *");
-            engine.Execute("import time");
-            engine.Execute("import System.Threading");
-            engine.Execute("session=Session()");
-            engine.ExecuteFile(scriptFile);
+            m_engine.SetStandardOutput(standardOutput);
+            m_engine.Execute("from EcellIDE import *");
+            m_engine.Execute("import time");
+            m_engine.Execute("import System.Threading");
+            m_engine.Execute("session=Session()");
+            m_engine.ExecuteFile(scriptFile);            
             string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
 
             m_env.Console.WriteLine(stdOut);
             m_env.Console.Flush();
+            m_engine = null;
         }
 
         /// <summary>

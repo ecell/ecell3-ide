@@ -816,8 +816,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             if (isNewWin == true || m_win == null)
                 m_showWin.PerformClick();
-
-            m_loggerWin.ImportLog(filename);
+            
+            m_loggerWin.ImportLog(filename, m_win);
         }
 
         /// <summary>
