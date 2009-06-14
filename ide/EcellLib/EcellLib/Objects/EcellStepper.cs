@@ -52,5 +52,26 @@ namespace Ecell.Objects
             : base(modelID, key, type, classname, data)
         {
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override EcellObject Clone()
+        {
+            EcellObject obj =  base.Clone();
+            List<EcellData> wastes = new List<EcellData>();
+            foreach (EcellData data in obj.Value)
+            {
+                if (data.Settable)
+                    continue;
+                wastes.Add(data);
+            }
+            foreach (EcellData waste in wastes)
+            {
+                obj.Value.Remove(waste);
+            }
+            return obj;
+        }
     }
 }

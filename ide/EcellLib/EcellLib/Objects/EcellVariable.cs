@@ -77,21 +77,5 @@ namespace Ecell.Objects
             }
         }
         #endregion
-
-        #region Methods
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override EcellObject Clone()
-        {
-            EcellVariable newVar = (EcellVariable)base.Clone();
-            foreach (EcellLayout layout in m_aliases)
-            {
-                newVar.Aliases.Add(layout.Clone());
-            }
-            return newVar;
-        }
-        #endregion
     }
 }
