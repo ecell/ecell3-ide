@@ -39,7 +39,7 @@ namespace Ecell.IDE
     /// <summary>
     /// 
     /// </summary>
-    public class LayoutPane : EcellDockContent
+    public class LayoutPane : EcellDockContent, ILayoutPanel
     {
         #region Fields
         public System.Windows.Forms.Button ApplyButton;
@@ -57,7 +57,7 @@ namespace Ecell.IDE
         /// <summary>
         /// 
         /// </summary>
-        public ILayoutAlgorithm CurrentAlgorithm
+        public ILayoutAlgorithm Algorithm
         {
             get { return m_algorithm; }
         }
@@ -152,5 +152,19 @@ namespace Ecell.IDE
             m_algorithm = panel.Algorithm;
         }
 
+
+        #region ILayoutPanel メンバ
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ApplyChange()
+        {
+            if(m_algorithm == null)
+                return;
+            m_algorithm.Panel.ApplyChange();
+        }
+
+        #endregion
     }
 }

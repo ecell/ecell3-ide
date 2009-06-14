@@ -77,27 +77,67 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// <summary>
         /// natural length between connected nodes
         /// </summary>
-        private static float m_naturalLength = 4;
-
+        private float m_naturalLength = 4;
 
         /// <summary>
         /// initial temperature (for simulated annealing)
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
-        private static float m_initialT = 60;
+        private float m_initialT = 60;
+
+        /// <summary>
+        /// Default grid margin.
+        /// </summary>
+        private float m_defMargin = 30;
 
         /// <summary>
         /// At most, a step of simulated annealing repeats this time.
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
-        private static int m_kmax = 250;
+        private int m_kmax = 250;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// natural length between connected nodes
+        /// </summary>
+        public float NaturalLength
+        {
+            get { return m_naturalLength; }
+            set { m_naturalLength = value; }
+        }
+
+        /// <summary>
+        /// initial temperature (for simulated annealing)
+        /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
+        /// </summary>
+        public float InitialT
+        {
+            get { return m_initialT; }
+            set { m_initialT = value; }
+        }
+
+        /// <summary>
+        /// At most, a step of simulated annealing repeats this time.
+        /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
+        /// </summary>
+        public int Kmax
+        {
+            get { return m_kmax; }
+            set { m_kmax = value; }
+        }
 
         /// <summary>
         /// Default grid margin.
         /// </summary>
-        private static float m_defMargin = 30;
+        public float DefMargin
+        {
+            get { return m_defMargin; }
+            set { m_defMargin = value; }
+        }
         #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -105,6 +145,8 @@ namespace Ecell.IDE.Plugins.GridLayout
         {
             m_panel = new GridLayoutPanel(this);
         }
+        
+        #endregion
 
         /// <summary>
         /// Get the name of this plugin.

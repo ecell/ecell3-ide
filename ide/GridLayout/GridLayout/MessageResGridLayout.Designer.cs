@@ -61,6 +61,24 @@ namespace Ecell.IDE.Plugins.GridLayout {
         }
         
         /// <summary>
+        ///   Value[ {0} ] is not valid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInvalidValue {
+            get {
+                return ResourceManager.GetString("ErrInvalidValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Nothing is input in [ {0} ]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoInput {
+            get {
+                return ResourceManager.GetString("ErrNoInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Grid に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemGrid {
@@ -70,7 +88,7 @@ namespace Ecell.IDE.Plugins.GridLayout {
         }
         
         /// <summary>
-        ///   Each nodes will be layouted on the grid に類似しているローカライズされた文字列を検索します。
+        ///   Each nodes will be layouted on the grid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolTip {
             get {

@@ -470,7 +470,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
         internal void ApplyButton_Click(object sender, EventArgs e)
         {
-            ILayoutAlgorithm algorithm = m_layout.CurrentAlgorithm;
+            ILayoutAlgorithm algorithm = m_layout.Algorithm;
+            algorithm.Panel.ApplyChange();
             int subIndex = algorithm.SubIndex;
             DoLayout(algorithm, subIndex, true);
         }
