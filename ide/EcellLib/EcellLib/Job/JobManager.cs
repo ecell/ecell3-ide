@@ -541,7 +541,7 @@ namespace Ecell.Job
                 return false;
             }
 
-            return m_groupDic[groupName].IsFinished();
+            return m_groupDic[groupName].IsError();
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace Ecell.Job
             List<Job> tmpList = new List<Job>();
             foreach (string name in m_groupDic.Keys)
             {
-                if (!string.IsNullOrEmpty(groupName) ||
+                if (string.IsNullOrEmpty(groupName) ||
                     !name.Equals(groupName))
                     continue;
 

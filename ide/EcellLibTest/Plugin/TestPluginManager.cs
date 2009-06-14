@@ -560,19 +560,19 @@ namespace Ecell.Plugin
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
             type = "System";
-            expectedInt32 = 5;
-            resultInt32 = 0;
-            resultInt32 = _unitUnderTest.GetImageIndex(type);
-            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
-
-            type = "Process";
             expectedInt32 = 6;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
-            type = "Variable";
+            type = "Process";
             expectedInt32 = 7;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Variable";
+            expectedInt32 = 8;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
@@ -594,6 +594,12 @@ namespace Ecell.Plugin
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Analysis";
+            expectedInt32 = 5;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");        
         }
         /// <summary>
         /// 
@@ -1006,7 +1012,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestGetPropertySettings()
         {
-            List<IPropertyItem> list = _unitUnderTest.GetPropertySettings();
+            List<IPropertyItem> list = _unitUnderTest.GetPropertySettings();           
             Assert.IsNotEmpty(list, "GetPropertySettings method returned unexpected value.");
         }
 

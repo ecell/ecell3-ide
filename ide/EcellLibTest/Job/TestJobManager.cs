@@ -79,7 +79,7 @@ namespace Ecell.Job
             Assert.IsNotNull(testJobManager.Proxy, "Proxy is unexpected value.");
             Assert.IsNotNull(testJobManager.TmpDir, "TmpDir is unexpected value.");
             Assert.IsNotNull(testJobManager.TmpRootDir, "TmpRootDir is unexpected value.");
-            Assert.AreEqual(5, testJobManager.UpdateInterval, "UpdateInterval is unexpected value.");
+            Assert.AreEqual(5000, testJobManager.UpdateInterval, "UpdateInterval is unexpected value.");
 
             testJobManager.LimitRetry = 1;
 
@@ -229,6 +229,7 @@ namespace Ecell.Job
         public void TestRegisterJob()
         {
             JobManager manager = new JobManager(_env);
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
 
             string script = null;
             string arg = null;
@@ -237,7 +238,8 @@ namespace Ecell.Job
             int resultInt32 = 0;
 
             LocalJob.ClearJobID();
-            resultInt32 = manager.RegisterJob(null, script, arg, extFile);
+            int jobid = manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
+            resultInt32 = manager.RegisterJob(manager.GroupDic[g.GroupName].GetJob(jobid), script, arg, extFile);
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterJob method returned unexpected result.");
 
             manager.Proxy = null;
@@ -259,7 +261,7 @@ namespace Ecell.Job
             int expectedInt32 = 1;
             int resultInt32 = 0;
 
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
+            JobGroup g = manager.CreateJobGroup("AAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
             resultInt32 = manager.CreateJobEntry(g.GroupName, param);
             Assert.AreEqual(expectedInt32, resultInt32, "CreateJobEntry method returned unexpected result.");
 
@@ -277,7 +279,7 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             LocalJob.ClearJobID();
 
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
             string script = null;
             string arg = null;
             List<string> extFile = null;
@@ -301,7 +303,7 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             LocalJob.ClearJobID();
 
-            JobGroup g = _unitUnderTest.CreateJobGroup("AAAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
+            JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
             int jobID = 0;
             manager.ClearJob(g.GroupName, jobID);
@@ -421,8 +423,8 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             JobGroup g = manager.CreateJobGroup("AAAAA", new List<EcellObject>(), new List<Ecell.Objects.EcellObject>());
             manager.CreateJobEntry(g.GroupName, new ExecuteParameter());
-            manager.Run(null, true);
-
+            manager.Run(g.GroupName, true);
+            manager.GroupDic[g.GroupName].Stop();
         }
         /// <summary>
         /// 
@@ -600,7 +602,7 @@ namespace Ecell.Job
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = new Dictionary<int, ExecuteParameter>();
             resultDictionary = _unitUnderTest.RunSimParameterSet(g.GroupName, topDir, modelName, count, isStep, setparam);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterSet method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary, "RunSimParameterSet method returned unexpected result.");
             //
             SetLoggerData();
             isStep = true;            
@@ -677,7 +679,7 @@ namespace Ecell.Job
                 _env.DataManager.CurrentProject.SystemDic[modelName],
                 _env.DataManager.CurrentProject.StepperDic[modelName]);
             resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterRange method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
             isStep = true;
             SetLoggerData();
@@ -715,7 +717,7 @@ namespace Ecell.Job
 
             List<EcellParameterData> list = new List<EcellParameterData>();
             list.Add(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 2.0, 0.0, 1.0));
-            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:Size", 1e-10, 1e-11, 4.5e-11));
+            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:P0:Value", 2.0, 0.0, 1.0));
             _unitUnderTest.SetParameterRange(list);
 
             SetLoggerData();
@@ -725,12 +727,12 @@ namespace Ecell.Job
             isStep = true;
             _env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             list = new List<EcellParameterData>();
-            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:Size", 1e-10, 1e-11, 4.5e-11));
             list.Add(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 2.0, 0.0, 1.0));
+            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:P0:Value", 2.0, 0.0, 1.0));
             _unitUnderTest.SetParameterRange(list);
 
             resultDictionary = _unitUnderTest.RunSimParameterMatrix(g.GroupName, topDir, modelName, count, isStep);
-            Assert.IsEmpty(resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
 
             if (Directory.Exists(topDir))
                 Directory.Delete(topDir, true);

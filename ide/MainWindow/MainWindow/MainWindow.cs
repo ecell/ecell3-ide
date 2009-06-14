@@ -1137,6 +1137,9 @@ namespace Ecell.IDE.MainWindow
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
+                if (!ConfirmOverwrite(m_env.DataManager.CurrentProject))
+                    return;
+
                 // Save as new project.
                 m_env.DataManager.SaveProject();
             }

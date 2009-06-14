@@ -697,10 +697,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public override void Initialize()
         {
-            m_env.JobManager.AnalysisDic.Add(ParameterEstimation.s_analysisName, new ParameterEstimation(this));
-            m_env.JobManager.AnalysisDic.Add(BifurcationAnalysis.s_analysisName, new BifurcationAnalysis(this));
-            m_env.JobManager.AnalysisDic.Add(SensitivityAnalysis.s_analysisName, new SensitivityAnalysis(this));
-            m_env.JobManager.AnalysisDic.Add(RobustAnalysis.s_analysisName, new RobustAnalysis(this));
+            m_env.JobManager.AnalysisDic[ParameterEstimation.s_analysisName] = new ParameterEstimation(this);
+            m_env.JobManager.AnalysisDic[BifurcationAnalysis.s_analysisName] = new BifurcationAnalysis(this);
+            m_env.JobManager.AnalysisDic[SensitivityAnalysis.s_analysisName] = new SensitivityAnalysis(this);
+            m_env.JobManager.AnalysisDic[RobustAnalysis.s_analysisName] = new RobustAnalysis(this);
 
             m_bifurcateParameter = new BifurcationAnalysisParameter();
             m_estimationParameter = new ParameterEstimationParameter();

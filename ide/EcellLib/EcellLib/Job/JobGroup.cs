@@ -337,7 +337,8 @@ namespace Ecell.Job
             else if (m_isRunning == true)
             {
                 m_isRunning = false;
-                m_analysis.NotifyAnalysisFinished();
+                if (m_analysis != null)
+                    m_analysis.NotifyAnalysisFinished();
             }
         }
 
