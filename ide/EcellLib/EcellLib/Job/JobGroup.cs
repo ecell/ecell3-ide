@@ -271,21 +271,6 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// Update status of job in this job group.
-        /// </summary>
-        private void UpdateJobStatus()
-        {
-            foreach (Job job in m_jobs)
-            {
-                if (job.Status == JobStatus.QUEUED ||
-                    job.Status == JobStatus.RUNNING)
-                {
-                    job.Update();
-                }
-            }
-        }
-
-        /// <summary>
         /// Update status.
         /// </summary>
         public void UpdateStatus()

@@ -879,12 +879,29 @@ namespace Ecell
         public void TestDeleteStepperIDL_parameterIDL_stepper()
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            EcellObject deStepper = _unitUnderTest.GetEcellObject("Drosophila", "DE", EcellObject.STEPPER);
 
+            try
+            {
+                _unitUnderTest.DeleteStepperID(deStepper);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
             EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
             _unitUnderTest.AddStepperID(l_stepper);
 
-            _unitUnderTest.DeleteStepperID(l_stepper);
+            try
+            {
+                _unitUnderTest.DeleteStepperID(deStepper);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
 
+            _unitUnderTest.DeleteStepperID(l_stepper);
         }
 
         /// <summary>
@@ -1635,7 +1652,7 @@ namespace Ecell
         {
             _unitUnderTest.CreateNewRevision();
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
-            //_unitUnderTest.CreateNewRevision();
+            _unitUnderTest.CreateNewRevision();
 
         }
 
@@ -1784,6 +1801,29 @@ namespace Ecell
                 Util.SetBaseDir(basedir);
                 Assert.Fail();
             }
+            Util.SetBaseDir(basedir);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestNewRevision()
+        {
+            string basedir = Util.GetBaseDir();
+            Util.SetBaseDir(TestConstant.TestDirectory);
+
+            try
+            {
+                string filename = TestConstant.TestDirectory + TestConstant.SBMLOUT_FILE;
+                _unitUnderTest.CreateNewRevision();
+            }
+            catch (Exception)
+            {
+                Util.SetBaseDir(basedir);
+                Assert.Fail();
+            }
+            Util.SetBaseDir(basedir);
         }
 
         /// <summary>
@@ -2015,6 +2055,7 @@ namespace Ecell
             info = type.GetField("m_remainTime", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 1);
             timer.Start();
+            _unitUnderTest.WaitTime = 1;
             _unitUnderTest.StartSimulation(time);
             timer.Stop();
             _unitUnderTest.SimulationSuspend();
