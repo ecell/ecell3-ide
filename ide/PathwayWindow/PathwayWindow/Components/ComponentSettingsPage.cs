@@ -57,7 +57,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 
             this.SuspendLayout();
             int top = 0;
-            foreach (ComponentSetting cs in m_manager.ComponentSettings)
+            foreach (ComponentSetting cs in m_manager.DefaultComponentSettings)
             {
                 ComponentItem item = new ComponentItem(cs);
                 item.Top = top;

@@ -237,7 +237,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// Accessor for ComponentSettings.
         /// </summary>
-        public List<ComponentSetting> ComponentSettings
+        public List<ComponentSetting> DefaultComponentSettings
         {
             get
             {
@@ -246,6 +246,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 list.Add(VariableSetting);
                 list.Add(ProcessSetting);
                 list.Add(TextSetting);
+                list.Add(StepperSetting);
                 return list;
             }
         }
@@ -852,7 +853,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, ComponentConstants.xPathVersion);
 
                 // Object settings
-                foreach (ComponentSetting setting in ComponentSettings)
+                foreach (ComponentSetting setting in DefaultComponentSettings)
                 {
                     XmlNode cs = ConvertToXmlNode(new XmlDocument(), setting);
                     cs.WriteTo(xmlOut);

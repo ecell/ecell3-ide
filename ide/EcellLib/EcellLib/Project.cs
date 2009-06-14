@@ -864,6 +864,10 @@ namespace Ecell
                 localID = GetTemporaryID(SystemList, "S");
                 key = systemID + "/" + localID;
             }
+            else if (type.Equals(EcellObject.STEPPER))
+            {
+                key = GetTemporaryID(StepperDic[modelID], "Stepper");
+            }
             else
             {
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "type"));

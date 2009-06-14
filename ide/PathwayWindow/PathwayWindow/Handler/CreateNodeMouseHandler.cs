@@ -114,6 +114,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
                 system = Constants.delimiterPath;
             }
+            else if (m_template is PPathwayStepper)
+            {
+                system = "";
+            }
             else if (string.IsNullOrEmpty(system))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOutRoot);

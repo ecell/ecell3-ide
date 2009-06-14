@@ -194,7 +194,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void AddObject()
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
-            if (!(m_object is PPathwayText) && string.IsNullOrEmpty(systemKey))
+            if (!(m_object is PPathwayText) && !(m_object is PPathwayStepper) && string.IsNullOrEmpty(systemKey))
                 return;
             if (m_object is PPathwaySystem && m_canvas.DoesSystemOverlaps(m_object.Rect))
             {
@@ -254,6 +254,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return EcellObject.VARIABLE;
             else if (obj is PPathwayText)
                 return EcellObject.TEXT;
+            else if (obj is PPathwayStepper)
+                return EcellObject.STEPPER;
             else
                 return null;
         }

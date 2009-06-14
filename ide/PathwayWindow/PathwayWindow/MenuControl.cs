@@ -790,7 +790,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolButtonBidirArrow.Handle = new Handle(Mode.CreateMutualReaction, new CreateReactionMouseHandler(m_con));
             toolButtonConst.Handle = new Handle(Mode.CreateConstant, new CreateReactionMouseHandler(m_con));
 
-            foreach (ComponentSetting cs in m_con.ComponentManager.ComponentSettings)
+            foreach (ComponentSetting cs in m_con.ComponentManager.DefaultComponentSettings)
             {
                 PathwayToolStripButton button = new PathwayToolStripButton();
                 button.ImageTransparentColor = Color.Magenta;

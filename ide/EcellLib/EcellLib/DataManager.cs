@@ -2469,7 +2469,7 @@ namespace Ecell
             }
             else if (type.Equals(Constants.xpathStepper))
             {
-                obj = CreateDefaultStepper(modelID, key);
+                obj = CreateDefaultStepper(modelID, GetTemporaryID(modelID, type, ""));
             }
             return obj;
         }

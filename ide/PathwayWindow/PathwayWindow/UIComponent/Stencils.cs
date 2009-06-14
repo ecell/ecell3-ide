@@ -53,7 +53,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             base.Text = MessageResources.WindowStencil;
             base.TabText = base.Text;
 
-            SetToolBoxItems();
+            SetDefaultItems();
         }
 
         private void InitializeComponent()
@@ -91,11 +91,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         }
 
-        private void SetToolBoxItems()
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetDefaultItems()
         {
             ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(m_con);
 
-            foreach (ComponentSetting c in m_con.ComponentManager.ComponentSettings)
+            foreach (ComponentSetting c in m_con.ComponentManager.DefaultComponentSettings)
             {
                 PToolBoxCanvas pCanvas = new PToolBoxCanvas();
                 pCanvas.AllowDrop = true;
