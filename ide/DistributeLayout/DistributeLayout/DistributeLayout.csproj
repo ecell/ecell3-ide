@@ -74,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistributeLayout.cs" />
+    <Compile Include="DistributeLayoutPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MessageResDistributeLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,6 +85,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DistributeLayoutPanel.ja.resx">
+      <DependentUpon>DistributeLayoutPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistributeLayoutPanel.resx">
+      <DependentUpon>DistributeLayoutPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="MessageResDistributeLayout.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

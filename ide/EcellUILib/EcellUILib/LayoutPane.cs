@@ -99,41 +99,42 @@ namespace Ecell.IDE
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayoutPane));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.ApplyButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Location = new System.Drawing.Point(0, 2);
+            this.tabControl.AccessibleDescription = null;
+            this.tabControl.AccessibleName = null;
+            resources.ApplyResources(this.tabControl, "tabControl");
+            this.tabControl.BackgroundImage = null;
+            this.tabControl.Font = null;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(345, 238);
-            this.tabControl.TabIndex = 0;
             this.tabControl.TabIndexChanged += new System.EventHandler(this.tabControl_TabIndexChanged);
             // 
             // ApplyButton
             // 
-            this.ApplyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ApplyButton.Location = new System.Drawing.Point(258, 247);
+            this.ApplyButton.AccessibleDescription = null;
+            this.ApplyButton.AccessibleName = null;
+            resources.ApplyResources(this.ApplyButton, "ApplyButton");
+            this.ApplyButton.BackgroundImage = null;
+            this.ApplyButton.Font = null;
             this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(75, 23);
-            this.ApplyButton.TabIndex = 1;
-            this.ApplyButton.Text = "Execute";
             this.ApplyButton.UseVisualStyleBackColor = true;
             // 
             // LayoutPane
             // 
-            this.ClientSize = new System.Drawing.Size(345, 282);
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
+            resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
             this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.tabControl);
-            this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "LayoutPane";
-            this.Text = "Layout Settings.";
+            this.ToolTipText = null;
             this.ResumeLayout(false);
 
         }
