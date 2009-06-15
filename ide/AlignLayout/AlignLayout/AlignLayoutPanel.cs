@@ -101,7 +101,6 @@ namespace Ecell.IDE.Plugins.AlignLayout
             this.radioButton1.Font = null;
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = global::Ecell.IDE.Plugins.AlignLayout.MessageResAlignLayout.MenuItemSubLeft;
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -113,7 +112,6 @@ namespace Ecell.IDE.Plugins.AlignLayout
             this.radioButton2.Font = null;
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = global::Ecell.IDE.Plugins.AlignLayout.MessageResAlignLayout.MenuItemSubRight;
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton3

@@ -49,6 +49,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
         /// </summary>
         public CircularLayout()
         {
+            m_panel = new CircularLayoutPanel(this);
         }
 
         /// <summary>
