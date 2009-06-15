@@ -240,9 +240,6 @@
   <data name="intervalTextBox.Text" xml:space="preserve">
     <value>0.1</value>
   </data>
-  <data name="intervalTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;intervalTextBox.Name" xml:space="preserve">
     <value>intervalTextBox</value>
   </data>
@@ -270,9 +267,6 @@
   <data name="numberTextBox.Text" xml:space="preserve">
     <value>10000</value>
   </data>
-  <data name="numberTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;numberTextBox.Name" xml:space="preserve">
     <value>numberTextBox</value>
   </data>
@@ -295,7 +289,7 @@
     <value>Graph setting</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>TracerConfigDialog</value>
+    <value>TracerConfigurationPage</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>Ecell.IDE.PropertyDialogPage, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>

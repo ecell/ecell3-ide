@@ -390,9 +390,6 @@
   <data name="bifurcationSimulationTimeTextBox.Text" xml:space="preserve">
     <value>100.0</value>
   </data>
-  <data name="bifurcationSimulationTimeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;bifurcationSimulationTimeTextBox.Name" xml:space="preserve">
     <value>bifurcationSimulationTimeTextBox</value>
   </data>
@@ -419,9 +416,6 @@
   </data>
   <data name="bifurcationWindowSizeTextBox.Text" xml:space="preserve">
     <value>10.0</value>
-  </data>
-  <data name="bifurcationWindowSizeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;bifurcationWindowSizeTextBox.Name" xml:space="preserve">
     <value>bifurcationWindowSizeTextBox</value>
@@ -543,9 +537,6 @@
   <data name="bifurcationMaxInputTextBox.Text" xml:space="preserve">
     <value>65535</value>
   </data>
-  <data name="bifurcationMaxInputTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;bifurcationMaxInputTextBox.Name" xml:space="preserve">
     <value>bifurcationMaxInputTextBox</value>
   </data>
@@ -573,9 +564,6 @@
   <data name="bifurcationMaxFrequencyTextBox.Text" xml:space="preserve">
     <value>50.0</value>
   </data>
-  <data name="bifurcationMaxFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;bifurcationMaxFrequencyTextBox.Name" xml:space="preserve">
     <value>bifurcationMaxFrequencyTextBox</value>
   </data>
@@ -602,9 +590,6 @@
   </data>
   <data name="bifurcationMinFrequencyTextBox.Text" xml:space="preserve">
     <value>30.0</value>
-  </data>
-  <data name="bifurcationMinFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;bifurcationMinFrequencyTextBox.Name" xml:space="preserve">
     <value>bifurcationMinFrequencyTextBox</value>

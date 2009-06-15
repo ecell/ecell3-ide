@@ -324,9 +324,6 @@
   <data name="sensitivityStepTextBox.Text" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="sensitivityStepTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;sensitivityStepTextBox.Name" xml:space="preserve">
     <value>sensitivityStepTextBox</value>
   </data>
@@ -354,9 +351,6 @@
   <data name="sensitivityAbsolutePerturbationTextBox.Text" xml:space="preserve">
     <value>1E-6</value>
   </data>
-  <data name="sensitivityAbsolutePerturbationTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;sensitivityAbsolutePerturbationTextBox.Name" xml:space="preserve">
     <value>sensitivityAbsolutePerturbationTextBox</value>
   </data>
@@ -383,9 +377,6 @@
   </data>
   <data name="sensitivityRelativePerturbationTextBox.Text" xml:space="preserve">
     <value>1E-6</value>
-  </data>
-  <data name="sensitivityRelativePerturbationTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;sensitivityRelativePerturbationTextBox.Name" xml:space="preserve">
     <value>sensitivityRelativePerturbationTextBox</value>

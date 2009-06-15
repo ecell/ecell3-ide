@@ -270,9 +270,6 @@
   <data name="robustAnalysisWindowSizeTextBox.Text" xml:space="preserve">
     <value>10.0</value>
   </data>
-  <data name="robustAnalysisWindowSizeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.Name" xml:space="preserve">
     <value>robustAnalysisWindowSizeTextBox</value>
   </data>
@@ -299,9 +296,6 @@
   </data>
   <data name="robustAnalysisSimulationTimeTextBox.Text" xml:space="preserve">
     <value>100.0</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisSimulationTimeTextBox.Name" xml:space="preserve">
     <value>robustAnalysisSimulationTimeTextBox</value>
@@ -480,9 +474,6 @@
   <data name="robustAnalysisSampleNumberTextBox.Text" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="robustAnalysisSampleNumberTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.Name" xml:space="preserve">
     <value>robustAnalysisSampleNumberTextBox</value>
   </data>
@@ -639,9 +630,6 @@
   <data name="robustAnalysisMinFrequencyTextBox.Text" xml:space="preserve">
     <value>30</value>
   </data>
-  <data name="robustAnalysisMinFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.Name" xml:space="preserve">
     <value>robustAnalysisMinFrequencyTextBox</value>
   </data>
@@ -669,9 +657,6 @@
   <data name="robustAnalysisMaxSampleTextBox.Text" xml:space="preserve">
     <value>65536</value>
   </data>
-  <data name="robustAnalysisMaxSampleTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.Name" xml:space="preserve">
     <value>robustAnalysisMaxSampleTextBox</value>
   </data>
@@ -698,9 +683,6 @@
   </data>
   <data name="robustAnalysisMaxFrequencyTextBox.Text" xml:space="preserve">
     <value>50</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisMaxFrequencyTextBox.Name" xml:space="preserve">
     <value>robustAnalysisMaxFrequencyTextBox</value>

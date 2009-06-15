@@ -112,14 +112,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.numberTextBox.Name = "numberTextBox";
             this.numberTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.PlotNumber_Validating);
             // 
-            // TracerConfigDialog
+            // TracerConfigurationPage
             // 
             this.Controls.Add(label4);
             this.Controls.Add(label3);
             this.Controls.Add(this.intervalTextBox);
             this.Controls.Add(label1);
             this.Controls.Add(this.numberTextBox);
-            this.Name = "TracerConfigDialog";
+            this.Name = "TracerConfigurationPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
