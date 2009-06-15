@@ -71,6 +71,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
                     return new RectangleFigure(x, y, width, height);
                 case DiamondFigure.TYPE:
                     return new DiamondFigure(x, y, width, height);
+                case TriangleFigure.TYPE:
+                    return new TriangleFigure(x, y, width, height);
                 case RoundedRectangle.TYPE:
                     return new RoundedRectangle(x, y, width, height);
                 case SystemRectangle.TYPE:
@@ -93,6 +95,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             list.Add(EllipseFigure.TYPE);
             list.Add(RectangleFigure.TYPE);
             list.Add(DiamondFigure.TYPE);
+            list.Add(TriangleFigure.TYPE);
             list.Add(RoundedRectangle.TYPE);
             list.Add(SystemRectangle.TYPE);
             list.Add(SystemEllipse.TYPE);

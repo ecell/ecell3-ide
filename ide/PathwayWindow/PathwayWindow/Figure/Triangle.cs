@@ -123,34 +123,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             // and this ellipse's radius is 1.
             float dx = outerPoint.X - innerPoint.X;
             float dy = outerPoint.Y - innerPoint.Y;
-            float a = m_width / 2;
-            float b = m_height / 2;
             float x = 0;
             float y = 0;
 
             if (dx == 0)
             {
                 x = innerPoint.X;
-                float y1 = innerPoint.Y - b;
-                float y2 = innerPoint.Y + b;
+                float y1 = innerPoint.Y - m_height / 2f;
+                float y2 = innerPoint.Y + m_height / 2f;
                 y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
             }
-            else if (dy == 0)
+            else if ((dy / Math.Abs(dx)) > m_height / m_width)
             {
-                y = innerPoint.Y;
-                float x1 = innerPoint.X - a;
-                float x2 = innerPoint.X + a;
-                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
-            }
-            else if (Math.Abs(dx) < b / (b / a + Math.Abs(dy / dx)))
-            {
-                x = innerPoint.X;
-                y = innerPoint.Y;
+                y = innerPoint.Y + m_height / 2f;
+                x = innerPoint.X + Math.Sign(dx) * Math.Abs(m_height / 2f * dx / dy);
             }
             else
             {
-                float xx = Math.Sign(dx) * b / (b / a + Math.Abs(dy / dx));
-                float yy = Math.Sign(dy) * Math.Abs(dy / dx * xx);
+                float xx = Math.Sign(dx) * (m_height / 2f) / (2 * m_height / m_width - dy / Math.Abs(dx));
+                float yy = dy / dx * xx;
                 x = innerPoint.X + xx;
                 y = innerPoint.Y + yy;
             }
