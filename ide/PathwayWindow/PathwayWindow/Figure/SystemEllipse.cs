@@ -31,20 +31,21 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using System;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// 
     /// </summary>
-    public class SystemEllipse : EllipseFigure
+    public class SystemEllipse : FigureBase
     {
         /// <summary>
         /// Figure type.
         /// </summary>
         public new const string TYPE = "SystemEllipse";
 
-        
+        private const float R = 10;
         /// <summary>
         /// Constructor without params.
         /// </summary>
@@ -62,6 +63,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <param name="height"></param>
         public SystemEllipse(float x, float y, float width, float height)
         {
+            Initialize(x, y, width, height, TYPE);
         }
 
         /// <summary>
@@ -74,8 +76,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <returns></returns>
         public override GraphicsPath CreatePath(float x, float y, float width, float height)
         {
-            GraphicsPath path = base.CreatePath(x, y, width, height);
-            path.AddArc(x + 5, y + 5, width - 10, height - 10, 0, 360);
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(x, y, width, height);
+            float innerwidth = width - R * 2;
+            float innerheight = height - R * 2;
+
+            if (width > R * 2f && height > R * 2)
+            {
+                path.AddArc(x + R, y + R, innerwidth, innerheight, 0, 360);
+                //path.AddArc(x + R, y + R, innerwidth, innerheight, 180, 360);
+            }
             return path;
         }
 
@@ -88,7 +98,61 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <returns></returns>
         public override string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush)
         {
-            return base.CreateSVGObject(rect, lineBrush, fillBrush);
+            string svgObj =  SVGUtil.SystemEllipse(rect, lineBrush, fillBrush, R);
+            return svgObj;
         }
+
+        /// <summary>
+        /// Get contact point for this figure.
+        /// </summary>
+        /// <param name="outerPoint"></param>
+        /// <param name="innerPoint"></param>
+        /// <returns></returns>
+        public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
+        {
+            // Transform the coordinate system as the center of this ellipse is the original point
+            // and this ellipse's radius is 1.
+            float dx = innerPoint.X - outerPoint.X;
+            float dy = innerPoint.Y - outerPoint.Y;
+            float a = m_width / 2;
+            float b = m_height / 2;
+            float x = 0;
+            float y = 0;
+
+            if (dx == 0)
+            {
+                x = innerPoint.X;
+                float y1 = innerPoint.Y - b;
+                float y2 = innerPoint.Y + b;
+                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
+            }
+            else if (dy == 0)
+            {
+                y = innerPoint.Y;
+                float x1 = innerPoint.X - a;
+                float x2 = innerPoint.X + a;
+                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
+            }
+            else if (Math.Pow((dx / a), 2) + Math.Pow((dy / b), 2) < 1)
+            {
+                x = innerPoint.X;
+                y = innerPoint.Y;
+            }
+            else
+            {
+                float delta = dy / dx;
+                float xx = b * b / ((delta * delta) + (b * b) / (a * a));
+                float x1 = innerPoint.X - (float)Math.Sqrt(xx);
+                float x2 = innerPoint.X + (float)Math.Sqrt(xx);
+                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
+                float yy = b * b / (1 + (b * b) / (a * a) * (dx * dx) / (dy * dy));
+                float y1 = innerPoint.Y - (float)Math.Sqrt(yy);
+                float y2 = innerPoint.Y + (float)Math.Sqrt(yy);
+                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
+            }
+            return new PointF(x, y);
+
+        }
+
     }
 }

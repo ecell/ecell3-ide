@@ -775,6 +775,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 dlg.ApplyChange();
+
+                // Reset Animation Status.
+                foreach (IAnimationItem item in _items)
+                {
+                    item.ResetProperty();
+                }
                 _items.Clear();
                 _items.AddRange(dlg.Items);
 

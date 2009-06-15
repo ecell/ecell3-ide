@@ -89,7 +89,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.m_variable = variable;
             this.AddPath(variable.Figure.GraphicsPath, false);
             this.Brush = variable.Setting.CreateBrush(m_path);
-            this.Text = string.Format("[{0}]", variable.Text);
+            this.Text = string.Format("[{0}]", variable.EcellObject.LocalID);
 
             this.AddInputEventListener(new NodeDragHandler(variable.Canvas));
         }

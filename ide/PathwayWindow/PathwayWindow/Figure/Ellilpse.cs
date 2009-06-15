@@ -79,8 +79,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         public override GraphicsPath CreatePath(float x, float y, float width, float height)
         {
             GraphicsPath path = new GraphicsPath();
-            RectangleF rect = new RectangleF(x, y, width, height);
-            path.AddEllipse(rect);
+            path.AddEllipse(x, y, width, height);
             return path;
         }
         #endregion

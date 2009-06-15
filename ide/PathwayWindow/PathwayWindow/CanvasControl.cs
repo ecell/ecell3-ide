@@ -1816,6 +1816,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             foreach (PPathwayObject obj in m_selectedNodes)
             {
+                if (obj is PPathwayStepper)
+                    continue;
                 obj.Offset = offset;
                 // Move Nodes.
                 if (obj is PPathwaySystem)
