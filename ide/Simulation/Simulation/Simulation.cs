@@ -393,11 +393,13 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="parameterID">The deleted parameter ID.</param>
         public override void ParameterDelete(string projectID, string parameterID)
         {
+            int aindex = m_paramsCombo.SelectedIndex;
             if (m_paramsCombo.Items.Contains(parameterID))
             {
                 int index = m_paramsCombo.Items.IndexOf(parameterID);
                 m_paramsCombo.Items.RemoveAt(index);
-                m_paramsCombo.SelectedIndex = 0;
+                if (aindex == index)
+                    m_paramsCombo.SelectedIndex = 0;
             }
         }
 

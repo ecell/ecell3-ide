@@ -2258,7 +2258,9 @@ namespace Ecell
                     }
                 }
             }
-            else if (ecellObject.Type.Equals(Constants.xpathProcess) || ecellObject.Type.Equals(Constants.xpathVariable))
+            else if (ecellObject.Type.Equals(Constants.xpathProcess) || 
+                ecellObject.Type.Equals(Constants.xpathVariable) || 
+                ecellObject.Type.Equals(Constants.xpathStepper))
             {
                 string entityPath = ecellObject.FullID + Constants.delimiterColon;
                 if (ecellObject.Value != null && ecellObject.Value.Count > 0)
@@ -3096,6 +3098,8 @@ namespace Ecell
             string message = null;
             try
             {
+                CheckEntityPath(stepper);
+
                 // Get stepperDic
                 message = "[" + stepper.ModelID + "][" + stepper.Key + "]";
                 Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic;
@@ -4172,7 +4176,7 @@ namespace Ecell
                 if (stepper == null)
                     continue;
 
-                simulator.CreateStepper(stepper.Classname, stepper.Key);
+                simulator.CreateStepper(stepper.Classname, stepper.Key);                
 
                 // 4 property
                 if (stepper.Value == null || stepper.Value.Count <= 0)

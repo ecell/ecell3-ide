@@ -1660,13 +1660,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (obj != null) delList.Add(obj);
             }
 
-            for (int i = 0; i < delList.Count; i++)
+            try
             {
-                TagData obj = delList[i];
-                if (i == delList.Count - 1)
-                    m_owner.DataManager.DataDelete(obj.ModelID, obj.Key, obj.Type, true, true);
-                else
-                    m_owner.DataManager.DataDelete(obj.ModelID, obj.Key, obj.Type, true, false);
+                for (int i = 0; i < delList.Count; i++)
+                {
+                    TagData obj = delList[i];
+                    if (i == delList.Count - 1)
+                        m_owner.DataManager.DataDelete(obj.ModelID, obj.Key, obj.Type, true, true);
+                    else
+                        m_owner.DataManager.DataDelete(obj.ModelID, obj.Key, obj.Type, true, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
             }
         }
         /// <summary>

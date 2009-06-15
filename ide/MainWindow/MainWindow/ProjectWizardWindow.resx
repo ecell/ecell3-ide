@@ -160,7 +160,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="DMListLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 12</value>
+    <value>90, 12</value>
   </data>
   <data name="DMListLabel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -216,24 +216,6 @@
   <data name="ProjectLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="PictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="PictureBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="PictureBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="PictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 400</value>
-  </data>
-  <data name="PictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="PictureBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;PictureBox.Name" xml:space="preserve">
     <value>PictureBox</value>
   </data>
@@ -245,150 +227,6 @@
   </data>
   <data name="&gt;&gt;PictureBox.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="ProjectPatternList.CellBorderStyle" type="System.Windows.Forms.TableLayoutPanelCellBorderStyle, System.Windows.Forms">
-    <value>Inset</value>
-  </data>
-  <data name="ProjectPatternList.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="ProjectCommentTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProjectCommentTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 15</value>
-  </data>
-  <data name="ProjectCommentTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
-  </data>
-  <data name="ProjectCommentTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ProjectCommentTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Horizontal</value>
-  </data>
-  <data name="ProjectCommentTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 190</value>
-  </data>
-  <data name="ProjectCommentTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.Name" xml:space="preserve">
-    <value>ProjectCommentTextBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.Parent" xml:space="preserve">
-    <value>CommentBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CommentBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CommentBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 187</value>
-  </data>
-  <data name="CommentBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 208</value>
-  </data>
-  <data name="CommentBox.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="CommentBox.Text" xml:space="preserve">
-    <value>&amp;Comment:</value>
-  </data>
-  <data name="&gt;&gt;CommentBox.Name" xml:space="preserve">
-    <value>CommentBox</value>
-  </data>
-  <data name="&gt;&gt;CommentBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CommentBox.Parent" xml:space="preserve">
-    <value>ProjectPatternList</value>
-  </data>
-  <data name="&gt;&gt;CommentBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ProjectIDTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProjectIDTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 15</value>
-  </data>
-  <data name="ProjectIDTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
-  </data>
-  <data name="ProjectIDTextBox.MaxLength" type="System.Int32, mscorlib">
-    <value>64</value>
-  </data>
-  <data name="ProjectIDTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ProjectIDTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Horizontal</value>
-  </data>
-  <data name="ProjectIDTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 21</value>
-  </data>
-  <data name="ProjectIDTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ProjectIDTextBox.Name" xml:space="preserve">
-    <value>ProjectIDTextBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectIDTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProjectIDTextBox.Parent" xml:space="preserve">
-    <value>ProjectBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectIDTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ProjectBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProjectBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 140</value>
-  </data>
-  <data name="ProjectBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 39</value>
-  </data>
-  <data name="ProjectBox.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="ProjectBox.Text" xml:space="preserve">
-    <value>&amp;Project Name:</value>
-  </data>
-  <data name="&gt;&gt;ProjectBox.Name" xml:space="preserve">
-    <value>ProjectBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProjectBox.Parent" xml:space="preserve">
-    <value>ProjectPatternList</value>
-  </data>
-  <data name="&gt;&gt;ProjectBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="ProjectPatternList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProjectPatternList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>364, 3</value>
-  </data>
-  <data name="ProjectPatternList.RowCount" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="ProjectPatternList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 400</value>
-  </data>
-  <data name="ProjectPatternList.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
   </data>
   <data name="&gt;&gt;ProjectPatternList.Name" xml:space="preserve">
     <value>ProjectPatternList</value>
@@ -435,17 +273,398 @@
   <data name="ProjectLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PictureBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectPatternList" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,205" /&gt;&lt;Rows Styles="Absolute,406" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
+  <data name="PictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="PictureBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PictureBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="PictureBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 400</value>
+  </data>
+  <data name="PictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="PictureBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;PictureBox.Name" xml:space="preserve">
+    <value>PictureBox</value>
+  </data>
+  <data name="&gt;&gt;PictureBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PictureBox.Parent" xml:space="preserve">
+    <value>ProjectLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;PictureBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ProjectPatternList.CellBorderStyle" type="System.Windows.Forms.TableLayoutPanelCellBorderStyle, System.Windows.Forms">
+    <value>Inset</value>
+  </data>
+  <data name="ProjectPatternList.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.Name" xml:space="preserve">
+    <value>CommentBox</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.Parent" xml:space="preserve">
+    <value>ProjectPatternList</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.Name" xml:space="preserve">
+    <value>ProjectBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.Parent" xml:space="preserve">
+    <value>ProjectPatternList</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ProjectPatternList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectPatternList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 3</value>
+  </data>
+  <data name="ProjectPatternList.RowCount" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ProjectPatternList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 400</value>
+  </data>
+  <data name="ProjectPatternList.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;ProjectPatternList.Name" xml:space="preserve">
+    <value>ProjectPatternList</value>
+  </data>
+  <data name="&gt;&gt;ProjectPatternList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectPatternList.Parent" xml:space="preserve">
+    <value>ProjectLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;ProjectPatternList.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ProjectPatternList.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="CommentBox" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectBox" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,45,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Name" xml:space="preserve">
+    <value>ProjectCommentTextBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Parent" xml:space="preserve">
+    <value>CommentBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CommentBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CommentBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 187</value>
+  </data>
+  <data name="CommentBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 208</value>
+  </data>
+  <data name="CommentBox.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="CommentBox.Text" xml:space="preserve">
+    <value>&amp;Comment:</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.Name" xml:space="preserve">
+    <value>CommentBox</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.Parent" xml:space="preserve">
+    <value>ProjectPatternList</value>
+  </data>
+  <data name="&gt;&gt;CommentBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ProjectCommentTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectCommentTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
+  </data>
+  <data name="ProjectCommentTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="ProjectCommentTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ProjectCommentTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ProjectCommentTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 190</value>
+  </data>
+  <data name="ProjectCommentTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Name" xml:space="preserve">
+    <value>ProjectCommentTextBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Parent" xml:space="preserve">
+    <value>CommentBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Name" xml:space="preserve">
+    <value>ProjectIDTextBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Parent" xml:space="preserve">
+    <value>ProjectBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ProjectBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 140</value>
+  </data>
+  <data name="ProjectBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 39</value>
+  </data>
+  <data name="ProjectBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="ProjectBox.Text" xml:space="preserve">
+    <value>&amp;Project Name:</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.Name" xml:space="preserve">
+    <value>ProjectBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.Parent" xml:space="preserve">
+    <value>ProjectPatternList</value>
+  </data>
+  <data name="&gt;&gt;ProjectBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ProjectIDTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectIDTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
+  </data>
+  <data name="ProjectIDTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="ProjectIDTextBox.MaxLength" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="ProjectIDTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ProjectIDTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ProjectIDTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 21</value>
+  </data>
+  <data name="ProjectIDTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Name" xml:space="preserve">
+    <value>ProjectIDTextBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Parent" xml:space="preserve">
+    <value>ProjectBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="MainLayoutPanel.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="MainLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.Name" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.Parent" xml:space="preserve">
+    <value>MainLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ButtonLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMRemoveButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="DMAddButon" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CloseButton" Row="0" RowSpan="1" Column="6" ColumnSpan="1" /&gt;&lt;Control Name="BackButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="OKButton" Row="0" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,40,Absolute,80,Absolute,80,Percent,100,Absolute,80,Absolute,80,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;textBox1.Name" xml:space="preserve">
+    <value>textBox1</value>
+  </data>
+  <data name="&gt;&gt;textBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox1.Parent" xml:space="preserve">
+    <value>MainLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;textBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="MainLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="MainLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MainLayoutPanel.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="MainLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>572, 513</value>
+  </data>
+  <data name="MainLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;MainLayoutPanel.Name" xml:space="preserve">
+    <value>MainLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;MainLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MainLayoutPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;MainLayoutPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MainLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMLayoutPanel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectLayoutPanel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ButtonLayoutPanel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="textBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,40,Percent,100,Percent,0,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
   <data name="ButtonLayoutPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
   <data name="ButtonLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>8</value>
+  </data>
+  <data name="&gt;&gt;DMRemoveButton.Name" xml:space="preserve">
+    <value>DMRemoveButton</value>
+  </data>
+  <data name="&gt;&gt;DMRemoveButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMRemoveButton.Parent" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMRemoveButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;DMAddButon.Name" xml:space="preserve">
+    <value>DMAddButon</value>
+  </data>
+  <data name="&gt;&gt;DMAddButon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMAddButon.Parent" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMAddButon.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CloseButton.Name" xml:space="preserve">
+    <value>CloseButton</value>
+  </data>
+  <data name="&gt;&gt;CloseButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CloseButton.Parent" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;BackButton.Name" xml:space="preserve">
+    <value>BackButton</value>
+  </data>
+  <data name="&gt;&gt;BackButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BackButton.Parent" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;BackButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;OKButton.Name" xml:space="preserve">
+    <value>OKButton</value>
+  </data>
+  <data name="&gt;&gt;OKButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OKButton.Parent" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;OKButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ButtonLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 476</value>
+  </data>
+  <data name="ButtonLayoutPanel.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ButtonLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>566, 34</value>
+  </data>
+  <data name="ButtonLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.Name" xml:space="preserve">
+    <value>ButtonLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.Parent" xml:space="preserve">
+    <value>MainLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;ButtonLayoutPanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ButtonLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMRemoveButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="DMAddButon" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CloseButton" Row="0" RowSpan="1" Column="6" ColumnSpan="1" /&gt;&lt;Control Name="BackButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="OKButton" Row="0" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,40,Absolute,80,Absolute,80,Percent,100,Absolute,80,Absolute,80,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="DMRemoveButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -606,33 +825,6 @@
   <data name="&gt;&gt;OKButton.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="ButtonLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 476</value>
-  </data>
-  <data name="ButtonLayoutPanel.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="ButtonLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>566, 34</value>
-  </data>
-  <data name="ButtonLayoutPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;ButtonLayoutPanel.Name" xml:space="preserve">
-    <value>ButtonLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;ButtonLayoutPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonLayoutPanel.Parent" xml:space="preserve">
-    <value>MainLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;ButtonLayoutPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ButtonLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMRemoveButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="DMAddButon" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CloseButton" Row="0" RowSpan="1" Column="6" ColumnSpan="1" /&gt;&lt;Control Name="BackButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="OKButton" Row="0" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,40,Absolute,80,Absolute,80,Percent,100,Absolute,80,Absolute,80,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
   <data name="textBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -660,39 +852,9 @@
   <data name="&gt;&gt;textBox1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="MainLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="MainLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="MainLayoutPanel.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="MainLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>572, 513</value>
-  </data>
-  <data name="MainLayoutPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;MainLayoutPanel.Name" xml:space="preserve">
-    <value>MainLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;MainLayoutPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MainLayoutPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;MainLayoutPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="MainLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMLayoutPanel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectLayoutPanel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ButtonLayoutPanel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="textBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,40,Percent,100,Percent,0,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -701,6 +863,82 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>572, 513</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoAGzF
+        yAJwzc5Bb8nNjW/Iy8Vux8rqbcbJ/G3Gyfxux8rqb8jLxW/JzY1wzc5BbMTIAigoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoAHDL
+        zANxzcxlbsnM3GzEyP9qwcT/aL3A/2a4vv9muL7/Zri+/2a4vv9ovcD/asHE/2zEyP9vyMvccM3OZW/I
+        ywMoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KABwz9Aqcc3MzW7FyP9ov8L/Zbe9/2SzuP9jsLf/Yay1/2KrtP9iq7T/Yay1/2Owt/9ks7j/Zbe9/2m8
+        wf9rw8f/cMjMzXDNziooKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAcdLTS2/Oz/NsxMj/aLvA/2W0uf9grbb/Upq0/0OHt/84ebb/NnK2/zRxtv82dbb/O363/0aN
+        tv9borP/ZLG4/2W3vf9qv8L/bsfK83DNzksoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoAHTY10px0tP6cMvM/2y/wv9mtbz/UZe3/zd3uf8wbbj/MG24/zFuuf8xbrn/MW65/zFu
+        uf8wbbj/L2y3/y9st/89f7f/W6Oz/2Wyuf9pvsH/bsfK+nDNzksoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAB23NopdtjX83HR0/9vyMv/aLvC/0aLwP80c8D/M3K//zNyv/8zc8H/M3PD/zJz
+        xP8yc8T/MnPE/zJywP8ycLz/MW65/y9st/8ybbb/UZi1/2W0uf9pvsH/b8jL83HNzCooKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAeN7dA3nd3Mx12dj/dNPU/3HGzf9Ljsf/PX7H/zp8xv84fMj/OX3J/zl+
+        y/84fsz/On/M/zd+zf81fc3/M3vL/zJ5yP8ycsL/MW+7/zBtuP8ybbb/Tpi2/2Wyuf9qwcT/b8nNzW7J
+        zAMoKCgAKCgoACgoKAAoKCgAKCgoACgoKAB63t1ket7d/3vb2v962Nf/VZzT/0yJzv9Lh8v/SobK/0iG
+        zP9Ghs7/RYbP/0mP0f9PndP/UJzS/0yX0P8+gs7/OX/N/zN7y/8yc8T/MXC9/zBtuP8ybbb/W6Kz/2W3
+        vf9sxMj/cc3MZSgoKAAoKCgAKCgoACgoKAAoKCgAe+HfAnvh39x9397/gN7d/2292/9SlNj/VJDU/1WQ
+        0/9Tj9P/UY7T/1ue1/9xx9n/e9rb/3va2/942tz/ddnY/2/R1/9WqNL/O4DN/zN7y/8yc8T/MW+7/zJt
+        tv84erj/ZLG4/2i/wv9wy8zcbcbJAigoKAAoKCgAKCgoACgoKAB84uFBfeHg/4Ph4P+G3+D/XqDe/16c
+        3P9enNz/XZvb/1yY3P9nrN3/ht3e/4Xf3v+D397/f9/e/33f3v97393/d93b/3XY2f9hudP/S5PL/0WK
+        xf8+hMD/On+6/zt7t/9cpLT/Zbe9/27FyP9xzcxBKCgoACgoKAAoKCgAKCgoAH7i4Y2C4uH/iuLh/3zO
+        4v9joeH/ZKHg/2Sh4P9koeD/ZqLg/4zd4v+M4uH/iuLh/4ji4f+G4uH/guLh/33h4P97397/ed3c/3XY
+        2f9wz9L/bMXK/2W4v/9irbb/X6ax/2Grs/9lsrn/a8LF/3DNzo0oKCgAKCgoACgoKAAoKCgAguLhxYvj
+        4v+Q5OP/e73j/22n4/9vqOP/b6jj/2+o4/94tuL/i9fj/4vY4/+H1eP/g9fj/4DW4v971eP/d9Lj/3TS
+        4P9wzd7/a8vd/2jD1v9lu83/YLDE/1ukuf9WnbT/WqCy/2SxuP9qv8L/b8zNxSgoKAAoKCgAKCgoACgo
+        KACI4t/pkOTj/5bm4/97tuP/dqzk/3es4/93rOP/d6zj/3as5P9yquT/bqfi/2ql4v9lo+P/X5/h/1yd
+        4P9WmuD/T5bf/0qT3v9Fj9v/QozY/0CE0P83fs3/MnTG/zJxvv85fLv/ZLO4/2i/wv9vyc3pKCgoACgo
+        KAAoKCgAKCgoAIvj4vuW5uP/mubl/3615P97r+X/frDk/36w5P9+sOT/e6/l/3qu5P92rOT/canj/2ym
+        4v9mo+L/X5/h/1yd4P9TmN//TpXe/0iR3P9Ditn/QYbT/zqAzv8ze8v/MnLC/zh6vv9ltLn/ar/C/3DK
+        zvsoKCgAKCgoACgoKAAoKCgAjuTj/Jjm4f+h5+f/hLnm/4Oz5f+EtOb/hrXm/4a15v+Ds+X/f7Hl/3uv
+        5f93rOP/canj/2um4/9lo+P/XZ7h/1ib4P9Rl9//S5Pd/0OL2/9Ci9b/P4PP/zV9zf8zecf/OYDD/2a4
+        vv9sw8b/cM3O/CgoKAAoKCgAKCgoACgoKACQ5OPqnObm/6Pn5f+Pwef/i7jn/4255/+Nuef/jbnn/4u4
+        5/+Gteb/gLLm/3yv5P93rOP/cKji/2ik4v9goOL/XJ3g/1OY3/9MlN7/RpDc/0ON2f9BidP/OoDO/zV9
+        zf9FisX/a8LF/2/Iy/9x0NHqKCgoACgoKAAoKCgAKCgoAJLk48We5ub/p+fm/5jN6P+SvOj/lr/o/5a/
+        6P+Wv+j/nczn/6bh6P+j3uf/n+Dn/5je5v+V2+X/j9rl/4rY5P+D1+P/ftXi/3jX4v9ryN//RI7a/0KI
+        1v8/hdP/PYHN/1Keyv9vzM3/cM/Q/3LT1MUoKCgAKCgoACgoKAAoKCgAkuTjjZ7m5v+p5+X/ptvo/5a/
+        6P+awej/nMLo/5rB6P+awuj/sujo/67o6P+n5+b/o+fm/57m5v+Y5uH/lOTh/47k4/+J4+L/guLh/2G3
+        3/9Fj9v/QYzZ/0GL1/9BhtP/YbnT/3HS0/9y1tX/dtjXjSgoKAAoKCgAKCgoACgoKACS5ONBmubl/6nn
+        5f+x6ej/nsTo/6HF6f+ixur/ocXp/5zC6P+i0uj/sOjo/6nn5f+l5+X/oObk/5jm5f+V5eT/juTj/4nj
+        4v961OL/TJTe/0aQ3P9Djtv/QIza/0aS2P9z2Nn/ddnY/3ba2f923NpBKCgoACgoKAAoKCgAKCgoAJbm
+        4wKY5uHcpefm/7Lq6f+v2+n/pcfp/6bI6v+lx+n/n8Tp/5jA6P+ayuj/peLn/6Xn5f+h5+f/mubl/5bm
+        4/+O4+T/dsfi/1Wc3/9MlN7/RZDd/0KO3P9Cjtz/Xrje/3fd3P933dz/d93c3HXd2wIoKCgAKCgoACgo
+        KAAoKCgAKCgoAJbm42Wh5+f/sOjo/7fr6v+r0en/pcfp/6XH6f+fxOn/mMDo/5K86P+LuOf/hrrm/4W9
+        5f9+vOT/dbPj/2Si4v9cneD/UZff/0yU3v9Fkd//Q4/d/0ue3f923uD/et7d/3re3f963t1kKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAmObhA5jm5c2n5+b/s+no/7fp6/+ly+n/n8Tp/5rB6P+Wv+j/j7rn/4i2
+        5v9/seX/eK3k/3Gp4/9opOL/YKDi/1qc4P9Rl9//SpPe/0WR3/9Ilt7/ctfg/3vf3v97397/e9/ezHvf
+        3gMoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAlubjKpzm5vOr5+b/s+no/7Xn6f+izej/lr/o/5K8
+        6P+LuOf/hLTm/36w5P93rOP/cKji/2aj4v9fn+H/WJvg/1GX3/9Kk97/TJve/3HV4f974eD/e+Hg/3vh
+        4PN74eApKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAlubjS57m5vqn5+b/sOjo/7Lo
+        6P+i1ej/j73n/4a15v9/seX/eq7k/3Sr5P9spuL/ZaPj/12e4f9WmuD/UZff/1604P943uL/e+Hg/3vh
+        4P974eD6e+HgSigoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAlubjS5rm
+        5fOh5+b/p+fm/6fn5v+l5+b/l9fn/4rE5v98t+T/c7Dj/22q4/9oquL/aLPi/3DD4v983OL/fOLh/3vh
+        4P974eD/e+Hg83vh4EooKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAluThKpbm482a5uX/nubk/6Dm5P+e5uT/mubl/5jm4f+V5eT/kOTj/4vj4v+G4t//guLh/37i
+        4f974d//e+Hg/3vh4Mx74eApKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAlObjA5Lk42WS5OPclOTh/5Xl5P+U5OH/kuTj/47k4/+L4+L/iOLf/4Li
+        4f9+4uH/fOLh/3vh4Nx74eBke+HgAygoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoAJDk4wKL4+JBi+PijYvj4sWJ4+LphuLh+4Ti
+        4fuC4t/pfuLhxXzi4Y174d9Be+HfAigoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgA////////////8A///8AD//8AAP/+AAB//AAAP/gAAB/wAAAP8AAAD+AA
+        AAfgAAAHwAAAA8AAAAPAAAADwAAAA8AAAAPAAAADwAAAA8AAAAPgAAAH4AAAB/AAAA/wAAAP+AAAH/wA
+        AD/+AAB//wAA///AA///8A////////////8=
+</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>ProjectWizardWindow</value>

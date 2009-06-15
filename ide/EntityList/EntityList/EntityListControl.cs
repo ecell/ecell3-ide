@@ -748,17 +748,24 @@ namespace Ecell.IDE.Plugins.EntityList
                 delrows.Add(r);
             }
 
-            for (int i = 0 ; i < delrows.Count ; i++ )
+            try
             {
-                EcellObject obj = delrows[i].Tag as EcellObject;
-                if (i == delrows.Count - 1)
+                for (int i = 0; i < delrows.Count; i++)
                 {
-                    m_owner.DataManager.DataDelete(obj, true, true);
+                    EcellObject obj = delrows[i].Tag as EcellObject;
+                    if (i == delrows.Count - 1)
+                    {
+                        m_owner.DataManager.DataDelete(obj, true, true);
+                    }
+                    else
+                    {
+                        m_owner.DataManager.DataDelete(obj, true, false);
+                    }
                 }
-                else
-                {
-                    m_owner.DataManager.DataDelete(obj, true, false);
-                }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 

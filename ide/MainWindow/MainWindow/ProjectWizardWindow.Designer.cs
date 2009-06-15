@@ -192,13 +192,10 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
-            this.ControlBox = false;
             this.Controls.Add(this.MainLayoutPanel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectWizardWindow";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProjectWizardWindow_FormClosing);
             this.DMLayoutPanel.ResumeLayout(false);
