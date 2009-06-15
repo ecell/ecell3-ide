@@ -54,10 +54,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     {
         #region Fields
         /// <summary>
-        /// PathwayControl
-        /// </summary>
-        protected PathwayControl m_con = null;
-        /// <summary>
         /// Dictionary of ComponentSettings for creating PPathwaySystem.
         /// </summary>
         protected Dictionary<string, ComponentSetting> m_systemSettings;
@@ -110,15 +106,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// Accessor for m_con.
-        /// </summary>
-        public PathwayControl Control
-        {
-            get { return this.m_con; }
-            set { m_con = value; }
-        }
-
         /// <summary>
         /// Accessor for m_systemSettings.
         /// </summary>

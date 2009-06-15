@@ -1323,8 +1323,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Update.
             EcellObject eo = obj.EcellObject.Clone();
             eo.Layout.Figure = cs.Name;
-            m_con.NotifyDataChanged(eo.Key, eo, true, true);
             m_con.SetNodeIcons();
+            m_con.NotifyDataChanged(eo.Key, eo, true, true);
         }
         
         /// <summary>

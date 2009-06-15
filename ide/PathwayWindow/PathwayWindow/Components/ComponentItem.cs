@@ -114,6 +114,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // 
             resources.ApplyResources(this.figureBox, "figureBox");
             this.figureBox.Name = "figureBox";
+            this.figureBox.ReadOnly = true;
             this.figureBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
             // 
             // textBrush

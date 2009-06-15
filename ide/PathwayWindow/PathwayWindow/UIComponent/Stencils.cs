@@ -192,7 +192,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private void SetDefaultItems()
         {
-            foreach (ComponentSetting cs in m_con.ComponentManager.GetAllSettings())
+            List<ComponentSetting> list = m_con.ComponentManager.GetAllSettings();
+            foreach (ComponentSetting cs in list)
             {
                 if(cs.IsStencil)
                     SetNewItem(cs);
@@ -219,7 +220,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             }
             PPathwayObject obj = objects[0];
-            ComponentSetting cs = obj.Setting.Clone();
+            ComponentSetting cs = obj.Setting;
             if (cs.IsDefault || cs.IsStencil)
             {
                 Util.ShowErrorDialog(MessageResources.ErrAddStencil);
@@ -227,7 +228,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             }
 
             SetNewItem(cs);
-            m_con.ComponentManager.SaveSettings();
+            m_con.SetNodeIcons();
         }
 
         private void Stencil_MouseDown(object sender, MouseEventArgs e)
@@ -264,6 +265,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                     return;
                 dlg.ApplyChange();
                 m_stencil.Setting.RaisePropertyChange();
+                m_con.SetNodeIcons();
             }
         }
     }

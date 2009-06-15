@@ -139,7 +139,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
-            
+            SetCurrentStencil((PToolBoxCanvas)e.Canvas);
+
             // Set EventHandler for current canvas.
             if (m_con.Canvas == null)
                 return;
@@ -158,6 +159,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseUp(object sender, PInputEventArgs e)
         {
             base.OnMouseUp(sender, e);
+            ResetCurrentStencil();
+
             if (m_canvas == null)
                 return;
 
@@ -206,7 +209,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 Util.ShowErrorDialog(MessageResources.ErrOverSystem);
                 return;
             }
-            string type = GetType(m_object);
+            string type = m_object.Setting.Type;
             bool isSystem = m_object is PPathwaySystem;
             EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type);
             eo.X = m_object.X;
@@ -246,26 +249,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// get object type.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private string GetType(PPathwayObject obj)
-        {
-            if (obj is PPathwaySystem)
-                return EcellObject.SYSTEM;
-            else if (obj is PPathwayProcess)
-                return EcellObject.PROCESS;
-            else if (obj is PPathwayVariable)
-                return EcellObject.VARIABLE;
-            else if (obj is PPathwayText)
-                return EcellObject.TEXT;
-            else if (obj is PPathwayStepper)
-                return EcellObject.STEPPER;
-            else
-                return null;
-        }
-        /// <summary>
         /// Initialise EventHandler.
         /// </summary>
         /// <param name="canvas"></param>
@@ -273,8 +256,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void SetEventHandler(PToolBoxCanvas canvas, PInputEventArgs e)
         {
             //
-            m_stencils.Stencil = canvas;
-            canvas.BackColor = Color.Yellow;
             m_object = canvas.Setting.CreateTemplate();
             m_canvas = m_con.Canvas;
 
@@ -293,7 +274,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_canvas.ControlLayer.RemoveChild(m_object);
             m_canvas = null;
             m_object = null;
-            if(m_stencils.Stencil != null)
+        }
+
+        private void SetCurrentStencil(PToolBoxCanvas canvas)
+        {
+            m_stencils.Stencil = canvas;
+            m_stencils.Stencil.BackColor = Color.Yellow;
+        }
+
+        private void ResetCurrentStencil()
+        {
+            if (m_stencils.Stencil != null)
                 m_stencils.Stencil.BackColor = Color.White;
         }
         #endregion

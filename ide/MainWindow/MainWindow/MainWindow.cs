@@ -1105,13 +1105,17 @@ namespace Ecell.IDE.MainWindow
             string msg = MessageResources.ConfirmOverwrite;
 
             // In case new project.
-            if (project.Info.ProjectType != ProjectType.Project && Util.IsExistProject(project.Info.Name))
+            if(!Util.IsExistProject(project.Info.Name))
+                return true;
+
+            // If Already exists.
+            if (project.Info.ProjectType != ProjectType.Project)
             {
                 msg = string.Format(MessageResources.ErrExistProject, project.Info.Name)
                         + "\n" + MessageResources.ConfirmOverwrite;
                 return Util.ShowOKCancelDialog(msg);
             }
-            else if(Path.GetDirectoryName(project.Info.ProjectPath) != project.Info.Name)
+            else if(Path.GetFileName(project.Info.ProjectPath) != project.Info.Name)
             {
                 return Util.ShowOKCancelDialog(msg);
             }

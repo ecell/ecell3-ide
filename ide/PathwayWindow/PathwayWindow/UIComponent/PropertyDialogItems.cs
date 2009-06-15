@@ -134,6 +134,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             get {return m_comboBox;}
         }
 
+        /// <summary>
+        /// Get ComboBox.
+        /// </summary>
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool ReadOnly
+        {
+            get { return (m_comboBox.DropDownStyle == ComboBoxStyle.DropDownList); }
+            set
+            {
+                if(value)
+                    this.m_comboBox.DropDownStyle = ComboBoxStyle.DropDownList; 
+                else
+                    this.m_comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+        }
         #region EventHandler for ComboBoxChange
         private EventHandler m_onTextChange;
         /// <summary>

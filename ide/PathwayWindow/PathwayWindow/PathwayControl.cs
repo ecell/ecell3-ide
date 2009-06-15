@@ -347,7 +347,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Create Internal object.
             m_canvas = null;
             m_csManager = new ComponentManager();
-            m_csManager.Control = this;
             SetNodeIcons();
             // Create menus
             m_menu = new MenuControl(this);
@@ -1100,6 +1099,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 string key = (cs.IsDefault)? cs.Type : cs.Name;
                 m_window.PluginManager.SetIconImage(key, cs.IconImage, flag);
             }
+            m_csManager.SaveSettings();
         }
 
         #endregion

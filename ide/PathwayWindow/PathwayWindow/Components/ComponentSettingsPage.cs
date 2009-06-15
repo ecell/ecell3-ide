@@ -79,7 +79,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             {
                 item.ApplyChange();
             }
-            m_manager.SaveSettings();
             m_con.ResetObjectSettings();
 
         }

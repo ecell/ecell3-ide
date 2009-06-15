@@ -316,6 +316,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 
         #region Methods
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string str = "(" + m_type + "," + m_name + ")";
+            return base.ToString() + str;
+        }
+        /// <summary>
         /// Validate this ComponentSetting
         /// </summary>
         /// <returns>List of information this instance lacks. If this contains all information wanted, return null.</returns>
