@@ -903,7 +903,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
 
             // Create new DM.
-            CreateDMDialog ind = new CreateDMDialog(m_owner.Environment, dmDir, m_lastSelectedNode);
+            CreateDMDialog ind = new CreateDMDialog(m_owner.Environment, dmDir, m_lastSelectedNode, contextMenuStripDM);
             using (ind)
             {
                 DialogResult res = ind.ShowDialog();

@@ -280,6 +280,16 @@ namespace Ecell
                 return runningFlag;
             }
         }
+
+        /// <summary>
+        /// get / set the default time.
+        /// </summary>
+        public double DefaultTime
+        {
+            get { return this.m_defaultTime; }
+            set { this.m_defaultTime = value; }
+        }
+
         #endregion
 
         #region Method for File I/O.

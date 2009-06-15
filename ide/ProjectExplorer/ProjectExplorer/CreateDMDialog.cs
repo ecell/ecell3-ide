@@ -57,6 +57,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private string m_path;
 
         private ApplicationEnvironment m_env;
+        private ContextMenuStrip m_menu;
         #endregion
 
         #region Constructor
@@ -66,12 +67,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="env">The ApplicationEnvironment.</param>
         /// <param name="dmDir">The path of dm directory.</param>
         /// <param name="node">The current selected node.</param>
-        public CreateDMDialog(ApplicationEnvironment env, string dmDir, TreeNode node)
+        public CreateDMDialog(ApplicationEnvironment env, string dmDir, TreeNode node, ContextMenuStrip menu)
         {
             m_env = env;
             InitializeComponent();
             m_dir = dmDir;
             m_node = node;
+            m_menu = menu;
         }
         #endregion
         /// <summary>
@@ -97,7 +99,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 try
                 {
                     writer = new StreamWriter(filename, false, Encoding.UTF8);
-                    writer.Write(templateRichText.Text);
+                    writer.Write(templateRichText.Text.Replace("XXXXX", name));
                 }
                 finally
                 {
@@ -111,6 +113,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = name;
+                dNode.ContextMenuStrip = m_menu;
                 m_node.Nodes.Add(dNode);
                 m_path = filename;
             }
@@ -156,7 +159,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             string name = templateComboBox.SelectedItem.ToString();
 
             string temp = Util.GetProcessTemplate(name);
-            templateRichText.Text = temp.Replace("XXXXX", INTextBox.Text);
+            templateRichText.Text = temp;
         }
 
         private void InputName_Validating(object sender, CancelEventArgs e)

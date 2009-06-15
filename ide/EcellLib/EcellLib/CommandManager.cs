@@ -827,8 +827,11 @@ namespace Ecell
         public void Run(double interval)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
+            double tmp = m_env.DataManager.DefaultTime;
+            m_env.DataManager.DefaultTime = interval;
 //            m_env.DataManager.SimulationStartKeepSetting(interval);
             m_env.DataManager.StartStepSimulation(interval);
+            m_env.DataManager.DefaultTime = tmp;
         }
 
         /// <summary>
