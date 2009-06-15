@@ -380,7 +380,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else
             {
                 propValueCell = new DataGridViewTextBoxCell();
-                propValueCell.Value = (string)d.Value;
+                if (d.Value.IsDouble)
+                {
+                    propValueCell.Value = ((double)d.Value).ToString(m_env.DataManager.DisplayStringFormat);
+                }
+                else
+                {
+                    propValueCell.Value = (string)d.Value;
+                }
             }
             row.Cells.Add(propValueCell);
             m_dgv.Rows.Add(row);
@@ -398,6 +405,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
             return row;
         }
+
+
 
         /// <summary>
         /// Add the non data property to DataGridView.
@@ -888,6 +897,18 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
+        private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        {
+            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+                return;
+            ReloadProperties();
+        }
+
+        /// <summary>
         /// Click on cell for VariableReferneceList.
         /// </summary>
         /// <param name="o">DataGridViewCell.</param>
@@ -1187,6 +1208,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         public void Initialize()
         {
+            m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DisplayFormatChangeEvent);
         }
         /// <summary>
         /// Get the window forms of each plugin.
@@ -1330,48 +1352,63 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="e">EventArgs</param>
         private void combo_selectedIndexChanged(object sender, EventArgs e)
         {
-            string newClassName = (string)((DataGridViewComboBoxEditingControl)sender).SelectedItem;
-            if (newClassName.Equals(m_current.Classname))
+            try
             {
-                return;
-            }
-            List<EcellData> props = new List<EcellData>();
-            // Get Process properties.
-            if (m_current.Type == Constants.xpathProcess)
-            {
-                Dictionary<string, EcellData> properties = m_env.DataManager.GetProcessProperty(newClassName);
-                foreach (KeyValuePair<string, EcellData> pair in properties)
+                string newClassName = (string)((DataGridViewComboBoxEditingControl)sender).SelectedItem;
+                if (newClassName.Equals(m_current.Classname))
                 {
-                    EcellData val = pair.Value;
-                    if (pair.Value.Name == Constants.xpathStepperID)
+                    return;
+                }
+                List<EcellData> props = new List<EcellData>();
+                // Get Process properties.
+                if (m_current.Type == Constants.xpathProcess)
+                {
+                    Dictionary<string, EcellData> properties = m_env.DataManager.GetProcessProperty(newClassName);
+                    foreach (KeyValuePair<string, EcellData> pair in properties)
                     {
-                        List<EcellObject> steppers = m_env.DataManager.GetStepper(m_current.ModelID);
-                        if (steppers.Count > 0)
+                        EcellData val = pair.Value;
+                        if (pair.Value.Name == Constants.xpathStepperID)
                         {
-                            val = new EcellData(pair.Value.Name,
-                                new EcellValue(steppers[0].Key),
-                                val.EntityPath);
+                            List<EcellObject> steppers = m_env.DataManager.GetStepper(m_current.ModelID);
+                            if (steppers.Count > 0)
+                            {
+                                val = new EcellData(pair.Value.Name,
+                                    new EcellValue(steppers[0].Key),
+                                    val.EntityPath);
+                            }
                         }
+                        else if (pair.Value.Name == Constants.xpathVRL)
+                        {
+                            EcellData d = m_current.GetEcellData(Constants.xpathVRL);
+                            if (d != null)
+                                val = d;
+                        }
+                        props.Add(val);
                     }
-                    else if (pair.Value.Name == Constants.xpathVRL)
+                }
+                else
+                {
+                    props = m_env.DataManager.GetStepperProperty(newClassName);
+                }
+                EcellObject obj = EcellObject.CreateObject(
+                    m_current.ModelID, m_current.Key, m_current.Type,
+                    newClassName, props);
+                obj.SetPosition(m_current);
+                NotifyDataChanged(obj.ModelID, obj.Key, obj);
+                ReloadProperties();
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+                for (int i = 0; i < m_combo.Items.Count; i++)
+                {
+                    if (m_current.Classname.Equals(m_combo.Items[i].ToString()))
                     {
-                        EcellData d = m_current.GetEcellData(Constants.xpathVRL);
-                        if (d != null)
-                            val = d;
+                        m_combo.SelectedIndex = i;
+                        return;
                     }
-                    props.Add(val);
                 }
             }
-            else
-            {
-                props = m_env.DataManager.GetStepperProperty(newClassName);
-            }
-            EcellObject obj = EcellObject.CreateObject(
-                m_current.ModelID, m_current.Key, m_current.Type,
-                newClassName, props);
-            obj.SetPosition(m_current);
-            NotifyDataChanged(obj.ModelID, obj.Key, obj);
-            ReloadProperties();
         }
 
         /// <summary>
@@ -1574,7 +1611,40 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 if (!String.IsNullOrEmpty(pastetext) && m_dgv.CurrentCell != null &&
                     m_dgv.CurrentCell.ReadOnly == false)
                 {
-                    m_dgv.CurrentCell.Value = pastetext;
+                    if (m_dgv.CurrentCell.Tag is EcellData)
+                    {
+                        EcellData tag = m_dgv.CurrentCell.Tag as EcellData;
+                        EcellObject eo = m_current.Clone();
+                        EcellData d = eo.GetEcellData(tag.Name);
+                        EcellValue value;
+                        try
+                        {
+                            if (tag.Name == Constants.xpathSize)
+                            {
+                                value = new EcellValue(Convert.ToDouble(pastetext));
+                                EcellSystem system = (EcellSystem)eo;
+                                system.SizeInVolume = (double)value;
+                            }
+                            else
+                            {
+                                if (d.Value.IsDouble)
+                                    value = new EcellValue(Convert.ToDouble(pastetext));
+                                else if (d.Value.IsInt)
+                                    value = new EcellValue(Convert.ToInt32(pastetext));
+                                else
+                                    value = new EcellValue(pastetext);
+                                d.Value = value;
+                            }
+                            NotifyDataChanged(eo.ModelID, eo.Key, eo);
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.WriteLine(ex);
+                            m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
+                            Util.ShowErrorDialog(MessageResources.ErrFormat);
+                            m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
+                        }
+                    }
                 }
                 return true;
             }
@@ -1584,9 +1654,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     m_dgv.CurrentCell.ReadOnly == false)
                 {
                     string cuttext = m_dgv.CurrentCell.Value.ToString();
+                    if (string.IsNullOrEmpty(cuttext))
+                        return true;
                     Clipboard.SetText(cuttext);
                     m_dgv.CurrentCell.Value = "";
                 }
+                return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }

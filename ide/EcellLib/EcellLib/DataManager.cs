@@ -1656,7 +1656,8 @@ namespace Ecell
             EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key, false);
             oldNode.SetPosition(eo);
             // not implement.
-            m_env.PluginManager.SetPosition(oldNode.Clone());
+//            m_env.PluginManager.SetPosition(oldNode.Clone());            
+            m_env.PluginManager.SetPosition(oldNode);
         }
 
         #endregion
@@ -2471,7 +2472,7 @@ namespace Ecell
                 obj = CreateDefaultText(modelID);
             }
             else if (type.Equals(Constants.xpathStepper))
-            {
+            {                
                 obj = CreateDefaultStepper(modelID, GetTemporaryID(modelID, type, ""));
             }
             return obj;
@@ -4009,7 +4010,14 @@ namespace Ecell
                 = new Dictionary<string, Dictionary<string, object>>();
             foreach (string modelID in stepperList.Keys)
             {
-                newStepperList.AddRange(stepperList[modelID]);
+                foreach (EcellObject stepper in stepperList[modelID])
+                {
+                    if (m_currentProject.IsUsedStepper(stepper.Key))
+                    {
+                        newStepperList.Add(stepper);
+                    }
+                }
+//                newStepperList.AddRange(stepperList[modelID]);
                 modelIDList.Add(modelID);
             }
             if (newStepperList.Count > 0)
@@ -4174,7 +4182,7 @@ namespace Ecell
             foreach (EcellObject stepper in stepperList)
             {
                 if (stepper == null)
-                    continue;
+                    continue;                
 
                 simulator.CreateStepper(stepper.Classname, stepper.Key);                
 

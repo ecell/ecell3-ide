@@ -1572,6 +1572,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 string name = dlg.InputText;
                 string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
                 EcellObject sobj = m_owner.DataManager.CreateDefaultObject(modelID, name, Constants.xpathStepper);
+                sobj.Key = name;
                 m_owner.DataManager.DataAdd(sobj);
             }
         }

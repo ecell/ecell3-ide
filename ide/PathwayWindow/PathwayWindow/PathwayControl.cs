@@ -946,8 +946,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     // Set node name.
                     if (child is EcellVariable)
                         keyDic.Add(oldNodeKey, child.Key);
-
                 }
+
+                if (eo.Type.Equals(Constants.xpathStepper))
+                {
+                    string classname = eo.Classname;
+                    foreach (EcellData d in eo.Value)
+                    {
+                        if (d.Settable) continue;
+                        DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, classname);
+                        d.Value = dm[d.Name].DefaultValue;                        
+                    }
+                }
+
                 eo.isFixed = false;
                 NotifyDataAdd(eo, false);
             }
