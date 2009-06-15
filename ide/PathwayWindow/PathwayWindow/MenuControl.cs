@@ -1090,7 +1090,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Check active canvas.
             CanvasControl canvas = m_con.Canvas;
             PPathwayVariable var = (PPathwayVariable)canvas.FocusNode;
-            EcellVariable variable = (EcellVariable)var.EcellObject;
+            EcellVariable variable = (EcellVariable)var.EcellObject.Clone();
             PathUtil.SetLayout(variable, var);
             variable.Aliases.Add(new EcellLayout(m_con.MousePosition));
             m_con.NotifyDataChanged(variable.Key, variable, true, true);
@@ -1321,7 +1321,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Update.
-            EcellObject eo = obj.EcellObject;
+            EcellObject eo = obj.EcellObject.Clone();
             eo.Layout.Figure = cs.Name;
             m_con.NotifyDataChanged(eo.Key, eo, true, true);
             m_con.SetNodeIcons();

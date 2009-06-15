@@ -177,8 +177,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Setting = cs;
             this.pCanvas.PPathwayObject.Text = "Sample";
             this.pCanvas.PPathwayObject.Refresh();
+            // Set Figure.
+            if(cs.Type.Equals(Constants.xpathSystem))
+                this.figureBox.ComboBox.Items.AddRange(FigureManager.GetSystemFigures().ToArray());
+            else
+                this.figureBox.ComboBox.Items.AddRange(FigureManager.GetEntityFigures().ToArray());
             // Set Parameter.
-            this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
             this.figureBox.ComboBox.Text = cs.Figure.Type;
             this.textBrush.Brush = cs.TextBrush;
             this.lineBrush.Brush = cs.LineBrush;

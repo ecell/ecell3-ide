@@ -40,6 +40,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     public partial class Stencils : EcellDockContent
     {
         private PathwayControl m_con;
+        private ContextMenuStrip contextMenuStrip;
+        private System.ComponentModel.IContainer components;
+        private ToolStripMenuItem propertyToolStripMenuItem;
+        private ToolStripMenuItem 追加ToolStripMenuItem;
+        private ToolStripMenuItem 削除ToolStripMenuItem;
         private FlowLayoutPanel flowLayoutPanel1;
 
         /// <summary>
@@ -58,7 +63,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.追加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -67,6 +78,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Window;
+            this.flowLayoutPanel1.ContextMenuStrip = this.contextMenuStrip;
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -74,18 +86,48 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.flowLayoutPanel1.Size = new System.Drawing.Size(322, 273);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.propertyToolStripMenuItem,
+            this.追加ToolStripMenuItem,
+            this.削除ToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(153, 92);
+            // 
+            // propertyToolStripMenuItem
+            // 
+            this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
+            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.propertyToolStripMenuItem.Text = "Property";
+            // 
+            // 追加ToolStripMenuItem
+            // 
+            this.追加ToolStripMenuItem.Name = "追加ToolStripMenuItem";
+            this.追加ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.追加ToolStripMenuItem.Text = "追加";
+            // 
+            // 削除ToolStripMenuItem
+            // 
+            this.削除ToolStripMenuItem.Name = "削除ToolStripMenuItem";
+            this.削除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.削除ToolStripMenuItem.Text = "削除";
+            // 
             // Stencils
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(322, 273);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
             this.IsSavable = true;
+            this.Location = new System.Drawing.Point(0, 0);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1, 0);
             this.Name = "Stencils";
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -86,10 +86,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         }
 
         /// <summary>
-        /// Get Figure list.
+        /// 
         /// </summary>
         /// <returns></returns>
-        public static List<string> GetFigureList()
+        public static List<string> GetSystemFigures()
+        {
+            List<string> list = new List<string>();
+            list.Add(SystemRectangle.TYPE);
+            list.Add(SystemEllipse.TYPE);
+            return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetEntityFigures()
         {
             List<string> list = new List<string>();
             list.Add(EllipseFigure.TYPE);
@@ -97,8 +109,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             list.Add(DiamondFigure.TYPE);
             list.Add(TriangleFigure.TYPE);
             list.Add(RoundedRectangle.TYPE);
-            list.Add(SystemRectangle.TYPE);
-            list.Add(SystemEllipse.TYPE);
+            return list;
+        }
+
+        /// <summary>
+        /// Get Figure list.
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetFigureList()
+        {
+            List<string> list = new List<string>();
+            list.AddRange(GetEntityFigures());
+            list.AddRange(GetSystemFigures());
             return list;
         }
 

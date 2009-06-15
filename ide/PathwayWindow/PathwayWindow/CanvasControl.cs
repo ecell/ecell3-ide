@@ -754,7 +754,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (!child.EcellObject.ParentSystemID.Equals(system.EcellObject.Key))
                     continue;
 
-                if (rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect))
+                if (obj is PPathwaySystem && ((rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect))))
+                {
+                    enlargeFlag = true;
+                    offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - child.X;
+                    if (offsetx > offset.X)
+                        offset.X = offsetx;
+                }
+                else if (child is PPathwaySystem && (rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect)))
                 {
                     enlargeFlag = true;
                     offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - child.X;
@@ -1889,6 +1896,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     obj.Invalid = false;
                 }
                 NotifyResetSelect();
+                RefreshEdges();
             }
             m_isOwner = false;
 
