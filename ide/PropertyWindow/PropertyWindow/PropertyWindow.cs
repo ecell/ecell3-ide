@@ -1400,14 +1400,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             catch (Exception ex)
             {
                 Util.ShowErrorDialog(ex.Message);
-                for (int i = 0; i < m_combo.Items.Count; i++)
-                {
-                    if (m_current.Classname.Equals(m_combo.Items[i].ToString()))
-                    {
-                        m_combo.SelectedIndex = i;
-                        return;
-                    }
-                }
+                ReloadProperties();
             }
         }
 
@@ -1648,19 +1641,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 return true;
             }
-            if ((int)keyData == (int)Keys.Control + (int)Keys.X)
-            {
-                if (m_dgv.CurrentCell != null && m_dgv.CurrentCell.Value != null &&
-                    m_dgv.CurrentCell.ReadOnly == false)
-                {
-                    string cuttext = m_dgv.CurrentCell.Value.ToString();
-                    if (string.IsNullOrEmpty(cuttext))
-                        return true;
-                    Clipboard.SetText(cuttext);
-                    m_dgv.CurrentCell.Value = "";
-                }
-                return true;
-            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
