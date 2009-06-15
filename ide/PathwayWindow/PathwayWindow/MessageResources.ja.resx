@@ -363,4 +363,13 @@
   <data name="CanvasMenuAnimationSetting" xml:space="preserve">
     <value>アニメーション設定</value>
   </data>
+  <data name="ErrAddStencil" xml:space="preserve">
+    <value>このステンシルはすでに存在します。</value>
+  </data>
+  <data name="ErrDeleteDefaultStencil" xml:space="preserve">
+    <value>デフォルトのステンシルは削除できません。</value>
+  </data>
+  <data name="ErrNoStencil" xml:space="preserve">
+    <value>登録するエンティティを一つ選択してください。</value>
+  </data>
 </root>

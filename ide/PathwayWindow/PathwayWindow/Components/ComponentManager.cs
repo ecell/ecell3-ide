@@ -349,6 +349,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             XmlElement cs = doc.CreateElement(ComponentConstants.xPathComponent);
             cs.SetAttribute(ComponentConstants.xPathType, setting.Type);
             cs.SetAttribute(ComponentConstants.xPathIsDafault, setting.IsDefault.ToString());
+            cs.SetAttribute(ComponentConstants.xPathIsStencil, setting.IsStencil.ToString());
 
             XmlNode name = doc.CreateElement(ComponentConstants.xPathName);
             name.AppendChild(doc.CreateTextNode(setting.Name));
@@ -501,6 +502,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defSysCs.Type = EcellObject.SYSTEM;
             defSysCs.Name = ComponentConstants.NameOfDefaultSystem;
             defSysCs.IsDefault = true;
+            defSysCs.IsStencil = true;
             defSysCs.Figure = FigureManager.CreateFigure("SystemRectangle", "0,0,80,80");
             defSysCs.CenterBrush = Brushes.LightBlue;
             defSysCs.FillBrush = Brushes.LightBlue;
@@ -513,6 +515,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defVarCs.Type = EcellObject.VARIABLE;
             defVarCs.Name = ComponentConstants.NameOfDefaultVariable;
             defVarCs.IsDefault = true;
+            defVarCs.IsStencil = true;
             defVarCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,60,40");
             defVarCs.TextBrush = Brushes.DarkBlue;
             defVarCs.LineBrush = Brushes.CornflowerBlue;
@@ -526,6 +529,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defProCs.Type = EcellObject.PROCESS;
             defProCs.Name = ComponentConstants.NameOfDefaultProcess;
             defProCs.IsDefault = true;
+            defProCs.IsStencil = true;
             defProCs.Figure = FigureManager.CreateFigure("RoundedRectangle", "0,0,60,40");
             defProCs.TextBrush = Brushes.DarkGreen;
             defProCs.LineBrush = Brushes.LimeGreen;
@@ -539,6 +543,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defTextCs.Type = EcellObject.TEXT;
             defTextCs.Name = ComponentConstants.NameOfDefaultText;
             defTextCs.IsDefault = true;
+            defTextCs.IsStencil = true;
             defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,80,26");
             defTextCs.TextBrush = Brushes.Black;
             defTextCs.LineBrush = Brushes.Black;
@@ -552,6 +557,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defStepperCs.Type = EcellObject.STEPPER;
             defStepperCs.Name = ComponentConstants.NameOfDefaultStepper;
             defStepperCs.IsDefault = true;
+            defStepperCs.IsStencil = true;
             defStepperCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,30,30");
             defStepperCs.TextBrush = Brushes.Black;
             defStepperCs.LineBrush = Brushes.Red;
@@ -739,10 +745,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             ComponentSetting cs = new ComponentSetting();
             try
             {
-                string type = componentNode.Attributes[ComponentConstants.xPathType].Value;
-                string isDefault = componentNode.Attributes[ComponentConstants.xPathIsDafault].Value;
-                cs.Type = type;
-                cs.IsDefault = bool.Parse(isDefault);
+                cs.Type = GetStringAttribute(componentNode, ComponentConstants.xPathType);
+                cs.IsDefault = GetBoolAttribure(componentNode, ComponentConstants.xPathIsDafault);
+                cs.IsStencil = GetBoolAttribure(componentNode, ComponentConstants.xPathIsStencil) || cs.IsDefault;
 
                 foreach (XmlNode parameterNode in componentNode.ChildNodes)
                 {
@@ -766,6 +771,43 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
 
             return cs;
+        }
+
+        /// <summary>
+        /// GetStringAttribute
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetStringAttribute(XmlNode node, string key)
+        {
+            try
+            {
+                XmlAttribute attribute = node.Attributes[key];
+                if (attribute == null)
+                    return "";
+                else
+                    return attribute.Value;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool GetBoolAttribure(XmlNode node, string key)
+        {
+            bool value = false;
+            string temp = GetStringAttribute(node, key);
+            bool.TryParse(temp, out value);
+            return value;
         }
 
         /// <summary>
@@ -853,7 +895,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, ComponentConstants.xPathVersion);
 
                 // Object settings
-                foreach (ComponentSetting setting in DefaultComponentSettings)
+                foreach (ComponentSetting setting in GetAllSettings())
                 {
                     XmlNode cs = ConvertToXmlNode(new XmlDocument(), setting);
                     cs.WriteTo(xmlOut);

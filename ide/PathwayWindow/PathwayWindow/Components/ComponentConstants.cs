@@ -132,6 +132,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        public const string xPathIsStencil = "IsStencil";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string xPathMode = "Mode";
         /// <summary>
         /// 

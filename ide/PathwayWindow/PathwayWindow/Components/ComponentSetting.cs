@@ -63,6 +63,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private string m_type = null;
 
         /// <summary>
+        /// If this Setting create Stencil or not.
+        /// </summary>
+        private bool m_IsStencil = false;
+
+        /// <summary>
         /// The icon file name.
         /// </summary>
         private string m_iconFileName = null;
@@ -141,6 +146,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             get { return this.m_name; }
             set { this.m_name = value; }
+        }
+
+        /// <summary>
+        /// If this Setting create Stencil or not.
+        /// </summary>
+        public bool IsStencil
+        {
+            get { return m_IsStencil; }
+            set { m_IsStencil = value; }
         }
 
         /// <summary>

@@ -367,6 +367,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   This stencil is already exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAddStencil {
+            get {
+                return ResourceManager.GetString("ErrAddStencil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Entity {0} already exists. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAlrExist {
@@ -412,6 +421,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Can&apos;t delete default setting. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrDeleteDefaultStencil {
+            get {
+                return ResourceManager.GetString("ErrDeleteDefaultStencil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Value[ {0} ] is not valid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidValue {
@@ -444,6 +462,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string ErrNoInput {
             get {
                 return ResourceManager.GetString("ErrNoInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select one object to add stencil. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoStencil {
+            get {
+                return ResourceManager.GetString("ErrNoStencil", resourceCulture);
             }
         }
         

@@ -192,15 +192,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private void SetDefaultItems()
         {
-            foreach (ComponentSetting cs in m_con.ComponentManager.DefaultComponentSettings)
+            foreach (ComponentSetting cs in m_con.ComponentManager.GetAllSettings())
             {
-                SetNewItem(cs);
+                if(cs.IsStencil)
+                    SetNewItem(cs);
             }
         }
 
         private void SetNewItem(ComponentSetting cs)
         {
             PToolBoxCanvas pCanvas = new PToolBoxCanvas(cs);
+            cs.IsStencil = true;
             ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(this);
             pCanvas.AddInputEventListener(eventHandler);
             pCanvas.ContextMenuStrip = this.StencilMenuStrip;
@@ -213,12 +215,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             List<PPathwayObject> objects = m_con.Canvas.SelectedNodes;
             if (objects.Count != 1)
             {
-                Util.ShowErrorDialog("Select one object to add stencil.");
+                Util.ShowErrorDialog(MessageResources.ErrNoStencil);
                 return;
             }
             PPathwayObject obj = objects[0];
             ComponentSetting cs = obj.Setting.Clone();
+            if (cs.IsDefault || cs.IsStencil)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrAddStencil);
+                return;
+            }
+
             SetNewItem(cs);
+            m_con.ComponentManager.SaveSettings();
         }
 
         private void Stencil_MouseDown(object sender, MouseEventArgs e)
@@ -231,6 +240,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             if (m_stencil == null)
                 return;
+            if (m_stencil.Setting.IsDefault)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrDeleteDefaultStencil);
+                return;
+            }
+
+
             // Remove Stencil
             this.flowLayoutPanel.Controls.Remove(m_stencil);
             m_stencil = null;
@@ -247,6 +263,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 dlg.ApplyChange();
+                m_stencil.Setting.RaisePropertyChange();
             }
         }
     }

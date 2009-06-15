@@ -363,4 +363,13 @@
   <data name="CanvasMenuAnimationSetting" xml:space="preserve">
     <value>Animation Setting...</value>
   </data>
+  <data name="ErrAddStencil" xml:space="preserve">
+    <value>This stencil is already exist.</value>
+  </data>
+  <data name="ErrDeleteDefaultStencil" xml:space="preserve">
+    <value>Can't delete default setting.</value>
+  </data>
+  <data name="ErrNoStencil" xml:space="preserve">
+    <value>Select one object to add stencil.</value>
+  </data>
 </root>
