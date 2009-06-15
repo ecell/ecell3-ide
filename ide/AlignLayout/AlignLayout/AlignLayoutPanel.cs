@@ -33,17 +33,19 @@ using System.Collections.Generic;
 using System.Text;
 using Ecell.Plugin;
 
-namespace Ecell.IDE.Plugins.DistributeLayout
+namespace Ecell.IDE.Plugins.AlignLayout
 {
     /// <summary>
     /// 
     /// </summary>
-    public class DistributeLayoutPanel : LayoutPanel
+    public class AlignLayoutPanel : LayoutPanel
     {
         #region Fields
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.Label label5;
         
         #endregion
@@ -53,12 +55,10 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// 
         /// </summary>
         /// <param name="algorithm"></param>
-        public DistributeLayoutPanel(ILayoutAlgorithm algorithm)
+        public AlignLayoutPanel(ILayoutAlgorithm algorithm)
         {
             InitializeComponent();
             m_algorithm = algorithm;
-
-            DistributeLayout distribute = (DistributeLayout)algorithm;
         }
 
         /// <summary>
@@ -66,48 +66,92 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DistributeLayoutPanel));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlignLayoutPanel));
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label1
             // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
+            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // label5
             // 
+            this.label5.AccessibleDescription = null;
+            this.label5.AccessibleName = null;
             resources.ApplyResources(this.label5, "label5");
+            this.label5.Font = null;
             this.label5.Name = "label5";
             // 
             // radioButton1
             // 
+            this.radioButton1.AccessibleDescription = null;
+            this.radioButton1.AccessibleName = null;
             resources.ApplyResources(this.radioButton1, "radioButton1");
+            this.radioButton1.BackgroundImage = null;
             this.radioButton1.Checked = true;
+            this.radioButton1.Font = null;
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = global::Ecell.IDE.Plugins.DistributeLayout.MessageResDistributeLayout.MenuItemSubHorizontally;
+            this.radioButton1.Text = global::Ecell.IDE.Plugins.AlignLayout.MessageResAlignLayout.MenuItemSubLeft;
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
             // 
+            this.radioButton2.AccessibleDescription = null;
+            this.radioButton2.AccessibleName = null;
             resources.ApplyResources(this.radioButton2, "radioButton2");
+            this.radioButton2.BackgroundImage = null;
+            this.radioButton2.Font = null;
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = global::Ecell.IDE.Plugins.DistributeLayout.MessageResDistributeLayout.MenuItemSubVertically;
+            this.radioButton2.Text = global::Ecell.IDE.Plugins.AlignLayout.MessageResAlignLayout.MenuItemSubRight;
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
-            // DistributeLayoutPanel
+            // radioButton3
             // 
+            this.radioButton3.AccessibleDescription = null;
+            this.radioButton3.AccessibleName = null;
+            resources.ApplyResources(this.radioButton3, "radioButton3");
+            this.radioButton3.BackgroundImage = null;
+            this.radioButton3.Font = null;
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.TabStop = true;
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AccessibleDescription = null;
+            this.radioButton4.AccessibleName = null;
+            resources.ApplyResources(this.radioButton4, "radioButton4");
+            this.radioButton4.BackgroundImage = null;
+            this.radioButton4.Font = null;
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.TabStop = true;
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // AlignLayoutPanel
+            // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
+            resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
+            this.Controls.Add(this.radioButton4);
+            this.Controls.Add(this.radioButton3);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
-            this.Name = "DistributeLayoutPanel";
-            resources.ApplyResources(this, "$this");
+            this.Font = null;
+            this.Name = "AlignLayoutPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -121,11 +165,14 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// </summary>
         public override void ApplyChange()
         {
-            DistributeLayout alogorithm = (DistributeLayout)m_algorithm;
             if (radioButton1.Checked)
-                alogorithm.SubIndex = 0;
-            else
-                alogorithm.SubIndex = 1;
+                m_algorithm.SubIndex = 0;
+            else if(radioButton2.Checked)
+                m_algorithm.SubIndex = 1;
+            else if (radioButton3.Checked)
+                m_algorithm.SubIndex = 2;
+            else if (radioButton4.Checked)
+                m_algorithm.SubIndex = 3;
         }
         #endregion
     }

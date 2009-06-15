@@ -74,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlignLayout.cs" />
+    <Compile Include="AlignLayoutPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MessageResAlignLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,6 +85,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AlignLayoutPanel.ja.resx">
+      <DependentUpon>AlignLayoutPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AlignLayoutPanel.resx">
+      <DependentUpon>AlignLayoutPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="MessageResAlignLayout.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

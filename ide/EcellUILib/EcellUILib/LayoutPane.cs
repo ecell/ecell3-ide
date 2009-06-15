@@ -106,44 +106,32 @@ namespace Ecell.IDE
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleDescription = null;
-            this.tabControl.AccessibleName = null;
             resources.ApplyResources(this.tabControl, "tabControl");
-            this.tabControl.BackgroundImage = null;
-            this.tabControl.Font = null;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.TabIndexChanged += new System.EventHandler(this.tabControl_TabIndexChanged);
+            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // ApplyButton
             // 
-            this.ApplyButton.AccessibleDescription = null;
-            this.ApplyButton.AccessibleName = null;
             resources.ApplyResources(this.ApplyButton, "ApplyButton");
-            this.ApplyButton.BackgroundImage = null;
-            this.ApplyButton.Font = null;
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.UseVisualStyleBackColor = true;
             // 
             // LayoutPane
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.tabControl);
             this.Name = "LayoutPane";
-            this.ToolTipText = null;
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private void tabControl_TabIndexChanged(object sender, EventArgs e)
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
         {
-            TabPage page = tabControl.SelectedTab;
+            TabPage page = e.TabPage;
             SetAlgorithm(page);
         }
 

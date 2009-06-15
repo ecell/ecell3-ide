@@ -68,6 +68,7 @@ namespace Ecell.IDE.Plugins.AlignLayout
         /// </summary>
         public AlignLayout()
         {
+            m_panel = new AlignLayoutPanel(this);
         }
 
         /// <summary>

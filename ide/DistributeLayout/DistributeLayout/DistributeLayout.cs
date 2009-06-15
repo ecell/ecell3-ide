@@ -51,6 +51,7 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// </summary>
         public DistributeLayout()
         {
+            m_panel = new DistributeLayoutPanel(this);
         }
 
         /// <summary>

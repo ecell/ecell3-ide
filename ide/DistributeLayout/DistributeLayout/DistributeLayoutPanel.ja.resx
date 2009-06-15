@@ -117,22 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>グリッドマージン</value>
+    <value>方向</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>試行回数</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>アニール温度</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>ノード間距離</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>焼きなまし法によるグリッドレイアウト</value>
+    <value>ノードの整列：
+3つ以上のエンティティを選択してください</value>
+  </data>
+  <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 16</value>
+  </data>
+  <data name="radioButton1.Text" xml:space="preserve">
+    <value>水平</value>
+  </data>
+  <data name="radioButton2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 16</value>
+  </data>
+  <data name="radioButton2.Text" xml:space="preserve">
+    <value>垂直</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>グリッド</value>
+    <value>整列</value>
   </data>
 </root>

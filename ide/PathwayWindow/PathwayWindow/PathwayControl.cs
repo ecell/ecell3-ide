@@ -1614,6 +1614,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="isRecorded">Whether to record this change.</param>
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
+            if (m_canvas == null)
+                return;
             List<EcellObject> systemList = GetSystemList();
             List<EcellObject> nodeList = new List<EcellObject>();
             int nodeNum = 0;
