@@ -31,6 +31,9 @@ using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.Plugin;
+using System.Collections.Generic;
+using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -42,10 +45,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private PathwayControl m_con;
         private ContextMenuStrip contextMenuStrip;
         private System.ComponentModel.IContainer components;
-        private ToolStripMenuItem propertyToolStripMenuItem;
-        private ToolStripMenuItem 追加ToolStripMenuItem;
-        private ToolStripMenuItem 削除ToolStripMenuItem;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private ToolStripMenuItem AddStencilMenuItem;
+        private ToolStripMenuItem DeleteStencilMenuItem;
+        private FlowLayoutPanel flowLayoutPanel;
 
         /// <summary>
         /// Constructor
@@ -64,61 +66,55 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.追加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddStencilMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteStencilMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Window;
-            this.flowLayoutPanel1.ContextMenuStrip = this.contextMenuStrip;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(322, 273);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.flowLayoutPanel.AutoScroll = true;
+            this.flowLayoutPanel.AutoSize = true;
+            this.flowLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.flowLayoutPanel.ContextMenuStrip = this.contextMenuStrip;
+            this.flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel.Size = new System.Drawing.Size(322, 273);
+            this.flowLayoutPanel.TabIndex = 1;
             // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.propertyToolStripMenuItem,
-            this.追加ToolStripMenuItem,
-            this.削除ToolStripMenuItem});
+            this.AddStencilMenuItem,
+            this.DeleteStencilMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(153, 92);
+            this.contextMenuStrip.Size = new System.Drawing.Size(153, 70);
             // 
-            // propertyToolStripMenuItem
+            // AddStencilMenuItem
             // 
-            this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
-            this.propertyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.propertyToolStripMenuItem.Text = "Property";
+            this.AddStencilMenuItem.Name = "AddStencilMenuItem";
+            this.AddStencilMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddStencilMenuItem.Text = "Add Stencil";
+            this.AddStencilMenuItem.Click += new System.EventHandler(this.AddStencilMenuItem_Click);
             // 
-            // 追加ToolStripMenuItem
+            // DeleteStencilMenuItem
             // 
-            this.追加ToolStripMenuItem.Name = "追加ToolStripMenuItem";
-            this.追加ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.追加ToolStripMenuItem.Text = "追加";
-            // 
-            // 削除ToolStripMenuItem
-            // 
-            this.削除ToolStripMenuItem.Name = "削除ToolStripMenuItem";
-            this.削除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.削除ToolStripMenuItem.Text = "削除";
+            this.DeleteStencilMenuItem.Name = "DeleteStencilMenuItem";
+            this.DeleteStencilMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteStencilMenuItem.Text = "Delete Stencil";
+            this.DeleteStencilMenuItem.Click += new System.EventHandler(this.DeleteStencilMenuItem_Click);
             // 
             // Stencils
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(322, 273);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.flowLayoutPanel);
             this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
             this.IsSavable = true;
@@ -138,29 +134,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private void SetDefaultItems()
         {
-            ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(m_con);
-
-            foreach (ComponentSetting c in m_con.ComponentManager.DefaultComponentSettings)
+            foreach (ComponentSetting cs in m_con.ComponentManager.DefaultComponentSettings)
             {
-                PToolBoxCanvas pCanvas = new PToolBoxCanvas();
-                pCanvas.AllowDrop = true;
-                pCanvas.Anchor = (System.Windows.Forms.AnchorStyles)
-                            System.Windows.Forms.AnchorStyles.Top
-                            | System.Windows.Forms.AnchorStyles.Bottom
-                            | System.Windows.Forms.AnchorStyles.Left
-                            | System.Windows.Forms.AnchorStyles.Right;
-                pCanvas.BackColor = System.Drawing.Color.White;
-                pCanvas.Margin = new Padding(4);
-                pCanvas.GridFitText = false;
-                pCanvas.MinimumSize = pCanvas.Size = new System.Drawing.Size(64, 64);
-                pCanvas.PPathwayObject = null;
-                pCanvas.RegionManagement = true;
-                pCanvas.Name = c.Name;
-                pCanvas.Text = c.Name;
-                pCanvas.Setting = c;
-                pCanvas.AddInputEventListener(eventHandler);
-                flowLayoutPanel1.Controls.Add(pCanvas);
+                SetNewItem(cs);
             }
+        }
+
+        private void SetNewItem(ComponentSetting cs)
+        {
+            PToolBoxCanvas pCanvas = new PToolBoxCanvas(cs);
+            ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(m_con);
+            pCanvas.AddInputEventListener(eventHandler);
+            flowLayoutPanel.Controls.Add(pCanvas);
+        }
+
+        private void AddStencilMenuItem_Click(object sender, System.EventArgs e)
+        {
+            List<PPathwayObject> objects = m_con.Canvas.SelectedNodes;
+            if (objects.Count != 1)
+                Util.ShowErrorDialog("Select one object to add stencil.");
+
+            PPathwayObject obj = objects[0];
+            ComponentSetting cs = obj.Setting.Clone();
+            SetNewItem(cs);
+        }
+
+        private void DeleteStencilMenuItem_Click(object sender, System.EventArgs e)
+        {
+
         }
     }
 }

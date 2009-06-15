@@ -32,6 +32,7 @@ using System.Drawing;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
+using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -85,6 +86,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             base.BackColor = Color.Silver;
             base.AllowDrop = false;
             base.GridFitText = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cs"></param>
+        public PToolBoxCanvas(ComponentSetting cs)
+            :this()
+        {
+            this.AllowDrop = true;
+            this.Anchor = (System.Windows.Forms.AnchorStyles)
+                        System.Windows.Forms.AnchorStyles.Top
+                        | System.Windows.Forms.AnchorStyles.Bottom
+                        | System.Windows.Forms.AnchorStyles.Left
+                        | System.Windows.Forms.AnchorStyles.Right;
+            this.BackColor = System.Drawing.Color.White;
+            this.Margin = new Padding(4);
+            this.GridFitText = false;
+            this.Size = new System.Drawing.Size(64, 64);
+            this.MinimumSize = new System.Drawing.Size(64, 64);
+            this.RegionManagement = true;
+            this.PPathwayObject = null;
+            this.Name = cs.Name;
+            this.Text = cs.Name;
+            this.Setting = cs;
         }
         #endregion
 

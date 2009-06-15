@@ -208,6 +208,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             eo.Y = m_object.Y;
             eo.Width = m_object.Width;
             eo.Height = m_object.Height;
+            eo.Layout.Figure = m_object.Setting.Name;
             eo.isFixed = true;
             m_canvas.Control.NotifyDataAdd(eo, !isSystem);
             PPathwayObject temp = m_canvas.GetObject(eo.Key, eo.Type);
