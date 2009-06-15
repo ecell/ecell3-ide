@@ -253,7 +253,7 @@
     <value>0</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Distribute</value>
+    <value>Alignment</value>
   </data>
   <data name="&gt;&gt;radioButton2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -274,8 +274,7 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Align layout:
-Select at least two entities.</value>
+    <value>Nodes will be aligned linearly</value>
   </data>
   <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -298,10 +297,10 @@ Select at least two entities.</value>
   <data name="radioButton4.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.Language" type="System.Globalization.CultureInfo, mscorlib">
     <value>Japanese</value>
-  </metadata>
+  </data>
 </root>

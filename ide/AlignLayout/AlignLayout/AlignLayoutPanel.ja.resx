@@ -129,7 +129,7 @@
     <value>205, 19</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Nodes will be aligned linearly</value>
+    <value>選択したノードが直線状に整列されます</value>
   </data>
   <data name="radioButton1.Location" type="System.Drawing.Point, System.Drawing">
     <value>39, 70</value>
@@ -144,6 +144,6 @@
     <value>39, 135</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Alignment</value>
+    <value>整列</value>
   </data>
 </root>
