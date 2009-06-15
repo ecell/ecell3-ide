@@ -33,6 +33,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 using System.Windows.Forms;
+using UMD.HCIL.Piccolo.Util;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -68,6 +69,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 SetTemplate(value);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Rectangle Rect
+        {
+            get
+            {
+                return new Rectangle(this.Location, this.Size);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -86,6 +98,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             base.BackColor = Color.Silver;
             base.AllowDrop = false;
             base.GridFitText = false;
+            base.AnimatingRenderQuality = RenderQuality.HighQuality;
+            base.DefaultRenderQuality = RenderQuality.HighQuality;
+            base.InteractingRenderQuality = RenderQuality.HighQuality;
         }
 
         /// <summary>

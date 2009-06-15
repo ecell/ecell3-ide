@@ -44,6 +44,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
     {
         #region Fields
         /// <summary>
+        /// 
+        /// </summary>
+        Stencils m_stencils;
+        /// <summary>
         /// PathwayControl
         /// </summary>
         PathwayControl m_con;
@@ -62,9 +66,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// Constructor
         /// </summary>
         /// <param name="control"></param>
-        public ToolBoxDragHandler(PathwayControl control)
+        public ToolBoxDragHandler(Stencils stencils)
         {
-            m_con = control;
+            m_stencils = stencils;
+            m_con = stencils.PathwayControl;
         }
         #endregion
 
@@ -267,8 +272,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         private void SetEventHandler(PToolBoxCanvas canvas, PInputEventArgs e)
         {
-            m_canvas = m_con.Canvas;
+            //
+            m_stencils.Stencil = canvas;
+            canvas.BackColor = Color.Yellow;
             m_object = canvas.Setting.CreateTemplate();
+            m_canvas = m_con.Canvas;
 
             Point systemPos = GetSystemPos(e);
             m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
@@ -285,6 +293,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_canvas.ControlLayer.RemoveChild(m_object);
             m_canvas = null;
             m_object = null;
+            if(m_stencils.Stencil != null)
+                m_stencils.Stencil.BackColor = Color.White;
         }
         #endregion
     }
