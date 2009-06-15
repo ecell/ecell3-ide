@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 
         public void SetItems(ComponentSetting cs)
         {
-            this.groupBox.Text = cs.Name;
+            this.groupBox.Text = cs.Type;
             // Set ToolCanvas.
             this.pCanvas.Setting = cs;
             this.pCanvas.PPathwayObject.Text = "Sample";
