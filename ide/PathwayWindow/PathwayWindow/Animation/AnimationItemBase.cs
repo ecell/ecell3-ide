@@ -223,7 +223,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float num = 0.0f;
             try
             {
-                num = (float)_dManager.GetPropertyValue(fullPN);
+                if (_dManager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
+                        _dManager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
+                {
+                    num = (float)_dManager.GetPropertyValue(fullPN);
+                }
+                else
+                {
+                    string key = "";
+                    string type = "";
+                    string propName = "";
+                    Util.ParseFullPN(fullPN, out type, out key, out propName);
+                    Ecell.Objects.EcellObject obj = _dManager.GetEcellObject(
+                        _dManager.CurrentProject.Model.ModelID, key, type);
+                    if (obj != null)
+                    {
+                        Ecell.Objects.EcellData data = obj.GetEcellData(propName);
+                        num = (float)Double.Parse(data.Value.ToString());
+                    }
+                }
             }
             catch (Exception e)
             {

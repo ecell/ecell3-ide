@@ -90,6 +90,7 @@ namespace Ecell.Job
         /// the list of stepper object.
         /// </summary>
         private List<EcellObject> m_stepperObj;
+        private bool m_isAllRun = true;
         #endregion
 
         #region Accessors
@@ -256,9 +257,10 @@ namespace Ecell.Job
         /// <summary>
         /// Start this job group.
         /// </summary>
-        public void Run()
+        public void Run(bool isAllRun)
         {
             m_isRunning = true;
+            m_isAllRun = isAllRun;
         }
 
         /// <summary>
@@ -281,7 +283,7 @@ namespace Ecell.Job
             }
 
             AnalysisStatus status = AnalysisStatus.Finished;
-            int count = 0;
+            int count = 0;            
             foreach (Job m in m_jobs)
             {
 
@@ -290,7 +292,7 @@ namespace Ecell.Job
                     count++;
 
                 if (m.Status == JobStatus.RUNNING ||
-                    (m_isRunning && m.Status == JobStatus.QUEUED))
+                    (m_isRunning && (m.Status == JobStatus.QUEUED || m.Status == JobStatus.NONE)))
                 {
                     status = AnalysisStatus.Running;
                     break;
@@ -322,7 +324,7 @@ namespace Ecell.Job
             else if (m_isRunning == true)
             {
                 m_isRunning = false;
-                if (m_analysis != null)
+                if (m_analysis != null && m_isAllRun)
                     m_analysis.NotifyAnalysisFinished();
             }
         }

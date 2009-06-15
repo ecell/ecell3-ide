@@ -571,7 +571,7 @@ namespace Ecell.Job
         public void Run(string groupName, bool isForce)
         {
             PrepareProcessRun(groupName, isForce);
-            m_groupDic[groupName].Run();
+            m_groupDic[groupName].Run(true);
             if (m_timer.Enabled == false)
             {
                 //Update();
@@ -591,7 +591,7 @@ namespace Ecell.Job
                 j.Status = JobStatus.QUEUED;
             }
             j.PrepareProcess();
-            m_groupDic[groupName].Run();
+            m_groupDic[groupName].Run(false);
 
             if (m_timer.Enabled == false)
             {
@@ -806,7 +806,7 @@ namespace Ecell.Job
         /// <param name="paramDic">the execution parameter.</param>
         public void ReRunSimParameterSet(int jobid, string groupName, string topDir, string modelName,
             double count, bool isStep, ExecuteParameter paramDic)
-        {
+        {            
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = m_groupDic[groupName].SystemObjectList;
@@ -1291,7 +1291,7 @@ namespace Ecell.Job
         public JobGroup CreateJobGroup(string name, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
             JobGroup group = new JobGroup(this, name, sysObjList, stepperList);
-            m_groupDic.Add(group.GroupName, group);
+            m_groupDic[group.GroupName] = group;
             OnJobUpdate(JobUpdateType.AddJobGroup);
             return group;
         }
@@ -1307,7 +1307,7 @@ namespace Ecell.Job
         public JobGroup CreateJobGroup(string name, string date, List<EcellObject> sysObjList, List<EcellObject> stepperList)
         {
             JobGroup group = new JobGroup(this, name, date, sysObjList, stepperList);
-            m_groupDic.Add(group.GroupName, group);
+            m_groupDic[group.GroupName] = group;
             OnJobUpdate(JobUpdateType.AddJobGroup);
             return group;
         }

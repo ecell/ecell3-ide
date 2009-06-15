@@ -306,7 +306,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             String tmpDir = m_owner.JobManager.TmpDir;
-            Group.Run();
+            Group.Run(true);
             m_isRegist = true;
             m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, paramList);
             m_isRegist = false;

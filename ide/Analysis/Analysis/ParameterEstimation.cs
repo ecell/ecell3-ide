@@ -298,6 +298,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             else
             {
+                m_group.Status = AnalysisStatus.Running;
                 if (m_generation == 0)
                 {
                     m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
@@ -311,7 +312,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 m_execParamDic.Add(m_generation, m_execParamList);
             }
-            m_group.Status = AnalysisStatus.Running;
             m_isExistResult = true;
             m_generation++;
         }
