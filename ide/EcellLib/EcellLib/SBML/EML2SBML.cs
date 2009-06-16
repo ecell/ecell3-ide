@@ -114,7 +114,18 @@ namespace Ecell.SBML
 
         private static void CheckAndConvertProcesses(EcellModel anEml)
         {
-
+            foreach (EcellObject sys in anEml.Children)
+            {
+                if (!(sys is EcellSystem))
+                    continue;
+                foreach (EcellObject child in sys.Children)
+                {
+                    if (!(child is EcellProcess))
+                        continue;
+                    EcellProcess process = (EcellProcess)child;
+                    ProcessConverter.ConvertToExpression(process);
+                }
+            }
         }
 
         private static void createModel(EcellObject anEml, Model aSBMLModel)
@@ -225,8 +236,7 @@ namespace Ecell.SBML
                 anExpression = convertExpression(
                     anExpression,
                     aVariableReferenceList,
-                    aProcess.ParentSystemID,
-                    ID_Namespace );
+                    aProcess.ParentSystemID);
 
 
                 if( aProcess.Classname == "ExpressionAlgebraicProcess" )
@@ -320,8 +330,7 @@ namespace Ecell.SBML
                         bool aDelayFlag = false;
                         anExpression = convertExpression(anExpression,
                                              aVariableReferenceList,
-                                             aProcess.ParentSystemID,
-                                             ID_Namespace);
+                                             aProcess.ParentSystemID);
 
                         // get Current System Id
                         string CompartmentOfReaction = "";
@@ -505,9 +514,8 @@ namespace Ecell.SBML
         /// <param name="anExpression"></param>
         /// <param name="aVariableReferenceList"></param>
         /// <param name="aSystemKey"></param>
-        /// <param name="ID_Namespace"></param>
         /// <returns></returns>
-        private static string convertExpression(string anExpression, List<EcellReference> aVariableReferenceList, string aSystemKey, List<string> ID_Namespace)
+        private static string convertExpression(string anExpression, List<EcellReference> aVariableReferenceList, string aSystemKey)
         {
             string sbmlExpression = anExpression;
             string type;
@@ -700,11 +708,10 @@ namespace Ecell.SBML
                         aSpeciesID = anEml.LocalID;
                     else
                     {
-                        if ( anEml.ParentSystemID.Substring(1) != "" )
-                            aSpeciesID = anEml.ParentSystemID.Substring(1).Replace( "/", "__" )
-                                         + "__" + anEml.LocalID;
+                        if ( !anEml.ParentSystemID.Equals("/") )
+                            aSpeciesID = anEml.LocalID;
                         else
-                            aSpeciesID = "default__" + anEml.LocalID;
+                            aSpeciesID = anEml.LocalID;
                     }
 
                     ID_Namespace.Add( aSpeciesID );

@@ -53,7 +53,7 @@ namespace Ecell.SBML
             EcellProcess newProcess = null;
 
             string classname = process.Classname;
-
+            // Convert
             switch(classname)
             {
                 case ProcessConstants.ExpressionFluxProcess:
@@ -77,8 +77,9 @@ namespace Ecell.SBML
                 default:
                     throw new EcellException(string.Format("{0} is not supported.", classname));
             }
-
-            obj = newProcess;
+            // Reset
+            process.Classname = newProcess.Classname;
+            process.Expression = newProcess.Expression;
         }
 
         /// <summary>
@@ -120,8 +121,8 @@ namespace Ecell.SBML
         {
             EcellProcess newProcess = new EcellProcess(process.ModelID, process.Key, process.Type, ProcessConstants.ExpressionFluxProcess, new List<EcellData>());
             newProcess.ReferenceList = process.ReferenceList;
-            newProcess.SetEcellValue("T", process.GetEcellValue("T"));
-            newProcess.Expression = "S0.Value";
+            newProcess.SetEcellValue("k", process.GetEcellValue("k"));
+            newProcess.Expression = "k * S0.Value";
             newProcess.Layout = process.Layout;
             return newProcess;
         }
