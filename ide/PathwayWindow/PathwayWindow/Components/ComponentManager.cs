@@ -81,27 +81,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// The name of default ComponentSetting for System.
         /// </summary>
-        protected string m_defaultSystemName;
+        protected string m_defaultSystemName = "";
 
         /// <summary>
         /// The name of default ComponentSetting for Process.
         /// </summary>
-        protected string m_defaultProcessName;
+        protected string m_defaultProcessName = "";
 
         /// <summary>
         /// The name of default ComponentSetting for Variable.
         /// </summary>
-        protected string m_defaultVariableName;
+        protected string m_defaultVariableName = "";
 
         /// <summary>
         /// The name of default ComponentSetting for Text.
         /// </summary>
-        protected string m_defaultTextName;
+        protected string m_defaultTextName = "";
 
         /// <summary>
         /// The name of default ComponentSetting for Stepper.
         /// </summary>
-        protected string m_defaultStepperName;
+        protected string m_defaultStepperName = "";
 
         #endregion
 
@@ -297,7 +297,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             foreach (ComponentSetting cs in list)
             {
                 ComponentSetting setting = GetSetting(cs.Type, cs.Name);
-                if (!setting.Name.Equals(cs.Name))
+                if (setting == null || !setting.Name.Equals(cs.Name))
                 {
                     RegisterSetting(cs);
                     continue;
@@ -385,13 +385,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <returns></returns>
         public ComponentSetting GetSetting(string type, string key)
         {
-            ComponentSetting setting;
+            ComponentSetting setting = null;
             Dictionary<string, ComponentSetting> dic = GetSettingDictionary(type);
             string defaultKey = GetDefaultKey(type);
 
             if (dic.ContainsKey(key))
                 setting = dic[key];
-            else
+            else if (dic.ContainsKey(defaultKey))
                 setting = dic[defaultKey];
 
             return setting;
@@ -451,6 +451,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// </summary>
         internal void CreateDefaultSettings()
         {
+            List<ComponentSetting> list = new List<ComponentSetting>();
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.Type = EcellObject.SYSTEM;
@@ -462,7 +463,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defSysCs.FillBrush = Brushes.LightBlue;
             defSysCs.IsGradation = false;
             defSysCs.LineBrush = Brushes.Blue;
-            RegisterSetting(defSysCs);
+            list.Add(defSysCs);
 
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
@@ -476,7 +477,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defVarCs.CenterBrush = Brushes.White;
             defVarCs.FillBrush = Brushes.CornflowerBlue;
             defVarCs.IsGradation = true;
-            RegisterSetting(defVarCs);
+            list.Add(defVarCs);
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
@@ -490,7 +491,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defProCs.CenterBrush = Brushes.White;
             defProCs.FillBrush = Brushes.LimeGreen;
             defProCs.IsGradation = true;
-            RegisterSetting(defProCs);
+            list.Add(defProCs);
 
             // Set hard coded default text ComponentSettings
             ComponentSetting defTextCs = new ComponentSetting();
@@ -504,7 +505,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defTextCs.CenterBrush = Brushes.White;
             defTextCs.FillBrush = Brushes.White;
             defTextCs.IsGradation = false;
-            RegisterSetting(defTextCs);
+            list.Add(defTextCs);
 
             // Set hard coded default stepper ComponentSettings
             ComponentSetting defStepperCs = new ComponentSetting();
@@ -518,7 +519,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defStepperCs.CenterBrush = Brushes.White;
             defStepperCs.FillBrush = Brushes.Red;
             defStepperCs.IsGradation = true;
-            RegisterSetting(defStepperCs);
+            list.Add(defStepperCs);
+
+            UpdateComponent(list);
         }
 
         /// <summary>

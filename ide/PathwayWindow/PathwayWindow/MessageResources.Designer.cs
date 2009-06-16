@@ -97,6 +97,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Create new Stepper. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipCreateStepper {
+            get {
+                return ResourceManager.GetString("ButtonToolTipCreateStepper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create new System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ButtonToolTipCreateSystem {

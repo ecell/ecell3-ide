@@ -372,4 +372,7 @@
   <data name="ErrNoStencil" xml:space="preserve">
     <value>登録するエンティティを一つ選択してください。</value>
   </data>
+  <data name="ButtonToolTipCreateStepper" xml:space="preserve">
+    <value>Stepperの追加</value>
+  </data>
 </root>

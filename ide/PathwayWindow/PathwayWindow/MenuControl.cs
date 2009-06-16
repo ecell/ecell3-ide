@@ -813,6 +813,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         button.ToolTipText = MessageResources.ButtonToolTipCreateVariable;
                     else if (cs.Type == EcellObject.TEXT)
                         button.ToolTipText = MessageResources.ButtonToolTipCreateText;
+                    else if (cs.Type == EcellObject.STEPPER)
+                        button.ToolTipText = MessageResources.ButtonToolTipCreateStepper;
                 }
 
                 button.Click += new EventHandler(ButtonStateChanged);
