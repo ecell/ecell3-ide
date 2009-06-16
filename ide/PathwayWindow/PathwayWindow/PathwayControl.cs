@@ -954,8 +954,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                             alias.Y = alias.Y + diff.Y;
                         }
                     }
-                }
+                    // Process and Stepper
+                    if (child is EcellProcess)
+                    {
+                        string classname = child.Classname;
+                        foreach (EcellData d in child.Value)
+                        {
+                            if (d.Settable) continue;
+                            DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, classname);
+                            d.Value = dm[d.Name].DefaultValue;
+                        }
+                    }
 
+                }
 
                 // Process and Stepper
                 if (eo is EcellProcess || eo is EcellStepper)
@@ -970,6 +981,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
 
                 // Variable
+                // Remove alias.
                 if (eo is EcellVariable)
                 {
                     EcellVariable var = (EcellVariable)eo;

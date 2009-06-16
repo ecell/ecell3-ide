@@ -1263,6 +1263,15 @@ namespace Ecell
                 break;
             }
 
+            // Check Stepper
+            if (entity is EcellProcess)
+            {
+                EcellProcess process = (EcellProcess)entity;
+                string stepper = process.StepperID;
+                if (!m_currentProject.StepperDic.ContainsKey(stepper))
+                    process.StepperID = GetStepper(entity.ModelID)[0].Key;
+            }
+
             if (messageFlag)
             {
                 MessageCreateEntity(type, string.Format(MessageResources.InfoAdd,
