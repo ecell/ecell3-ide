@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExecParameters>
+  <Status>1</Status>
+  <Parameter>
+    <FullPN>Process:/CELL/CYTOPLASM:R_toy7:K4</FullPN>
+    <Value>1.44238143527991</Value>
+  </Parameter>
+  <Parameter>
+    <FullPN>Process:/CELL/CYTOPLASM:R_toy7:V4</FullPN>
+    <Value>1.66413262971404</Value>
+  </Parameter>
+</ExecParameters>

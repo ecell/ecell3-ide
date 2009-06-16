@@ -753,7 +753,9 @@ namespace Ecell
                 Directory.CreateDirectory(dmDir);
             foreach (string dir in m_info.DMDirList)
             {
-                if (dir.Equals(dmDir))
+                DirectoryInfo d1 = new DirectoryInfo(dir);
+                DirectoryInfo d2 = new DirectoryInfo(dmDir);
+                if (d1.FullName.Equals(d2.FullName))
                     continue;
                 Util.CopyDirectory(dir, dmDir, true);
             }

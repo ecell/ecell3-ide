@@ -2851,10 +2851,6 @@ namespace Ecell
         /// <param name="dic">The dictionary of "EcellData"</param>
         private static void SetPropertyList(EcellObject ecellObject, Dictionary<string, EcellData> dic)
         {
-            if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
-            {
-                return;
-            }
             foreach (EcellData ecellData in ecellObject.Value)
             {
                 if (ecellData.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))

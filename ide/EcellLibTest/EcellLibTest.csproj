@@ -150,6 +150,7 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+    <PreBuildEvent>XCOPY /Y "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellUILib.dll" $(TargetDir)</PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="TestData\" />

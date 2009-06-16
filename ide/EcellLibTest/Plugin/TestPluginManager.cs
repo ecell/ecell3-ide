@@ -560,43 +560,43 @@ namespace Ecell.Plugin
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
             type = "System";
-            expectedInt32 = 6;
-            resultInt32 = 0;
-            resultInt32 = _unitUnderTest.GetImageIndex(type);
-            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
-
-            type = "Process";
-            expectedInt32 = 7;
-            resultInt32 = 0;
-            resultInt32 = _unitUnderTest.GetImageIndex(type);
-            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
-
-            type = "Variable";
-            expectedInt32 = 8;
-            resultInt32 = 0;
-            resultInt32 = _unitUnderTest.GetImageIndex(type);
-            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
-
-            type = "dm";
             expectedInt32 = 2;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
-            type = "Parameters";
+            type = "Process";
             expectedInt32 = 3;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
-            type = "Log";
+            type = "Variable";
             expectedInt32 = 4;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
-            type = "Analysis";
+            type = "dm";
             expectedInt32 = 5;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Parameters";
+            expectedInt32 = 6;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Log";
+            expectedInt32 = 7;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Analysis";
+            expectedInt32 = 8;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");        

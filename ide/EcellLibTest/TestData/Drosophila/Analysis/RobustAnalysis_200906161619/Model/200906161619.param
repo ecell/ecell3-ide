@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnalysisParameters analysisname="RobustAnalysis" classname="RobustAnalysis" version="1.0">
+  <Properties>
+    <UnknownProperties>
+      <UnknownData classname="EcellParameterData" version="1.0">
+        <FullPN>Process:/CELL/CYTOPLASM:R_toy7:K4</FullPN>
+        <Max>3</Max>
+        <Min>1</Min>
+        <Step>0</Step>
+      </UnknownData>
+      <UnknownData classname="EcellParameterData" version="1.0">
+        <FullPN>Process:/CELL/CYTOPLASM:R_toy7:V4</FullPN>
+        <Max>3.75</Max>
+        <Min>1.25</Min>
+        <Step>0</Step>
+      </UnknownData>
+    </UnknownProperties>
+    <OnservedProperties>
+      <ObservedData classname="EcellObservedData" version="1.0">
+        <FullPN>Variable:/CELL/CYTOPLASM:P2:MolarConc</FullPN>
+        <Max>0.666876710556322</Max>
+        <Min>0.222292236852108</Min>
+        <Differ>0.444584473704215</Differ>
+        <Rate>0.5</Rate>
+      </ObservedData>
+    </OnservedProperties>
+  </Properties>
+  <Parameters>
+    <Param>
+      <Name>SimulationTime</Name>
+      <Value>100</Value>
+    </Param>
+    <Param>
+      <Name>WindowSize</Name>
+      <Value>10</Value>
+    </Param>
+    <Param>
+      <Name>MaxInput</Name>
+      <Value>65536</Value>
+    </Param>
+    <Param>
+      <Name>MaxFrequency</Name>
+      <Value>50</Value>
+    </Param>
+    <Param>
+      <Name>MinFrequency</Name>
+      <Value>30</Value>
+    </Param>
+    <Param>
+      <Name>IsRandom</Name>
+      <Value>1</Value>
+    </Param>
+    <Param>
+      <Name>SampleNumber</Name>
+      <Value>10</Value>
+    </Param>
+  </Parameters>
+</AnalysisParameters>

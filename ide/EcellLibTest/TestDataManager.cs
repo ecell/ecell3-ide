@@ -1766,9 +1766,8 @@ namespace Ecell
                 string fileName = TestConstant.TestDirectory + TestConstant.SUSPEND_FILE;
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
                 _unitUnderTest.StartStepSimulation(1.0);
-                List<string> modelList = new List<string>();
-                modelList.Add("Drosophila");
-                _unitUnderTest.ExportModel(modelList, fileName);
+                _unitUnderTest.CurrentProject.Info.Name = "Drosophila2";
+                _unitUnderTest.SaveProject();             
                 _unitUnderTest.SimulationStop();
             }
             catch (Exception)
@@ -1815,8 +1814,32 @@ namespace Ecell
 
             try
             {
-                string filename = TestConstant.TestDirectory + TestConstant.SBMLOUT_FILE;
+                _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
                 _unitUnderTest.CreateNewRevision();
+            }
+            catch (Exception)
+            {
+                Util.SetBaseDir(basedir);
+                Assert.Fail();
+            }
+            Util.SetBaseDir(basedir);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestLoadRevision()
+        {
+            string basedir = Util.GetBaseDir();
+            Util.SetBaseDir(TestConstant.TestDirectory);
+
+            try
+            {
+                _unitUnderTest.LoadRevision("Revision1");
+                _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+                _unitUnderTest.LoadRevision("Revision1");
+                _unitUnderTest.LoadRevision("Revision1");
             }
             catch (Exception)
             {
@@ -1842,16 +1865,22 @@ namespace Ecell
             }
 
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            EcellObject variable = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:M", "Variable");
+            EcellData d = variable.GetEcellData(Constants.xpathValue);
+            d.Logged = true;
+            _unitUnderTest.StartStepSimulation(10.0);
             _unitUnderTest.SaveSimulationResult();
 
             string l_savedDirName = "";
             double l_startTime = 0;
             double l_endTime = 0;
-            string l_savedType = "";
+            string l_savedType = "ecd";
             List<string> l_fullIDList = new List<string>();
             _unitUnderTest.SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, l_savedType, l_fullIDList);
 
-            l_fullIDList.Add("");
+            l_fullIDList.Add("Variable:/CELL/CYTOPLASM:M:Value");
+            _unitUnderTest.SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, l_savedType, l_fullIDList);
+            l_savedType = "csv";
             _unitUnderTest.SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, l_savedType, l_fullIDList);
         }
         /// <summary>
