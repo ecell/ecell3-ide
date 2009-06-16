@@ -325,6 +325,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
         }
 
+        internal void UpdateComponent(List<ComponentSetting> list)
+        {
+            foreach (ComponentSetting cs in list)
+            {
+                ComponentSetting setting = GetSetting(cs.Type, cs.Name);
+                if(!setting.Name.Equals(cs.Name))
+                    continue;
+
+                setting.Figure = cs.Figure;
+                setting.CenterBrush = cs.CenterBrush;
+                setting.FillBrush = cs.FillBrush;
+                setting.IsGradation = cs.IsGradation;
+                setting.LineBrush = cs.LineBrush;
+                setting.RaisePropertyChange();
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -455,27 +472,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// </summary>
         internal void ClearSettings()
         {
-            ComponentSetting cs;
-            
-            cs = StepperSetting;
-            m_stepperSettings.Clear();
-            RegisterSetting(cs);
-
-            cs = SystemSetting;
-            m_systemSettings.Clear();
-            RegisterSetting(cs);
-
-            cs = TextSetting;
-            m_textSettings.Clear();
-            RegisterSetting(cs);
-
-            cs = ProcessSetting;
-            m_processSettings.Clear();
-            RegisterSetting(cs);
-
-            cs = VariableSetting;
-            m_variableSettings.Clear();
-            RegisterSetting(cs);
+            SetComponentSettings();
             
         }
 

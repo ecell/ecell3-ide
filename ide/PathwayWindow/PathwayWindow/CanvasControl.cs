@@ -649,6 +649,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 stepper.X = root.Right + 10;
                 stepper.Y = root.Top + i * stepper.Height + 10;
+                stepper.Offset = PointF.Empty;
                 stepper.RefreshView();
                 i++;
             }

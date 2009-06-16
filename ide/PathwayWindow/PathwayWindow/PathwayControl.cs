@@ -705,6 +705,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_canvas.Dispose();
             Canvas = null;
             m_csManager.ClearSettings();
+            SetNodeIcons();
         }
 
         /// <summary>
@@ -1735,7 +1736,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void SetPluginStatus(XmlNode status)
         {
             List<ComponentSetting> list = ComponentManager.LoadFromXML(status);
-            m_csManager.CheckAndRegisterComponent(list);
+            m_csManager.UpdateComponent(list);
+            SetNodeIcons();
         }
     }
 }

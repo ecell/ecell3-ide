@@ -220,13 +220,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             }
             PPathwayObject obj = objects[0];
-            ComponentSetting cs = obj.Setting;
+            ComponentSetting cs = obj.Setting.Clone();
             if (cs.IsDefault || cs.IsStencil)
             {
                 Util.ShowErrorDialog(MessageResources.ErrAddStencil);
                 return;
             }
 
+            cs.Name = m_con.ComponentManager.GetRandomKey();
             SetNewItem(cs);
             m_con.SetNodeIcons();
         }
