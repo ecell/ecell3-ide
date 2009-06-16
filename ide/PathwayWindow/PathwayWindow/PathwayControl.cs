@@ -705,6 +705,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_canvas.Dispose();
             Canvas = null;
             m_csManager.ClearSettings();
+            m_animCon.Items.Clear();
             SetNodeIcons();
         }
 
