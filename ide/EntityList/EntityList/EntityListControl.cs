@@ -267,6 +267,7 @@ namespace Ecell.IDE.Plugins.EntityList
             if (r != null)
             {
                 r.Tag = data;
+                r.Cells[IndexType].Value = GetIconImage(data);
                 r.Cells[IndexClass].Value = data.Classname;
                 EcellData d = data.GetEcellData("Name");
                 r.Cells[IndexName].Value = d != null ? d.Value.ToString() : "";

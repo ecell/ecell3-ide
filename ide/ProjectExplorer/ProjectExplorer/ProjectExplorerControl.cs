@@ -98,11 +98,27 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         void PluginManager_NodeImageListChange(object sender, EventArgs e)
         {
-            foreach (TreeNode node in this.treeView1.Nodes)
+            foreach(TreeNode node in treeView1.Nodes)
+                ResetIcon(node);
+        }
+
+        private void ResetIcon(TreeNode node)
+        {
+            // Reset children
+            foreach (TreeNode child in node.Nodes)
             {
-                TagData data = (TagData)node.Tag;
-                
+                ResetIcon(child);
             }
+
+            // Reset Icon.
+            if (node.Tag == null || !(node.Tag is TagData))
+                return;
+            TagData tag = (TagData)node.Tag;
+            EcellObject eo = m_owner.DataManager.GetEcellObject(tag.ModelID, tag.Key, tag.Type);
+            if (eo == null)
+                return;
+            int index = m_owner.PluginManager.GetImageIndex(eo);
+            node.ImageIndex = index;
         }
 
         #endregion
@@ -371,7 +387,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 foreach (TreeNode node in current.Nodes)
                 {
                     TagData tag = (TagData)node.Tag;
-                    if (tag == null) continue;
+                    if (tag == null)
+                        continue;
                     if (node.Text.Equals(key) && tag.Type == type)
                     {
                         node.Text = data.Key;
@@ -384,6 +401,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
+                target.ImageIndex = m_owner.PluginManager.GetImageIndex(data);
                 string targetText = data.LocalID;
 
                 if (target.Text != targetText)

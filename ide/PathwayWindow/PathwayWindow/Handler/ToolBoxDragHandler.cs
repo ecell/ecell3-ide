@@ -203,7 +203,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
             if (!(m_object is PPathwayText) && !(m_object is PPathwayStepper) && string.IsNullOrEmpty(systemKey))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrOutRoot);
                 return;
+            }
             if (m_object is PPathwaySystem && m_canvas.DoesSystemOverlaps(m_object.Rect))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOverSystem);
