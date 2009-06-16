@@ -375,4 +375,7 @@
   <data name="ButtonToolTipCreateStepper" xml:space="preserve">
     <value>Stepperの追加</value>
   </data>
+  <data name="ErrOutSystemAlias" xml:space="preserve">
+    <value>エイリアスはSystem外に置けません。</value>
+  </data>
 </root>

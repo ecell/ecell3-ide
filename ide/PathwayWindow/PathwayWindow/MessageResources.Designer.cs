@@ -502,6 +502,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Cannot put alias to outside of parent System. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrOutSystemAlias {
+            get {
+                return ResourceManager.GetString("ErrOutSystemAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot partially-overlap with other Systems. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOverSystem {

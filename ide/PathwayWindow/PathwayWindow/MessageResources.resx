@@ -375,4 +375,7 @@
   <data name="ButtonToolTipCreateStepper" xml:space="preserve">
     <value>Create new Stepper.</value>
   </data>
+  <data name="ErrOutSystemAlias" xml:space="preserve">
+    <value>Cannot put alias to outside of parent System.</value>
+  </data>
 </root>

@@ -497,17 +497,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Check if any system of this canvas overlaps given rectangle.
         /// </summary>
-        /// <param name="key">key of EcellObject</param>
+        /// <param name="sysKey">key of EcellObject</param>
         /// <param name="rect">RectangleF to be checked</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
-        public bool DoesSystemContains(string key, RectangleF rect)
+        public bool DoesSystemContains(string sysKey, RectangleF rect)
         {
             bool contains = true;
             foreach (PPathwaySystem system in m_systems.Values)
             {
-                if (key.StartsWith(system.EcellObject.Key))
+                if (system.EcellObject.Key.Equals(Constants.delimiterPath)
+                    || sysKey.Equals(system.EcellObject.Key)
+                    || sysKey.StartsWith(system.EcellObject.Key + Constants.delimiterPath))
                     contains = contains & system.Rect.Contains(rect);
-                else if (!key.Equals(system.EcellObject.Key))
+                else
                     contains = contains & !system.Rect.Contains(rect);
             }
             return contains;
@@ -515,17 +517,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Check if any system of this canvas overlaps given rectangle.
         /// </summary>
-        /// <param name="key">key of EcellObject</param>
+        /// <param name="sysKey">key of EcellObject</param>
         /// <param name="point">RectangleF to be checked</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
-        public bool DoesSystemContains(string key, PointF point)
+        public bool DoesSystemContains(string sysKey, PointF point)
         {
             bool contains = true;
             foreach (PPathwaySystem system in m_systems.Values)
             {
-                if (key.StartsWith(system.EcellObject.Key))
+                if (system.EcellObject.Key.Equals(Constants.delimiterPath)
+                    || sysKey.Equals(system.EcellObject.Key)
+                    || sysKey.StartsWith(system.EcellObject.Key + Constants.delimiterPath))
                     contains = contains & system.Rect.Contains(point);
-                else if (!key.Equals(system.EcellObject.Key))
+                else
                     contains = contains & !system.Rect.Contains(point);
             }
             return contains;
@@ -804,6 +808,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     if (child.OffsetX == 0 && child.OffsetY == 0)
                         continue;
 
+                    if (child is PPathwayVariable)
+                    {
+                        foreach (PPathwayAlias alias in ((PPathwayVariable)child).Aliases)
+                            alias.Offset = offset;
+                    }
                     offset = child.Offset;
                     m_con.NotifyDataChanged(child, false);
 
@@ -823,6 +832,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     foreach (PPathwayObject grandchild in GetAllObjectUnder(child.EcellObject.Key))
                     {
                         grandchild.Offset = offset;
+                        if (grandchild is PPathwayVariable)
+                        {
+                            foreach (PPathwayAlias alias in ((PPathwayVariable)grandchild).Aliases)
+                                alias.Offset = offset;
+                        }
                         m_con.NotifyDataChanged(grandchild, false);
                     }
                 }
@@ -1910,6 +1924,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     obj.ResetPosition();
                     obj.Invalid = false;
+
+                    if (obj is PPathwayVariable)
+                    {
+                        foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                        {
+                            alias.Offset = PointF.Empty;
+                        }
+                    }
+
                 }
                 NotifyResetSelect();
                 RefreshEdges();
@@ -2053,6 +2076,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             string newKey = null;
             string newSysKey;
+            bool isMoved = false;
+            bool isAlias = false;
+
             if (obj is PPathwaySystem)
             {
                 string oldSysKey = obj.EcellObject.Key;
@@ -2100,12 +2126,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         MessageResources.ErrAlrExist,
                         new object[] { obj.EcellObject.LocalID }));
                 }
+
+                if (obj is PPathwayVariable)
+                {
+                    foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                    {
+                        if(!DoesSystemContains(newSysKey, alias.CenterPointF))
+                            throw new PathwayException(MessageResources.ErrOutSystemAlias);
+                        if(alias.Offset != PointF.Empty)
+                            isAlias = true;
+                    }
+                }
             }
             else
             {
                 return false;
             }
-            bool isMoved = !obj.EcellObject.Key.Equals(newKey);
+            isMoved = !obj.EcellObject.Key.Equals(newKey) || isAlias;
             return (isMoved);
         }
 
