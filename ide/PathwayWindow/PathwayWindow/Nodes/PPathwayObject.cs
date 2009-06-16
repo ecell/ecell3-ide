@@ -516,6 +516,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_canvas.NotifyAddSelect(this);
             else if (m_selected && isCtrl && isLeft)
                 m_canvas.NotifyRemoveSelect(this);
+            else if (m_selected && !isCtrl && isLeft)
+                m_canvas.NotifyAddSelect(this);
 
             // Set Focus
             m_canvas.FocusNode = this;

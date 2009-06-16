@@ -396,6 +396,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void NotifySelectChanged(PPathwayObject obj)
         {
+            if (obj is PPathwayAlias)
+            {
+                m_selectedNodes.Add(obj);
+                obj.Selected = true;
+            }
             if (obj.EcellObject == null)
                 return;
             m_isOwner = true;
@@ -411,6 +416,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void NotifyAddSelect(PPathwayObject obj)
         {
+            if (obj is PPathwayAlias)
+            {
+                m_selectedNodes.Add(obj);
+                obj.Selected = true;
+            }
             if (obj.EcellObject == null)
                 return;
             m_con.Window.NotifyAddSelect(
@@ -425,6 +435,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void NotifyRemoveSelect(PPathwayObject obj)
         {
+            if (obj is PPathwayAlias)
+            {
+                m_selectedNodes.Remove(obj);
+                obj.Selected = false;
+            }
             if (obj.EcellObject == null)
                 return;
             m_con.Window.NotifyRemoveSelect(
@@ -1696,9 +1711,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void ResetSelectedNodes()
         {
-            if (m_selectedNodes.Count == 0)
-                return;
-            foreach (PPathwayObject obj in m_selectedNodes)
+            foreach (PPathwayObject obj in GetAllObjects())
                 obj.Selected = false;
             lock (this)
                 m_selectedNodes.Clear();

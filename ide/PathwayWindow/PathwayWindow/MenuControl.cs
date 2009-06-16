@@ -839,10 +839,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PNode node = m_con.Canvas.FocusNode;
 
             bool isNull = (node == null);
-            bool isObject = (node is PPathwayObject);
+            bool isAlias = (node is PPathwayAlias);
+            bool isObject = (node is PPathwayObject) && !isAlias;
             bool isEntity = (node is PPathwayEntity);
             bool isVariable = (node is PPathwayVariable);
-            bool isAlias = (node is PPathwayAlias);
             bool isSystem = (node is PPathwaySystem);
             bool isText = (node is PPathwayText);
             bool isRoot = false;

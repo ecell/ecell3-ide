@@ -38,7 +38,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// <summary>
     /// Alias object for Variable
     /// </summary>
-    public class PPathwayAlias : PPathwayNode
+    public class PPathwayAlias : PPathwayObject
     {
         /// <summary>
         /// 
@@ -61,23 +61,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for m_isHighLighted.
         /// </summary>
-        public virtual bool Selected
+        public override bool Selected
         {
             get { return this.m_selected; }
             set
             {
                 this.m_selected = value;
-                //if (value)
-                //{
-                //    this.Brush = m_highLightBrush;
-                //    this.m_pText.Brush = m_highLightBrush;
-                //}
-                //else
-                //{
-                //    this.Brush = m_fillBrush;
-                //    this.m_pText.Brush = Brushes.Transparent;
-                //    RefreshView();
-                //}
+                if (value)
+                {
+                    this.Brush = m_highLightBrush;
+                    this.m_pText.Brush = m_highLightBrush;
+                }
+                else
+                {
+                    this.Brush = m_fillBrush;
+                    this.m_pText.Brush = Brushes.Transparent;
+                    RefreshView();
+                }
             }
         }
 
@@ -87,9 +87,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public PPathwayAlias(PPathwayVariable variable)
         {
             this.m_variable = variable;
+            this.m_canvas = variable.Canvas;
             this.AddPath(variable.Figure.GraphicsPath, false);
             this.Brush = variable.Setting.CreateBrush(m_path);
             this.Text = string.Format("[{0}]", variable.EcellObject.LocalID);
+            this.Setting = variable.Setting;
 
             this.AddInputEventListener(new NodeDragHandler(variable.Canvas));
         }
@@ -102,23 +104,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             base.OnMouseDown(e);
 
-            bool isCtrl = (e.Modifiers == Keys.Control);
-            bool isLeft = (e.Button == MouseButtons.Left);
-
-            // Set IsSelect
-            CanvasControl canvas = m_variable.Canvas;
-            bool selected = m_variable.Selected;
-            if (!selected && !isCtrl)
-                canvas.NotifySelectChanged(m_variable);
-            else if (!selected && isCtrl)
-                canvas.NotifyAddSelect(m_variable);
-            else if (selected && isCtrl && isLeft)
-                canvas.NotifyRemoveSelect(m_variable);
-
-
             // Set Focus
-            canvas.FocusNode = this;
-
+            m_variable.Selected = true;
         }
+
+
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        public override void Refresh()
+        {
+            foreach (PPathwayLine line in m_variable.Relations)
+                line.Refresh();
+            base.Refresh();
+        }
+
     }
 }
