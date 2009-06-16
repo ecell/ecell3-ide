@@ -34,7 +34,7 @@ using System.Text;
 using Ecell.Objects;
 using Ecell.Exceptions;
 
-namespace Ecell
+namespace Ecell.SBML
 {
     /// <summary>
     /// 
@@ -56,6 +56,9 @@ namespace Ecell
 
             switch(classname)
             {
+                case ProcessConstants.ExpressionFluxProcess:
+                    newProcess = process;
+                    break;
                 case ProcessConstants.ConstantFluxProcess:
                     newProcess = ConstantFlux2Expression(process);
                     break;
@@ -74,7 +77,6 @@ namespace Ecell
                 default:
                     throw new EcellException(string.Format("{0} is not supported.", classname));
             }
-            List<EcellReference> refList = process.ReferenceList;
 
             obj = newProcess;
         }

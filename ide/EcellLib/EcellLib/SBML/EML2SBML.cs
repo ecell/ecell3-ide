@@ -94,6 +94,9 @@ namespace Ecell.SBML
         /// <param name="aVersion"></param>
         public static SBMLDocument convertToSBMLModel(EcellModel anEml, string aBaseName, int aLevel, int aVersion)
         {
+            // Check and convert Processes.
+            CheckAndConvertProcesses(anEml);
+
             SBMLDocument aSBMLDocument = new SBMLDocument();
             aSBMLDocument.setLevelAndVersion((long)aLevel, (long)aVersion);
 
@@ -107,6 +110,11 @@ namespace Ecell.SBML
             //return libsbml.libsbml.writeSBMLToString( aSBMLDocument );
 
             return aSBMLDocument;
+        }
+
+        private static void CheckAndConvertProcesses(EcellModel anEml)
+        {
+
         }
 
         private static void createModel(EcellObject anEml, Model aSBMLModel)
