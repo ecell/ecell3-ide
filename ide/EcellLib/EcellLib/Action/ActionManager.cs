@@ -232,6 +232,7 @@ namespace Ecell.Action
             } while (0 < m_listIndex && !m_list[m_listIndex - 1].IsAnchor);
             m_isLoadAction = false;
             NotifyStatus();
+            m_env.PluginManager.RaiseRefreshEvent();
         }
 
         /// <summary>
@@ -252,6 +253,7 @@ namespace Ecell.Action
             } while (m_listIndex < m_list.Count && !m_list[m_listIndex - 1].IsAnchor);
             m_isLoadAction = false;
             NotifyStatus();
+            m_env.PluginManager.RaiseRefreshEvent();
         }
 
         /// <summary>

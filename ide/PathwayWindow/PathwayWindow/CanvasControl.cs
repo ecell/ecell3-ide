@@ -381,6 +381,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void RefreshEdges()
         {
+            ResetSelectedLine();
             foreach (PPathwayProcess process in m_processes.Values)
             {
                 process.ResetEdges();
@@ -1889,8 +1890,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (objList.Count > 0 && isAnchored)
                     m_con.Window.Environment.ActionManager.AddAction(new AnchorAction());
             }
-            catch (PathwayException)
+            catch (PathwayException e)
             {
+                Util.ShowErrorDialog(e.Message);
                 foreach (PPathwayObject obj in GetAllObjects())
                 {
                     obj.ResetPosition();

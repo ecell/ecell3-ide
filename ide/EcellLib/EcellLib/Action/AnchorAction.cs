@@ -60,14 +60,12 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
-            m_env.PluginManager.RaiseRefreshEvent();
         }
         /// <summary>
         /// 
         /// </summary>
         public override void UnExecute()
         {
-            m_env.PluginManager.RaiseRefreshEvent();
         }
     }
 }
