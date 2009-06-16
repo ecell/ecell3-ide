@@ -956,8 +956,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     }
                 }
 
-                // Process
-                if (eo is EcellProcess)
+
+                // Process and Stepper
+                if (eo is EcellProcess || eo is EcellStepper)
                 {
                     string classname = eo.Classname;
                     foreach (EcellData d in eo.Value)

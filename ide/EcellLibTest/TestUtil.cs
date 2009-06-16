@@ -851,7 +851,7 @@ namespace Ecell
         public void TestGetRevNo()
         {
             string sourceDir = TestConstant.TestDirectory + "Drosophila";
-            string expectedString = "Revision1";
+            string expectedString = "Revision100a";
 
             if (Directory.Exists(Path.Combine(sourceDir, expectedString)))
                 Directory.Delete(Path.Combine(sourceDir, expectedString), true);

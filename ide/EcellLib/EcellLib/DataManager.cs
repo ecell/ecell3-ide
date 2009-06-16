@@ -4016,14 +4016,14 @@ namespace Ecell
                 = new Dictionary<string, Dictionary<string, object>>();
             foreach (string modelID in stepperList.Keys)
             {
-                foreach (EcellObject stepper in stepperList[modelID])
-                {
-                    if (m_currentProject.IsUsedStepper(stepper.Key))
-                    {
-                        newStepperList.Add(stepper);
-                    }
-                }
-//                newStepperList.AddRange(stepperList[modelID]);
+                //foreach (EcellObject stepper in stepperList[modelID])
+                //{
+                //    if (m_currentProject.IsUsedStepper(stepper.Key))
+                //    {
+                //        newStepperList.Add(stepper);
+                //    }
+                //}
+                newStepperList.AddRange(stepperList[modelID]);
                 modelIDList.Add(modelID);
             }
             if (newStepperList.Count > 0)
