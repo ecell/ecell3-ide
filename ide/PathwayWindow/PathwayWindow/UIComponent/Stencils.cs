@@ -214,11 +214,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void AddStencilMenuItem_Click(object sender, System.EventArgs e)
         {
             List<PPathwayObject> objects = m_con.Canvas.SelectedNodes;
+            // Check Item Count
             if (objects.Count != 1)
             {
                 Util.ShowErrorDialog(MessageResources.ErrNoStencil);
                 return;
             }
+
             PPathwayObject obj = objects[0];
             ComponentSetting cs = obj.Setting.Clone();
             if (cs.IsDefault || cs.IsStencil)
@@ -228,6 +230,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             }
 
             cs.Name = m_con.ComponentManager.GetRandomKey();
+            m_con.ComponentManager.RegisterSetting(cs);
             SetNewItem(cs);
             m_con.SetNodeIcons();
         }
@@ -265,7 +268,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 dlg.ApplyChange();
-                m_stencil.Setting.RaisePropertyChange();
                 m_con.SetNodeIcons();
             }
         }

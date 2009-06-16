@@ -37,19 +37,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestValidate()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.Validate();
-            Assert.AreEqual(expectedList, resultList, "Validate method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
 
         /// <summary>
         /// 

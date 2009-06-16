@@ -1723,6 +1723,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             status.AppendChild(componentList);
             foreach (ComponentSetting cs in m_csManager.GetAllSettings())
             {
+                if (cs.IsStencil || cs.IsDefault)
+                    continue;
                 componentList.AppendChild(ComponentManager.ConvertToXmlNode(doc, cs));
             }
 

@@ -282,7 +282,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 // Load ComponentSettings information from xml file.
                 list = ComponentManager.LoadFromXML(filename);
                 // Check and register ComponentSettings.
-                CheckAndRegisterComponent(list);
+                UpdateComponent(list);
             }
             catch (Exception e)
             {
@@ -292,46 +292,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
         }
 
-        /// <summary>
-        /// Check errors and register each ComponentSetting.
-        /// If any ComponentSettings in the xml file is invalid, these messages are shown.
-        /// </summary>
-        /// <param name="list"></param>
-        internal void CheckAndRegisterComponent(List<ComponentSetting> list)
-        {
-            int csCount = 0;
-            string warnMessage = "";
-            foreach (ComponentSetting cs in list)
-            {
-                List<string> lackInfos = cs.Validate();
-                if (lackInfos == null)
-                {
-                    RegisterSetting(cs);
-                }
-                else
-                {
-                    string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += MessageResources.ErrCompInvalid + "\n";
-                    foreach (string lackInfo in lackInfos)
-                        warnMessage += "    " + name + " lacks " + lackInfo + "\n";
-                }
-                csCount++;
-            }
-
-            if (!string.IsNullOrEmpty(warnMessage))
-            {
-                Debug.Print(warnMessage);
-                throw new ArgumentException(warnMessage);
-            }
-        }
-
         internal void UpdateComponent(List<ComponentSetting> list)
         {
             foreach (ComponentSetting cs in list)
             {
                 ComponentSetting setting = GetSetting(cs.Type, cs.Name);
-                if(!setting.Name.Equals(cs.Name))
+                if (!setting.Name.Equals(cs.Name))
+                {
+                    RegisterSetting(cs);
                     continue;
+                }
 
                 setting.Figure = cs.Figure;
                 setting.CenterBrush = cs.CenterBrush;
@@ -881,6 +851,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 // Object settings
                 foreach (ComponentSetting setting in GetAllSettings())
                 {
+                    if (!setting.IsStencil && !setting.IsDefault)
+                        continue;
                     XmlNode cs = ConvertToXmlNode(new XmlDocument(), setting);
                     cs.WriteTo(xmlOut);
                 }

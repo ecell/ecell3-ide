@@ -93,6 +93,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_propDict = new Dictionary<string, EcellData>();
             m_lastSelectedNode = null;
             m_owner.Environment.JobManager.JobUpdateEvent += new Ecell.Job.JobUpdateEventHandler(UpdateJobStatus);
+            m_owner.Environment.PluginManager.NodeImageListChange += new EventHandler(PluginManager_NodeImageListChange);
+        }
+
+        void PluginManager_NodeImageListChange(object sender, EventArgs e)
+        {
+            foreach (TreeNode node in this.treeView1.Nodes)
+            {
+                TagData data = (TagData)node.Tag;
+                
+            }
         }
 
         #endregion

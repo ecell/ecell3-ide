@@ -321,38 +321,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <returns></returns>
         public override string ToString()
         {
-            string str = "(" + m_type + "," + m_name + ")";
+            string str = "(" + m_type + "," + m_name + "," + this.GetHashCode().ToString() + ")";
             return base.ToString() + str;
-        }
-        /// <summary>
-        /// Validate this ComponentSetting
-        /// </summary>
-        /// <returns>List of information this instance lacks. If this contains all information wanted, return null.</returns>
-        public List<string> Validate()
-        {
-            List<string> lackInfos = new List<string>();
-            if (m_figure.GraphicsPath.PathData == null || m_figure.GraphicsPath.PointCount == 0)
-                lackInfos.Add("Drawing");
-
-            if (m_createMethod == null)
-                lackInfos.Add("Class");
-
-            if (m_textBrush == null)
-                lackInfos.Add("TextBrush");
-
-            if (m_centerBrush == null)
-                lackInfos.Add("FillBrush");
-
-            if (m_lineBrush == null)
-                lackInfos.Add("LineBrush");
-
-            if (m_fillBrush == null)
-                lackInfos.Add("RoundBrush");
-
-            if (lackInfos.Count == 0)
-                return null;
-            else
-                return lackInfos;
         }
 
         /// <summary>
