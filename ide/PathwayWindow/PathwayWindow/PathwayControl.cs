@@ -955,14 +955,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                             alias.Y = alias.Y + diff.Y;
                         }
                     }
-                    // Process and Stepper
+                    // Process
                     if (child is EcellProcess)
                     {
                         string classname = child.Classname;
                         foreach (EcellData d in child.Value)
                         {
-                            if (d.Settable) continue;
-                            DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, classname);
+                            if (d.Settable)
+                                continue;
+                            DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(child.Type, classname);
                             d.Value = dm[d.Name].DefaultValue;
                         }
                     }
@@ -976,7 +977,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     foreach (EcellData d in eo.Value)
                     {
                         if (d.Settable) continue;
-                        DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, classname);
+                        DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(eo.Type, classname);
                         d.Value = dm[d.Name].DefaultValue;                        
                     }
                 }

@@ -808,7 +808,7 @@ namespace Ecell.IDE.MainWindow
             // Button.
             toolStripOpenProjectButton.Enabled = unInitialized || loaded;
             toolStripSaveProjectButton.Enabled = (suspend || loaded) && !revision;
-            toolStripSaveAsButton.Enabled = (suspend || loaded) && !revision;
+            toolStripSaveAsButton.Enabled = (suspend || loaded);
 
             // Reset edit count.
             if (unInitialized || (m_status == ProjectStatus.Loading && loaded))
