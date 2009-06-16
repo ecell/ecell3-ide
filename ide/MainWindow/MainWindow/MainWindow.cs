@@ -789,7 +789,7 @@ namespace Ecell.IDE.MainWindow
             newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             openProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             saveProjectToolStripMenuItem.Enabled = (suspend || loaded) && !revision;
-            saveAsToolStripMenuItem.Enabled = (suspend || loaded) && !revision;
+            saveAsToolStripMenuItem.Enabled = (suspend || loaded);
             recentProejctToolStripMenuItem.Enabled = unInitialized || loaded;
             projectWizardMenuItem.Enabled = unInitialized || loaded;
             closeProjectToolStripMenuItem.Enabled = loaded;

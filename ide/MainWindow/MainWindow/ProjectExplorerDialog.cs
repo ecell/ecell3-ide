@@ -105,9 +105,8 @@ namespace Ecell.IDE.MainWindow
                 node.Expand();
             }
 
-            string prjXMLFileName = Path.Combine(path, Constants.fileProjectXML);
-
             // Check project.xml and load.
+            string prjXMLFileName = Path.Combine(path, Constants.fileProjectXML);
             if (File.Exists(prjXMLFileName))
             {
                 if (!IsExistModelFile(path)) 
@@ -115,7 +114,8 @@ namespace Ecell.IDE.MainWindow
                 TreeNode childNode = new ProjectTreeNode(prjXMLFileName);
                 node.Nodes.Add(childNode);
             }
-            else
+            // Create eml node.
+            else if (path.Length < 248)
             {
                 string[] files = Directory.GetFiles(path, "*.eml");
                 foreach (string file in files)

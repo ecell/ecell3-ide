@@ -945,10 +945,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     child.Y = child.Y + diff.Y;
                     // Set node name.
                     if (child is EcellVariable)
-                        keyDic.Add(oldNodeKey, child.Key);
+                    {
+                        EcellVariable var = (EcellVariable)child;
+                        keyDic.Add(oldNodeKey, var.Key);
+                        foreach (EcellLayout alias in var.Aliases)
+                        {
+                            alias.X = alias.X + diff.X;
+                            alias.Y = alias.Y + diff.Y;
+                        }
+                    }
                 }
 
-                if (eo.Type.Equals(Constants.xpathStepper))
+                // Process
+                if (eo is EcellProcess)
                 {
                     string classname = eo.Classname;
                     foreach (EcellData d in eo.Value)
@@ -957,6 +966,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         DMDescriptor dm = m_window.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, classname);
                         d.Value = dm[d.Name].DefaultValue;                        
                     }
+                }
+
+                // Variable
+                if (eo is EcellVariable)
+                {
+                    EcellVariable var = (EcellVariable)eo;
+                    var.Aliases.Clear();
                 }
 
                 eo.isFixed = false;

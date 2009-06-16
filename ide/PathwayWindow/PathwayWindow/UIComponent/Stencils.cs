@@ -251,8 +251,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             }
 
-
             // Remove Stencil
+            m_stencil.Setting.IsStencil = false;
             this.flowLayoutPanel.Controls.Remove(m_stencil);
             m_stencil = null;
         }
