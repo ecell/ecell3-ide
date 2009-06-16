@@ -43,6 +43,7 @@ namespace Ecell.IDE.Plugins.Analysis
             parameterEstimationSimulationTimeTextBox.Text = Convert.ToString(param.SimulationTime);
             parameterEstimationPopulationTextBox.Text = Convert.ToString(param.Population);
             parameterEstimationGenerationTextBox.Text = Convert.ToString(param.Generation);
+            estimationFormulatorTextBox.Text = param.EstimationFormulator;
 
             m_param = param;
             m_simParam = param.Param;

@@ -442,7 +442,12 @@ namespace Ecell.Job
         /// </summary>
         public void Update()
         {
+            List<JobGroup> updateList = new List<JobGroup>();
             foreach (JobGroup m in m_groupDic.Values)
+            {
+                updateList.Add(m);
+            }
+            foreach (JobGroup m in updateList)
             {
                 if (m.IsRunning)
                 {

@@ -228,7 +228,7 @@ namespace Ecell.Job
             m_manager = manager;
             this.m_analysisName = analysisName;           
             DateTime dt = DateTime.Now;
-            string dateString = dt.ToString("yyyyMMddHHmm");
+            string dateString = dt.ToString("yyyyMMddHHmmss");
             m_date = dateString;
             this.m_jobs = new List<Job>();
             this.m_sysObj = sysObj;

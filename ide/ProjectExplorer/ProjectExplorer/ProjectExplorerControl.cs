@@ -916,12 +916,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             CreateDMDialog ind = new CreateDMDialog(m_owner.Environment, dmDir, m_lastSelectedNode, contextMenuStripDM);
             using (ind)
             {
-                DialogResult res = ind.ShowDialog();
-                if (res == DialogResult.OK)
+                try
                 {
-                    ind.CreateDM();
-                    string path = ind.FilePath;
-                    DisplayDMEditor(path);
+                    DialogResult res = ind.ShowDialog();
+                    if (res == DialogResult.OK)
+                    {
+                        ind.CreateDM();
+                        string path = ind.FilePath;
+                        DisplayDMEditor(path);
+                    }
+                }
+                catch (Ecell.Exceptions.IgnoreException)
+                {
+                    // nothing.
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrCreateFile, ind.FilePath));
                 }
             }
         }

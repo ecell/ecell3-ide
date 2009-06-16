@@ -61,6 +61,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Do you want to override the file [ {0} ]? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmOverrideFile {
+            get {
+                return ResourceManager.GetString("ConfirmOverrideFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This simulation set already exist. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAlreadyExist {

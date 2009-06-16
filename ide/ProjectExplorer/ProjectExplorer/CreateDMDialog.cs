@@ -90,38 +90,43 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public void CreateDM()
         {
             String name = INTextBox.Text;
+            bool isOverride = false;
+
+            string filename = Path.Combine(m_dir, name);
+            filename = filename + Constants.FileExtSource;
+            if (File.Exists(filename))
+            {
+                if (!Util.ShowOKCancelDialog(string.Format(MessageResources.ConfirmOverrideFile, filename)))
+                {
+                    throw new Ecell.Exceptions.IgnoreException("");
+                }
+                isOverride = true;
+            }
+            //                File.Create(filename);
+            StreamWriter writer = null;
             try
             {
-                string filename = Path.Combine(m_dir, name);
-                filename = filename + Constants.FileExtSource;
-                //                File.Create(filename);
-                StreamWriter writer = null;
-                try
+                writer = new StreamWriter(filename, false, Encoding.UTF8);
+                writer.Write(templateRichText.Text.Replace("XXXXX", name));
+            }
+            finally
+            {
+                if (writer != null)
                 {
-                    writer = new StreamWriter(filename, false, Encoding.UTF8);
-                    writer.Write(templateRichText.Text.Replace("XXXXX", name));
+                    writer.Close();
                 }
-                finally
-                {
-                    if (writer != null)
-                    {
-                        writer.Close();
-                    }
-                }
+            }
 
+            if (!isOverride)
+            {
                 TreeNode dNode = new TreeNode(name);
                 dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = name;
                 dNode.ContextMenuStrip = m_menu;
                 m_node.Nodes.Add(dNode);
-                m_path = filename;
             }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrCreateFile,
-                    new object[] { name }));
-            }
+            m_path = filename;
         }
 
         #region Events

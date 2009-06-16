@@ -370,8 +370,28 @@ namespace Ecell.IDE.MainWindow
             if (node == null || !(node is JobTreeNode))
                 return;
             JobTreeNode jnode = node as JobTreeNode;
+            string groupName = jnode.GroupName;
+            string jobid = jnode.ID;
+
 
             m_manager.DeleteJob(jnode.GroupName, Int32.Parse(jnode.ID));
+
+            foreach (string analysisname in m_pointDic.Keys)
+            {
+                foreach (TreeNode n in m_pointDic[analysisname].Nodes)
+                {
+                    if (!n.Text.Equals(groupName))
+                        continue;
+                    foreach (TreeNode m in n.Nodes)
+                    {
+                        if (m.Text.Equals(jobid))
+                        {
+                            n.Nodes.Remove(m);
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -548,11 +568,11 @@ namespace Ecell.IDE.MainWindow
             JobTreeNode jnode = node as JobTreeNode;
             JobGroup g = m_manager.GroupDic[jnode.GroupName];
             Job.Job j = m_manager.GroupDic[jnode.GroupName].GetJob(Int32.Parse(jnode.ID));
-            jobRunToolStripMenuItem.Enabled = !g.IsSaved;
+            jobRunToolStripMenuItem.Enabled = !g.IsSaved && g.Status != AnalysisStatus.Running;
             jobStopToolStripMenuItem.Enabled = (j.Status == JobStatus.RUNNING || j.Status == JobStatus.QUEUED || j.Status == JobStatus.NONE);
             jobDeleteToolStripMenuItem.Enabled = (g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting) &&
-                (j.Status == JobStatus.ERROR || j.Status == JobStatus.FINISHED || j.Status == JobStatus.STOPPED || j.Status == JobStatus.NONE);
+                (j.Status == JobStatus.ERROR || j.Status == JobStatus.FINISHED || j.Status == JobStatus.STOPPED || j.Status == JobStatus.NONE);           
         }
 
         /// <summary>
