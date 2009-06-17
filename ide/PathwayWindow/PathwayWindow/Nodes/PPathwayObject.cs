@@ -507,17 +507,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             bool isCtrl = (e.Modifiers == Keys.Control);
-            bool isLeft = (e.Button == MouseButtons.Left);
 
             // Set IsSelect
-            if(!m_selected && ! isCtrl)
+            if(! isCtrl)
                 m_canvas.NotifySelectChanged(this);
             else if(!m_selected && isCtrl)
                 m_canvas.NotifyAddSelect(this);
-            else if (m_selected && isCtrl && isLeft)
+            else if (m_selected && isCtrl)
                 m_canvas.NotifyRemoveSelect(this);
-            else if (m_selected && !isCtrl && isLeft)
-                m_canvas.NotifyAddSelect(this);
 
             // Set Focus
             m_canvas.FocusNode = this;

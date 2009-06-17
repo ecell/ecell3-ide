@@ -378,4 +378,7 @@
   <data name="ErrOutSystemAlias" xml:space="preserve">
     <value>エイリアスはSystem外に置けません。</value>
   </data>
+  <data name="ErrOnSimulation" xml:space="preserve">
+    <value>シミュレーション中に許可されていない動作です。</value>
+  </data>
 </root>

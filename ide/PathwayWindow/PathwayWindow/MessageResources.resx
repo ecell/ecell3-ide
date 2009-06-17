@@ -378,4 +378,7 @@
   <data name="ErrOutSystemAlias" xml:space="preserve">
     <value>Cannot put alias to outside of parent System.</value>
   </data>
+  <data name="ErrOnSimulation" xml:space="preserve">
+    <value>This operation is not allowed during simulation.</value>
+  </data>
 </root>

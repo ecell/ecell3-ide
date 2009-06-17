@@ -471,6 +471,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             ILayoutAlgorithm algorithm = m_layout.Algorithm;
             algorithm.Panel.ApplyChange();
+
+            if (m_status == ProjectStatus.Running || m_status == ProjectStatus.Stepping || m_status == ProjectStatus.Suspended)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrOnSimulation);
+                return;
+            }
+
             int subIndex = algorithm.SubIndex;
             DoLayout(algorithm, subIndex, true);
         }

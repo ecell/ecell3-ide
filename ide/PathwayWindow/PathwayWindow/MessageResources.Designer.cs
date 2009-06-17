@@ -493,6 +493,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   This operation is not allowed during simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrOnSimulation {
+            get {
+                return ResourceManager.GetString("ErrOnSimulation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot put any objects to outside root System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutRoot {
