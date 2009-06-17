@@ -84,10 +84,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             base.OnDrag(sender, e);
 
-            if (m_canvas == null)
+            if (m_canvas == null || m_object == null)
+            {
+                SetEventHandler((PToolBoxCanvas)e.Canvas, e);
+                SetCurrentStencil((PToolBoxCanvas)e.Canvas);
                 return;
-            if (m_object == null)
-                return;
+            }
 
             Point systemPos = GetSystemPos(e);
             m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
@@ -139,6 +141,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
+            if (!(e.Canvas is PToolBoxCanvas))
+                return;
             SetCurrentStencil((PToolBoxCanvas)e.Canvas);
 
             // Set EventHandler for current canvas.
@@ -162,7 +166,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             ResetCurrentStencil();
 
             if (m_canvas == null)
+            {
+                ResetEventHandler();
                 return;
+            }
 
             Point systemPos = GetSystemPos(e);
 
@@ -258,8 +265,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         private void SetEventHandler(PToolBoxCanvas canvas, PInputEventArgs e)
         {
+            if (m_object != null)
+            {
+                ResetEventHandler();
+                ResetCurrentStencil();
+            }
             //
             m_object = canvas.Setting.CreateTemplate();
+            m_object.Pickable = false;
             m_canvas = m_con.Canvas;
 
             Point systemPos = GetSystemPos(e);
