@@ -756,7 +756,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             //    system.Width = obj.Right + PPathwaySystem.SYSTEM_MARGIN - system.X;
             //if (system.Bottom < obj.Bottom + PPathwaySystem.SYSTEM_MARGIN)
             //    system.Height = obj.Bottom + PPathwaySystem.SYSTEM_MARGIN - system.Y;
-            float margin = (isDataChanged) ? 1 : PPathwaySystem.SYSTEM_MARGIN;
+            float margin = (isDataChanged) ? 10 : PPathwaySystem.SYSTEM_MARGIN;
             if (system.Right < obj.Right)
                 system.Width = obj.Right - system.X + margin;
             if (system.Bottom < obj.Bottom)
@@ -823,9 +823,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     //if (system.Bottom < child.Bottom + PPathwaySystem.SYSTEM_MARGIN)
                     //    system.Height = child.Bottom + PPathwaySystem.SYSTEM_MARGIN - system.Y;
                     if (system.Right < child.Right)
-                        system.Width = child.Right - system.X + 1;
+                        system.Width = child.Right - system.X + 10;
                     if (system.Bottom < child.Bottom)
-                        system.Height = child.Bottom - system.Y + 1;
+                        system.Height = child.Bottom - system.Y + 10;
 
                     // Move system's children.
                     if (!(child is PPathwaySystem))
