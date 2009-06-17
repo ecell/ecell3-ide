@@ -986,6 +986,23 @@ namespace Ecell.IDE.MainWindow
         /// </returns>
         private bool CloseConfirm()
         {
+            List<string> runGroupList = GetRunningAnalysisCount();
+            if (runGroupList.Count > 0)
+            {
+                string mes = "\n" + runGroupList[0];
+                for (int i = 1; i < runGroupList.Count; i++)
+                    mes = mes + "\n" + runGroupList[i];
+                if (!Util.ShowYesNoDialog(string.Format(MessageResources.ConfirmAnalysisStop, mes)))
+                {
+                    return false;
+                }
+                foreach (string name in runGroupList)
+                {
+                    if (m_env.JobManager.GroupDic.ContainsKey(name))
+                        m_env.JobManager.Stop(name, 0);
+                }
+            }
+
             if (m_editCount > 0)
             {
                 try
@@ -1166,23 +1183,6 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void CloseProjectMenuClick(object sender, EventArgs e)
         {
-            List<string> runGroupList = GetRunningAnalysisCount();
-            if (runGroupList.Count > 0)
-            {
-                string mes = "\n" + runGroupList[0];
-                for (int i = 1; i < runGroupList.Count; i++)
-                    mes = mes + "\n" + runGroupList[i];
-                if (!Util.ShowYesNoDialog(string.Format(MessageResources.ConfirmAnalysisStop, mes)))
-                {
-                    return;
-                }
-                foreach (string name in runGroupList)
-                {
-                    if (m_env.JobManager.GroupDic.ContainsKey(name))
-                        m_env.JobManager.Stop(name, 0);
-                }
-            }
-
             if (!CloseConfirm())
                 return;
         }
@@ -1592,25 +1592,6 @@ namespace Ecell.IDE.MainWindow
                 m_env.DataManager.SimulationStop();
                 Thread.Sleep(1000);
             }
-
-            List<string> runGroupList = GetRunningAnalysisCount();
-            if (runGroupList.Count > 0)
-            {
-                string mes =  "\n" + runGroupList[0];
-                for (int i = 1; i < runGroupList.Count; i++)
-                    mes = mes + "\n" + runGroupList[i];
-                if (!Util.ShowYesNoDialog(string.Format(MessageResources.ConfirmAnalysisStop, mes)))
-                {
-                    e.Cancel = true;
-                    return;
-                }
-                foreach (string name in runGroupList)
-                {
-                    if (m_env.JobManager.GroupDic.ContainsKey(name))
-                        m_env.JobManager.Stop(name, 0);
-                }
-            }
-
 
             if (!CloseConfirm())
                 e.Cancel = true;
