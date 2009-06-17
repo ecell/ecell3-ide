@@ -120,6 +120,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
+        private Brush m_brush = DefaultEdgeBrush;
+        /// <summary>
+        /// 
+        /// </summary>
         private float m_width = LINE_WIDTH;
         #endregion
 
@@ -172,6 +176,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.Brush; }
             set
             {
+                m_brush = value;
                 this.Brush = value;
                 this.Pen.Brush = this.Brush;
             }
@@ -188,11 +193,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_selected = value;
                 if (value)
                 {
-                    this.EdgeBrush = LineHandler.LINE_BRUSH;
+                    this.Brush = LineHandler.LINE_BRUSH;
+                    this.Pen.Brush = LineHandler.LINE_BRUSH;
                 }
                 else
                 {
-                    this.EdgeBrush = DefaultEdgeBrush;
+                    this.Brush = m_brush;
+                    this.Pen.Brush = m_brush;
                 }
             }
         }
@@ -214,8 +221,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             m_canvas = canvas;
             m_edgeInfo = edgeInfo;
-            
-            SetEdge(DefaultEdgeBrush, m_width);
+
+            SetEdge(m_brush, m_width);
         }
 
         /// <summary>
@@ -233,7 +240,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_variable.Relations.Add(this);
             m_process.Relations.Add(this);
 
-            SetEdge(DefaultEdgeBrush, LINE_WIDTH);
+            SetEdge(m_brush, LINE_WIDTH);
             base.Pickable = (variable.Visible && process.Visible);
             base.Visible = (variable.Visible && process.Visible);
 

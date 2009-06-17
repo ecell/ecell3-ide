@@ -256,6 +256,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public Brush EdgeBrush
+        {
+            get
+            {
+                if (_con.IsAnimation)
+                    return _viewEdgeBrush;
+                else
+                    return _editEdgeBrush;
+            }
+        }
+
+        /// <summary>
         /// Get/Set m_editEdgeBrush
         /// </summary>
         public Brush EditEdgeBrush
@@ -599,7 +613,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 process.Stepper.Visible = true;
                 foreach (PPathwayLine line in process.Relations)
                 {
-                    line.SetEdge(_editEdgeBrush, _normalEdgeWidth);
+                    line.EdgeBrush = _editEdgeBrush;
+                    line.EdgeWidth = _normalEdgeWidth;
                 }
             }
 

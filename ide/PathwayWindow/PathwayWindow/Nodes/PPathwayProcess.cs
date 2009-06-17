@@ -175,6 +175,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     EdgeInfo edge = new EdgeInfo(process.Key, list, er);
                     PPathwayLine line = new PPathwayLine(m_canvas, edge, this, var);
                     m_layer.AddChild(line);
+                    line.EdgeBrush = m_canvas.Control.Animation.EdgeBrush;
+                    line.Width = m_canvas.Control.Animation.EdgeWidth;
                     line.Selected = this.Selected || var.Selected;
                     line.Visible = this.Visible && var.Visible;
                     line.Pickable = line.Visible;
