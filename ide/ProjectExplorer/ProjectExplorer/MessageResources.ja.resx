@@ -138,6 +138,9 @@
   <data name="ErrProjectUnsaved" xml:space="preserve">
     <value>ダイナミックモジュールを作成する前にプロジェクトを保存してください。</value>
   </data>
+  <data name="ErrProjectUnsavedImport" xml:space="preserve">
+    <value>ダイナミックモジュールをインポートする前にプロジェクトを保存してください。</value>
+  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>このファイル形式に関連付けられたアプリケーションが見つかりません。</value>
   </data>

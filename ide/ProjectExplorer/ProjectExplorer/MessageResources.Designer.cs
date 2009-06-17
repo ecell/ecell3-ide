@@ -124,6 +124,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Save this project before DM is imported. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrProjectUnsavedImport {
+            get {
+                return ResourceManager.GetString("ErrProjectUnsavedImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot find any applications associated with this file type. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStartupApp {

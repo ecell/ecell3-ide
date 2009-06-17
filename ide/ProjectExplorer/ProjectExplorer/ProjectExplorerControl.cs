@@ -1529,6 +1529,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs</param>
         private void TreeViewImportDM(object sender, EventArgs e)
         {
+            // Get DM dir.
+            string dmDir = m_owner.Environment.DataManager.GetDMDir();
+            if (dmDir == null)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedImport);
+                return;
+            }
+
             FolderBrowserDialog win = new FolderBrowserDialog();
             win.Description = MessageResources.SelectDMDir;
             using (win)

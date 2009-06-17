@@ -138,6 +138,9 @@
   <data name="ErrProjectUnsaved" xml:space="preserve">
     <value>Save this project before adding new DM.</value>
   </data>
+  <data name="ErrProjectUnsavedImport" xml:space="preserve">
+    <value>Save this project before DM is imported.</value>
+  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>Cannot find any applications associated with this file type.</value>
   </data>
