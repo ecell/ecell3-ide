@@ -151,8 +151,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
             set
             {
-                base.X = value.X - base.Width / 2f;
-                base.Y = value.Y - base.Height / 2f;
+                base.X = value.X - base.Width / 2f - base.OffsetX;
+                base.Y = value.Y - base.Height / 2f - base.OffsetY;
             }
         }
         #endregion

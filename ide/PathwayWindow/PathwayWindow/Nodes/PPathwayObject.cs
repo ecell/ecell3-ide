@@ -341,9 +341,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 this.m_ecellObj = value;
                 if (m_ecellObj.IsPosSet)
                 {
-                    this.CenterPointF = m_ecellObj.CenterPointF;
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
+                    this.CenterPointF = m_ecellObj.CenterPointF;
                 }
                 MemorizePosition();
             }

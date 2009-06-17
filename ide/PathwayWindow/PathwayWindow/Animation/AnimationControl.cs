@@ -425,6 +425,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if (_con.IsAnimation)
             {
+                SetPropForSimulation();
                 ProjectStatus status = _con.ProjectStatus;
                 if (status == ProjectStatus.Running || status == ProjectStatus.Stepping)
                 {
@@ -436,7 +437,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 }
                 else
                 {
-                    SetPropForSimulation();
                     UpdatePropForSimulation();
                     PauseSimulation();
                 }
@@ -508,7 +508,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void StopSimulation()
         {
             TimerStop();
-            ResetPropForSimulation();
+            if(!_con.IsAnimation)
+                ResetPropForSimulation();
             _isPausing = false;
             if (_aviManager != null)
             {

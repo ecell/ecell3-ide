@@ -114,11 +114,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="obj"></param>
         public static void SetLayout(EcellObject eo, PPathwayObject obj)
         {
+            if (obj is PPathwayEntity)
+            {
+                eo.CenterPointF = obj.CenterPointF;
+            }
+            else
+            {
+                eo.X = obj.X + obj.OffsetX;
+                eo.Y = obj.Y + obj.OffsetY;
+                eo.Width = obj.Width;
+                eo.Height = obj.Height;
+            }
             eo.Layer = obj.Layer.Name;
-            eo.X = obj.X + obj.OffsetX;
-            eo.Y = obj.Y + obj.OffsetY;
-            eo.Width = obj.Width;
-            eo.Height = obj.Height;
             eo.OffsetX = 0f;
             eo.OffsetY = 0f;
             eo.isFixed = false;

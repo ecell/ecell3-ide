@@ -472,7 +472,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ILayoutAlgorithm algorithm = m_layout.Algorithm;
             algorithm.Panel.ApplyChange();
 
-            if (m_status == ProjectStatus.Running || m_status == ProjectStatus.Stepping || m_status == ProjectStatus.Suspended)
+            if (m_status == ProjectStatus.Running
+                || m_status == ProjectStatus.Stepping
+                || m_status == ProjectStatus.Suspended)
             {
                 Util.ShowErrorDialog(MessageResources.ErrOnSimulation);
                 return;
@@ -1255,7 +1257,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 EcellObject eo = m_window.GetEcellObject(obj.EcellObject);
                 eo.Key = newKey;
+
                 PathUtil.SetLayout(eo, obj);
+                Trace.WriteLine("Key:" + oldKey + ", x:" + obj.X.ToString() + ", y:" + obj.Y.ToString() + ", OffsetX:" + obj.OffsetX.ToString() + ", OffsetY:" + obj.OffsetY.ToString());
+                Trace.WriteLine("Key:" + oldKey + ", x:" + eo.X.ToString() + ", y:" + eo.Y.ToString());
                 
                 if (eo is EcellVariable)
                     ResetAlias((EcellVariable)eo, (PPathwayVariable)obj);

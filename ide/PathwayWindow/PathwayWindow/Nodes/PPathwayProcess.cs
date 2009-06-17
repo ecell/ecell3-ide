@@ -128,7 +128,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="value"></param>
         private void ChangePath(bool value)
         {
-            PointF centerPos = this.CenterPointF;
+            PointF centerPos = base.CenterPointF;
             if (value)
             {
                 base.AddPath(m_tempFigure.GraphicsPath, false);
