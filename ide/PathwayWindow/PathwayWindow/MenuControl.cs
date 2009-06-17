@@ -1108,14 +1108,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void DeleteAliasClick(object sender, EventArgs e)
         {
             // Check active canvas.
-            CanvasControl canvas = m_con.Canvas;
-            PPathwayAlias alias = (PPathwayAlias)canvas.FocusNode;
+            if (m_con.Canvas == null || !m_con.Canvas.PCanvas.Focused)
+                return;
+            m_con.DeteleNodes();
 
-            PPathwayVariable variable = alias.Variable;
-            variable.Aliases.Remove(alias);
-            alias.RemoveFromParent();
-
-            m_con.NotifyDataChanged(variable, true);
         }
 
         /// <summary>

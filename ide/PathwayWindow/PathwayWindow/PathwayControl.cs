@@ -1074,19 +1074,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Delete Selected Nodes
-            List<EcellObject> slist = new List<EcellObject>();
-            foreach (PPathwayObject node in m_canvas.SelectedNodes)
+            List<PPathwayObject> slist = new List<PPathwayObject>();
+            slist.AddRange(m_canvas.SelectedNodes);
+            foreach (PPathwayObject deleteNode in slist)
             {
-                if (!m_canvas.SelectedNodes.Contains(node.ParentObject))
-                    slist.Add(node.EcellObject);
+                NotifyDataDelete(deleteNode, false);
             }
-            int i = 0;
-            foreach (EcellObject deleteNode in slist)
-            {
-                i++;
-                bool isAnchor = (i == slist.Count);
-                NotifyDataDelete(deleteNode, isAnchor);
-            }
+            m_window.Environment.ActionManager.AddAction(new AnchorAction());
         }
 
         /// <summary>
@@ -1453,7 +1447,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             try
             {
-                NotifyDataDelete(obj.EcellObject, isAnchor);
+                if (obj is PPathwayAlias)
+                {
+                    PPathwayAlias alias = (PPathwayAlias)obj;
+                    alias.Variable.Aliases.Remove(alias);
+                    alias.RemoveFromParent();
+                    NotifyDataChanged(alias.Variable, isAnchor);
+                }
+                else
+                {
+                    NotifyDataDelete(obj.EcellObject, isAnchor);
+                }
             }
             catch (Exception e)
             {

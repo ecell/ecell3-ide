@@ -398,8 +398,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (obj is PPathwayAlias)
             {
+                ResetSelect();
                 m_selectedNodes.Add(obj);
-                m_selectedNodes.Remove(((PPathwayAlias)obj).Variable);
                 obj.Selected = true;
             }
             if (obj.EcellObject == null)
