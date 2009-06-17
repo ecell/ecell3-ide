@@ -353,19 +353,27 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void Judgement()
         {
-            m_owner.ClearResult();
-            if (m_execParam == null)
-                m_execParam = new Dictionary<int, ExecuteParameter>();
-            m_execParam.Clear();
-            foreach (Job.Job j in m_group.Jobs)
+            try
             {
-                m_execParam.Add(j.JobID, j.ExecParam);
-            }
+                m_owner.ClearResult();
+                if (m_execParam == null)
+                    m_execParam = new Dictionary<int, ExecuteParameter>();
+                m_execParam.Clear();
+                foreach (Job.Job j in m_group.Jobs)
+                {
+                    m_execParam.Add(j.JobID, j.ExecParam);
+                }
 
-            JudgeBifurcationAnalysis();
-            m_isExistResult = true;
-            PrintResultData(true);
-            m_owner.ActivateResultWindow(true, false, false);
+                JudgeBifurcationAnalysis();
+                m_isExistResult = true;
+                PrintResultData(true);
+                m_owner.ActivateResultWindow(true, false, false);
+            }
+            catch (Exception)
+            {
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrExecute, MessageResources.NameBifurcation));
+            }
         }
 
         /// <summary>
@@ -373,95 +381,103 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_resultPoint = 0;
-            String tmpDir = m_owner.JobManager.TmpDir;
-            double simTime = m_param.SimulationTime;
-            m_isDone = false;
-
-            if (simTime <= 0.0)
+            try
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NameSimulationTime, 0.0 }));
-                m_group.IsGroupError = true;
-                return;
-            }
+                m_resultPoint = 0;
+                String tmpDir = m_owner.JobManager.TmpDir;
+                double simTime = m_param.SimulationTime;
+                m_isDone = false;
 
-            m_model = "";
-            List<string> modelList = m_owner.DataManager.GetModelList();
-            if (modelList.Count > 0) m_model = modelList[0];
-
-            List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
-            List<EcellObservedData> observedList = m_owner.DataManager.GetObservedData();
-            if (paramList == null) return;
-            if (paramList.Count != 2)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
-                    new object[] { MessageResources.NameParameterData, 2 }));
-                m_group.IsGroupError = true;
-                return;
-            }
-            List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
-            if (saveList == null) return;
-
-            m_paramList.Clear();
-            foreach (EcellParameterData p in paramList)
-            {
-                m_paramList.Add(p.Copy());
-            }
-            m_observedList.Clear();
-            foreach (EcellObservedData o in observedList)
-            {
-                m_observedList.Add(o.Copy());
-            }
-
-            m_owner.ClearResult();
-            for (int i = 0; i <= s_num; i++)
-            {
-                for (int j = 0; j <= s_num; j++)
+                if (simTime <= 0.0)
                 {
-                    m_result[i, j] = BifurcationResult.None;
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                        new object[] { MessageResources.NameSimulationTime, 0.0 }));
+                    m_group.IsGroupError = true;
+                    return;
                 }
-            }
-            for (int i = 0; i <= (int)(s_num / s_skip ) ; i++)
-            {
-                for (int j = 0; j <= (int)(s_num / s_skip) ; j++)
+
+                m_model = "";
+                List<string> modelList = m_owner.DataManager.GetModelList();
+                if (modelList.Count > 0) m_model = modelList[0];
+
+                List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
+                List<EcellObservedData> observedList = m_owner.DataManager.GetObservedData();
+                if (paramList == null) return;
+                if (paramList.Count != 2)
                 {
-                    m_region[i, j] = 1;
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                        new object[] { MessageResources.NameParameterData, 2 }));
+                    m_group.IsGroupError = true;
+                    return;
                 }
-            }            
-            SetList(true);
+                List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
+                if (saveList == null) return;
 
-            if (m_xMax == m_xMin)
-            {
-                m_xMax = m_xMin + 1.0;
-                m_xMin = m_xMin - 1.0;
-            }
-            if (m_yMax == m_yMin)
-            {
-                m_yMax = m_yMin + 1.0;
-                m_yMin = m_yMin - 1.0;
-            }
-            m_owner.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
-
-            int jobid = 0;
-            Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
-            for (int i = 0; i <= s_num; i = i + s_skip)
-            {
-                double xd = m_xList[i];
-                for (int j = 0; j <= s_num; j = j + s_skip)
+                m_paramList.Clear();
+                foreach (EcellParameterData p in paramList)
                 {
-                    double yd = m_yList[j];
-                    Dictionary<string, double> paramDic = new Dictionary<string,double>();
-                    paramDic.Add(m_xPath, xd);
-                    paramDic.Add(m_yPath, yd);
-                    tmpDic.Add(jobid, new ExecuteParameter(paramDic));
-                    jobid++;
+                    m_paramList.Add(p.Copy());
                 }
-            }
+                m_observedList.Clear();
+                foreach (EcellObservedData o in observedList)
+                {
+                    m_observedList.Add(o.Copy());
+                }
 
-            m_owner.JobManager.SetLoggerData(saveList);
-            m_group.AnalysisParameter = GetAnalysisProperty();
-            m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
+                m_owner.ClearResult();
+                for (int i = 0; i <= s_num; i++)
+                {
+                    for (int j = 0; j <= s_num; j++)
+                    {
+                        m_result[i, j] = BifurcationResult.None;
+                    }
+                }
+                for (int i = 0; i <= (int)(s_num / s_skip); i++)
+                {
+                    for (int j = 0; j <= (int)(s_num / s_skip); j++)
+                    {
+                        m_region[i, j] = 1;
+                    }
+                }
+                SetList(true);
+
+                if (m_xMax == m_xMin)
+                {
+                    m_xMax = m_xMin + 1.0;
+                    m_xMin = m_xMin - 1.0;
+                }
+                if (m_yMax == m_yMin)
+                {
+                    m_yMax = m_yMin + 1.0;
+                    m_yMin = m_yMin - 1.0;
+                }
+                m_owner.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
+
+                int jobid = 0;
+                Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
+                for (int i = 0; i <= s_num; i = i + s_skip)
+                {
+                    double xd = m_xList[i];
+                    for (int j = 0; j <= s_num; j = j + s_skip)
+                    {
+                        double yd = m_yList[j];
+                        Dictionary<string, double> paramDic = new Dictionary<string, double>();
+                        paramDic.Add(m_xPath, xd);
+                        paramDic.Add(m_yPath, yd);
+                        tmpDic.Add(jobid, new ExecuteParameter(paramDic));
+                        jobid++;
+                    }
+                }
+
+                m_owner.JobManager.SetLoggerData(saveList);
+                m_group.AnalysisParameter = GetAnalysisProperty();
+                m_execParam = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, simTime, false, tmpDic);
+            }
+            catch (Exception)
+            {
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrExecute, MessageResources.NameBifurcation));
+            }
         }
 
         /// <summary>

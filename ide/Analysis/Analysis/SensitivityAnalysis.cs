@@ -301,8 +301,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
-                m_group.IsGroupError = true;
+                if (m_group.Status != AnalysisStatus.Stopped)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                    m_group.IsGroupError = true;
+                }
                 return;
             }
         }
@@ -369,7 +372,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
                 return;
             }
         }

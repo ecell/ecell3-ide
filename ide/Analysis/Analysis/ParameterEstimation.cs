@@ -282,38 +282,46 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void NotifyAnalysisFinished()
         {
-            String tmpDir = m_owner.JobManager.TmpDir;
-            if (m_generation >= m_param.Generation)
+            try
             {
-                FindElite();
-                return;
-            }
-
-            if (m_execParamDic.ContainsKey(m_generation))
-            {
-                if (m_generation != 0)
-                    FindElite();
-                m_execParamList = m_execParamDic[m_generation];
-                m_owner.JobManager.Run(m_group.GroupName, false);
-            }
-            else
-            {
-                m_group.Status = AnalysisStatus.Running;
-                if (m_generation == 0)
+                String tmpDir = m_owner.JobManager.TmpDir;
+                if (m_generation >= m_param.Generation)
                 {
-                    m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                    FindElite();
+                    return;
+                }
+
+                if (m_execParamDic.ContainsKey(m_generation))
+                {
+                    if (m_generation != 0)
+                        FindElite();
+                    m_execParamList = m_execParamDic[m_generation];
+                    m_owner.JobManager.Run(m_group.GroupName, false);
                 }
                 else
                 {
-                    FindElite();
-                    SimplexCrossOver();
-                    Mutate();
-                    m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                    m_group.Status = AnalysisStatus.Running;
+                    if (m_generation == 0)
+                    {
+                        m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                    }
+                    else
+                    {
+                        FindElite();
+                        SimplexCrossOver();
+                        Mutate();
+                        m_execParamList = m_owner.JobManager.RunSimParameterSet(m_group.GroupName, tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                    }
+                    m_execParamDic.Add(m_generation, m_execParamList);
                 }
-                m_execParamDic.Add(m_generation, m_execParamList);
+                m_isExistResult = true;
+                m_generation++;
             }
-            m_isExistResult = true;
-            m_generation++;
+            catch (Exception)
+            {
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrExecute, MessageResources.NameParameterEstimate));
+            }
         }
 
         /// <summary>
@@ -335,67 +343,75 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_estimation.Clear();
-            m_mutation = m_param.Param.Initial;
-            m_owner.ClearResult();
-            m_execParamDic.Clear();
-
-            if (m_param.Population <= 0)
+            try
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NamePopulation, 0 }));
-                m_group.IsGroupError = true;
+                m_estimation.Clear();
+                m_mutation = m_param.Param.Initial;
+                m_owner.ClearResult();
+                m_execParamDic.Clear();
 
-                return;
+                if (m_param.Population <= 0)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                        new object[] { MessageResources.NamePopulation, 0 }));
+                    m_group.IsGroupError = true;
+
+                    return;
+                }
+                if (m_param.Generation <= 0)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                        new object[] { MessageResources.NameGenerationNum, 0 }));
+                    m_group.IsGroupError = true;
+
+                    return;
+                }
+                if (m_param.SimulationTime <= 0.0)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                        new object[] { MessageResources.NameSimulationTime, 0.0 }));
+                    m_group.IsGroupError = true;
+
+                    return;
+                }
+                if (m_param.EstimationFormulator == null ||
+                    m_param.EstimationFormulator.Equals(""))
+                {
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrSetNumber,
+                        new object[] { MessageResources.NameEstimationForm, 1 }));
+                    m_group.IsGroupError = true;
+
+                    return;
+                }
+
+                m_model = "";
+                List<string> modelList = m_owner.DataManager.GetModelList();
+                if (modelList.Count > 0) m_model = modelList[0];
+
+                m_paramList = m_owner.DataManager.GetParameterData();
+                if (m_paramList == null) return;
+                if (m_paramList.Count < 1)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                        new object[] { MessageResources.NameParameterData, 1 }));
+                    m_group.IsGroupError = true;
+
+                    return;
+                }
+
+                m_owner.JobManager.SetParameterRange(m_paramList);
+                m_saveList = m_owner.GetPEObservedDataList();
+                if (m_saveList == null) return;
+                m_owner.JobManager.SetLoggerData(m_saveList);
+                m_group.AnalysisParameter = GetAnalysisProperty();
+                m_generation = 0;
+                m_owner.JobManager.Run(m_group.GroupName, true);
             }
-            if (m_param.Generation <= 0)
+            catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NameGenerationNum, 0 }));
-                m_group.IsGroupError = true;
-
-                return;
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrExecute, MessageResources.NameParameterEstimate));
             }
-            if (m_param.SimulationTime <= 0.0)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NameSimulationTime, 0.0 }));
-                m_group.IsGroupError = true;
-
-                return;
-            }
-            if (m_param.EstimationFormulator == null ||
-                m_param.EstimationFormulator.Equals(""))
-            {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrSetNumber,
-                    new object[] { MessageResources.NameEstimationForm, 1 }));
-                m_group.IsGroupError = true;
-
-                return;
-            }
-
-            m_model = "";
-            List<string> modelList = m_owner.DataManager.GetModelList();
-            if (modelList.Count > 0) m_model = modelList[0];
-
-            m_paramList = m_owner.DataManager.GetParameterData();
-            if (m_paramList == null) return;
-            if (m_paramList.Count < 1)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
-                    new object[] { MessageResources.NameParameterData, 1 }));
-                m_group.IsGroupError = true;
-
-                return;
-            }
-
-            m_owner.JobManager.SetParameterRange(m_paramList);
-            m_saveList = m_owner.GetPEObservedDataList();
-            if (m_saveList == null) return;
-            m_owner.JobManager.SetLoggerData(m_saveList);
-            m_group.AnalysisParameter = GetAnalysisProperty();
-            m_generation = 0;
-            m_owner.JobManager.Run(m_group.GroupName, true);
         }
 
         /// <summary>

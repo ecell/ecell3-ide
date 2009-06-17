@@ -331,78 +331,86 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_owner.ClearResult();
-            String tmpDir = m_owner.JobManager.TmpDir;
-            int num = m_param.SampleNum;
-            double simTime = m_param.SimulationTime; ;
-            int maxSize = Convert.ToInt32(m_param.MaxData);
-            if (num <= 0)
+            try
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NameMaxSample, 0 }));
-                m_group.IsGroupError = true;
-                return;
-            }
-            if (simTime <= 0.0)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NameSimulationTime, 0.0 }));
-                m_group.IsGroupError = true;
-                return;
-            }
-            if (maxSize > MaxSize)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSmaller,
-                    new object[] { MessageResources.NameMaxSample, MaxSize }));
-                m_group.IsGroupError = true;
-                return;
-            }
+                m_owner.ClearResult();
+                String tmpDir = m_owner.JobManager.TmpDir;
+                int num = m_param.SampleNum;
+                double simTime = m_param.SimulationTime; ;
+                int maxSize = Convert.ToInt32(m_param.MaxData);
+                if (num <= 0)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                        new object[] { MessageResources.NameMaxSample, 0 }));
+                    m_group.IsGroupError = true;
+                    return;
+                }
+                if (simTime <= 0.0)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                        new object[] { MessageResources.NameSimulationTime, 0.0 }));
+                    m_group.IsGroupError = true;
+                    return;
+                }
+                if (maxSize > MaxSize)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrSmaller,
+                        new object[] { MessageResources.NameMaxSample, MaxSize }));
+                    m_group.IsGroupError = true;
+                    return;
+                }
 
-            string model = "";
-            List<string> modelList = m_owner.DataManager.GetModelList();
-            if (modelList.Count > 0) model = modelList[0];
+                string model = "";
+                List<string> modelList = m_owner.DataManager.GetModelList();
+                if (modelList.Count > 0) model = modelList[0];
 
-            List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
-            List<EcellObservedData> observedList = m_owner.DataManager.GetObservedData();
-            if (paramList == null) return;
-            if (paramList.Count < 2)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
-                    new object[] { MessageResources.NameParameterData, 2 }));
-                m_group.IsGroupError = true;
-                return;
-            }
-            if (!m_param.IsRandomCheck && paramList.Count != 2)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
-                    new object[] { MessageResources.NameParameterData, 2 }));
-                m_group.IsGroupError = true;
-                return;
-            }
-            List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
-            if (saveList == null) return;
+                List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
+                List<EcellObservedData> observedList = m_owner.DataManager.GetObservedData();
+                if (paramList == null) return;
+                if (paramList.Count < 2)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
+                        new object[] { MessageResources.NameParameterData, 2 }));
+                    m_group.IsGroupError = true;
+                    return;
+                }
+                if (!m_param.IsRandomCheck && paramList.Count != 2)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                        new object[] { MessageResources.NameParameterData, 2 }));
+                    m_group.IsGroupError = true;
+                    return;
+                }
+                List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
+                if (saveList == null) return;
 
-            m_paramList.Clear();
-            foreach (EcellParameterData p in paramList)
-            {
-                m_paramList.Add(p.Copy());
-            }
-            m_observedList.Clear();
-            foreach (EcellObservedData o in observedList)
-            {
-                m_observedList.Add(o.Copy());
-            }
+                m_paramList.Clear();
+                foreach (EcellParameterData p in paramList)
+                {
+                    m_paramList.Add(p.Copy());
+                }
+                m_observedList.Clear();
+                foreach (EcellObservedData o in observedList)
+                {
+                    m_observedList.Add(o.Copy());
+                }
 
-            m_owner.JobManager.SetParameterRange(paramList);
-            m_owner.JobManager.SetLoggerData(saveList);
-            m_group.AnalysisParameter = GetAnalysisProperty();
-            if (m_param.IsRandomCheck == true)
-            {
-                m_paramDic = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, model, num, simTime, false);
+                m_owner.JobManager.SetParameterRange(paramList);
+                m_owner.JobManager.SetLoggerData(saveList);
+                m_group.AnalysisParameter = GetAnalysisProperty();
+                if (m_param.IsRandomCheck == true)
+                {
+                    m_paramDic = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, model, num, simTime, false);
+                }
+                else
+                {
+                    m_paramDic = m_owner.JobManager.RunSimParameterMatrix(m_group.GroupName, tmpDir, model, simTime, false);
+                }
             }
-            else
+            catch (Exception)
             {
-                m_paramDic = m_owner.JobManager.RunSimParameterMatrix(m_group.GroupName, tmpDir, model, simTime, false);
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrExecute, MessageResources.NameRobustAnalysis));
             }
         }
 
@@ -541,54 +549,62 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Judge the robustness from the simulation result.
         /// </summary>
         private void JudgeRobustAnalysis()
-        {            
-            if (m_paramList == null) return;
-            if (m_paramList.Count < 2)
+        {
+            try
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
-                    new object[] { MessageResources.NameParameterData, 2 }));
-                return;
-            }
-
-            foreach (int jobid in m_paramDic.Keys)
-            {
-                Job.Job j = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
-                if (j.Status != JobStatus.FINISHED)
-                    continue;
-                bool isOK = true;
-                foreach (EcellObservedData p in m_observedList)
+                if (m_paramList == null) return;
+                if (m_paramList.Count < 2)
                 {
-                    Dictionary<double, double> logList =
-                        j.GetLogData(p.Key);
-
-                    double simTime = Convert.ToDouble(m_param.SimulationTime);
-                    double winSize = Convert.ToDouble(m_param.WinSize);
-                    if (simTime > winSize)
-                    {
-                        Dictionary<double, double> tmpList = new Dictionary<double, double>();
-                        foreach (double t in logList.Keys)
-                        {
-                            if (simTime - winSize > t) continue;
-                            tmpList.Add(t, logList[t]);
-                        }
-                        logList.Clear();
-
-                        foreach (double t in tmpList.Keys)
-                        {
-                            logList.Add(t, tmpList[t]);
-                        }
-                    }
-
-                    bool rJudge = JudgeRobustAnalysisByRange(logList, p.Max, p.Min, p.Differ);
-                    bool pJudge = JudgeRobustAnalysisByFFT(logList, p.Rate);
-                    if (rJudge == false || pJudge == false)
-                    {
-                        isOK = false;
-                        break;
-                    }
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
+                        new object[] { MessageResources.NameParameterData, 2 }));
+                    return;
                 }
-                m_judgeResult[jobid] = isOK;
-                m_isExistResult = true;
+
+                foreach (int jobid in m_paramDic.Keys)
+                {
+                    Job.Job j = m_owner.JobManager.GroupDic[m_group.GroupName].GetJob(jobid);
+                    if (j.Status != JobStatus.FINISHED)
+                        continue;
+                    bool isOK = true;
+                    foreach (EcellObservedData p in m_observedList)
+                    {
+                        Dictionary<double, double> logList =
+                            j.GetLogData(p.Key);
+
+                        double simTime = Convert.ToDouble(m_param.SimulationTime);
+                        double winSize = Convert.ToDouble(m_param.WinSize);
+                        if (simTime > winSize)
+                        {
+                            Dictionary<double, double> tmpList = new Dictionary<double, double>();
+                            foreach (double t in logList.Keys)
+                            {
+                                if (simTime - winSize > t) continue;
+                                tmpList.Add(t, logList[t]);
+                            }
+                            logList.Clear();
+
+                            foreach (double t in tmpList.Keys)
+                            {
+                                logList.Add(t, tmpList[t]);
+                            }
+                        }
+
+                        bool rJudge = JudgeRobustAnalysisByRange(logList, p.Max, p.Min, p.Differ);
+                        bool pJudge = JudgeRobustAnalysisByFFT(logList, p.Rate);
+                        if (rJudge == false || pJudge == false)
+                        {
+                            isOK = false;
+                            break;
+                        }
+                    }
+                    m_judgeResult[jobid] = isOK;
+                    m_isExistResult = true;
+                }
+            }
+            catch (Exception)
+            {
+                if (m_group.Status != AnalysisStatus.Stopped)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrExecute, MessageResources.NameRobustAnalysis));
             }
         }
 
