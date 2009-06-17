@@ -901,6 +901,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void PasteNodes()
         {
+            m_canvas.PCanvas.Camera.Pickable = false;
             if (this.m_copiedNodes == null || this.m_copiedNodes.Count == 0)
                 return;
 
@@ -1026,6 +1027,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set Anchor.
             m_window.Environment.ActionManager.AddAction(new AnchorAction());
+            m_canvas.PCanvas.Camera.Pickable = true;
         }
 
         /// <summary>
@@ -1161,9 +1163,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="list">Added EcellObject</param>
         public void NotifyDataAdd(List<EcellObject> list)
         {
+
             try
             {
+                m_canvas.PCanvas.Camera.Pickable = false;
                 m_window.NotifyDataAdd(list, true);
+                m_canvas.PCanvas.Camera.Pickable = true;
             }
             catch (Exception e)
             {
@@ -1205,12 +1210,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="objList"></param>
         public void NotifyDataChanged(List<PPathwayObject> objList)
         {
+            m_canvas.PCanvas.Camera.Pickable = false;
             foreach (PPathwayObject obj in objList)
             {
                 NotifyDataChanged(obj, false);
             }
             // Set Anchor.
             m_window.Environment.ActionManager.AddAction(new AnchorAction());
+            m_canvas.PCanvas.Camera.Pickable = true;
         }
 
         /// <summary>
