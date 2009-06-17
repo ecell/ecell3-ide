@@ -180,9 +180,6 @@
   <data name="&gt;&gt;buttonCancel.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="propertyTree.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
   <data name="propertyTree.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 7</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="&gt;&gt;propertyTree.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="propertyPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="propertyPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>168, 7</value>

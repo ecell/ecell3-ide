@@ -331,6 +331,24 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   The number of steps に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStepNum {
+            get {
+                return ResourceManager.GetString("NameStepNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The waiting time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameWaitTime {
+            get {
+                return ResourceManager.GetString("NameWaitTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   New Stepper に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NewStepperText {

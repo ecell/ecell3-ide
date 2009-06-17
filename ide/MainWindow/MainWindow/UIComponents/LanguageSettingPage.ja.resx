@@ -133,10 +133,13 @@
   <data name="SIAutoRadioButton.Text" xml:space="preserve">
     <value>自動</value>
   </data>
-  <data name="SILangGroupBox.Text" xml:space="preserve">
-    <value>言語(&amp;L)</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>言語:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>言語</value>
+  </data>
+  <data name="detailLALabel.Text" xml:space="preserve">
+    <value>E-Cell IDEの表示言語が変更されます。</value>
   </data>
 </root>

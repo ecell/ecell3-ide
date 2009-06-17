@@ -117,98 +117,83 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SIJapaneseRadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;SIEnglishRadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>LanguageSettingPage</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="SIEnglishRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SIJapaneseRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="SIJapaneseRadioButton.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 9pt</value>
-  </data>
-  <data name="SIAutoRadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SILangGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="SILangGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>582, 80</value>
-  </data>
-  <data name="&gt;&gt;SIJapaneseRadioButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SIAutoRadioButton.Text" xml:space="preserve">
-    <value>Auto</value>
-  </data>
-  <data name="SIEnglishRadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;SILangGroupBox.Name" xml:space="preserve">
-    <value>SILangGroupBox</value>
-  </data>
-  <data name="SILangGroupBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 9pt, style=Bold</value>
-  </data>
-  <data name="SIEnglishRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 30</value>
-  </data>
-  <data name="SILangGroupBox.Text" xml:space="preserve">
-    <value>&amp;Language</value>
-  </data>
-  <data name="&gt;&gt;SIAutoRadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="&gt;&gt;SIEnglishRadioButton.Parent" xml:space="preserve">
-    <value>SILangGroupBox</value>
-  </data>
-  <data name="&gt;&gt;SIJapaneseRadioButton.Parent" xml:space="preserve">
-    <value>SILangGroupBox</value>
-  </data>
-  <data name="SIJapaneseRadioButton.Text" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
-  <data name="SILangGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 10</value>
-  </data>
   <data name="SILangGroupBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="&gt;&gt;SIAutoRadioButton.ZOrder" xml:space="preserve">
+  <data name="SILangGroupBox.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SIEnglishRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="SIEnglishRadioButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt</value>
+  </data>
+  <data name="SIEnglishRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SIEnglishRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>137, 18</value>
+  </data>
+  <data name="SIEnglishRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
+  </data>
+  <data name="SIEnglishRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="SIEnglishRadioButton.Text" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.PropertyDialogPage, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;SIEnglishRadioButton.Name" xml:space="preserve">
+    <value>SIEnglishRadioButton</value>
   </data>
-  <data name="SIEnglishRadioButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="&gt;&gt;SIEnglishRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SIAutoRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 16</value>
+  <data name="&gt;&gt;SIEnglishRadioButton.Parent" xml:space="preserve">
+    <value>SILangGroupBox</value>
   </data>
-  <data name="SIAutoRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>30, 30</value>
+  <data name="&gt;&gt;SIEnglishRadioButton.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;SIAutoRadioButton.Name" xml:space="preserve">
-    <value>SIAutoRadioButton</value>
+  <data name="SIJapaneseRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="SIJapaneseRadioButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt</value>
+  </data>
+  <data name="SIJapaneseRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SIJapaneseRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 18</value>
+  </data>
+  <data name="SIJapaneseRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="SIJapaneseRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="SIJapaneseRadioButton.Text" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="&gt;&gt;SIJapaneseRadioButton.Name" xml:space="preserve">
+    <value>SIJapaneseRadioButton</value>
+  </data>
+  <data name="&gt;&gt;SIJapaneseRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SIJapaneseRadioButton.Parent" xml:space="preserve">
+    <value>SILangGroupBox</value>
+  </data>
+  <data name="&gt;&gt;SIJapaneseRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SIAutoRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="SIAutoRadioButton.Font" type="System.Drawing.Font, System.Drawing">
     <value>MS UI Gothic, 9pt</value>
@@ -216,49 +201,124 @@
   <data name="SIAutoRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;SILangGroupBox.ZOrder" xml:space="preserve">
+  <data name="SIAutoRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="SIAutoRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 16</value>
+  </data>
+  <data name="SIAutoRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;SIJapaneseRadioButton.Name" xml:space="preserve">
-    <value>SIJapaneseRadioButton</value>
+  <data name="SIAutoRadioButton.Text" xml:space="preserve">
+    <value>Auto</value>
   </data>
-  <data name="SIEnglishRadioButton.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 9pt</value>
+  <data name="&gt;&gt;SIAutoRadioButton.Name" xml:space="preserve">
+    <value>SIAutoRadioButton</value>
+  </data>
+  <data name="&gt;&gt;SIAutoRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;SIAutoRadioButton.Parent" xml:space="preserve">
     <value>SILangGroupBox</value>
   </data>
-  <data name="&gt;&gt;SIEnglishRadioButton.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;SIAutoRadioButton.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="SIJapaneseRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
+  <data name="SILangGroupBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt, style=Bold</value>
   </data>
-  <data name="SIEnglishRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="SILangGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 53</value>
   </data>
-  <data name="&gt;&gt;SILangGroupBox.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="SILangGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>326, 46</value>
   </data>
-  <data name="SIJapaneseRadioButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="SILangGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="SIJapaneseRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 30</value>
-  </data>
-  <data name="&gt;&gt;SIEnglishRadioButton.Name" xml:space="preserve">
-    <value>SIEnglishRadioButton</value>
+  <data name="&gt;&gt;SILangGroupBox.Name" xml:space="preserve">
+    <value>SILangGroupBox</value>
   </data>
   <data name="&gt;&gt;SILangGroupBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SIJapaneseRadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;SILangGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="SIAutoRadioButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;SILangGroupBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 6</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 12</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="detailLALabel.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="detailLALabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="detailLALabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="detailLALabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 12</value>
+  </data>
+  <data name="detailLALabel.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="detailLALabel.Text" xml:space="preserve">
+    <value>The language of E-Cell IDE is changed.</value>
+  </data>
+  <data name="&gt;&gt;detailLALabel.Name" xml:space="preserve">
+    <value>detailLALabel</value>
+  </data>
+  <data name="&gt;&gt;detailLALabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;detailLALabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;detailLALabel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>LanguageSettingPage</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Ecell.IDE.PropertyDialogPage, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
 </root>

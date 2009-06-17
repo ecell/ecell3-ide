@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SensitivityAnalysisResultWindow));
+            System.Windows.Forms.SplitContainer splitContainer1;
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.SAFCCGridView = new System.Windows.Forms.DataGridView();
@@ -36,9 +37,13 @@
             this.RATrackLabel = new System.Windows.Forms.Label();
             this.ARTrackBar = new System.Windows.Forms.TrackBar();
             this.label5 = new System.Windows.Forms.Label();
+            splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label7
@@ -91,21 +96,38 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // SensitivityResultWindow
+            // splitContainer1
+            // 
+            resources.ApplyResources(splitContainer1, "splitContainer1");
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(this.label6);
+            splitContainer1.Panel1.Controls.Add(this.SACCCGridView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(this.label7);
+            splitContainer1.Panel2.Controls.Add(this.SAFCCGridView);
+            // 
+            // SensitivityAnalysisResultWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.SAFCCGridView);
-            this.Controls.Add(this.SACCCGridView);
+            this.Controls.Add(splitContainer1);
             this.Controls.Add(this.RATrackLabel);
             this.Controls.Add(this.ARTrackBar);
             this.Controls.Add(this.label5);
-            this.Name = "SensitivityResultWindow";
+            this.Name = "SensitivityAnalysisResultWindow";
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).EndInit();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel1.PerformLayout();
+            splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
+            splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -46,7 +46,6 @@ namespace Ecell.IDE.MainWindow.UIComponents
     /// </summary>
     public partial class GeneralConfigurationPage : PropertyDialogPage
     {
-        private Label label1;
         private ComboBox valueFormatComboBox;
         private DataManager m_manager;
         #region Constructors
@@ -83,15 +82,18 @@ namespace Ecell.IDE.MainWindow.UIComponents
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GeneralConfigurationPage));
-            this.label1 = new System.Windows.Forms.Label();
+            System.Windows.Forms.Label detailDFLabel;
             this.valueFormatComboBox = new System.Windows.Forms.ComboBox();
+            label1 = new System.Windows.Forms.Label();
+            detailDFLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // valueFormatComboBox
             // 
@@ -107,12 +109,18 @@ namespace Ecell.IDE.MainWindow.UIComponents
             resources.ApplyResources(this.valueFormatComboBox, "valueFormatComboBox");
             this.valueFormatComboBox.Name = "valueFormatComboBox";
             // 
+            // detailDFLabel
+            // 
+            resources.ApplyResources(detailDFLabel, "detailDFLabel");
+            detailDFLabel.Name = "detailDFLabel";
+            // 
             // GeneralConfigurationPage
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(detailDFLabel);
             this.Controls.Add(this.valueFormatComboBox);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(label1);
             this.Name = "GeneralConfigurationPage";
             this.ResumeLayout(false);
             this.PerformLayout();

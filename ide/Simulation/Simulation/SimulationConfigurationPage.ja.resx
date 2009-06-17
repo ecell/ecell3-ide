@@ -121,12 +121,15 @@
     <value>シミュレーション設定</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>ステップ数</value>
+    <value>シミュレーションを実行するステップ数が変更されます。</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>待ち時間</value>
+    <value>シミュレーション中のステップ間の待ち時間が変更されます。</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>秒</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>シミュレーション設定:</value>
   </data>
 </root>

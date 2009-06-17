@@ -163,7 +163,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
-            // JobManagerDialog
+            // JobManagerSettingPage
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -172,7 +172,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
             this.Controls.Add(this.envDataGridView);
             this.Controls.Add(this.envComboBox);
             this.Controls.Add(this.label1);
-            this.Name = "JobManagerDialog";
+            this.Name = "JobManagerSettingPage";
             ((System.ComponentModel.ISupportInitialize)(this.envDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

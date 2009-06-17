@@ -121,10 +121,13 @@
     <value>グラフ設定</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>プロット数(&amp;P)</value>
+    <value>１つのグラフに描画されるプロット数が変更されます。</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>グラフ設定:</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>再描画間隔(&amp;R)</value>
+    <value>グラフの再描画時間が変更されます。</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>秒</value>

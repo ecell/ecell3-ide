@@ -51,6 +51,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private double m_redrawInterval;
         private TextBox intervalTextBox;
         private TextBox numberTextBox;
+        private Label label2;
         private TracerWindow m_owner;
         #endregion
 
@@ -80,6 +81,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             System.Windows.Forms.Label label1;
             this.intervalTextBox = new System.Windows.Forms.TextBox();
             this.numberTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
@@ -112,8 +114,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.numberTextBox.Name = "numberTextBox";
             this.numberTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.PlotNumber_Validating);
             // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // TracerConfigurationPage
             // 
+            this.Controls.Add(this.label2);
             this.Controls.Add(label4);
             this.Controls.Add(label3);
             this.Controls.Add(this.intervalTextBox);

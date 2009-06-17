@@ -122,9 +122,12 @@
     <value>70, 12</value>
   </data>
   <data name="label.Text" xml:space="preserve">
-    <value>ワークスペース</value>
+    <value>ワークスペース:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>ワークスペース</value>
+  </data>
+  <data name="detailWSLabel.Text" xml:space="preserve">
+    <value>プロジェクトデータが指定されたワークスペースフォルダに保存されます。</value>
   </data>
 </root>

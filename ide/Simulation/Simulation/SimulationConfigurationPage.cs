@@ -47,9 +47,7 @@ namespace Ecell.IDE.Plugins.Simulation
     public class SimulationConfigurationPage : PropertyDialogPage
     {
         #region Fields
-        private Label label1;
-        private Label label2;
-        private Label label3;
+
         private TextBox stepCountTextBox;
         private TextBox waitTimeTextBox;
         private DataManager m_manager;
@@ -78,28 +76,33 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationPage));
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
             this.stepCountTextBox = new System.Windows.Forms.TextBox();
             this.waitTimeTextBox = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // label3
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
             // stepCountTextBox
             // 
@@ -113,14 +116,20 @@ namespace Ecell.IDE.Plugins.Simulation
             this.waitTimeTextBox.Name = "waitTimeTextBox";
             this.waitTimeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.waitTimeTextBox_Validating);
             // 
-            // SimulationConfigDialog
+            // label4
             // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
+            // SimulationConfigurationPage
+            // 
+            this.Controls.Add(label4);
             this.Controls.Add(this.waitTimeTextBox);
             this.Controls.Add(this.stepCountTextBox);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Name = "SimulationConfigDialog";
+            this.Controls.Add(label3);
+            this.Controls.Add(label2);
+            this.Controls.Add(label1);
+            this.Name = "SimulationConfigurationPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -145,11 +154,11 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             if (m_stepCount <= 0)
             {
-                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, label1.Text));
+                throw new EcellException(MessageResources.ErrInvalidValue);
             }
             if (m_waitTime < 0)
             {
-                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, label2.Text));
+                throw new EcellException(MessageResources.ErrInvalidValue);
             }
         }
         #endregion
@@ -165,7 +174,7 @@ namespace Ecell.IDE.Plugins.Simulation
             string text = stepCountTextBox.Text;
             if (String.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, label1.Text));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStepNum));
                 stepCountTextBox.Text = Convert.ToString(m_stepCount);
                 e.Cancel = true;
                 return;
@@ -173,7 +182,7 @@ namespace Ecell.IDE.Plugins.Simulation
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, label1.Text));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepNum));
                 stepCountTextBox.Text = Convert.ToString(m_stepCount);
                 e.Cancel = true;
                 return;
@@ -191,7 +200,7 @@ namespace Ecell.IDE.Plugins.Simulation
             string text = waitTimeTextBox.Text;
             if (String.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, label2.Text));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameWaitTime));
                 waitTimeTextBox.Text = Convert.ToString(m_waitTime);
                 e.Cancel = true;
                 return;
@@ -199,7 +208,7 @@ namespace Ecell.IDE.Plugins.Simulation
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, label2.Text));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameWaitTime));
                 waitTimeTextBox.Text = Convert.ToString(m_waitTime);
                 e.Cancel = true;
                 return;

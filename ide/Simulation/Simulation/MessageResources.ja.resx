@@ -210,4 +210,10 @@
   <data name="NewStepperText" xml:space="preserve">
     <value>新規Stepper</value>
   </data>
+  <data name="NameStepNum" xml:space="preserve">
+    <value>ステップ数</value>
+  </data>
+  <data name="NameWaitTime" xml:space="preserve">
+    <value>待ち時間</value>
+  </data>
 </root>

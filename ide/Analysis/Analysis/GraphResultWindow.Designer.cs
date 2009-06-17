@@ -50,8 +50,8 @@
             resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
             this.tableLayoutPanel5.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.label3, 2, 0);
-            this.tableLayoutPanel5.Controls.Add(this.RAXComboBox, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.RAYComboBox, 3, 0);
+            this.tableLayoutPanel5.Controls.Add(this.RAXComboBox, 1, 0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             // 
             // label2

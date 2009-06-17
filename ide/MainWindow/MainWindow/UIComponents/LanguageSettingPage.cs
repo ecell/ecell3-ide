@@ -82,31 +82,30 @@ namespace Ecell.IDE.MainWindow.UIComponents
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LanguageSettingPage));
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label detailLALabel;
             this.SILangGroupBox = new System.Windows.Forms.GroupBox();
             this.SIEnglishRadioButton = new System.Windows.Forms.RadioButton();
             this.SIJapaneseRadioButton = new System.Windows.Forms.RadioButton();
             this.SIAutoRadioButton = new System.Windows.Forms.RadioButton();
+            label1 = new System.Windows.Forms.Label();
+            detailLALabel = new System.Windows.Forms.Label();
             this.SILangGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // SILangGroupBox
             // 
-            this.SILangGroupBox.AccessibleDescription = null;
-            this.SILangGroupBox.AccessibleName = null;
             resources.ApplyResources(this.SILangGroupBox, "SILangGroupBox");
-            this.SILangGroupBox.BackgroundImage = null;
             this.SILangGroupBox.Controls.Add(this.SIEnglishRadioButton);
             this.SILangGroupBox.Controls.Add(this.SIJapaneseRadioButton);
             this.SILangGroupBox.Controls.Add(this.SIAutoRadioButton);
+            this.SILangGroupBox.ForeColor = System.Drawing.Color.Black;
             this.SILangGroupBox.Name = "SILangGroupBox";
             this.SILangGroupBox.TabStop = false;
             // 
             // SIEnglishRadioButton
             // 
-            this.SIEnglishRadioButton.AccessibleDescription = null;
-            this.SIEnglishRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIEnglishRadioButton, "SIEnglishRadioButton");
-            this.SIEnglishRadioButton.BackgroundImage = null;
             this.SIEnglishRadioButton.Name = "SIEnglishRadioButton";
             this.SIEnglishRadioButton.TabStop = true;
             this.SIEnglishRadioButton.UseVisualStyleBackColor = true;
@@ -114,10 +113,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
             // 
             // SIJapaneseRadioButton
             // 
-            this.SIJapaneseRadioButton.AccessibleDescription = null;
-            this.SIJapaneseRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIJapaneseRadioButton, "SIJapaneseRadioButton");
-            this.SIJapaneseRadioButton.BackgroundImage = null;
             this.SIJapaneseRadioButton.Name = "SIJapaneseRadioButton";
             this.SIJapaneseRadioButton.TabStop = true;
             this.SIJapaneseRadioButton.UseVisualStyleBackColor = true;
@@ -125,27 +121,33 @@ namespace Ecell.IDE.MainWindow.UIComponents
             // 
             // SIAutoRadioButton
             // 
-            this.SIAutoRadioButton.AccessibleDescription = null;
-            this.SIAutoRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIAutoRadioButton, "SIAutoRadioButton");
-            this.SIAutoRadioButton.BackgroundImage = null;
             this.SIAutoRadioButton.Name = "SIAutoRadioButton";
             this.SIAutoRadioButton.TabStop = true;
             this.SIAutoRadioButton.UseVisualStyleBackColor = true;
             this.SIAutoRadioButton.CheckedChanged += new System.EventHandler(this.SIAutoRadioButton_CheckedChanged);
             // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // detailLALabel
+            // 
+            resources.ApplyResources(detailLALabel, "detailLALabel");
+            detailLALabel.Name = "detailLALabel";
+            // 
             // LanguageSettingPage
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
+            this.Controls.Add(detailLALabel);
+            this.Controls.Add(label1);
             this.Controls.Add(this.SILangGroupBox);
-            this.Font = null;
             this.Name = "LanguageSettingPage";
+            resources.ApplyResources(this, "$this");
             this.SILangGroupBox.ResumeLayout(false);
             this.SILangGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
