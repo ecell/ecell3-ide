@@ -507,9 +507,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             bool isCtrl = (e.Modifiers == Keys.Control);
+            bool isRight = (e.Button == MouseButtons.Right);
 
             // Set IsSelect
-            if(! isCtrl)
+            if(!isCtrl && !isRight)
                 m_canvas.NotifySelectChanged(this);
             else if(!m_selected && isCtrl)
                 m_canvas.NotifyAddSelect(this);

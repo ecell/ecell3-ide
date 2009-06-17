@@ -191,7 +191,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 alias.Y = layout.Y;
                 alias.Brush = m_setting.CreateBrush(alias.Path);
                 alias.Refresh();
-                m_canvas.SetLayer(alias, layout.Layer);
+                m_canvas.SetLayer(alias, variable.Layer);
                 m_aliases.Add(alias);
             }
         }

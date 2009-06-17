@@ -59,6 +59,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// Template object.
         /// </summary>
         PPathwayObject m_object = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        bool m_eventFlag = true;
         #endregion
 
         #region Constructors
@@ -197,7 +201,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <returns></returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
-            return true;
+            return m_eventFlag;
         }
 
         #endregion
@@ -208,6 +212,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         private void AddObject()
         {
+            m_eventFlag = false;
             string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
             if (!(m_object is PPathwayText) && !(m_object is PPathwayStepper) && string.IsNullOrEmpty(systemKey))
             {
@@ -290,6 +295,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_object.RemoveFromParent();
             m_canvas = null;
             m_object = null;
+            m_eventFlag = true;
         }
 
         private void SetCurrentStencil(PToolBoxCanvas canvas)
