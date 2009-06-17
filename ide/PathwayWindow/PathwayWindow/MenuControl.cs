@@ -1233,13 +1233,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
 
             // Get new layer name.
-            PPathwayObject node = (PPathwayObject)canvas.FocusNode;
-            string name = name = menu.Text;
+            string name = menu.Text;
 
             // Change layer of selected objects.
             PPathwayLayer layer = canvas.GetLayer(name);
             List<PPathwayObject> objList = canvas.SelectedNodes;
-            int i = 0;
             foreach (PPathwayObject obj in objList)
             {
                 obj.Layer = layer;

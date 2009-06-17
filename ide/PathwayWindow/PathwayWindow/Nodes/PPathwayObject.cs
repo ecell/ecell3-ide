@@ -527,6 +527,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             else
             {
+                m_canvas.NotifyAddSelect(this);
                 m_canvas.FocusNode = this;
             }
 

@@ -527,10 +527,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if (_con.Canvas == null)
                 return;
+            // Set Canvas
             _canvas = _con.Canvas;
             _canvas.BackGroundBrush = _viewBGBrush;
             _format = _con.Window.DataManager.DisplayStringFormat;
-            //
+            // Set Edge
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            {
+                process.ViewMode = true;
+                process.Stepper.Visible = false;
+                if (!process.Visible)
+                    continue;
+                // Line setting.
+                foreach (PPathwayLine line in process.Relations)
+                {
+                    line.EdgeBrush = _viewEdgeBrush;
+                }
+            }
+
             foreach (IAnimationItem item in _items)
             {
                 item.SetProperty();
@@ -573,7 +587,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             TimerStop();
             if (_canvas == null)
                 return;
+            // Set Canvas
             _canvas.BackGroundBrush = _editBGBrush;
+            // Set Process.
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            {
+                if (!process.Visible)
+                    continue;
+                // Line setting.
+                process.ViewMode = false;
+                process.Stepper.Visible = true;
+                foreach (PPathwayLine line in process.Relations)
+                {
+                    line.SetEdge(_editEdgeBrush, _normalEdgeWidth);
+                }
+            }
 
             //
             foreach (IAnimationItem item in _items)
