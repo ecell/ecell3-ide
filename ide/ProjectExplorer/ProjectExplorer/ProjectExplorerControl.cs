@@ -378,6 +378,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="data">the new object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
+            // Set Project
+            if (data is EcellProject)
+            {
+                m_prjNode.Text = data.ModelID;
+                return;
+            }
+
             TreeNode current = GetTargetModel(modelID);
             if (current == null)
                 return;

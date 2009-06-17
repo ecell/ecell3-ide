@@ -729,17 +729,22 @@ namespace Ecell
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
 
             // Delete old project before overwrite.
-            if (m_info.ProjectType != ProjectType.Project)
+            if (m_info.ProjectType == ProjectType.Revision)
+            {
+                string projectFile = Path.Combine(m_info.ProjectPath, Constants.fileProjectXML);
+                if (File.Exists(projectFile))
+                {
+                    ProjectInfo info = ProjectInfoLoader.Load(projectFile);
+                    if (!info.Name.Equals(m_info.Name))
+                        Directory.Delete(m_info.ProjectPath, true);
+                }
+            }
+            else if (m_info.ProjectType != ProjectType.Project)
             {
                 // new project.
                 if (Util.IsExistProject(m_info.Name))
                 {
-                    string modelDir = Path.Combine(m_info.ProjectPath, Constants.ModelDirName);
-                    string parameterDir = Path.Combine(m_info.ProjectPath, Constants.ParameterDirName);
-                    if (Directory.Exists(modelDir))
-                        Directory.Delete(modelDir, true);
-                    if (Directory.Exists(parameterDir))
-                        Directory.Delete(parameterDir, true);
+                    Directory.Delete(m_info.ProjectPath, true);
                 }
             }
             else

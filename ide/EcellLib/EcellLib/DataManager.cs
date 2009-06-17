@@ -354,7 +354,7 @@ namespace Ecell
                 EcellModel model = (EcellModel)SBML2EML.Convert(filename);
                 EmlReader.InitializeModel(model, sim);
                 // Save eml.
-                string dir = Path.GetDirectoryName(filename);
+                string dir = Util.GetTmpDir();
                 string modelFileName = Path.GetFileNameWithoutExtension(filename) + Constants.FileExtEML;
                 modelFileName = Path.Combine(dir, modelFileName);
                 EmlWriter.Create(modelFileName, model.Children, false);
@@ -858,6 +858,10 @@ namespace Ecell
                     m_env.PluginManager.GetDelegate(Constants.delegateSaveSimulationResult) as SaveSimulationResultDelegate;
                 if (dlg != null)
                     dlg(logList);
+
+                EcellObject project = EcellObject.CreateObject(m_currentProject.Info.Name, "", Constants.xpathProject, "", new List<EcellData>());
+                project.SetEcellValue(Constants.textComment, new EcellValue(m_currentProject.Info.Comment));
+                m_env.PluginManager.DataChanged(project.ModelID, project.Key,project.ModelID, project);
 
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
                 m_env.Console.Flush();
