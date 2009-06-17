@@ -1298,14 +1298,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             // Get setting
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
-            ComponentSetting cs = obj.Setting;
-            if (cs.IsDefault || cs.IsStencil)
-            {
-                cs = obj.Setting.Clone();
-                cs.Name = m_con.ComponentManager.GetRandomKey();
-                cs.IsDefault = false;
-                cs.IsStencil = false;
-            }
+            ComponentSetting cs = obj.Setting.Clone();
+            cs.Name = m_con.ComponentManager.GetRandomKey();
+            cs.IsDefault = false;
+            cs.IsStencil = false;
 
             // Show Setting Dialog.
             ComponentDialog dlg = new ComponentDialog(cs);
