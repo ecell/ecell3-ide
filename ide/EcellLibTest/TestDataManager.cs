@@ -358,34 +358,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestConfirmAnalysisReset()
-        {
-            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
-            Type type = _unitUnderTest.GetType();
-            MethodInfo info = type.GetMethod("ConfirmAnalysisReset", BindingFlags.NonPublic | BindingFlags.Instance);
-            info.Invoke(_unitUnderTest, new object[] { "", "" });
-
-            _env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            info.Invoke(_unitUnderTest, new object[] { "Add", "Text" });
-
-            MessageBox.Show("Click \"OK\" to next dialog.");
-            info.Invoke(_unitUnderTest, new object[] { "Add", "Variable" });
-
-            _env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            try
-            {
-                MessageBox.Show("Click \"Cancel\" to next dialog.");
-                info.Invoke(_unitUnderTest, new object[] { "Add", "Variable" });
-                Assert.Fail();
-            }
-            catch (Exception)
-            {
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestDataAddL_ecellObjectListL_isRecordedL_isAnchor()
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
@@ -541,11 +513,6 @@ namespace Ecell
             variable.Key = "/CELL:M";
 
             _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:M", "Variable", variable);
-
-            _env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            MessageBox.Show("Click \"Cancel\" button on next dialog.");
-            variable.Key = "/CELL/CYTOPLASM:M";
-            _unitUnderTest.DataChanged(modelID, "/CELL:M", "Variable", variable);
 
             MessageBox.Show("Click \"Cancel\" button on next dialog.");
             _env.PluginManager.ChangeStatus(ProjectStatus.Suspended);

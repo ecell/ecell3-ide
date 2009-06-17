@@ -273,4 +273,7 @@
   <data name="NameLanguageSetting" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="ConfirmAnalysisStop" xml:space="preserve">
+    <value>The analysis is running. Do you really want to close this application? {0}</value>
+  </data>
 </root>

@@ -624,7 +624,6 @@ namespace Ecell.Job
 
         private void SetLoggerData()
         {
-            _env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
             _env.DataManager.SetObservedData(new EcellObservedData("Variable:/CELL/CYTOPLASM:P0:Value", 5.0));
 
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();

@@ -1534,6 +1534,19 @@ namespace Ecell.IDE.MainWindow
             }
 
         }
+
+        private List<string> GetRunningAnalysisCount()
+        {
+            List<string> result = new List<string>();
+            foreach (string name in m_env.JobManager.GroupDic.Keys)
+            {
+                if (m_env.JobManager.GroupDic[name].Status == AnalysisStatus.Running ||
+                    m_env.JobManager.GroupDic[name].Status == AnalysisStatus.Waiting)
+                    result.Add(name);
+            }
+            return result;
+        }
+
         /// <summary>
         /// Event when this form is closed.
         /// </summary>
@@ -1553,6 +1566,25 @@ namespace Ecell.IDE.MainWindow
                 m_env.DataManager.SimulationStop();
                 Thread.Sleep(1000);
             }
+
+            List<string> runGroupList = GetRunningAnalysisCount();
+            if (runGroupList.Count > 0)
+            {
+                string mes =  "\n" + runGroupList[0];
+                for (int i = 1; i < runGroupList.Count; i++)
+                    mes = mes + "\n" + runGroupList[i];
+                if (!Util.ShowYesNoDialog(string.Format(MessageResources.ConfirmAnalysisStop, mes)))
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                foreach (string name in runGroupList)
+                {
+                    if (m_env.JobManager.GroupDic.ContainsKey(name))
+                        m_env.JobManager.GroupDic[name].Stop();
+                }
+            }
+
 
             if (!CloseConfirm())
                 e.Cancel = true;

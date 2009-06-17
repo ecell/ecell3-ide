@@ -61,6 +61,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   The analysis is running. Do you really want to close this application? {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmAnalysisStop {
+            get {
+                return ResourceManager.GetString("ConfirmAnalysisStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The simulation is running. Do you really want to close this application?  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmClose {
