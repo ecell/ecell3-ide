@@ -74,7 +74,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 
         private static string CreateSVGObject(PPathwayObject obj)
         {
-            string svgObj = "<!--" + obj.EcellObject.Key + "-->\n";
+            // Set key
+            string key;
+            if (obj is PPathwayAlias)
+                key = ((PPathwayAlias)obj).Variable.EcellObject.Key;
+            else
+                key = obj.EcellObject.Key;
+
+            string svgObj = "<!--" + key + "-->\n";
             // Check Visibility.
             if (!obj.Visible)
                 return svgObj;
@@ -84,7 +91,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
             string lineBrush = BrushManager.ParseBrushToString(obj.Setting.LineBrush);
             string fillBrush = "url(#" + obj.Setting.Name + ")";
 
-            // Create Process
+            // Create Edges
             if (obj is PPathwayProcess)
             {
                 PPathwayProcess process = (PPathwayProcess)obj;

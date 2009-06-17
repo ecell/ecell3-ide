@@ -381,4 +381,7 @@
   <data name="ErrOnSimulation" xml:space="preserve">
     <value>シミュレーション中に許可されていない動作です。</value>
   </data>
+  <data name="ErrExportGraphic" xml:space="preserve">
+    <value>画像出力に失敗しました。</value>
+  </data>
 </root>

@@ -439,6 +439,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Fail to export canvas image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrExportGraphic {
+            get {
+                return ResourceManager.GetString("ErrExportGraphic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Value[ {0} ] is not valid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidValue {

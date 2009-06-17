@@ -1913,7 +1913,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 // Check KeyChange.
                 List<PPathwayObject> all = GetAllEntities();
-                foreach (PPathwayObject obj in all)
+                foreach (PPathwaySystem obj in m_systems.Values)
+                {
+                    if (CheckMoveErrorAndKeyChange(obj))
+                        objList.Add(obj);
+                }
+                foreach (PPathwayProcess obj in m_processes.Values)
+                {
+                    if (CheckMoveErrorAndKeyChange(obj))
+                        objList.Add(obj);
+                }
+                foreach (PPathwayVariable obj in m_variables.Values)
+                {
+                    if (CheckMoveErrorAndKeyChange(obj))
+                        objList.Add(obj);
+                }
+                foreach (PPathwayText obj in m_texts.Values)
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
                         objList.Add(obj);
@@ -1923,6 +1938,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     if (!objList.Contains(obj) && CheckMoved(obj))
                         objList.Add(obj);
+                    if (obj is PPathwayVariable)
+                    {
+                        foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                        {
+                            if (alias.Offset != PointF.Empty && !objList.Contains(alias.Variable))
+                                objList.Add(alias.Variable);
+                        }
+                    }
+
                 }
 
                 // MoveObject
@@ -2154,8 +2178,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     {
                         if(!DoesSystemContains(newSysKey, alias.CenterPointF))
                             throw new PathwayException(MessageResources.ErrOutSystemAlias);
-                        if(alias.Offset != PointF.Empty)
-                            isAlias = true;
                     }
                 }
             }
@@ -2163,7 +2185,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 return false;
             }
-            isMoved = !obj.EcellObject.Key.Equals(newKey) || isAlias;
+            isMoved = !obj.EcellObject.Key.Equals(newKey);
             return (isMoved);
         }
 

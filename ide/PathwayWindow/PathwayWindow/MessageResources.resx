@@ -381,4 +381,7 @@
   <data name="ErrOnSimulation" xml:space="preserve">
     <value>This operation is not allowed during simulation.</value>
   </data>
+  <data name="ErrExportGraphic" xml:space="preserve">
+    <value>Fail to export canvas image.</value>
+  </data>
 </root>

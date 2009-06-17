@@ -430,6 +430,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 {
                     StartSimulation();
                 }
+                else if(status == ProjectStatus.Loaded)
+                {
+                    StopSimulation();
+                }
                 else
                 {
                     SetPropForSimulation();

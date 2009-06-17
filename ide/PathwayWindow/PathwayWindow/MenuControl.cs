@@ -49,6 +49,7 @@ using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.Objects;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using System.Diagnostics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -1588,17 +1589,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (string.IsNullOrEmpty(sfd.FileName))
                     return;
 
-                // save SVG image
-                if (sfd.FileName.EndsWith(Constants.FileExtSVG))
+                try
                 {
-                    GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
-                    return;
-                }
+                    // save SVG image
+                    if (sfd.FileName.EndsWith(Constants.FileExtSVG))
+                    {
+                        GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
+                        return;
+                    }
 
-                // Save Other format.
-                Image image = m_con.Canvas.ToImage();
-                ImageFormat format = GetImageFormat(sfd.FileName);
-                image.Save(sfd.FileName, format);
+                    // Save Other format.
+                    Image image = m_con.Canvas.ToImage();
+                    ImageFormat format = GetImageFormat(sfd.FileName);
+                    image.Save(sfd.FileName, format);
+                }
+                catch (Exception ex)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrExportGraphic);
+                    Trace.WriteLine(ex.ToString());
+                }
             }
         }
 

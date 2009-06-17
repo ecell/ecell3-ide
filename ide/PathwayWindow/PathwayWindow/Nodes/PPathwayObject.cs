@@ -125,7 +125,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Whether this node is showing ID or not.
         /// </summary>
-        protected bool m_showingId = false;
+        protected bool m_showingId = true;
 
         /// <summary>
         /// Is Edit Mode or not.
