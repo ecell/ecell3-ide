@@ -65,6 +65,7 @@ namespace Ecell.IDE.Plugins.Analysis
             InitializeComponent();
 
             ContextMenuStrip peCntMenu = new ContextMenuStrip();
+            peCntMenu.Opening += new CancelEventHandler(peCntMenu_Opening);
             ToolStripMenuItem peit = new ToolStripMenuItem();
             peit.Text = MessageResources.ReflectMenuText;
             peit.Click += new EventHandler(ClickReflectMenu);
@@ -126,6 +127,20 @@ namespace Ecell.IDE.Plugins.Analysis
                 writer.WriteLine("");
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void peCntMenu_Opening(object sender, CancelEventArgs e)
+        {
+            DataManager manager = m_owner.DataManager;
+            if (manager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
+                manager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
+                e.Cancel = true;
+        }
+
 
         /// <summary>
         /// Event to click the menu of result for PE.

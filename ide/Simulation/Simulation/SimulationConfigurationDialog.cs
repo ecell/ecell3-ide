@@ -161,7 +161,14 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void NewButtonClick(object sender, EventArgs e)
         {
+            List<string> list = new List<string>();
+            foreach (SimulationParameterSet s in m_simParamSets)
+            {
+                list.Add(s.Name);
+            }
             InputParameterNameDialog newwin = new InputParameterNameDialog(this, true);
+            newwin.AlreadyList = list;
+
             using (newwin) 
             {
                 if (newwin.ShowDialog() != DialogResult.OK)

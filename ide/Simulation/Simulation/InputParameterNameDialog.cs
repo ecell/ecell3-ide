@@ -47,6 +47,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private SimulationConfigurationDialog m_owner;
         private bool m_isParam;
+        private List<string> m_alreadyList;
         #endregion
 
         /// <summary>
@@ -55,6 +56,14 @@ namespace Ecell.IDE.Plugins.Simulation
         public string InputText
         {
             get { return paramTextBox.Text; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> AlreadyList
+        {
+            set { this.m_alreadyList = value; }
         }
 
         /// <summary>
@@ -92,6 +101,12 @@ namespace Ecell.IDE.Plugins.Simulation
             if (Util.IsNGforID(paramTextBox.Text))
             {
                 Util.ShowWarningDialog(MessageResources.ErrIDNG);
+                e.Cancel = true;
+                return;
+            }
+            if (m_alreadyList.Contains(paramTextBox.Text))
+            {
+                Util.ShowWarningDialog(string.Format(MessageResources.ErrAlreadyExist, paramTextBox.Text));
                 e.Cancel = true;
                 return;
             }
