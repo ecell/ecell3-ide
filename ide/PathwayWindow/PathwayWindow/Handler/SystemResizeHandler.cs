@@ -146,6 +146,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
         #region EventHandler for ResizeHandle
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected override void ResizeHandle_MouseDown(object sender, PInputEventArgs e)
+        {
+            // If selected system overlaps another, reset system region.
+            if (m_canvas.DoesSystemOverlaps((PPathwaySystem)m_obj))
+            {
+                ResetSystemResize();
+                return;
+            }
+            base.ResizeHandle_MouseDown(sender, e);
+        }
+        /// <summary>
         /// Called when the mouse is up on one of resize handles for a system.
         /// </summary>
         /// <param name="sender"></param>

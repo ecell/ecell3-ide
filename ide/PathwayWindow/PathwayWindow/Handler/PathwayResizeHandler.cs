@@ -416,7 +416,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// </summary>
             internal ResizeHandle()
             {
-                this.AddInputEventListener(new PDragEventHandler());
+                this.AddInputEventListener(new PResizeHandleDragEventhandler());
                 this.Brush = Brushes.DarkOrange;
                 this.Pen = new Pen(Brushes.DarkOliveGreen, 0);
                 GraphicsPath path = new GraphicsPath();
@@ -429,5 +429,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         }
         #endregion
 
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PResizeHandleDragEventhandler : PDragEventHandler
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return true;
+        }
     }
 }

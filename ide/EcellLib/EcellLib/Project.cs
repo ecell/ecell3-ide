@@ -733,7 +733,14 @@ namespace Ecell
             {
                 // new project.
                 if (Util.IsExistProject(m_info.Name))
-                    Directory.Delete(m_info.ProjectPath, true);
+                {
+                    string modelDir = Path.Combine(m_info.ProjectPath, Constants.ModelDirName);
+                    string parameterDir = Path.Combine(m_info.ProjectPath, Constants.ParameterDirName);
+                    if (Directory.Exists(modelDir))
+                        Directory.Delete(modelDir, true);
+                    if (Directory.Exists(parameterDir))
+                        Directory.Delete(parameterDir, true);
+                }
             }
             else
             {
