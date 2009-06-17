@@ -226,6 +226,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             }
             string type = m_object.Setting.Type;
             bool isSystem = m_object is PPathwaySystem;
+            // check
+            if(isSystem)
+            {
+                RectangleF rect = ((PPathwaySystem)m_object).Rect;
+                foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+                {
+                    if (variable.Aliases.Count <= 0)
+                        continue;
+                    bool contein = rect.Contains(variable.CenterPointF);
+                    foreach (PPathwayAlias alias in variable.Aliases)
+                    {
+                        if (rect.Contains(alias.CenterPointF) == contein)
+                            continue;
+
+                        Util.ShowErrorDialog(MessageResources.ErrOutSystemAlias);
+                        return;
+                    }
+                }
+            }
+
+            // Add
             EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type);
             eo.X = m_object.X;
             eo.Y = m_object.Y;

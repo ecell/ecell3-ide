@@ -222,10 +222,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_selectedPath.Reset();
 
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
+            // Check Error
             if (m_canvas.DoesSystemOverlaps(rect))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOverSystem);
                 return;
+            }
+            // Check Aliases
+            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            {
+                if(variable.Aliases.Count <= 0)
+                    continue;
+                bool contein = rect.Contains(variable.CenterPointF);
+                foreach(PPathwayAlias alias in variable.Aliases)
+                {
+                    if(rect.Contains(alias.CenterPointF) == contein)
+                        continue;
+
+                    Util.ShowErrorDialog(MessageResources.ErrOutSystemAlias);
+                    return;
+                }
             }
 
             if (rect.Width >= PPathwaySystem.MIN_WIDTH && rect.Height >= PPathwaySystem.MIN_HEIGHT)

@@ -175,6 +175,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 ResetSystemResize();
                 return;
             }
+            // Check Aliases
+            RectangleF rect = m_obj.Rect;
+            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            {
+                if (variable.Aliases.Count <= 0)
+                    continue;
+                bool contein = rect.Contains(variable.CenterPointF);
+                foreach (PPathwayAlias alias in variable.Aliases)
+                {
+                    if (rect.Contains(alias.CenterPointF) == contein)
+                        continue;
+
+                    Util.ShowErrorDialog(MessageResources.ErrOutSystemAlias);
+                    return;
+                }
+            }
+
             m_obj.Refresh();
 
             string systemName = m_obj.EcellObject.Key;
@@ -183,7 +200,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
             // Select PathwayObjects being moved to upper system.
             Dictionary<string, PPathwayObject> beforeDict = new Dictionary<string, PPathwayObject>();
-            RectangleF rect = m_obj.Rect;
             foreach (PPathwayObject obj in objList)
             {
                 if (rect.Contains(obj.Rect))
