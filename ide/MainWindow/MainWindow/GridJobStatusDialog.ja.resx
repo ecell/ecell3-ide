@@ -312,7 +312,7 @@
   <data name="queueStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>実行待ち</value>
   </data>
-  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+  <data name="changeStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>状態の変更</value>
   </data>
   <data name="jobGroupLoadToolStripMenuItem.Text" xml:space="preserve">

@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label1.GenerateMember" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -149,9 +149,9 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="label2.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -179,9 +179,9 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <metadata name="jobStatusImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="jobStatusImageList.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>370, 17</value>
-  </metadata>
+  </data>
   <data name="jobStatusImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
@@ -384,15 +384,15 @@
   <data name="parameterDataGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <metadata name="PropNameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="PropNameColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="PropNameColumn.HeaderText" xml:space="preserve">
     <value>Property name</value>
   </data>
-  <metadata name="PropValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="PropValueColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="PropValueColumn.HeaderText" xml:space="preserve">
     <value>Value</value>
   </data>
@@ -465,53 +465,50 @@
   <data name="&gt;&gt;statusTextBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="jobContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="jobContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="jobRunToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobRunToolStripMenuItem.Text" xml:space="preserve">
     <value>Run</value>
   </data>
   <data name="jobStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobStopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="queueStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="queueStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>Queue</value>
   </data>
   <data name="errorStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="errorStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="toolStripMenuItem1.Text" xml:space="preserve">
-    <value>Change status</value>
+  <data name="changeStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="jobDeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobDeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="jobContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 104</value>
+    <value>153, 126</value>
   </data>
   <data name="&gt;&gt;jobContextMenuStrip.Name" xml:space="preserve">
     <value>jobContextMenuStrip</value>
@@ -519,9 +516,9 @@
   <data name="&gt;&gt;jobContextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="jobGroupContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="jobGroupContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>178, 17</value>
-  </metadata>
+  </data>
   <data name="jobGroupStopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
   </data>
@@ -645,9 +642,9 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -775,10 +772,10 @@
   <data name="&gt;&gt;toolStripSeparator3.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
+  <data name="&gt;&gt;changeStatusToolStripMenuItem.Name" xml:space="preserve">
+    <value>changeStatusToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+  <data name="&gt;&gt;changeStatusToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;queueStatusToolStripMenuItem.Name" xml:space="preserve">
@@ -858,5 +855,8 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="changeStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>Change status</value>
   </data>
 </root>

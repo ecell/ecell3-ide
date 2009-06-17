@@ -43,7 +43,7 @@
             this.jobRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -143,7 +143,7 @@
             this.jobRunToolStripMenuItem,
             this.jobStopToolStripMenuItem,
             this.toolStripSeparator3,
-            this.toolStripMenuItem1,
+            this.changeStatusToolStripMenuItem,
             this.toolStripSeparator1,
             this.jobDeleteToolStripMenuItem});
             this.jobContextMenuStrip.Name = "jobContextMenuStrip";
@@ -167,13 +167,13 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
-            // toolStripMenuItem1
+            // changeStatusToolStripMenuItem
             // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changeStatusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.queueStatusToolStripMenuItem,
             this.errorStatusToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.changeStatusToolStripMenuItem.Name = "changeStatusToolStripMenuItem";
+            resources.ApplyResources(this.changeStatusToolStripMenuItem, "changeStatusToolStripMenuItem");
             // 
             // queueStatusToolStripMenuItem
             // 
@@ -315,7 +315,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem jobDeleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem changeStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem queueStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jobGroupJudgementToolStripMenuItem;

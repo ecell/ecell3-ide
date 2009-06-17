@@ -532,6 +532,12 @@ namespace Ecell.IDE.MainWindow
             string name = jnode.GroupName;
 
             string path = m_manager.Environment.DataManager.CurrentProject.Info.ProjectPath;
+            if (string.IsNullOrEmpty(path))
+            {
+                Util.ShowWarningDialog(MessageResources.ErrProjectUnsaved);
+                return;
+            }
+
             string dirName = path + "/" + Constants.AnalysisDirName + "/" + name;
 
             m_manager.GroupDic[name].SaveJobGroup(dirName);
@@ -602,7 +608,8 @@ namespace Ecell.IDE.MainWindow
             jobStopToolStripMenuItem.Enabled = (j.Status == JobStatus.RUNNING || j.Status == JobStatus.QUEUED || j.Status == JobStatus.NONE);
             jobDeleteToolStripMenuItem.Enabled = (g.Status != AnalysisStatus.Running &&
                 g.Status != AnalysisStatus.Waiting) &&
-                (j.Status == JobStatus.ERROR || j.Status == JobStatus.FINISHED || j.Status == JobStatus.STOPPED || j.Status == JobStatus.NONE);           
+                (j.Status == JobStatus.ERROR || j.Status == JobStatus.FINISHED || j.Status == JobStatus.STOPPED || j.Status == JobStatus.NONE);
+            changeStatusToolStripMenuItem.Enabled = !g.IsSaved;
         }
 
         /// <summary>

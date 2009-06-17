@@ -276,4 +276,7 @@
   <data name="ConfirmAnalysisStop" xml:space="preserve">
     <value>The analysis is running. Do you really want to close this application? {0}</value>
   </data>
+  <data name="ErrProjectUnsaved" xml:space="preserve">
+    <value>Save this project before the analysis is saved.</value>
+  </data>
 </root>

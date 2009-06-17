@@ -171,6 +171,9 @@
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} が設定されていません。</value>
   </data>
+  <data name="ErrProjectUnsaved" xml:space="preserve">
+    <value>解析を保存する前にプロジェクトを保存してください。</value>
+  </data>
   <data name="ErrSaveWindowSettings" xml:space="preserve">
     <value>ウィンドウ設定を保存できません。</value>
   </data>
