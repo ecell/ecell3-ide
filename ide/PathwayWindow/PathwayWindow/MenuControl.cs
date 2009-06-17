@@ -1606,7 +1606,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 catch (Exception ex)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrExportGraphic);
-                    Trace.WriteLine(ex.ToString());
+                    Debug.WriteLine(ex.ToString());
                 }
             }
         }

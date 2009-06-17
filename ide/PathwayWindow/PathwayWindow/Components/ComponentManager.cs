@@ -748,7 +748,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
+                Debug.WriteLine(ex);
                 return null;
             }
         }

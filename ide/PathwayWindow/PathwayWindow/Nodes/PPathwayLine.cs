@@ -34,6 +34,7 @@ using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.Objects;
 using UMD.HCIL.Piccolo.Event;
+using System.Diagnostics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -321,7 +322,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.StackTrace);
             }
         }
 

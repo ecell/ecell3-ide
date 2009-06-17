@@ -306,7 +306,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
+                Debug.WriteLine(ex);
                 e.Graphics.DrawString(imageName, e.Font, textBrush, bounds.Left, bounds.Top);
             }
             base.OnDrawItem(e);

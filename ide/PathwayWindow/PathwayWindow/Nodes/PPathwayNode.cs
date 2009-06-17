@@ -323,7 +323,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 catch (OutOfMemoryException ex)
                 {
-                    Trace.WriteLine(ex);
+                    Debug.WriteLine(ex);
                     //Catch the case where the path is a single point
                 }
             }
@@ -378,7 +378,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 catch (OutOfMemoryException ex)
                 {
-                    Trace.WriteLine(ex);
+                    Debug.WriteLine(ex);
                     // Catch the case where the path is a single point
                 }
             }

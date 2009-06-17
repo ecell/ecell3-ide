@@ -245,7 +245,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.StackTrace);
                 num = float.NaN;
             }
             return num;

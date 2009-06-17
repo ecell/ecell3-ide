@@ -423,7 +423,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.StackTrace);
                 throw new PathwayException(MessageResources.ErrUnknowType, e);
             }
         }
@@ -1155,7 +1155,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
             }
         }
 
@@ -1259,8 +1259,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 eo.Key = newKey;
 
                 PathUtil.SetLayout(eo, obj);
-                Trace.WriteLine("Key:" + oldKey + ", x:" + obj.X.ToString() + ", y:" + obj.Y.ToString() + ", OffsetX:" + obj.OffsetX.ToString() + ", OffsetY:" + obj.OffsetY.ToString());
-                Trace.WriteLine("Key:" + oldKey + ", x:" + eo.X.ToString() + ", y:" + eo.Y.ToString());
+                Debug.WriteLine("Key:" + oldKey + ", x:" + obj.X.ToString() + ", y:" + obj.Y.ToString() + ", OffsetX:" + obj.OffsetX.ToString() + ", OffsetY:" + obj.OffsetY.ToString());
+                Debug.WriteLine("Key:" + oldKey + ", x:" + eo.X.ToString() + ", y:" + eo.Y.ToString());
                 
                 if (eo is EcellVariable)
                     ResetAlias((EcellVariable)eo, (PPathwayVariable)obj);
@@ -1728,7 +1728,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
+                Debug.WriteLine(ex);
                 Util.ShowNoticeDialog(MessageResources.ErrLayout);
                 return;
             }

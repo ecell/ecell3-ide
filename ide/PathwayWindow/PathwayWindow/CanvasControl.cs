@@ -1911,13 +1911,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Check 
             try
             {
-                if (m_con.ProjectStatus == ProjectStatus.Running
-                    || m_con.ProjectStatus == ProjectStatus.Stepping
-                    || m_con.ProjectStatus == ProjectStatus.Suspended)
-                {
-                    throw new PathwayException(MessageResources.ErrOnSimulation);
-                }
-
                 // Check KeyChange.
                 List<PPathwayObject> all = GetAllEntities();
                 foreach (PPathwaySystem obj in m_systems.Values)

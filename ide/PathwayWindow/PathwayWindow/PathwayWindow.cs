@@ -229,7 +229,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
