@@ -176,15 +176,28 @@ namespace Ecell.IDE.MainWindow
 
             if (e.Type == JobUpdateType.DeleteJobGroup)
             {
+                List<TreeNode> delaList = new List<TreeNode>();
                 foreach (string analysisname in m_pointDic.Keys)
                 {
+                    List<TreeNode> delgList = new List<TreeNode>();
                     foreach (TreeNode n in m_pointDic[analysisname].Nodes)
                     {
+                        if (!m_manager.GroupDic.ContainsKey(n.Text))
+                        {
+                            delgList.Add(n);
+                            continue;
+                        }
+                        //  job delete
                         List<TreeNode> delList = new List<TreeNode>();
                         foreach (TreeNode n1 in n.Nodes)
                         {
-                            if (m_manager.GroupDic.ContainsKey(n1.Text))
-                                continue;
+                            JobTreeNode jnode = n1 as JobTreeNode;
+                            if (jnode != null)
+                            {
+                                Job.Job j = m_manager.GroupDic[jnode.GroupName].GetJob(Int32.Parse(jnode.ID));
+                                if (j != null)
+                                    continue;
+                            }
                             delList.Add(n1);
                         }
                         foreach (TreeNode n1 in delList)
@@ -192,6 +205,23 @@ namespace Ecell.IDE.MainWindow
                             n.Nodes.Remove(n1);
                         }
                     }
+
+                    foreach (TreeNode n in delgList)
+                    {
+                        m_pointDic[analysisname].Nodes.Remove(n);
+                    }
+                    if (m_pointDic[analysisname].Nodes.Count == 0)
+                        delaList.Add(m_pointDic[analysisname]);
+                }
+                foreach (TreeNode n in delaList)
+                {
+                    m_pointDic.Remove(n.Text);
+                    m_topNode.Nodes.Remove(n);
+                }
+                if (m_topNode.Nodes.Count == 0)
+                {
+                    jobTreeView.Nodes.Remove(m_topNode);
+                    m_topNode = null;
                 }
             }
 

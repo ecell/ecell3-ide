@@ -369,6 +369,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         }
 
+        private void ClearFolderNodes()
+        {
+            m_logNode.Nodes.Clear();
+            m_analysisNode.Nodes.Clear();
+            m_revisionNode.Nodes.Clear();
+            m_DMNode.Nodes.Clear();
+        }
+
         /// <summary>
         /// Change the object in the load project.
         /// </summary>
@@ -381,7 +389,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             // Set Project
             if (data is EcellProject)
             {
+                ClearFolderNodes();
                 m_prjNode.Text = data.ModelID;
+                SetLogEntry(m_logNode);
+                SetRevisions();
+                SetDMNodes();
+                SetAnalysisNode();
                 return;
             }
 

@@ -1305,6 +1305,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 e.Cancel = true;
                 return;
             }
+            if (m_current == null || m_current.Type.Equals(Constants.xpathStepper) ||
+                m_current.Type.Equals(Constants.xpathText))
+            {
+                e.Cancel = true;
+                return;
+            }
             object tag = m_dgv.CurrentRow.Cells[1].Tag;
             deleteThisPropertyToolStripMenuItem.Enabled =
                 m_propDic != null && tag is EcellData &&

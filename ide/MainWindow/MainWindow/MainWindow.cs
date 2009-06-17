@@ -677,6 +677,13 @@ namespace Ecell.IDE.MainWindow
         /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
+            if (data.Type.Equals(Constants.xpathProject))
+            {
+                string projectID = m_env.DataManager.CurrentProjectID;
+                this.Text = projectID + " - " + m_title;
+                m_editCount = 0;
+                return;
+            }
             m_editCount++;
         }
 
@@ -1140,6 +1147,8 @@ namespace Ecell.IDE.MainWindow
             {
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
+
+                m_env.JobManager.Clear();
 
                 if (!ConfirmOverwrite(m_env.DataManager.CurrentProject))
                     return;
