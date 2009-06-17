@@ -582,7 +582,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
 
             // Reset objects.
-            foreach (PPathwayObject obj in _canvas.GetAllObjects())
+            foreach (PPathwayObject obj in _canvas.GetAllEntities())
                 obj.Refresh();
         }
         #endregion

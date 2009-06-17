@@ -573,7 +573,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             // Set Layer
             obj.ShowingID = m_showingId;
-            SetLayer(obj);
+            SetLayer(obj, obj.EcellObject.Layer);
 
             // Register
             RegisterObject(obj);
@@ -895,7 +895,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> list = layer.GetNodes();
             foreach(PPathwayObject obj in list)
             {
-                SetLayer(obj);
+                SetLayer(obj, null);
             }
 
             // Delete Layer.
@@ -925,15 +925,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Set Layer.
         /// </summary>
         /// <param name="obj"></param>
-        public void SetLayer(PPathwayObject obj)
+        public void SetLayer(PPathwayObject obj, string layerID)
         {
             // if obj is root system or layerID is null.
             PPathwayLayer layer = m_defaultLayer;
-            string layerID = obj.EcellObject.Layer;
             if (obj.Layer != null && obj.Layer.Name == layerID)
                 return;
 
-            if (obj.EcellObject.Key.Equals(Constants.delimiterPath) || string.IsNullOrEmpty(layerID))
+            if ( (obj.EcellObject != null && obj.EcellObject.Key.Equals(Constants.delimiterPath))
+                 || string.IsNullOrEmpty(layerID) )
             {
                 // Set default layer.
                 obj.Layer = layer;
@@ -1276,7 +1276,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Get all PPathwayObject of this canvas.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
-        public List<PPathwayObject> GetAllObjects()
+        public List<PPathwayObject> GetAllEntities()
         {
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             returnList.AddRange(GetSystemList());
@@ -1284,6 +1284,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             returnList.AddRange(GetTextList());
 
             return returnList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<PPathwayObject> GetAllObjects()
+        {
+            List<PPathwayObject> list = GetAllEntities();
+            list.AddRange(GetStepperList());
+            return list;
         }
         /// <summary>
         /// Get a key list of systems under a given system.
@@ -1293,7 +1304,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public List<PPathwayObject> GetAllObjectUnder(string systemKey)
         {
             List<PPathwayObject> returnList = new List<PPathwayObject>();
-            foreach (PPathwayObject obj in this.GetAllObjects())
+            foreach (PPathwayObject obj in this.GetAllEntities())
             {
                 if (systemKey.Equals(Constants.delimiterPath) && !obj.EcellObject.Key.Equals(Constants.delimiterPath))
                     returnList.Add(obj);
@@ -1408,7 +1419,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 RefreshEdges();
             }
             // Set Layer
-            SetLayer(obj);
+            SetLayer(obj, obj.EcellObject.Layer);
             // Set visibility
             obj.RefreshView();
 
@@ -1867,6 +1878,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     foreach (PPathwayObject child in GetAllObjectUnder(system.EcellObject.Key))
                     {
                         child.Offset = offset;
+
+                        if (obj is PPathwayVariable)
+                        {
+                            foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                            {
+                                alias.Offset = offset;
+                            }
+                        }
+
                     }
                 }
                 if (obj == m_systems["/"])
@@ -1891,7 +1911,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             try
             {
                 // Check KeyChange.
-                List<PPathwayObject> all = GetAllObjects();
+                List<PPathwayObject> all = GetAllEntities();
                 foreach (PPathwayObject obj in all)
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
@@ -1920,7 +1940,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (PathwayException e)
             {
                 Util.ShowErrorDialog(e.Message);
-                foreach (PPathwayObject obj in GetAllObjects())
+                foreach (PPathwayObject obj in GetAllEntities())
                 {
                     obj.ResetPosition();
                     obj.Invalid = false;
@@ -2035,7 +2055,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Import Systems and Nodes
             RectangleF rect = system.Rect;
             string parentSystemName = system.EcellObject.ParentSystemID;
-            foreach (PPathwayObject obj in GetAllObjects())
+            foreach (PPathwayObject obj in GetAllEntities())
             {
                 if (obj == system)
                     continue;

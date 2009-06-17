@@ -672,7 +672,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Change data.
             obj.EcellObject = eo;
-            m_canvas.SetLayer(obj);
+            m_canvas.SetLayer(obj, eo.Layer);
             obj.RefreshView();
         }
 
@@ -1199,6 +1199,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objList"></param>
+        public void NotifyDataChanged(List<PPathwayObject> objList)
+        {
+            foreach (PPathwayObject obj in objList)
+            {
+                NotifyDataChanged(obj, false);
+            }
+            // Set Anchor.
+            m_window.Environment.ActionManager.AddAction(new AnchorAction());
+        }
+
+        /// <summary>
         /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
         /// To notify position or size change.
         /// </summary>
@@ -1206,6 +1220,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void NotifyDataChanged(PPathwayObject obj, bool isAnchor)
         {
+            if (obj is PPathwayAlias)
+                obj = ((PPathwayAlias)obj).Variable;
             EcellObject eo = obj.EcellObject;
             NotifyDataChanged(eo.Key, eo.Key, obj, true, isAnchor);
         }
@@ -1262,7 +1278,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 EcellLayout layout = new EcellLayout();
                 layout.X = alias.Left;
                 layout.Y = alias.Top;
-                layout.Layer = ((PPathwayLayer)alias.Parent).Name;
+                layout.Layer = alias.Layer.Name;
                 ev.Aliases.Add(layout);
             }
         }

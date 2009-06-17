@@ -163,7 +163,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_obj.Refresh();
 
             string systemName = m_obj.EcellObject.Key;
-            List<PPathwayObject> objList = m_canvas.GetAllObjects();
+            List<PPathwayObject> objList = m_canvas.GetAllEntities();
             // Select PathwayObjects being moved into current system.
             Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
             // Select PathwayObjects being moved to upper system.

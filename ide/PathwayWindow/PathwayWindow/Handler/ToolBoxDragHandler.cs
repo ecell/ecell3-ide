@@ -273,8 +273,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         private void ResetEventHandler()
         {
-            if(m_canvas.ControlLayer.ChildrenReference.Contains(m_object))
-                m_canvas.ControlLayer.RemoveChild(m_object);
+            if (m_object != null && m_object.Parent != null)
+                m_object.RemoveFromParent();
             m_canvas = null;
             m_object = null;
         }

@@ -240,7 +240,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void TestSetLayer()
         {
             Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject obj = null;
-            _unitUnderTest.SetLayer(obj);
+            _unitUnderTest.SetLayer(obj, null);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -461,7 +461,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             System.Collections.Generic.List<Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject> expectedList = null;
             System.Collections.Generic.List<Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayObject> resultList = null;
-            resultList = _unitUnderTest.GetAllObjects();
+            resultList = _unitUnderTest.GetAllEntities();
             Assert.AreEqual(expectedList, resultList, "GetAllObjects method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

@@ -1094,7 +1094,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PPathwayVariable var = (PPathwayVariable)canvas.FocusNode;
             EcellVariable variable = (EcellVariable)var.EcellObject.Clone();
             PathUtil.SetLayout(variable, var);
-            variable.Aliases.Add(new EcellLayout(m_con.MousePosition));
+            EcellLayout alias = new EcellLayout(m_con.MousePosition);
+            alias.Layer = variable.Layer;
+            variable.Aliases.Add(alias);
             m_con.NotifyDataChanged(variable.Key, variable, true, true);
         }
 
@@ -1245,11 +1247,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             foreach (PPathwayObject obj in objList)
             {
                 obj.Layer = layer;
-                i++;
-                m_con.NotifyDataChanged(
-                    obj,
-                    (i == objList.Count));
             }
+            m_con.NotifyDataChanged(objList);
         }
 
         /// <summary>
