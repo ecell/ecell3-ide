@@ -87,7 +87,8 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Figure, "Figure is unexpected value.");
             Assert.AreEqual(true, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -110,12 +111,13 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
             layout = new EcellLayout(10, 20, 100, 200);
             layout.Layer = "Layer";
+            layout.Figure = "Figure";
             Assert.AreEqual(new PointF(10, 20), layout.Location, "Location is unexpected value.");
             Assert.AreEqual(10, layout.X, "X is unexpected value.");
             Assert.AreEqual(20, layout.Y, "Y is unexpected value.");
@@ -134,6 +136,7 @@ namespace Ecell.Objects
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
             Assert.AreEqual("Layer", layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("Figure", layout.Figure, "Figure is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -187,7 +190,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -210,7 +213,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -233,7 +236,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -256,7 +259,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -279,7 +282,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -302,7 +305,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -325,7 +328,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -348,7 +351,7 @@ namespace Ecell.Objects
             Assert.AreEqual(new PointF(60, 40), layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(60, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(40, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -371,7 +374,7 @@ namespace Ecell.Objects
             Assert.AreEqual(new PointF(60, 0), layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(60, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -394,7 +397,7 @@ namespace Ecell.Objects
             Assert.AreEqual(new PointF(0, 40), layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(40, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -417,7 +420,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -440,7 +443,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -463,7 +466,7 @@ namespace Ecell.Objects
             Assert.AreEqual(PointF.Empty, layout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, layout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, layout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, layout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", layout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, layout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, layout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -515,7 +518,7 @@ namespace Ecell.Objects
             Assert.AreEqual(new PointF(5, 15), newLayout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(5, newLayout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(15, newLayout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, newLayout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", newLayout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(false, newLayout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, newLayout.GetHashCode(), "GetHashCode method returned unexpected value.");
 
@@ -565,7 +568,7 @@ namespace Ecell.Objects
             Assert.AreEqual(new PointF(0, 0), newLayout.Offset, "Offset is unexpected value.");
             Assert.AreEqual(0, newLayout.OffsetX, "OffsetX is unexpected value.");
             Assert.AreEqual(0, newLayout.OffsetY, "OffsetY is unexpected value.");
-            Assert.AreEqual(null, newLayout.Layer, "Layer is unexpected value.");
+            Assert.AreEqual("", newLayout.Layer, "Layer is unexpected value.");
             Assert.AreEqual(true, newLayout.IsEmpty, "IsEmpty is unexpected value.");
             Assert.AreNotEqual(0, newLayout.GetHashCode(), "GetHashCode method returned unexpected value.");
         }

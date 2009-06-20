@@ -457,6 +457,23 @@ namespace Ecell.Objects
         }
 
         /// <summary>
+        /// TestEcellVariable
+        /// </summary>
+        [Test()]
+        public void TestEcellVariable()
+        {
+            EcellVariable variable = new EcellVariable("Model", "/:V0", "Variable", "Variable", new List<EcellData>());
+            Assert.IsEmpty(variable.Aliases, "Aliases is not expected value.");
+
+            EcellVariable newVar = (EcellVariable)variable.Clone();
+            Assert.AreEqual(variable, newVar, "Clone method returns unexpected value.");
+
+            variable.Aliases.Add(new EcellLayout());
+            newVar = (EcellVariable)variable.Clone();
+            Assert.AreEqual(variable, newVar, "Clone method returns unexpected value.");
+        }
+
+        /// <summary>
         /// TestSetPosition
         /// </summary>
         [Test()]
