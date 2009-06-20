@@ -1511,6 +1511,7 @@ namespace Ecell.IDE.MainWindow
         private void LoadWindowSettingsClick(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.FileName = Application.StartupPath;
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
             ofd.Filter = Constants.FilterWinSetFile;

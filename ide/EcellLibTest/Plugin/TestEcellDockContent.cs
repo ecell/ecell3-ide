@@ -78,17 +78,36 @@ namespace Ecell.Plugin
             content.IsSavable = true;
             Assert.AreEqual(true, content.IsSavable, "IsSavable is unexpected value.");
 
-            DockPanel panel = new DockPanel();
-            Form form = new Form();
-            form.SuspendLayout();
-            form.Controls.Add(panel);
-            panel.Parent = form;
-            panel.FindForm();
-            form.SuspendLayout();
-            form.Show();
+            Form form = null;
+            try
+            {
+                form = new Form();
+                DockPanel panel = new DockPanel();
+                form.SuspendLayout();
+                form.Controls.Add(panel);
+                panel.Parent = form;
+                panel.FindForm();
+                form.SuspendLayout();
+                form.Show();
 
-            content.DockHandler.DockPanel = panel;
-            content.Show();
+                //Create New DockContent
+                content.Pane = null;
+                content.PanelPane = null;
+                content.FloatPane = null;
+                content.DockHandler.DockPanel = panel;
+                content.IsHidden = false;
+                content.Show();
+                content.Hide();
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Fail to create new DockContent");
+            }
+            finally
+            {
+                if (form != null)
+                    form.Close();
+            }
         }
     }
 }
