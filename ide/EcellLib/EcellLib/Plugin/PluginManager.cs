@@ -564,7 +564,9 @@ namespace Ecell.Plugin
         public int GetImageIndex(EcellObject obj)
         {
             int i = -1;
-            if (m_imageList.Images.ContainsKey(obj.Layout.Figure))
+            if (obj == null)
+                i = -1;
+            else if (m_imageList.Images.ContainsKey(obj.Layout.Figure))
                 i = m_imageList.Images.IndexOfKey(obj.Layout.Figure);
             else if (m_imageList.Images.ContainsKey(obj.Type))
                 i = m_imageList.Images.IndexOfKey(obj.Type);

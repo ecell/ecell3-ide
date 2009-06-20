@@ -86,7 +86,6 @@ namespace Ecell.Plugin
                 form.SuspendLayout();
                 form.Controls.Add(panel);
                 panel.Parent = form;
-                panel.FindForm();
                 form.SuspendLayout();
                 form.Show();
 

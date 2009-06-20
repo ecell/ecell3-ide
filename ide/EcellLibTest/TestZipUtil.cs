@@ -111,6 +111,14 @@ namespace Ecell
             string folderPath = TestConstant.TestDirectory + "Drosophila";
             ZipUtil.ZipFolder(zipname, folderPath);
 
+            try
+            {
+                zipname = "";
+                ZipUtil.ZipFolder(zipname, folderPath);
+            }
+            catch(Exception e)
+            {
+            }
         }
     }
 }

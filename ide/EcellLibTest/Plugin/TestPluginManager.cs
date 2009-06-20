@@ -40,6 +40,7 @@ using System.Collections;
 using Ecell.Exceptions;
 
 using WeifenLuo.WinFormsUI.Docking;
+using System.Xml;
 
 namespace Ecell.Plugin
 {
@@ -605,6 +606,67 @@ namespace Ecell.Plugin
         /// 
         /// </summary>
         [Test()]
+        public void TestGetImageIndex_EcellObject()
+        {
+            EcellObject obj = null;
+            int expectedInt32 = -1;
+            int resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellProject("", "", "", "", new List<EcellData>());
+            expectedInt32 = 0;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellModel("", "", "", "", new List<EcellData>());
+            expectedInt32 = 1;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellSystem("", "", "", "", new List<EcellData>());
+            expectedInt32 = 2;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellProcess("", "", "", "", new List<EcellData>());
+            expectedInt32 = 3;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellVariable("", "", "", "", new List<EcellData>());
+            expectedInt32 = 4;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellText("", "/:Text", "", "", new List<EcellData>());
+            expectedInt32 = 9;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj = new EcellStepper("", "", "", "", new List<EcellData>());
+            expectedInt32 = 10;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            obj.Layout.Figure = "System";
+            expectedInt32 = 2;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(obj);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
         public void TestUnloadPlugin()
         {
             IEcellPlugin p = _unitUnderTest.GetPlugin("Analysis");
@@ -905,6 +967,26 @@ namespace Ecell.Plugin
             EcellObject data = null;
             _unitUnderTest.SetPosition(data);
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetPluginStatus()
+        {
+            List<XmlNode> list = _unitUnderTest.GetPluginStatus();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSetPluginStatus()
+        {
+            string pluginName = "EntityList";
+            XmlNode node = null;
+            _unitUnderTest.SetPluginStatus(pluginName, node);
         }
 
         /// <summary>
