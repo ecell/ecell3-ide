@@ -351,7 +351,7 @@ namespace Ecell
             {
                 // Load model
                 WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
-                EcellModel model = (EcellModel)SBML2EML.Convert(filename);
+                EcellModel model = SBML2EML.Convert(filename);
                 EmlReader.InitializeModel(model, sim);
                 // Save eml.
                 string dir = Util.GetTmpDir();
@@ -2437,23 +2437,23 @@ namespace Ecell
         /// Create the default object(Process, Variable and System).
         /// </summary>
         /// <param name="modelID">the model ID of created object.</param>
-        /// <param name="key">the system path of parent object.</param>
+        /// <param name="systemKey">the system path of parent object.</param>
         /// <param name="type">the type of created object.</param>
         /// <returns>the create object.</returns>
-        public EcellObject CreateDefaultObject(string modelID, string key, string type)
+        public EcellObject CreateDefaultObject(string modelID, string systemKey, string type)
         {
             EcellObject obj = null;
             if (type.Equals(Constants.xpathSystem))
             {
-                obj = CreateDefaultSystem(modelID, key);
+                obj = CreateDefaultSystem(modelID, systemKey);
             }
             else if (type.Equals(Constants.xpathProcess))
             {
-                obj = CreateDefaultProcess(modelID, key);
+                obj = CreateDefaultProcess(modelID, systemKey);
             }
             else if (type.Equals(Constants.xpathVariable))
             {
-                obj = CreateDefaultVariable(modelID, key);
+                obj = CreateDefaultVariable(modelID, systemKey);
             }
             else if (type.Equals(Constants.xpathText))
             {

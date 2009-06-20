@@ -50,7 +50,7 @@ namespace Ecell.SBML
         /// 
         /// </summary>
         /// <param name="filename"></param>
-        public static EcellObject Convert(string filename)
+        public static EcellModel Convert(string filename)
         {
             if (!File.Exists(filename))
                 throw new EcellException(string.Format(MessageResources.ErrFindFile, filename));

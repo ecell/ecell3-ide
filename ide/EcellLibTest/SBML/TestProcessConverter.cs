@@ -44,5 +44,192 @@ namespace Ecell.SBML
     [TestFixture()]
     public class TestProcessConverter
     {
+        private ProcessConverter _unitUnderTest;
+        private ApplicationEnvironment _env;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        [SetUp()]
+        public void SetUp()
+        {
+            _env = new ApplicationEnvironment();
+            _env.DataManager.LoadProject(TestConstant.Model_Drosophila);
+            _unitUnderTest = new ProcessConverter();
+
+        }
+        /// <summary>
+        /// Disposer
+        /// </summary>
+        [TearDown()]
+        public void TearDown()
+        {
+            _env = null;
+            _unitUnderTest = null;
+        }
+
+        /// <summary>
+        /// TestConstructor
+        /// </summary>
+        [Test()]
+        public void TestConvert()
+        {
+            // Expression
+            string classname = ProcessConstants.ExpressionFluxProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionFluxProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("", process.Expression, "Expression is not expected value.");
+
+            // Algebraic
+            classname = ProcessConstants.ExpressionAlgebraicProcess;
+            process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionAlgebraicProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("", process.Expression, "Expression is not expected value.");
+
+            // Assignment
+            classname = ProcessConstants.ExpressionAssignmentProcess;
+            process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionAssignmentProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("", process.Expression, "Expression is not expected value.");
+
+        }
+
+        /// <summary>
+        /// TestNotSupportedProcess
+        /// </summary>
+        [Test()]
+        public void TestNotSupportedProcess()
+        {
+            // Expression
+            string classname = ProcessConstants.GillespieProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+
+            try
+            {
+                ProcessConverter.ConvertToExpression(process);
+                Assert.Fail("Failed to catch exception.");
+            }
+            catch (Exception e)
+            {
+            }
+
+
+            // Not Process
+            EcellObject variable = _env.DataManager.CreateDefaultObject("Drosophila", "/", "Variable");
+            ProcessConverter.ConvertToExpression(variable);
+
+        }
+
+        /// <summary>
+        /// TestConstantFlux2Expression
+        /// </summary>
+        [Test()]
+        public void TestConstantFlux2Expression()
+        {
+            string classname = ProcessConstants.ConstantFluxProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionFluxProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("k", process.Expression, "Expression is not expected value.");
+        }
+
+        /// <summary>
+        /// TestMassAction2Expression
+        /// </summary>
+        [Test()]
+        public void TestMassAction2Expression()
+        {
+            string classname = ProcessConstants.MassActionFluxProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionFluxProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("k * S0.Value", process.Expression, "Expression is not expected value.");
+        }
+
+        /// <summary>
+        /// TestDecayFlux2Expression
+        /// </summary>
+        [Test()]
+        public void TestDecayFlux2Expression()
+        {
+            string classname = ProcessConstants.DecayFluxProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionFluxProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("( log ( 2 ) ) / ( T ) * S0.Value", process.Expression, "Expression is not expected value.");
+        }
+
+        /// <summary>
+        /// TestDecayFlux2Expression
+        /// </summary>
+        [Test()]
+        public void TestMichaelisUniUniFlux2Expression()
+        {
+            string classname = ProcessConstants.MichaelisUniUniFluxProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionFluxProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("( ( KcF * KmP * S0.MolerConc - KcR * KmS * P0.MolerConc ) * C0.Value ) / ( KmS * P0.MolerConc + KmP * S0.MolerConc + KmS * KmP )", process.Expression, "Expression is not expected value.");
+        }
+
+        /// <summary>
+        /// TestDecayFlux2Expression
+        /// </summary>
+        [Test()]
+        public void TestPingPongBiBiFlux2Expression()
+        {
+            string classname = ProcessConstants.PingPongBiBiFluxProcess;
+            EcellProcess process = (EcellProcess)_env.DataManager.CreateDefaultObject("Drosophila", "/", "Process");
+            process.Classname = classname;
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(_env.DataManager.GetProcessProperty(classname).Values);
+            process.SetEcellDatas(list);
+            ProcessConverter.ConvertToExpression(process);
+
+            Assert.AreEqual(ProcessConstants.ExpressionFluxProcess, process.Classname, "Classname is not expected value.");
+            Assert.AreEqual("( KcF * KcR * C0.Value * ( S0.MolarConc * S1.MolarConc - P0.MolarConc * P1.MolarConc / Keq ) ) / ( KcR * KmS1 * S0.MolarConc + KcR * KmS0 * S1.MolarConc + KmP1 * P0.MolarConc * KcF / Keq + KmP0 * P1.MolarConc * KcF / Keq + KcR * S0.MolarConc * S1.MolarConc + KmP1 * S0.MolarConc * P0.MolarConc * KcF / Keq / KiS0 + P0.MolarConc * P1.MolarConc * KcF / Keq + KcR * KmS0 * S1.MolarConc * P1.MolarConc / KiP1 )", process.Expression, "Expression is not expected value.");
+        }
+
     }
 }

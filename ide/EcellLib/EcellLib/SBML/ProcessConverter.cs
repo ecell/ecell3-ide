@@ -57,6 +57,8 @@ namespace Ecell.SBML
             switch(classname)
             {
                 case ProcessConstants.ExpressionFluxProcess:
+                case ProcessConstants.ExpressionAlgebraicProcess:
+                case ProcessConstants.ExpressionAssignmentProcess:
                     newProcess = process;
                     break;
                 case ProcessConstants.ConstantFluxProcess:
