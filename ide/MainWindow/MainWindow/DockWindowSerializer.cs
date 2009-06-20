@@ -47,6 +47,7 @@ using System.Xml.Serialization;
 using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Exceptions;
 using Ecell.Plugin;
+using System.Security.AccessControl;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -342,7 +343,7 @@ namespace Ecell.IDE.MainWindow
             try
             {
                 // Load XML file
-                fs = new FileStream(filename, FileMode.Open);
+                fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 xmlIn = new XmlTextReader(fs);
                 xmlIn.WhitespaceHandling = WhitespaceHandling.None;
                 xmlIn.MoveToContent();
