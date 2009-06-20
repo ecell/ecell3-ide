@@ -42,36 +42,7 @@ namespace Ecell.SBML
     /// TestTemplate
     /// </summary>
     [TestFixture()]
-    public class TestSBML2EML
+    public class TestProcessConverter
     {
-        private SBML2EML _unitUnderTest;
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        [SetUp()]
-        public void SetUp()
-        {
-            _unitUnderTest = new SBML2EML();
-        }
-        /// <summary>
-        /// Disposer
-        /// </summary>
-        [TearDown()]
-        public void TearDown()
-        {
-            _unitUnderTest = null;
-        }
-
-        /// <summary>
-        /// TestConstructor
-        /// </summary>
-        [Test()]
-        public void TestConvert()
-        {
-            EcellObject model = SBML2EML.Convert(TestConstant.TestDirectory + "Ecoli_Oscillation.sbml");
-            Assert.IsNotNull(model, "Convert method returned unexpected value.");
-        }
-
     }
-
 }

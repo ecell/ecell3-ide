@@ -42,36 +42,56 @@ namespace Ecell.SBML
     /// TestTemplate
     /// </summary>
     [TestFixture()]
-    public class TestSBML2EML
+    public class TestStructs
     {
-        private SBML2EML _unitUnderTest;
         /// <summary>
-        /// Constructor
-        /// </summary>
-        [SetUp()]
-        public void SetUp()
-        {
-            _unitUnderTest = new SBML2EML();
-        }
-        /// <summary>
-        /// Disposer
-        /// </summary>
-        [TearDown()]
-        public void TearDown()
-        {
-            _unitUnderTest = null;
-        }
-
-        /// <summary>
-        /// TestConstructor
+        /// TestSBML_Model
         /// </summary>
         [Test()]
-        public void TestConvert()
+        public void TestSBML_Model()
         {
-            EcellObject model = SBML2EML.Convert(TestConstant.TestDirectory + "Ecoli_Oscillation.sbml");
-            Assert.IsNotNull(model, "Convert method returned unexpected value.");
         }
-
+        /// <summary>
+        /// TestSBML_Event
+        /// </summary>
+        [Test()]
+        public void TestSBML_Event()
+        {
+        }
+        /// <summary>
+        /// TestSBML_Compartment
+        /// </summary>
+        [Test()]
+        public void TestSBML_Compartment()
+        {
+        }
+        /// <summary>
+        /// TestSBML_Parameter
+        /// </summary>
+        [Test()]
+        public void TestSBML_Parameter()
+        {
+        }
+        /// <summary>
+        /// TestSBML_Reaction
+        /// </summary>
+        [Test()]
+        public void TestSBML_Reaction()
+        {
+        }
+        /// <summary>
+        /// TestSBML_Rule
+        /// </summary>
+        [Test()]
+        public void TestSBML_Rule()
+        {
+        }
+        /// <summary>
+        /// TestSBML_Rule
+        /// </summary>
+        [Test()]
+        public void TestSBML_Species()
+        {
+        }
     }
-
 }

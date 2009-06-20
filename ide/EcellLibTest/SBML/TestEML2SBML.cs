@@ -42,16 +42,16 @@ namespace Ecell.SBML
     /// TestTemplate
     /// </summary>
     [TestFixture()]
-    public class TestSBML2EML
+    public class TestEML2SBML
     {
-        private SBML2EML _unitUnderTest;
+        private EML2SBML _unitUnderTest;
         /// <summary>
         /// Constructor
         /// </summary>
         [SetUp()]
         public void SetUp()
         {
-            _unitUnderTest = new SBML2EML();
+            _unitUnderTest = new EML2SBML();
         }
         /// <summary>
         /// Disposer
@@ -68,10 +68,20 @@ namespace Ecell.SBML
         [Test()]
         public void TestConvert()
         {
-            EcellObject model = SBML2EML.Convert(TestConstant.TestDirectory + "Ecoli_Oscillation.sbml");
+            EML2SBML.Convert(TestConstant.Model_Drosophila, TestConstant.TestDirectory + "Drosophila.sbml");
+        }
+
+        /// <summary>
+        /// TestConstructor
+        /// </summary>
+        [Test()]
+        public void TestParse()
+        {
+            EcellModel model = EmlReader.Parse(TestConstant.Model_Drosophila, new EcellCoreLib.WrappedSimulator(Util.GetDMDirs()));
+            libsbml.SBMLDocument doc = EML2SBML.convertToSBMLModel(model, "Drosophila", 2, 3);
             Assert.IsNotNull(model, "Convert method returned unexpected value.");
         }
 
-    }
 
+    }
 }
