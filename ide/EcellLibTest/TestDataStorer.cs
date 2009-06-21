@@ -112,7 +112,7 @@ namespace Ecell
             EcellValue value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, Constants.xpathProcess, className, name });
             Assert.IsNotNull(value, "GetValueFromDM method returned unexpected value.");
             Assert.IsTrue(value.IsString, "IsString is unexpected value.");
-            Assert.AreNotEqual("", (string)value, "GetValueFromDMM method returned unexpected result.");
+            Assert.AreEqual("", (string)value, "GetValueFromDMM method returned unexpected result.");
 
             name = "newValue";
             value = (EcellValue)methodInfo.Invoke(dataStorer, new object[] { dmm, Constants.xpathProcess, className, name });
@@ -127,7 +127,6 @@ namespace Ecell
             Assert.AreEqual("", (string)value, "GetValueFromDMM method returned unexpected result.");
 
         }
-        
         
         /// <summary>
         /// TestGetVariableValue

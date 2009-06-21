@@ -166,16 +166,7 @@ namespace Ecell
                 foreach (string modulePath in modulePaths)
                 {
                     string moduleName = Path.GetFileNameWithoutExtension(modulePath);
-                    string moduleType = null;
-
-                    if (moduleName.EndsWith(Constants.xpathStepper))
-                        moduleType = Constants.xpathStepper;
-                    else if (moduleName.EndsWith(Constants.xpathProcess))
-                        moduleType = Constants.xpathProcess;
-                    else if (moduleName.EndsWith(Constants.xpathVariable))
-                        moduleType = Constants.xpathVariable;
-                    else if (moduleName.EndsWith(Constants.xpathSystem))
-                        moduleType = Constants.xpathSystem;
+                    string moduleType = GetModuleType(moduleName);
 
                     if (moduleType == null)
                         continue; // XXX: what are we supposed to do here?
@@ -212,27 +203,27 @@ namespace Ecell
                 Trace.WriteLine("Checking DMs in " + kv.Key);
 
                 // Test System DMs.
-                foreach (DMModuleInfo pair in kv.Value[Constants.xpathSystem])
+                foreach (DMModuleInfo info in kv.Value[Constants.xpathSystem])
                 {
-                    LoadEntityDM(Constants.xpathSystem, descs, sim, pair);
+                    descs[Constants.xpathSystem][info.ModuleName] = LoadEntityDM(sim, info, Constants.xpathSystem);
                 }
 
                 // Test Process DMs.
-                foreach (DMModuleInfo pair in kv.Value[Constants.xpathProcess])
+                foreach (DMModuleInfo info in kv.Value[Constants.xpathProcess])
                 {
-                    LoadEntityDM(Constants.xpathProcess, descs, sim, pair);
+                    descs[Constants.xpathProcess][info.ModuleName] = LoadEntityDM(sim, info, Constants.xpathProcess);
                 }
 
                 // Test Variable DMs.
-                foreach (DMModuleInfo pair in kv.Value[Constants.xpathVariable])
+                foreach (DMModuleInfo info in kv.Value[Constants.xpathVariable])
                 {
-                    LoadEntityDM(Constants.xpathVariable, descs, sim, pair);
+                    descs[Constants.xpathVariable][info.ModuleName] = LoadEntityDM(sim, info, Constants.xpathVariable);
                 }
 
                 // Test Stepper DMs.
-                foreach (DMModuleInfo pair in kv.Value[Constants.xpathStepper])
+                foreach (DMModuleInfo info in kv.Value[Constants.xpathStepper])
                 {
-                    LoadStepperDM(descs, sim, pair);
+                    descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                 }
             }
 
@@ -242,11 +233,32 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="descs"></param>
+        /// <param name="moduleName"></param>
+        /// <returns></returns>
+        private static string GetModuleType(string moduleName)
+        {
+            string moduleType = null;
+
+            if (moduleName.EndsWith(Constants.xpathStepper))
+                moduleType = Constants.xpathStepper;
+            else if (moduleName.EndsWith(Constants.xpathProcess))
+                moduleType = Constants.xpathProcess;
+            else if (moduleName.EndsWith(Constants.xpathVariable))
+                moduleType = Constants.xpathVariable;
+            else if (moduleName.EndsWith(Constants.xpathSystem))
+                moduleType = Constants.xpathSystem;
+            return moduleType;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="sim"></param>
         /// <param name="info"></param>
-        private static void LoadStepperDM(Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo info)
+        /// <returns></returns>
+        private static DMDescriptor LoadStepperDM(WrappedSimulator sim, DMModuleInfo info)
         {
+            DMDescriptor desc = null;
             try
             {
                 Trace.WriteLine("Checking properties for " + info.ModuleName);
@@ -258,27 +270,28 @@ namespace Ecell
 
                 // Check DynamicProperty
                 bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
-                DMDescriptor desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, dynamic, pdescs);
+                desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, dynamic, pdescs);
                 desc.Description = info.Description;
 
-                descs[Constants.xpathStepper][info.ModuleName] = desc;
             }
             catch (Exception)
             {
                 Trace.WriteLine("Failed to load " + info.ModuleName);
                 //Trace.WriteLine(e.StackTrace);
             }
+            return desc;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="descs"></param>
         /// <param name="sim"></param>
         /// <param name="info"></param>
-        private static void LoadEntityDM(string type, Dictionary<string, Dictionary<string, DMDescriptor>> descs, WrappedSimulator sim, DMModuleInfo info)
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static DMDescriptor LoadEntityDM(WrappedSimulator sim, DMModuleInfo info, string type)
         {
+            DMDescriptor desc = null;
             try
             {
                 Trace.WriteLine("Checking properties for " + info.ModuleName);
@@ -290,9 +303,8 @@ namespace Ecell
 
                 // Check DynamicProperty
                 bool dynamic = CheckDynamicProperty(sim, id, pdescs);
-                DMDescriptor desc = new DMDescriptor(info.ModuleName, info.Path, type, dynamic, pdescs);
+                desc = new DMDescriptor(info.ModuleName, info.Path, type, dynamic, pdescs);
                 desc.Description = info.Description;
-                descs[type][info.ModuleName] = desc;
                     
             }
             catch (Exception)
@@ -300,6 +312,7 @@ namespace Ecell
                 Trace.WriteLine("Failed to load " + info.ModuleName);
                 //Trace.WriteLine(e.StackTrace);
             }
+            return desc;
         }
 
         /// <summary>

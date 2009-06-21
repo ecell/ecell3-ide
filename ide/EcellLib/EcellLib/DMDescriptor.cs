@@ -128,9 +128,7 @@ namespace Ecell
         {
             get
             {
-                PropertyDescriptor retval = null;
-                m_props.TryGetValue(name, out retval);
-                return retval;
+                return GetProperty(name);
             }
         }
         #endregion
@@ -161,8 +159,20 @@ namespace Ecell
         /// <returns></returns>
         public bool ContainsProperty(string name)
         {
-            PropertyDescriptor prop = this[name];
+            PropertyDescriptor prop = GetProperty(name);
             return (prop != null);
+        }
+
+        /// <summary>
+        /// Get PropertyDescriptor with name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public PropertyDescriptor GetProperty(string name)
+        {
+            PropertyDescriptor retval = null;
+            m_props.TryGetValue(name, out retval);
+            return retval;
         }
 
         /// <summary>
@@ -180,7 +190,7 @@ namespace Ecell
         /// <returns></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return m_props.Values.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -200,7 +210,7 @@ namespace Ecell
 
             foreach (PropertyDescriptor prop in m_props.Values)
             {
-                if (!prop.Equals(desc[prop.Name]))
+                if (!desc.ContainsProperty(prop.Name) || !prop.Equals(desc[prop.Name]))
                     return false;
             }
 

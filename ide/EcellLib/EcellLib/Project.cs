@@ -676,15 +676,6 @@ namespace Ecell
         {
             // Dispose simulator.
             this.m_simulator.Dispose();
-
-            // Delete empty project.
-            string prjPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
-            if (!Directory.Exists(prjPath))
-                return;
-
-            string[] files = Directory.GetFiles(prjPath, "project.xml");
-            if (files.Length <= 0)
-                Directory.Delete(prjPath, true);
         }
 
         /// <summary>

@@ -34,6 +34,8 @@ using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
 using EcellCoreLib;
+using System.Collections;
+using System.Reflection;
 
 namespace Ecell
 {
@@ -344,10 +346,15 @@ namespace Ecell
             try
             {
                 module = _unitUnderTest.GetDMDescriptor(type, dmName);
+                Assert.IsFalse(module.ContainsProperty("hoge"));
                 Assert.IsNotNull(module);
-
+                module.Equals(_unitUnderTest.GetDMDescriptor("Process", "ExpressionFluxProcess"));
+                Assert.AreEqual(module, module);
+                Assert.AreNotEqual(module, new object());
                 Assert.AreEqual(module.Name, dmName);
                 Assert.AreNotEqual(module.Path, "");
+                Assert.IsNotNull(((IEnumerable)module).GetEnumerator());
+
                 Trace.WriteLine("DynamicModule:" + module.Name);
                 foreach (PropertyDescriptor prop in module)
                 {
@@ -393,6 +400,29 @@ namespace Ecell
             Assert.IsNotEmpty(desc, "GetDescription method returns unexpected value.");
 
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestPrivateMethods()
+        {
+            Type type = _unitUnderTest.GetType();
+            // GetModuleType
+            MethodInfo info = type.GetMethod("GetModuleType", BindingFlags.NonPublic | BindingFlags.Static);
+            string value = (string)info.Invoke(_unitUnderTest, new object[] { "System" });
+            Assert.AreEqual("System", value, "GetModuleType method returns unexpected value.");
+            value = (string)info.Invoke(_unitUnderTest, new object[] { "Variable" });
+            Assert.AreEqual("Variable", value, "GetModuleType method returns unexpected value.");
+            value = (string)info.Invoke(_unitUnderTest, new object[] { "ExpressionFluxProcess" });
+            Assert.AreEqual("Process", value, "GetModuleType method returns unexpected value.");
+            value = (string)info.Invoke(_unitUnderTest, new object[] { "ODEStepper" });
+            Assert.AreEqual("Stepper", value, "GetModuleType method returns unexpected value.");
 
+            info = type.GetMethod("LoadStepperDM", BindingFlags.NonPublic | BindingFlags.Static);
+            DMDescriptor stepper = (DMDescriptor)info.Invoke(_unitUnderTest, new object[] { new WrappedSimulator(Util.GetDMDirs()), new DMModuleInfo("", new DMInfo()) });
+            Assert.IsNull(stepper, "LoadStepperDM method returns unexpected value.");
+
+        }
     }
 }

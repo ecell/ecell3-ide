@@ -1800,10 +1800,10 @@ namespace Ecell
         {
             string basedir = Util.GetBaseDir();
             Util.SetBaseDir(TestConstant.TestDirectory);
+            _unitUnderTest.LoadRevision("Revision1");
 
             try
             {
-                _unitUnderTest.LoadRevision("Revision1");
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
                 _unitUnderTest.LoadRevision("Revision1");
                 _unitUnderTest.LoadRevision("Revision1");
