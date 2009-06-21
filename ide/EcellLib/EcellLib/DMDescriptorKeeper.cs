@@ -418,7 +418,16 @@ namespace Ecell
                     randomID = Util.GenerateRandomID(32);
                 }
                 while (pdescs.ContainsKey(randomID));
-                sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
+                // Test Set property.
+                if (id.EndsWith(EcellObject.STEPPER))
+                {
+                    sim.SetStepperProperty(id, randomID, 0.0f);
+                }
+                else
+                {
+                    string fullId = Util.BuildFullPN(id, randomID);
+                    sim.SetEntityProperty(fullid, 0.0);
+                }
             }
             catch (Exception)
             {
