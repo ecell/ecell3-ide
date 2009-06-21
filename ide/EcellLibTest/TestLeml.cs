@@ -41,6 +41,7 @@ namespace Ecell
     using System.Reflection;
     using System.Collections;
     using Ecell.Plugin;
+    using System.Xml;
     /// <summary>
     /// 
     /// </summary>
@@ -83,6 +84,33 @@ namespace Ecell
 
             _unitUnderTest.SaveProject();
         }
+        
+        /// <summary>
+        /// TestLoad
+        /// </summary>
+        [Test()]
+        public void TestErrorCase()
+        {
+            try
+            {
+                Leml.GetStringAttribute(null, null);
+            }
+            catch (Exception)
+            {
+            }
 
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                XmlElement node = doc.CreateElement("hode");
+                node.SetAttribute("Value", "hoge");
+                float f = Leml.GetFloatAttribute(node, "Value");
+                Trace.WriteLine(f);
+            }
+            catch (Exception)
+            {
+            }
+
+        }
     }
 }

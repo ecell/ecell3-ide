@@ -220,7 +220,8 @@ namespace Ecell
                 // Check
                 if (sys.Type.Equals(type) && sys.Key.Equals(key))
                 {
-                    return sys;
+                    eo = sys;
+                    break;
                 }
 
                 foreach (EcellObject child in sys.Children)
@@ -228,7 +229,8 @@ namespace Ecell
                     // Check
                     if (child.Type.Equals(type) && child.Key.Equals(key))
                     {
-                        return child;
+                        eo = child;
+                        break;
                     }
                 }
             }

@@ -339,8 +339,8 @@ namespace Ecell
                     project = LoadProjectFromXML(filepath);
                 else if (ext.Equals(Constants.FileExtEML))
                     project = LoadProjectFromEml(filepath);
-                else if (ext.Equals(Constants.FileExtSBML))
-                    project = LoadProjectFromSbml(filepath);
+                //else if (ext.Equals(Constants.FileExtSBML))
+                //    project = LoadProjectFromSbml(filepath);
                 else
                     throw new EcellException("Unknown file type :" + filepath);
 
@@ -440,26 +440,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Get Parameter text from ProjectInfo.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        private static string ParseProjectInfo(string line, string param)
-        {
-            string comment;
-            if (line.IndexOf(Constants.delimiterEqual) != -1)
-            {
-                comment = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-            }
-            else
-            {
-                comment = line.Substring(param.Length).Trim();
-            }
-            return comment;
-        }
-
-        /// <summary>
         /// Get Project from Eml file.
         /// </summary>
         /// <param name="filepath"></param>
@@ -476,22 +456,22 @@ namespace Ecell
             return project;
         }
 
-        /// <summary>
-        /// Get Project from SBML file.
-        /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
-        private static ProjectInfo LoadProjectFromSbml(string filepath)
-        {
-            ProjectInfo project = null;
-            string name = Path.GetFileNameWithoutExtension(filepath);
-            string comment = "";
-            string time = File.GetLastWriteTime(filepath).ToString();
-            project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
-            project.Models.Add(filepath);
-            project.ProjectType = ProjectType.SBML;
-            return project;
-        }
+        ///// <summary>
+        ///// Get Project from SBML file.
+        ///// </summary>
+        ///// <param name="filepath"></param>
+        ///// <returns></returns>
+        //private static ProjectInfo LoadProjectFromSbml(string filepath)
+        //{
+        //    ProjectInfo project = null;
+        //    string name = Path.GetFileNameWithoutExtension(filepath);
+        //    string comment = "";
+        //    string time = File.GetLastWriteTime(filepath).ToString();
+        //    project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
+        //    project.Models.Add(filepath);
+        //    project.ProjectType = ProjectType.SBML;
+        //    return project;
+        //}
 
     }
 
