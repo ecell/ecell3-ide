@@ -282,8 +282,9 @@ namespace Ecell
         {
             get { return m_simulator; }
             set {
-                if (m_simulator != null)
-                    m_simulator.Dispose();
+                // 20090623
+                //if (m_simulator != null)
+                //    m_simulator.Dispose();
                 m_simulator = value; 
             }
         }

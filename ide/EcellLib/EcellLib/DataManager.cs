@@ -370,8 +370,9 @@ namespace Ecell
             }
             finally
             {
-                if (sim != null)
-                    sim.Dispose();
+                // 20090623
+                //if (sim != null)
+                //    sim.Dispose();
             }
 
         }
@@ -2733,8 +2734,9 @@ namespace Ecell
             }
             finally
             {
-                simulator.Dispose();
-                simulator = null;
+                //20090623
+                //simulator.Dispose();
+                //simulator = null;
                 variableObject = null;
             }
         }
@@ -2764,7 +2766,8 @@ namespace Ecell
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
-                simulator.Dispose();
+                //20090623
+                //simulator.Dispose();
             }
             finally
             {
@@ -2797,7 +2800,8 @@ namespace Ecell
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
-                sim.Dispose();
+                // 20090623
+                //sim.Dispose();
             }
             catch (Exception ex)
             {
@@ -2824,7 +2828,8 @@ namespace Ecell
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
                 DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
                 list = dummyEcellObject.Value;
-                sim.Dispose();
+                //20090623
+                //sim.Dispose();
             }
             finally
             {
@@ -4485,7 +4490,8 @@ namespace Ecell
                 // Parses the simulation parameter.
                 WrappedSimulator simulator = project.CreateSimulatorInstance();
                 simParam = SimulationParameterReader.Parse(fileName, simulator);
-                simulator.Dispose();
+                //20090623
+                //simulator.Dispose();
             }
             catch (Exception ex)
             {
@@ -4934,7 +4940,8 @@ namespace Ecell
                 string fullPath = path + Constants.delimiterColon + "CheckProperty";
                 EcellValue newValue = new EcellValue(0.01);
                 sim.SetEntityProperty(fullPath, newValue.Value);
-                sim.Dispose();
+                // 20090623
+                //sim.Dispose();
             }
             catch (Exception ex)
             {

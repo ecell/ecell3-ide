@@ -138,7 +138,8 @@ namespace Ecell
                             new DMModuleInfo(dmPath, entry));
                     }
                 }
-                sim.Dispose();
+                // 20090623
+                //sim.Dispose();
             }
 
             // Searches the DM paths
@@ -184,7 +185,8 @@ namespace Ecell
                     infoList.Add(info);
                     perDirectoryModuleList[moduleType].Add(info);
                 }
-                sim.Dispose();
+                // 20090623
+                //sim.Dispose();
             }
 
             Dictionary<string, Dictionary<string, DMDescriptor>> descs =
@@ -227,7 +229,8 @@ namespace Ecell
                 {
                     descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                 }
-                sim.Dispose();
+                // 20090623
+//                sim.Dispose();
             }
 
             m_descs = descs;
@@ -426,7 +429,7 @@ namespace Ecell
                 else
                 {
                     string fullId = Util.BuildFullPN(id, randomID);
-                    sim.SetEntityProperty(fullid, 0.0);
+                    sim.SetEntityProperty(fullId, 0.0);
                 }
             }
             catch (Exception)
