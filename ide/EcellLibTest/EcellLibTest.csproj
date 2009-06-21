@@ -87,6 +87,8 @@
     <Compile Include="Objects\TestEcellObservedData.cs" />
     <Compile Include="Objects\TestEcellParameterData.cs" />
     <Compile Include="Plugin\TestEcellDockContent.cs" />
+    <Compile Include="Plugin\TestLayoutBase.cs" />
+    <Compile Include="Plugin\TestPluginBase.cs" />
     <Compile Include="Reporting\TestCompileReport.cs" />
     <Compile Include="Reporting\TestObjectPropertyReport.cs" />
     <Compile Include="Reporting\TestObjectReport.cs" />

@@ -765,6 +765,8 @@ namespace Ecell.Plugin
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
+            if (m_diagramEditor == null)
+                return;
             m_diagramEditor.SetPosition(data);
         }
 

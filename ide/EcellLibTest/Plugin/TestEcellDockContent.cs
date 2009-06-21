@@ -35,6 +35,7 @@ using NUnit.Framework;
 using System.Diagnostics;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Ecell.Plugin
 {
@@ -83,9 +84,9 @@ namespace Ecell.Plugin
             {
                 form = new Form();
                 DockPanel panel = new DockPanel();
+                panel.DocumentStyle = DocumentStyle.DockingWindow;
                 form.SuspendLayout();
                 form.Controls.Add(panel);
-                panel.Parent = form;
                 form.SuspendLayout();
                 form.Show();
 
@@ -96,6 +97,9 @@ namespace Ecell.Plugin
                 content.DockHandler.DockPanel = panel;
                 content.IsHidden = false;
                 content.Show();
+                content.GetDesktopLocation();
+                content.FloatAt(new Rectangle(100, 100, 500, 500));
+                content.GetDesktopLocation();
                 content.Hide();
             }
             catch (Exception e)
