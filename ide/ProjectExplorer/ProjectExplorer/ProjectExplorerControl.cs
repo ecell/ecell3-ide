@@ -897,8 +897,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="path">the dm file.</param>
         private void DisplayDMEditor(string path)
         {
-            DMEditor edit = new DMEditor(path, m_owner.Environment);
-            using (edit) edit.ShowDialog();
+            m_owner.ShowDMEditor(path);
         }
 
         /// <summary>

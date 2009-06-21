@@ -44,7 +44,7 @@ namespace Ecell.IDE
     /// <summary>
     /// Form class to display the source of DM.
     /// </summary>
-    public partial class DMEditor : Form
+    public partial class DMEditor : EcellDockContent
     {
         #region Fileds
         /// <summary>
@@ -66,19 +66,43 @@ namespace Ecell.IDE
             InitializeComponent();
             m_path = null;
         }
+        #endregion
 
         /// <summary>
-        /// Constructor with the initial parameters.
+        /// set Application Environment.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="env"></param>
-        public DMEditor(string path, ApplicationEnvironment env)
+        public ApplicationEnvironment Environment
         {
-            m_path = path;
-            InitializeComponent();
-            m_env = env;
+            set { this.m_env = value; }
         }
-        #endregion
+
+        /// <summary>
+        /// set dm file path.
+        /// </summary>
+        public string path
+        {
+            set
+            {                
+                m_path = value;
+                if (m_path != null)
+                {
+                    LoadFile();
+                    DMESaveButton.Enabled = true;
+                    DMESaveAsButton.Enabled = true;
+                    if (!Util.IsInstalledSDK())
+                        DMEComileButton.Enabled = false;
+                    else
+                        DMEComileButton.Enabled = true;
+                }
+                else
+                {
+                    DMESaveButton.Enabled = false;
+                    DMESaveAsButton.Enabled = false;
+                    DMEComileButton.Enabled = false;
+                    DMETextBox.Text = "";
+                }
+            }
+        }
 
         #region Events
         /// <summary>
@@ -98,13 +122,7 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         protected virtual void DMEditorShown(object sender, EventArgs e)
         {
-            if (!Util.IsInstalledSDK())
-                DMEComileButton.Enabled = false;
-            else
-                DMEComileButton.Enabled = true;
-
             if (m_path == null) return;
-            LoadFile();
         }
 
         /// <summary>

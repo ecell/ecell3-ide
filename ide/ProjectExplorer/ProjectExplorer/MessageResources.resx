@@ -147,6 +147,9 @@
   <data name="NameAnalysis" xml:space="preserve">
     <value>Analysis</value>
   </data>
+  <data name="NameDMEditor" xml:space="preserve">
+    <value>DM Editor</value>
+  </data>
   <data name="NameDMs" xml:space="preserve">
     <value>DMs</value>
   </data>

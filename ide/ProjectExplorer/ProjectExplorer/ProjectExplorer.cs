@@ -56,6 +56,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// m_form (ProjectExplorerControl form) 
         /// </summary>
         private ProjectExplorerControl m_form = null;
+        /// <summary>
+        /// DM Editor
+        /// </summary>
+        private DMEditor m_editor = null;
         #endregion
 
         #region Constructors
@@ -76,6 +80,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             base.Initialize();
             m_form = new ProjectExplorerControl(this);
             m_form.Icon = Resources.ProjectExplorer;
+
+            m_editor = new DMEditor();
+            m_editor.Environment = m_env;
+            m_editor.Text = MessageResources.NameDMEditor;
+            m_editor.Name = MessageResources.NameDMEditor;
         }
         /// <summary>
         /// Get the window form for ProjectExplorer.
@@ -84,7 +93,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <returns>UserControl.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            return new EcellDockContent[] { m_form };
+            return new EcellDockContent[] { m_form, m_editor };
         }
 
         /// <summary>
@@ -263,5 +272,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return false;
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void ShowDMEditor(string fileName)
+        {
+            m_editor.path = fileName;
+            m_editor.Activate();
+        }
     }
 }

@@ -228,6 +228,9 @@
   <data name="NameModel" xml:space="preserve">
     <value>モデル</value>
   </data>
+  <data name="NameScriptEditor" xml:space="preserve">
+    <value>スクリプトエディタ</value>
+  </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>シミュレーションパラメータ</value>
   </data>

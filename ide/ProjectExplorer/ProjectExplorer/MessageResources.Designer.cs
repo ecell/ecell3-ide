@@ -151,6 +151,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   DM Editor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameDMEditor {
+            get {
+                return ResourceManager.GetString("NameDMEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   DMs に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameDMs {

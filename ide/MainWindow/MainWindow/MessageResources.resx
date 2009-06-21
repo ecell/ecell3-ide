@@ -279,4 +279,7 @@
   <data name="ErrProjectUnsaved" xml:space="preserve">
     <value>Save this project before the analysis is saved.</value>
   </data>
+  <data name="NameScriptEditor" xml:space="preserve">
+    <value>Script Editor</value>
+  </data>
 </root>

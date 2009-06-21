@@ -394,6 +394,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Script Editor に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameScriptEditor {
+            get {
+                return ResourceManager.GetString("NameScriptEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Simulation parameter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameSimParam {

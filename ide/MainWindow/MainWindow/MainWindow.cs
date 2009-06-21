@@ -122,6 +122,7 @@ namespace Ecell.IDE.MainWindow
         private GridJobStatusDialog m_statusDialog;
         private string m_title;
         private EcellWebBrowser m_browser;
+        private ScriptEditor m_scriptEditor;
         #endregion
 
         #region Accessor
@@ -172,6 +173,10 @@ namespace Ecell.IDE.MainWindow
 
             m_statusDialog = new GridJobStatusDialog(m_env.JobManager);
             SetDockContent(m_statusDialog);
+            m_scriptEditor = new ScriptEditor(m_env);
+            m_scriptEditor.Text = MessageResources.NameScriptEditor;
+            m_scriptEditor.Name = MessageResources.NameScriptEditor;
+            SetDockContent(m_scriptEditor);
             // Load plugins
             LoadPlugins();
             //Load default window settings.
@@ -810,7 +815,6 @@ namespace Ecell.IDE.MainWindow
             // layout
             MenuItemLayout.Enabled = loaded;
             importSBMLMenuItem.Enabled = unInitialized || loaded;
-            scriptEditorToolStripMenuItem.Enabled = unInitialized || loaded;
 
             // Button.
             toolStripOpenProjectButton.Enabled = unInitialized || loaded;
@@ -1477,15 +1481,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Show the form to edit script.
-        /// </summary>
-        private void ShowScriptEditor()
-        {
-            ScriptEditor edit = new ScriptEditor(m_env);
-            edit.Show();
-        }
-
-        /// <summary>
         /// Event when Save Window setting menu is clicked.
         /// </summary>
         /// <param name="sender">MenuItem</param>
@@ -1613,11 +1608,6 @@ namespace Ecell.IDE.MainWindow
         /// <returns>If contains size, retur true.</returns>
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
-
-        private void ClickScriptEditorMenu(object sender, EventArgs e)
-        {
-            ShowScriptEditor();
-        }
 
         /// <summary>
         /// Event when the status of ReportManager is updated.
