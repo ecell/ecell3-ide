@@ -347,10 +347,11 @@ namespace Ecell
         /// <param name="filename"></param>
         public void LoadSBML(string filename)
         {
+            WrappedSimulator sim = null;
             try
             {
                 // Load model
-                WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
+                sim = new WrappedSimulator(Util.GetDMDirs());
                 EcellModel model = SBML2EML.Convert(filename);
                 EmlReader.InitializeModel(model, sim);
                 // Save eml.
@@ -359,12 +360,18 @@ namespace Ecell
                 modelFileName = Path.Combine(dir, modelFileName);
                 EmlWriter.Create(modelFileName, model.Children, false);
                 LoadProject(modelFileName);
+
             }
             catch (Exception e)
             {
-                m_env.Console.WriteLine("Failed to convert SBML:" + filename); 
+                m_env.Console.WriteLine("Failed to convert SBML:" + filename);
                 m_env.Console.WriteLine(e.ToString());
                 throw new EcellException("Failed to convert SBML.", e);
+            }
+            finally
+            {
+                if (sim != null)
+                    sim.Dispose();
             }
 
         }
@@ -2726,6 +2733,7 @@ namespace Ecell
             }
             finally
             {
+                simulator.Dispose();
                 simulator = null;
                 variableObject = null;
             }
@@ -2756,6 +2764,7 @@ namespace Ecell
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
+                simulator.Dispose();
             }
             finally
             {
@@ -2788,6 +2797,7 @@ namespace Ecell
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
+                sim.Dispose();
             }
             catch (Exception ex)
             {
@@ -2814,6 +2824,7 @@ namespace Ecell
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
                 DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
                 list = dummyEcellObject.Value;
+                sim.Dispose();
             }
             finally
             {
@@ -4474,6 +4485,7 @@ namespace Ecell
                 // Parses the simulation parameter.
                 WrappedSimulator simulator = project.CreateSimulatorInstance();
                 simParam = SimulationParameterReader.Parse(fileName, simulator);
+                simulator.Dispose();
             }
             catch (Exception ex)
             {
@@ -4922,6 +4934,7 @@ namespace Ecell
                 string fullPath = path + Constants.delimiterColon + "CheckProperty";
                 EcellValue newValue = new EcellValue(0.01);
                 sim.SetEntityProperty(fullPath, newValue.Value);
+                sim.Dispose();
             }
             catch (Exception ex)
             {

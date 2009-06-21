@@ -136,6 +136,7 @@ namespace Ecell
                 if (m_dmDic != null)
                     stepperList.AddRange(m_dmDic[Constants.xpathStepper]);
                 stepperList.Sort();
+                sim.Dispose();
                 return stepperList;
             }
         }
@@ -280,7 +281,11 @@ namespace Ecell
         public WrappedSimulator Simulator
         {
             get { return m_simulator; }
-            set { m_simulator = value; }
+            set {
+                if (m_simulator != null)
+                    m_simulator.Dispose();
+                m_simulator = value; 
+            }
         }
 
         /// <summary>
@@ -676,6 +681,7 @@ namespace Ecell
         {
             // Dispose simulator.
             this.m_simulator.Dispose();
+            this.m_simulator = null;
         }
 
         /// <summary>

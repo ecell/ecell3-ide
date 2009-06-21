@@ -138,6 +138,7 @@ namespace Ecell
                             new DMModuleInfo(dmPath, entry));
                     }
                 }
+                sim.Dispose();
             }
 
             // Searches the DM paths
@@ -183,6 +184,7 @@ namespace Ecell
                     infoList.Add(info);
                     perDirectoryModuleList[moduleType].Add(info);
                 }
+                sim.Dispose();
             }
 
             Dictionary<string, Dictionary<string, DMDescriptor>> descs =
@@ -225,6 +227,7 @@ namespace Ecell
                 {
                     descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                 }
+                sim.Dispose();
             }
 
             m_descs = descs;
