@@ -118,44 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DMECloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="DMECloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>361, 427</value>
-  </data>
-  <data name="DMECloseButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 26</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DMECloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="DMECloseButton.Text" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.Name" xml:space="preserve">
-    <value>DMECloseButton</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="DMEComileButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="DMEComileButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 427</value>
   </data>
   <data name="DMEComileButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="DMEComileButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -178,7 +151,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 427</value>
+    <value>280, 427</value>
   </data>
   <data name="DMESaveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -199,13 +172,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMESaveButton.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="DMELoadButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="DMELoadButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 427</value>
+    <value>200, 427</value>
   </data>
   <data name="DMELoadButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -226,7 +199,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMELoadButton.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="DMETextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -262,7 +235,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="DMESaveAsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 427</value>
+    <value>360, 427</value>
   </data>
   <data name="DMESaveAsButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 26</value>

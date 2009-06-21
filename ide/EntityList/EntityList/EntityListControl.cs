@@ -504,7 +504,8 @@ namespace Ecell.IDE.Plugins.EntityList
             {
                 r.Visible =
                     ((string)r.Cells[IndexID].Value).ToLower().Contains(searchCnd.ToLower())
-                    || ((string)r.Cells[IndexName].Value).ToLower().Contains(searchCnd.ToLower());
+                    || ((string)r.Cells[IndexName].Value).ToLower().Contains(searchCnd.ToLower())
+                    || ((string)r.Cells[IndexClass].Value).ToLower().Contains(searchCnd.ToLower());
             }
             objectListDataGrid.ResumeLayout();
         }

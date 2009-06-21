@@ -49,7 +49,7 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Plugin class to manage the result and parameter of analysis.
     /// </summary>
-    public class Analysis : PluginBase, IAnalysis
+    public class Analysis : PluginBase, IAnalysis, IRasterizable
     {
         #region Fields
         private ToolStripMenuItem analysisMenu;
@@ -865,7 +865,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_paramList.Remove(data);
             }
-        }
+        }        
 
         /// <summary>
         /// The event sequence when the user add and change the parameter data.
@@ -926,6 +926,40 @@ namespace Ecell.IDE.Plugins.Analysis
         public override string GetPluginName()
         {
             return "Analysis";
+        }
+
+
+
+        /// <summary>
+        /// Check whether this plugin can print display image.
+        /// </summary>
+        /// <returns>true</returns>
+        public IEnumerable<string> GetEnablePrintNames()
+        {
+            List<string> names = new List<string>();
+            if (!m_rWin.GraphContent.IsHidden)
+                names.Add(m_rWin.GraphContent.Text);
+            return names;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDirect()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>
+        public Bitmap Print(string name)
+        {
+            if (m_rWin.GraphContent.Text.Equals(name))
+                m_rWin.GraphWindow.Print();
+            return null;
         }
 
         /// <summary>

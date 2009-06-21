@@ -58,7 +58,6 @@ namespace Ecell.IDE
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DMEditor));
-            this.DMECloseButton = new System.Windows.Forms.Button();
             this.DMEComileButton = new System.Windows.Forms.Button();
             this.DMESaveButton = new System.Windows.Forms.Button();
             this.DMELoadButton = new System.Windows.Forms.Button();
@@ -67,13 +66,6 @@ namespace Ecell.IDE
             this.DMESaveAsButton = new System.Windows.Forms.Button();
             this.DMESaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
-            // 
-            // DMECloseButton
-            // 
-            resources.ApplyResources(this.DMECloseButton, "DMECloseButton");
-            this.DMECloseButton.Name = "DMECloseButton";
-            this.DMECloseButton.UseVisualStyleBackColor = true;
-            this.DMECloseButton.Click += new System.EventHandler(this.DMECloseButtonClick);
             // 
             // DMEComileButton
             // 
@@ -119,7 +111,6 @@ namespace Ecell.IDE
             this.Controls.Add(this.DMESaveAsButton);
             this.Controls.Add(this.DMEComileButton);
             this.Controls.Add(this.DMETextBox);
-            this.Controls.Add(this.DMECloseButton);
             this.Controls.Add(this.DMELoadButton);
             this.Controls.Add(this.DMESaveButton);
             this.Name = "DMEditor";
@@ -131,10 +122,6 @@ namespace Ecell.IDE
 
         #endregion
 
-        /// <summary>
-        /// Button to close this window.
-        /// </summary>
-        protected System.Windows.Forms.Button DMECloseButton;
         /// <summary>
         /// Button to compile the source file.
         /// </summary>

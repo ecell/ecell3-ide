@@ -64,14 +64,13 @@ namespace Ecell.IDE.Plugins.Analysis
         #endregion
 
         /// <summary>
-        /// 
+        /// get / set the group name.
         /// </summary>
         public string GroupName
         {
             get { return this.m_groupName; }
             set { this.m_groupName = value; }
-        }
-
+        }        
 
         #region Constructor
         /// <summary>
@@ -413,6 +412,14 @@ namespace Ecell.IDE.Plugins.Analysis
             m_zCnt.Refresh();
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
+        }
+
+        /// <summary>
+        /// Print this graph window.
+        /// </summary>
+        public void Print()
+        {
+            m_zCnt.DoPrint();
         }
 
         #region Events
