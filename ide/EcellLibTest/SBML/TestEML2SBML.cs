@@ -90,7 +90,12 @@ namespace Ecell.SBML
         {
             EcellModel model = EmlReader.Parse(TestConstant.Model_Drosophila, new EcellCoreLib.WrappedSimulator(Util.GetDMDirs()));
             libsbml.SBMLDocument doc = EML2SBML.convertToSBMLModel(model, "Drosophila", 2, 3);
-            Assert.IsNotNull(model, "Convert method returned unexpected value.");
+            Assert.IsNotNull(doc, "Convert method returned unexpected value.");
+
+            doc = null;
+            model = SBML2EML.Convert(TestConstant.TestDirectory + "BIOMD0000000003.xml");
+            doc = EML2SBML.convertToSBMLModel(model, "Drosophila", 2, 3);
+            Assert.IsNotNull(doc, "Convert method returned unexpected value.");
         }
         
         /// <summary>
@@ -145,20 +150,20 @@ namespace Ecell.SBML
             Type type = _unitUnderTest.GetType();
             MethodInfo info = type.GetMethod("getCompartmentID", BindingFlags.NonPublic | BindingFlags.Static);
 
-            string compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/", "Variable:/:V0" });
+            string compartment = (string)info.Invoke(_unitUnderTest, new object[] { "Variable:/:V0", "/"});
             Assert.AreEqual("default", compartment, "getCurrentCompartment method returns unexpected value.");
 
-            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/CELL", "Variable:/CELL/Drosophila:V0" });
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "Variable:/CELL/Drosophila:V0", "/CELL"});
             Assert.AreEqual("Drosophila", compartment, "getCurrentCompartment method returns unexpected value.");
 
-            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/CELL", "Variable:.:V0" });
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "Variable:.:V0", "/CELL"});
             Assert.AreEqual("CELL", compartment, "getCurrentCompartment method returns unexpected value.");
 
-            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/", "Variable:.:V0" });
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "Variable:.:V0", "/"});
             Assert.AreEqual("default", compartment, "getCurrentCompartment method returns unexpected value.");
 
         }
-                
+        
         /// <summary>
         /// TestGetCurrentCompartment
         /// </summary>
@@ -169,8 +174,8 @@ namespace Ecell.SBML
             Type type = _unitUnderTest.GetType();
             MethodInfo info = type.GetMethod("getVariableReferenceId", BindingFlags.NonPublic | BindingFlags.Static);
 
-            string varRefID = (string)info.Invoke(_unitUnderTest, new object[] { "/", "Variable:/:V0" });
-            Assert.AreEqual("default", varRefID, "getCurrentCompartment method returns unexpected value.");
+            string varRefID = (string)info.Invoke(_unitUnderTest, new object[] { "Variable:/:V0", "/"});
+            Assert.AreEqual("V0", varRefID, "getCurrentCompartment method returns unexpected value.");
 
         }
     }
