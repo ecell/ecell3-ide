@@ -116,7 +116,7 @@ namespace Ecell
                 zipname = "";
                 ZipUtil.ZipFolder(zipname, folderPath);
             }
-            catch(Exception e)
+            catch(Exception)
             {
             }
         }

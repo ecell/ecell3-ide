@@ -28,7 +28,7 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 // Created    :2009/01/14
-// Last Update:2009/02/02
+// Last Update:2009/06/24
 //
 
 using System;
@@ -42,7 +42,7 @@ namespace Ecell.SBML
     /// <summary>
     /// static functions which parse SBML to structs for converter.
     /// </summary>
-    internal class SbmlFunctions
+    public class SbmlFunctions
     {
         /// <summary>
         /// [ CompartmentStruct ]
@@ -60,16 +60,8 @@ namespace Ecell.SBML
                 string anId = item.getId();
                 string aName = item.getName();
                 long aSpatialDimension = item.getSpatialDimensions();
-                double aSize;
-                if (item.isSetSize())
-                    aSize = item.getSize();
-                else
-                    aSize = double.NaN;
-                double aVolume;
-                if (item.isSetVolume())
-                    aVolume = item.getVolume();
-                else
-                    aVolume = double.NaN;
+                double aSize = GetCompartmentSize(item);
+                double aVolume = GetCompartmentVolume(item);
 
                 string anUnit = item.getUnits();
                 string anOutside = item.getOutside();
@@ -88,6 +80,36 @@ namespace Ecell.SBML
                 list.Add(compartment);
             }
             return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private static double GetCompartmentVolume(Compartment item)
+        {
+            double aVolume;
+            if (item.isSetVolume())
+                aVolume = item.getVolume();
+            else
+                aVolume = double.NaN;
+            return aVolume;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private static double GetCompartmentSize(Compartment item)
+        {
+            double aSize;
+            if (item.isSetSize())
+                aSize = item.getSize();
+            else
+                aSize = double.NaN;
+            return aSize;
         }
 
         /// <summary>
@@ -189,11 +211,7 @@ namespace Ecell.SBML
 
                 string anId_Pa = aParameter.getId();
                 string aName_Pa = aParameter.getName();
-                double aValue_Pa;
-                if( aParameter.isSetValue())
-                    aValue_Pa = aParameter.getValue();
-                else
-                    aValue_Pa = double.NaN;
+                double aValue_Pa = GetParameterValue(aParameter);
                     
                 string anUnit_Pa = aParameter.getUnits();
                 bool aConstant_Pa = aParameter.getConstant();
@@ -210,14 +228,23 @@ namespace Ecell.SBML
             return list;
         }
 
+        private static double GetParameterValue(Parameter aParameter)
+        {
+            double aValue_Pa;
+            if (aParameter.isSetValue())
+                aValue_Pa = aParameter.getValue();
+            else
+                aValue_Pa = double.NaN;
+            return aValue_Pa;
+        }
+
         /// <summary>
         /// [ ReactionStruct ]
         /// [[ Id , Name , [ KineticLawStruct ] , Reversible , Fast , [ ReactantStruct ] , [ ProductStruct ] , [ ModifierSpecies ] ]]
         /// </summary>
         /// <param name="aSBMLmodel"></param>
-        /// <param name="aSBMLDocument"></param>
         /// <returns></returns>
-        internal static List<ReactionStruct> getReaction(Model aSBMLmodel, SBMLDocument aSBMLDocument)
+        internal static List<ReactionStruct> getReaction(Model aSBMLmodel)
         {
             List<ReactionStruct> list = new List<ReactionStruct>();
 
@@ -243,7 +270,7 @@ namespace Ecell.SBML
                             aFormula_KL = "";
                       
                         List<string> aString_KL = new List<string>();
-                        if( aSBMLDocument.getLevel() == 1 )
+                        if (aSBMLmodel.getLevel() == 1)
                         {
                             aString_KL.Add( "" );
                         }
@@ -313,12 +340,7 @@ namespace Ecell.SBML
                     string aSpecies_R = aSpeciesReference.getSpecies();
                     int aStoichiometry_R = (int)aSpeciesReference.getStoichiometry();
 
-                    string aString_R = null;
-                    if (aSpeciesReference.isSetStoichiometryMath())
-                    {
-                        ASTNode anASTNode_R = aSpeciesReference.getStoichiometryMath().getMath();
-                        aString_R = libsbml.libsbml.formulaToString(anASTNode_R );
-                    }
+                    string aString_R = GetStoichiometryMath(aSpeciesReference);
 
                     int aDenominator_R = aSpeciesReference.getDenominator();
 
@@ -343,12 +365,7 @@ namespace Ecell.SBML
                     string aSpecies_P = aSpeciesReference.getSpecies();
                     double aStoichiometry_P = aSpeciesReference.getStoichiometry();
 
-                    string aString_P = null;
-                    if (aSpeciesReference.isSetStoichiometryMath())
-                    {
-                        ASTNode anASTNode_P = aSpeciesReference.getStoichiometryMath().getMath();
-                        aString_P = libsbml.libsbml.formulaToString( anASTNode_P );
-                    }
+                    string aString_P = GetStoichiometryMath(aSpeciesReference);
 
                     int aDenominator_P = aSpeciesReference.getDenominator();
 
@@ -384,6 +401,22 @@ namespace Ecell.SBML
                 list.Add(reaction);
             }
             return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aSpeciesReference"></param>
+        /// <returns></returns>
+        private static string GetStoichiometryMath(SpeciesReference aSpeciesReference)
+        {
+            string aString_R = null;
+            if (aSpeciesReference.isSetStoichiometryMath())
+            {
+                ASTNode anASTNode_R = aSpeciesReference.getStoichiometryMath().getMath();
+                aString_R = libsbml.libsbml.formulaToString(anASTNode_R);
+            }
+            return aString_R;
         }
 
         /// <summary>
@@ -450,17 +483,8 @@ namespace Ecell.SBML
                 string aName_Sp = aSpecies.getName();
                 string aCompartment_Sp = aSpecies.getCompartment();
 
-                double anInitialAmount_Sp;
-                if (aSpecies.isSetInitialAmount())
-                    anInitialAmount_Sp = aSpecies.getInitialAmount();
-                else
-                    anInitialAmount_Sp = double.NaN;
-
-                double anInitialConcentration_Sp;
-                if (aSpecies.isSetInitialConcentration())
-                    anInitialConcentration_Sp = aSpecies.getInitialConcentration();
-                else
-                    anInitialConcentration_Sp = double.NaN;
+                double anInitialAmount_Sp = GetInitialAmount(aSpecies);
+                double anInitialConcentration_Sp = GetInitialConcentration(aSpecies);
                     
                 string aSubstanceUnit_Sp = aSpecies.getSubstanceUnits();
                 string aSpatialSizeUnit_Sp = aSpecies.getSpatialSizeUnits();
@@ -488,6 +512,34 @@ namespace Ecell.SBML
             }
 
             return list;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aSpecies"></param>
+        /// <returns></returns>
+        internal static double GetInitialConcentration(Species aSpecies)
+        {
+            double anInitialConcentration_Sp;
+            if (aSpecies.isSetInitialConcentration())
+                anInitialConcentration_Sp = aSpecies.getInitialConcentration();
+            else
+                anInitialConcentration_Sp = double.NaN;
+            return anInitialConcentration_Sp;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aSpecies"></param>
+        /// <returns></returns>
+        internal static double GetInitialAmount(Species aSpecies)
+        {
+            double anInitialAmount_Sp;
+            if (aSpecies.isSetInitialAmount())
+                anInitialAmount_Sp = aSpecies.getInitialAmount();
+            else
+                anInitialAmount_Sp = double.NaN;
+            return anInitialAmount_Sp;
         }
 
         /// <summary>
@@ -562,16 +614,51 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Id , Name , SpatialDimension , Size , Volume , Unit , Ouside , Constant ]
     /// </summary>
-    internal struct CompartmentStruct
+    public struct CompartmentStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public long SpatialDimension;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Size;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Volume;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Unit;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Outside;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Constant;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="dimension"></param>
+        /// <param name="size"></param>
+        /// <param name="volume"></param>
+        /// <param name="unit"></param>
+        /// <param name="outside"></param>
+        /// <param name="constant"></param>
         public CompartmentStruct(
             string id,
             string name,
@@ -596,15 +683,41 @@ namespace Ecell.SBML
     /// <summary>
     ///  [ Id , Name , StringTrigger , StringDelay , TimeUnit , [EventAssignmentStruct] ]
     /// </summary>
-    internal struct EventStruct
+    public struct EventStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Trigger;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Delay;
+        /// <summary>
+        /// 
+        /// </summary>
         public string TimeUnits;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<EventAssignmentStruct> EventAssignments;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="trigger"></param>
+        /// <param name="delay"></param>
+        /// <param name="timeUnits"></param>
+        /// <param name="eventAssignments"></param>
         public EventStruct(
             string id,
             string name,
@@ -625,10 +738,21 @@ namespace Ecell.SBML
     /// <summary>
     ///  [ Variable , StringFormula ] 
     /// </summary>
-    internal struct EventAssignmentStruct
+    public struct EventAssignmentStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Variable;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Formula;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="formula"></param>
         public EventAssignmentStruct(string variable, string formula)
         {
             this.Variable = variable;
@@ -639,12 +763,26 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Id , Name , StringFormula ]
     /// </summary>
-    internal struct FunctionDefinitionStruct
+    public struct FunctionDefinitionStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Formula;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="formula"></param>
         public FunctionDefinitionStruct(string id, string name, string formula)
         {
             this.ID = id;
@@ -656,13 +794,36 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Id , Name , Value , Unit , Constant ]
     /// </summary>
-    internal struct ParameterStruct
+    public struct ParameterStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Value;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Unit;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Constant;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <param name="constant"></param>
         public ParameterStruct(
             string id,
             string name,
@@ -681,17 +842,51 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Id , Name , [ KineticLawStruct ] , Reversible , Fast , [ ReactantStruct ] , [ ProductStruct ] , [ ModifierSpecies ] ]
     /// </summary>
-    internal struct ReactionStruct
+    public struct ReactionStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<KineticLawStruct> KineticLaws;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Reversible;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Fast;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<ReactantStruct> Reactants;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<ProductStruct> Products;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<string> Modifiers;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="kineticLaws"></param>
+        /// <param name="reversible"></param>
+        /// <param name="fast"></param>
+        /// <param name="reactants"></param>
+        /// <param name="products"></param>
+        /// <param name="modifiers"></param>
         public ReactionStruct(
              string id,
              string name,
@@ -716,15 +911,41 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Formula , [ Math ] , TimeUnit , SubstanceUnit , [ ParameterStruct ] , ExpressionAnnotation ]
     /// </summary>
-    internal struct KineticLawStruct
+    public struct KineticLawStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Formula;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<string> MathList;
+        /// <summary>
+        /// 
+        /// </summary>
         public string TimeUnit;
+        /// <summary>
+        /// 
+        /// </summary>
         public string SubstanceUnit;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<ParameterStruct> Parameters;
+        /// <summary>
+        /// 
+        /// </summary>
         public XMLNode ExpressionAnnotation;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="formula"></param>
+        /// <param name="math"></param>
+        /// <param name="timeUnit"></param>
+        /// <param name="substance"></param>
+        /// <param name="parameters"></param>
+        /// <param name="annotation"></param>
         public KineticLawStruct(
             string formula,
             List<string> math,
@@ -745,12 +966,31 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Species , ( Stoichiometry , StoichiometryMath ) , Denominator  ]
     /// </summary>
-    internal struct ReactantStruct
+    public struct ReactantStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Species;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Stoichiometry;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Formula;
+        /// <summary>
+        /// 
+        /// </summary>
         public int Denominator;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="species"></param>
+        /// <param name="stoichiometry"></param>
+        /// <param name="formula"></param>
+        /// <param name="denominator"></param>
         public ReactantStruct(
                     string species,
                     int stoichiometry,
@@ -767,12 +1007,31 @@ namespace Ecell.SBML
     /// <summary>
     /// [  Species , ( Stoichiometry , StoichiometryMath ) , Denominator ]
     /// </summary>
-    internal struct ProductStruct
+    public struct ProductStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Species;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Stoichiometry;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Formula;
+        /// <summary>
+        /// 
+        /// </summary>
         public int Denominator;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="species"></param>
+        /// <param name="stoichiometry"></param>
+        /// <param name="formula"></param>
+        /// <param name="denominator"></param>
         public ProductStruct(
                     string species,
                     double stoichiometry,
@@ -789,12 +1048,26 @@ namespace Ecell.SBML
     /// <summary>
     /// [ RuleType, Formula, Variable ]
     /// </summary>
-    internal struct RuleStruct
+    public struct RuleStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int RuleType;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Formula;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Variable;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ruleType"></param>
+        /// <param name="formula"></param>
+        /// <param name="variable"></param>
         public RuleStruct(
             int ruleType,
             string formula,
@@ -809,21 +1082,71 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Id , Name , Compartment , InitialAmount , InitialConcentration , SubstanceUnit , SpatialSizeUnit , Unit , HasOnlySubstanceUnit , BoundaryCondition , Charge , Constant ]
     /// </summary>
-    internal struct SpeciesStruct
+    public struct SpeciesStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Compartment;
+        /// <summary>
+        /// 
+        /// </summary>
         public double InitialAmount;
+        /// <summary>
+        /// 
+        /// </summary>
         public double InitialConcentration;
+        /// <summary>
+        /// 
+        /// </summary>
         public string SubstanceUnit;
+        /// <summary>
+        /// 
+        /// </summary>
         public string SpatialSizeUnit;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Unit;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool HasOnlySubstanceUnit;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool BoundaryCondition;
+        /// <summary>
+        /// 
+        /// </summary>
         public int Charge;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Constant;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="compartment"></param>
+        /// <param name="initialAmount"></param>
+        /// <param name="initialConcentration"></param>
+        /// <param name="substanceUnit"></param>
+        /// <param name="spatialSizeUnit"></param>
+        /// <param name="unit"></param>
+        /// <param name="hasOnlySubstanceUnit"></param>
+        /// <param name="boundaryCondition"></param>
+        /// <param name="charge"></param>
+        /// <param name="constant"></param>
         public SpeciesStruct(
             string id,
             string name,
@@ -856,12 +1179,26 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Id , Name , [ UnitStruct ] ]
     /// </summary>
-    internal struct UnitDefinitionStruct
+    public struct UnitDefinitionStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<UnitStruct> Units;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="units"></param>
         public UnitDefinitionStruct(
             string id,
             string name,
@@ -876,14 +1213,36 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Kind , Exponent , Scale , Multiplier , Offset ]
     /// </summary>
-    internal struct UnitStruct
+    public struct UnitStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Kind;
+        /// <summary>
+        /// 
+        /// </summary>
         public int Exponent;
+        /// <summary>
+        /// 
+        /// </summary>
         public int Scale;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Multiplier;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Offset;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <param name="exponent"></param>
+        /// <param name="scale"></param>
+        /// <param name="multiplier"></param>
+        /// <param name="offset"></param>
         public UnitStruct(
             string kind,
             int exponent,
@@ -902,12 +1261,26 @@ namespace Ecell.SBML
     /// <summary>
     /// [ Name , Variable , Coefficient ]
     /// </summary>
-    internal class VariableReferenceStruct
+    public class VariableReferenceStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public string Variable;
+        /// <summary>
+        /// 
+        /// </summary>
         public int Coefficient;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="variable"></param>
+        /// <param name="coefficient"></param>
         public VariableReferenceStruct(
             string name,
             string variable,
@@ -922,9 +1295,25 @@ namespace Ecell.SBML
     /// <summary>
     /// InitialAssignment
     /// </summary>
-    internal struct InitialAssignmentStruct
+    public struct InitialAssignmentStruct
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         public double Value;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public InitialAssignmentStruct(string name, double value)
+        {
+            this.Name = name;
+            this.Value = value;
+        }
     }
 }

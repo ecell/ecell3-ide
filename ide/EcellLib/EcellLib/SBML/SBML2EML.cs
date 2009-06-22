@@ -28,7 +28,7 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 // Created    :2009/01/14
-// Last Update:2009/02/02
+// Last Update:2009/06/24
 //
 
 using System;
@@ -61,7 +61,7 @@ namespace Ecell.SBML
             {
                 throw new EcellException(string.Format("{0} has no model.", filename));
             }
-            SBML_Model theModel = new SBML_Model(document, model);
+            SBML_Model theModel = new SBML_Model(model);
             SBML_Compartment theCompartment = new SBML_Compartment(theModel);
             SBML_Parameter theParameter = new SBML_Parameter( theModel );
             SBML_Species theSpecies = new SBML_Species( theModel );

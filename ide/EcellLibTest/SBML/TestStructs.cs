@@ -34,6 +34,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
 using Ecell.Objects;
+using libsbml;
 
 namespace Ecell.SBML
 {
@@ -45,11 +46,130 @@ namespace Ecell.SBML
     public class TestStructs
     {
         /// <summary>
+        /// TestCompartmentStruct
+        /// </summary>
+        [Test()]
+        public void TestConstructorOfStructs()
+        {
+            //
+            CompartmentStruct c = new CompartmentStruct(
+                "ID",
+                "Name",
+                0,
+                0.0,
+                0.0,
+                "Unit",
+                "Parent",
+                false);
+            //
+            EventStruct e = new EventStruct(
+                "ID",
+                "Name",
+                "Trigger",
+                "delay",
+                "TimeUnit",
+                new List<EventAssignmentStruct>());
+            //
+            EventAssignmentStruct ea = new EventAssignmentStruct(
+                "Variable",
+                "Formula");
+            //
+            FunctionDefinitionStruct fd = new FunctionDefinitionStruct(
+                "ID",
+                "Name",
+                "Formula");
+            //
+            ParameterStruct p = new ParameterStruct(
+                "ID",
+                "Name",
+                0.0,
+                "Unit",
+                false);
+            //
+            ReactionStruct r = new ReactionStruct(
+                "ID",
+                "Name",
+                new List<KineticLawStruct>(),
+                false,
+                false,
+                new List<ReactantStruct>(),
+                new List<ProductStruct>(),
+                new List<string>());
+            //
+            KineticLawStruct k = new KineticLawStruct(
+                "Formula",
+                new List<string>(),
+                "TimeUnit",
+                "Substance",
+                new List<ParameterStruct>(),
+                null);
+            //
+            ReactantStruct rs = new ReactantStruct(
+                "Species",
+                0,
+                "Formula",
+                0);
+            //
+            ProductStruct ps = new ProductStruct(
+                "Species",
+                0.0,
+                "Formula",
+                0);
+            //
+            RuleStruct rule = new RuleStruct(
+                0,
+                "Formula",
+                "Variable");
+            //
+            SpeciesStruct s = new SpeciesStruct(
+                "ID",
+                "Name",
+                "Parent",
+                0.0,
+                0.0,
+                "Substance",
+                "Spatial",
+                "Unit",
+                false,
+                false,
+                0,
+                false);
+            //
+            UnitDefinitionStruct ud = new UnitDefinitionStruct(
+                "ID",
+                "Name",
+                new List<UnitStruct>());
+            //
+            UnitStruct u = new UnitStruct(
+                "Kind",
+                0,
+                0,
+                0.0,
+                0.0);
+            //
+            VariableReferenceStruct v = new VariableReferenceStruct(
+                "Name",
+                "Variable",
+                0);
+            //
+            InitialAssignmentStruct i = new InitialAssignmentStruct(
+                "Name",
+                0.0);
+
+
+        }
+
+        /// <summary>
         /// TestSBML_Model
         /// </summary>
         [Test()]
         public void TestSBML_Model()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+
         }
         /// <summary>
         /// TestSBML_Event
@@ -57,6 +177,11 @@ namespace Ecell.SBML
         [Test()]
         public void TestSBML_Event()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Event e = new SBML_Event(model);
         }
         /// <summary>
         /// TestSBML_Compartment
@@ -64,6 +189,12 @@ namespace Ecell.SBML
         [Test()]
         public void TestSBML_Compartment()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Compartment c = new SBML_Compartment(model);
+
         }
         /// <summary>
         /// TestSBML_Parameter
@@ -71,6 +202,11 @@ namespace Ecell.SBML
         [Test()]
         public void TestSBML_Parameter()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Parameter p = new SBML_Parameter(model);
         }
         /// <summary>
         /// TestSBML_Reaction
@@ -78,6 +214,11 @@ namespace Ecell.SBML
         [Test()]
         public void TestSBML_Reaction()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Reaction reaction = new SBML_Reaction(model);
         }
         /// <summary>
         /// TestSBML_Rule
@@ -85,6 +226,11 @@ namespace Ecell.SBML
         [Test()]
         public void TestSBML_Rule()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Rule rule = new SBML_Rule(model);
         }
         /// <summary>
         /// TestSBML_Rule
@@ -92,6 +238,11 @@ namespace Ecell.SBML
         [Test()]
         public void TestSBML_Species()
         {
+            SBMLReader reader = new SBMLReader();
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
+
+            SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Species species = new SBML_Species(model);
         }
     }
 }

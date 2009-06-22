@@ -96,7 +96,7 @@ namespace Ecell
         [Test()]
         public void TestWrite()
         {
-            string[] dmDirs = Util.GetDMDirs(null);
+            string[] dmDirs = Util.GetDMDirs();
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             EmlReader testEmlReader = new EmlReader(TestConstant.Model_RBC, sim);
             EcellObject model = testEmlReader.Parse();
@@ -123,7 +123,7 @@ namespace Ecell
         public void TestCreate()
         {
             _unitUnderTest.Close();
-            string[] dmDirs = Util.GetDMDirs(null);
+            string[] dmDirs = Util.GetDMDirs();
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             EmlReader testEmlReader = new EmlReader(TestConstant.Model_Oscillation, sim);
             EcellObject model = testEmlReader.Parse();

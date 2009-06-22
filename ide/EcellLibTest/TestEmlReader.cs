@@ -52,7 +52,7 @@ namespace Ecell
         [SetUp()]
         public void SetUp()
         {
-            string[] dmDirs = Util.GetDMDirs(null);
+            string[] dmDirs = Util.GetDMDirs();
             string filename = TestConstant.Model_RBC;
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             _unitUnderTest = new EmlReader(filename, sim);
@@ -71,7 +71,7 @@ namespace Ecell
         [Test()]
         public void TestConstructorEmlReader()
         {
-            string[] dmDirs = Util.GetDMDirs(null);
+            string[] dmDirs = Util.GetDMDirs();
             string filename = TestConstant.Model_RBC;
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             EmlReader testEmlReader = new EmlReader(filename, sim);
@@ -87,7 +87,7 @@ namespace Ecell
             EcellObject expectedEcellObject = _unitUnderTest.Parse();
             EcellObject resultEcellObject = null;
 
-            string[] dmDirs = Util.GetDMDirs(null);
+            string[] dmDirs = Util.GetDMDirs();
             string filename = TestConstant.Model_RBC;
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             EmlReader testEmlReader = new EmlReader(filename, sim);
@@ -101,7 +101,7 @@ namespace Ecell
         [Test()]
         public void TestParseFileNameSim()
         {
-            string[] dmDirs = Util.GetDMDirs(null);
+            string[] dmDirs = Util.GetDMDirs();
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             string fileName = TestConstant.Model_RBC;
 

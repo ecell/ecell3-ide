@@ -117,8 +117,8 @@ namespace Ecell.Job
             Assert.AreEqual(100, Job.MaxCount, "MaxCount is unexpected value.");
 
             Assert.AreEqual(null, Job.DMPATH, "DMPATH is unexpected value.");
-            Job.DMPATH = Util.GetDMDirs(null)[0];
-            Assert.AreEqual(Util.GetDMDirs(null)[0], Job.DMPATH, "DMPATH is unexpected value.");
+            Job.DMPATH = Util.GetDMDirs()[0];
+            Assert.AreEqual(Util.GetDMDirs()[0], Job.DMPATH, "DMPATH is unexpected value.");
 
             testJob.JobDirectory = Util.GetTmpDir();
             Assert.AreEqual(Util.GetTmpDir(), testJob.JobDirectory, "JobDirectory is unexpected value.");

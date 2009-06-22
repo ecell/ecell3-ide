@@ -424,7 +424,7 @@ namespace Ecell
                 // Test Set property.
                 if (id.EndsWith(EcellObject.STEPPER))
                 {
-                    sim.SetStepperProperty(id, randomID, 0.0f);
+                    sim.SetStepperProperty(id, randomID, 0.0);
                 }
                 else
                 {

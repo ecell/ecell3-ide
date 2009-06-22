@@ -141,7 +141,7 @@ namespace Ecell
             m_rManager = new ReportManager(this);
             m_cManager = new CommandManager(this);
             m_console = new ConsoleManager(this);
-            m_dmManager = new DMDescriptorKeeper(Util.GetDMDirs(null));
+            m_dmManager = new DMDescriptorKeeper(Util.GetDMDirs());
         }
     }
 }

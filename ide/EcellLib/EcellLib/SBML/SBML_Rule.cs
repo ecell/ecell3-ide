@@ -1,4 +1,37 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//       This file is part of the E-Cell System
+//
+//       Copyright (C) 1996-2009 Keio University
+//       Copyright (C) 2005-2008 The Molecular Sciences Institute
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell System is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+// 
+// E-Cell System is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public
+// License along with E-Cell System -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+// 
+// END_HEADER
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// Created    :2009/01/14
+// Last Update:2009/06/24
+//
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Ecell.Exceptions;
@@ -6,20 +39,43 @@ using libsbml;
 
 namespace Ecell.SBML
 {
-    internal class SBML_Rule
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SBML_Rule
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private SBML_Model Model;
+        /// <summary>
+        /// 
+        /// </summary>
         public int RuleNumber;
+        /// <summary>
+        /// 
+        /// </summary>
         public int VariableNumber;
+        /// <summary>
+        /// 
+        /// </summary>
         public int ParameterNumber;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<VariableReferenceStruct> VariableReferenceList;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aModel"></param>
         public SBML_Rule(SBML_Model aModel)
         {
             this.Model = aModel;
             this.RuleNumber = 0;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void initialize()
         {
             this.RuleNumber++;
@@ -27,12 +83,19 @@ namespace Ecell.SBML
             this.ParameterNumber = 0;
             this.VariableReferenceList = new List<VariableReferenceStruct>();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string getRuleID()
         {
             return "/SBMLRule:Rule" + this.RuleNumber.ToString();
         }
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aName"></param>
+        /// <returns></returns>
         public int getVariableType( string aName )
         {
             foreach(SpeciesStruct aSpecies in this.Model.SpeciesList)
@@ -53,7 +116,12 @@ namespace Ecell.SBML
             throw new EcellException("Variable type must be Species, Parameter, or Compartment");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aName"></param>
+        /// <param name="aStoichiometry"></param>
+        /// <returns></returns>
         public string setSpeciesToVariableReference(string aName, int aStoichiometry)
         {
             foreach(SpeciesStruct aSpecies in this.Model.SpeciesList)
@@ -93,7 +161,12 @@ namespace Ecell.SBML
             }
             throw new EcellException("Error set species to VariableReference");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aName"></param>
+        /// <param name="aStoichiometry"></param>
+        /// <returns></returns>
         public string setParameterToVariableReference(string aName, int aStoichiometry)
         {
             foreach(ParameterStruct aParameter in this.Model.ParameterList)
@@ -124,7 +197,12 @@ namespace Ecell.SBML
             }
             throw new EcellException("Error set parameter to VariableReference");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aName"></param>
+        /// <param name="aStoichiometry"></param>
+        /// <returns></returns>
         public string setCompartmentToVariableReference(string aName, int aStoichiometry)
         {
             foreach(CompartmentStruct aCompartment in this.Model.CompartmentList)
@@ -155,7 +233,11 @@ namespace Ecell.SBML
             }
             throw new EcellException("Error set compartment to VariableReference");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="anASTNode"></param>
+        /// <returns></returns>
         private ASTNode convertVariableName(ASTNode anASTNode)
         {
             long aNumChildren = anASTNode.getNumChildren();
@@ -213,7 +295,11 @@ namespace Ecell.SBML
             }
             return anASTNode;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aFormula"></param>
+        /// <returns></returns>
         public string convertRuleFormula(string aFormula)
         {
             ASTNode aASTRootNode = libsbml.libsbml.parseFormula( aFormula );
@@ -222,7 +308,10 @@ namespace Ecell.SBML
             return convertedFormula;
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<object> GetVariableReferenceList()
         {
             List<object> list = new List<object>();

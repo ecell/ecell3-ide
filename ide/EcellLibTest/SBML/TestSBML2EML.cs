@@ -70,6 +70,9 @@ namespace Ecell.SBML
         {
             EcellObject model = SBML2EML.Convert(TestConstant.TestDirectory + "Ecoli_Oscillation.sbml");
             Assert.IsNotNull(model, "Convert method returned unexpected value.");
+
+            model = SBML2EML.Convert(TestConstant.TestDirectory + "BIOMD0000000003.xml");
+            Assert.IsNotNull(model, "Convert method returned unexpected value.");
         }
 
     }

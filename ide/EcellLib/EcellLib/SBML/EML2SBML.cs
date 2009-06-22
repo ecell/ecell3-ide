@@ -339,32 +339,8 @@ namespace Ecell.SBML
                         {
                             if (aVariableReference.Coefficient == 0)
                                 continue;
-
-                            int aFirstColon = aVariableReference.FullID.IndexOf(":");
-                            int aLastColon = aVariableReference.FullID.LastIndexOf(":");
-                            string sysKey = aVariableReference.FullID.Substring(aFirstColon + 1, aLastColon - aFirstColon - 1);
-                            string localID = "";
-                            if (sysKey.Equals("."))
-                            {
-                                Util.ParseSystemKey(aProcess.ParentSystemID, out sysKey, out localID);
-                                CompartmentOfReaction = localID;
-                            }
-                            else
-                            {
-                                string dummy;
-                                Util.ParseSystemKey(sysKey, out dummy, out localID);
-                                CompartmentOfReaction = localID;
-                            }
+                            CompartmentOfReaction = getCompartmentID(aVariableReference.FullID, aProcess.ParentSystemID);
                         }
-
-                        //if( CompartmentOfReaction == "" )
-                        //{
-                        //    anExpression = "(" + anExpression + ")/default/N_A";
-                        //}
-                        //else
-                        //{   
-                        //    anExpression = "(" + anExpression + ")/" + CompartmentOfReaction + "/N_A";
-                        //}
 
                         // set KineticLaw Formula
                         if ( aDelayFlag == false )
@@ -512,6 +488,33 @@ namespace Ecell.SBML
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="fullID"></param>
+        /// <param name="parentSystem"></param>
+        /// <returns></returns>
+        private static string getCompartmentID(string fullID, string parentSystem)
+        {
+            int aFirstColon = fullID.IndexOf(":");
+            int aLastColon = fullID.LastIndexOf(":");
+            string sysKey = fullID.Substring(aFirstColon + 1, aLastColon - aFirstColon - 1);
+            string localID = "";
+
+            if (sysKey.Equals("."))
+            {
+                Util.ParseSystemKey(parentSystem, out sysKey, out localID);
+            }
+            else
+            {
+                string dummy;
+                Util.ParseSystemKey(sysKey, out dummy, out localID);
+            }
+            if (localID.Equals(Constants.delimiterPath))
+                localID = "default";
+            return localID;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="anExpression"></param>
         /// <param name="aVariableReferenceList"></param>
         /// <param name="aSystemKey"></param>
@@ -637,7 +640,6 @@ namespace Ecell.SBML
 
             if( aCurrentCompartment == "SBMLParameter" )
             {
-
                 // ------------------------
                 // create Parameter object
                 // ------------------------
@@ -649,18 +651,15 @@ namespace Ecell.SBML
                 else
                     aParameterID = "SBMLParamter__" + anEml.LocalID;
 
-
                 // set Paramter ID to Id namespace
                 ID_Namespace.Add( aParameterID );
                         
-
                 // set Parameter ID
                 if (aSBMLModel.getLevel() == 1)
                     aParameter.setName( aParameterID );
 
                 else if (aSBMLModel.getLevel() == 2)
                     aParameter.setId( aParameterID );
-
 
                 // set Parameter Name, Value and Constant
                 foreach(EcellData aProperty in anEml.Value)
@@ -844,11 +843,6 @@ namespace Ecell.SBML
                 // set Species Constant
                 aSpecies.setConstant(true);
             }
-        }
-
-        private static double convertToMoleUnit(float aValue )
-        {
-            return aValue / 6.0221367e+23;  // N_A 
         }
     }
 }

@@ -288,7 +288,7 @@ namespace Ecell
             MethodInfo methodInfo = type.GetMethod("BuildDefaultSimulator", BindingFlags.NonPublic | BindingFlags.Static);
             Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
 
-            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs(null));
+            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs());
             string defProcess = null;
             string defStepper = null;
             methodInfo.Invoke(_unitUnderTest, new object[] { simulator, defProcess, defStepper });

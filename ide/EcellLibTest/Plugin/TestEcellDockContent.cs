@@ -102,7 +102,7 @@ namespace Ecell.Plugin
                 content.GetDesktopLocation();
                 content.Hide();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Assert.Fail("Fail to create new DockContent");
             }

@@ -1,4 +1,37 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//       This file is part of the E-Cell System
+//
+//       Copyright (C) 1996-2009 Keio University
+//       Copyright (C) 2005-2008 The Molecular Sciences Institute
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell System is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+// 
+// E-Cell System is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public
+// License along with E-Cell System -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+// 
+// END_HEADER
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// Created    :2009/01/14
+// Last Update:2009/06/24
+//
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using libsbml;
@@ -6,46 +39,95 @@ using Ecell.Exceptions;
 
 namespace Ecell.SBML
 {
-    internal class SBML_Model
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SBML_Model
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public long Level;
+        /// <summary>
+        /// 
+        /// </summary>
         public long Version;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public Dictionary<string, double> CompartmentSize;
+        /// <summary>
+        /// 
+        /// </summary>
         public Dictionary<string, string> CompartmentUnit;
+        /// <summary>
+        /// 
+        /// </summary>
         public Dictionary<string, string> FunctionDefinition;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public List<CompartmentStruct> CompartmentList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<EventStruct> EventList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<FunctionDefinitionStruct> FunctionDefinitionList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<ParameterStruct> ParameterList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<ReactionStruct> ReactionList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<RuleStruct> RuleList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<SpeciesStruct> SpeciesList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<UnitDefinitionStruct> UnitDefinitionList;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<InitialAssignmentStruct> InitialAssignmentList;
 
-        public SBML_Model(SBMLDocument aSBMLDocument, Model aSBMLmodel)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aSBMLmodel"></param>
+        public SBML_Model(Model aSBMLmodel)
         {
             this.CompartmentSize = new Dictionary<string,double>();
             this.CompartmentUnit = new Dictionary<string,string>();
             this.FunctionDefinition = new Dictionary<string, string>();
 
-            this.Level = aSBMLDocument.getLevel();
-            this.Version = aSBMLDocument.getVersion() ;
+            this.Level = aSBMLmodel.getLevel();
+            this.Version = aSBMLmodel.getVersion();
 
             this.CompartmentList = SbmlFunctions.getCompartment(aSBMLmodel);
             this.EventList = SbmlFunctions.getEvent(aSBMLmodel);
             this.FunctionDefinitionList = SbmlFunctions.getFunctionDefinition(aSBMLmodel);
             this.ParameterList = SbmlFunctions.getParameter(aSBMLmodel);
-            this.ReactionList = SbmlFunctions.getReaction(aSBMLmodel, aSBMLDocument);
+            this.ReactionList = SbmlFunctions.getReaction(aSBMLmodel);
             this.RuleList = SbmlFunctions.getRule(aSBMLmodel);
             this.SpeciesList = SbmlFunctions.getSpecies(aSBMLmodel);
             this.UnitDefinitionList = SbmlFunctions.getUnitDefinition(aSBMLmodel);
             this.InitialAssignmentList = SbmlFunctions.getInitialAssignments(aSBMLmodel);
             this.setFunctionDefinitionToDictionary();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void setFunctionDefinitionToDictionary()
         {
             if ( this.FunctionDefinitionList == null || this.FunctionDefinitionList.Count <= 0 )
@@ -56,7 +138,11 @@ namespace Ecell.SBML
                 this.FunctionDefinition[aFunctionDefinition.ID ] = aFunctionDefinition.Formula;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aCompartmentID"></param>
+        /// <returns></returns>
         public string getPath(string aCompartmentID)
         {
             if( aCompartmentID == "default" )
@@ -95,7 +181,11 @@ namespace Ecell.SBML
             }
             throw new EcellException("Cannot get path");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aSpeciesID"></param>
+        /// <returns></returns>
         public string getSpeciesReferenceID(string aSpeciesID)
         {
             if ( this.Level == 1 )
@@ -116,7 +206,12 @@ namespace Ecell.SBML
             }
             throw new EcellException("Cannot find " + aSpeciesID);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aValueUnit"></param>
+        /// <param name="aValue"></param>
+        /// <returns></returns>
         public double convertUnit(string aValueUnit, double aValue )
         {
             List<double> newValue = new List<double>();
@@ -154,7 +249,11 @@ namespace Ecell.SBML
             else
                 return newValue[0];
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="anUnit"></param>
+        /// <returns></returns>
         private double getNewUnitValue(UnitStruct anUnit)
         {
             double aValue = 1;

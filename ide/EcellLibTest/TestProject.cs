@@ -195,13 +195,13 @@ namespace Ecell
         {
             _unitUnderTest.Close();
 
-            _unitUnderTest.Simulator = new EcellCoreLib.WrappedSimulator(Util.GetDMDirs(null));
+            _unitUnderTest.Simulator = new EcellCoreLib.WrappedSimulator(Util.GetDMDirs());
             string path = Util.GetNewDir(_unitUnderTest.Info.ProjectPath);
             _unitUnderTest.Info.ProjectPath = path;
             _unitUnderTest.Close();
 
             Directory.CreateDirectory(path);
-            _unitUnderTest.Simulator = new EcellCoreLib.WrappedSimulator(Util.GetDMDirs(null));
+            _unitUnderTest.Simulator = new EcellCoreLib.WrappedSimulator(Util.GetDMDirs());
             _unitUnderTest.Close();
         }
 

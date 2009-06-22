@@ -53,7 +53,7 @@ namespace Ecell
         [SetUp()]
         public void SetUp()
         {
-            string[] path = Util.GetDMDirs(null);
+            string[] path = Util.GetDMDirs();
             _unitUnderTest = new DMDescriptorKeeper(path);
         }
         /// <summary>
@@ -389,7 +389,7 @@ namespace Ecell
         [Test()]
         public void TestGetDescription()
         {
-            string[] paths = Util.GetDMDirs(null);
+            string[] paths = Util.GetDMDirs();
             string desc = "";
 
             WrappedSimulator sim = new WrappedSimulator(paths);

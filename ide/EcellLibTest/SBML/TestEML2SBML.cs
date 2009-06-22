@@ -34,6 +34,8 @@ using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
 using Ecell.Objects;
+using libsbml;
+using System.Reflection;
 
 namespace Ecell.SBML
 {
@@ -63,16 +65,25 @@ namespace Ecell.SBML
         }
 
         /// <summary>
-        /// TestConstructor
+        /// TestConvert
         /// </summary>
         [Test()]
         public void TestConvert()
         {
+            EML2SBML.Convert(TestConstant.Model_Oscillation);
             EML2SBML.Convert(TestConstant.Model_Drosophila, TestConstant.TestDirectory + "Drosophila.sbml");
+
+            try
+            {
+                EML2SBML.Convert("c:/Hoge.eml");
+            }
+            catch (Exception)
+            {
+            }
         }
 
         /// <summary>
-        /// TestConstructor
+        /// TestParse
         /// </summary>
         [Test()]
         public void TestParse()
@@ -81,7 +92,86 @@ namespace Ecell.SBML
             libsbml.SBMLDocument doc = EML2SBML.convertToSBMLModel(model, "Drosophila", 2, 3);
             Assert.IsNotNull(model, "Convert method returned unexpected value.");
         }
+        
+        /// <summary>
+        /// TestCheckDelayType
+        /// </summary>
+        [Test()]
+        public void TestCheckDelayType()
+        {
+            ASTNode node = libsbml.libsbml.parseFormula("2 * K");
+            // GetModuleType
+            Type type = _unitUnderTest.GetType();
+            MethodInfo info = type.GetMethod("setDelayType", BindingFlags.NonPublic | BindingFlags.Static);
+            ASTNode value = (ASTNode)info.Invoke(_unitUnderTest, new object[] { node });
+            Assert.AreNotEqual(libsbml.libsbml.AST_FUNCTION_DELAY, value.getType(), "setDelayType method returns unexpected value.");
 
+            node = libsbml.libsbml.parseFormula("log( 2 )");
+            value = (ASTNode)info.Invoke(_unitUnderTest, new object[] { node });
+            Assert.AreNotEqual(libsbml.libsbml.AST_FUNCTION_DELAY, value.getType(), "setDelayType method returns unexpected value.");
 
+            node = libsbml.libsbml.parseFormula("delay(x, 2)");
+            value = (ASTNode)info.Invoke(_unitUnderTest, new object[] { node });
+            Assert.AreEqual(libsbml.libsbml.AST_FUNCTION_DELAY, value.getType(), "setDelayType method returns unexpected value.");
+
+        }
+
+                
+        /// <summary>
+        /// TestGetCurrentCompartment
+        /// </summary>
+        [Test()]
+        public void TestGetCurrentCompartment()
+        {
+            // GetModuleType
+            Type type = _unitUnderTest.GetType();
+            MethodInfo info = type.GetMethod("getCurrentCompartment", BindingFlags.NonPublic | BindingFlags.Static);
+
+            string compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/" });
+            Assert.AreEqual("default", compartment, "getCurrentCompartment method returns unexpected value.");
+
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/CELL" });
+            Assert.AreEqual("CELL", compartment, "getCurrentCompartment method returns unexpected value.");
+        }
+
+        
+        /// <summary>
+        /// TestGetCurrentCompartment
+        /// </summary>
+        [Test()]
+        public void TestGetCompartmentID()
+        {
+            // GetModuleType
+            Type type = _unitUnderTest.GetType();
+            MethodInfo info = type.GetMethod("getCompartmentID", BindingFlags.NonPublic | BindingFlags.Static);
+
+            string compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/", "Variable:/:V0" });
+            Assert.AreEqual("default", compartment, "getCurrentCompartment method returns unexpected value.");
+
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/CELL", "Variable:/CELL/Drosophila:V0" });
+            Assert.AreEqual("Drosophila", compartment, "getCurrentCompartment method returns unexpected value.");
+
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/CELL", "Variable:.:V0" });
+            Assert.AreEqual("CELL", compartment, "getCurrentCompartment method returns unexpected value.");
+
+            compartment = (string)info.Invoke(_unitUnderTest, new object[] { "/", "Variable:.:V0" });
+            Assert.AreEqual("default", compartment, "getCurrentCompartment method returns unexpected value.");
+
+        }
+                
+        /// <summary>
+        /// TestGetCurrentCompartment
+        /// </summary>
+        [Test()]
+        public void TestGetVariableReferenceId()
+        {
+            // GetModuleType
+            Type type = _unitUnderTest.GetType();
+            MethodInfo info = type.GetMethod("getVariableReferenceId", BindingFlags.NonPublic | BindingFlags.Static);
+
+            string varRefID = (string)info.Invoke(_unitUnderTest, new object[] { "/", "Variable:/:V0" });
+            Assert.AreEqual("default", varRefID, "getCurrentCompartment method returns unexpected value.");
+
+        }
     }
 }

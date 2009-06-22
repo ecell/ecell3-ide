@@ -130,7 +130,7 @@ namespace Ecell.SBML
                 ProcessConverter.ConvertToExpression(process);
                 Assert.Fail("Failed to catch exception.");
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 

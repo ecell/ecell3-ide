@@ -2028,7 +2028,7 @@ namespace Ecell
             dir = Util.GetCommonDocumentDir();
             Assert.IsNotNull(dir, "GetCommonDocumentDir method returned unexpected result.");
 
-            string[] dirs = Util.GetDMDirs(null);
+            string[] dirs = Util.GetDMDirs();
             Assert.IsNotNull(dirs, "GetDMDirs method returned unexpected result.");
 
             dirs = Util.GetPluginDirs();

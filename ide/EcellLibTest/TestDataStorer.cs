@@ -86,7 +86,7 @@ namespace Ecell
             MethodInfo methodInfo = type.GetMethod("DataStored", BindingFlags.NonPublic | BindingFlags.Static);
             Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
 
-            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs(null));
+            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs());
             DMDescriptorKeeper dmm = _env.DMDescriptorKeeper;
             EcellObject eo = EcellObject.CreateObject("Model", "/", EcellObject.SYSTEM, EcellObject.SYSTEM, new List<EcellData>());
             Dictionary<string, double> initialCondition = new Dictionary<string, double>();
@@ -141,7 +141,7 @@ namespace Ecell
             MethodInfo methodInfo = type.GetMethod("GetVariableValue", BindingFlags.NonPublic | BindingFlags.Static);
             Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
 
-            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs(null));
+            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs());
             string name = "Value";
             string entityPath = "Variable:/:V1:Value";
 

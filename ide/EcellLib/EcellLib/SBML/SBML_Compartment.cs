@@ -8,7 +8,7 @@ namespace Ecell.SBML
     /// <summary>
     /// Compartment Class
     /// </summary>
-    internal class SBML_Compartment
+    public class SBML_Compartment
     {
         public SBML_Model Model;
 
