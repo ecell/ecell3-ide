@@ -147,6 +147,12 @@
   <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
     <value>振幅率</value>
   </data>
+  <data name="deleteBObservedToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="deleteBParamToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
   <data name="executeButton.Text" xml:space="preserve">
     <value>実行(&amp;E)</value>
   </data>
@@ -182,5 +188,8 @@
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>秒</value>
+  </data>
+  <data name="okButton.Text" xml:space="preserve">
+    <value>適用</value>
   </data>
 </root>

@@ -52,23 +52,6 @@ namespace Ecell.IDE.Plugins.Analysis
     public class Analysis : PluginBase, IAnalysis, IRasterizable
     {
         #region Fields
-        private ToolStripMenuItem analysisMenu;
-        /// <summary>
-        /// MenuItem to display the window for robust analysis.
-        /// </summary>
-        private ToolStripMenuItem m_showRobustAnalysisSetupItem;
-        /// <summary>
-        /// MenuItem to display the window for robust analysis.
-        /// </summary>
-        private ToolStripMenuItem m_showParameterEstimationSetupItem;
-        /// <summary>
-        /// MenuItem to display the window for robust analysis.
-        /// </summary>
-        private ToolStripMenuItem m_showBifurcationSetupItem;
-        /// <summary>
-        /// MenuItem to display the window for robust analysis.
-        /// </summary>
-        private ToolStripMenuItem m_showSensitiveAnalysisSetupItem;
         /// <summary>
         /// For to display the result of analysis.
         /// </summary>
@@ -97,6 +80,10 @@ namespace Ecell.IDE.Plugins.Analysis
         private List<string> m_headerList = new List<string>();
         private Dictionary<string, List<double>> m_cccResult = new Dictionary<string, List<double>>();
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
+        private BifurcationSettingDialog m_bifurcationDialog;
+        private RobustAnalysisSettingDialog m_robustDialog;
+        private SensitivityAnalysisSettingDialog m_sensitivityDialog;
+        private ParameterEstimationSettingDialog m_estimationDialog;
         #endregion
 
         /// <summary>
@@ -115,36 +102,11 @@ namespace Ecell.IDE.Plugins.Analysis
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initialize Component.
+        /// </summary>
         private void InitializeComponent()
         {
-            m_showBifurcationSetupItem = new ToolStripMenuItem();
-            m_showBifurcationSetupItem.Text = MessageResources.MenuItemBifurcationAnalysis;
-            m_showBifurcationSetupItem.Tag = 50;
-            m_showBifurcationSetupItem.Click += new EventHandler(ShowBifurcationSetting);
-
-            m_showParameterEstimationSetupItem = new ToolStripMenuItem();
-            m_showParameterEstimationSetupItem.Text = MessageResources.MenuItemParameterEstimation;
-            m_showParameterEstimationSetupItem.Tag = 60;
-            m_showParameterEstimationSetupItem.Click += new EventHandler(ShowParameterEstimationSetting);
-
-            m_showRobustAnalysisSetupItem = new ToolStripMenuItem();
-            m_showRobustAnalysisSetupItem.Text = MessageResources.MenuItemRobustAnalysis;
-            m_showRobustAnalysisSetupItem.Tag = 70;
-            m_showRobustAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisSetting);
-
-            m_showSensitiveAnalysisSetupItem = new ToolStripMenuItem();
-            m_showSensitiveAnalysisSetupItem.Text = MessageResources.MenuItemSensitivityAnalysis;
-            m_showSensitiveAnalysisSetupItem.Tag = 80;
-            m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
-
-            analysisMenu = new ToolStripMenuItem();
-            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
-                m_showRobustAnalysisSetupItem, m_showParameterEstimationSetupItem,
-                m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem
-              
-            });
-            analysisMenu.Text = "Tools";
-            analysisMenu.Name = MenuConstants.MenuItemTools;
         }
 
 
@@ -460,180 +422,30 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
-        #region Events
-        private void ShowParameterEstimationSetting(object sender, EventArgs e)
-        {
-            ParameterEstimationSettingDialog dlg = new ParameterEstimationSettingDialog(this);
-            dlg.SetParameter(new ParameterEstimationParameter(m_estimationParameter.EstimationFormulator,
-                m_estimationParameter.SimulationTime, m_estimationParameter.Population,
-                m_estimationParameter.Generation, m_estimationParameter.Type,
-                new SimplexCrossoverParameter(m_estimationParameter.Param.M,
-                m_estimationParameter.Param.Initial, m_estimationParameter.Param.Max,
-                m_estimationParameter.Param.K, m_estimationParameter.Param.Upsilon)));
-            dlg.SetParameterDataList(m_paramList);
-            using (dlg)
-            {
-                DialogResult res = dlg.ShowDialog();
-                if (res == DialogResult.OK || res == DialogResult.Ignore)
-                {
-                    m_estimationParameter = dlg.GetParameter();
-                    List<EcellParameterData> pList = dlg.GetParameterDataList();
-                    foreach (EcellParameterData p in pList)
-                    {
-                        DataManager.SetParameterData(p);
-                    }
-
-                }
-                if (res == DialogResult.Ignore)
-                {
-                    ExecuteParameterEstimation(sender, e);
-                }
-            }
-        }
-
-        private void ShowBifurcationSetting(object sender, EventArgs e)
-        {
-            BifurcationSettingDialog dlg = new BifurcationSettingDialog(this);
-            dlg.SetParameter(new BifurcationAnalysisParameter(m_bifurcateParameter.SimulationTime,
-                m_bifurcateParameter.WindowSize, m_bifurcateParameter.MaxInput,
-                m_bifurcateParameter.MaxFreq, m_bifurcateParameter.MinFreq));
-            dlg.SetParameterDataList(m_paramList);
-            dlg.SetObservedDataList(m_observedList);
-            using (dlg)
-            {
-                DialogResult res = dlg.ShowDialog();
-                if (res == DialogResult.OK || res == DialogResult.Ignore)
-                {
-                    m_bifurcateParameter = dlg.GetParameter();
-                    List<EcellParameterData> pList = dlg.GetParameterDataList();
-                    List<EcellObservedData> oList = dlg.GetObservedDataList();
-                    foreach (EcellParameterData p in pList)
-                    {
-                        DataManager.SetParameterData(p);
-                    }
-                    foreach (EcellObservedData o in oList)
-                    {
-                        DataManager.SetObservedData(o);
-                    }
-                }
-                if (res == DialogResult.Ignore)
-                {
-                    ExecuteBifurcationAnalysis(sender, e);
-                }
-            }
-        }
-
-        private void ShowRobustAnalysisSetting(object sender, EventArgs e)
-        {
-            RobustAnalysisSettingDialog dlg = new RobustAnalysisSettingDialog(this);
-            RobustAnalysisParameter pa = new RobustAnalysisParameter();
-            pa.SimulationTime = m_robustParameter.SimulationTime;
-            pa.WinSize = m_robustParameter.WinSize;
-            pa.SampleNum = m_robustParameter.SampleNum;
-            pa.IsRandomCheck = m_robustParameter.IsRandomCheck;
-            pa.MaxData = m_robustParameter.MaxData;
-            pa.MaxFreq = m_robustParameter.MaxFreq;
-            pa.MinFreq = m_robustParameter.MinFreq;
-            dlg.SetParameter(pa);
-            dlg.SetParameterDataList(m_paramList);
-            dlg.SetObservedDataList(m_observedList);
-            using (dlg)
-            {
-                DialogResult res = dlg.ShowDialog();
-                if (res == DialogResult.OK || res == DialogResult.Ignore)
-                {
-                    m_robustParameter = dlg.GetParameter();
-                    List<EcellParameterData> pList = dlg.GetParameterDataList();
-                    List<EcellObservedData> oList = dlg.GetObservedDataList();
-                    foreach (EcellParameterData p in pList)
-                    {
-                        DataManager.SetParameterData(p);
-                    }
-                    foreach (EcellObservedData o in oList)
-                    {
-                        DataManager.SetObservedData(o);
-                    }
-                }
-                if (res == DialogResult.Ignore)
-                {
-                    ExecuteRobustAnalysis(sender, e);
-                }
-            }
-        }
-
-        private void ShowSensitivityAnalysisSetting(object sender, EventArgs e)
-        {
-            SensitivityAnalysisSettingDialog dlg = new SensitivityAnalysisSettingDialog(this);           
-            dlg.SetParameter(new SensitivityAnalysisParameter(m_sensitivityParameter.Step,
-                m_sensitivityParameter.RelativePerturbation, m_sensitivityParameter.AbsolutePerturbation));
-            using (dlg)
-            {
-                DialogResult res = dlg.ShowDialog();
-                if (res == DialogResult.OK)
-                {
-                    m_sensitivityParameter = dlg.GetParameter();
-                }
-                else if (res == DialogResult.Ignore)
-                {
-                    m_sensitivityParameter = dlg.GetParameter();
-                    ExecuteSensitivityAnalysis(sender, e);
-                }
-            }
-        }
-
-        private void ShowGridStatusDialog()
-        {
-            ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateShowGridDialog) as ShowDialogDelegate;
-            if (dlg != null)
-                dlg();
-        }
-
         /// <summary>
-        /// Event when the menu to execute robust analysis is clicked.
-        /// This program execute the program of robust analysis.
+        /// Notify to change the parameter data to DataManager.
         /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs.</param>
-        private void ExecuteRobustAnalysis(object sender, EventArgs e)
+        /// <param name="data">the changed parameter data.</param>
+        public void NotifyParameterDataChanged(EcellParameterData data)
         {
-            ShowGridStatusDialog();
-            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
-            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
-            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName, sysObj, stepperObj);
-            RobustAnalysis robustAnalysis = new RobustAnalysis(this);
-            robustAnalysis.Group = g;
-            robustAnalysis.AnalysisParameter = m_robustParameter;
-            robustAnalysis.ExecuteAnalysis();
+            DataManager.SetParameterData(data);
         }
 
         /// <summary>
-        /// Event when the menu to execute parameter estimation is clicked.
-        /// This program execute the program of parameter estimation.
+        /// Notify to change the observed data to DataManager.
         /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs.</param>
-        private void ExecuteParameterEstimation(object sender, EventArgs e)
+        /// <param name="data">the changed observed data.</param>
+        public void NotifyObservedDataChanged(EcellObservedData data)
         {
-            ShowGridStatusDialog();
-            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
-            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
-            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName, sysObj, stepperObj);
-            ParameterEstimation parameterEstimation = new ParameterEstimation(this);
-            parameterEstimation.Group = g;
-            parameterEstimation.AnalysisParameter = m_estimationParameter;
-            parameterEstimation.ExecuteAnalysis();
+            DataManager.SetObservedData(data);
         }
 
         /// <summary>
-        /// Event when the menu to execute sensitivity analysis is clicked.
         /// This program execute the program of sensitivity analysis.
         /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs.</param>
-        private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
+        public void ExecuteSensitivityAnalysis()
         {
+            m_sensitivityParameter = m_sensitivityDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
             List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
@@ -646,13 +458,11 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// Event when the menu to execute bifurcation analysis is clicked.
         /// This program execute the program of bifurcation analysis.
         /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs.</param>
-        private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
+        public void ExecuteBifurcationAnalysis()
         {
+            m_bifurcateParameter = m_bifurcationDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
             List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
@@ -665,6 +475,52 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// This program execute the program of robust analysis.
+        /// </summary>
+        public void ExecuteRobustAnalysis()
+        {
+            m_robustParameter = m_robustDialog.GetParameter();
+            ShowGridStatusDialog();
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName, sysObj, stepperObj);
+            RobustAnalysis robustAnalysis = new RobustAnalysis(this);
+            robustAnalysis.Group = g;
+            robustAnalysis.AnalysisParameter = m_robustParameter;
+            robustAnalysis.ExecuteAnalysis();
+        }
+
+
+
+        /// <summary>
+        /// This program execute the program of parameter estimation.
+        /// </summary>
+        public void ExecuteParameterEstimation()
+        {
+            m_estimationParameter = m_estimationDialog.GetParameter();
+            ShowGridStatusDialog();
+            string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
+            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName, sysObj, stepperObj);
+            ParameterEstimation parameterEstimation = new ParameterEstimation(this);
+            parameterEstimation.Group = g;
+            parameterEstimation.AnalysisParameter = m_estimationParameter;
+            parameterEstimation.ExecuteAnalysis();
+        }
+
+        /// <summary>
+        /// Show the dialog of grid status.
+        /// </summary>
+        private void ShowGridStatusDialog()
+        {
+            ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateShowGridDialog) as ShowDialogDelegate;
+            if (dlg != null)
+                dlg();
+        }
+
+        /// <summary>
         /// Activate the result window.
         /// </summary>
         /// <param name="isGraphWindow">the flag whether graph window is visible.</param>
@@ -672,7 +528,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="isSensitivityWindow">the flag whether parameter window is visible.</param>
         public void ActivateResultWindow(bool isGraphWindow, bool isSensitivityWindow, bool isParameterWindow)
         {
-            if (isGraphWindow)            
+            if (isGraphWindow)
                 m_rWin.GraphContent.Activate();
             if (isSensitivityWindow)
                 m_rWin.SensitivityAnalysisContent.Activate();
@@ -687,8 +543,8 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SetGroupName(string name)
         {
             m_rWin.GraphWindow.GroupName = name;
-        }
-        #endregion
+        }        
+
 
         #region Inherited from PluginBase
         /// <summary>
@@ -697,9 +553,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the list of menu.</returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
-            list.Add(analysisMenu);
 
             return list;
         }
@@ -726,8 +580,32 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>nothing.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
+            List<EcellDockContent> result = new List<EcellDockContent>();
             m_rWin = new AnalysisResultWindow(this);
-            return m_rWin.GetWindowsForms();
+            m_bifurcationDialog = new BifurcationSettingDialog(this);
+            m_bifurcationDialog.SetParameter(m_bifurcateParameter);
+
+            m_robustDialog = new RobustAnalysisSettingDialog(this);
+            m_robustDialog.SetParameter(m_robustParameter);
+
+            m_sensitivityDialog = new SensitivityAnalysisSettingDialog(this);
+            m_sensitivityDialog.SetParameter(m_sensitivityParameter);
+
+            m_estimationDialog = new ParameterEstimationSettingDialog(this);
+            m_estimationDialog.SetParameter(m_estimationParameter);
+
+            IEnumerable<EcellDockContent> list = m_rWin.GetWindowsForms();
+
+            foreach (EcellDockContent c in list)
+            {
+                result.Add(c);
+            }
+            result.Add(m_bifurcationDialog);
+            result.Add(m_robustDialog);
+            result.Add(m_sensitivityDialog);
+            result.Add(m_estimationDialog);
+
+            return result;
         }
 
         /// <summary>
@@ -736,20 +614,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="type">System status.</param>
         public override void ChangeStatus(ProjectStatus type)
         {
-            if (ProjectStatus.Loaded == type)
-            {
-                m_showBifurcationSetupItem.Enabled = true;
-                m_showParameterEstimationSetupItem.Enabled = true;
-                m_showRobustAnalysisSetupItem.Enabled = true;
-                m_showSensitiveAnalysisSetupItem.Enabled = true;
-            }
-            else
-            {
-                m_showBifurcationSetupItem.Enabled = false;
-                m_showParameterEstimationSetupItem.Enabled = false;
-                m_showRobustAnalysisSetupItem.Enabled = false;
-                m_showSensitiveAnalysisSetupItem.Enabled = false;
-            }
+
         }
 
         /// <summary>
@@ -875,6 +740,9 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (!m_paramList.ContainsKey(data.Key))
                 m_paramList.Add(data.Key, null);
+            m_bifurcationDialog.SetParameterData(data);
+            m_robustDialog.SetParameterData(data);
+            m_estimationDialog.SetParameterData(data);
         }
 
         /// <summary>
@@ -884,6 +752,9 @@ namespace Ecell.IDE.Plugins.Analysis
         public void RemoveParameterData(EcellParameterData data)
         {
             m_paramList.Remove(data.Key);
+            m_bifurcationDialog.RemoveParameterData(data);
+            m_robustDialog.RemoveParameterData(data);
+            m_estimationDialog.RemoveParameterData(data);
         }
 
         /// <summary>
@@ -894,6 +765,8 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (!m_observedList.ContainsKey(data.Key))
                 m_observedList.Add(data.Key, null);
+            m_bifurcationDialog.SetObservedData(data);
+            m_robustDialog.SetObservedData(data);
         }
 
         /// <summary>
@@ -903,6 +776,8 @@ namespace Ecell.IDE.Plugins.Analysis
         public void RemoveObservedData(EcellObservedData data)
         {
             m_observedList.Remove(data.Key);
+            m_bifurcationDialog.RemoveObservedData(data);
+            m_robustDialog.RemoveObservedData(data);
         }
 
         /// <summary>
@@ -1003,31 +878,5 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Use neally 0 while simulation is executed.
         /// </summary>
         SumEqualZero = 5
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    public enum AnalysisType
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        Bifurcation = 0,
-        /// <summary>
-        /// 
-        /// </summary>
-        RobustAnalysis = 1,
-        /// <summary>
-        /// 
-        /// </summary>
-        ParameterEstrimate = 2,
-        /// <summary>
-        /// 
-        /// </summary>
-        Sensitivity = 3,
-        /// <summary>
-        /// 
-        /// </summary>
-        None = 4
     }
 }

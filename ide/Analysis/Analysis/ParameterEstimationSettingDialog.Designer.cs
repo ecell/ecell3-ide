@@ -50,13 +50,11 @@
             this.parameterEstimationPopulationTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationSimulationTimeTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationGenerationTextBox = new System.Windows.Forms.TextBox();
-            this.closeButton = new System.Windows.Forms.Button();
-            this.okButton = new System.Windows.Forms.Button();
             this.executeButton = new System.Windows.Forms.Button();
             this.parameterEstimationToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.abstractTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationParameterDataGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paramFullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
@@ -67,6 +65,8 @@
             this.PEMaxRateTextBox = new System.Windows.Forms.TextBox();
             this.PEKTextBox = new System.Windows.Forms.TextBox();
             this.PEM0TextBox = new System.Windows.Forms.TextBox();
+            this.paramContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -82,6 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.paramContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -195,26 +196,12 @@
             resources.ApplyResources(label10, "label10");
             label10.Name = "label10";
             // 
-            // closeButton
-            // 
-            resources.ApplyResources(this.closeButton, "closeButton");
-            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closeButton.Name = "closeButton";
-            this.closeButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            resources.ApplyResources(this.okButton, "okButton");
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Name = "okButton";
-            this.okButton.UseVisualStyleBackColor = true;
-            // 
             // executeButton
             // 
             resources.ApplyResources(this.executeButton, "executeButton");
-            this.executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             this.executeButton.Name = "executeButton";
             this.executeButton.UseVisualStyleBackColor = true;
+            this.executeButton.Click += new System.EventHandler(this.ExecuteButtonClick);
             // 
             // abstractTextBox
             // 
@@ -234,7 +221,7 @@
             this.parameterEstimationParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -242,20 +229,21 @@
             this.parameterEstimationParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.parameterEstimationParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.parameterEstimationParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
+            this.paramFullPNColumn,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3});
+            this.parameterEstimationParameterDataGrid.ContextMenuStrip = this.paramContextMenuStrip;
             this.parameterEstimationParameterDataGrid.Name = "parameterEstimationParameterDataGrid";
             this.parameterEstimationParameterDataGrid.RowHeadersVisible = false;
             this.parameterEstimationParameterDataGrid.RowTemplate.Height = 21;
             this.parameterEstimationParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
-            // dataGridViewTextBoxColumn1
+            // paramFullPNColumn
             // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 80F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.paramFullPNColumn.FillWeight = 80F;
+            resources.ApplyResources(this.paramFullPNColumn, "paramFullPNColumn");
+            this.paramFullPNColumn.Name = "paramFullPNColumn";
+            this.paramFullPNColumn.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -330,25 +318,34 @@
             this.PEM0TextBox.Name = "PEM0TextBox";
             this.PEM0TextBox.Validating += new System.ComponentModel.CancelEventHandler(this.M0_Validating);
             // 
+            // paramContextMenuStrip
+            // 
+            this.paramContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.paramContextMenuStrip.Name = "paramContextMenuStrip";
+            resources.ApplyResources(this.paramContextMenuStrip, "paramContextMenuStrip");
+            this.paramContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ParamContextMenuOpening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteParameterDataClick);
+            // 
             // ParameterEstimationSettingDialog
             // 
-            this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.closeButton;
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.parameterEstimationParameterDataGrid);
             this.Controls.Add(this.abstractTextBox);
             this.Controls.Add(this.executeButton);
-            this.Controls.Add(this.okButton);
-            this.Controls.Add(this.closeButton);
             this.Controls.Add(groupBox2);
             this.Controls.Add(groupBox1);
             this.Name = "ParameterEstimationSettingDialog";
             this.Load += new System.EventHandler(this.FormLoad);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParameterEstimationSettingDialog_FormClosing);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -358,6 +355,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.paramContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,15 +369,10 @@
         private System.Windows.Forms.TextBox parameterEstimationPopulationTextBox;
         private System.Windows.Forms.TextBox parameterEstimationGenerationTextBox;
         private System.Windows.Forms.TextBox parameterEstimationSimulationTimeTextBox;
-        private System.Windows.Forms.Button closeButton;
-        private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button executeButton;
         private System.Windows.Forms.ToolTip parameterEstimationToolTip;
         private System.Windows.Forms.TextBox abstractTextBox;
         private System.Windows.Forms.DataGridView parameterEstimationParameterDataGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -389,5 +382,10 @@
         private System.Windows.Forms.TextBox PEMaxRateTextBox;
         private System.Windows.Forms.TextBox PEKTextBox;
         private System.Windows.Forms.TextBox PEM0TextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn paramFullPNColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.ContextMenuStrip paramContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

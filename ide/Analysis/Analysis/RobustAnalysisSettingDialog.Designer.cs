@@ -40,9 +40,6 @@
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
             System.Windows.Forms.GroupBox groupBox3;
-            System.Windows.Forms.Button cancelButton;
-            System.Windows.Forms.Button okButton;
-            System.Windows.Forms.Button executeButton;
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -62,17 +59,22 @@
             this.robustAnalysisMinFrequencyTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisMaxSampleTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisMaxFrequencyTextBox = new System.Windows.Forms.TextBox();
+            this.executeButton = new System.Windows.Forms.Button();
             this.robustAnalysisObservedDataGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.observedFullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.observedContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.robustAnalysisParameterDataGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paramFullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paramContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.abstractTextBox = new System.Windows.Forms.TextBox();
             this.robustToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.label10 = new System.Windows.Forms.Label();
@@ -87,14 +89,13 @@
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
             groupBox3 = new System.Windows.Forms.GroupBox();
-            cancelButton = new System.Windows.Forms.Button();
-            okButton = new System.Windows.Forms.Button();
-            executeButton = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.robustAnalysisObservedDataGrid)).BeginInit();
+            this.observedContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.robustAnalysisParameterDataGrid)).BeginInit();
+            this.paramContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -229,26 +230,12 @@
             this.robustAnalysisMaxFrequencyTextBox.Name = "robustAnalysisMaxFrequencyTextBox";
             this.robustAnalysisMaxFrequencyTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MaxFrequency_Validating);
             // 
-            // cancelButton
-            // 
-            resources.ApplyResources(cancelButton, "cancelButton");
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cancelButton.Name = "cancelButton";
-            cancelButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            resources.ApplyResources(okButton, "okButton");
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            okButton.Name = "okButton";
-            okButton.UseVisualStyleBackColor = true;
-            // 
             // executeButton
             // 
-            resources.ApplyResources(executeButton, "executeButton");
-            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-            executeButton.Name = "executeButton";
-            executeButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.executeButton, "executeButton");
+            this.executeButton.Name = "executeButton";
+            this.executeButton.UseVisualStyleBackColor = true;
+            this.executeButton.Click += new System.EventHandler(this.ExecuteButtonClick);
             // 
             // robustAnalysisObservedDataGrid
             // 
@@ -258,7 +245,7 @@
             this.robustAnalysisObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -266,21 +253,22 @@
             this.robustAnalysisObservedDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.robustAnalysisObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.robustAnalysisObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn5,
+            this.observedFullPNColumn,
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9});
+            this.robustAnalysisObservedDataGrid.ContextMenuStrip = this.observedContextMenuStrip;
             this.robustAnalysisObservedDataGrid.Name = "robustAnalysisObservedDataGrid";
             this.robustAnalysisObservedDataGrid.RowHeadersVisible = false;
             this.robustAnalysisObservedDataGrid.RowTemplate.Height = 21;
             this.robustAnalysisObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
             // 
-            // dataGridViewTextBoxColumn5
+            // observedFullPNColumn
             // 
-            resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            resources.ApplyResources(this.observedFullPNColumn, "observedFullPNColumn");
+            this.observedFullPNColumn.Name = "observedFullPNColumn";
+            this.observedFullPNColumn.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -314,6 +302,20 @@
             resources.ApplyResources(this.dataGridViewTextBoxColumn9, "dataGridViewTextBoxColumn9");
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             // 
+            // observedContextMenuStrip
+            // 
+            this.observedContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.observedContextMenuStrip.Name = "observedContextMenuStrip";
+            resources.ApplyResources(this.observedContextMenuStrip, "observedContextMenuStrip");
+            this.observedContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ObservedContextMenuOpening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteRObservedClick);
+            // 
             // robustAnalysisParameterDataGrid
             // 
             this.robustAnalysisParameterDataGrid.AllowUserToAddRows = false;
@@ -322,7 +324,7 @@
             this.robustAnalysisParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("MS UI Gothic", 9F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -330,21 +332,22 @@
             this.robustAnalysisParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.robustAnalysisParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.robustAnalysisParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
+            this.paramFullPNColumn,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
+            this.robustAnalysisParameterDataGrid.ContextMenuStrip = this.paramContextMenuStrip;
             this.robustAnalysisParameterDataGrid.Name = "robustAnalysisParameterDataGrid";
             this.robustAnalysisParameterDataGrid.RowHeadersVisible = false;
             this.robustAnalysisParameterDataGrid.RowTemplate.Height = 21;
             this.robustAnalysisParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
-            // dataGridViewTextBoxColumn1
+            // paramFullPNColumn
             // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 90F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.paramFullPNColumn.FillWeight = 90F;
+            resources.ApplyResources(this.paramFullPNColumn, "paramFullPNColumn");
+            this.paramFullPNColumn.Name = "paramFullPNColumn";
+            this.paramFullPNColumn.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -370,6 +373,20 @@
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
+            // paramContextMenuStrip
+            // 
+            this.paramContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem1});
+            this.paramContextMenuStrip.Name = "paramContextMenuStrip";
+            resources.ApplyResources(this.paramContextMenuStrip, "paramContextMenuStrip");
+            this.paramContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ParamContextMenuOpening);
+            // 
+            // deleteToolStripMenuItem1
+            // 
+            this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
+            resources.ApplyResources(this.deleteToolStripMenuItem1, "deleteToolStripMenuItem1");
+            this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.DeleteRParamClick);
+            // 
             // abstractTextBox
             // 
             resources.ApplyResources(this.abstractTextBox, "abstractTextBox");
@@ -390,24 +407,19 @@
             // 
             // RobustAnalysisSettingDialog
             // 
-            this.AcceptButton = okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = cancelButton;
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.robustAnalysisObservedDataGrid);
             this.Controls.Add(this.robustAnalysisParameterDataGrid);
             this.Controls.Add(this.abstractTextBox);
-            this.Controls.Add(executeButton);
-            this.Controls.Add(okButton);
-            this.Controls.Add(cancelButton);
+            this.Controls.Add(this.executeButton);
             this.Controls.Add(groupBox1);
             this.Controls.Add(groupBox2);
             this.Controls.Add(groupBox3);
             this.Name = "RobustAnalysisSettingDialog";
             this.Load += new System.EventHandler(this.FormLoad);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RobustAnalysisSettingDialog_FormClosing);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -415,7 +427,9 @@
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.robustAnalysisObservedDataGrid)).EndInit();
+            this.observedContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.robustAnalysisParameterDataGrid)).EndInit();
+            this.paramContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -433,20 +447,25 @@
         private System.Windows.Forms.DataGridView robustAnalysisObservedDataGrid;
         private System.Windows.Forms.TextBox abstractTextBox;
         private System.Windows.Forms.ToolTip robustToolTip;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.RadioButton robustAnalysisRandomRadioButton;
         private System.Windows.Forms.RadioButton robustAnalysisMatrixRadioButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn observedFullPNColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn paramFullPNColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.Button executeButton;
+        private System.Windows.Forms.ContextMenuStrip observedContextMenuStrip;
+        private System.Windows.Forms.ContextMenuStrip paramContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
     }
 }

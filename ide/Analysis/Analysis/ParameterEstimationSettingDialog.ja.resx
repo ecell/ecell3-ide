@@ -135,6 +135,9 @@
   <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
     <value>最小値</value>
   </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
   <data name="estimationTypeComboBox.Items" xml:space="preserve">
     <value>最大化</value>
   </data>

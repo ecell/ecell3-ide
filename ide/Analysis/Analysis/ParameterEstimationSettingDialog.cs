@@ -1,3 +1,33 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,30 +39,45 @@ using System.Windows.Forms;
 using Ecell.IDE;
 using Ecell.UI.Components;
 using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
-    /// Dialog to set the parameter of parameter estimation.
+    /// Setting Dialog for parameter estimation.
     /// </summary>
-    public partial class ParameterEstimationSettingDialog : Form
+    public partial class ParameterEstimationSettingDialog : EcellDockContent
     {
+        #region Fields
+        /// <summary>
+        /// Plugin object.
+        /// </summary>
         private Analysis m_owner;
+        /// <summary>
+        /// Parameter object for parameter estimation.
+        /// </summary>
+        private ParameterEstimationParameter m_param;
         /// <summary>
         /// The form to set the estimation formulator.
         /// </summary>
         private FormulatorDialog m_fwin;
-        private ParameterEstimationParameter m_param;
+        /// <summary>
+        /// The parameter of simplex crossover parameter.
+        /// </summary>
+        private SimplexCrossoverParameter m_simParam;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="owner"></param>
+        /// <param name="owner">Plugin object</param>
         public ParameterEstimationSettingDialog(Analysis owner)
         {
             InitializeComponent();
             m_owner = owner;
         }
+        #endregion
 
         /// <summary>
         /// Set the parameter and display the set parameter.
@@ -64,25 +109,46 @@ namespace Ecell.IDE.Plugins.Analysis
             m_param.Param = m_simParam;
             return m_param;
         }
+
         /// <summary>
-        /// 
+        /// Remove the parameter data.
         /// </summary>
-        /// <param name="dic"></param>
-        public void SetParameterDataList(Dictionary<string, EcellData> dic)
+        /// <param name="data">the removed parameter data.</param>
+        public void RemoveParameterData(EcellParameterData data)
         {
-            foreach (string key in dic.Keys)
+            foreach (DataGridViewRow r in parameterEstimationParameterDataGrid.Rows)
             {
-                if (!m_owner.DataManager.IsContainsParameterData(key)) continue;
-                EcellParameterData d = m_owner.DataManager.GetParameterData(key);
-                SetParameterData(d);
+                string fullPN = r.Cells[paramFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    parameterEstimationParameterDataGrid.Rows.Remove(r);
+                    return;
+                }
             }
         }
+
         /// <summary>
-        /// 
+        /// Set the parameter data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the set parameter data.</param>
         public void SetParameterData(EcellParameterData data)
         {
+            foreach (DataGridViewRow r1 in parameterEstimationParameterDataGrid.Rows)
+            {
+                string fullPN = r1.Cells[paramFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    // max
+                    int index = dataGridViewTextBoxColumn2.Index;
+                    r1.Cells[index].Value = data.Max;
+
+                    // min
+                    index = dataGridViewTextBoxColumn3.Index;
+                    r1.Cells[index].Value = data.Min;
+
+                    return;
+                }
+            }
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             c1.Value = data.Key;
@@ -96,34 +162,9 @@ namespace Ecell.IDE.Plugins.Analysis
             c3.Value = data.Min;
             r.Cells.Add(c3);
 
-            if (parameterEstimationParameterDataGrid.ColumnCount >= 4)
-            {
-                DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-                c4.Value = data.Step;
-                r.Cells.Add(c4);
-            }
-
             r.Tag = data.Copy();
 
             parameterEstimationParameterDataGrid.Rows.Add(r);
-        }
-
-                /// <summary>
-        /// The event sequence when the user remove the data from the list of parameter data.
-        /// </summary>
-        /// <param name="data">The removed parameter data.</param>
-        public void RemoveParameterData(EcellParameterData data)
-        {
-            foreach (DataGridViewRow r in parameterEstimationParameterDataGrid.Rows)
-            {
-                if (r.Tag == null) continue;
-                EcellParameterData obj = r.Tag as EcellParameterData;
-                if (obj == null) continue;
-
-                if (!obj.Equals(data)) continue;
-                parameterEstimationParameterDataGrid.Rows.Remove(r);
-                return;
-            }
         }
 
         /// <summary>
@@ -155,10 +196,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return type;
         }
+
         /// <summary>
-        /// 
+        /// Get the list of parameter data.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The list of EcellParameterData.</returns>
         public List<EcellParameterData> GetParameterDataList()
         {
             List<EcellParameterData> result = new List<EcellParameterData>();
@@ -170,7 +212,7 @@ namespace Ecell.IDE.Plugins.Analysis
             return result;
         }
 
-
+        #region Events
         /// <summary>
         /// The event sequence when the formulator window is shown.
         /// </summary>
@@ -221,10 +263,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
         /// <summary>
-        /// 
+        /// The event to load the form.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ParameterEstimationSettingDialog.</param>
+        /// <param name="e">EventArgs</param>
         private void FormLoad(object sender, EventArgs e)
         {
             parameterEstimationToolTip.SetToolTip(parameterEstimationSimulationTimeTextBox,
@@ -237,10 +279,10 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// 
+        /// Validating the value of simulation time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void SimulationTime_Validating(object sender, CancelEventArgs e)
         {
             string text = parameterEstimationSimulationTimeTextBox.Text;
@@ -261,11 +303,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SimulationTime = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of population.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void Population_Validating(object sender, CancelEventArgs e)
         {
             string text = parameterEstimationPopulationTextBox.Text;
@@ -286,11 +329,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.Population = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of generation.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void Generation_Validating(object sender, CancelEventArgs e)
         {
             string text = parameterEstimationGenerationTextBox.Text;
@@ -312,8 +356,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_param.Generation = dummy;
         }
 
-        private SimplexCrossoverParameter m_simParam;
-
+        /// <summary>
+        /// Validating the value of M.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void M_Validating(object sender, CancelEventArgs e)
         {
             string text = PEMTextBox.Text;
@@ -335,6 +382,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_simParam.M = dummy;
         }
 
+        /// <summary>
+        /// Validating the value of Upsilon.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void Upsilon_Validating(object sender, CancelEventArgs e)
         {
             string text = PEUpsilonTextBox.Text;
@@ -356,6 +408,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_simParam.Upsilon = dummy;
         }
 
+        /// <summary>
+        /// Validating the value of M0.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void M0_Validating(object sender, CancelEventArgs e)
         {
             string text = PEM0TextBox.Text;
@@ -377,6 +434,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_simParam.Initial = dummy;
         }
 
+        /// <summary>
+        /// Validating the value of K.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void K_Validating(object sender, CancelEventArgs e)
         {
             string text = PEKTextBox.Text;
@@ -398,6 +460,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_simParam.K = dummy;
         }
 
+        /// <summary>
+        /// Validating the value of max rate.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void MaxRate_Validating(object sender, CancelEventArgs e)
         {
             string text = PEMaxRateTextBox.Text;
@@ -419,12 +486,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_simParam.Max = dummy;
         }
 
-
         /// <summary>
-        /// 
+        /// Change the property of data on DataGridView of the parameter data.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellParameterData data = parameterEstimationParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
@@ -451,8 +517,16 @@ namespace Ecell.IDE.Plugins.Analysis
                         data.Step = dummy;
                         break;
                 }
+                try
+                {
+                    m_owner.NotifyParameterDataChanged(data);
+                }
+                catch (Exception)
+                {
+                    isCorrect = false;
+                }
             }
-            else
+            if (!isCorrect)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue,
                         MessageResources.NameParameterData));
@@ -471,25 +545,30 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
-        private void ParameterEstimationSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        /// <summary>
+        /// Click the button to execute the analysis.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
+        private void ExecuteButtonClick(object sender, EventArgs e)
         {
-            if (this.DialogResult == DialogResult.Cancel) return;
+            executeButton.Enabled = false;
             if (m_param.Generation <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameGenerationNum));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.Population <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NamePopulation));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
@@ -497,31 +576,31 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_simParam.Max <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxRate));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_simParam.K <= 1.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameK));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_simParam.Initial <= 1.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM0));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_simParam.Upsilon <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameUpsilon));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_simParam.M <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
@@ -531,10 +610,49 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (p.Max < p.Min || p.Step < 0.0)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
-                    e.Cancel = true;
+                    executeButton.Enabled = true;
                     return;
                 }
             }
+            m_owner.ExecuteParameterEstimation();
+            executeButton.Enabled = true;
         }
+
+        /// <summary>
+        /// Opening the ContextMenuStrip of DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">ContextMenuStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void ParamContextMenuOpening(object sender, CancelEventArgs e)
+        {
+            if (parameterEstimationParameterDataGrid.SelectedCells.Count <= 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Click the delete menu on DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="e">EventArgs</param>
+        private void DeleteParameterDataClick(object sender, EventArgs e)
+        {
+            List<string> delList = new List<string>();
+            foreach (DataGridViewCell c in parameterEstimationParameterDataGrid.SelectedCells)
+            {
+                string fullPN = parameterEstimationParameterDataGrid.Rows[c.RowIndex].Cells[paramFullPNColumn.Index].Value.ToString();
+                if (!delList.Contains(fullPN))
+                    delList.Add(fullPN);
+            }
+
+            foreach (string r in delList)
+            {
+                m_owner.Environment.DataManager.RemoveParameterData(
+                    new EcellParameterData(r, 0.0));
+            }
+        }
+        #endregion
     }
 }

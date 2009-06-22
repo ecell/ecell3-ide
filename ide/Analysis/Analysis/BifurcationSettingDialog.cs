@@ -1,3 +1,32 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,25 +37,37 @@ using System.Windows.Forms;
 
 using Ecell.IDE;
 using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
-    /// 
+    /// Setting Dialog for Bifurcation analysis.
     /// </summary>
-    public partial class BifurcationSettingDialog : Form
+    public partial class BifurcationSettingDialog : EcellDockContent
     {
-        private Analysis m_owner;
-        private BifurcationAnalysisParameter m_param;
+        #region Fields
         /// <summary>
-        /// 
+        /// Plugin object.
         /// </summary>
-        /// <param name="owner"></param>
+        private Analysis m_owner;
+        /// <summary>
+        /// Parameter object for Bifurcation analysis.
+        /// </summary>
+        private BifurcationAnalysisParameter m_param;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="owner">Plugin object.</param>
         public BifurcationSettingDialog(Analysis owner)
         {
             InitializeComponent();
             m_owner = owner;
         }
+        #endregion
 
         /// <summary>
         /// Set the parameter set of bifurcation analysis in this form.
@@ -50,36 +91,67 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             return m_param;
         }
+
         /// <summary>
-        /// 
+        /// Remove the parameter data.
         /// </summary>
-        /// <param name="dic"></param>
-        public void SetParameterDataList(Dictionary<string, EcellData> dic)
+        /// <param name="data">the removed parameter data.</param>
+        public void RemoveParameterData(EcellParameterData data)
         {
-            foreach (string key in dic.Keys)
+            foreach (DataGridViewRow r in bifurcationParameterDataGrid.Rows)
             {
-                EcellParameterData d = m_owner.DataManager.GetParameterData(key);
-                SetParameterData(d);
+                string fullPN = r.Cells[paramFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    bifurcationParameterDataGrid.Rows.Remove(r);
+                    return;
+                }
             }
         }
+
         /// <summary>
-        /// 
+        /// Remove the observed data.
         /// </summary>
-        /// <param name="dic"></param>
-        public void SetObservedDataList(Dictionary<string, EcellData> dic)
+        /// <param name="data">the removed observed data.</param>
+        public void RemoveObservedData(EcellObservedData data)
         {
-            foreach (string key in dic.Keys)
+            foreach (DataGridViewRow r in bifurcationObservedDataGrid.Rows)
             {
-                EcellObservedData d = m_owner.DataManager.GetObservedData(key);
-                SetObservedData(d);
+                string fullPN = r.Cells[observedFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    bifurcationObservedDataGrid.Rows.Remove(r);
+                    return;
+                }
             }
-        }
+        }        
+
         /// <summary>
-        /// 
+        /// Set the parameter data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the set parameter data.</param>
         public void SetParameterData(EcellParameterData data)
         {
+            foreach (DataGridViewRow r1 in bifurcationParameterDataGrid.Rows)
+            {
+                string fullPN = r1.Cells[paramFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    // max
+                    int index = dataGridViewTextBoxColumn2.Index;
+                    r1.Cells[index].Value = data.Max;
+
+                    // min
+                    index = dataGridViewTextBoxColumn3.Index;
+                    r1.Cells[index].Value = data.Min;
+
+                    // step
+                    index = dataGridViewTextBoxColumn4.Index;
+                    r1.Cells[index].Value = data.Step;
+
+                    return;
+                }
+            }
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             c1.Value = data.Key;
@@ -104,12 +176,37 @@ namespace Ecell.IDE.Plugins.Analysis
 
             bifurcationParameterDataGrid.Rows.Add(r);
         }
+
         /// <summary>
-        /// 
+        /// Set the observed data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the set observed data.</param>
         public void SetObservedData(EcellObservedData data)
-        {            
+        {
+            foreach (DataGridViewRow r1 in bifurcationObservedDataGrid.Rows)
+            {
+                string fullPN = r1.Cells[observedFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    // max
+                    int index = dataGridViewTextBoxColumn6.Index;
+                    r1.Cells[index].Value = data.Max;
+
+                    // min
+                    index = dataGridViewTextBoxColumn7.Index;
+                    r1.Cells[index].Value = data.Min;
+
+                    // differ
+                    index = dataGridViewTextBoxColumn8.Index;
+                    r1.Cells[index].Value = data.Differ;
+
+                    // rate
+                    index = dataGridViewTextBoxColumn9.Index;
+                    r1.Cells[index].Value = data.Rate;
+
+                    return;
+                }
+            }
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             c1.Value = data.Key;
@@ -134,10 +231,11 @@ namespace Ecell.IDE.Plugins.Analysis
             r.Tag = data.Copy();
             bifurcationObservedDataGrid.Rows.Add(r);
         }
+
         /// <summary>
-        /// 
+        /// Get the list of observed data.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The list of EcellObservedData.</returns>
         public List<EcellObservedData> GetObservedDataList()
         {
             List<EcellObservedData> result = new List<EcellObservedData>();
@@ -148,10 +246,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return result;
         }
+
         /// <summary>
-        /// 
+        /// Get the list of parameter data.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The list of EcellParameterData.</returns>
         public List<EcellParameterData> GetParameterDataList()
         {
             List<EcellParameterData> result = new List<EcellParameterData>();
@@ -162,11 +261,13 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return result;
         }
+
+        #region Events
         /// <summary>
-        /// 
+        /// The event to load the form.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">BifurcationSettingDialog.</param>
+        /// <param name="e">EventArgs</param>
         private void FormLoad(object sender, EventArgs e)
         {
             bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox,
@@ -180,11 +281,12 @@ namespace Ecell.IDE.Plugins.Analysis
             bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox,
                 String.Format(MessageResources.CommonToolTipRange, 0, 2097152));     
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of window size.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void WindowSize_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationWindowSizeTextBox.Text;
@@ -205,11 +307,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.WindowSize = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of simulation time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void SimulationTime_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationSimulationTimeTextBox.Text;
@@ -230,11 +333,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SimulationTime = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of max input for FFT.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void MaxInput_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationMaxInputTextBox.Text;
@@ -255,11 +359,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxInput = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of max frequency for FFT.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void MaxFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationMaxFrequencyTextBox.Text;
@@ -280,11 +385,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxFreq = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of min frequency of FFT.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void MinFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationMinFrequencyTextBox.Text;
@@ -305,11 +411,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MinFreq = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Change the property of data on DataGridView of the observed data.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellObservedData data = bifurcationObservedDataGrid.Rows[e.RowIndex].Tag as EcellObservedData;
@@ -339,8 +446,17 @@ namespace Ecell.IDE.Plugins.Analysis
                         data.Rate = dummy;
                         break;
                 }
+                try
+                {
+                    m_owner.NotifyObservedDataChanged(data);
+                }
+                catch (Exception)
+                {
+                    isCorrect = false;
+                }
             }
-            else
+            
+            if (!isCorrect)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, 
                     MessageResources.NameObservedData));
@@ -361,11 +477,12 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
+
         /// <summary>
-        /// 
+        /// Change the property of data on DataGridView of the parameter data.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellParameterData data = bifurcationParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
@@ -392,8 +509,16 @@ namespace Ecell.IDE.Plugins.Analysis
                         data.Step = dummy;
                         break;
                 }
+                try
+                {
+                    m_owner.NotifyParameterDataChanged(data);
+                }
+                catch (Exception)
+                {
+                    isCorrect = false;
+                }
             }
-            else
+            if (!isCorrect)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue,
                     MessageResources.NameParameterData));
@@ -413,45 +538,122 @@ namespace Ecell.IDE.Plugins.Analysis
 
         }
 
-        private void BifurcationSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        /// <summary>
+        /// Opening the ContextMenuStrip of DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">ContextMenuStrip.</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void observedConextMenuOpening(object sender, CancelEventArgs e)
         {
-            if (this.DialogResult == DialogResult.Cancel) return;
+            if (bifurcationObservedDataGrid.SelectedCells.Count <= 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Opening the ContextMenuStrip of DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">ContextMenuStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void paramContextMenuStripOpening(object sender, CancelEventArgs e)
+        {
+            if (bifurcationParameterDataGrid.SelectedCells.Count <= 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Click the delete menu on DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="e">EventArgs</param>
+        private void DeleteParamClick(object sender, EventArgs e)
+        {
+            List<string> delList = new List<string>();
+            foreach (DataGridViewCell c in bifurcationParameterDataGrid.SelectedCells)
+            {
+                string fullPN = bifurcationParameterDataGrid.Rows[c.RowIndex].Cells[paramFullPNColumn.Index].Value.ToString();
+                if (!delList.Contains(fullPN))
+                    delList.Add(fullPN);
+            }
+
+            foreach (string r in delList)
+            {
+                m_owner.Environment.DataManager.RemoveParameterData(
+                    new EcellParameterData(r, 0.0));
+            }
+        }
+
+        /// <summary>
+        /// Click the delete menu on DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="e">EventArgs</param>
+        private void ObservedDeleteClick(object sender, EventArgs e)
+        {            
+            List<string> delList = new List<string>();
+            foreach (DataGridViewCell c in bifurcationObservedDataGrid.SelectedCells)
+            {
+                string fullPN = bifurcationObservedDataGrid.Rows[c.RowIndex].Cells[observedFullPNColumn.Index].Value.ToString();
+                if (!delList.Contains(fullPN))
+                    delList.Add(fullPN);
+            }
+
+            foreach (string r in delList)
+            {
+                m_owner.Environment.DataManager.RemoveObservedData(
+                    new EcellObservedData(r, 0.0));
+            }
+        }
+
+        /// <summary>
+        /// Click the button to execute the analysis.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
+        private void ExecuteButtonClick(object sender, EventArgs e)
+        {
+            executeButton.Enabled = false;
             if (m_param.SimulationTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.WindowSize <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameWindowSize));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
             if (m_param.MaxInput <= 0 || m_param.MaxInput > 2097152)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxSample));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
             if (m_param.MinFreq <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMinFrequency));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.MaxFreq <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxFrequency));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.MaxFreq < m_param.MinFreq)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger, MessageResources.NameMaxFrequency, MessageResources.NameMinFrequency));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
@@ -461,7 +663,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (p.Max < p.Min || p.Step < 0.0)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
-                    e.Cancel = true;
+                    executeButton.Enabled = true;
                     return;
                 }
             }
@@ -472,11 +674,13 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (o.Max < o.Min || o.Rate < 0.0)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
-                    e.Cancel = true;
+                    executeButton.Enabled = true;
                     return;
                 }
             }
+            m_owner.ExecuteBifurcationAnalysis();
+            executeButton.Enabled = true;
         }
-
+        #endregion
     }
 }

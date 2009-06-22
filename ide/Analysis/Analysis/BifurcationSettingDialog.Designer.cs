@@ -35,18 +35,16 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
-            System.Windows.Forms.Button cancelButton;
-            System.Windows.Forms.Button okButton;
-            System.Windows.Forms.Button executeButton;
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.executeButton = new System.Windows.Forms.Button();
             this.bifurcationSimulationTimeTextBox = new System.Windows.Forms.TextBox();
             this.bifurcationWindowSizeTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -57,16 +55,20 @@
             this.bifurcationMinFrequencyTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.bifurcationParameterDataGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paramFullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paramBContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteBParamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bifurcationObservedDataGrid = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.observedFullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.observedBContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteBObservedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bifurcationToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.abstractTextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -76,13 +78,12 @@
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
-            cancelButton = new System.Windows.Forms.Button();
-            okButton = new System.Windows.Forms.Button();
-            executeButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bifurcationParameterDataGrid)).BeginInit();
+            this.paramBContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bifurcationObservedDataGrid)).BeginInit();
+            this.observedBContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -110,26 +111,12 @@
             resources.ApplyResources(label5, "label5");
             label5.Name = "label5";
             // 
-            // cancelButton
-            // 
-            resources.ApplyResources(cancelButton, "cancelButton");
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cancelButton.Name = "cancelButton";
-            cancelButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            resources.ApplyResources(okButton, "okButton");
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            okButton.Name = "okButton";
-            okButton.UseVisualStyleBackColor = true;
-            // 
             // executeButton
             // 
-            resources.ApplyResources(executeButton, "executeButton");
-            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-            executeButton.Name = "executeButton";
-            executeButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.executeButton, "executeButton");
+            this.executeButton.Name = "executeButton";
+            this.executeButton.UseVisualStyleBackColor = true;
+            this.executeButton.Click += new System.EventHandler(this.ExecuteButtonClick);
             // 
             // bifurcationSimulationTimeTextBox
             // 
@@ -201,54 +188,70 @@
             this.bifurcationParameterDataGrid.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.bifurcationParameterDataGrid, "bifurcationParameterDataGrid");
             this.bifurcationParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.bifurcationParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.bifurcationParameterDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.bifurcationParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
+            this.paramFullPNColumn,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
+            this.bifurcationParameterDataGrid.ContextMenuStrip = this.paramBContextMenuStrip;
+            this.bifurcationParameterDataGrid.MultiSelect = false;
             this.bifurcationParameterDataGrid.Name = "bifurcationParameterDataGrid";
             this.bifurcationParameterDataGrid.RowHeadersVisible = false;
             this.bifurcationParameterDataGrid.RowTemplate.Height = 21;
             this.bifurcationParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
-            // dataGridViewTextBoxColumn1
+            // paramFullPNColumn
             // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 80F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.paramFullPNColumn.FillWeight = 80F;
+            resources.ApplyResources(this.paramFullPNColumn, "paramFullPNColumn");
+            this.paramFullPNColumn.Name = "paramFullPNColumn";
+            this.paramFullPNColumn.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridViewTextBoxColumn2.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // dataGridViewTextBoxColumn3
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridViewTextBoxColumn3.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn3, "dataGridViewTextBoxColumn3");
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
             // dataGridViewTextBoxColumn4
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridViewTextBoxColumn4.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // paramBContextMenuStrip
+            // 
+            this.paramBContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteBParamToolStripMenuItem});
+            this.paramBContextMenuStrip.Name = "paramBContextMenuStrip";
+            resources.ApplyResources(this.paramBContextMenuStrip, "paramBContextMenuStrip");
+            this.paramBContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.paramContextMenuStripOpening);
+            // 
+            // deleteBParamToolStripMenuItem
+            // 
+            this.deleteBParamToolStripMenuItem.Name = "deleteBParamToolStripMenuItem";
+            resources.ApplyResources(this.deleteBParamToolStripMenuItem, "deleteBParamToolStripMenuItem");
+            this.deleteBParamToolStripMenuItem.Click += new System.EventHandler(this.DeleteParamClick);
             // 
             // bifurcationObservedDataGrid
             // 
@@ -256,63 +259,78 @@
             this.bifurcationObservedDataGrid.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.bifurcationObservedDataGrid, "bifurcationObservedDataGrid");
             this.bifurcationObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.bifurcationObservedDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.bifurcationObservedDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.bifurcationObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn5,
+            this.observedFullPNColumn,
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9});
+            this.bifurcationObservedDataGrid.ContextMenuStrip = this.observedBContextMenuStrip;
             this.bifurcationObservedDataGrid.Name = "bifurcationObservedDataGrid";
             this.bifurcationObservedDataGrid.RowHeadersVisible = false;
             this.bifurcationObservedDataGrid.RowTemplate.Height = 21;
             this.bifurcationObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
             // 
-            // dataGridViewTextBoxColumn5
+            // observedFullPNColumn
             // 
-            this.dataGridViewTextBoxColumn5.FillWeight = 90F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.observedFullPNColumn.FillWeight = 90F;
+            resources.ApplyResources(this.observedFullPNColumn, "observedFullPNColumn");
+            this.observedFullPNColumn.Name = "observedFullPNColumn";
+            this.observedFullPNColumn.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle14;
             this.dataGridViewTextBoxColumn6.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn6, "dataGridViewTextBoxColumn6");
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             // 
             // dataGridViewTextBoxColumn7
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle15;
             this.dataGridViewTextBoxColumn7.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn7, "dataGridViewTextBoxColumn7");
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             // 
             // dataGridViewTextBoxColumn8
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn8.DefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridViewTextBoxColumn8.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn8, "dataGridViewTextBoxColumn8");
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             // 
             // dataGridViewTextBoxColumn9
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn9.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridViewTextBoxColumn9.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn9, "dataGridViewTextBoxColumn9");
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
+            // observedBContextMenuStrip
+            // 
+            this.observedBContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteBObservedToolStripMenuItem});
+            this.observedBContextMenuStrip.Name = "observedBContextMenuStrip";
+            resources.ApplyResources(this.observedBContextMenuStrip, "observedBContextMenuStrip");
+            this.observedBContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.observedConextMenuOpening);
+            // 
+            // deleteBObservedToolStripMenuItem
+            // 
+            this.deleteBObservedToolStripMenuItem.Name = "deleteBObservedToolStripMenuItem";
+            resources.ApplyResources(this.deleteBObservedToolStripMenuItem, "deleteBObservedToolStripMenuItem");
+            this.deleteBObservedToolStripMenuItem.Click += new System.EventHandler(this.ObservedDeleteClick);
             // 
             // abstractTextBox
             // 
@@ -334,29 +352,26 @@
             // 
             // BifurcationSettingDialog
             // 
-            this.AcceptButton = okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = cancelButton;
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.bifurcationObservedDataGrid);
             this.Controls.Add(this.bifurcationParameterDataGrid);
             this.Controls.Add(this.abstractTextBox);
-            this.Controls.Add(executeButton);
-            this.Controls.Add(okButton);
-            this.Controls.Add(cancelButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.executeButton);
             this.Name = "BifurcationSettingDialog";
             this.Load += new System.EventHandler(this.FormLoad);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BifurcationSettingDialog_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bifurcationParameterDataGrid)).EndInit();
+            this.paramBContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bifurcationObservedDataGrid)).EndInit();
+            this.observedBContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,18 +390,23 @@
         private System.Windows.Forms.DataGridView bifurcationObservedDataGrid;
         private System.Windows.Forms.ToolTip bifurcationToolTip;
         private System.Windows.Forms.TextBox abstractTextBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ContextMenuStrip paramBContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteBParamToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip observedBContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteBObservedToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn observedFullPNColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn paramFullPNColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.Button executeButton;
     }
 }

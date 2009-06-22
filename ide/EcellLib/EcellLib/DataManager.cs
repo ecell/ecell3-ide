@@ -2426,12 +2426,14 @@ namespace Ecell
                 EcellParameterData param = GetParameterData(data.EntityPath);
                 if (param != null)
                 {
+                    RemoveParameterData(new EcellParameterData(data.EntityPath, 0.0));
                     SetParameterData(new EcellParameterData(data.EntityPath.Replace(oldObj.Key, newkey),
                         param.Max, param.Min, param.Step));
                 }
                 EcellObservedData observed = GetObservedData(data.EntityPath);
                 if (observed != null)
                 {
+                    RemoveObservedData(new EcellObservedData(data.EntityPath, 0.0));
                     SetObservedData(new EcellObservedData(data.EntityPath.Replace(oldObj.Key, newkey),
                         observed.Max, observed.Min, observed.Differ, observed.Rate));
                 }

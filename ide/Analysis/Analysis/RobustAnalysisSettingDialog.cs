@@ -1,3 +1,32 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,25 +37,37 @@ using System.Windows.Forms;
 
 using Ecell.IDE;
 using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
-    /// 
+    /// Setting Dialog for robust analysis.
     /// </summary>
-    public partial class RobustAnalysisSettingDialog : Form
+    public partial class RobustAnalysisSettingDialog : EcellDockContent
     {
-        private Analysis m_owner;
-        private RobustAnalysisParameter m_param;
+        #region Fields
         /// <summary>
-        /// 
+        /// Plugin object.
         /// </summary>
-        /// <param name="owner"></param>
+        private Analysis m_owner;
+        /// <summary>
+        /// Parameter object for robust analysis.
+        /// </summary>
+        private RobustAnalysisParameter m_param;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="owner">Plugin object.</param>
         public RobustAnalysisSettingDialog(Analysis owner)
         {
             InitializeComponent();
             m_owner = owner;
         }
+        #endregion
 
         /// <summary>
         /// Get the robust analysis parameter set in this form.
@@ -53,36 +94,67 @@ namespace Ecell.IDE.Plugins.Analysis
             if (p.IsRandomCheck) robustAnalysisRandomRadioButton.Checked = true;
             else robustAnalysisMatrixRadioButton.Checked = true;
         }
+
         /// <summary>
-        /// 
+        /// Remove the parameter data.
         /// </summary>
-        /// <param name="dic"></param>
-        public void SetParameterDataList(Dictionary<string, EcellData> dic)
+        /// <param name="data">the removed parameter data.</param>
+        public void RemoveParameterData(EcellParameterData data)
         {
-            foreach (string key in dic.Keys)
+            foreach (DataGridViewRow r in robustAnalysisParameterDataGrid.Rows)
             {
-                EcellParameterData d = m_owner.DataManager.GetParameterData(key);
-                SetParameterData(d);
+                string fullPN = r.Cells[paramFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    robustAnalysisParameterDataGrid.Rows.Remove(r);
+                    return;
+                }
             }
         }
+
         /// <summary>
-        /// 
+        /// Remove the observed data.
         /// </summary>
-        /// <param name="dic"></param>
-        public void SetObservedDataList(Dictionary<string, EcellData> dic)
+        /// <param name="data">the removed observed data.</param>
+        public void RemoveObservedData(EcellObservedData data)
         {
-            foreach (string key in dic.Keys)
+            foreach (DataGridViewRow r in robustAnalysisObservedDataGrid.Rows)
             {
-                EcellObservedData d = m_owner.DataManager.GetObservedData(key);
-                SetObservedData(d);
+                string fullPN = r.Cells[observedFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    robustAnalysisObservedDataGrid.Rows.Remove(r);
+                    return;
+                }
             }
         }
+
         /// <summary>
-        /// 
+        /// Set the parameter data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the set parameter data.</param>
         public void SetParameterData(EcellParameterData data)
         {
+            foreach (DataGridViewRow r1 in robustAnalysisParameterDataGrid.Rows)
+            {
+                string fullPN = r1.Cells[paramFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    // max
+                    int index = dataGridViewTextBoxColumn2.Index;
+                    r1.Cells[index].Value = data.Max;
+
+                    // min
+                    index = dataGridViewTextBoxColumn3.Index;
+                    r1.Cells[index].Value = data.Min;
+
+                    // step
+                    index = dataGridViewTextBoxColumn4.Index;
+                    r1.Cells[index].Value = data.Step;
+
+                    return;
+                }
+            }
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             c1.Value = data.Key;
@@ -107,12 +179,38 @@ namespace Ecell.IDE.Plugins.Analysis
 
             robustAnalysisParameterDataGrid.Rows.Add(r);
         }
+
         /// <summary>
-        /// 
+        /// Set the observed data.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the set observed data.</param>
         public void SetObservedData(EcellObservedData data)
         {
+            foreach (DataGridViewRow r1 in robustAnalysisObservedDataGrid.Rows)
+            {
+                string fullPN = r1.Cells[observedFullPNColumn.Index].Value.ToString();
+                if (fullPN.Equals(data.Key))
+                {
+                    // max
+                    int index = dataGridViewTextBoxColumn6.Index;
+                    r1.Cells[index].Value = data.Max;
+
+                    // min
+                    index = dataGridViewTextBoxColumn7.Index;
+                    r1.Cells[index].Value = data.Min;
+
+                    // differ
+                    index = dataGridViewTextBoxColumn8.Index;
+                    r1.Cells[index].Value = data.Differ;
+
+                    // rate
+                    index = dataGridViewTextBoxColumn9.Index;
+                    r1.Cells[index].Value = data.Rate;
+
+                    return;
+                }
+            }
+
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             c1.Value = data.Key;
@@ -138,6 +236,38 @@ namespace Ecell.IDE.Plugins.Analysis
             robustAnalysisObservedDataGrid.Rows.Add(r);
         }
 
+        /// <summary>
+        /// Get the list of observed data.
+        /// </summary>
+        /// <returns>The list of EcellObservedData.</returns>
+        public List<EcellObservedData> GetObservedDataList()
+        {
+            List<EcellObservedData> result = new List<EcellObservedData>();
+            for (int i = 0; i < robustAnalysisObservedDataGrid.Rows.Count; i++)
+            {
+                EcellObservedData data = robustAnalysisObservedDataGrid.Rows[i].Tag as EcellObservedData;
+                result.Add(data);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get the list of parameter data.
+        /// </summary>
+        /// <returns>The list of EcellParameterData.</returns>
+        public List<EcellParameterData> GetParameterDataList()
+        {
+            List<EcellParameterData> result = new List<EcellParameterData>();
+            for (int i = 0; i < robustAnalysisParameterDataGrid.Rows.Count; i++)
+            {
+                EcellParameterData data = robustAnalysisParameterDataGrid.Rows[i].Tag as EcellParameterData;
+                result.Add(data);
+            }
+            return result;
+        }
+
+
+        #region Events
         /// <summary>
         /// Event when CheckBox of random is changed.
         /// If CheckBox of random is true, TextBox input the number of sample is active.
@@ -186,10 +316,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
         /// <summary>
-        /// 
+        /// The event to load the form.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">RobustAnalysisSettingDialog.</param>
+        /// <param name="e">EventArgs</param>
         private void FormLoad(object sender, EventArgs e)
         {
             robustToolTip.SetToolTip(robustAnalysisSimulationTimeTextBox, 
@@ -205,11 +335,12 @@ namespace Ecell.IDE.Plugins.Analysis
             robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox,
                 String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of simulation time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void SimulationTime_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisSimulationTimeTextBox.Text;
@@ -230,11 +361,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SimulationTime = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of window size.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void WindowSize_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisWindowSizeTextBox.Text;
@@ -256,10 +388,10 @@ namespace Ecell.IDE.Plugins.Analysis
             m_param.WinSize = dummy;
         }
         /// <summary>
-        /// 
+        /// Validating the value of sample number.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void SampleNumber_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisSampleNumberTextBox.Text;
@@ -280,11 +412,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SampleNum = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of max input for FFT.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void MaxInput_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisMaxSampleTextBox.Text;
@@ -305,11 +438,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxData = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of max frequency for FFT.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void MaxFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisMaxFrequencyTextBox.Text;
@@ -330,11 +464,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxFreq = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Validating the value of min frequency of FFT.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void MinFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisMinFrequencyTextBox.Text;
@@ -355,39 +490,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MinFreq = dummy;
         }
+
         /// <summary>
-        /// 
+        /// Change the property of data on DataGridView of the observed data.
         /// </summary>
-        /// <returns></returns>
-        public List<EcellObservedData> GetObservedDataList()
-        {
-            List<EcellObservedData> result = new List<EcellObservedData>();
-            for (int i = 0; i < robustAnalysisObservedDataGrid.Rows.Count; i++)
-            {
-                EcellObservedData data = robustAnalysisObservedDataGrid.Rows[i].Tag as EcellObservedData;
-                result.Add(data);
-            }
-            return result;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public List<EcellParameterData> GetParameterDataList()
-        {
-            List<EcellParameterData> result = new List<EcellParameterData>();
-            for (int i = 0; i < robustAnalysisParameterDataGrid.Rows.Count; i++)
-            {
-                EcellParameterData data = robustAnalysisParameterDataGrid.Rows[i].Tag as EcellParameterData;
-                result.Add(data);
-            }
-            return result;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellObservedData data = robustAnalysisObservedDataGrid.Rows[e.RowIndex].Tag as EcellObservedData;
@@ -417,8 +525,16 @@ namespace Ecell.IDE.Plugins.Analysis
                         data.Rate = dummy;
                         break;
                 }
+                try
+                {
+                    m_owner.NotifyObservedDataChanged(data);
+                }
+                catch (Exception)
+                {
+                    isCorrect = false;
+                }
             }
-            else
+            if (!isCorrect)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue,
                         MessageResources.NameObservedData));
@@ -439,11 +555,12 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
+
         /// <summary>
-        /// 
+        /// Change the property of data on DataGridView of the parameter data.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellParameterData data = robustAnalysisParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
@@ -470,8 +587,16 @@ namespace Ecell.IDE.Plugins.Analysis
                         data.Step = dummy;
                         break;
                 }
+                try
+                {
+                    m_owner.NotifyParameterDataChanged(data);
+                }
+                catch (Exception)
+                {
+                    isCorrect = false;
+                }
             }
-            else
+            if (!isCorrect)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue,
                     MessageResources.NameParameterData));
@@ -491,52 +616,57 @@ namespace Ecell.IDE.Plugins.Analysis
 
         }
 
-        private void RobustAnalysisSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        /// <summary>
+        /// Click the button to execute the analysis.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
+        private void ExecuteButtonClick(object sender, EventArgs e)
         {
-            if (this.DialogResult == DialogResult.Cancel) return;
+            executeButton.Enabled = false;
             if (m_param.SimulationTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.WinSize <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameWindowSize));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
             if (m_param.MaxData <= 0 || m_param.MaxData > 2097152)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxSample));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
             if (m_param.SampleNum <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSampleNum));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
-            
+
             if (m_param.MinFreq <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMinFrequency));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.MaxFreq <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxFrequency));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
             if (m_param.MaxFreq < m_param.MinFreq)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger, MessageResources.NameMaxFrequency, MessageResources.NameMinFrequency));
-                e.Cancel = true;
+                executeButton.Enabled = true;
                 return;
             }
 
@@ -546,7 +676,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (p.Max < p.Min || p.Step < 0.0)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
-                    e.Cancel = true;
+                    executeButton.Enabled = true;
                     return;
                 }
             }
@@ -557,10 +687,85 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (o.Max < o.Min || o.Rate < 0.0)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameObservedData));
-                    e.Cancel = true;
+                    executeButton.Enabled = true;
                     return;
                 }
             }
+            m_owner.ExecuteRobustAnalysis();
+            executeButton.Enabled = true;
         }
+
+        /// <summary>
+        /// Opening the ContextMenuStrip of DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">ContextMenuStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void ParamContextMenuOpening(object sender, CancelEventArgs e)
+        {
+            if (robustAnalysisParameterDataGrid.SelectedCells.Count <= 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Opening the ContextMenuStrip of DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">ContextMenuStrip.</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void ObservedContextMenuOpening(object sender, CancelEventArgs e)
+        {
+            if (robustAnalysisObservedDataGrid.SelectedCells.Count <= 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Click the delete menu on DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="e">EventArgs</param>
+        private void DeleteRObservedClick(object sender, EventArgs e)
+        {            
+            List<string> delList = new List<string>();
+            foreach (DataGridViewCell c in robustAnalysisObservedDataGrid.SelectedCells)
+            {
+                string fullPN = robustAnalysisObservedDataGrid.Rows[c.RowIndex].Cells[observedFullPNColumn.Index].Value.ToString();
+                if (!delList.Contains(fullPN))
+                    delList.Add(fullPN);
+            }
+
+            foreach (string r in delList)
+            {
+                m_owner.Environment.DataManager.RemoveObservedData(
+                    new EcellObservedData(r, 0.0));
+            }
+        }
+
+        /// <summary>
+        /// Click the delete menu on DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="e">EventArgs</param>
+        private void DeleteRParamClick(object sender, EventArgs e)
+        {            
+            List<string> delList = new List<string>();
+            foreach (DataGridViewCell c in robustAnalysisParameterDataGrid.SelectedCells)
+            {
+                string fullPN = robustAnalysisParameterDataGrid.Rows[c.RowIndex].Cells[paramFullPNColumn.Index].Value.ToString();
+                if (!delList.Contains(fullPN))
+                    delList.Add(fullPN);
+            }
+
+            foreach (string r in delList)
+            {
+                m_owner.Environment.DataManager.RemoveParameterData(
+                    new EcellParameterData(r, 0.0));
+            }
+        }
+        #endregion
     }
 }

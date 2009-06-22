@@ -33,9 +33,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SensitivityAnalysisSettingDialog));
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
-            System.Windows.Forms.Button cancelButton;
-            System.Windows.Forms.Button okButton;
-            System.Windows.Forms.Button executeButton;
+            this.executeButton = new System.Windows.Forms.Button();
             this.sensitivityStepTextBox = new System.Windows.Forms.TextBox();
             this.sensitivityAbsolutePerturbationTextBox = new System.Windows.Forms.TextBox();
             this.sensitivityRelativePerturbationTextBox = new System.Windows.Forms.TextBox();
@@ -44,9 +42,6 @@
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
-            cancelButton = new System.Windows.Forms.Button();
-            okButton = new System.Windows.Forms.Button();
-            executeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -64,26 +59,12 @@
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
             // 
-            // cancelButton
-            // 
-            resources.ApplyResources(cancelButton, "cancelButton");
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cancelButton.Name = "cancelButton";
-            cancelButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            resources.ApplyResources(okButton, "okButton");
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            okButton.Name = "okButton";
-            okButton.UseVisualStyleBackColor = true;
-            // 
             // executeButton
             // 
-            resources.ApplyResources(executeButton, "executeButton");
-            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-            executeButton.Name = "executeButton";
-            executeButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.executeButton, "executeButton");
+            this.executeButton.Name = "executeButton";
+            this.executeButton.UseVisualStyleBackColor = true;
+            this.executeButton.Click += new System.EventHandler(this.ExecuteButtonClick);
             // 
             // sensitivityStepTextBox
             // 
@@ -113,14 +94,10 @@
             // 
             // SensitivityAnalysisSettingDialog
             // 
-            this.AcceptButton = okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = cancelButton;
             this.Controls.Add(this.abstractTextBox);
-            this.Controls.Add(executeButton);
-            this.Controls.Add(okButton);
-            this.Controls.Add(cancelButton);
+            this.Controls.Add(this.executeButton);
             this.Controls.Add(label3);
             this.Controls.Add(label2);
             this.Controls.Add(this.sensitivityRelativePerturbationTextBox);
@@ -129,7 +106,6 @@
             this.Controls.Add(label1);
             this.Name = "SensitivityAnalysisSettingDialog";
             this.Load += new System.EventHandler(this.FormLoad);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SensitivityAnalysisSettingDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,5 +118,6 @@
         private System.Windows.Forms.TextBox sensitivityRelativePerturbationTextBox;
         private System.Windows.Forms.ToolTip sensitivityToolTip;
         private System.Windows.Forms.TextBox abstractTextBox;
+        private System.Windows.Forms.Button executeButton;
     }
 }
