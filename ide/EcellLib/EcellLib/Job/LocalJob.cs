@@ -134,12 +134,12 @@ namespace Ecell.Job
 
         void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            this.StdErr += e.Data;
+            this.StdErr += e.Data + "\n";
         }
 
         void p_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            this.StdErr += e.Data;
+            this.StdErr += e.Data + "\n";
         }
 
         /// <summary>

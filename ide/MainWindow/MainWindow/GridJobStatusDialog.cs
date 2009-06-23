@@ -292,7 +292,26 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender">TreeView.</param>
         /// <param name="e">TreeNodeMouseClickEventArgs</param>
-        private void JobTee_MouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void JobTree_MouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode n = e.Node;
+            if (!(n is JobTreeNode))
+                return;
+
+            JobTreeNode node = n as JobTreeNode;
+
+            Job.Job j = m_manager.GroupDic[node.GroupName].GetJob(Int32.Parse(node.ID));
+            string message = j.GetStdErr();
+            JobMessageDialog dlg = new JobMessageDialog(message);
+            dlg.ShowDialog();
+        }
+
+        /// <summary>
+        /// Click the node on the job tree.
+        /// </summary>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs</param>
+        private void JobTree_MouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
             ClearInformation();

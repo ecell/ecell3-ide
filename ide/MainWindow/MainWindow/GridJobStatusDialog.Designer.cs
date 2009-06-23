@@ -265,7 +265,8 @@
             resources.ApplyResources(this.jobTreeView, "jobTreeView");
             this.jobTreeView.ImageList = this.jobStatusImageList;
             this.jobTreeView.Name = "jobTreeView";
-            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.JobTee_MouseClick);
+            this.jobTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.JobTree_MouseDoubleClick);
+            this.jobTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.JobTree_MouseClick);
             // 
             // splitter1
             // 
