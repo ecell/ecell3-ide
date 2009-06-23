@@ -182,6 +182,20 @@ namespace Ecell.SBML
 
             SBML_Model model = new SBML_Model(document.getModel());
             SBML_Event e = new SBML_Event(model);
+
+            EventStruct es = new EventStruct();
+            es.ID = "Test1";
+            string id = e.getEventID(es);
+            Assert.AreEqual("Process:/:Test1", id, "getEventID returns unexpected value.");
+
+            model.Level = 1;
+            es.Name = "Test2";
+            id = e.getEventID(es);
+            Assert.AreEqual("Process:/:Test2", id, "getEventID returns unexpected value.");
+
+            model.Level = 0;
+            id = e.getEventID(es);
+            Assert.AreEqual("Process:/:Event0", id, "getEventID returns unexpected value.");
         }
         /// <summary>
         /// TestSBML_Compartment
@@ -242,7 +256,88 @@ namespace Ecell.SBML
             SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
 
             SBML_Model model = new SBML_Model(document.getModel());
+            SBML_Compartment sc = new SBML_Compartment(model);
             SBML_Species species = new SBML_Species(model);
+
+            // getConstant
+            SpeciesStruct ss = new SpeciesStruct();
+            int i = species.getConstant(ss);
+            Assert.AreEqual(0, i, "getConstant returns unexpected value.");
+
+            ss.Constant = true;
+            i = species.getConstant(ss);
+            Assert.AreEqual(1, i, "getConstant returns unexpected value.");
+
+            model.Level = 1;
+            i = species.getConstant(ss);
+            Assert.AreEqual(0, i, "getConstant returns unexpected value.");
+
+            ss.BoundaryCondition = true;
+            i = species.getConstant(ss);
+            Assert.AreEqual(1, i, "getConstant returns unexpected value.");
+
+            try
+            {
+                model.Level = 0;
+                i = species.getConstant(ss);
+            }
+            catch (Exception)
+            {
+            }
+
+            // getSpeciesValue
+            double d = species.getSpeciesValue(ss);
+            Assert.AreEqual(0.0, d, "getSpeciesValue returns unexpected value.");
+
+            model.Level = 2;
+            ss.InitialAmount = double.NaN;
+            ss.Compartment = "cell";
+            d = species.getSpeciesValue(ss);
+            Assert.AreEqual(0.0, d, "getSpeciesValue returns unexpected value.");
+
+            try
+            {
+                ss.InitialConcentration = double.NaN;
+                d = species.getSpeciesValue(ss);
+            }
+            catch (Exception)
+            {
+            }
+
+            // getSpeciesID
+            ss.ID = "Test1";
+            string id = species.getSpeciesID(ss);
+            Assert.AreEqual("/cell:Test1", id, "getSpeciesID returns unexpected value.");
+
+            try
+            {
+                model.Level = 1;
+                ss.Name = "Test2";
+                id = species.getSpeciesID(ss);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                model.Level = 0;
+                id = species.getSpeciesID(ss);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                model.Level = 2;
+                ss.Compartment = "";
+                id = species.getSpeciesID(ss);
+            }
+            catch (Exception)
+            {
+            }
+
         }
     }
 }

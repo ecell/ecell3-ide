@@ -73,6 +73,22 @@ namespace Ecell.SBML
 
             model = SBML2EML.Convert(TestConstant.TestDirectory + "BIOMD0000000003.xml");
             Assert.IsNotNull(model, "Convert method returned unexpected value.");
+
+            try
+            {
+                model = SBML2EML.Convert("hoge.sbml");
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                model = SBML2EML.Convert(TestConstant.Model_Drosophila);
+            }
+            catch (Exception)
+            {
+            }
         }
 
     }

@@ -15,12 +15,12 @@ namespace Ecell.SBML
         public SBML_Compartment( SBML_Model aModel)
         {
             this.Model = aModel;
-        }
+            foreach (CompartmentStruct aCompartment in aModel.CompartmentList)
+            {
+                setSizeToDictionary(aCompartment);
+                setUnitToDictionary(aCompartment);
+            }
 
-        public void initialize(CompartmentStruct aCompartment)
-        {
-            setSizeToDictionary(aCompartment);
-            setUnitToDictionary(aCompartment);
         }
 
         public string getCompartmentID(CompartmentStruct aCompartment)

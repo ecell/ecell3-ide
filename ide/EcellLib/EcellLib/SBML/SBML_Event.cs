@@ -61,12 +61,12 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aEvent"></param>
         /// <returns></returns>
-        public string getEventID(string[] aEvent)
+        public string getEventID(EventStruct aEvent)
         {
-            if( aEvent[0] != "" )
-                return "Process:/:" + aEvent[0];
-            else if( aEvent[1] != "" )
-                return "Process:/:" + aEvent[1];
+            if (this.Model.Level == 1)
+                return "Process:/:" + aEvent.Name;
+            else if (this.Model.Level == 2)
+                return "Process:/:" + aEvent.ID;
             else
             {
                 string anID = "Process:/:Event" + this.EventNumber;

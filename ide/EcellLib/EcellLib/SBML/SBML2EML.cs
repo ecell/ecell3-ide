@@ -91,9 +91,6 @@ namespace Ecell.SBML
 
             foreach (CompartmentStruct aCompartment in theModel.CompartmentList)
             {
-                // initialize
-                theCompartment.initialize( aCompartment );
-
                 // getPath
                 string aPath = "";
                 if ( theModel.Level == 1 )
