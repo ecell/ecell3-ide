@@ -232,6 +232,15 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Y Axis setting... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemYAxis {
+            get {
+                return ResourceManager.GetString("MenuItemYAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   End time に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameEndTime {

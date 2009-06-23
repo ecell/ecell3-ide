@@ -126,10 +126,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         int m_timespan = 100;
         bool isStep = false;
         int m_winCount = 1;
-
-
-
         private LoggerWindow m_loggerWin;
+
+        private YAxisSettings m_setting = new YAxisSettings();
         #endregion
 
         #region Constructor
@@ -160,12 +159,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// get / set redraw interval.
         /// </summary>
         public double RedrawInterval
         {
             get { return m_timespan / 1000.0; }
             set { this.m_timespan = (int)(value * 1000.0); }
+        }
+
+        /// <summary>
+        /// get / set the setting of y axis.
+        /// </summary>
+        public YAxisSettings Settings
+        {
+            get { return this.m_setting; }
+            set { 
+                this.m_setting = value;
+                foreach (TraceWindow t in m_winList)
+                    t.SetDefaultSetting(this.m_setting);
+            }
         }
         #endregion
 
@@ -446,7 +458,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public override List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node = new PropertyNode(MessageResources.NameGraphSetting);
-            node.Nodes.Add(new PropertyNode(new TracerConfigurationPage(this, this.PlotNumber, this.RedrawInterval)));
+            node.Nodes.Add(new PropertyNode(new TracerConfigurationPage(this, this.PlotNumber, this.RedrawInterval, m_setting.Copy())));
 
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
             nodeList.Add(node);
@@ -823,7 +835,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             try
             {
-                SaveTraceDialog win = new SaveTraceDialog(this);
+                SaveTraceDialog win = new SaveTraceDialog(this);                
                 win.AddEntry(m_entry);
                 using (win)
                 {
@@ -865,7 +877,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_win.Text = MessageResources.TracerWindow + m_winCount;
             m_win.Name = MessageResources.TracerWindow + m_winCount;
             m_win.TabText = m_win.Text;
-            m_win.DataFormat = m_dataformat;
+            m_win.DataFormat = m_dataformat;            
             m_winCount++;
 
             // Set Dock settings
@@ -884,6 +896,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             m_winList.Add(m_win);
             m_win.Show();
+            m_win.SetDefaultSetting(m_setting);
         }
 
         /// <summary>

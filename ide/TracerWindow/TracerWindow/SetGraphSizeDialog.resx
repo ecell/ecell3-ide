@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="cancelButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>251, 241</value>
+  </data>
+  <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.Name" xml:space="preserve">
+    <value>cancelButton</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>172, 241</value>
+  </data>
+  <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="okButton.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="okButton.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;okButton.Name" xml:space="preserve">
+    <value>okButton</value>
+  </data>
+  <data name="&gt;&gt;okButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;okButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="yMaxTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 29</value>
+  </data>
+  <data name="yMaxTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 19</value>
+  </data>
+  <data name="yMaxTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;yMaxTextBox.Name" xml:space="preserve">
+    <value>yMaxTextBox</value>
+  </data>
+  <data name="&gt;&gt;yMaxTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;yMaxTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;yMaxTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="yMinTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 54</value>
+  </data>
+  <data name="yMinTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 19</value>
+  </data>
+  <data name="yMinTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;yMinTextBox.Name" xml:space="preserve">
+    <value>yMinTextBox</value>
+  </data>
+  <data name="&gt;&gt;yMinTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;yMinTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;yMinTextBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="yMaxAutoCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="yMaxAutoCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 31</value>
+  </data>
+  <data name="yMaxAutoCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 16</value>
+  </data>
+  <data name="yMaxAutoCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="yMaxAutoCheckBox.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="&gt;&gt;yMaxAutoCheckBox.Name" xml:space="preserve">
+    <value>yMaxAutoCheckBox</value>
+  </data>
+  <data name="&gt;&gt;yMaxAutoCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;yMaxAutoCheckBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;yMaxAutoCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="yMinAutoCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="yMinAutoCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 56</value>
+  </data>
+  <data name="yMinAutoCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 16</value>
+  </data>
+  <data name="yMinAutoCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="yMinAutoCheckBox.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="&gt;&gt;yMinAutoCheckBox.Name" xml:space="preserve">
+    <value>yMinAutoCheckBox</value>
+  </data>
+  <data name="&gt;&gt;yMinAutoCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;yMinAutoCheckBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;yMinAutoCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="defaultCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="defaultCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="defaultCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 16</value>
+  </data>
+  <data name="defaultCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="defaultCheckBox.Text" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="&gt;&gt;defaultCheckBox.Name" xml:space="preserve">
+    <value>defaultCheckBox</value>
+  </data>
+  <data name="&gt;&gt;defaultCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;defaultCheckBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;defaultCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 44</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>314, 85</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Y Axis</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="y2MinTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 54</value>
+  </data>
+  <data name="y2MinTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 19</value>
+  </data>
+  <data name="y2MinTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;y2MinTextBox.Name" xml:space="preserve">
+    <value>y2MinTextBox</value>
+  </data>
+  <data name="&gt;&gt;y2MinTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;y2MinTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;y2MinTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="y2MaxTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 29</value>
+  </data>
+  <data name="y2MaxTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 19</value>
+  </data>
+  <data name="y2MaxTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;y2MaxTextBox.Name" xml:space="preserve">
+    <value>y2MaxTextBox</value>
+  </data>
+  <data name="&gt;&gt;y2MaxTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;y2MaxTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;y2MaxTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="y2MinAutoCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="y2MinAutoCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 56</value>
+  </data>
+  <data name="y2MinAutoCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 16</value>
+  </data>
+  <data name="y2MinAutoCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="y2MinAutoCheckBox.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="&gt;&gt;y2MinAutoCheckBox.Name" xml:space="preserve">
+    <value>y2MinAutoCheckBox</value>
+  </data>
+  <data name="&gt;&gt;y2MinAutoCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;y2MinAutoCheckBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;y2MinAutoCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="y2MaxAutoCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="y2MaxAutoCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 31</value>
+  </data>
+  <data name="y2MaxAutoCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 16</value>
+  </data>
+  <data name="y2MaxAutoCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="y2MaxAutoCheckBox.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="&gt;&gt;y2MaxAutoCheckBox.Name" xml:space="preserve">
+    <value>y2MaxAutoCheckBox</value>
+  </data>
+  <data name="&gt;&gt;y2MaxAutoCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;y2MaxAutoCheckBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;y2MaxAutoCheckBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 135</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>314, 85</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Y2Axis</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>338, 276</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoAGzF
+        yAJwzc5Bb8nNjW/Iy8Vux8rqbcbJ/G3Gyfxux8rqb8jLxW/JzY1wzc5BbMTIAigoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoAHDL
+        zANxzcxlbsnM3GzEyP9qwcT/aL3A/2a4vv9muL7/Zri+/2a4vv9ovcD/asHE/2zEyP9vyMvccM3OZW/I
+        ywMoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KABwz9Aqcc3MzW7FyP9ov8L/Zbe9/2SzuP9jsLf/Yay1/2KrtP9iq7T/Yay1/2Owt/9ks7j/Zbe9/2m8
+        wf9rw8f/cMjMzXDNziooKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAcdLTS2/Oz/NsxMj/aLvA/2W0uf9grbb/Upq0/0OHt/84ebb/NnK2/zRxtv82dbb/O363/0aN
+        tv9borP/ZLG4/2W3vf9qv8L/bsfK83DNzksoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoAHTY10px0tP6cMvM/2y/wv9mtbz/UZe3/zd3uf8wbbj/MG24/zFuuf8xbrn/MW65/zFu
+        uf8wbbj/L2y3/y9st/89f7f/W6Oz/2Wyuf9pvsH/bsfK+nDNzksoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAB23NopdtjX83HR0/9vyMv/aLvC/0aLwP80c8D/M3K//zNyv/8zc8H/M3PD/zJz
+        xP8yc8T/MnPE/zJywP8ycLz/MW65/y9st/8ybbb/UZi1/2W0uf9pvsH/b8jL83HNzCooKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAeN7dA3nd3Mx12dj/dNPU/3HGzf9Ljsf/PX7H/zp8xv84fMj/OX3J/zl+
+        y/84fsz/On/M/zd+zf81fc3/M3vL/zJ5yP8ycsL/MW+7/zBtuP8ybbb/Tpi2/2Wyuf9qwcT/b8nNzW7J
+        zAMoKCgAKCgoACgoKAAoKCgAKCgoACgoKAB63t1ket7d/3vb2v962Nf/VZzT/0yJzv9Lh8v/SobK/0iG
+        zP9Ghs7/RYbP/0mP0f9PndP/UJzS/0yX0P8+gs7/OX/N/zN7y/8yc8T/MXC9/zBtuP8ybbb/W6Kz/2W3
+        vf9sxMj/cc3MZSgoKAAoKCgAKCgoACgoKAAoKCgAe+HfAnvh39x9397/gN7d/2292/9SlNj/VJDU/1WQ
+        0/9Tj9P/UY7T/1ue1/9xx9n/e9rb/3va2/942tz/ddnY/2/R1/9WqNL/O4DN/zN7y/8yc8T/MW+7/zJt
+        tv84erj/ZLG4/2i/wv9wy8zcbcbJAigoKAAoKCgAKCgoACgoKAB84uFBfeHg/4Ph4P+G3+D/XqDe/16c
+        3P9enNz/XZvb/1yY3P9nrN3/ht3e/4Xf3v+D397/f9/e/33f3v97393/d93b/3XY2f9hudP/S5PL/0WK
+        xf8+hMD/On+6/zt7t/9cpLT/Zbe9/27FyP9xzcxBKCgoACgoKAAoKCgAKCgoAH7i4Y2C4uH/iuLh/3zO
+        4v9joeH/ZKHg/2Sh4P9koeD/ZqLg/4zd4v+M4uH/iuLh/4ji4f+G4uH/guLh/33h4P97397/ed3c/3XY
+        2f9wz9L/bMXK/2W4v/9irbb/X6ax/2Grs/9lsrn/a8LF/3DNzo0oKCgAKCgoACgoKAAoKCgAguLhxYvj
+        4v+Q5OP/e73j/22n4/9vqOP/b6jj/2+o4/94tuL/i9fj/4vY4/+H1eP/g9fj/4DW4v971eP/d9Lj/3TS
+        4P9wzd7/a8vd/2jD1v9lu83/YLDE/1ukuf9WnbT/WqCy/2SxuP9qv8L/b8zNxSgoKAAoKCgAKCgoACgo
+        KACI4t/pkOTj/5bm4/97tuP/dqzk/3es4/93rOP/d6zj/3as5P9yquT/bqfi/2ql4v9lo+P/X5/h/1yd
+        4P9WmuD/T5bf/0qT3v9Fj9v/QozY/0CE0P83fs3/MnTG/zJxvv85fLv/ZLO4/2i/wv9vyc3pKCgoACgo
+        KAAoKCgAKCgoAIvj4vuW5uP/mubl/3615P97r+X/frDk/36w5P9+sOT/e6/l/3qu5P92rOT/canj/2ym
+        4v9mo+L/X5/h/1yd4P9TmN//TpXe/0iR3P9Ditn/QYbT/zqAzv8ze8v/MnLC/zh6vv9ltLn/ar/C/3DK
+        zvsoKCgAKCgoACgoKAAoKCgAjuTj/Jjm4f+h5+f/hLnm/4Oz5f+EtOb/hrXm/4a15v+Ds+X/f7Hl/3uv
+        5f93rOP/canj/2um4/9lo+P/XZ7h/1ib4P9Rl9//S5Pd/0OL2/9Ci9b/P4PP/zV9zf8zecf/OYDD/2a4
+        vv9sw8b/cM3O/CgoKAAoKCgAKCgoACgoKACQ5OPqnObm/6Pn5f+Pwef/i7jn/4255/+Nuef/jbnn/4u4
+        5/+Gteb/gLLm/3yv5P93rOP/cKji/2ik4v9goOL/XJ3g/1OY3/9MlN7/RpDc/0ON2f9BidP/OoDO/zV9
+        zf9FisX/a8LF/2/Iy/9x0NHqKCgoACgoKAAoKCgAKCgoAJLk48We5ub/p+fm/5jN6P+SvOj/lr/o/5a/
+        6P+Wv+j/nczn/6bh6P+j3uf/n+Dn/5je5v+V2+X/j9rl/4rY5P+D1+P/ftXi/3jX4v9ryN//RI7a/0KI
+        1v8/hdP/PYHN/1Keyv9vzM3/cM/Q/3LT1MUoKCgAKCgoACgoKAAoKCgAkuTjjZ7m5v+p5+X/ptvo/5a/
+        6P+awej/nMLo/5rB6P+awuj/sujo/67o6P+n5+b/o+fm/57m5v+Y5uH/lOTh/47k4/+J4+L/guLh/2G3
+        3/9Fj9v/QYzZ/0GL1/9BhtP/YbnT/3HS0/9y1tX/dtjXjSgoKAAoKCgAKCgoACgoKACS5ONBmubl/6nn
+        5f+x6ej/nsTo/6HF6f+ixur/ocXp/5zC6P+i0uj/sOjo/6nn5f+l5+X/oObk/5jm5f+V5eT/juTj/4nj
+        4v961OL/TJTe/0aQ3P9Djtv/QIza/0aS2P9z2Nn/ddnY/3ba2f923NpBKCgoACgoKAAoKCgAKCgoAJbm
+        4wKY5uHcpefm/7Lq6f+v2+n/pcfp/6bI6v+lx+n/n8Tp/5jA6P+ayuj/peLn/6Xn5f+h5+f/mubl/5bm
+        4/+O4+T/dsfi/1Wc3/9MlN7/RZDd/0KO3P9Cjtz/Xrje/3fd3P933dz/d93c3HXd2wIoKCgAKCgoACgo
+        KAAoKCgAKCgoAJbm42Wh5+f/sOjo/7fr6v+r0en/pcfp/6XH6f+fxOn/mMDo/5K86P+LuOf/hrrm/4W9
+        5f9+vOT/dbPj/2Si4v9cneD/UZff/0yU3v9Fkd//Q4/d/0ue3f923uD/et7d/3re3f963t1kKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAmObhA5jm5c2n5+b/s+no/7fp6/+ly+n/n8Tp/5rB6P+Wv+j/j7rn/4i2
+        5v9/seX/eK3k/3Gp4/9opOL/YKDi/1qc4P9Rl9//SpPe/0WR3/9Ilt7/ctfg/3vf3v97397/e9/ezHvf
+        3gMoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAlubjKpzm5vOr5+b/s+no/7Xn6f+izej/lr/o/5K8
+        6P+LuOf/hLTm/36w5P93rOP/cKji/2aj4v9fn+H/WJvg/1GX3/9Kk97/TJve/3HV4f974eD/e+Hg/3vh
+        4PN74eApKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAlubjS57m5vqn5+b/sOjo/7Lo
+        6P+i1ej/j73n/4a15v9/seX/eq7k/3Sr5P9spuL/ZaPj/12e4f9WmuD/UZff/1604P943uL/e+Hg/3vh
+        4P974eD6e+HgSigoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAlubjS5rm
+        5fOh5+b/p+fm/6fn5v+l5+b/l9fn/4rE5v98t+T/c7Dj/22q4/9oquL/aLPi/3DD4v983OL/fOLh/3vh
+        4P974eD/e+Hg83vh4EooKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAluThKpbm482a5uX/nubk/6Dm5P+e5uT/mubl/5jm4f+V5eT/kOTj/4vj4v+G4t//guLh/37i
+        4f974d//e+Hg/3vh4Mx74eApKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAlObjA5Lk42WS5OPclOTh/5Xl5P+U5OH/kuTj/47k4/+L4+L/iOLf/4Li
+        4f9+4uH/fOLh/3vh4Nx74eBke+HgAygoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoAJDk4wKL4+JBi+PijYvj4sWJ4+LphuLh+4Ti
+        4fuC4t/pfuLhxXzi4Y174d9Be+HfAigoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgoKAAoKCgAKCgoACgo
+        KAAoKCgAKCgoACgoKAAoKCgA////////////8A///8AD//8AAP/+AAB//AAAP/gAAB/wAAAP8AAAD+AA
+        AAfgAAAHwAAAA8AAAAPAAAADwAAAA8AAAAPAAAADwAAAA8AAAAPgAAAH4AAAB/AAAA/wAAAP+AAAH/wA
+        AD/+AAB//wAA///AA///8A////////////8=
+</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Y Axis Setting</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SetGraphSizeDialog</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

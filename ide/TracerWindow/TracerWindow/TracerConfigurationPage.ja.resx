@@ -132,4 +132,25 @@
   <data name="label4.Text" xml:space="preserve">
     <value>秒</value>
   </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Y軸、Y2軸の最大、最小が変更されます。</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Y軸</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Y2軸</value>
+  </data>
+  <data name="Y2MaxCheckBox.Text" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="Y2MinCheckBox.Text" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="YMaxCheckBox.Text" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="YMinCheckBox.Text" xml:space="preserve">
+    <value>最小</value>
+  </data>
 </root>

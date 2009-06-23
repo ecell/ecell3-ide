@@ -117,91 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CommonToolTipIntMoreThan" xml:space="preserve">
-    <value>Set integer more than {0}.</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Y軸設定</value>
   </data>
-  <data name="CommonToolTipRange" xml:space="preserve">
-    <value>Set number in the range {0} - {1}.</value>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>キャンセル</value>
   </data>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>Do you want to close this window?</value>
+  <data name="defaultCheckBox.Text" xml:space="preserve">
+    <value>デフォルト</value>
   </data>
-  <data name="ConfirmNoSaveLog" xml:space="preserve">
-    <value>Saved log is not set. Do you want to close this dialog?</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Y軸</value>
   </data>
-  <data name="ErrInputData" xml:space="preserve">
-    <value>Non-numeric value is set.</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Y2軸</value>
   </data>
-  <data name="ErrInvalidFile" xml:space="preserve">
-    <value>This file is not valid [ {0} ].</value>
+  <data name="XLabel.Text" xml:space="preserve">
+    <value>X軸</value>
   </data>
-  <data name="ErrInvalidValue" xml:space="preserve">
-    <value>Value is not valid.</value>
+  <data name="y2MaxAutoCheckBox.Text" xml:space="preserve">
+    <value>最大</value>
   </data>
-  <data name="ErrNoInput" xml:space="preserve">
-    <value>Nothing is input in {0}</value>
+  <data name="y2MinAutoCheckBox.Text" xml:space="preserve">
+    <value>最小</value>
   </data>
-  <data name="ErrOverTime" xml:space="preserve">
-    <value>Redraw interval is too large[0-3600].</value>
+  <data name="YLabel.Text" xml:space="preserve">
+    <value>Y軸</value>
   </data>
-  <data name="ErrSameAxis" xml:space="preserve">
-    <value>The same parameter is selected for X-axis and Y-axis.</value>
+  <data name="yMaxAutoCheckBox.Text" xml:space="preserve">
+    <value>最大</value>
   </data>
-  <data name="FinishSave" xml:space="preserve">
-    <value>The simulation results have been archived.</value>
-  </data>
-  <data name="MenuItemDeleteText" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="MenuItemImportData" xml:space="preserve">
-    <value>Log &amp;Import ...</value>
-  </data>
-  <data name="MenuItemLinear" xml:space="preserve">
-    <value>Linear scale</value>
-  </data>
-  <data name="MenuItemLog" xml:space="preserve">
-    <value>Logarithmic scale</value>
-  </data>
-  <data name="MenuItemShowPlotText" xml:space="preserve">
-    <value>Create new &amp;plotter...</value>
-  </data>
-  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>Archive simulation &amp;result...</value>
-  </data>
-  <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>&amp;Graph setting...</value>
-  </data>
-  <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>Create new &amp;graph pane...</value>
-  </data>
-  <data name="MenuItemYAxis" xml:space="preserve">
-    <value>Y Axis setting...</value>
-  </data>
-  <data name="NameEndTime" xml:space="preserve">
-    <value>End time</value>
-  </data>
-  <data name="NameGraphSetting" xml:space="preserve">
-    <value>Graph</value>
-  </data>
-  <data name="NamePlotData" xml:space="preserve">
-    <value>Plot data</value>
-  </data>
-  <data name="NamePlotNumber" xml:space="preserve">
-    <value>Number of plots</value>
-  </data>
-  <data name="NameRedrawInterval" xml:space="preserve">
-    <value>Redraw interval</value>
-  </data>
-  <data name="NameStartTime" xml:space="preserve">
-    <value>Start time</value>
-  </data>
-  <data name="NameStepInterval" xml:space="preserve">
-    <value>Step count for dispatch</value>
-  </data>
-  <data name="TracerWindow" xml:space="preserve">
-    <value>Graph plotter</value>
-  </data>
-  <data name="WarnNoLog" xml:space="preserve">
-    <value>The log data is exist in {0}.</value>
+  <data name="yMinAutoCheckBox.Text" xml:space="preserve">
+    <value>最小</value>
   </data>
 </root>

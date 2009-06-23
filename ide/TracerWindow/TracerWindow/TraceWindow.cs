@@ -70,6 +70,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The last time on drawing tracer.
         /// </summary>
         public double m_current;
+        private bool m_isDefault = true;
+        private YAxisSettings m_AxisSetting;
         private int m_entryCount = 0;
         private int m_logCount = 0;
         private List<TagData> m_logList = new List<TagData>();
@@ -85,6 +87,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         /// <param name="status">system status.</param>
         delegate void ChangeStatusCallBack(bool status);
+        #endregion
+
+        #region Fields
+        public YAxisSettings AxisSettings
+        {
+            get { return this.m_AxisSetting; }
+            set
+            {
+                if (m_isDefault)
+                    this.m_AxisSetting = value;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -103,7 +117,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.GraphPane.YAxis.Scale.Format = "G";
             m_zCnt.GraphPane.YAxis.Title.Text = "";
             m_zCnt.GraphPane.Legend.IsVisible = false;
-            m_zCnt.GraphPane.XAxis.Scale.Max = 100;
+            m_zCnt.GraphPane.XAxis.Scale.Max = 10;
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
             m_zCnt.IsEnableWheelZoom = false;
@@ -120,6 +134,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.GraphPane.Chart.Border.Color = Color.FromArgb(200, 200, 200);
             m_zCnt.GraphPane.YAxis.MajorGrid.Color = Color.FromArgb(200, 200, 200);
             m_zCnt.GraphPane.Fill = new Fill(Color.White, Color.LightGray, 90.0f);
+
+            this.m_AxisSetting = new YAxisSettings();
 
             tableLayoutPanel1.Controls.Add(m_zCnt, 0, 0);
             m_zCnt.AxisChange();
@@ -409,6 +425,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             isSuspend = false;
         }
 
+        public void SetDefaultSetting(YAxisSettings setting)
+        {
+            if (m_isDefault)
+            {
+                m_AxisSetting = setting;
+                ResetWindow();
+            }
+        }
+
 
         /// <summary>
         /// Call this function, when status of system is changed.
@@ -462,6 +487,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     m_zCnt.GraphPane.YAxis.Scale.Min = 0;
                 if (m_zCnt.GraphPane.YAxis.Scale.Max > 1000)
                     m_zCnt.GraphPane.YAxis.Scale.Format = "e1";
+                else
+                    m_zCnt.GraphPane.YAxis.Scale.Format = "g";
                 m_zCnt.Refresh();
             }
             else
@@ -680,6 +707,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
             p.Name = "set_log";
             p.Click += new EventHandler(SetLogAxis);
             menuStrip.Items.Add(p);
+
+
+            ToolStripMenuItem p2 = new ToolStripMenuItem();
+            p2.Text = MessageResources.MenuItemYAxis;
+            p2.Name = "set_yaxis";
+            p2.Click += new EventHandler(SetAxisSize);
+            menuStrip.Items.Add(p2);
         }
 
         private void SetLogAxis(object sender, EventArgs e)
@@ -700,6 +734,62 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        private void ResetWindow()
+        {
+            if (!m_zCnt.GraphPane.IsZoomed)
+            {
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = m_AxisSetting.IsAutoMaxY;
+                m_zCnt.GraphPane.YAxis.Scale.MinAuto = m_AxisSetting.IsAutoMinY;
+                m_zCnt.GraphPane.Y2Axis.Scale.MaxAuto = m_AxisSetting.IsAutoMaxY2;
+                m_zCnt.GraphPane.Y2Axis.Scale.MinAuto = m_AxisSetting.IsAutoMinY2;
+
+                if (!m_AxisSetting.IsAutoMaxY)
+                    m_zCnt.GraphPane.YAxis.Scale.Max = m_AxisSetting.YMax;
+                if (!m_AxisSetting.IsAutoMinY)
+                    m_zCnt.GraphPane.YAxis.Scale.Min = m_AxisSetting.YMin;
+                if (!m_AxisSetting.IsAutoMaxY2)
+                    m_zCnt.GraphPane.Y2Axis.Scale.Max = m_AxisSetting.Y2Max;
+                if (!m_AxisSetting.IsAutoMinY2)
+                    m_zCnt.GraphPane.Y2Axis.Scale.Min = m_AxisSetting.Y2Min;
+
+                if (m_AxisSetting.IsAutoMaxY || m_AxisSetting.IsAutoMinY ||
+                    m_AxisSetting.IsAutoMaxY2 || m_AxisSetting.IsAutoMinY2)
+                    m_zCnt.AxisChange();
+                m_zCnt.Refresh();
+            }
+        }
+
+        private void SetAxisSize(object sender, EventArgs e)
+        {
+            YAxisSettings settings = new YAxisSettings(
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto,
+                m_zCnt.GraphPane.YAxis.Scale.MinAuto,
+                m_zCnt.GraphPane.Y2Axis.Scale.MaxAuto,
+                m_zCnt.GraphPane.Y2Axis.Scale.MinAuto,
+                m_zCnt.GraphPane.YAxis.Scale.Max,
+                m_zCnt.GraphPane.YAxis.Scale.Min,
+                m_zCnt.GraphPane.Y2Axis.Scale.Max,
+                m_zCnt.GraphPane.Y2Axis.Scale.Min);
+            SetGraphSizeDialog dlg = new SetGraphSizeDialog(
+                m_isDefault, settings);
+            using (dlg)
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    m_isDefault = dlg.IsDefault;
+                    if (m_isDefault)
+                    {
+                        m_AxisSetting = m_owner.Settings;
+                    }
+                    else
+                    {
+                        m_AxisSetting = dlg.Settings;
+                    }
+                    ResetWindow();
+                }
+            }
+            
+        }
 
         /// <summary>
         /// Process when user click close button on Window.
@@ -787,5 +877,100 @@ namespace Ecell.IDE.Plugins.TracerWindow
             list = null;            
         }
         #endregion
+    }
+
+    public class YAxisSettings
+    {
+        private bool m_isAutoMaxY = true;
+        private bool m_isAutoMinY = true;
+        private bool m_isAutoMaxY2 = true;
+        private bool m_isAutoMinY2 = true;
+        private double m_yMax = 10.0;
+        private double m_yMin = 0.0;
+        private double m_y2Max = 10.0;
+        private double m_y2Min = 0.0;
+
+        public bool IsAutoMaxY
+        {
+            get { return m_isAutoMaxY; }
+            set { m_isAutoMaxY = value; }
+        }
+
+        public bool IsAutoMinY
+        {
+            get { return m_isAutoMinY; }
+            set { m_isAutoMinY = value; }
+        }
+
+        public bool IsAutoMaxY2
+        {
+            get { return m_isAutoMaxY2; }
+            set { m_isAutoMaxY2 = value; }
+        }
+
+        public bool IsAutoMinY2
+        {
+            get { return m_isAutoMinY2; }
+            set { m_isAutoMinY2 = value; }
+        }
+
+        public double YMax
+        {
+            get { return m_yMax; }
+            set { m_yMax = value; }
+        }
+
+        public double YMin
+        {
+            get { return m_yMin; }
+            set { m_yMin = value; }
+        }
+
+        public double Y2Max
+        {
+            get { return m_y2Max; }
+            set { m_y2Max = value; }
+        }
+
+        public double Y2Min
+        {
+            get { return m_y2Min; }
+            set { m_y2Min = value; }
+        }
+
+        public YAxisSettings()
+        {
+        }
+
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="isAutoMaxY"></param>
+        /// <param name="isAutoMinY"></param>
+        /// <param name="isAutoMaxY2"></param>
+        /// <param name="isAutoMinY2"></param>
+        /// <param name="yMax"></param>
+        /// <param name="yMin"></param>
+        /// <param name="y2Max"></param>
+        /// <param name="y2Min"></param>
+        public YAxisSettings(bool isAutoMaxY, bool isAutoMinY, bool isAutoMaxY2, bool isAutoMinY2,
+            double yMax, double yMin, double y2Max, double y2Min)
+        {
+            m_isAutoMaxY = isAutoMaxY;
+            m_isAutoMinY = isAutoMinY;
+            m_isAutoMaxY2 = isAutoMaxY2;
+            m_isAutoMinY2 = isAutoMinY2;
+            m_yMax = yMax;
+            m_yMin = yMin;
+            m_y2Max = y2Max;
+            m_y2Min = y2Min;
+        }
+
+        public YAxisSettings Copy()
+        {
+            return new YAxisSettings(this.IsAutoMaxY, this.IsAutoMinY, this.IsAutoMaxY2, this.IsAutoMinY2,
+                this.YMax, this.YMin, this.Y2Max, this.Y2Min);
+        }
+
     }
 }
