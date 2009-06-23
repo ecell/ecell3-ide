@@ -35,6 +35,7 @@ using NUnit.Framework;
 using System.Diagnostics;
 using Ecell.Objects;
 using libsbml;
+using System.Reflection;
 
 namespace Ecell.SBML
 {
@@ -170,6 +171,96 @@ namespace Ecell.SBML
 
             SBML_Model model = new SBML_Model(document.getModel());
 
+
+            // getSpeciesReferenceID
+            SpeciesStruct ss = new SpeciesStruct();
+            ss.Compartment = "cell";
+            ss.ID = "Test1";
+            ss.Name = "Test1";
+
+            string id;
+            try
+            {
+                id = model.getSpeciesReferenceID(ss.ID);
+            }
+            catch (Exception)
+            {
+            }
+            model.SpeciesList.Add(ss);
+            id = model.getSpeciesReferenceID(ss.ID);
+            Assert.AreEqual("/cell:Test1", id, "getEventID returns unexpected value.");
+
+            try
+            {
+                model.Level = 1;
+                id = model.getSpeciesReferenceID(ss.ID);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                model.Level = 0;
+                id = model.getSpeciesReferenceID(ss.ID);
+            }
+            catch (Exception)
+            {
+            }
+
+            // setFunctionDefinitionToDictionary
+            FunctionDefinitionStruct ud = new FunctionDefinitionStruct();
+            ud.ID = "Function";
+            ud.Name = "Function";
+            ud.Formula = "1 * 2";
+            model.FunctionDefinitionList.Add(ud);
+
+            Type type = model.GetType();
+            MethodInfo info1 = type.GetMethod("setFunctionDefinitionToDictionary", BindingFlags.NonPublic | BindingFlags.Instance);
+            info1.Invoke(model, new object[] { });
+
+            // getNewUnitValue
+            MethodInfo info2 = type.GetMethod("getNewUnitValue", BindingFlags.NonPublic | BindingFlags.Instance);
+            UnitStruct unit = new UnitStruct("Kind", 2, 1, 0.5, 3);
+            double value = (double)info2.Invoke(model, new object[] { unit });
+            Assert.AreEqual(28.0d, value, "getNewUnitValue returns unexpected value.");
+
+            // convertUnit
+            model.Level = 2;
+            value = model.convertUnit("test", 0.1d);
+            Assert.AreEqual(0.1d, value, "convertUnit returns unexpected value.");
+
+            value = model.convertUnit("substance", 1.0d);
+            Assert.AreEqual(1.0d, value, "convertUnit returns unexpected value.");
+
+            model.Level = 1;
+            value = model.convertUnit("test", 0.1d);
+            Assert.AreEqual(0.1d, value, "convertUnit returns unexpected value.");
+
+            value = model.convertUnit("minute", 1.0d);
+            Assert.AreEqual(60.0d, value, "convertUnit returns unexpected value.");
+
+            try
+            {
+                model.Level = 0;
+                model.convertUnit("test", 0.1d);
+            }
+            catch (Exception)
+            {
+            }
+
+            // getPath
+            string path;
+            try
+            {
+                path = model.getPath("");
+            }
+            catch (Exception)
+            {
+            }
+            path = model.getPath("default");
+            Assert.AreEqual("/", path, "getPath returns unexpected value.");
+
         }
         /// <summary>
         /// TestSBML_Event
@@ -209,7 +300,141 @@ namespace Ecell.SBML
             SBML_Model model = new SBML_Model(document.getModel());
             SBML_Compartment c = new SBML_Compartment(model);
 
+            CompartmentStruct cs = new CompartmentStruct();
+            try
+            {
+                c.getCompartmentID(cs);
+            }
+            catch (Exception)
+            {
+            }
+            string id;
+
+            cs.Outside = "";
+            cs.ID = "Test1";
+            id = c.getCompartmentID(cs);
+            Assert.AreEqual("System:/:Test1", id, "getCompartmentID returns unexpected value.");
+
+            try
+            {
+                model.Level = 1;
+                id = c.getCompartmentID(cs);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                model.Level = 0;
+                id = c.getCompartmentID(cs);
+            }
+            catch (Exception)
+            {
+            }
+
+            model.Level = 2;
+            cs.Outside = "cell";
+            id = c.getCompartmentID(cs);
+            Assert.AreEqual("System:/cell:Test1", id, "getCompartmentID returns unexpected value.");
+
+            try
+            {
+                model.Level = 1;
+                id = c.getCompartmentID(cs);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                model.Level = 0;
+                id = c.getCompartmentID(cs);
+            }
+            catch (Exception)
+            {
+            }
+
+            // GetModuleType
+            Type type = c.GetType();
+            MethodInfo info1 = type.GetMethod("setSizeToDictionary", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo info2 = type.GetMethod("setUnitToDictionary", BindingFlags.NonPublic | BindingFlags.Instance);
+            try
+            {
+                info1.Invoke(c, new object[] { cs });
+            }
+            catch (Exception)
+            {
+            }
+            try
+            {
+                info2.Invoke(c, new object[] { cs });
+            }
+            catch (Exception)
+            {
+            }
+            model.Level = 1;
+            cs.Volume = double.NaN;
+            cs.Name = "Test1";
+            info1.Invoke(c, new object[] { cs });
+            info2.Invoke(c, new object[] { cs });
+
+            // getOutsideSize
+            model.Level = 2;
+            MethodInfo info3 = type.GetMethod("getOutsideSize", BindingFlags.NonPublic | BindingFlags.Instance);
+            double size;
+            size = (double)info3.Invoke(c, new object[] { "" });
+            Assert.AreEqual(1.0d, size, "getOutsideSize returns unexpected value.");
+
+            size = (double)info3.Invoke(c, new object[] { "cell" });
+            Assert.AreEqual(1.0d, size, "getOutsideSize returns unexpected value.");
+
+            // getOutsideUnit
+            MethodInfo info4 = type.GetMethod("getOutsideUnit", BindingFlags.NonPublic | BindingFlags.Instance);
+            string unit;
+            unit = (string)info4.Invoke(c, new object[] { "" });
+            Assert.AreEqual("", unit, "getCompartmentSize returns unexpected value.");
+
+            unit = (string)info4.Invoke(c, new object[] { "cell" });
+            Assert.AreEqual("", unit, "getCompartmentSize returns unexpected value.");
+
+            // getCompartmentSize
+            size = c.getCompartmentSize(cs);
+            Assert.AreEqual(1.0d, size, "getCompartmentSize returns unexpected value.");
+
+            model.Level = 1;
+            size = c.getCompartmentSize(cs);
+            Assert.AreEqual(1.0d, size, "getCompartmentSize returns unexpected value.");
+
+            try
+            {
+                model.Level = 0;
+                size = c.getCompartmentSize(cs);
+            }
+            catch (Exception)
+            {
+            }
+
+            // getCompartmentUnit
+            model.Level = 2;
+            id = c.getCompartmentUnit(cs);
+            Assert.AreEqual(null, id, "getCompartmentUnit returns unexpected value.");
+
+            model.Level = 1;
+            id = c.getCompartmentUnit(cs);
+            Assert.AreEqual(null, id, "getCompartmentUnit returns unexpected value.");
+
+            try
+            {
+                model.Level = 0;
+                id = c.getCompartmentUnit(cs);
+            }
+            catch (Exception)
+            {
+            }
         }
+
         /// <summary>
         /// TestSBML_Parameter
         /// </summary>
@@ -221,6 +446,42 @@ namespace Ecell.SBML
 
             SBML_Model model = new SBML_Model(document.getModel());
             SBML_Parameter p = new SBML_Parameter(model);
+
+            ParameterStruct ps = new ParameterStruct();
+
+            // getParameterID
+            ps.ID = "Test1";
+            string id = p.getParameterID(ps);
+            Assert.AreEqual("/SBMLParameter:Test1", id, "getParameterID returns unexpected value.");
+            try
+            {
+                ps.ID = "";
+                id = p.getParameterID(ps);
+            }
+            catch (Exception)
+            {
+            }
+            model.Level = 1;
+            ps.Name = "Test2";
+            id = p.getParameterID(ps);
+            Assert.AreEqual("/SBMLParameter:Test2", id, "getParameterID returns unexpected value.");
+            try
+            {
+                ps.Name = "";
+                id = p.getParameterID(ps);
+            }
+            catch (Exception)
+            {
+            }
+            try
+            {
+                model.Level = 0;
+                id = p.getParameterID(ps);
+            }
+            catch (Exception)
+            {
+            }
+
         }
         /// <summary>
         /// TestSBML_Reaction
@@ -241,9 +502,11 @@ namespace Ecell.SBML
         public void TestSBML_Rule()
         {
             SBMLReader reader = new SBMLReader();
-            SBMLDocument document = reader.readSBML(TestConstant.SBML_Oscillation);
-
-            SBML_Model model = new SBML_Model(document.getModel());
+            SBMLDocument document = reader.readSBML(TestConstant.SBML_BIOMD0000000003);
+            Model sbmlModel = document.getModel();
+            SBML_Model model = new SBML_Model(sbmlModel);
+            SBML_Compartment sc = new SBML_Compartment(model);
+            SBML_Species species = new SBML_Species(model);
             SBML_Rule rule = new SBML_Rule(model);
         }
         /// <summary>

@@ -102,6 +102,7 @@
     <Compile Include="SBML\TestProcessConverter.cs" />
     <Compile Include="SBML\TestSBML2EML.cs" />
     <Compile Include="Action\TestActionManager.cs" />
+    <Compile Include="SBML\TestSbmlFunction.cs" />
     <Compile Include="SBML\TestStructs.cs" />
     <Compile Include="TestApplicationEnvironment.cs" />
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />

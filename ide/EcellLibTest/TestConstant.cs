@@ -96,5 +96,10 @@ namespace Ecell
         /// File path of Oscillation SBML.
         /// </summary>
         public const string SBML_Oscillation = TestDirectory + "Ecoli_Oscillation.sbml";
+
+        /// <summary>
+        /// File path of BIOMD0000000003.xml.
+        /// </summary>
+        public const string SBML_BIOMD0000000003 = TestDirectory + "BIOMD0000000003.xml";
     }
 }

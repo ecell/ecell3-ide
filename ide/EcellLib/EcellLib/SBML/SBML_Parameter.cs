@@ -81,14 +81,5 @@ namespace Ecell.SBML
                throw new EcellException("Version" + this.Model.Level + " ????");
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="aParameter"></param>
-        /// <returns></returns>
-        public double getParameterValue(ParameterStruct aParameter )
-        {
-            return aParameter.Value;
-        }
     }
 }

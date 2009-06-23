@@ -49,20 +49,19 @@ namespace Ecell.SBML
 
         private void setSizeToDictionary(CompartmentStruct aCompartment)
         {
-            if( this.Model.Level == 1 )
-            {
-                if (!aCompartment.Volume.Equals( double.NaN))
-                    this.Model.CompartmentSize[ aCompartment.Name ] = aCompartment.Volume;
-                else
-                    this.Model.CompartmentSize[ aCompartment.Name ] = this.getOutsideSize( aCompartment.Outside );
-            }       
-            else if( this.Model.Level == 2 )
-            {
-                if (!aCompartment.Size.Equals(double.NaN))
-                    this.Model.CompartmentSize[ aCompartment.ID ] = aCompartment.Size;
-                else
-                    this.Model.CompartmentSize[ aCompartment.ID ] = this.getOutsideSize( aCompartment.Outside );
-            }
+            string aCompartmentID;
+            if (this.Model.Level == 1)
+                aCompartmentID = aCompartment.Name;
+            else if (this.Model.Level == 2)
+                aCompartmentID = aCompartment.ID;
+            else
+                throw new EcellException();
+
+            if (!aCompartment.Volume.Equals(double.NaN))
+                this.Model.CompartmentSize[aCompartmentID] = aCompartment.Volume;
+            else
+                this.Model.CompartmentSize[aCompartmentID] = this.getOutsideSize(aCompartment.Outside);
+
         }
 
         private void setUnitToDictionary(CompartmentStruct aCompartment)

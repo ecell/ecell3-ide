@@ -93,7 +93,7 @@ namespace Ecell.SBML
             Assert.IsNotNull(doc, "Convert method returned unexpected value.");
 
             doc = null;
-            model = SBML2EML.Convert(TestConstant.TestDirectory + "BIOMD0000000003.xml");
+            model = SBML2EML.Convert(TestConstant.SBML_BIOMD0000000003);
             doc = EML2SBML.convertToSBMLModel(model, "Drosophila", 2, 3);
             Assert.IsNotNull(doc, "Convert method returned unexpected value.");
         }

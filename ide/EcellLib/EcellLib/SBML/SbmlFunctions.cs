@@ -50,7 +50,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<CompartmentStruct> getCompartment(Model aSBMLmodel)
+        public static List<CompartmentStruct> getCompartment(Model aSBMLmodel)
         {
             List<CompartmentStruct> list = new List<CompartmentStruct>();
             ListOfCompartments compartments = aSBMLmodel.getListOfCompartments();
@@ -87,7 +87,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        private static double GetCompartmentVolume(Compartment item)
+        public static double GetCompartmentVolume(Compartment item)
         {
             double aVolume;
             if (item.isSetVolume())
@@ -102,7 +102,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        private static double GetCompartmentSize(Compartment item)
+        public static double GetCompartmentSize(Compartment item)
         {
             double aSize;
             if (item.isSetSize())
@@ -118,7 +118,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<EventStruct> getEvent(Model aSBMLmodel)
+        public static List<EventStruct> getEvent(Model aSBMLmodel)
         {
             List<EventStruct> list = new List<EventStruct>();
             ListOfEvents events = aSBMLmodel.getListOfEvents();
@@ -169,7 +169,7 @@ namespace Ecell.SBML
         /// [[ Id , Name , String ]]
         /// <param name="aSBMLmodel"></param>
         /// </summary>
-        internal static List<FunctionDefinitionStruct> getFunctionDefinition(Model aSBMLmodel)
+        public static List<FunctionDefinitionStruct> getFunctionDefinition(Model aSBMLmodel)
         {
             List<FunctionDefinitionStruct> list = new List<FunctionDefinitionStruct>();
 
@@ -200,7 +200,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<ParameterStruct> getParameter(Model aSBMLmodel)
+        public static List<ParameterStruct> getParameter(Model aSBMLmodel)
         {
             List<ParameterStruct> list = new List<ParameterStruct>();
 
@@ -228,7 +228,12 @@ namespace Ecell.SBML
             return list;
         }
 
-        private static double GetParameterValue(Parameter aParameter)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aParameter"></param>
+        /// <returns></returns>
+        public static double GetParameterValue(Parameter aParameter)
         {
             double aValue_Pa;
             if (aParameter.isSetValue())
@@ -244,7 +249,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<ReactionStruct> getReaction(Model aSBMLmodel)
+        public static List<ReactionStruct> getReaction(Model aSBMLmodel)
         {
             List<ReactionStruct> list = new List<ReactionStruct>();
 
@@ -408,7 +413,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSpeciesReference"></param>
         /// <returns></returns>
-        private static string GetStoichiometryMath(SpeciesReference aSpeciesReference)
+        public static string GetStoichiometryMath(SpeciesReference aSpeciesReference)
         {
             string aString_R = null;
             if (aSpeciesReference.isSetStoichiometryMath())
@@ -425,7 +430,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<RuleStruct> getRule(Model aSBMLmodel)
+        public static List<RuleStruct> getRule(Model aSBMLmodel)
         {
             List<RuleStruct> list = new List<RuleStruct>();
 
@@ -470,7 +475,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<SpeciesStruct> getSpecies(Model aSBMLmodel)
+        public static List<SpeciesStruct> getSpecies(Model aSBMLmodel)
         {
             List<SpeciesStruct> list = new List<SpeciesStruct>();
 
@@ -518,7 +523,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSpecies"></param>
         /// <returns></returns>
-        internal static double GetInitialConcentration(Species aSpecies)
+        public static double GetInitialConcentration(Species aSpecies)
         {
             double anInitialConcentration_Sp;
             if (aSpecies.isSetInitialConcentration())
@@ -532,7 +537,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSpecies"></param>
         /// <returns></returns>
-        internal static double GetInitialAmount(Species aSpecies)
+        public static double GetInitialAmount(Species aSpecies)
         {
             double anInitialAmount_Sp;
             if (aSpecies.isSetInitialAmount())
@@ -548,7 +553,7 @@ namespace Ecell.SBML
         /// </summary>
         /// <param name="aSBMLmodel"></param>
         /// <returns></returns>
-        internal static List<UnitDefinitionStruct> getUnitDefinition(Model aSBMLmodel)
+        public static List<UnitDefinitionStruct> getUnitDefinition(Model aSBMLmodel)
         {
             List<UnitDefinitionStruct> list = new List<UnitDefinitionStruct>();
 
@@ -596,7 +601,12 @@ namespace Ecell.SBML
             return list;
         }
 
-        internal static List<InitialAssignmentStruct> getInitialAssignments(Model aSBMLmodel)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aSBMLmodel"></param>
+        /// <returns></returns>
+        public static List<InitialAssignmentStruct> getInitialAssignments(Model aSBMLmodel)
         {
             List<InitialAssignmentStruct> list = new List<InitialAssignmentStruct>();
             ListOfInitialAssignments initList = aSBMLmodel.getListOfInitialAssignments();
