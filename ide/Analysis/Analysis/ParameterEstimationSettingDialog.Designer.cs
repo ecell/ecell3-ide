@@ -57,6 +57,8 @@
             this.paramFullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paramContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.PEUpsilonTextBox = new System.Windows.Forms.TextBox();
@@ -65,8 +67,6 @@
             this.PEMaxRateTextBox = new System.Windows.Forms.TextBox();
             this.PEKTextBox = new System.Windows.Forms.TextBox();
             this.PEM0TextBox = new System.Windows.Forms.TextBox();
-            this.paramContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -80,9 +80,9 @@
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).BeginInit();
+            this.paramContextMenuStrip.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.paramContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -213,6 +213,7 @@
             // 
             // parameterEstimationParameterDataGrid
             // 
+            this.parameterEstimationParameterDataGrid.AllowDrop = true;
             this.parameterEstimationParameterDataGrid.AllowUserToAddRows = false;
             this.parameterEstimationParameterDataGrid.AllowUserToDeleteRows = false;
             this.parameterEstimationParameterDataGrid.AllowUserToResizeColumns = false;
@@ -237,6 +238,8 @@
             this.parameterEstimationParameterDataGrid.RowHeadersVisible = false;
             this.parameterEstimationParameterDataGrid.RowTemplate.Height = 21;
             this.parameterEstimationParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
+            this.parameterEstimationParameterDataGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.ParamDataDragEnter);
+            this.parameterEstimationParameterDataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.ParamDataDragDrop);
             // 
             // paramFullPNColumn
             // 
@@ -260,6 +263,20 @@
             this.dataGridViewTextBoxColumn3.FillWeight = 40F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn3, "dataGridViewTextBoxColumn3");
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // paramContextMenuStrip
+            // 
+            this.paramContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.paramContextMenuStrip.Name = "paramContextMenuStrip";
+            resources.ApplyResources(this.paramContextMenuStrip, "paramContextMenuStrip");
+            this.paramContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ParamContextMenuOpening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteParameterDataClick);
             // 
             // label4
             // 
@@ -318,20 +335,6 @@
             this.PEM0TextBox.Name = "PEM0TextBox";
             this.PEM0TextBox.Validating += new System.ComponentModel.CancelEventHandler(this.M0_Validating);
             // 
-            // paramContextMenuStrip
-            // 
-            this.paramContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem});
-            this.paramContextMenuStrip.Name = "paramContextMenuStrip";
-            resources.ApplyResources(this.paramContextMenuStrip, "paramContextMenuStrip");
-            this.paramContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ParamContextMenuOpening);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteParameterDataClick);
-            // 
             // ParameterEstimationSettingDialog
             // 
             resources.ApplyResources(this, "$this");
@@ -351,11 +354,11 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).EndInit();
+            this.paramContextMenuStrip.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.paramContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

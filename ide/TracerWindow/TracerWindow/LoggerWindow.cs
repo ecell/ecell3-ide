@@ -49,8 +49,17 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public partial class LoggerWindow : EcellDockContent
     {
         #region Fields
+        /// <summary>
+        /// The owner object.
+        /// </summary>
         private TracerWindow m_owner;
+        /// <summary>
+        /// The flag whether property is changing.
+        /// </summary>
         private bool m_isChanged = false;
+        /// <summary>
+        /// Dictionary of the log name and the log entry.
+        /// </summary>
         private Dictionary<string, LoggerEntry> m_logList = new Dictionary<string, LoggerEntry>();
         /// <summary>
         /// The delegate for event handler function.
@@ -60,9 +69,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         #region Constructors
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="owner"></param>
+        /// <param name="owner">The owner object.</param>
         public LoggerWindow(TracerWindow owner)
         {
             InitializeComponent();
@@ -73,10 +82,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         
         #region Events
         /// <summary>
-        /// 
+        /// Double click on DataGridView of logger.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void loggerDataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -95,10 +104,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Changed the value on DataGridView of logger.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void loggerDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -129,10 +138,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Changed the state of cell on DataGridView of logger.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">EventArgs</param>
         private void loggerDataGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (this.InvokeRequired)
@@ -147,10 +156,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Enter the drag object in DataGridView of logger.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
         private void loggerDataGrid_DragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
@@ -161,10 +170,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Drop the drag object on DataGridView of logger.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
         private void loggerDataGrid_DragDrop(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
@@ -193,6 +202,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             //m_owner.CurrentWin = tWin;
         }
 
+        /// <summary>
+        /// Open the context menu on DataGridView of logger.
+        /// </summary>
+        /// <param name="sender">ContextToolStripMenu</param>
+        /// <param name="e">CancelEventArgs</param>
         private void gridContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             if (loggerDataGrid.CurrentCell == null ||
@@ -236,6 +250,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        /// <summary>
+        /// Click graph window menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickWindowMenuItem(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
@@ -245,18 +264,31 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner.ChangeDisplayStatus(entry, winname, !item.Checked);
         }
 
-
+        /// <summary>
+        /// Click the import log menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void importLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ImportLog(null, null);
         }
 
+        /// <summary>
+        /// Click the delete log menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteEntry();
         }
 
-
+        /// <summary>
+        /// Click the line style menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void lineStyleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<DataGridViewRow> rList = new List<DataGridViewRow>();
@@ -269,6 +301,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             ShowLineStyleDialog(rList);
         }
 
+        /// <summary>
+        /// Click the color menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<DataGridViewRow> rList = new List<DataGridViewRow>();
@@ -280,12 +317,68 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (rList.Count <= 0) return;
             ShowColorSelectDialog(rList);
         }
+
+
+        /// <summary>
+        /// Key press event on this window.
+        /// </summary>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Pressed key.</param>
+        /// <returns>the flag whether this press event is finished.</returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
+                (int)keyData == (int)Keys.Delete)
+            {
+                DeleteEntry();
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.I)
+            {
+                ImportLog(null, null);
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                colorToolStripMenuItem.PerformClick();
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.L)
+            {
+                lineStyleToolStripMenuItem.PerformClick();
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        /// <summary>
+        /// Click the Y axis menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void changeYAxisClick(object sender, EventArgs e)
+        {
+            List<LoggerEntry> eList = new List<LoggerEntry>();
+
+            foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
+            {
+                if (r.Tag == null) continue;
+                LoggerEntry entry = r.Tag as LoggerEntry;
+                if (entry == null) continue;
+
+                entry.IsY2Axis = !entry.IsY2Axis;
+
+                loggerDataGrid[IsY2Column.Index, r.Index].Value = entry.IsY2Axis;
+
+                m_isChanged = true;
+                m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
+                m_isChanged = false;
+                loggerDataGrid.Rows[r.Index].Tag = entry;
+            }
+        }
         #endregion
 
         /// <summary>
-        /// 
+        /// Show the color select dialog.
         /// </summary>
-        /// <param name="rList"></param>
+        /// <param name="rList">the list of selected rows.</param>
         private void ShowColorSelectDialog(List<DataGridViewRow> rList)
         {
             if (m_colorDialog.ShowDialog() != DialogResult.OK)
@@ -330,9 +423,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Show the line style select dialog.
         /// </summary>
-        /// <param name="rList"></param>
+        /// <param name="rList">the list of selected rows.</param>
         private void ShowLineStyleDialog(List<DataGridViewRow> rList)
         {
             int lineWidth = 2;
@@ -395,7 +488,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Clear the all logger.
         /// </summary>
         public void Clear()
         {
@@ -405,9 +498,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
 
         /// <summary>
-        /// 
+        /// Add the logger entry.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">the added logger entry.</param>
         public void LoggerAdd(LoggerEntry entry)
         {
             Bitmap b = new Bitmap(20, 20);
@@ -451,10 +544,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Change the logger entry.
         /// </summary>
-        /// <param name="orgFullPN"></param>
-        /// <param name="entry"></param>
+        /// <param name="orgFullPN">the original FullPN.</param>
+        /// <param name="entry">the changed logger entry.</param>
         public void LoggerChanged(string orgFullPN, LoggerEntry entry)
         {
             if (m_isChanged) return;
@@ -493,9 +586,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Delete the logger entry.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">the deleted logger entry.</param>
         public void LoggerDeleted(LoggerEntry entry)
         {
             if (m_isChanged) return;
@@ -517,7 +610,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
-
+        /// <summary>
+        /// Delete the selected logger entry.
+        /// </summary>
         private void DeleteEntry()
         {
             if (loggerDataGrid.SelectedRows.Count <= 0)
@@ -556,9 +651,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Import the log data from the file to the selected window.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the log file name.</param>
+        /// <param name="win">the window displayed the log.</param>
         public void ImportLog(string fileName, TraceWindow win)
         {
             try
@@ -601,62 +697,5 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidFile, fileName));
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
-        /// <returns></returns>
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
-                (int)keyData == (int)Keys.Delete)
-            {
-                DeleteEntry();
-            }
-            if ((int)keyData == (int)Keys.Control + (int)Keys.I)
-            {
-                ImportLog(null, null);
-            }
-            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
-            {
-                colorToolStripMenuItem.PerformClick();
-            }
-            if ((int)keyData == (int)Keys.Control + (int)Keys.L)
-            {
-                lineStyleToolStripMenuItem.PerformClick();
-            }
-
-
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void changeYAxisClick(object sender, EventArgs e)
-        {
-            List<LoggerEntry> eList = new List<LoggerEntry>();
-
-            foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
-            {
-                if (r.Tag == null) continue;
-                LoggerEntry entry = r.Tag as LoggerEntry;
-                if (entry == null) continue;
-
-                entry.IsY2Axis = !entry.IsY2Axis;
-
-                loggerDataGrid[IsY2Column.Index, r.Index].Value = entry.IsY2Axis;
-
-                m_isChanged = true;
-                m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
-                m_isChanged = false;
-                loggerDataGrid.Rows[r.Index].Tag = entry;
-            }
-
-
-            
-        }
-
-
     }
 }

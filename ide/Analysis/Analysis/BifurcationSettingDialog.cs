@@ -681,6 +681,89 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.ExecuteBifurcationAnalysis();
             executeButton.Enabled = true;
         }
+
+        /// <summary>
+        /// Enter the drag object on DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
+        private void ParamDataDragEnter(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj != null)
+                e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        /// <summary>
+        /// Drop the parameter data on DataGridView of the parameter data.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DragEventArgs</param>
+        private void ParamDataDragDrop(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj == null) return;
+            EcellDragObject dobj = obj as EcellDragObject;
+
+            foreach (EcellDragEntry ent in dobj.Entries)
+            {
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                foreach (EcellData d in t.Value)
+                {
+                    if (d.EntityPath.Equals(ent.Path) && d.Settable && d.Value.IsDouble)
+                    {
+                        EcellParameterData data =
+                            new EcellParameterData(d.EntityPath, Double.Parse(d.Value.ToString()));
+                        m_owner.Environment.DataManager.SetParameterData(data);
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enter the drag object on DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
+        private void ObservedDragDrop(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj != null)
+                e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        /// <summary>
+        /// Drop the parameter data on DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DragEventArgs</param>
+        private void ObservedDragEnter(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj == null) return;
+            EcellDragObject dobj = obj as EcellDragObject;
+
+            foreach (EcellDragEntry ent in dobj.Entries)
+            {
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                foreach (EcellData d in t.Value)
+                {
+                    if (d.EntityPath.Equals(ent.Path) && d.Logable && d.Value.IsDouble)
+                    {
+                        EcellObservedData data =
+                            new EcellObservedData(d.EntityPath, Double.Parse(d.Value.ToString()));
+                        m_owner.Environment.DataManager.SetObservedData(data);
+                        break;
+                    }
+                }
+            }
+        }
         #endregion
+
     }
 }

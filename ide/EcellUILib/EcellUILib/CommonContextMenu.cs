@@ -130,9 +130,10 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// Create the menu item of popup menu to set and reset the logger.
+        /// Create popup menu for the logger entry.
         /// </summary>
         /// <param name="obj">object to display the popup menu.</param>
+        /// <returns>the list of menu.</returns>
         private ToolStripItem[] CreateLoggerPopupMenu(EcellObject obj)
         {
             List<ToolStripItem> retval = new List<ToolStripItem>();
@@ -149,11 +150,12 @@ namespace Ecell.IDE
             }
             return retval.ToArray();
         }
+
         /// <summary>
-        /// 
+        /// Create popup menu for the parameter data.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">object to display the popup menu.</param>
+        /// <returns>the list of menu.</returns>
         private ToolStripItem[] CreateParameterPopupMenu(EcellObject obj)
         {
             List<ToolStripItem> retval = new List<ToolStripItem>();
@@ -179,11 +181,12 @@ namespace Ecell.IDE
             }
             return retval.ToArray();
         }
+
         /// <summary>
-        /// 
+        /// Create popup menu for the observed data.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">object to display the popup menu.</param>
+        /// <returns>the list of menu.</returns>
         private ToolStripItem[] CreateObservedPopupMenu(EcellObject obj)
         {
             List<ToolStripItem> retval = new List<ToolStripItem>();

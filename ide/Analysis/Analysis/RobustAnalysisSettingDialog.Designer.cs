@@ -263,6 +263,8 @@
             this.robustAnalysisObservedDataGrid.RowHeadersVisible = false;
             this.robustAnalysisObservedDataGrid.RowTemplate.Height = 21;
             this.robustAnalysisObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
+            this.robustAnalysisObservedDataGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.ObservedDragEnter);
+            this.robustAnalysisObservedDataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.ObservedDragDrop);
             // 
             // observedFullPNColumn
             // 
@@ -318,6 +320,7 @@
             // 
             // robustAnalysisParameterDataGrid
             // 
+            this.robustAnalysisParameterDataGrid.AllowDrop = true;
             this.robustAnalysisParameterDataGrid.AllowUserToAddRows = false;
             this.robustAnalysisParameterDataGrid.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.robustAnalysisParameterDataGrid, "robustAnalysisParameterDataGrid");
@@ -341,6 +344,8 @@
             this.robustAnalysisParameterDataGrid.RowHeadersVisible = false;
             this.robustAnalysisParameterDataGrid.RowTemplate.Height = 21;
             this.robustAnalysisParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
+            this.robustAnalysisParameterDataGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.ParamDataDragEnter);
+            this.robustAnalysisParameterDataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.ParamDataDragDrop);
             // 
             // paramFullPNColumn
             // 
