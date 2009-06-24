@@ -135,4 +135,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>グリッド</value>
   </data>
+  <data name="scratchCheckBox.Text" xml:space="preserve">
+    <value>レイアウトを最初からやり直す</value>
+  </data>
 </root>
