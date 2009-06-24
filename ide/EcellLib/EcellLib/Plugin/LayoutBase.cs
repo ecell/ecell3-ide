@@ -122,20 +122,20 @@ namespace Ecell.Plugin
         /// <returns>surrounded rectangle</returns>
         public static RectangleF GetSurroundingRect(List<EcellObject> nodeList)
         {
-            float minX = nodeList[0].X;
-            float maxX = nodeList[0].X;
-            float minY = nodeList[0].Y;
-            float maxY = nodeList[0].Y;
+            float minX = nodeList[0].CenterPointF.X;
+            float maxX = nodeList[0].CenterPointF.X;
+            float minY = nodeList[0].CenterPointF.Y;
+            float maxY = nodeList[0].CenterPointF.Y;
             foreach (EcellObject node in nodeList)
             {
-                if (node.X < minX)
-                    minX = node.X;
-                else if (maxX < node.X)
-                    maxX = node.X;
-                if (node.Y < minY)
-                    minY = node.Y;
-                else if (maxY < node.Y)
-                    maxY = node.Y;
+                if (node.CenterPointF.X < minX)
+                    minX = node.CenterPointF.X;
+                else if (maxX < node.CenterPointF.X)
+                    maxX = node.CenterPointF.X;
+                if (node.CenterPointF.Y < minY)
+                    minY = node.CenterPointF.Y;
+                else if (maxY < node.CenterPointF.Y)
+                    maxY = node.CenterPointF.Y;
             }
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }

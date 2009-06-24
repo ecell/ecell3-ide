@@ -26,6 +26,7 @@
 //
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// 
 
 using System;
 using System.Collections.Generic;
@@ -99,14 +100,15 @@ namespace Ecell.IDE.Plugins.CircularLayout
             int nodeNum = selectedList.Count;
             // Get region.
             RectangleF rect = GetSurroundingRect(selectedList);
+
             // If arguments are invalid, show message and return.
             if (!Validate(nodeNum, rect))
                 return false;
+
             // Coordinates of the points on the circle.
             // circlePoints[0] is the coordinates of the east point on the circle.
             // circlePoints[1] is the coordinates of the next clockwise point from circlePoints[0], and so on.
             PointF[] circlePoints = GetCirclePoints(rect, nodeNum);
-
 
             // Distance between the points one the circle.
             float[] iDistance = GetInsideDistanceMatrix(circlePoints);
