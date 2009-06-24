@@ -335,5 +335,11 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="name">the group name.</param>
         void SaveJobGroup(string name);
+        /// <summary>
+        /// Notify the job that is error.
+        /// </summary>
+        /// <param name="groupName">Group name.</param>
+        /// <param name="message">Error message.</param>
+        void NotifyErroeMessage(string groupName, string message);
     }   
 }

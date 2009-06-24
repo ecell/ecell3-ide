@@ -146,6 +146,7 @@ namespace Ecell.Job
                 }
                 this.Status = JobStatus.ERROR;
                 m_process = null;
+                NotifyErrorMessage("cog initialize error.");
             }
         }
 
@@ -283,7 +284,17 @@ namespace Ecell.Job
                 }
                 this.Status = JobStatus.ERROR;
                 m_process = null;
+                NotifyErrorMessage("Prepare to the executing jobs.");
             }
+        }
+
+        /// <summary>
+        /// Send the report to ReportManager.
+        /// </summary>
+        /// <param name="message">the report message.</param>
+        private void NotifyErrorMessage(string message)
+        {
+            Manager.NotifyErroeMessage(this.GroupName, message);
         }
 
 
@@ -415,6 +426,7 @@ namespace Ecell.Job
                     m_process.Kill();
                     m_process = null;
                 }
+                NotifyErrorMessage(e.Data);
             }
             if (e.Data != null &&  
                 (e.Data.Contains("Job completed") || e.Data.Contains("failed") || 
@@ -442,6 +454,7 @@ namespace Ecell.Job
                     m_process.Kill();
                     m_process = null;
                 }
+                NotifyErrorMessage(e.Data);
             }
             if (e.Data != null && 
                 (e.Data.Contains("Job completed") || e.Data.Contains("failed") || 

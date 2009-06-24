@@ -44,13 +44,17 @@ namespace Ecell
     {
         #region Group name
         /// <summary>
-        /// 
+        /// Report group name for Debug.
         /// </summary>
         public const string groupDebug = "debug";
         /// <summary>
-        /// 
+        /// Report group name for Compile.
         /// </summary>
         public const string groupCompile = "compile";
+        /// <summary>
+        /// Report group name for Analysis.
+        /// </summary>
+        public const string groupAnalysis = "analysis";
         #endregion
 
         #region Default Settings

@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Ecell;
 using Ecell.Objects;
+using Ecell.Reporting;
 
 namespace Ecell.Job
 {
@@ -302,6 +303,7 @@ namespace Ecell.Job
 
             job.ScriptFile = script;
             job.Argument = arg;
+            job.Manager = this;
             job.ExtraFileList = extFile;
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
@@ -324,6 +326,7 @@ namespace Ecell.Job
 
             Job job = m_proxy.CreateJob();
             job.GroupName = groupName;
+            job.Manager = this;
             job.Status = JobStatus.FINISHED;
             job.ExecParam = param;
             m_groupDic[groupName].Jobs.Add(job);
@@ -342,6 +345,7 @@ namespace Ecell.Job
         {
             LocalJobProxy p = new LocalJobProxy();
             Job job = p.CreateJob(jobid);
+            job.Manager = this;
             job.GroupName = groupName;
             job.Status = JobStatus.FINISHED;
             job.ExecParam = new ExecuteParameter();
@@ -366,6 +370,7 @@ namespace Ecell.Job
             Job job = m_proxy.CreateJob();
             job.ScriptFile = script;
             job.Argument = arg;
+            job.Manager = this;
             job.ExtraFileList = extFile;
             // search dmpath
             job.JobDirectory = TmpDir + "/" + job.JobID;
@@ -853,6 +858,7 @@ namespace Ecell.Job
 
                 Job job = Proxy.CreateJob();
                 job.GroupName = groupName;
+                job.Manager = this;
                 string dirName = topDir + "/" + job.JobID;
                 string fileName = topDir + "/" + job.JobID + ".ess";
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
@@ -926,6 +932,7 @@ namespace Ecell.Job
 
                 Job job = Proxy.CreateJob();
                 job.GroupName = groupName;
+                job.Manager = this;
                 string dirName = topDir + "/" + job.JobID;
                 string fileName = topDir + "/" + job.JobID + ".ess";
                 string modelFileName = topDir + "/" + job.JobID + ".eml";
@@ -1086,6 +1093,7 @@ namespace Ecell.Job
 
                     Job job = Proxy.CreateJob();
                     job.GroupName = groupName;
+                    job.Manager = this;
                     string dirName = topDir + "/" + job.JobID;
                     string fileName = topDir + "/" + job.JobID + ".ess";
                     string modelFileName = topDir + "/" + job.JobID + ".eml";
@@ -1340,6 +1348,28 @@ namespace Ecell.Job
         {
             m_groupDic[name].IsSaved = true;
             OnJobUpdate(JobUpdateType.SaveJobGroup);
+        }
+
+        /// <summary>
+        /// Notify the job that is error.
+        /// </summary>
+        /// <param name="groupName">Group name.</param>
+        /// <param name="message">Error message.</param>
+        public void NotifyErroeMessage(string groupName, string message)
+        {
+            try
+            {
+                ReportingSession rs = m_env.ReportManager.GetReportingSession(Constants.groupAnalysis);
+                using (rs)
+                {
+                    AnalysisReport rep = new AnalysisReport(MessageType.Error, message, Constants.groupAnalysis, groupName);
+                    rs.Add(rep);
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+            }
         }
     }
 }

@@ -239,6 +239,7 @@
             // 
             // robustAnalysisObservedDataGrid
             // 
+            this.robustAnalysisObservedDataGrid.AllowDrop = true;
             this.robustAnalysisObservedDataGrid.AllowUserToAddRows = false;
             this.robustAnalysisObservedDataGrid.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.robustAnalysisObservedDataGrid, "robustAnalysisObservedDataGrid");

@@ -296,6 +296,10 @@ namespace Ecell.IDE.MainWindow
                         {
                             menu.Enabled = false;
                         }
+                        else
+                        {
+                            menu.Enabled = true;
+                        }
                     }
                 }
             }

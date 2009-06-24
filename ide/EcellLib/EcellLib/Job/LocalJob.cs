@@ -191,7 +191,7 @@ namespace Ecell.Job
                 else
                 {                       
                     this.Status = JobStatus.ERROR;
-                    this.StdErr = m_currentProcess.StandardError.ReadToEnd();
+                    Manager.NotifyErroeMessage(this.GroupName, this.StdErr);
                 }
                 m_currentProcess = null;
             }

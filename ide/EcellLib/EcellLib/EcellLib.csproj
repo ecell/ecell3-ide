@@ -162,6 +162,7 @@
     <Compile Include="Plugin\ILayoutPanel.cs" />
     <Compile Include="Plugin\IPropertyItem.cs" />
     <Compile Include="Plugin\PluginData.cs" />
+    <Compile Include="Reporting\AnalysisReport.cs" />
     <Compile Include="SBML\ProcessConverter.cs" />
     <Compile Include="Reporting\CompileReport.cs" />
     <Compile Include="ConsoleManager.cs" />

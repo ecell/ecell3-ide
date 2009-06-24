@@ -690,10 +690,27 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ParamDataDragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
-            if (obj != null)
-                e.Effect = DragDropEffects.Move;
-            else
+            if (obj == null)
+            {
                 e.Effect = DragDropEffects.None;
+                return;
+            }
+            EcellDragObject dobj = obj as EcellDragObject;
+
+            foreach (EcellDragEntry ent in dobj.Entries)
+            {
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                foreach (EcellData d in t.Value)
+                {
+                    if (d.EntityPath.Equals(ent.Path) && d.Settable && d.Value.IsDouble)
+                    {
+                        e.Effect = DragDropEffects.Move;
+                        return;
+                    }
+                }
+            }
+
+            e.Effect = DragDropEffects.None;
         }
 
         /// <summary>
@@ -731,20 +748,6 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ObservedDragDrop(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
-            if (obj != null)
-                e.Effect = DragDropEffects.Move;
-            else
-                e.Effect = DragDropEffects.None;
-        }
-
-        /// <summary>
-        /// Drop the parameter data on DataGridView of the observed data.
-        /// </summary>
-        /// <param name="sender">DataGridView</param>
-        /// <param name="e">DragEventArgs</param>
-        private void ObservedDragEnter(object sender, DragEventArgs e)
-        {
-            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
@@ -762,6 +765,36 @@ namespace Ecell.IDE.Plugins.Analysis
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Drop the parameter data on DataGridView of the observed data.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DragEventArgs</param>
+        private void ObservedDragEnter(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj == null)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
+            EcellDragObject dobj = obj as EcellDragObject;
+            foreach (EcellDragEntry ent in dobj.Entries)
+            {
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                foreach (EcellData d in t.Value)
+                {
+                    if (d.EntityPath.Equals(ent.Path) && d.Logable && d.Value.IsDouble)
+                    {
+                        e.Effect = DragDropEffects.Move;
+                        return;
+                    }
+                }
+            }
+            e.Effect = DragDropEffects.None;
         }
         #endregion
 

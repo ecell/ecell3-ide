@@ -88,6 +88,7 @@ namespace Ecell.Job
         /// </summary>
         private ExecuteParameter m_execParam;
         private string m_groupName;
+        private IJobManager m_manager;
 
         static private string s_dmPath;
         static private int s_maxCount;
@@ -199,6 +200,15 @@ namespace Ecell.Job
         {
             get { return this.m_groupName; }
             set { this.m_groupName = value; }
+        }
+
+        /// <summary>
+        /// get / set job manager.
+        /// </summary>
+        public IJobManager Manager
+        {
+            get { return this.m_manager; }
+            set { this.m_manager = value; }
         }
 
         /// <summary>

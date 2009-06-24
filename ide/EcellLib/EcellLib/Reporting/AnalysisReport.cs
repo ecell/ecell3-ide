@@ -1,8 +1,8 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2008 Keio University
+//                Copyright (C) 1996-2009 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -26,7 +26,6 @@
 //
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,10 +33,12 @@ using System.Text;
 namespace Ecell.Reporting
 {
     /// <summary>
-    /// Report for Compile
+    /// Report for Analysis.
     /// </summary>
-    public class CompileReport : Report
+    public class AnalysisReport : Report
     {
+        private string m_jobGroupName;
+
         /// <summary>
         /// get the location of report.
         /// </summary>
@@ -45,19 +46,21 @@ namespace Ecell.Reporting
         {
             get
             {
-                string[] ele = Message.Split(new string[] { ": " }, StringSplitOptions.RemoveEmptyEntries);
-                return ele[0];
+                return this.m_jobGroupName;
             }
         }
+
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="type">message type.</param>
         /// <param name="message">message.</param>
         /// <param name="group">report group name.</param>
-        public CompileReport(MessageType type, string message, string group)
+        /// <param name="jobGroupName">location.</param>
+        public AnalysisReport(MessageType type, string message, string group, string jobGroupName)
             : base (type, message, group)
         {
+            m_jobGroupName = jobGroupName;
         }
     }
 }
