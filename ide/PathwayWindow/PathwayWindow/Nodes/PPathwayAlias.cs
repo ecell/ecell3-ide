@@ -46,11 +46,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         PPathwayVariable m_variable = null;
 
         /// <summary>
-        /// Whether this object is highlighted or not.
-        /// </summary>
-        protected bool m_selected = false;
-
-        /// <summary>
         /// 
         /// </summary>
         public PPathwayVariable Variable

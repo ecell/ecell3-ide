@@ -69,7 +69,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="control"></param>
+        /// <param name="stencils"></param>
         public ToolBoxDragHandler(Stencils stencils)
         {
             m_stencils = stencils;

@@ -49,6 +49,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox naturalLength;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox scratchCheckBox;
         private System.Windows.Forms.Label label4;
         
         #endregion
@@ -68,6 +69,7 @@ namespace Ecell.IDE.Plugins.GridLayout
             this.naturalLength.Text = grid.NaturalLength.ToString();
             this.initialT.Text = grid.InitialT.ToString();
             this.defMargin.Text = grid.DefMargin.ToString();
+            this.scratchCheckBox.Checked = (grid.SubIndex == 0);
         }
 
         /// <summary>
@@ -85,6 +87,7 @@ namespace Ecell.IDE.Plugins.GridLayout
             this.naturalLength = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.scratchCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -136,8 +139,15 @@ namespace Ecell.IDE.Plugins.GridLayout
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // scratchCheckBox
+            // 
+            resources.ApplyResources(this.scratchCheckBox, "scratchCheckBox");
+            this.scratchCheckBox.Name = "scratchCheckBox";
+            this.scratchCheckBox.UseVisualStyleBackColor = true;
+            // 
             // GridLayoutPanel
             // 
+            this.Controls.Add(this.scratchCheckBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.naturalLength);
             this.Controls.Add(this.label4);
@@ -167,7 +177,7 @@ namespace Ecell.IDE.Plugins.GridLayout
             alogorithm.NaturalLength = int.Parse(this.naturalLength.Text);
             alogorithm.InitialT = int.Parse(this.initialT.Text);
             alogorithm.DefMargin = int.Parse(this.defMargin.Text);
-
+            alogorithm.SubIndex = (scratchCheckBox.Checked) ? 0 : 1;
         }
         #endregion
 

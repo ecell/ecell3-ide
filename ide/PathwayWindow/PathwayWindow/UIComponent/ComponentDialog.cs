@@ -54,7 +54,7 @@ namespace Ecell.IDE
         public ComponentDialog(ComponentSetting cs)
         {
             InitializeComponent();
-            componentItem.SetItems(cs);
+            componentItem.SetItem(cs);
         }
 
         /// <summary>

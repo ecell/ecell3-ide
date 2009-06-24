@@ -926,6 +926,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Set Layer.
         /// </summary>
         /// <param name="obj"></param>
+        /// <param name="layerID"></param>
         public void SetLayer(PPathwayObject obj, string layerID)
         {
             // if obj is root system or layerID is null.
@@ -2122,7 +2123,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string newKey = null;
             string newSysKey;
             bool isMoved = false;
-            bool isAlias = false;
 
             if (obj is PPathwaySystem)
             {

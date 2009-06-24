@@ -88,8 +88,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="type"></param>
         /// <returns></returns>
-        public static List<string> GetSystemFigures()
+        public static List<string> GetFigureList(string type)
+        {
+            if (type.Equals(Constants.xpathSystem))
+                return FigureManager.GetSystemFigures();
+            else
+                return FigureManager.GetEntityFigures();
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private static List<string> GetSystemFigures()
         {
             List<string> list = new List<string>();
             list.Add(SystemRectangle.TYPE);
@@ -101,7 +115,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// 
         /// </summary>
         /// <returns></returns>
-        public static List<string> GetEntityFigures()
+        private static List<string> GetEntityFigures()
         {
             List<string> list = new List<string>();
             list.Add(EllipseFigure.TYPE);

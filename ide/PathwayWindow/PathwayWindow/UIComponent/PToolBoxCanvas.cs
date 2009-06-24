@@ -52,7 +52,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// 
         /// </summary>
-        public PPathwayObject PPathwayObject
+        public PPathwayObject Object
         {
             get { return m_object; }
             set { m_object = value; }
@@ -122,7 +122,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Size = new System.Drawing.Size(64, 64);
             this.MinimumSize = new System.Drawing.Size(64, 64);
             this.RegionManagement = true;
-            this.PPathwayObject = null;
+            this.Object = null;
             this.Name = cs.Name;
             this.Text = cs.Name;
             this.Setting = cs;
@@ -136,6 +136,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             RectangleF bounds = base.Camera.ViewBounds;
             PointF center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
+            if (m_object != null)
+                m_object.RemoveFromParent();
             m_object = setting.CreateTemplate();
             m_object.Pickable = false;
             m_object.CenterPointF = center;

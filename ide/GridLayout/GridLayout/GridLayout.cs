@@ -77,13 +77,13 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// <summary>
         /// natural length between connected nodes
         /// </summary>
-        private float m_naturalLength = 4;
+        private float m_naturalLength = 3;
 
         /// <summary>
         /// initial temperature (for simulated annealing)
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
-        private float m_initialT = 60;
+        private float m_initialT = 50;
 
         /// <summary>
         /// Default grid margin.

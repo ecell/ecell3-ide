@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 159</value>
+    <value>18, 133</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 12</value>
@@ -144,10 +144,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="defMargin.Location" type="System.Drawing.Point, System.Drawing">
-    <value>184, 156</value>
+    <value>184, 130</value>
   </data>
   <data name="defMargin.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 19</value>
@@ -172,10 +172,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;defMargin.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="annealingRepeats.Location" type="System.Drawing.Point, System.Drawing">
-    <value>184, 50</value>
+    <value>184, 55</value>
   </data>
   <data name="annealingRepeats.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 19</value>
@@ -199,13 +199,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;annealingRepeats.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 53</value>
+    <value>18, 58</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 12</value>
@@ -226,10 +226,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="initialT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>184, 85</value>
+    <value>184, 80</value>
   </data>
   <data name="initialT.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 19</value>
@@ -253,13 +253,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;initialT.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 88</value>
+    <value>18, 83</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 12</value>
@@ -280,10 +280,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="naturalLength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>184, 120</value>
+    <value>184, 105</value>
   </data>
   <data name="naturalLength.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 19</value>
@@ -307,13 +307,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;naturalLength.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 123</value>
+    <value>18, 108</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
@@ -334,7 +334,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 17</value>
@@ -358,6 +358,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="scratchCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="scratchCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 162</value>
+  </data>
+  <data name="scratchCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 16</value>
+  </data>
+  <data name="scratchCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="scratchCheckBox.Text" xml:space="preserve">
+    <value>From Scratch</value>
+  </data>
+  <data name="&gt;&gt;scratchCheckBox.Name" xml:space="preserve">
+    <value>scratchCheckBox</value>
+  </data>
+  <data name="&gt;&gt;scratchCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scratchCheckBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;scratchCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
