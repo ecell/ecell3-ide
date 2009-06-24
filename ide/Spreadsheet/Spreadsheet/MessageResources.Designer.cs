@@ -66,23 +66,5 @@ namespace Ecell.IDE.Plugins.Spreadsheet {
                 return ((System.Drawing.Icon)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Search ... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SearchMenuText {
-            get {
-                return ResourceManager.GetString("SearchMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Spreadsheet に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string Spreadsheet {
-            get {
-                return ResourceManager.GetString("Spreadsheet", resourceCulture);
-            }
-        }
     }
 }
