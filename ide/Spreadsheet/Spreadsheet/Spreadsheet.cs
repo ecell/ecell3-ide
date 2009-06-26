@@ -113,6 +113,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             CreateProcessHeader();
             m_currentModelID = null;
             m_lastSelected = null;
+            m_prevCell = null;
         }
 
         /// <summary>
@@ -1403,6 +1404,32 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     using (b) graphics.DrawString(Convert.ToString(rowIndex + 1), cellStyle.Font, b, cellBounds, sf);
                 }
             }
+        }
+
+        private DataGridViewCell m_prevCell = null;
+        private void GridViewCurrentCellChanged(object sender, EventArgs e)
+        {
+            if (m_gridView.CurrentCell == null)
+                return;
+            if (m_prevCell != null)
+            {
+                m_prevCell.Style.SelectionBackColor =
+                       m_gridView.DefaultCellStyle.SelectionBackColor;
+                m_prevCell.Style.SelectionForeColor =
+                    m_gridView.DefaultCellStyle.SelectionForeColor;
+            }
+            if (m_gridView.Rows[m_gridView.CurrentCell.RowIndex].DefaultCellStyle.ForeColor ==
+                m_headerForeColor)
+            {
+                m_prevCell = null;
+                return;
+            }
+            m_gridView.CurrentCell.Style.SelectionBackColor =
+                m_gridView.DefaultCellStyle.BackColor;
+            m_gridView.CurrentCell.Style.SelectionForeColor =
+                Color.Red;
+            
+            m_prevCell = m_gridView.CurrentCell;
         }
 
     }

@@ -572,15 +572,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_estimationParameter = new ParameterEstimationParameter();
             m_sensitivityParameter = new SensitivityAnalysisParameter();
             m_robustParameter = new RobustAnalysisParameter();
-        }
 
-        /// <summary>
-        /// Called by PluginManager for getting UseControl.
-        /// </summary>
-        /// <returns>nothing.</returns>
-        public override IEnumerable<EcellDockContent> GetWindowsForms()
-        {
-            List<EcellDockContent> result = new List<EcellDockContent>();
             m_rWin = new AnalysisResultWindow(this);
             m_bifurcationDialog = new BifurcationSettingDialog(this);
             m_bifurcationDialog.SetParameter(m_bifurcateParameter);
@@ -593,7 +585,15 @@ namespace Ecell.IDE.Plugins.Analysis
 
             m_estimationDialog = new ParameterEstimationSettingDialog(this);
             m_estimationDialog.SetParameter(m_estimationParameter);
+        }
 
+        /// <summary>
+        /// Called by PluginManager for getting UseControl.
+        /// </summary>
+        /// <returns>nothing.</returns>
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
+        {
+            List<EcellDockContent> result = new List<EcellDockContent>();
             IEnumerable<EcellDockContent> list = m_rWin.GetWindowsForms();
 
             foreach (EcellDockContent c in list)
