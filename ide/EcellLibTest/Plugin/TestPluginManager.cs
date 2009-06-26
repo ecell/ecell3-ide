@@ -996,7 +996,7 @@ namespace Ecell.Plugin
         public void TestObservedData()
         {
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
-            string path = "System:/CELL:SIZE:Value";
+            string path = "Variable:/CELL:SIZE:Value";
 
             EcellObservedData data = new EcellObservedData(path, 0.1);
             _unitUnderTest.SetObservedData(data);
@@ -1010,7 +1010,7 @@ namespace Ecell.Plugin
         public void TestParameterData()
         {
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
-            string path = "System:/CELL:SIZE:Value";
+            string path = "Variable:/CELL:SIZE:Value";
 
             EcellParameterData data = new EcellParameterData(path, 0.1);
             _unitUnderTest.SetParameterData(data);

@@ -438,8 +438,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <returns>the dictionary of name and delegation function</returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
-            Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
-            return list;
+            return null;
         }
 
         #region General
