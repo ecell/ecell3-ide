@@ -772,10 +772,10 @@ namespace Ecell.IDE.Plugins.EntityList
         }
 
         /// <summary>
-        /// 
+        /// Press key on DataGridView.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

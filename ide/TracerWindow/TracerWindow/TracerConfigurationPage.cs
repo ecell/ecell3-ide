@@ -47,20 +47,65 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public class TracerConfigurationPage : PropertyDialogPage
     {
         #region Fields
+        /// <summary>
+        /// The number of plot in TraceWindow.
+        /// </summary>
         private int m_plotNum;
+        /// <summary>
+        /// The time span to redraw.
+        /// </summary>
         private double m_redrawInterval;
+        /// <summary>
+        /// TextBox to input the number of plot in TraceWindow
+        /// </summary>
         private TextBox intervalTextBox;
+        /// <summary>
+        /// TextBox to input the time span to redraw
+        /// </summary>
         private TextBox numberTextBox;
+        /// <summary>
+        /// Label
+        /// </summary>
         private Label label2;
+        /// <summary>
+        /// TextBox to input min of Y axis.
+        /// </summary>
         private TextBox YMinTextBox;
-        private TextBox Y2MinTextBox;
-        private CheckBox YMaxCheckBox;
-        private CheckBox YMinCheckBox;
+        /// <summary>
+        /// TextBox to input max of Y axis.
+        /// </summary>
         private TextBox YMaxTextBox;
-        private CheckBox Y2MaxCheckBox;
+        /// <summary>
+        /// TextBox to input min of Y2 axis.
+        /// </summary>
+        private TextBox Y2MinTextBox;
+        /// <summary>
+        /// TextBox to input max of Y2 axis.
+        /// </summary>
         private TextBox Y2MaxTextBox;
+        /// <summary>
+        /// CheckBox to set auto max of Y axis.
+        /// </summary>
+        private CheckBox YMaxCheckBox;
+        /// <summary>
+        /// CheckBox to set auto min of Y axis.
+        /// </summary>
+        private CheckBox YMinCheckBox;
+        /// <summary>
+        /// CheckBox to set auto max of Y2 axis.
+        /// </summary>
+        private CheckBox Y2MaxCheckBox;
+        /// <summary>
+        /// CheckBox to set auto min of Y2 axis.
+        /// </summary>
         private CheckBox Y2MinCheckBox;
+        /// <summary>
+        /// The owner object.
+        /// </summary>
         private TracerWindow m_owner;
+        /// <summary>
+        /// The setting object.
+        /// </summary>
         private YAxisSettings m_settings;
         #endregion
 
@@ -68,9 +113,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="plotNum"></param>
-        /// <param name="redrawInt"></param>
+        /// <param name="owner">The owner object.</param>
+        /// <param name="plotNum">The number of plot on this window.</param>
+        /// <param name="redrawInt">The time span to redraw.</param>
+        /// <param name="setting">the setting object.</param>
         public TracerConfigurationPage(TracerWindow owner, int plotNum, double redrawInt, YAxisSettings setting)
         {
             InitializeComponent();
@@ -98,6 +144,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             Y2MinTextBox.Enabled = !setting.IsAutoMinY2;
         }
 
+        /// <summary>
+        /// Initialize the component.
+        /// The componenet of this form is created.
+        /// </summary>
         private void InitializeComponent()
         {
             System.Windows.Forms.Label label4;
@@ -291,8 +341,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Validate the input data in PlotNumber
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void PlotNumber_Validating(object sender, CancelEventArgs e)
         {
             string text = numberTextBox.Text;
@@ -340,6 +390,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_redrawInterval = dummy;
         }
 
+        /// <summary>
+        /// Event when CheckBox of Y max auto is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs</param>
         private void YMaxAutoCheckedChanged(object sender, EventArgs e)
         {
             m_settings.IsAutoMaxY = YMaxCheckBox.Checked;
@@ -347,6 +402,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             YMaxTextBox.Enabled = !m_settings.IsAutoMaxY;
         }
 
+        /// <summary>
+        /// Event when CheckBox of Y min auto is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs</param>
         private void YMinAutoCheckedChanged(object sender, EventArgs e)
         {
             m_settings.IsAutoMinY = YMinCheckBox.Checked;
@@ -354,6 +414,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             YMinTextBox.Enabled = !m_settings.IsAutoMinY;
         }
 
+        /// <summary>
+        /// Event when CheckBox of Y2 max auto is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs</param>
         private void Y2MaxCheckedChanged(object sender, EventArgs e)
         {
             m_settings.IsAutoMaxY2 = Y2MaxCheckBox.Checked;
@@ -361,6 +426,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             Y2MaxTextBox.Enabled = !m_settings.IsAutoMaxY2;
         }
 
+        /// <summary>
+        /// Event when CheckBox of Y2 min auto is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs</param>
         private void Y2MinCheckedChanged(object sender, EventArgs e)
         {
             m_settings.IsAutoMinY2 = Y2MinCheckBox.Checked;
@@ -368,6 +438,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             Y2MinTextBox.Enabled = !m_settings.IsAutoMinY2;
         }
 
+        /// <summary>
+        /// Validateing TextBox of Y max.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void YMaxValidating(object sender, CancelEventArgs e)
         {
             string value = YMaxTextBox.Text;
@@ -390,6 +465,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_settings.YMax = dummy;
         }
 
+        /// <summary>
+        /// Validateing TextBox of Y min.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void YMinValidating(object sender, CancelEventArgs e)
         {
             string value = YMinTextBox.Text;
@@ -412,6 +492,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_settings.YMin = dummy;
         }
 
+        /// <summary>
+        /// Validateing TextBox of Y2 max.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void Y2MaxValidating(object sender, CancelEventArgs e)
         {
             string value = Y2MaxTextBox.Text;
@@ -434,6 +519,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_settings.Y2Max = dummy;
         }
 
+        /// <summary>
+        /// Validateing TextBox of Y2 min.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void Y2MinValidating(object sender, CancelEventArgs e)
         {
             string value = Y2MinTextBox.Text;

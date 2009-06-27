@@ -67,6 +67,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="env">The ApplicationEnvironment.</param>
         /// <param name="dmDir">The path of dm directory.</param>
         /// <param name="node">The current selected node.</param>
+        /// <param name="menu">The context menu.</param>
         public CreateDMDialog(ApplicationEnvironment env, string dmDir, TreeNode node, ContextMenuStrip menu)
         {
             m_env = env;

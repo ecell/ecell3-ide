@@ -1665,7 +1665,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Set the information of Plugin.
         /// </summary>
-        /// <param name="status">the information of Plugin.</param>
+        /// <param name="nstatus">the information of Plugin.</param>
         public void SetPluginStatus(System.Xml.XmlNode nstatus)
         {
             ;

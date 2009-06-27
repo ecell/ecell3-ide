@@ -52,8 +52,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public partial class TraceWindow : EcellDockContent
     {
         #region Fields
+        /// <summary>
+        /// The flag whether this windos contains only the log data.
+        /// </summary>
         private bool m_isLog = false;
-        private double m_MaxXAxis = 10.0;
         /// <summary>
         /// The object managed this window.
         /// </summary>
@@ -70,12 +72,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The last time on drawing tracer.
         /// </summary>
         public double m_current;
+        /// <summary>
+        /// The flag whether this window set the default axis settings.
+        /// </summary>
         private bool m_isDefault = true;
+        /// <summary>
+        /// The setting objects.
+        /// </summary>
         private YAxisSettings m_AxisSetting;
+        /// <summary>
+        /// The number of entry in this window.
+        /// </summary>
         private int m_entryCount = 0;
+        /// <summary>
+        /// The number of log data in this window.
+        /// </summary>
         private int m_logCount = 0;
+        /// <summary>
+        /// The list of logging data in this window.
+        /// </summary>
         private List<TagData> m_logList = new List<TagData>();
+        /// <summary>
+        /// The dictionary of fullPN and the flag whether this entry is continuous.
+        /// </summary>
         private Dictionary<string, bool> m_tagDic = new Dictionary<string, bool>();
+        /// <summary>
+        /// The dictionary of ID and entry object.
+        /// </summary>
         private Dictionary<string, TraceEntry> m_entryDic = new Dictionary<string, TraceEntry>();
         /// <summary>
         /// The delegate for updating the graph window.
@@ -89,7 +112,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         delegate void ChangeStatusCallBack(bool status);
         #endregion
 
-        #region Fields
+        #region Accessors
+        /// <summary>
+        /// get / set the setting objects.
+        /// </summary>
         public YAxisSettings AxisSettings
         {
             get { return this.m_AxisSetting; }
@@ -98,6 +124,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (m_isDefault)
                     this.m_AxisSetting = value;
             }
+        }
+
+        /// <summary>
+        /// set the default format of data.
+        /// </summary>
+        public string DataFormat
+        {
+            set { this.m_zCnt.PointValueFormat = value; }
         }
         #endregion
 
@@ -143,7 +177,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Print this window.
         /// </summary>
         public void Print()
         {
@@ -151,10 +185,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Changed the logger object.
         /// </summary>
-        /// <param name="orgFullPN"></param>
-        /// <param name="entry"></param>
+        /// <param name="orgFullPN">the orijinal FullPN.</param>
+        /// <param name="entry">the logger object.</param>
         public void LoggerChanged(string orgFullPN, LoggerEntry entry)
         {            
             TagData otag = new TagData(entry.ModelID, entry.ID, entry.Type, orgFullPN, true);
@@ -209,19 +243,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string DataFormat
-        {
-            set { this.m_zCnt.PointValueFormat = value; }
-        }
 
         /// <summary>
-        /// 
+        /// Set the continuous of data.
         /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="isCont"></param>
+        /// <param name="tag">the entry name.</param>
+        /// <param name="isCont">the flag whether this data is continuous.</param>
         public void SetIsContinuous(string tag, bool isCont)
         {
             if (m_tagDic.ContainsKey(tag))
@@ -323,10 +350,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Change the display status of data.
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="isDisplay"></param>
+        /// <param name="entry">the log entry object.</param>
+        /// <param name="isDisplay">the flag whether this entry is displayed.</param>
         public void ChangedDisplayStatus(LoggerEntry entry, bool isDisplay)
         {
             TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
@@ -343,10 +370,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Get the flag whether this entry is displayed.
         /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
+        /// <param name="entry">the logger entry.</param>
+        /// <returns>Return true if </returns>
         public bool IsDisplay(LoggerEntry entry)
         {
             TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
@@ -367,8 +394,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_entryDic[key].ClearPoint();
             }
             m_current = 0.0;
-            if (!m_zCnt.GraphPane.IsZoomed)
-                m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
@@ -416,8 +441,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (!isSuspend)
                 {
-                    if (!m_zCnt.GraphPane.IsZoomed)
-                        m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
                     m_zCnt.AxisChange();
                     m_zCnt.Refresh();
                 }
@@ -425,6 +448,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             isSuspend = false;
         }
 
+        /// <summary>
+        /// Set the default setting of Y axis.
+        /// </summary>
+        /// <param name="setting">the setting object.</param>
         public void SetDefaultSetting(YAxisSettings setting)
         {
             if (m_isDefault)
@@ -443,8 +470,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             if (status == false)
             {
-                if (isSuspend == false && !m_zCnt.GraphPane.IsZoomed)
-                    m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
@@ -637,6 +662,34 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.Invoke(dlg, new object[] { isAxis });
         }
 
+        /// <summary>
+        /// Reset the window to change the setting property.
+        /// </summary>
+        private void ResetWindow()
+        {
+            if (!m_zCnt.GraphPane.IsZoomed)
+            {
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = m_AxisSetting.IsAutoMaxY;
+                m_zCnt.GraphPane.YAxis.Scale.MinAuto = m_AxisSetting.IsAutoMinY;
+                m_zCnt.GraphPane.Y2Axis.Scale.MaxAuto = m_AxisSetting.IsAutoMaxY2;
+                m_zCnt.GraphPane.Y2Axis.Scale.MinAuto = m_AxisSetting.IsAutoMinY2;
+
+                if (!m_AxisSetting.IsAutoMaxY)
+                    m_zCnt.GraphPane.YAxis.Scale.Max = m_AxisSetting.YMax;
+                if (!m_AxisSetting.IsAutoMinY)
+                    m_zCnt.GraphPane.YAxis.Scale.Min = m_AxisSetting.YMin;
+                if (!m_AxisSetting.IsAutoMaxY2)
+                    m_zCnt.GraphPane.Y2Axis.Scale.Max = m_AxisSetting.Y2Max;
+                if (!m_AxisSetting.IsAutoMinY2)
+                    m_zCnt.GraphPane.Y2Axis.Scale.Min = m_AxisSetting.Y2Min;
+
+                if (m_AxisSetting.IsAutoMaxY || m_AxisSetting.IsAutoMinY ||
+                    m_AxisSetting.IsAutoMaxY2 || m_AxisSetting.IsAutoMinY2)
+                    m_zCnt.AxisChange();
+                m_zCnt.Refresh();
+            }
+        }
+
         #region Event
         /// <summary>
         /// Process when user delete the logger.
@@ -716,6 +769,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             menuStrip.Items.Add(p2);
         }
 
+        /// <summary>
+        /// Click the menu to set the log axis or linear axis.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void SetLogAxis(object sender, EventArgs e)
         {
             m_isLog = !m_isLog;
@@ -734,31 +792,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
-        private void ResetWindow()
-        {
-            if (!m_zCnt.GraphPane.IsZoomed)
-            {
-                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = m_AxisSetting.IsAutoMaxY;
-                m_zCnt.GraphPane.YAxis.Scale.MinAuto = m_AxisSetting.IsAutoMinY;
-                m_zCnt.GraphPane.Y2Axis.Scale.MaxAuto = m_AxisSetting.IsAutoMaxY2;
-                m_zCnt.GraphPane.Y2Axis.Scale.MinAuto = m_AxisSetting.IsAutoMinY2;
-
-                if (!m_AxisSetting.IsAutoMaxY)
-                    m_zCnt.GraphPane.YAxis.Scale.Max = m_AxisSetting.YMax;
-                if (!m_AxisSetting.IsAutoMinY)
-                    m_zCnt.GraphPane.YAxis.Scale.Min = m_AxisSetting.YMin;
-                if (!m_AxisSetting.IsAutoMaxY2)
-                    m_zCnt.GraphPane.Y2Axis.Scale.Max = m_AxisSetting.Y2Max;
-                if (!m_AxisSetting.IsAutoMinY2)
-                    m_zCnt.GraphPane.Y2Axis.Scale.Min = m_AxisSetting.Y2Min;
-
-                if (m_AxisSetting.IsAutoMaxY || m_AxisSetting.IsAutoMinY ||
-                    m_AxisSetting.IsAutoMaxY2 || m_AxisSetting.IsAutoMinY2)
-                    m_zCnt.AxisChange();
-                m_zCnt.Refresh();
-            }
-        }
-
+        /// <summary>
+        /// Click the menu to set Y axis.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void SetAxisSize(object sender, EventArgs e)
         {
             YAxisSettings settings = new YAxisSettings(
@@ -879,80 +917,139 @@ namespace Ecell.IDE.Plugins.TracerWindow
         #endregion
     }
 
+    /// <summary>
+    /// The Y axis setting object.
+    /// </summary>
     public class YAxisSettings
     {
+        #region Fields
+        /// <summary>
+        /// The flag whether max of Y is auto.
+        /// </summary>
         private bool m_isAutoMaxY = true;
+        /// <summary>
+        /// The flag whether min of Y is auto.
+        /// </summary>
         private bool m_isAutoMinY = true;
+        /// <summary>
+        /// The flag whether max of Y2 is auto.
+        /// </summary>
         private bool m_isAutoMaxY2 = true;
+        /// <summary>
+        /// The flag whether min of Y2 is auto.
+        /// </summary>
         private bool m_isAutoMinY2 = true;
+        /// <summary>
+        /// Max of Y axis.
+        /// </summary>
         private double m_yMax = 10.0;
+        /// <summary>
+        /// Min of Y axis.
+        /// </summary>
         private double m_yMin = 0.0;
+        /// <summary>
+        /// Max of Y2 axis.
+        /// </summary>
         private double m_y2Max = 10.0;
+        /// <summary>
+        /// Min of Y2 axis.
+        /// </summary>
         private double m_y2Min = 0.0;
+        #endregion
 
+        #region Accessors
+        /// <summary>
+        /// get / set the flag whether max of Y is auto.
+        /// </summary>
         public bool IsAutoMaxY
         {
             get { return m_isAutoMaxY; }
             set { m_isAutoMaxY = value; }
         }
 
+        /// <summary>
+        /// get / set the flag whether min of Y is auto.
+        /// </summary>
         public bool IsAutoMinY
         {
             get { return m_isAutoMinY; }
             set { m_isAutoMinY = value; }
         }
 
+        /// <summary>
+        /// get / set the flag whether max of Y2 is auto.
+        /// </summary>
         public bool IsAutoMaxY2
         {
             get { return m_isAutoMaxY2; }
             set { m_isAutoMaxY2 = value; }
         }
 
+        /// <summary>
+        /// get / set the flag whether min of Y2 is auto.
+        /// </summary>
         public bool IsAutoMinY2
         {
             get { return m_isAutoMinY2; }
             set { m_isAutoMinY2 = value; }
         }
 
+        /// <summary>
+        /// get / set Max of Y axis.
+        /// </summary>
         public double YMax
         {
             get { return m_yMax; }
             set { m_yMax = value; }
         }
 
+        /// <summary>
+        /// get / set Min of Y axis.
+        /// </summary>
         public double YMin
         {
             get { return m_yMin; }
             set { m_yMin = value; }
         }
 
+        /// <summary>
+        /// get / set Max of Y2 axis.
+        /// </summary>
         public double Y2Max
         {
             get { return m_y2Max; }
             set { m_y2Max = value; }
         }
 
+        /// <summary>
+        /// get / set Min of Y2 axis.
+        /// </summary>
         public double Y2Min
         {
             get { return m_y2Min; }
             set { m_y2Min = value; }
         }
+        #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Constructors
+        /// </summary>
         public YAxisSettings()
         {
         }
 
         /// <summary>
-        /// Constructors
+        /// Constructors with the initial parametesr.
         /// </summary>
-        /// <param name="isAutoMaxY"></param>
-        /// <param name="isAutoMinY"></param>
-        /// <param name="isAutoMaxY2"></param>
-        /// <param name="isAutoMinY2"></param>
-        /// <param name="yMax"></param>
-        /// <param name="yMin"></param>
-        /// <param name="y2Max"></param>
-        /// <param name="y2Min"></param>
+        /// <param name="isAutoMaxY">The flag whether max of Y is auto</param>
+        /// <param name="isAutoMinY">The flag whether min of Y is auto</param>
+        /// <param name="isAutoMaxY2">The flag whether max of Y2 is auto</param>
+        /// <param name="isAutoMinY2">The flag whether min of Y2 is auto</param>
+        /// <param name="yMax">Max of Y axis.</param>
+        /// <param name="yMin">Min of Y axis.</param>
+        /// <param name="y2Max">Max of Y2 axis.</param>
+        /// <param name="y2Min">Min of Y2 axis.</param>
         public YAxisSettings(bool isAutoMaxY, bool isAutoMinY, bool isAutoMaxY2, bool isAutoMinY2,
             double yMax, double yMin, double y2Max, double y2Min)
         {
@@ -965,7 +1062,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_y2Max = y2Max;
             m_y2Min = y2Min;
         }
+        #endregion
 
+        /// <summary>
+        /// Copy the setting objects of Y axis.
+        /// </summary>
+        /// <returns></returns>
         public YAxisSettings Copy()
         {
             return new YAxisSettings(this.IsAutoMaxY, this.IsAutoMinY, this.IsAutoMaxY2, this.IsAutoMinY2,

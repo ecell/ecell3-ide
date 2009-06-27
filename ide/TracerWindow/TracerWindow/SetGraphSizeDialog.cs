@@ -38,20 +38,35 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {
+    /// <summary>
+    /// Dialog to set the Y axis.
+    /// </summary>
     public partial class SetGraphSizeDialog : Form
     {
         #region Fields
+        /// <summary>
+        /// The flag whether this segging is default.
+        /// </summary>
         private bool m_isDefault;
+        /// <summary>
+        /// The setting data.
+        /// </summary>
         private YAxisSettings m_setting;
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// get / set the flag whether this setting is default.
+        /// </summary>
         public bool IsDefault
         {
             get { return m_isDefault; }
             set { m_isDefault = value; }
         }
 
+        /// <summary>
+        /// get / set the setting object.
+        /// </summary>
         public YAxisSettings Settings
         {
             get { return m_setting; }
@@ -59,6 +74,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
         #endregion
 
+        /// <summary>
+        /// Constructors.
+        /// </summary>
+        /// <param name="isDefault">the flag whether this setting is default</param>
+        /// <param name="setting">the setting object</param>
         public SetGraphSizeDialog(bool isDefault, YAxisSettings setting)
         {
             InitializeComponent();
@@ -86,6 +106,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         #region Events
+        /// <summary>
+        /// Event when CheckBox of default is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void DefaultCheckChanged(object sender, EventArgs e)
         {
             m_isDefault = defaultCheckBox.Checked;
@@ -100,6 +125,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             y2MinTextBox.Enabled = !m_isDefault && !m_setting.IsAutoMinY2;
         }
 
+        /// <summary>
+        /// Event when CheckBox of max auto is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void MaxAutoCheckChanged(object sender, EventArgs e)
         {
             m_setting.IsAutoMaxY = yMaxAutoCheckBox.Checked;
@@ -107,6 +137,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             yMaxTextBox.Enabled = !m_isDefault && !m_setting.IsAutoMaxY;
         }
 
+        /// <summary>
+        /// Event when CheckBox of min auto is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void MinAutoCheckChanged(object sender, EventArgs e)
         {
             m_setting.IsAutoMinY = yMinAutoCheckBox.Checked;
@@ -114,6 +149,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             yMinTextBox.Enabled = !m_isDefault && !m_setting.IsAutoMinY;
         }
 
+        /// <summary>
+        /// Event when CheckBox of max auto of Y2 axis is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void MaxAuto2CheckChanged(object sender, EventArgs e)
         {
             m_setting.IsAutoMaxY2 = y2MaxAutoCheckBox.Checked;
@@ -121,6 +161,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             y2MaxTextBox.Enabled = !m_isDefault && !m_setting.IsAutoMaxY2;
         }
 
+        /// <summary>
+        /// Event when CheckBox of min auto of Y2 axis is changed.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void MinAuto2CheckChanged(object sender, EventArgs e)
         {
             m_setting.IsAutoMinY2 = y2MinAutoCheckBox.Checked;
@@ -128,7 +173,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             y2MinTextBox.Enabled = !m_isDefault && !m_setting.IsAutoMinY2;
         }
 
-
+        /// <summary>
+        /// Event when Textbox of Max is validating.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void YMaxValidating(object sender, CancelEventArgs e)
         {
             string value = yMaxTextBox.Text;
@@ -151,6 +200,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_setting.YMax = dummy;
         }
 
+        /// <summary>
+        /// Event when TextBox of min is validating.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void YMinValidating(object sender, CancelEventArgs e)
         {
             string value = yMinTextBox.Text;
@@ -173,6 +227,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_setting.YMin = dummy;
         }
 
+        /// <summary>
+        /// Event when Textbox of Max Y2 Axis is validating.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void Y2MaxValidating(object sender, CancelEventArgs e)
         {
             string value = y2MaxTextBox.Text;
@@ -195,6 +254,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_setting.Y2Max = dummy;
         }
 
+        /// <summary>
+        /// Event when Textbox of Min Y2 Axis is validating.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void Y2MinValidating(object sender, CancelEventArgs e)
         {
             string value = y2MinTextBox.Text;
@@ -217,6 +281,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_setting.Y2Min = dummy;
         }
 
+        /// <summary>
+        /// Event when the this dialog is closing.
+        /// </summary>
+        /// <param name="sender">SetGrapgSizeDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void GraphSizeDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;

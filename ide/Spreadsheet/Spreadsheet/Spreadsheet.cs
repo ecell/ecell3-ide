@@ -1,4 +1,37 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,15 +47,31 @@ using Ecell.Logger;
 
 namespace Ecell.IDE.Plugins.Spreadsheet
 {
+    /// <summary>
+    /// Spread sheet to view the model object.
+    /// </summary>
     public partial class Spreadsheet : EcellDockContent, IEcellPlugin, IDataHandler, IDockContentProvider
     {
+        #region Fields
         /// <summary>
-        /// Color of header.
+        /// BaclColor of the headers.
         /// </summary>
         private Color m_headerColor = Color.Gray;
+        /// <summary>
+        /// ForeColor of the headers.
+        /// </summary>
         private Color m_headerForeColor = Color.White;
+        /// <summary>
+        /// BackColor of the system rows.
+        /// </summary>
         private Color m_systemColor = Color.FromArgb(0xff, 0xff, 0xd0);
+        /// <summary>
+        /// BackColor of the process rows.
+        /// </summary>
         private Color m_processColor = Color.FromArgb(0xcc, 0xff, 0xcc);
+        /// <summary>
+        /// BackColor of the variable rows.
+        /// </summary>
         private Color m_variableColor = Color.FromArgb(0xcc, 0xcc, 0xff);
         /// <summary>
         /// The application environment associated to this object.
@@ -32,13 +81,17 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// The flag whether the select change start in this plugin.
         /// </summary>
         private bool m_isSelected = false;
-        private bool m_isSelectionChanged = false;
-        private DataGridViewRow m_selectedRow = null;
-
         /// <summary>
-        /// Popup menu.
+        /// The flag whether this plugin start to select the multi rows.
         /// </summary>
-        private ContextMenuStrip m_contextMenu;
+        private bool m_isSelectionChanged = false;
+        /// <summary>
+        /// The previous selected row.
+        /// </summary>
+        private DataGridViewRow m_selectedRow = null;
+        /// <summary>
+        /// The drag object.
+        /// </summary>
         private EcellObject m_dragObject;
         /// <summary>
         /// Timer for executing redraw event at each 0.5 minutes.
@@ -56,9 +109,19 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Dictionary of entity path and DataGridViewCell displayed the property of entity path.
         /// </summary>
         private Dictionary<string, DataGridViewCell> m_propDic = new Dictionary<string, DataGridViewCell>();
+        /// <summary>
+        /// Index of ID column.
+        /// </summary>
         private static int s_ID = 1;
-
+        /// <summary>
+        /// The last selected row.
+        /// </summary>
         private DataGridViewRow m_lastSelected = null;
+        /// <summary>
+        /// The last selected cell.
+        /// </summary>
+        private DataGridViewCell m_prevCell = null;
+        #endregion
 
         #region Accessors
         /// <summary>
@@ -100,7 +163,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         }
         #endregion
 
-
+        #region PluginBase
         /// <summary>
         /// Event when the project is closed.
         /// </summary>
@@ -381,10 +444,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             return null;
         }
+
         /// <summary>
         /// Set the information of Plugin.
         /// </summary>
-        /// <param name="status">the information of Plugin.</param>
+        /// <param name="nstatus">the information of Plugin.</param>
         public void SetPluginStatus(System.Xml.XmlNode nstatus)
         {
             ;
@@ -404,7 +468,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             else
             {
-                m_gridView.ContextMenuStrip = m_contextMenu;
+
             }
 
             if (status == ProjectStatus.Running)
@@ -440,6 +504,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             return null;
         }
+        #endregion
 
         #region General
         /// <summary>
@@ -596,11 +661,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         }
 
         /// <summary>
-        /// 
+        /// Compare by the type of object.
         /// </summary>
-        /// <param name="type1"></param>
-        /// <param name="type2"></param>
-        /// <returns></returns>
+        /// <param name="type1">the type of object1.</param>
+        /// <param name="type2">the type of object2.</param>
+        /// <returns>the compare result.</returns>
         private int TypeConverter(string type1, string type2)
         {
             if (type1 == type2) return 0;
@@ -667,12 +732,13 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 
             return "";
         }
+
         /// <summary>
-        /// 
+        /// Check the column is numeric data.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="name">the column name.</param>
+        /// <param name="obj">the checked object.</param>
+        /// <returns>Return true if this column is numeric.</returns>
         public bool IsNumeric(string name, EcellObject obj)
         {
             if (name.Equals(s_indexType))
@@ -716,7 +782,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             return false;
         }
 
-
+        /// <summary>
+        /// Search the insert index for type of object.
+        /// </summary>
+        /// <param name="type">Type of inserted object.</param>
+        /// <param name="key">Key of inserted object.</param>
+        /// <returns>Insert index.</returns>
         private DataGridViewRow SearchIndex(string type, string key)
         {
             foreach (DataGridViewRow r in m_gridView.Rows)
@@ -912,7 +983,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.Rows.Insert(index, rs);
         }
 
-
+        /// <summary>
+        /// Update variable data.
+        /// </summary>
+        /// <param name="index">the index of updated variable</param>
+        /// <param name="obj">the updated variable</param>
         private void UpdateVariable(int index, EcellObject obj)
         {
             int len = m_variableProp.Length;
@@ -927,6 +1002,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.Rows[index].Tag = obj;
         }
 
+        /// <summary>
+        /// Update process data.
+        /// </summary>
+        /// <param name="index">the index of updated process</param>
+        /// <param name="obj">the updated process</param>
         private void UpdateProcess(int index, EcellObject obj)
         {
             int len = m_processProp.Length;
@@ -941,6 +1021,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.Rows[index].Tag = obj;
         }
 
+        /// <summary>
+        /// Update system data.
+        /// </summary>
+        /// <param name="index">the index of updated system</param>
+        /// <param name="obj">the updated system</param>
         private void UpdateSystem(int index, EcellObject obj)
         {
             int len = m_systemProp.Length;
@@ -1036,6 +1121,9 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.Rows.Add(rs);
         }
 
+        /// <summary>
+        /// Set the select data to ClipBoard.
+        /// </summary>
         private void SetClipBoardText()
         {
             string text = "";
@@ -1050,6 +1138,55 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             Clipboard.SetText(text);
         }
+
+        /// <summary>
+        /// This plugin enter the drag mode.
+        /// </summary>
+        private void EnterDragMode()
+        {
+            EcellDragObject dobj = null;
+            if (m_gridView.SelectedRows.Count <= 0)
+                return;
+
+            foreach (DataGridViewRow r in m_gridView.SelectedRows)
+            {
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                // Create new EcellDragObject.
+                if (dobj == null)
+                    dobj = new EcellDragObject(obj.ModelID);
+
+                foreach (EcellData v in obj.Value)
+                {
+                    if (!v.Name.Equals(Constants.xpathActivity) &&
+                        !v.Name.Equals(Constants.xpathMolarConc) &&
+                        !v.Name.Equals(Constants.xpathSize))
+                        continue;
+
+                    // Add new EcellDragEntry.
+                    dobj.Entries.Add(new EcellDragEntry(
+                                                obj.Key,
+                                                obj.Type,
+                                                v.EntityPath,
+                                                v.Settable,
+                                                v.Logable));
+                    break;
+
+                }
+                if (m_gridView.SelectedRows.Count == 1)
+                {
+                    m_isSelected = true;
+                    m_env.PluginManager.SelectChanged(obj);
+                    m_isSelected = false;
+                }
+            }
+            // Drag & Drop Event.
+            if (dobj != null)
+                m_gridView.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+        }
+
         #endregion
 
 
@@ -1179,16 +1316,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_time.Enabled = true;
         }
 
-        void GridViewMouseLeave(object sender, EventArgs e)
-        {
-            m_isSelected = false;
-        }
-
-        void GridViewMouseUp(object sender, MouseEventArgs e)
-        {
-            m_isSelected = false;
-        }
-
+        /// <summary>
+        /// Change the display format with using Common setting dialog.
+        /// </summary>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">DisplayFormatEventArgs</param>
         private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
             if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
@@ -1196,7 +1328,32 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             ResetPropForSimulation();
         }
 
-        void GridViewMouseDown(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Event when mouse is leaved on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">EventArgs.</param>
+        private void GridViewMouseLeave(object sender, EventArgs e)
+        {
+            m_isSelected = false;
+        }
+
+        /// <summary>
+        /// Event when mouse is up on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
+        private void GridViewMouseUp(object sender, MouseEventArgs e)
+        {
+            m_isSelected = false;
+        }
+
+        /// <summary>
+        /// Event when mouse is down on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
+        private void GridViewMouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
             if (e.Button != MouseButtons.Left)
@@ -1245,7 +1402,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_dragObject = r.Tag as EcellObject;
         }
 
-        void GridViewMouseMove(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Event when mouse is moved on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
+        private void GridViewMouseMove(object sender, MouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
                 return;
@@ -1255,6 +1417,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_dragObject = null;
         }
 
+        /// <summary>
+        /// Event when the selected row is changed.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">EventArgs</param>
         void GridViewSelectionChanged(object sender, EventArgs e)
         {
             if (m_isSelected && !m_isSelectionChanged && m_selectedRow != null)
@@ -1276,7 +1443,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 m_isSelected = false;
             }
         }
-
 
         /// <summary>
         /// Event when the cell is clicked.
@@ -1312,60 +1478,22 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         }
 
         /// <summary>
-        /// 
+        /// Ecent when ContextMenuStip is opening.
         /// </summary>
-        private void EnterDragMode()
-        {
-            EcellDragObject dobj = null;
-            if (m_gridView.SelectedRows.Count <= 0)
-                return;
-
-            foreach (DataGridViewRow r in m_gridView.SelectedRows)
-            {
-                EcellObject obj = r.Tag as EcellObject;
-                if (obj == null)
-                    continue;
-
-                // Create new EcellDragObject.
-                if (dobj == null)
-                    dobj = new EcellDragObject(obj.ModelID);
-
-                foreach (EcellData v in obj.Value)
-                {
-                    if (!v.Name.Equals(Constants.xpathActivity) &&
-                        !v.Name.Equals(Constants.xpathMolarConc) &&
-                        !v.Name.Equals(Constants.xpathSize))
-                        continue;
-
-                    // Add new EcellDragEntry.
-                    dobj.Entries.Add(new EcellDragEntry(
-                                                obj.Key,
-                                                obj.Type,
-                                                v.EntityPath,
-                                                v.Settable,
-                                                v.Logable));
-                    break;
-
-                }
-                if (m_gridView.SelectedRows.Count == 1)
-                {
-                    m_isSelected = true;
-                    m_env.PluginManager.SelectChanged(obj);
-                    m_isSelected = false;
-                }
-            }
-            // Drag & Drop Event.
-            if (dobj != null)
-                m_gridView.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-        }
-
-
+        /// <param name="sender">ContextMenuStrip.</param>
+        /// <param name="e">CancelEventArgs.</param>
         private void ContextMenuStripOpening(object sender, CancelEventArgs e)
         {
             if (m_gridView.SelectedRows.Count <= 0)
                 e.Cancel = true;
         }
 
+        /// <summary>
+        /// Press key on DataGridView.
+        /// </summary>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
+        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
@@ -1377,35 +1505,21 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        /// <summary>
+        /// Click the copy menu.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="args">EventArgs.</param>
         private void ClickCopyMenu(object sender, EventArgs args)
         {
             SetClipBoardText();
         }
-        #endregion
 
-        class DataGridViewNumberedRowHeaderCell : DataGridViewRowHeaderCell
-        {
-            protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
-            {
-                if ((paintParts & DataGridViewPaintParts.SelectionBackground) != 0)
-                    base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, DataGridViewPaintParts.Background);
-
-                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts & ~(DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.SelectionBackground));
-
-                if ((paintParts & DataGridViewPaintParts.ContentForeground) != 0)
-                {
-                    StringFormat sf = new StringFormat();
-                    sf.LineAlignment = StringAlignment.Center;
-                    sf.Alignment = StringAlignment.Center;
-                    sf.Trimming = StringTrimming.None;
-                    sf.FormatFlags |= StringFormatFlags.NoWrap;
-                    Brush b = new SolidBrush(SystemColors.ControlText);
-                    using (b) graphics.DrawString(Convert.ToString(rowIndex + 1), cellStyle.Font, b, cellBounds, sf);
-                }
-            }
-        }
-
-        private DataGridViewCell m_prevCell = null;
+        /// <summary>
+        /// Event when the current cell is changed.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">EventArgs</param>
         private void GridViewCurrentCellChanged(object sender, EventArgs e)
         {
             if (m_gridView.CurrentCell == null)
@@ -1427,9 +1541,49 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 m_gridView.DefaultCellStyle.BackColor;
             m_gridView.CurrentCell.Style.SelectionForeColor =
                 Color.Red;
-            
+
             m_prevCell = m_gridView.CurrentCell;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Row header cell for numberic data.
+        /// </summary>
+        class DataGridViewNumberedRowHeaderCell : DataGridViewRowHeaderCell
+        {
+            /// <summary>
+            /// Paint the this object.
+            /// </summary>
+            /// <param name="graphics">the graphics object.</param>
+            /// <param name="clipBounds">the clip bounds.</param>
+            /// <param name="cellBounds">the cell bounds.</param>
+            /// <param name="rowIndex">the row index.</param>
+            /// <param name="cellState">the status of cell.</param>
+            /// <param name="value">the display data.</param>
+            /// <param name="formattedValue">the diaplay format string.</param>
+            /// <param name="errorText">the error string.</param>
+            /// <param name="cellStyle">the style of cell.</param>
+            /// <param name="advancedBorderStyle">the advanced style of border.</param>
+            /// <param name="paintParts">the parts of paint.</param>
+            protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+            {
+                if ((paintParts & DataGridViewPaintParts.SelectionBackground) != 0)
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, DataGridViewPaintParts.Background);
+
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts & ~(DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.SelectionBackground));
+
+                if ((paintParts & DataGridViewPaintParts.ContentForeground) != 0)
+                {
+                    StringFormat sf = new StringFormat();
+                    sf.LineAlignment = StringAlignment.Center;
+                    sf.Alignment = StringAlignment.Center;
+                    sf.Trimming = StringTrimming.None;
+                    sf.FormatFlags |= StringFormatFlags.NoWrap;
+                    Brush b = new SolidBrush(SystemColors.ControlText);
+                    using (b) graphics.DrawString(Convert.ToString(rowIndex + 1), cellStyle.Font, b, cellBounds, sf);
+                }
+            }
+        }
     }
 }
