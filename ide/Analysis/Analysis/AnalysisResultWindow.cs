@@ -1,3 +1,32 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,9 +46,15 @@ using Ecell.IDE.Plugins.Analysis.AnalysisFile;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
+    /// <summary>
+    /// Manager class of analysis result window.
+    /// </summary>
     public partial class AnalysisResultWindow : EcellDockContent
     {
         #region Fields
+        /// <summary>
+        /// Dictionary of job id and judgement.
+        /// </summary>
         private Dictionary<int, bool> m_jobList = new Dictionary<int, bool>();
         /// <summary>
         /// Plugin Controller.
@@ -73,6 +108,22 @@ namespace Ecell.IDE.Plugins.Analysis
         public GraphResultWindow GraphWindow
         {
             get { return this.m_graphResultWindow; }
+        }
+
+        /// <summary>
+        /// get the result window of parameter esimation.
+        /// </summary>
+        public ParameterEstimationResultWindow ParameterEstimationWindow
+        {
+            get { return this.m_paramResultWindow; }
+        }
+
+        /// <summary>
+        /// get the result window of sensitivity analysis.
+        /// </summary>
+        public SensitivityAnalysisResultWindow SensitivityWindow
+        {
+            get { return this.m_sensResultWindow; }
         }
         #endregion
 

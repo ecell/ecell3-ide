@@ -48,9 +48,28 @@ namespace Ecell.IDE.Plugins.Analysis
     {
         #region Fields
         /// <summary>
-        /// 
+        /// The color of Header.
         /// </summary>
         private Color m_headerColor;
+        /// <summary>
+        /// The group name.
+        /// </summary>
+        private string m_groupName;
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// get / set the group name.
+        /// </summary>
+        public string GroupName
+        {
+            get { return this.m_groupName; }
+            set
+            {
+                this.m_groupName = value;
+                groupLabel.Text = value;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -66,7 +85,7 @@ namespace Ecell.IDE.Plugins.Analysis
         #endregion
 
         /// <summary>
-        /// 
+        /// Clear the result of sensitivity analysis.
         /// </summary>
         public void ClearResult()
         {
@@ -250,10 +269,17 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
+        #region Events
+        /// <summary>
+        /// Changed the value of TrackBar.
+        /// </summary>
+        /// <param name="sender">TrackBar.</param>
+        /// <param name="e">EventArgs.</param>
         private void ARTrackBarChanged(object sender, EventArgs e)
         {
             RATrackLabel.Text = Convert.ToString(ARTrackBar.Value / 100.0);
             UpdateResultColor();
         }
+        #endregion
     }
 }

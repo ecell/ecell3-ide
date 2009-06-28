@@ -33,8 +33,9 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.RAXComboBox = new System.Windows.Forms.ComboBox();
             this.RAYComboBox = new System.Windows.Forms.ComboBox();
+            this.RAXComboBox = new System.Windows.Forms.ComboBox();
+            this.groupNameLabel = new System.Windows.Forms.Label();
             this.RAAnalysisTableLayout.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +43,8 @@
             // RAAnalysisTableLayout
             // 
             resources.ApplyResources(this.RAAnalysisTableLayout, "RAAnalysisTableLayout");
-            this.RAAnalysisTableLayout.Controls.Add(this.tableLayoutPanel5, 0, 1);
+            this.RAAnalysisTableLayout.Controls.Add(this.tableLayoutPanel5, 0, 2);
+            this.RAAnalysisTableLayout.Controls.Add(this.groupNameLabel, 0, 0);
             this.RAAnalysisTableLayout.Name = "RAAnalysisTableLayout";
             // 
             // tableLayoutPanel5
@@ -64,14 +66,6 @@
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // RAXComboBox
-            // 
-            resources.ApplyResources(this.RAXComboBox, "RAXComboBox");
-            this.RAXComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.RAXComboBox.FormattingEnabled = true;
-            this.RAXComboBox.Name = "RAXComboBox";
-            this.RAXComboBox.SelectedIndexChanged += new System.EventHandler(this.XSelectedIndexChanged);
-            // 
             // RAYComboBox
             // 
             resources.ApplyResources(this.RAYComboBox, "RAYComboBox");
@@ -80,6 +74,19 @@
             this.RAYComboBox.Name = "RAYComboBox";
             this.RAYComboBox.SelectedIndexChanged += new System.EventHandler(this.YSelectedIndexChanged);
             // 
+            // RAXComboBox
+            // 
+            resources.ApplyResources(this.RAXComboBox, "RAXComboBox");
+            this.RAXComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RAXComboBox.FormattingEnabled = true;
+            this.RAXComboBox.Name = "RAXComboBox";
+            this.RAXComboBox.SelectedIndexChanged += new System.EventHandler(this.XSelectedIndexChanged);
+            // 
+            // groupNameLabel
+            // 
+            resources.ApplyResources(this.groupNameLabel, "groupNameLabel");
+            this.groupNameLabel.Name = "groupNameLabel";
+            // 
             // GraphResultWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -87,6 +94,7 @@
             this.Controls.Add(this.RAAnalysisTableLayout);
             this.Name = "GraphResultWindow";
             this.RAAnalysisTableLayout.ResumeLayout(false);
+            this.RAAnalysisTableLayout.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.ResumeLayout(false);
@@ -101,5 +109,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox RAXComboBox;
         private System.Windows.Forms.ComboBox RAYComboBox;
+        private System.Windows.Forms.Label groupNameLabel;
     }
 }

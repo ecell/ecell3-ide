@@ -50,10 +50,27 @@ namespace Ecell.IDE.Plugins.Analysis
     {
         #region Fields
         /// <summary>
-        /// 
+        /// Owner object.
         /// </summary>
         private Analysis m_owner;
+        /// <summary>
+        /// Group name.
+        /// </summary>
+        private string m_groupName;
         #endregion
+
+        /// <summary>
+        /// get / set the group name.
+        /// </summary>
+        public string GroupName
+        {
+            get { return this.m_groupName; }
+            set
+            {
+                this.m_groupName = value;
+                groupLabel.Text = value;
+            }
+        }
 
         #region Constructors
         /// <summary>
@@ -128,11 +145,12 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
+        #region Events
         /// <summary>
-        /// 
+        /// Opening the ContextMenu of DataGridView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
         private void peCntMenu_Opening(object sender, CancelEventArgs e)
         {
             DataManager manager = m_owner.DataManager;
@@ -170,5 +188,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
+        #endregion
     }
 }

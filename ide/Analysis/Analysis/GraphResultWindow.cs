@@ -56,21 +56,42 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The line information of dot plot.
         /// </summary>
         private LineItem m_line;
+        /// <summary>
+        /// Index of X axis.
+        /// </summary>
         private int x_index = 0;
+        /// <summary>
+        /// Index of Y axis.
+        /// </summary>
         private int y_index = 0;
+        /// <summary>
+        /// Owner object.
+        /// </summary>
         private Analysis m_owner;
+        /// <summary>
+        /// Manager class of the analysis result windows.
+        /// </summary>
         private AnalysisResultWindow m_win;
+        /// <summary>
+        /// The group name.
+        /// </summary>
         private string m_groupName;
         #endregion
 
+        #region Accessors
         /// <summary>
         /// get / set the group name.
         /// </summary>
         public string GroupName
         {
             get { return this.m_groupName; }
-            set { this.m_groupName = value; }
-        }        
+            set
+            {
+                this.m_groupName = value;
+                groupNameLabel.Text = value;
+            }
+        }
+        #endregion
 
         #region Constructor
         /// <summary>
@@ -91,7 +112,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_zCnt.GraphPane.YAxis.Scale.Max = 100;
             m_zCnt.GraphPane.YAxis.Scale.Min = 0;
             m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
-            RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 0);
+            RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 1);
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
 

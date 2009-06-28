@@ -28,44 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SensitivityAnalysisResultWindow));
             System.Windows.Forms.SplitContainer splitContainer1;
-            this.label7 = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SensitivityAnalysisResultWindow));
             this.label6 = new System.Windows.Forms.Label();
-            this.SAFCCGridView = new System.Windows.Forms.DataGridView();
             this.SACCCGridView = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
+            this.SAFCCGridView = new System.Windows.Forms.DataGridView();
             this.RATrackLabel = new System.Windows.Forms.Label();
             this.ARTrackBar = new System.Windows.Forms.TrackBar();
             this.label5 = new System.Windows.Forms.Label();
+            this.groupLabel = new System.Windows.Forms.Label();
             splitContainer1 = new System.Windows.Forms.SplitContainer();
-            ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
-            // label7
+            // splitContainer1
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            resources.ApplyResources(splitContainer1, "splitContainer1");
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(this.label6);
+            splitContainer1.Panel1.Controls.Add(this.SACCCGridView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(this.label7);
+            splitContainer1.Panel2.Controls.Add(this.SAFCCGridView);
             // 
             // label6
             // 
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            // 
-            // SAFCCGridView
-            // 
-            this.SAFCCGridView.AllowUserToAddRows = false;
-            this.SAFCCGridView.AllowUserToDeleteRows = false;
-            resources.ApplyResources(this.SAFCCGridView, "SAFCCGridView");
-            this.SAFCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.SAFCCGridView.ColumnHeadersVisible = false;
-            this.SAFCCGridView.Name = "SAFCCGridView";
-            this.SAFCCGridView.RowHeadersVisible = false;
-            this.SAFCCGridView.RowTemplate.Height = 21;
             // 
             // SACCCGridView
             // 
@@ -77,6 +77,22 @@
             this.SACCCGridView.Name = "SACCCGridView";
             this.SACCCGridView.RowHeadersVisible = false;
             this.SACCCGridView.RowTemplate.Height = 21;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // SAFCCGridView
+            // 
+            this.SAFCCGridView.AllowUserToAddRows = false;
+            this.SAFCCGridView.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.SAFCCGridView, "SAFCCGridView");
+            this.SAFCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SAFCCGridView.ColumnHeadersVisible = false;
+            this.SAFCCGridView.Name = "SAFCCGridView";
+            this.SAFCCGridView.RowHeadersVisible = false;
+            this.SAFCCGridView.RowTemplate.Height = 21;
             // 
             // RATrackLabel
             // 
@@ -96,38 +112,29 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // splitContainer1
+            // groupLabel
             // 
-            resources.ApplyResources(splitContainer1, "splitContainer1");
-            splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            splitContainer1.Panel1.Controls.Add(this.label6);
-            splitContainer1.Panel1.Controls.Add(this.SACCCGridView);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(this.label7);
-            splitContainer1.Panel2.Controls.Add(this.SAFCCGridView);
+            resources.ApplyResources(this.groupLabel, "groupLabel");
+            this.groupLabel.Name = "groupLabel";
             // 
             // SensitivityAnalysisResultWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupLabel);
             this.Controls.Add(splitContainer1);
             this.Controls.Add(this.RATrackLabel);
             this.Controls.Add(this.ARTrackBar);
             this.Controls.Add(this.label5);
             this.Name = "SensitivityAnalysisResultWindow";
-            ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).EndInit();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             splitContainer1.Panel2.PerformLayout();
             splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,5 +149,6 @@
         private System.Windows.Forms.Label RATrackLabel;
         private System.Windows.Forms.TrackBar ARTrackBar;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label groupLabel;
     }
 }

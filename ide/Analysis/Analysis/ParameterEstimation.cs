@@ -473,7 +473,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 res = m_estimation[g];
             }
             m_owner.AddEstimateParameter(m_elite, res, gene);
-            m_owner.ActivateResultWindow(true, false, true);
+            m_owner.ActivateResultWindow(m_group.GroupName, true, false, true);
         }
 
 

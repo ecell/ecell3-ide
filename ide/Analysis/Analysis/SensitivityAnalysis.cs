@@ -613,7 +613,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
             }
             m_owner.UpdateResultColor();
-            m_owner.ActivateResultWindow(false, true, false);
+            m_owner.ActivateResultWindow(m_group.GroupName, false, true, false);
         }
 
         /// <summary>

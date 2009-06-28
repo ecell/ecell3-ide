@@ -367,7 +367,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 JudgeBifurcationAnalysis();
                 m_isExistResult = true;
                 PrintResultData(true);
-                m_owner.ActivateResultWindow(true, false, false);
+                m_owner.ActivateResultWindow(m_group.GroupName, true, false, false);
             }
             catch (Exception)
             {
@@ -560,7 +560,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.ClearResult();
             SetList(true);
             PrintResultData(true);
-            m_owner.ActivateResultWindow(true, false, false);
+            m_owner.ActivateResultWindow(m_group.GroupName, true, false, false);
         }
 
         /// <summary>

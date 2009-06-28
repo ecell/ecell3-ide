@@ -523,26 +523,27 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Activate the result window.
         /// </summary>
+        /// <param name="groupName">the group name.</param>
         /// <param name="isGraphWindow">the flag whether graph window is visible.</param>
         /// <param name="isParameterWindow">the flag whether sensitivity window is visible.</param>
         /// <param name="isSensitivityWindow">the flag whether parameter window is visible.</param>
-        public void ActivateResultWindow(bool isGraphWindow, bool isSensitivityWindow, bool isParameterWindow)
+        public void ActivateResultWindow(string groupName, bool isGraphWindow, bool isSensitivityWindow, bool isParameterWindow)
         {
             if (isGraphWindow)
+            {
+                m_rWin.GraphWindow.GroupName = groupName;
                 m_rWin.GraphContent.Activate();
+            }
             if (isSensitivityWindow)
+            {
+                m_rWin.SensitivityWindow.GroupName = groupName;
                 m_rWin.SensitivityAnalysisContent.Activate();
+            }
             if (isParameterWindow)
+            {
+                m_rWin.ParameterEstimationWindow.GroupName = groupName;
                 m_rWin.ParameterEsitmationContent.Activate();
-        }
-
-        /// <summary>
-        /// Set the group name.
-        /// </summary>
-        /// <param name="name">the group name.</param>
-        public void SetGroupName(string name)
-        {
-            m_rWin.GraphWindow.GroupName = name;
+            }
         }        
 
 
