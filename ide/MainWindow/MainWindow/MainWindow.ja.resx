@@ -415,13 +415,13 @@
     <value>221, 22</value>
   </data>
   <data name="saveWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>ウインドウ状態の保存(&amp;W)...</value>
+    <value>ウインドウ状態のエクスポート(&amp;W)...</value>
   </data>
   <data name="loadWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
   </data>
   <data name="loadWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>ウインドウ状態のロード(&amp;T)...</value>
+    <value>ウインドウ状態のインポート(&amp;T)...</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 6</value>

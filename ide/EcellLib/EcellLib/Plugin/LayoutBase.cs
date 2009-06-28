@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Reflection;
 using Ecell.Objects;
 using System.Xml;
+using Ecell.Exceptions;
 
 namespace Ecell.Plugin
 {
@@ -139,6 +140,73 @@ namespace Ecell.Plugin
             }
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointA"></param>
+        /// <param name="pointB"></param>
+        /// <param name="pointC"></param>
+        /// <param name="pointD"></param>
+        /// <returns></returns>
+        public static bool DoesIntersect(PointF pointA, PointF pointB, PointF pointC, PointF pointD)
+        {
+            PointF point;
+            return DoesIntersect(pointA, pointB, pointC, pointD, out point);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointA"></param>
+        /// <param name="pointB"></param>
+        /// <param name="pointC"></param>
+        /// <param name="pointD"></param>
+        /// <param name="pointIntersection"></param>
+        /// <returns></returns>
+        public static bool DoesIntersect(PointF pointA, PointF pointB, PointF pointC, PointF pointD, out PointF pointIntersection)
+        {
+            pointIntersection = new PointF();
+            float gradient = (pointB.X - pointA.X) * (pointD.Y - pointC.Y) - (pointB.Y - pointA.Y) * (pointD.X - pointC.X);
+            if (0 == gradient)
+                return false;
+
+            PointF vectorAC = new PointF(pointC.X - pointA.X, pointC.Y - pointA.Y);
+            float dR = ((pointD.Y - pointC.Y) * vectorAC.X - (pointD.X - pointC.X) * vectorAC.Y) / gradient;
+            float dS = ((pointB.Y - pointA.Y) * vectorAC.X - (pointB.X - pointA.X) * vectorAC.Y) / gradient;
+            if (dR < 0 || dR > 1 || dS < 0 || dS > 1)
+                return false;
+
+            pointIntersection = new PointF(pointA.X + dR * (pointB.X - pointA.X), pointA.Y + dR * (pointB.Y - pointA.Y));
+            if (pointA.X == pointB.X)
+                pointIntersection.X = pointA.X; 
+            if (pointC.X == pointD.X)
+                pointIntersection.X = pointC.X;
+            if (pointA.Y == pointB.Y)
+                pointIntersection.Y = pointA.Y;
+            if (pointC.Y == pointD.Y)
+                pointIntersection.Y = pointC.Y;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointA"></param>
+        /// <param name="pointB"></param>
+        /// <param name="pointC"></param>
+        /// <param name="pointD"></param>
+        /// <returns></returns>
+        public static PointF GetIntersectingPoint(PointF pointA, PointF pointB, PointF pointC, PointF pointD)
+        {
+            PointF point;
+            if (!DoesIntersect(pointA, pointB, pointC, pointD, out point))
+                throw new EcellException("Two lines do not intersect.");
+
+            return point;
+        }
+
 
         /// <summary>
         /// 

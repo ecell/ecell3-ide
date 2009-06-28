@@ -1492,6 +1492,7 @@ namespace Ecell.IDE.MainWindow
         private void SaveWindowSettingsClick(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.InitialDirectory = System.Environment.GetFolderPath( System.Environment.SpecialFolder.DesktopDirectory);
             sfd.Filter = Constants.FilterWinSetFile;
             sfd.CheckPathExists = true;
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -1510,7 +1511,7 @@ namespace Ecell.IDE.MainWindow
         private void LoadWindowSettingsClick(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.FileName = Application.StartupPath;
+            ofd.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
             ofd.Filter = Constants.FilterWinSetFile;

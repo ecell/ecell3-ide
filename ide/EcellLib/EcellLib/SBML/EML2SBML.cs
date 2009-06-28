@@ -240,7 +240,7 @@ namespace Ecell.SBML
                     aProcess.ParentSystemID);
 
 
-                if( aProcess.Classname == "ExpressionAlgebraicProcess" )
+                if( aProcess.Classname == ProcessConstants.ExpressionAlgebraicProcess )
                 {
                     // create AlgebraicRule object
                     AlgebraicRule anAlgebraicRule = aSBMLModel.createAlgebraicRule();
@@ -248,7 +248,7 @@ namespace Ecell.SBML
                     // set AlgebraicRule Formula
                     anAlgebraicRule.setFormula( anExpression );
                 }
-                else if( aProcess.Classname == "ExpressionAssignmentProcess" )
+                else if( aProcess.Classname == ProcessConstants.ExpressionAssignmentProcess )
                 {
                     foreach(EcellReference aVariableReference in aVariableReferenceList)
                     {
@@ -263,7 +263,7 @@ namespace Ecell.SBML
                         }
                     }
                 }
-                else if( aProcess.Classname == "ExpressionFluxProcess" )
+                else if( aProcess.Classname == ProcessConstants.ExpressionFluxProcess )
                 {
                     foreach(EcellReference aVariableReference in aVariableReferenceList)
                     {
