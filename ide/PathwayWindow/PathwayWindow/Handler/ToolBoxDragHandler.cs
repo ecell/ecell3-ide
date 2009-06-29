@@ -291,12 +291,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         private void SetEventHandler(PToolBoxCanvas canvas, PInputEventArgs e)
         {
+            if (m_con.Canvas == null)
+                return;
             if (m_object != null)
             {
                 ResetEventHandler();
                 ResetCurrentStencil();
             }
-            //
+
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
             m_canvas = m_con.Canvas;

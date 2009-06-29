@@ -668,8 +668,36 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 if (result != DialogResult.OK)
                     return;
                 m_textBox.Text = fileDialog.FileName;
+                RaiseFileChange();
             }
         }
+
+        #region EventHandler for FileChange
+        private EventHandler m_onFileChange;
+        /// <summary>
+        /// Event on brush change.
+        /// </summary>
+        public event EventHandler FileChange
+        {
+            add { m_onFileChange += value; }
+            remove { m_onFileChange -= value; }
+        }
+        /// <summary>
+        /// Event on brush change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnFileChange(EventArgs e)
+        {
+            if (m_onFileChange != null)
+                m_onFileChange(this, e);
+        }
+        private void RaiseFileChange()
+        {
+            EventArgs e = new EventArgs();
+            OnFileChange(e);
+        }
+        #endregion
+
     }
 
     /// <summary>

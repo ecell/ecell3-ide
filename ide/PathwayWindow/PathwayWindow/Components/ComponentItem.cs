@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using System.Drawing;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Components
 {
@@ -93,10 +94,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // 
             // groupBox
             // 
-            this.groupBox.AccessibleDescription = null;
-            this.groupBox.AccessibleName = null;
-            resources.ApplyResources(this.groupBox, "groupBox");
-            this.groupBox.BackgroundImage = null;
             this.groupBox.Controls.Add(this.resetButton);
             this.groupBox.Controls.Add(this.isGradation);
             this.groupBox.Controls.Add(this.figureBox);
@@ -106,105 +103,70 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.groupBox.Controls.Add(this.centerBrush);
             this.groupBox.Controls.Add(this.iconFile);
             this.groupBox.Controls.Add(this.pCanvas);
-            this.groupBox.Font = null;
+            resources.ApplyResources(this.groupBox, "groupBox");
             this.groupBox.Name = "groupBox";
             this.groupBox.TabStop = false;
             // 
             // resetButton
             // 
-            this.resetButton.AccessibleDescription = null;
-            this.resetButton.AccessibleName = null;
             resources.ApplyResources(this.resetButton, "resetButton");
-            this.resetButton.BackgroundImage = null;
-            this.resetButton.Font = null;
             this.resetButton.Name = "resetButton";
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // isGradation
             // 
-            this.isGradation.AccessibleDescription = null;
-            this.isGradation.AccessibleName = null;
             resources.ApplyResources(this.isGradation, "isGradation");
-            this.isGradation.BackgroundImage = null;
             this.isGradation.Checked = false;
-            this.isGradation.Font = null;
             this.isGradation.Name = "isGradation";
             this.isGradation.CheckedChanged += new System.EventHandler(this.isGradation_CheckedChanged);
             // 
             // figureBox
             // 
-            this.figureBox.AccessibleDescription = null;
-            this.figureBox.AccessibleName = null;
             resources.ApplyResources(this.figureBox, "figureBox");
-            this.figureBox.BackgroundImage = null;
-            this.figureBox.Font = null;
             this.figureBox.Name = "figureBox";
             this.figureBox.ReadOnly = true;
             this.figureBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
             // 
             // textBrush
             // 
-            this.textBrush.AccessibleDescription = null;
-            this.textBrush.AccessibleName = null;
             resources.ApplyResources(this.textBrush, "textBrush");
-            this.textBrush.BackgroundImage = null;
-            this.textBrush.Font = null;
             this.textBrush.Name = "textBrush";
             this.textBrush.BrushChange += new System.EventHandler(this.textBrush_BrushChange);
             // 
             // lineBrush
             // 
-            this.lineBrush.AccessibleDescription = null;
-            this.lineBrush.AccessibleName = null;
             resources.ApplyResources(this.lineBrush, "lineBrush");
-            this.lineBrush.BackgroundImage = null;
-            this.lineBrush.Font = null;
             this.lineBrush.Name = "lineBrush";
             this.lineBrush.BrushChange += new System.EventHandler(this.lineBrush_BrushChange);
             // 
             // fillBrush
             // 
-            this.fillBrush.AccessibleDescription = null;
-            this.fillBrush.AccessibleName = null;
             resources.ApplyResources(this.fillBrush, "fillBrush");
-            this.fillBrush.BackgroundImage = null;
-            this.fillBrush.Font = null;
             this.fillBrush.Name = "fillBrush";
             this.fillBrush.BrushChange += new System.EventHandler(this.fillBrush_BrushChange);
             // 
             // centerBrush
             // 
-            this.centerBrush.AccessibleDescription = null;
-            this.centerBrush.AccessibleName = null;
             resources.ApplyResources(this.centerBrush, "centerBrush");
-            this.centerBrush.BackgroundImage = null;
-            this.centerBrush.Font = null;
             this.centerBrush.Name = "centerBrush";
             this.centerBrush.BrushChange += new System.EventHandler(this.fillBrush_BrushChange);
             // 
             // iconFile
             // 
-            this.iconFile.AccessibleDescription = null;
-            this.iconFile.AccessibleName = null;
             resources.ApplyResources(this.iconFile, "iconFile");
-            this.iconFile.BackgroundImage = null;
             this.iconFile.FileName = "";
             this.iconFile.Filter = resources.GetString("iconFile.Filter");
             this.iconFile.FilterIndex = 0;
-            this.iconFile.Font = null;
             this.iconFile.Name = "iconFile";
+            this.iconFile.FileChange += new EventHandler(iconFile_FileChange);
             // 
             // pCanvas
             // 
-            this.pCanvas.AccessibleDescription = null;
-            this.pCanvas.AccessibleName = null;
             this.pCanvas.AllowDrop = true;
-            resources.ApplyResources(this.pCanvas, "pCanvas");
             this.pCanvas.BackColor = System.Drawing.Color.Silver;
-            this.pCanvas.BackgroundImage = null;
-            this.pCanvas.Font = null;
             this.pCanvas.GridFitText = false;
+            resources.ApplyResources(this.pCanvas, "pCanvas");
             this.pCanvas.Name = "pCanvas";
             this.pCanvas.Object = null;
             this.pCanvas.RegionManagement = true;
@@ -212,12 +174,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // 
             // ComponentItem
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.groupBox);
-            this.Font = null;
             this.Name = "ComponentItem";
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
@@ -289,6 +247,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             this.pCanvas.Object.LineBrush = lineBrush.Brush;
         }
+
+        /// <summary>
+        /// Set Image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void iconFile_FileChange(object sender, EventArgs e)
+        {
+            Image image = null;
+            try
+            {
+                image = Image.FromFile(iconFile.FileName);
+            }
+            catch (Exception)
+            {
+            }
+            if (image == null)
+            {
+                iconFile.FileName = null;
+            }
+            this.pCanvas.Object.Image = image;
+        }
+
         /// <summary>
         /// Event on ChangeFillBrush
         /// </summary>

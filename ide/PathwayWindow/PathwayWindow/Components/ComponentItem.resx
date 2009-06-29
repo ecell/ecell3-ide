@@ -117,292 +117,289 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;pCanvas.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="resetButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="fillBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 90</value>
+  <data name="resetButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>286, 145</value>
   </data>
-  <data name="iconFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 165</value>
-  </data>
-  <data name="iconFile.LabelText" xml:space="preserve">
-    <value>Icon file</value>
-  </data>
-  <data name="&gt;&gt;lineBrush.Name" xml:space="preserve">
-    <value>lineBrush</value>
-  </data>
-  <data name="&gt;&gt;iconFile.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;resetButton.Parent" xml:space="preserve">
-    <value>groupBox</value>
+  <data name="resetButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="resetButton.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
+  <data name="resetButton.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
   <data name="&gt;&gt;resetButton.Name" xml:space="preserve">
     <value>resetButton</value>
   </data>
-  <data name="isGradation.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;resetButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="iconFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 28</value>
-  </data>
-  <data name="&gt;&gt;pCanvas.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="fillBrush.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;resetButton.Parent" xml:space="preserve">
+    <value>groupBox</value>
   </data>
   <data name="&gt;&gt;resetButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="pCanvas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>240, 30</value>
-  </data>
-  <data name="&gt;&gt;figureBox.Parent" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="&gt;&gt;fillBrush.Parent" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="iconFile.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="groupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 209</value>
-  </data>
-  <data name="&gt;&gt;fillBrush.Name" xml:space="preserve">
-    <value>fillBrush</value>
-  </data>
-  <data name="&gt;&gt;centerBrush.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;isGradation.Name" xml:space="preserve">
-    <value>isGradation</value>
-  </data>
-  <data name="&gt;&gt;fillBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="centerBrush.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 28</value>
-  </data>
-  <data name="groupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;pCanvas.Name" xml:space="preserve">
-    <value>pCanvas</value>
-  </data>
-  <data name="centerBrush.LabelText" xml:space="preserve">
-    <value>Center color</value>
+  <data name="isGradation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="isGradation.LabelText" xml:space="preserve">
     <value>Gradation</value>
   </data>
-  <data name="&gt;&gt;lineBrush.Parent" xml:space="preserve">
-    <value>groupBox</value>
+  <data name="isGradation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 115</value>
   </data>
-  <data name="centerBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 140</value>
-  </data>
-  <data name="lineBrush.LabelText" xml:space="preserve">
-    <value>Line color</value>
-  </data>
-  <data name="lineBrush.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;figureBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;groupBox.Name" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="textBrush.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 28</value>
-  </data>
-  <data name="&gt;&gt;textBrush.Name" xml:space="preserve">
-    <value>textBrush</value>
-  </data>
-  <data name="&gt;&gt;pCanvas.Parent" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="resetButton.Text" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="&gt;&gt;fillBrush.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;iconFile.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="pCanvas.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;textBrush.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="isGradation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 28</value>
   </data>
   <data name="isGradation.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="lineBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="isGradation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 115</value>
-  </data>
-  <data name="textBrush.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ComponentItem</value>
+  <data name="&gt;&gt;isGradation.Name" xml:space="preserve">
+    <value>isGradation</value>
   </data>
   <data name="&gt;&gt;isGradation.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;textBrush.Parent" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="pCanvas.Text" xml:space="preserve">
-    <value>8</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;isGradation.Parent" xml:space="preserve">
     <value>groupBox</value>
   </data>
-  <data name="textBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="centerBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="figureBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;isGradation.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;groupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox.Text" xml:space="preserve">
-    <value>ComponentItem</value>
-  </data>
-  <data name="&gt;&gt;figureBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="textBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 40</value>
+  <data name="figureBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="figureBox.LabelText" xml:space="preserve">
     <value>Shape</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 212</value>
-  </data>
-  <data name="&gt;&gt;centerBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;groupBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="resetButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 23</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="groupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;isGradation.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="fillBrush.LabelText" xml:space="preserve">
-    <value>Fill color</value>
-  </data>
   <data name="figureBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 15</value>
   </data>
-  <data name="&gt;&gt;centerBrush.Name" xml:space="preserve">
-    <value>centerBrush</value>
+  <data name="figureBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 28</value>
   </data>
-  <data name="iconFile.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="figureBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;iconFile.Parent" xml:space="preserve">
+  <data name="&gt;&gt;figureBox.Name" xml:space="preserve">
+    <value>figureBox</value>
+  </data>
+  <data name="&gt;&gt;figureBox.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;figureBox.Parent" xml:space="preserve">
     <value>groupBox</value>
   </data>
-  <data name="&gt;&gt;iconFile.Name" xml:space="preserve">
-    <value>iconFile</value>
+  <data name="&gt;&gt;figureBox.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="iconFile.Filter" xml:space="preserve">
-    <value>All Supported Format|*.BMP;*.DIB;*.RLE;*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.PNG;*.ICO;*.EMF;*.WMF;*.TIF;*.TIFF|BMP File|*.BMP;*.DIB;*.RLE|JPEG File|*.JPG;*.JPEG;*.JPE;*.JFIF|GIF File|*.GIF|PNG File|*.PNG|ICO File|*.ICO|EMF File, WMF File|*.EMF;*.WMF|TIFF File|*.TIF;*.TIFF</value>
+  <data name="textBrush.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="resetButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>286, 145</value>
+  <data name="textBrush.LabelText" xml:space="preserve">
+    <value>Text color</value>
   </data>
-  <data name="&gt;&gt;centerBrush.Parent" xml:space="preserve">
+  <data name="textBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 40</value>
+  </data>
+  <data name="textBrush.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 28</value>
+  </data>
+  <data name="textBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;textBrush.Name" xml:space="preserve">
+    <value>textBrush</value>
+  </data>
+  <data name="&gt;&gt;textBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;textBrush.Parent" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;textBrush.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lineBrush.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lineBrush.LabelText" xml:space="preserve">
+    <value>Line color</value>
+  </data>
+  <data name="lineBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 65</value>
+  </data>
+  <data name="lineBrush.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 28</value>
+  </data>
+  <data name="lineBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;lineBrush.Name" xml:space="preserve">
+    <value>lineBrush</value>
+  </data>
+  <data name="&gt;&gt;lineBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lineBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
   </data>
   <data name="&gt;&gt;lineBrush.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="iconFile.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;resetButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBrush.LabelText" xml:space="preserve">
-    <value>Text color</value>
-  </data>
-  <data name="&gt;&gt;figureBox.Name" xml:space="preserve">
-    <value>figureBox</value>
-  </data>
-  <data name="lineBrush.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 28</value>
-  </data>
-  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+  <data name="fillBrush.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;groupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="fillBrush.LabelText" xml:space="preserve">
+    <value>Fill color</value>
   </data>
-  <data name="figureBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="centerBrush.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="pCanvas.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 80</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="resetButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="fillBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 90</value>
   </data>
   <data name="fillBrush.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 28</value>
   </data>
-  <data name="isGradation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 28</value>
-  </data>
-  <data name="figureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 28</value>
-  </data>
-  <data name="&gt;&gt;lineBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;textBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3055.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="lineBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 65</value>
-  </data>
   <data name="fillBrush.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
+  </data>
+  <data name="&gt;&gt;fillBrush.Name" xml:space="preserve">
+    <value>fillBrush</value>
+  </data>
+  <data name="&gt;&gt;fillBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;fillBrush.Parent" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;fillBrush.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="centerBrush.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="centerBrush.LabelText" xml:space="preserve">
+    <value>Center color</value>
+  </data>
+  <data name="centerBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 140</value>
+  </data>
+  <data name="centerBrush.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 28</value>
+  </data>
+  <data name="centerBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;centerBrush.Name" xml:space="preserve">
+    <value>centerBrush</value>
+  </data>
+  <data name="&gt;&gt;centerBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;centerBrush.Parent" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;centerBrush.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="iconFile.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="iconFile.Filter" xml:space="preserve">
+    <value>All Supported Format|*.BMP;*.DIB;*.RLE;*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.PNG;*.ICO;*.EMF;*.WMF;*.TIF;*.TIFF|BMP File|*.BMP;*.DIB;*.RLE|JPEG File|*.JPG;*.JPEG;*.JPE;*.JFIF|GIF File|*.GIF|PNG File|*.PNG|ICO File|*.ICO|EMF File, WMF File|*.EMF;*.WMF|TIFF File|*.TIF;*.TIFF</value>
+  </data>
+  <data name="iconFile.LabelText" xml:space="preserve">
+    <value>Icon file</value>
+  </data>
+  <data name="iconFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 165</value>
+  </data>
+  <data name="iconFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 28</value>
+  </data>
+  <data name="iconFile.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;iconFile.Name" xml:space="preserve">
+    <value>iconFile</value>
+  </data>
+  <data name="&gt;&gt;iconFile.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;iconFile.Parent" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;iconFile.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="pCanvas.Location" type="System.Drawing.Point, System.Drawing">
+    <value>240, 30</value>
+  </data>
+  <data name="pCanvas.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 80</value>
+  </data>
+  <data name="pCanvas.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="pCanvas.Text" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;pCanvas.Name" xml:space="preserve">
+    <value>pCanvas</value>
+  </data>
+  <data name="&gt;&gt;pCanvas.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3079.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pCanvas.Parent" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;pCanvas.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="groupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="groupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 209</value>
+  </data>
+  <data name="groupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox.Text" xml:space="preserve">
+    <value>ComponentItem</value>
+  </data>
+  <data name="&gt;&gt;groupBox.Name" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;groupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>367, 212</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ComponentItem</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

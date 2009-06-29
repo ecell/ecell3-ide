@@ -495,6 +495,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.FillBrush = this.FillBrush;
             cs.IsGradation = this.IsGradation;
             cs.LineBrush = this.LineBrush;
+            cs.IconFileName = this.IconFileName;
 
             return cs;
         }

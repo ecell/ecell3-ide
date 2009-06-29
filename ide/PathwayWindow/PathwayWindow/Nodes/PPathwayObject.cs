@@ -42,6 +42,7 @@ using Ecell.Objects;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
+using UMD.HCIL.Piccolo.Util;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -392,12 +393,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.Brush = m_setting.CreateBrush(m_path);
             this.Figure = m_setting.Figure;
             RefreshView();
+            // Set Image
+            MemorizePosition();
             if (m_setting.IconExists)
-            {
-                MemorizePosition();
-                //this.Image = Image.FromFile(m_setting.IconFileName);
-                ResetPosition();
-            }
+                this.Image = Image.FromFile(m_setting.IconFileName);
+            else
+                this.Image = null;
+            ResetPosition();
         }
 
         /// <summary>
@@ -561,5 +563,96 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             OnHightLightChanged(e);
         }
         #endregion
+
+
+        #region Inherited from PImage
+        /// <summary>
+        /// The key that identifies a change in this node's <see cref="Image">Image</see>.
+        /// </summary>
+        /// <remarks>
+        /// In a property change event both the old and new value will be set correctly
+        /// to Image objects.
+        /// </remarks>
+        protected static readonly object PROPERTY_KEY_IMAGE = new object();
+
+        /// <summary>
+        /// A bit field that identifies a <see cref="ImageChanged">ImageChanged</see> event.
+        /// </summary>
+        /// <remarks>
+        /// This field is used to indicate whether ImageChanged events should be forwarded to
+        /// a node's parent.
+        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
+        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
+        /// </remarks>
+        public const int PROPERTY_CODE_IMAGE = 1 << 14;
+
+        /// <summary>
+        /// The underlying image object.
+        /// </summary>
+        protected Image image;
+
+        /// <summary>
+        /// Gets or sets the image shown by this node.
+        /// </summary>
+        /// <value>The image shown by this node.</value>
+        public virtual Image Image
+        {
+            get { return image; }
+            set
+            {
+                Image old = image;
+                image = value;
+                if (image == null)
+                {
+                    SetBounds(0, 0, 0, 0);
+                }
+                else
+                {
+                    SetBounds(0, 0, image.Width, image.Height);
+                }
+                InvalidatePaint();
+                FirePropertyChangedEvent(PROPERTY_KEY_IMAGE, PROPERTY_CODE_IMAGE, old, image);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when there is a change in this node's
+        /// <see cref="Image">Image</see>.
+        /// </summary>
+        /// <remarks>
+        /// When a user attaches an event handler to the ImageChanged Event as in
+        /// ImageChanged += new PPropertyEventHandler(aHandler),
+        /// the add method adds the handler to the delegate for the event
+        /// (keyed by PROPERTY_KEY_IMAGE in the Events list).
+        /// When a user removes an event handler from the ImageChanged event as in 
+        /// ImageChanged -= new PPropertyEventHandler(aHandler),
+        /// the remove method removes the handler from the delegate for the event
+        /// (keyed by PROPERTY_KEY_IMAGE in the Events list).
+        /// </remarks>
+        public virtual event PPropertyEventHandler ImageChanged
+        {
+            add { HandlerList.AddHandler(PROPERTY_KEY_IMAGE, value); }
+            remove { HandlerList.RemoveHandler(PROPERTY_KEY_IMAGE, value); }
+        }
+
+        /// <summary>
+        /// Overridden.  See <see cref="PNode.Paint">PNode.Paint</see>.
+        /// </summary>
+        protected override void Paint(PPaintContext paintContext)
+        {
+            if (Image != null)
+            {
+                RectangleF b = Bounds;
+                Graphics g = paintContext.Graphics;
+
+                g.DrawImage(image, b);
+            }
+            else
+            {
+                base.Paint(paintContext);
+            }
+        }
+        #endregion
+
     }
 }
