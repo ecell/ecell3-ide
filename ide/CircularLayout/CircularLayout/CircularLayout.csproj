@@ -66,6 +66,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EcellLib" />
+    <Reference Include="EcellUILib" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -104,12 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\EcellUILib\EcellUILib\EcellUILib.csproj">
-      <Project>{E5C2E8CC-7BF7-4D64-9AE4-8A83C3EEFDBA}</Project>
-      <Name>EcellUILib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

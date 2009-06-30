@@ -262,13 +262,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// Return true if icon exists.
         /// </summary>
-        public bool IconExists
+        public Image Image
         {
             get
             {
-                if (string.IsNullOrEmpty(m_iconFileName))
-                    return false;
-                return File.Exists(m_iconFileName);
+                Image image = null;
+                if (string.IsNullOrEmpty(m_iconFileName) || !File.Exists(m_iconFileName))
+                    return image;
+                try
+                {
+                    image = Image.FromFile(m_iconFileName);
+                }
+                catch (Exception)
+                {
+                }
+                return image;
             }
         }
 

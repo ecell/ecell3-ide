@@ -394,11 +394,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.Figure = m_setting.Figure;
             RefreshView();
             // Set Image
-            MemorizePosition();
-            if (m_setting.IconExists)
-                this.Image = Image.FromFile(m_setting.IconFileName);
-            else
-                this.Image = null;
+            this.Image = m_setting.Image;
             ResetPosition();
         }
 
@@ -602,6 +598,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 Image old = image;
                 image = value;
+                // Set Image
+                MemorizePosition();
                 if (image == null)
                 {
                     SetBounds(0, 0, 0, 0);
@@ -612,6 +610,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
                 InvalidatePaint();
                 FirePropertyChangedEvent(PROPERTY_KEY_IMAGE, PROPERTY_CODE_IMAGE, old, image);
+                ResetPosition();
             }
         }
 
@@ -640,7 +639,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected override void Paint(PPaintContext paintContext)
         {
-            if (Image != null)
+            if (image != null)
             {
                 RectangleF b = Bounds;
                 Graphics g = paintContext.Graphics;
