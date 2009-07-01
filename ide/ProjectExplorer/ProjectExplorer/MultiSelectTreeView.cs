@@ -423,6 +423,146 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             base.OnMouseMove(e);
         }
+
+        private bool m_isDownEvent = false;
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (m_isDownEvent)
+            {
+                e.Handled = true;
+                return;
+            }
+            if (e.Shift == true && e.KeyCode == Keys.Up)
+            {
+
+            }
+            else if (e.Shift == true && e.KeyCode == Keys.Up)
+            {
+
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                TreeNode unse = tnMouseDown;
+                if (unse.Parent == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                else
+                {
+                    tnMouseDown = tnMouseDown.Parent;
+                }
+
+                m_isDownEvent = true;
+                ptMouseDown = new Point(tnMouseDown.Bounds.X, tnMouseDown.Bounds.Y);
+                DeselectNode(unse, true);
+                SelectNode(tnMouseDown, false, false);
+                e.Handled = true;
+                m_isDownEvent = false;
+                return;
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                TreeNode unse = tnMouseDown;
+                if (unse.FirstNode == null)
+                {
+                    e.Handled = true; 
+                    return;
+                }
+                else
+                {
+                    tnMouseDown = tnMouseDown.FirstNode;
+                }
+
+                m_isDownEvent = true;
+                ptMouseDown = new Point(tnMouseDown.Bounds.X, tnMouseDown.Bounds.Y);
+                DeselectNode(unse, true);
+                SelectNode(tnMouseDown, false, false);
+                e.Handled = true;
+                m_isDownEvent = false;
+                return;
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                TreeNode unse = tnMouseDown;
+                if (unse.PrevVisibleNode == null)
+                {
+                    e.Handled = true;
+                    return;
+                    //if (unse.PrevNode == null)
+                    //{
+                    //    if (unse.Parent == null)
+                    //    {
+                    //        e.Handled = true;
+                    //        return;
+                    //    }
+                    //    tnMouseDown = unse.Parent;
+                    //}
+                    //else
+                    //{
+                    //    tnMouseDown = tnMouseDown.PrevNode;
+                    //}
+                }
+                else
+                {
+                    tnMouseDown = unse.PrevVisibleNode;
+                }
+
+                m_isDownEvent = true;
+                ptMouseDown = new Point(tnMouseDown.Bounds.X, tnMouseDown.Bounds.Y);
+                DeselectNode(unse, true);
+                SelectNode(tnMouseDown, false, false);
+                e.Handled = true;
+                m_isDownEvent = false;
+                return;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                TreeNode unse = tnMouseDown;
+                if (unse.NextVisibleNode == null)
+                {
+                    e.Handled = true;
+                    return;
+                    //if (unse.NextNode == null)
+                    //{
+                    //    if (unse.Parent == null)
+                    //    {
+                    //        e.Handled = true;
+                    //        return;
+                    //    }
+                    //    if (unse.Parent.NextNode == null)
+                    //    {
+                    //        e.Handled = true;
+                    //        return;
+                    //    }
+                    //    tnMouseDown = unse.Parent.NextNode;
+                    //}
+                    //else
+                    //{
+                    //    tnMouseDown = tnMouseDown.NextNode;
+                    //}
+                }
+                else
+                {
+                    tnMouseDown = tnMouseDown.NextVisibleNode;
+                }
+
+                m_isDownEvent = true;
+                ptMouseDown = new Point(tnMouseDown.Bounds.X, tnMouseDown.Bounds.Y);
+                DeselectNode(unse, true);
+                SelectNode(tnMouseDown, false, false);
+                e.Handled = true;
+                m_isDownEvent = false;
+                return;
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {                   
+            base.OnKeyPress(e);
+        }
         #endregion
     }
 }

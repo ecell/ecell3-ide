@@ -715,6 +715,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (target != null)
             {
                 treeView1.SelectNode(target, true, true);
+                treeView1.SelectedNode = target;
                 return;
             }
         }

@@ -629,6 +629,17 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// The event sequence on changing selected object at other plugin.
+        /// </summary>
+        /// <param name="modelID">Selected the model ID.</param>
+        /// <param name="key">Selected the ID.</param>
+        /// <param name="type">Selected the data type.</param>
+        public virtual void SelectChanged(string modelID, string key, string type)
+        {
+            // do nothing
+        }
+
+        /// <summary>
         /// The event sequence to add the object at other plugin.
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
