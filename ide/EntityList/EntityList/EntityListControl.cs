@@ -1,3 +1,35 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -12,8 +44,12 @@ using Ecell.IDE;
 
 namespace Ecell.IDE.Plugins.EntityList
 {
+    /// <summary>
+    /// Entity list control object.
+    /// </summary>
     public partial class EntityListControl : UserControl
     {
+        #region Fields
         /// <summary>
         /// I/F of EntityList plugin.
         /// </summary>
@@ -35,30 +71,34 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         private bool m_isSelectionChanged = false;
         /// <summary>
-        /// Selected row.
+        /// The selected row.
         /// </summary>
         private DataGridViewRow m_selectedRow = null;
+        /// <summary>
+        /// The last selected row.
+        /// </summary>
         private DataGridViewRow m_lastSelected = null;
         /// <summary>
-        /// 
+        /// The flag whether the reset action is executing.
         /// </summary>
         private bool m_intact = false;
         /// <summary>
-        /// 
+        /// The flag whether the column of type is shown.
         /// </summary>
         private bool m_isShowType = true;
         /// <summary>
-        /// 
+        /// The flag whether the column of name is shown.
         /// </summary>
         private bool m_isShowName = true;
         /// <summary>
-        /// 
+        /// The flag whether the column of class name is shown.
         /// </summary>
         private bool m_isShowClassName = true;
         /// <summary>
-        /// 
+        /// The flag whether ths column of Path ID is shown.
         /// </summary>
         private bool m_isShowPathID = true;
+        #endregion
 
         #region Constants
         /// <summary>
@@ -103,37 +143,6 @@ namespace Ecell.IDE.Plugins.EntityList
             InitializeComponent();
             ResetSearchTextBox();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PluginManager_NodeImageListChange(object sender, EventArgs e)
-        {
-            for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
-            {
-                EcellObject obj = (EcellObject)objectListDataGrid.Rows[i].Tag;
-                Image image = GetIconImage(obj);
-                objectListDataGrid.Rows[i].Cells[0].Value = image;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private Image GetIconImage(EcellObject obj)
-        {
-            Image image;
-            if (m_iconList.Images.ContainsKey(obj.Layout.Figure))
-                image = m_iconList.Images[obj.Layout.Figure];
-            else
-                image = m_iconList.Images[obj.Type];
-            return image;
-        }
-
         #endregion
 
         #region Inherited from PluginBase
@@ -159,11 +168,11 @@ namespace Ecell.IDE.Plugins.EntityList
         }
 
         /// <summary>
-        /// 
+        /// The event process when user add the object to the selected objects.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
             DataGridViewRow row = SearchIndex(type, key);
@@ -174,22 +183,33 @@ namespace Ecell.IDE.Plugins.EntityList
                 m_isSelected = false;
             }
         }
+
+
         /// <summary>
-        /// 
+        /// Reset all selected objects.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        public void ResetSelect()
+        {
+            objectListDataGrid.ClearSelection();
+        }
+
+        /// <summary>
+        /// The event process when user remove object from the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
             DataGridViewRow row = SearchIndex(type, key);
             if (row != null)
                 row.Selected = false;
         }
+
         /// <summary>
-        /// 
+        /// The event sequence to add the object at other plugin.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The value of the adding object.</param>
         public void DataAdd(EcellObject obj)
         {
             if (obj.Type != Constants.xpathSystem &&
@@ -212,48 +232,13 @@ namespace Ecell.IDE.Plugins.EntityList
             }
         }
 
-        private DataGridViewRow CreateRow(EcellObject obj)
-        {
-            DataGridViewRow rs = new DataGridViewRow();
-            {
-                DataGridViewImageCell c = new DataGridViewImageCell();
-                c.Value = GetIconImage(obj);
-                rs.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            {
-                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = obj.Classname;
-                rs.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            {
-                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = obj.Key;
-                rs.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            {
-                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                EcellData d = obj.GetEcellData("Name");
-                // for loading the project include the process not in DM directory.
-                if (d == null)
-                    c.Value = "";
-                else
-                    c.Value = d.Value.ToString();
-                rs.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            rs.Tag = obj;
-            return rs;
-        }
         /// <summary>
-        /// 
+        /// The event sequence on changing value of data at other plugin.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
+        /// <param name="modelID">The model ID before value change.</param>
+        /// <param name="key">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             if (key != data.Key)
@@ -273,12 +258,13 @@ namespace Ecell.IDE.Plugins.EntityList
                 r.Cells[IndexName].Value = d != null ? d.Value.ToString() : "";
             }
         }
+
         /// <summary>
-        /// 
+        /// The event sequence on deleting the object at other plugin.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
             if (type == Constants.xpathSystem)
@@ -302,15 +288,9 @@ namespace Ecell.IDE.Plugins.EntityList
                 }
             }
         }
+
         /// <summary>
-        /// 
-        /// </summary>
-        public void ResetSelect()
-        {
-            objectListDataGrid.ClearSelection();
-        }
-        /// <summary>
-        /// 
+        /// The event sequence on closing project.
         /// </summary>
         public void Clear()
         {
@@ -322,11 +302,11 @@ namespace Ecell.IDE.Plugins.EntityList
         #endregion
 
         /// <summary>
-        /// 
+        /// Converter for Type.
         /// </summary>
-        /// <param name="type1"></param>
-        /// <param name="type2"></param>
-        /// <returns></returns>
+        /// <param name="type1">the type string of object.</param>
+        /// <param name="type2">the type string of object.</param>
+        /// <returns>stepper, variable, system, process.</returns>
         private int TypeConverter(string type1, string type2)
         {
             int ind1, ind2;
@@ -366,12 +346,13 @@ namespace Ecell.IDE.Plugins.EntityList
 
             return ind1 - ind2;
         }
+
         /// <summary>
-        /// 
+        /// Search the insert position of object.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="key">the key of object.</param>
+        /// <param name="type">the type of object.</param>
+        /// <returns>the insert position.</returns>
         private int SearchInsertPosition(string key, string type)
         {
             int i = 0;
@@ -390,11 +371,12 @@ namespace Ecell.IDE.Plugins.EntityList
             }
             return i;
         }
+
         /// <summary>
-        /// 
+        /// Search System object start with ID.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">the key of object.</param>
+        /// <returns>the rows of System object.</returns>
         private List<DataGridViewRow> SearchIndexInSystem(string id)
         {
             List<DataGridViewRow> result = new List<DataGridViewRow>();
@@ -406,12 +388,13 @@ namespace Ecell.IDE.Plugins.EntityList
             }
             return result;
         }
+
         /// <summary>
-        /// 
+        /// Search the object in DataGridView.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="type">the type of object.</param>
+        /// <param name="id">the key of object.</param>
+        /// <returns>the hit row.</returns>
         private DataGridViewRow SearchIndex(string type, string id)
         {
             foreach (DataGridViewRow r in objectListDataGrid.Rows)
@@ -424,10 +407,180 @@ namespace Ecell.IDE.Plugins.EntityList
         }
 
         /// <summary>
+        /// Get icon image from object.
+        /// </summary>
+        /// <param name="obj">the object.</param>
+        /// <returns>Icon image.</returns>
+        private Image GetIconImage(EcellObject obj)
+        {
+            Image image;
+            if (m_iconList.Images.ContainsKey(obj.Layout.Figure))
+                image = m_iconList.Images[obj.Layout.Figure];
+            else
+                image = m_iconList.Images[obj.Type];
+            return image;
+        }
+
+        /// <summary>
+        /// Reset TextBox for search.
+        /// </summary>
+        private void ResetSearchTextBox()
+        {
+            searchTextBox.ForeColor = SystemColors.GrayText;
+            searchTextBox.Text = MessageResources.InitialText;
+            foreach (DataGridViewRow r in objectListDataGrid.Rows)
+            {
+                r.Visible = true;
+            }
+            m_intact = true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void EnterDragMode()
+        {
+            EcellDragObject dobj = null;
+            if (objectListDataGrid.SelectedRows.Count <= 0)
+                return;
+
+            foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
+            {
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                // Create new EcellDragObject.
+                if (dobj == null)
+                    dobj = new EcellDragObject(obj.ModelID);
+
+                foreach (EcellData v in obj.Value)
+                {
+                    if (!v.Name.Equals(Constants.xpathActivity) &&
+                        !v.Name.Equals(Constants.xpathMolarConc) &&
+                        !v.Name.Equals(Constants.xpathSize))
+                        continue;
+
+                    // Add new EcellDragEntry.
+                    dobj.Entries.Add(new EcellDragEntry(
+                                                obj.Key,
+                                                obj.Type,
+                                                v.EntityPath,
+                                                v.Settable,
+                                                v.Logable));
+                    break;
+
+                }
+                if (objectListDataGrid.SelectedRows.Count == 1)
+                {
+                    m_isSelected = true;
+                    m_owner.PluginManager.SelectChanged(obj);
+                    m_isSelected = false;
+                }
+            }
+            // Drag & Drop Event.
+            if (dobj != null)
+                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+        }
+
+        /// <summary>
+        /// Create the new row for Object.
+        /// </summary>
+        /// <param name="obj">the inserted object.</param>
+        /// <returns>the inserted row.</returns>
+        private DataGridViewRow CreateRow(EcellObject obj)
+        {
+            DataGridViewRow rs = new DataGridViewRow();
+            {
+                DataGridViewImageCell c = new DataGridViewImageCell();
+                c.Value = GetIconImage(obj);
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            {
+                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                c.Value = obj.Classname;
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            {
+                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                c.Value = obj.Key;
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            {
+                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                EcellData d = obj.GetEcellData("Name");
+                // for loading the project include the process not in DM directory.
+                if (d == null)
+                    c.Value = "";
+                else
+                    c.Value = d.Value.ToString();
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            rs.Tag = obj;
+            return rs;
+        }
+
+        /// <summary>
+        /// Delete the selected all row.
+        /// </summary>
+        private void DeletedSelectionRow()
+        {
+            List<DataGridViewRow> delrows = new List<DataGridViewRow>();
+            foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
+            {
+                if (r.Tag == null) continue;
+                delrows.Add(r);
+            }
+
+            try
+            {
+                for (int i = 0; i < delrows.Count; i++)
+                {
+                    EcellObject obj = delrows[i].Tag as EcellObject;
+                    if (i == delrows.Count - 1)
+                    {
+                        m_owner.DataManager.DataDelete(obj, true, true);
+                    }
+                    else
+                    {
+                        m_owner.DataManager.DataDelete(obj, true, false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Press key on DataGridView.
+        /// </summary>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
+                (int)keyData == (int)Keys.Delete)
+            {
+                DeletedSelectionRow();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+
+        #region Events
+        /// <summary>
         /// Event when the cell is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         void ClickObjectCell(object sender, DataGridViewCellEventArgs e)
         {
             int ind = e.RowIndex;
@@ -454,44 +607,49 @@ namespace Ecell.IDE.Plugins.EntityList
             m_isSelected = false;
             m_selectedRow = null;
         }
+
         /// <summary>
-        /// 
+        /// Event when the list of node image is changed.
         /// </summary>
-        private void ResetSearchTextBox()
+        /// <param name="sender">PluginManager</param>
+        /// <param name="e">EventArgs</param>
+        private void PluginManager_NodeImageListChange(object sender, EventArgs e)
         {
-            searchTextBox.ForeColor = SystemColors.GrayText;
-            searchTextBox.Text = MessageResources.InitialText;
-            foreach (DataGridViewRow r in objectListDataGrid.Rows)
+            for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
-                r.Visible = true;
+                EcellObject obj = (EcellObject)objectListDataGrid.Rows[i].Tag;
+                Image image = GetIconImage(obj);
+                objectListDataGrid.Rows[i].Cells[0].Value = image;
             }
-            m_intact = true;
         }
+
         /// <summary>
-        /// 
+        /// Click the clear button.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs</param>
         private void clearButton_Click(object sender, EventArgs e)
         {
             ResetSearchTextBox();
         }
+
         /// <summary>
-        /// 
+        /// Enter the TextBox for search.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void searchTextBox_Enter(object sender, EventArgs e)
         {
             ((TextBox)sender).ForeColor = SystemColors.WindowText;
             if (m_intact)
                 ((TextBox)sender).Clear();
         }
+
         /// <summary>
-        /// 
+        /// Change the text of TextBox.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
             if (!((TextBox)sender).Focused)
@@ -509,21 +667,23 @@ namespace Ecell.IDE.Plugins.EntityList
             }
             objectListDataGrid.ResumeLayout();
         }
+
         /// <summary>
-        /// 
+        /// Leave the mouse from TextBox for search.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void searchTextBox_Leave(object sender, EventArgs e)
         {
             if (((TextBox)sender).Text.Length == 0)
                 ResetSearchTextBox();
         }
+
         /// <summary>
-        /// 
+        /// Mouse move on DataGridView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
         private void DataGridViewMouseMove(object sender, MouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
@@ -536,21 +696,22 @@ namespace Ecell.IDE.Plugins.EntityList
         {
             m_isSelected = false;
         }
+
         /// <summary>
-        /// 
+        /// Mouse up on DataGridView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
         private void DataGridViewMouseUp(object sender, MouseEventArgs e)
         {
             m_selectedRow = null;
             m_isSelected = false;
         }
         /// <summary>
-        /// 
+        /// Mouse down on DataGridView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">MouseEventArgs</param>
         private void DataGridViewMouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
@@ -622,59 +783,12 @@ namespace Ecell.IDE.Plugins.EntityList
                 objectListDataGrid.ContextMenuStrip = m.Menu;
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void EnterDragMode()
-        {
-            EcellDragObject dobj = null;
-            if (objectListDataGrid.SelectedRows.Count <= 0)
-                return;
-
-            foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
-            {
-                EcellObject obj = r.Tag as EcellObject;
-                if (obj == null)
-                    continue;
-
-                // Create new EcellDragObject.
-                if (dobj == null)
-                    dobj = new EcellDragObject(obj.ModelID);
-
-                foreach (EcellData v in obj.Value)
-                {
-                    if (!v.Name.Equals(Constants.xpathActivity) &&
-                        !v.Name.Equals(Constants.xpathMolarConc) &&
-                        !v.Name.Equals(Constants.xpathSize))
-                        continue;
-
-                    // Add new EcellDragEntry.
-                    dobj.Entries.Add(new EcellDragEntry(
-                                                obj.Key,
-                                                obj.Type,
-                                                v.EntityPath,
-                                                v.Settable,
-                                                v.Logable));
-                    break;
-
-                }
-                if (objectListDataGrid.SelectedRows.Count == 1)
-                {
-                    m_isSelected = true;
-                    m_owner.PluginManager.SelectChanged(obj);
-                    m_isSelected = false;
-                }
-            }
-            // Drag & Drop Event.
-            if (dobj != null)
-                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-        }
 
         /// <summary>
-        /// 
+        /// Click the menu of show column.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickShowColumnMenu(object sender, EventArgs e)
         {
             ToolStripMenuItem item = sender as ToolStripMenuItem;
@@ -707,6 +821,11 @@ namespace Ecell.IDE.Plugins.EntityList
             }
         }
 
+        /// <summary>
+        /// Compare the row of DataGridView to use Type.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewSortCompareEventArgs</param>
         private void TypeSortCompare(object sender, DataGridViewSortCompareEventArgs e)
         {
             if (e.Column is DataGridViewImageColumn)
@@ -720,6 +839,11 @@ namespace Ecell.IDE.Plugins.EntityList
             }
         }
 
+        /// <summary>
+        /// Change the selection of DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">EventArgs</param>
         private void EntSelectionChanged(object sender, EventArgs e)
         {
             if (m_isSelected && m_selectedRow != null && m_selectedRow.Index != -1 && !m_isSelectionChanged)
@@ -740,52 +864,6 @@ namespace Ecell.IDE.Plugins.EntityList
                 m_isSelected = false;
             }
         }
-
-        private void DeletedSelectionRow()
-        {
-            List<DataGridViewRow> delrows = new List<DataGridViewRow>();
-            foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
-            {
-                if (r.Tag == null) continue;
-                delrows.Add(r);
-            }
-
-            try
-            {
-                for (int i = 0; i < delrows.Count; i++)
-                {
-                    EcellObject obj = delrows[i].Tag as EcellObject;
-                    if (i == delrows.Count - 1)
-                    {
-                        m_owner.DataManager.DataDelete(obj, true, true);
-                    }
-                    else
-                    {
-                        m_owner.DataManager.DataDelete(obj, true, false);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Press key on DataGridView.
-        /// </summary>
-        /// <param name="msg">Message.</param>
-        /// <param name="keyData">Key data.</param>
-        /// <returns></returns>
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
-                (int)keyData == (int)Keys.Delete)
-            {
-                DeletedSelectionRow();
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
+        #endregion
     }
 }

@@ -52,6 +52,9 @@ namespace Ecell.IDE.Plugins.EntityList
     public class EntityList : PluginBase
     {
         #region Fields
+        /// <summary>
+        /// Entity list control.
+        /// </summary>
         private EntityListControl m_control;
         #endregion
 
@@ -164,10 +167,11 @@ namespace Ecell.IDE.Plugins.EntityList
                 DataAdd(obj);
             }
         }
+
         /// <summary>
-        /// 
+        /// The event sequence to add the object at other plugin.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The value of the adding object.</param>
         public override void DataAdd(EcellObject obj)
         {
             if (obj.Type != EcellObject.VARIABLE &&
