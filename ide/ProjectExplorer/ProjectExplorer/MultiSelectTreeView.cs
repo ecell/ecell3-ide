@@ -180,7 +180,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             if (isScroll)
                 tn.EnsureVisible();
-            
+
+            m_RangeNode = null;
             if (isChanged)
                 return;
             if (tn.Tag != null)
@@ -192,7 +193,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     m_env.PluginManager.SelectChanged(t.ModelID, t.Key, t.Type);
                     m_isUpdate = false;
                 }
-            }
+            }            
         }
 
         /// <summary>
@@ -355,6 +356,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             ptMouseDown = new Point(e.X, e.Y);
             m_isCollapse = false;
             m_isExpand = false;
+            SelectNode(tnMouseDown, false, false);
             base.OnMouseDown(e);
         }
 
@@ -425,6 +427,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         private bool m_isDownEvent = false;
+        private TreeNode m_RangeNode = null;
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (m_isDownEvent)
@@ -434,14 +437,61 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             if (e.Shift == true && e.KeyCode == Keys.Up)
             {
-
+                if (tnMouseDown == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                if (m_RangeNode == null)
+                {
+                    if (tnMouseDown.PrevVisibleNode != null)
+                        m_RangeNode = tnMouseDown.PrevVisibleNode;
+                }
+                else
+                {
+                    if (m_RangeNode.PrevVisibleNode != null)
+                        m_RangeNode = m_RangeNode.PrevVisibleNode;
+                }
+                e.Handled = true;
+                if (m_RangeNode == null)
+                    return;
+                bool isPrev = true;
+                if (m_RangeNode.Bounds.Y > tnMouseDown.Bounds.Y)
+                    isPrev = false;
+                SelectRange(m_RangeNode, isPrev);
             }
-            else if (e.Shift == true && e.KeyCode == Keys.Up)
+            else if (e.Shift == true && e.KeyCode == Keys.Down)
             {
-
+                if (tnMouseDown == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                if (m_RangeNode == null)
+                {
+                    if (tnMouseDown.NextVisibleNode != null)
+                        m_RangeNode = tnMouseDown.NextVisibleNode;
+                }
+                else
+                {
+                    if (m_RangeNode.NextVisibleNode != null)
+                        m_RangeNode = m_RangeNode.NextVisibleNode;
+                }
+                e.Handled = true;
+                if (m_RangeNode == null)
+                    return;
+                bool isPrev = true;
+                if (m_RangeNode.Bounds.Y > tnMouseDown.Bounds.Y)
+                    isPrev = false;
+                SelectRange(m_RangeNode, isPrev);
             }
             else if (e.KeyCode == Keys.Left)
             {
+                if (tnMouseDown == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
                 TreeNode unse = tnMouseDown;
                 if (unse.Parent == null)
                 {
@@ -463,6 +513,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             else if (e.KeyCode == Keys.Right)
             {
+                if (tnMouseDown == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
                 TreeNode unse = tnMouseDown;
                 if (unse.FirstNode == null)
                 {
@@ -484,6 +539,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             else if (e.KeyCode == Keys.Up)
             {
+                if (tnMouseDown == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
                 TreeNode unse = tnMouseDown;
                 if (unse.PrevVisibleNode == null)
                 {
@@ -518,6 +578,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             else if (e.KeyCode == Keys.Down)
             {
+                if (tnMouseDown == null)
+                {
+                    e.Handled = true;
+                    return;
+                }
                 TreeNode unse = tnMouseDown;
                 if (unse.NextVisibleNode == null)
                 {
@@ -557,11 +622,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
 
             base.OnKeyDown(e);
-        }
-
-        protected override void OnKeyPress(KeyPressEventArgs e)
-        {                   
-            base.OnKeyPress(e);
         }
         #endregion
     }

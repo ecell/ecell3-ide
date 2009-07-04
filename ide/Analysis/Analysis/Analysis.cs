@@ -634,7 +634,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
         /// <param name="type">Selected the data type.</param>
-        public virtual void SelectChanged(string modelID, string key, string type)
+        public override void SelectChanged(string modelID, string key, string type)
         {
             // do nothing
         }
