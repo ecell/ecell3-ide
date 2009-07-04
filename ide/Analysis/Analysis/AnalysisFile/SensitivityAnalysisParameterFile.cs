@@ -43,12 +43,15 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
     public class SensitivityAnalysisParameterFile : AnalysisParameterFile
     {
         #region Fields
+        /// <summary>
+        /// Sensitivity analysis parameter.
+        /// </summary>
         private SensitivityAnalysisParameter m_param;        
         #endregion
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get / set the sensitivity analysis.
         /// </summary>
         public SensitivityAnalysisParameter Parameter
         {
@@ -71,7 +74,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         #endregion
 
         /// <summary>
-        /// 
+        /// Write the header information of parameter file.
         /// </summary>
         protected override void BeginWrite()
         {
@@ -83,7 +86,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Write the footer information of parameter file.
         /// </summary>
         protected override void EndWrite()
         {
@@ -92,7 +95,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Write the analysis parameters.
         /// </summary>
         protected override void WriteAnalysisParameter()
         {
@@ -117,10 +120,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Set the analysis parameter in the analysis parameter fils.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the property name.</param>
+        /// <param name="value">the property value.</param>
         protected override void SetAnalysisProperty(string name, string value)
         {
             switch (name)
@@ -144,15 +147,15 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
     public class SensitivityAnalysisConstants
     {
         /// <summary>
-        /// 
+        /// The label of Step.
         /// </summary>
         public const string xStep = "Step";
         /// <summary>
-        /// 
+        /// The label of absolute perturbation.
         /// </summary>
         public const string xAbsolutePerturbation = "AbsolutePerturbation";
         /// <summary>
-        /// 
+        /// The label of relative perturbation.
         /// </summary>
         public const string xRelativePerturbation = "RelativePerturbation";
     }

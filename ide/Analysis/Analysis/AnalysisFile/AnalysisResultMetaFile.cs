@@ -50,6 +50,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         #endregion
 
         #region Common
+        /// <summary>
+        /// Create the writer object from path.
+        /// </summary>
+        /// <param name="path">the create file path.</param>
+        /// <returns>the writer object for XML.</returns>
         private static XmlTextWriter CreateWriter(string path)
         {
             XmlTextWriter writer = new XmlTextWriter(path, Encoding.UTF8);
@@ -57,6 +62,12 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             return writer;
         }
 
+        /// <summary>
+        /// Write the header information of result meta file.
+        /// </summary>
+        /// <param name="writer">the xml writer object.</param>
+        /// <param name="metaType">the meta type.</param>
+        /// <param name="analysisName">the analysis name.</param>
         private static void BeginWrite(XmlTextWriter writer, string metaType, string analysisName)
         {
             writer.WriteStartDocument();
@@ -66,6 +77,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             writer.WriteAttributeString(AnalysisResultMetaFileConst.xVersion, AnalysisResultMetaFile.s_version);
         }
 
+        /// <summary>
+        /// Write the footer information of resule meta file.
+        /// </summary>
+        /// <param name="writer">the xml writer object.</param>
         private static void EndWrite(XmlTextWriter writer)
         {
             writer.WriteEndDocument();
@@ -75,11 +90,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
 
         #region PublicFunction
         /// <summary>
-        /// 
+        /// Create the resule meta file for plot data.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="analysisName"></param>
-        /// <param name="labels"></param>
+        /// <param name="path">the file path.</param>
+        /// <param name="analysisName">the analysi name.</param>
+        /// <param name="labels">the label list of parameter data.</param>
         public static void CreatePlotMetaFile(string path, string analysisName, List<string> labels)
         {
             try
@@ -101,11 +116,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Create the result meta file for table data.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="analysisName"></param>
-        /// <param name="tables"></param>
+        /// <param name="path">the file path.</param>
+        /// <param name="analysisName">the analysis name.</param>
+        /// <param name="tables">the label list of tables.</param>
         public static void CreateTableMetaFile(string path, string analysisName, List<string> tables)
         {
             try
@@ -137,11 +152,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Create the result meta file for the generation of pamarater estimation.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="analysisName"></param>
-        /// <param name="labels"></param>
+        /// <param name="path">the file path.</param>
+        /// <param name="analysisName">the analysis name.</param>
+        /// <param name="labels">the label list of generation.</param>
         public static void CreateGenerationData(string path, string analysisName, List<string> labels)
         {
             try
@@ -161,12 +176,12 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Load the result meta file.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="analysisName"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
+        /// <param name="fileName">the load file path.</param>
+        /// <param name="analysisName">the analysis name.</param>
+        /// <param name="result">the list of labels.</param>
+        /// <returns>the flag whether this file is load.</returns>
         public static bool LoadFile(string fileName, out string analysisName, out List<string> result)
         {
             analysisName = null;
@@ -232,10 +247,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         #endregion
 
         /// <summary>
-        /// GetNodeByKey
+        /// Get XML node by the key.
         /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="key"></param>
+        /// <param name="xml">the current xml node.</param>
+        /// <param name="key">the search key.</param>
         /// <returns>Selected XmlNode</returns>
         private static XmlNode GetNodeByKey(XmlNode xml, string key)
         {
@@ -249,11 +264,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// GetStringAttribute
+        /// Get the string attribute by the kry.
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="node">the current xml node.</param>
+        /// <param name="key">the search key.</param>
+        /// <returns>Selected string.</returns>
         private static string GetStringAttribute(XmlNode node, string key)
         {
             try

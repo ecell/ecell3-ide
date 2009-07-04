@@ -73,16 +73,32 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private SensitivityAnalysisParameter m_sensitivityParameter;
         /// <summary>
-        /// The dictionary of the data to be set by random.
+        /// The dictionary of the parameter data.
         /// </summary>
         private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
+        /// <summary>
+        /// The dictionary of the observed data.
+        /// </summary>
         private Dictionary<string, EcellData> m_observedList = new Dictionary<string, EcellData>();
+        /// <summary>
+        /// The list of header of CCC and FCC.
+        /// </summary>
         private List<string> m_headerList = new List<string>();
-        private Dictionary<string, List<double>> m_cccResult = new Dictionary<string, List<double>>();
-        private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
+        /// <summary>
+        /// The pain to set the parameter of bifurcation analysis.
+        /// </summary>
         private BifurcationSettingDialog m_bifurcationDialog;
+        /// <summary>
+        /// The pain to set the parameter of robust analysis.
+        /// </summary>
         private RobustAnalysisSettingDialog m_robustDialog;
+        /// <summary>
+        /// The pain to set the parameter of sensitivity analysis.
+        /// </summary>
         private SensitivityAnalysisSettingDialog m_sensitivityDialog;
+        /// <summary>
+        /// The pain to set the parameter of parameter estimation.
+        /// </summary>
         private ParameterEstimationSettingDialog m_estimationDialog;
         #endregion
 
@@ -237,8 +253,6 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SetSensitivityHeader(List<string> headerList)
         {
             m_headerList.Clear();
-            m_cccResult.Clear();
-            m_fccResult.Clear();
             foreach (string d in headerList)
                 m_headerList.Add(d);
             if (m_rWin != null)
@@ -252,7 +266,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="result">the list of sensitivity analysis result.</param>
         public void AddSensitivityDataOfCCC(string name, List<double> result)
         {
-            m_cccResult.Add(name, result);
             if (m_rWin != null)
             {
                 m_rWin.AddSensitivityDataOfCCC(name, result);
@@ -266,7 +279,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="result">the list of sensitivity analysis result.</param>
         public void AddSensitivityDataOfFCC(string name, List<double> result)
         {
-            m_fccResult.Add(name, result);
             if (m_rWin != null)
             {
                 m_rWin.AddSensitivityDataOfFCC(name, result);
@@ -830,7 +842,7 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
-        /// 
+        /// get whether this plugin is enbale to print directly.
         /// </summary>
         /// <returns></returns>
         public bool IsDirect()

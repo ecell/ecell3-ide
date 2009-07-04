@@ -42,12 +42,15 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
     public class BifurcationAnlaysisParameterFile : AnalysisParameterFile
     {
         #region Fields
+        /// <summary>
+        /// Bifurcation analysis parameter.
+        /// </summary>
         private BifurcationAnalysisParameter m_param;        
         #endregion
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get / set the bifurcation analysis parameter.
         /// </summary>
         public BifurcationAnalysisParameter Parameter
         {
@@ -70,7 +73,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         #endregion
 
         /// <summary>
-        /// 
+        /// Write the header information of parameter file.
         /// </summary>
         protected override void BeginWrite()
         {
@@ -82,7 +85,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Write the footer information of parameter file.
         /// </summary>
         protected override void EndWrite()
         {
@@ -91,7 +94,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Write the analysis parameters.
         /// </summary>
         protected override void WriteAnalysisParameter()
         {
@@ -126,10 +129,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Set the analysis parameter in the analysis parameter fils.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the property name.</param>
+        /// <param name="value">the property value.</param>
         protected override void SetAnalysisProperty(string name, string value)
         {
             switch (name)
@@ -159,23 +162,23 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
     public class BifurcationAnalysisConstants
     {
         /// <summary>
-        /// 
+        /// The label of window size.
         /// </summary>
         public const string xWindowSize = "WindowSize";
         /// <summary>
-        /// 
+        /// The label of simulation time.
         /// </summary>
         public const string xSimulationTime = "SimulationTime";
         /// <summary>
-        /// 
+        /// The label of max input for FFT.
         /// </summary>
         public const string xMaxInput = "MaxInput";
         /// <summary>
-        /// 
+        /// The label of max frequency.
         /// </summary>
         public const string xMaxFreq = "MaxFrequency";
         /// <summary>
-        /// 
+        /// The label of min frequency.
         /// </summary>
         public const string xMinFreq = "MinFrequency";
     }

@@ -60,11 +60,29 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Plugin Controller.
         /// </summary>
         private Analysis m_owner;
+        /// <summary>
+        /// The pain to show the result of sensitivity analysis.
+        /// </summary>
         private SensitivityAnalysisResultWindow m_sensResultWindow;
+        /// <summary>
+        /// The pain to show the result of graph data.
+        /// </summary>
         private GraphResultWindow m_graphResultWindow;
+        /// <summary>
+        /// The pain to show the result of parameter estimation.
+        /// </summary>
         private ParameterEstimationResultWindow m_paramResultWindow;
+        /// <summary>
+        /// The dock content to show the result of sensitivity analysis.
+        /// </summary>
         private EcellDockContent m_sensContent;
+        /// <summary>
+        /// The dock content to show the result of graph data.
+        /// </summary>
         private EcellDockContent m_graphContent;
+        /// <summary>
+        /// The dock content to show the result of parameter estimation.
+        /// </summary>
         private EcellDockContent m_paramContent;
         #endregion
 
@@ -144,9 +162,9 @@ namespace Ecell.IDE.Plugins.Analysis
         #endregion
 
         /// <summary>
-        /// 
+        /// Get the pain to show the analysis result.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of analysis result window.</returns>
         public IEnumerable<EcellDockContent> GetWindowsForms()
         {
             m_graphContent = new EcellDockContent();
@@ -247,242 +265,6 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SetResultEntryBox(string name, bool isX, bool isY)
         {
             m_graphResultWindow.SetResultEntryBox(name, isX, isY);
-        }
-
-        /// <summary>
-        /// Load the file written the analysis result.
-        /// </summary>
-        /// <param name="filename">the load file.</param>
-        public void LoadResultFile(string filename)
-        {
-            StreamReader reader = null;
-            try
-            {
-                ClearResult();
-                string metaFile = filename + ".meta";
-
-                string analysisName;
-                List<string> labels;
-
-                if (!AnalysisResultMetaFile.LoadFile(metaFile, out analysisName, out labels))
-                    return;
-
-                // not implement.
-                List<EcellObject> sysObjList = new List<EcellObject>();
-                List<EcellObject> stepperObjList = new List<EcellObject>();
-
-                reader = new StreamReader(filename, Encoding.ASCII);
-
-                if (analysisName.Equals("BifurcationAnalysis"))
-                {
-                    LoadBifurcationResult(reader, labels);
-                }
-                else if (analysisName.Equals("ParameterEstimation"))
-                {
-                    LoadParameterEstimationResult(reader, labels);
-                }
-                else if (analysisName.Equals("RobustAnalysis"))
-                {
-                    LoadRobustAnalysisResult(reader, labels, sysObjList, stepperObjList);
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                m_owner.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
-        private void LoadBifurcationResult(StreamReader reader, List<string> labels)
-        {
-            List<PointF> list = new List<PointF>();
-            string line;
-
-            string xlabel = "";
-            string ylabel = "";
-            if (labels.Count == 2)
-            {
-                xlabel = labels[0];
-                ylabel = labels[1];
-                m_owner.SetResultEntryBox(xlabel, true, false);
-                m_owner.SetResultEntryBox(ylabel, false, true);
-            }
-
-            m_graphResultWindow.PreGraphSet();
-            while ((line = reader.ReadLine()) != null)
-            {
-                if (line.StartsWith("#")) continue;
-                if (String.IsNullOrEmpty(line) || line[0] == '\n' || line[0] == '\r')
-                {
-                    if (list.Count > 0)
-                    {
-                        m_graphResultWindow.AddJudgementDataForBifurcation(list);
-                    }
-                    list.Clear();
-                    continue;
-                }
-                string[] ele = line.Split(new char[] { ',' });
-                list.Add(new PointF((float)Convert.ToDouble(ele[0]), (float)Convert.ToDouble(ele[1])));
-            }
-            m_graphResultWindow.PostGraphSet();
-        }
-
-        private void LoadParameterEstimationResult(StreamReader reader, List<string> labels)
-        {
-            int readPos = 1;
-            int maxGene = 0;
-            double data = 0.0;
-            string line;
-
-            ExecuteParameter param = new ExecuteParameter();
-            m_graphResultWindow.PreGraphSet();
-            while ((line = reader.ReadLine()) != null)
-            {
-                if (line.StartsWith("#"))
-                {
-                    continue;
-                }
-                else if (line.Length <= 1)
-                {
-                    readPos++;
-                    continue;
-                }
-
-                if (readPos == 1)
-                {
-                    string[] ele = line.Split(new char[] { ',' });
-                    int g = Convert.ToInt32(ele[0]);
-                    double d = Convert.ToDouble(ele[1]);
-                    if (g > maxGene)
-                    {
-                        maxGene = g;
-                        data = d;
-                    }
-                    m_graphResultWindow.AddEstimationData(g, d);
-                }
-                else if (readPos == 2)
-                {
-                    string[] ele = line.Split(new char[] { ',' });
-                    param.AddParameter(ele[0], Convert.ToDouble(ele[1]));
-                }
-            }
-            m_paramResultWindow.AddEstimateParameter(param, data, maxGene);
-            m_graphResultWindow.PostGraphSet();
-        }
-
-        private void LoadRobustAnalysisResult(StreamReader reader, List<string> labels, List<EcellObject> sysObjList, List<EcellObject> stepperList)
-        {
-            string line;
-            string[] ele;
-
-            JobGroup group = m_owner.JobManager.CreateJobGroup("RobustAnalysis", sysObjList, stepperList);
-            Dictionary<int, string> paramDic = new Dictionary<int, string>();
-            int i = 0;
-            foreach (string label in labels)
-            {
-                if (i == 0)
-                    m_graphResultWindow.SetResultEntryBox(label, true, false);
-                else if (i == 1)
-                    m_graphResultWindow.SetResultEntryBox(label, false, true);
-                else
-                    m_graphResultWindow.SetResultEntryBox(label, false, false);
-                paramDic.Add(i, label);
-                i++;
-            }
-            while ((line = reader.ReadLine()) != null)
-            {
-                if (line.StartsWith("#")) continue;
-                double x = 0.0;
-                double y = 0.0;
-                ExecuteParameter p = new ExecuteParameter();
-                ele = line.Split(new char[] { ',' });
-                bool result = Convert.ToBoolean(ele[0]);
-                for (int j = 1; j < ele.Length; j++)
-                {
-                    if (String.IsNullOrEmpty(ele[j])) continue;
-                    if (j == 1) x = Convert.ToDouble(ele[j]);
-                    if (j == 2) y = Convert.ToDouble(ele[j]);
-                    p.AddParameter(paramDic[j - 1], Convert.ToDouble(ele[j]));
-                }
-                int jobid = m_owner.JobManager.CreateJobEntry(group.GroupName, p);
-                AddJudgementData(jobid, x, y, result);
-            }
-        }
-
-
-        /// <summary>
-        /// Save the result of bifurcation analysis to the file.
-        /// </summary>
-        /// <param name="fileName">the save file name.</param>
-        public void SaveBifurcationResult(string fileName)
-        {
-            StreamWriter writer = null;
-            try
-            {
-                writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_graphResultWindow.SaveBifurcationResult(fileName, writer);
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
-                    new object[] { fileName }));
-            }
-            finally
-            {
-                writer.Close();
-            }
-        }
-
-        /// <summary>
-        /// Save the result of parameter estimation to the file.
-        /// </summary>
-        /// <param name="fileName">the save file name.</param>
-        public void SaveParameterEstimationResult(string fileName)
-        {
-            StreamWriter writer = null;
-            try
-            {
-                writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_graphResultWindow.SaveParameterEstimationResult(fileName, writer);
-                m_paramResultWindow.SaveParameterEstimationResult(writer);
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
-                    new object[] { fileName }));
-            }
-            finally
-            {
-                writer.Close();
-            }
-        }
-
-        /// <summary>
-        /// Save the result of robust analysis to the file.
-        /// </summary>
-        /// <param name="fileName">the save file name.</param>
-        public void SaveRobustAnalysisResult(string fileName)
-        {
-            StreamWriter writer = null;
-            try
-            {
-                writer = new StreamWriter(fileName, false, Encoding.ASCII);
-                m_graphResultWindow.SaveRobustAnalysisResult(fileName, writer);
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
-                    new object[] { fileName }));
-            }
-            finally
-            {
-                writer.Close();
-            }
         }
 
         /// <summary>

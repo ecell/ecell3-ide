@@ -56,11 +56,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         /// </summary>
         protected string m_path;
         /// <summary>
-        /// 
+        /// XML writer object.
         /// </summary>
         protected XmlTextWriter m_writer;
         /// <summary>
-        /// 
+        /// Version string.
         /// </summary>
         public static string s_version = "1.0";
         #endregion
@@ -78,7 +78,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
         #endregion
         /// <summary>
-        /// 
+        /// Write the header information of parameter file.
         /// </summary>
         protected virtual void BeginWrite()
         {
@@ -88,7 +88,7 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Write the footer information of parameter file.
         /// </summary>
         protected virtual void EndWrite()
         {
@@ -140,14 +140,14 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Write the analysis parameters.
         /// </summary>
         protected virtual void WriteAnalysisParameter()
         {
         }
 
         /// <summary>
-        /// 
+        /// Write the common and analysis parameter.
         /// </summary>
         public void Write()
         {
@@ -165,10 +165,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// GetNodeByKey
+        /// Get XML node by the key.
         /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="key"></param>
+        /// <param name="xml">the current xml node.</param>
+        /// <param name="key">the search key.</param>
         /// <returns>Selected XmlNode</returns>
         protected XmlNode GetNodeByKey(XmlNode xml, string key)
         {
@@ -182,11 +182,11 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// GetStringAttribute
+        /// Get the string attribute by the key.
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="node">the current xml node.</param>
+        /// <param name="key">the search key.</param>
+        /// <returns>Selected string.</returns>
         private static string GetStringAttribute(XmlNode node, string key)
         {
             try
@@ -205,7 +205,28 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Get the element string by the key.
+        /// </summary>
+        /// <param name="node">the current xml node.</param>
+        /// <param name="name">the search key.</param>
+        /// <returns>Selected string.</returns>
+        private static string GetElementString(XmlNode node, string name)
+        {
+            foreach (XmlNode n in node.ChildNodes)
+            {
+                if (n.Name.Equals(name))
+                {
+                    return n.InnerText;
+                }
+                string tmp = GetElementString(n, name);
+                if (!string.IsNullOrEmpty(tmp))
+                    return tmp;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Read the analysis result file.
         /// </summary>
         public void Read()
         {
@@ -228,6 +249,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             }
         }
 
+        /// <summary>
+        /// Set the analysis parameter in the analysis parameter fils.
+        /// </summary>
+        /// <param name="parameters">the current node.</param>
         private void SetAnalysisParameter(XmlNode parameters)
         {
             foreach (XmlNode node in parameters.ChildNodes)
@@ -243,15 +268,19 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
         }
 
         /// <summary>
-        /// 
+        /// Set the analysis property in the analysis parameter file.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the analysis property name.</param>
+        /// <param name="value">the analysis property value.</param>
         protected virtual void SetAnalysisProperty(string name, string value)
         {
 
         }
 
+        /// <summary>
+        /// Set the common properties in the analysis parameter file.
+        /// </summary>
+        /// <param name="node">the current node.</param>
         private void SetCommonProperties(XmlNode node)
         {
             XmlNode unknownData = GetNodeByKey(node, AnalysisParameterConstants.xUnknownProperties);
@@ -260,6 +289,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             SetObservedData(observedData);            
         }
 
+        /// <summary>
+        /// Set the parameter data properties in the analysis parameter file.
+        /// </summary>
+        /// <param name="unknowns">the current node</param>
         private void SetUnknownData(XmlNode unknowns)
         {
             foreach (XmlNode node in unknowns.ChildNodes)
@@ -277,21 +310,10 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
             }
         }
 
-        private string GetElementString(XmlNode node, string name)
-        {
-            foreach (XmlNode n in node.ChildNodes)
-            {
-                if (n.Name.Equals(name))
-                {
-                    return n.InnerText;
-                }
-                string tmp = GetElementString(n, name);
-                if (!string.IsNullOrEmpty(tmp))
-                    return tmp;
-            }
-            return null;
-        }
-
+        /// <summary>
+        /// Set the observed data properties in the analysis parameter file.
+        /// </summary>
+        /// <param name="observers">thec current node.</param>
         private void SetObservedData(XmlNode observers)
         {
             foreach (XmlNode node in observers.ChildNodes)
@@ -318,89 +340,89 @@ namespace Ecell.IDE.Plugins.Analysis.AnalysisFile
     {
         #region CommonIndex
         /// <summary>
-        /// 
+        /// Model name label.
         /// </summary>
         public const string xModelName = "model";
         /// <summary>
-        /// 
+        /// Class name label.
         /// </summary>
         public const string xClassName = "classname";
         /// <summary>
-        /// 
+        /// Version label.
         /// </summary>
         public const string xVersion = "version";
         #endregion
 
         #region CommonPropertyIndex
         /// <summary>
-        /// 
+        /// The properties label of common property.
         /// </summary>
         public const string xProperties = "Properties";
         /// <summary>
-        /// 
+        /// The label of unknown properties..
         /// </summary>
         public const string xUnknownProperties = "UnknownProperties";
         /// <summary>
-        /// 
+        /// The label of observed properties.
         /// </summary>
         public const string xObservedProperties = "OnservedProperties";
         /// <summary>
-        /// 
+        /// The label of unknown data.
         /// </summary>
         public const string xUnknownData = "UnknownData";
         /// <summary>
-        /// 
+        /// The label of observed data.
         /// </summary>
         public const string xObservedData = "ObservedData";
         /// <summary>
-        /// 
+        /// The label of FullPN.
         /// </summary>
         public const string xFullPN = "FullPN";
         /// <summary>
-        /// 
+        /// The label of Max.
         /// </summary>
         public const string xMax = "Max";
         /// <summary>
-        /// 
+        /// The label of Min.
         /// </summary>
         public const string xMin = "Min";
         /// <summary>
-        /// 
+        /// The label of Step.
         /// </summary>
         public const string xStep = "Step";
         /// <summary>
-        /// 
+        /// The label of Differ.
         /// </summary>
         public const string xDiffer = "Differ";
         /// <summary>
-        /// 
+        /// The label of Rate.
         /// </summary>
         public const string xRate = "Rate";
         #endregion
 
         #region AnalysisPropertyIndex
         /// <summary>
-        /// 
+        /// The label of analysis parameters.
         /// </summary>
         public const string xAnalysisParameters = "AnalysisParameters";
         /// <summary>
-        /// 
+        /// The label of analysis name.
         /// </summary>
         public const string xAnalysisName = "analysisname";
         /// <summary>
-        /// 
+        /// The label of parameters.
         /// </summary>
         public const string xParameters = "Parameters";
         /// <summary>
-        /// 
+        /// The label of parameter.
         /// </summary>
         public const string xParameter = "Param";
         /// <summary>
-        /// 
+        /// The label of parameter name.
         /// </summary>
         public const string xParamName = "Name";
         /// <summary>
-        /// 
+        /// The label of parameter value.
         /// </summary>
         public const string xParamValue = "Value";
         #endregion

@@ -42,12 +42,46 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     public class MultiSelectTreeView : System.Windows.Forms.TreeView
     {
         #region Fields
+        /// <summary>
+        /// The point is mouse down.
+        /// </summary>
         private Point ptMouseDown;
+        /// <summary>
+        /// The node is mouse down.
+        /// </summary>
         private TreeNode tnMouseDown = null;
+        /// <summary>
+        /// The flag whether this component is updated.
+        /// </summary>
         private bool m_isUpdate = false;
+        /// <summary>
+        /// ApplicationEnvironment.
+        /// </summary>
         private ApplicationEnvironment m_env;
+        /// <summary>
+        /// The list of selected nodes.
+        /// </summary>
         private List<TreeNode> m_selected = new List<TreeNode>();
+        /// <summary>
+        /// The flag whether this component is dragging.
+        /// </summary>
         private bool m_isDrag = false;
+        /// <summary>
+        /// The flag whether this component is collapsing.
+        /// </summary>
+        private bool m_isCollapse = false;
+        /// <summary>
+        /// The flag whether this component is expanding.
+        /// </summary>
+        private bool m_isExpand = false;
+        /// <summary>
+        /// The flag whether this component is executing the key press event.
+        /// </summary>
+        private bool m_isDownEvent = false;
+        /// <summary>
+        /// The target node of range selection.
+        /// </summary>
+        private TreeNode m_RangeNode = null;
         #endregion
 
         #region CONSTRUCTOR
@@ -62,7 +96,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         #region ACCESSORS
         /// <summary>
-        /// 
+        /// get / set Application Environment.
         /// </summary>
         public ApplicationEnvironment Environment
         {
@@ -77,8 +111,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             get { return m_selected; }
         }
+
         /// <summary>
-        /// 
+        /// get / set the flag whether this component is in drag.
         /// </summary>
         public bool IsDrag
         {
@@ -289,6 +324,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// Select the range selection of nodes.
+        /// </summary>
+        /// <param name="tn">the last selected node.</param>
+        /// <param name="bPrev">the flag whether the ranselection is previous.</param>
         private void SelectRange(TreeNode tn, bool bPrev)
         {
             m_env.PluginManager.ResetSelect();
@@ -318,7 +358,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// The event sequence when the node is selected.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">TreeViewCancelEventArgs</param>
         protected override void OnBeforeSelect(TreeViewCancelEventArgs e)
         {
             if (e.Action != TreeViewAction.Unknown && e.Action != TreeViewAction.ByKeyboard)
@@ -336,7 +376,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// The event sequence when mouse is down.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">MouseEventArgs</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {            
             if ((Control.ModifierKeys & Keys.Shift) != 0)
@@ -360,56 +400,44 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             base.OnMouseDown(e);
         }
 
-        private bool m_isCollapse = false;
-        private bool m_isExpand = false;
         /// <summary>
-        /// 
+        /// The event sequence when mouse is up.
+        /// The flag whether this component is collapasing is set false.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">MouseEventArgs</param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             m_isExpand = false;
             m_isCollapse = false;
             base.OnMouseUp(e);
         }
+
         /// <summary>
-        /// 
+        /// The event sequence before the node is collapsed.
+        /// The flag whether this component is collapasing is set false.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">TreeViewCancelEventArgs</param>
         protected override void OnBeforeCollapse(TreeViewCancelEventArgs e)
         {
             m_isCollapse = true; ;
             base.OnBeforeCollapse(e);
         }
+
         /// <summary>
-        /// 
+        /// The event sequence before the node is expanded.
+        /// The flag whether this component is expanding is set false.
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnAfterCollapse(TreeViewEventArgs e)
-        {
-            base.OnAfterCollapse(e);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">TreeViewCancelEventArgs</param>
         protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
         {
             m_isExpand = true;
             base.OnBeforeExpand(e);
         }
+
         /// <summary>
-        /// 
+        /// The event sequence when mouse is moved.
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnAfterExpand(TreeViewEventArgs e)
-        {
-            base.OnAfterExpand(e);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">MouseEventArgs</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (m_isDrag) return;
@@ -426,8 +454,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             base.OnMouseMove(e);
         }
 
-        private bool m_isDownEvent = false;
-        private TreeNode m_RangeNode = null;
+        /// <summary>
+        /// The event sequence when key press down.
+        /// </summary>
+        /// <param name="e">KeyEventArgs</param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (m_isDownEvent)
