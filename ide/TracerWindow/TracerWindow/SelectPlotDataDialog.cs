@@ -39,28 +39,32 @@ using System.Windows.Forms;
 namespace Ecell.IDE.Plugins.TracerWindow
 {
     /// <summary>
-    /// 
+    /// Select the log entry to show the plot window.
     /// </summary>
     public partial class SelectPlotDataDialog : Form
     {
+        #region Accessors
         /// <summary>
-        /// 
+        /// get the log entry to set x label.
         /// </summary>
         public string X
         {
             get { return this.XplotComboBox.Text; }
         }
         /// <summary>
-        /// 
+        /// get the log entry to set y label.
         /// </summary>
         public String Y
         {
             get { return this.YPlotComboBox.Text; }
         }
+        #endregion
+
+        #region Constructors
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="env"></param>
+        /// <param name="env">ApplicationEnvironment</param>
         public SelectPlotDataDialog(ApplicationEnvironment env)
         {
             InitializeComponent();
@@ -72,7 +76,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 YPlotComboBox.Items.Add(data);
             }
         }
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// Closing the SelectPlotDataDialog.
+        /// </summary>
+        /// <param name="sender">SelectPlotDataDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void ClosingSelectPlotDataDialog(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -89,5 +100,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 e.Cancel = true;
             }
         }
+        #endregion
     }
 }

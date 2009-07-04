@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Add the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
-        /// <param name="isdispatch"></param>
+        /// <param name="isdispatch">the flag whether select event is dispatched.</param>
         public void SelectNodes(TreeNode tn, bool isdispatch)
         {
             if (m_isUpdate)
@@ -235,7 +235,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Deselect the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
-        /// <param name="isdispatch"></param>
+        /// <param name="isdispatch">the flag whether select event is dispatched</param>
         public void DeselectNode(TreeNode tn, bool isdispatch)
         {
             if (m_isUpdate)

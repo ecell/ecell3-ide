@@ -61,6 +61,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The menu item for [Show] -> [Show TraceWindow].
         /// </summary>
         ToolStripMenuItem m_showWin;
+        /// <summary>
+        /// The menu item for [Show] -> [Show PlotWindow].
+        /// </summary>
         ToolStripMenuItem m_plotWin;
         /// <summary>
         /// The menu item for [Show] -> [Show Save Trace].
@@ -70,7 +73,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The current TracerWindow.
         /// </summary>
         private TraceWindow m_win = null;
-
+        /// <summary>
+        /// Data format
+        /// </summary>
         private string m_dataformat = "e4";
         /// <summary>
         /// The list of TracerWindow.
@@ -117,18 +122,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         static public double s_count = 10000.0;
         /// <summary>
-        /// 
+        /// The drawing area for duplicate.
         /// </summary>
         static public double s_duple = 1.25;
         /// <summary>
         /// The time interval to redraw.
         /// </summary>
         int m_timespan = 100;
+        /// <summary>
+        /// The flag whether simulation is stepping.
+        /// </summary>
         bool isStep = false;
+        /// <summary>
+        /// The number of TraceWindow.
+        /// </summary>
         int m_winCount = 1;
+        /// <summary>
+        /// Logger window.
+        /// </summary>
         private LoggerWindow m_loggerWin;
-
+        /// <summary>
+        /// Setting object for Y2 axis.
+        /// </summary>
         private YAxisSettings m_setting = new YAxisSettings();
+        /// <summary>
+        /// The list of continuous log entry.
+        /// </summary>
+        private List<TagData> m_isContiuousList = new List<TagData>();
         #endregion
 
         #region Constructor
@@ -150,7 +170,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get / set the number of plots.
         /// </summary>
         public int PlotNumber
         {
@@ -179,11 +199,20 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     t.SetDefaultSetting(this.m_setting);
             }
         }
+
+        /// <summary>
+        /// get/set the current TraceWindow.
+        /// </summary>
+        public TraceWindow CurrentWin
+        {
+            get { return this.m_win; }
+            set { this.m_win = value; }
+        }
         #endregion
 
         #region Initializer
         /// <summary>
-        /// 
+        /// Initialize the components.
         /// </summary>
         public override void  Initialize()
         {
@@ -254,63 +283,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DataManager_DisplayFormatEvent);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
-        public void LoggerManager_LoggerDeleteEvent(object o, LoggerEventArgs e)
-        {
-            if (m_loggerWin != null)
-                m_loggerWin.LoggerDeleted(e.Entry);
-
-            LoggerEntry entry = e.Entry;
-            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
-            tag.isLoaded = e.Entry.IsLoaded;
-            tag.FileName = e.Entry.FileName;
-            RemoveFromEntry(tag);
-        }
-
-        private void LoggerManager_LoggerChangedEvent(object o, LoggerEventArgs e)
-        {
-            if (m_loggerWin != null)
-                m_loggerWin.LoggerChanged(e.OriginalFullPN, e.Entry);
-
-            foreach (TraceWindow w in m_winList)
-                w.LoggerChanged(e.OriginalFullPN, e.Entry);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
-        public void LoggerManager_LoggerAddEvent(object o, LoggerEventArgs e)
-        {
-            LoggerEntry entry = e.Entry;
-            if (m_loggerWin != null)
-                m_loggerWin.LoggerAdd(entry);
-
-            EcellObject obj = m_dManager.GetEcellObject(entry.ModelID, entry.ID, entry.Type);
-            bool isContinue = true;
-            if (obj != null)
-            {
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
-                    {
-                        isContinue = (int)d.Value != 0;
-                        break;
-                    }
-                }
-            }
-            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, isContinue);
-            tag.isLoaded = e.Entry.IsLoaded;
-            tag.FileName = e.Entry.FileName;
-            AddToEntry(entry, tag);
-        }
         #endregion
+
 
         #region Inherited from PluginBase
         /// <summary>
@@ -452,9 +426,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Get the property setting of common setting dialog.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of property setting.</returns>
         public override List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node = new PropertyNode(MessageResources.NameGraphSetting);
@@ -474,10 +448,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             return "TracerWindow";
         }
+
         /// <summary>
-        /// 
+        /// Get the public deledate function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the dictionary of name and delefate function.</returns>
         public override Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
@@ -510,7 +485,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Get whether this plugin is enable to print directly.
         /// </summary>
         /// <returns></returns>
         public bool IsDirect()
@@ -520,15 +495,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         #endregion
 
         #region Internal Methods
-        /// <summary>
-        /// get/set the current TraceWindow.
-        /// </summary>
-        public TraceWindow CurrentWin
-        {
-            get { return this.m_win; }
-            set { this.m_win = value; }
-        }
-
         /// <summary>
         /// Get the current simulation time, and calculate the step using that time.
         /// This function get the plot data from DataManager with start, end and step time.
@@ -620,7 +586,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Invoke method to add the data to DataGridView.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">the log entry</param>
         /// <param name="tag">tag data</param>
         void AddToEntry(LoggerEntry entry, TagData tag)
         {
@@ -664,7 +630,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
-        private List<TagData> m_isContiuousList = new List<TagData>();
 
         /// <summary>
         /// Call this function, when simulation start.
@@ -714,6 +679,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_time.Start();
         }
 
+        /// <summary>
+        /// Get whether this entry is continuous.
+        /// </summary>
+        /// <param name="t">the log entry.</param>
+        /// <returns>the flag whether this entry is continuous</returns>
         private EcellValue IsContinuous(TagData t)
         {
             string FullPN = t.Type + Constants.delimiterColon + t.M_key +
@@ -748,14 +718,70 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             isSuspend = true;
         }
+
+        /// <summary>
+        /// Get the window list to display the logger entry.
+        /// </summary>
+        /// <param name="entry">the logger entry.</param>
+        /// <returns>the window list.</returns>
+        public Dictionary<string, bool> GetDisplayWindows(LoggerEntry entry)
+        {
+            Dictionary<string, bool> result = new Dictionary<string, bool>();
+            foreach (TraceWindow w in m_winList)
+            {
+                string name = w.TabText;
+                bool isDisplay = w.IsDisplay(entry);
+                result.Add(name, isDisplay);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Show TraceWindow to show the loaded log.
+        /// </summary>
+        /// <param name="filename">the log file.</param>
+        /// <param name="isNewWin">the flag whether new window is shown.</param>
+        private void ShowTraceWindow(string filename, bool isNewWin)
+        {
+            if (isNewWin == true || m_win == null)
+                m_showWin.PerformClick();
+
+            m_loggerWin.ImportLog(filename, m_win);
+        }
+
+        /// <summary>
+        /// Change the status of display.
+        /// </summary>
+        /// <param name="entry">the logger entry.</param>
+        /// <param name="name">the window name.</param>
+        /// <param name="isDisplay">the flag whether the log entry is shown.</param>
+        public void ChangeDisplayStatus(LoggerEntry entry, string name, bool isDisplay)
+        {
+            foreach (TraceWindow w in m_winList)
+            {
+                if (w.TabText.Equals(name))
+                {
+                    w.ChangedDisplayStatus(entry, isDisplay);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Execute tracer widonw with threading.
+        /// </summary>
+        public void TraceWindowAppStart()
+        {
+            Util.InitialLanguage();
+            Application.Run(m_win);
+        }
         #endregion
 
         #region Event
         /// <summary>
-        /// 
+        /// Event when Display format is changed.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        /// <param name="o">DataManager.</param>
+        /// <param name="e">DisplayFormatEventArgs</param>
         private void DataManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
             m_dataformat = e.DisplayFormat;
@@ -801,36 +827,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_time.Enabled = true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
-        public Dictionary<string, bool> GetDisplayWindows(LoggerEntry entry)
-        {
-            Dictionary<string, bool> result = new Dictionary<string, bool>();
-            foreach (TraceWindow w in m_winList)
-            {
-                string name = w.TabText;
-                bool isDisplay = w.IsDisplay(entry);
-                result.Add(name, isDisplay);
-            }
-            return result;
-        }
-
-        private void ShowTraceWindow(string filename, bool isNewWin)
-        {
-            if (isNewWin == true || m_win == null)
-                m_showWin.PerformClick();
-            
-            m_loggerWin.ImportLog(filename, m_win);
-        }
 
         /// <summary>
         /// Show the dialog to save the trace.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         void ShowSaveTracerWindow(Object sender, EventArgs e)
         {
             try
@@ -858,11 +860,78 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        /// <summary>
+        /// Show the plot window.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         void ShowPlotWindow(Object sender, EventArgs e)
         {
             PlotterWindow win = new PlotterWindow(this);
             win.Show();
         }
+
+        /// <summary>
+        /// Event when the logger entry is deleted.
+        /// </summary>
+        /// <param name="o">LoggerManager.</param>
+        /// <param name="e">LoggerEventArgs</param>
+        public void LoggerManager_LoggerDeleteEvent(object o, LoggerEventArgs e)
+        {
+            if (m_loggerWin != null)
+                m_loggerWin.LoggerDeleted(e.Entry);
+
+            LoggerEntry entry = e.Entry;
+            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
+            tag.isLoaded = e.Entry.IsLoaded;
+            tag.FileName = e.Entry.FileName;
+            RemoveFromEntry(tag);
+        }
+
+        /// <summary>
+        /// Event when the logger entry is changed.
+        /// </summary>
+        /// <param name="o">LoggerManager.</param>
+        /// <param name="e">LoggerEventArgs</param>
+        private void LoggerManager_LoggerChangedEvent(object o, LoggerEventArgs e)
+        {
+            if (m_loggerWin != null)
+                m_loggerWin.LoggerChanged(e.OriginalFullPN, e.Entry);
+
+            foreach (TraceWindow w in m_winList)
+                w.LoggerChanged(e.OriginalFullPN, e.Entry);
+        }
+
+        /// <summary>
+        /// Event when the logger entry is added.
+        /// </summary>
+        /// <param name="o">LoggerManager.</param>
+        /// <param name="e">LoggerEventArgs</param>
+        public void LoggerManager_LoggerAddEvent(object o, LoggerEventArgs e)
+        {
+            LoggerEntry entry = e.Entry;
+            if (m_loggerWin != null)
+                m_loggerWin.LoggerAdd(entry);
+
+            EcellObject obj = m_dManager.GetEcellObject(entry.ModelID, entry.ID, entry.Type);
+            bool isContinue = true;
+            if (obj != null)
+            {
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
+                    {
+                        isContinue = (int)d.Value != 0;
+                        break;
+                    }
+                }
+            }
+            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, isContinue);
+            tag.isLoaded = e.Entry.IsLoaded;
+            tag.FileName = e.Entry.FileName;
+            AddToEntry(entry, tag);
+        }
+
 
         /// <summary>
         /// Show tracer window with thread.
@@ -900,33 +969,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="name"></param>
-        /// <param name="isDisplay"></param>
-        public void ChangeDisplayStatus(LoggerEntry entry, string name, bool isDisplay)
-        {
-            foreach (TraceWindow w in m_winList)
-            {
-                if (w.TabText.Equals(name))
-                {
-                    w.ChangedDisplayStatus(entry, isDisplay);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Execute tracer widonw with threading.
-        /// </summary>
-        public void TraceWindowAppStart()
-        {
-            Util.InitialLanguage();
-            Application.Run(m_win);
-        }
-
-        /// <summary>
         /// The action of disposing tracer window.
         /// </summary>
         /// <param name="sender">Tracer Window.</param>
@@ -951,13 +993,36 @@ namespace Ecell.IDE.Plugins.TracerWindow
     /// </summary>
     public class TagData
     {
+        #region Fields
+        /// <summary>
+        /// The model ID of tag data.
+        /// </summary>
         private string m_modelID;
+        /// <summary>
+        /// The key of tag data. 
+        /// </summary>
         private string m_key;
+        /// <summary>
+        /// The type of tag data.
+        /// </summary>
         private string m_type;
+        /// <summary>
+        /// Path of tag data.
+        /// </summary>
         private string m_path;
+        /// <summary>
+        /// The loaded file name.
+        /// </summary>
         private string m_fileName = null;
+        /// <summary>
+        /// The flag whether this log is loaded.
+        /// </summary>
         private bool m_isLoaded = false;
+        /// <summary>
+        /// The flag whether this log is continuous.
+        /// </summary>
         private bool m_isContinue = false;
+        #endregion
 
         /// <summary>
         /// get / set model ID of tag data.
@@ -1054,7 +1119,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Get string from tag data.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the format string.</returns>
         public override string ToString()
         {
             string data = "0";
@@ -1067,7 +1132,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Get string from tag data.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the short format string.</returns>
         public String ToShortString()
         {
             string file = "";
@@ -1078,7 +1143,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Set hash code to sort.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the hash code.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();

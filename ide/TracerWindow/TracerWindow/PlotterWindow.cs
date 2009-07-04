@@ -42,10 +42,11 @@ using Ecell.Plugin;
 namespace Ecell.IDE.Plugins.TracerWindow
 {
     /// <summary>
-    /// 
+    /// Plotter window.
     /// </summary>
     public partial class PlotterWindow : EcellDockContent
     {
+        #region Fields
         /// <summary>
         /// The object managed this window.
         /// </summary>
@@ -54,13 +55,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Graph control for tracer.
         /// </summary>
         private ZedGraphControl m_zCnt;
-        private DataGridViewRow m_row = null;
-        private int m_entryNum = 0;
-        private Dictionary<int, LineItem> m_lineDic = new Dictionary<int, LineItem>();
         /// <summary>
-        /// 
+        /// The current row.
         /// </summary>
-        /// <param name="control"></param>
+        private DataGridViewRow m_row = null;
+        /// <summary>
+        /// The number of log entry.
+        /// </summary>
+        private int m_entryNum = 0;
+        /// <summary>
+        /// The dictionary of data and LineItem.
+        /// </summary>
+        private Dictionary<int, LineItem> m_lineDic = new Dictionary<int, LineItem>();
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="control">Owner object</param>
         public PlotterWindow(TracerWindow control)
         {
             m_owner = control;
@@ -93,7 +106,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             displaySettingDataGrid.ContextMenuStrip = gridContextMenuStrip;
         }
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// Click the add log menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickAddEntry(object sender, EventArgs e)
         {
             SelectPlotDataDialog dialog = new SelectPlotDataDialog(m_owner.Environment);
@@ -161,6 +181,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        /// <summary>
+        /// Click the delete log menu.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ClickDeleteEntry(object sender, EventArgs e)
         {
             if (m_row.Tag == null) return;
@@ -172,6 +197,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        /// <summary>
+        /// Opening the context menu on DataGridView.
+        /// </summary>
+        /// <param name="sender">ContextMenuStripItem</param>
+        /// <param name="e">CancelEventArgs</param>
         private void OpeningContextMenu(object sender, CancelEventArgs e)
         {
             if (m_row == null)
@@ -182,7 +212,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 deleteToolStripMenuItem.Enabled = true;
         }
 
-        void CellDoubleClicked(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// Double click on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
+        private void CellDoubleClicked(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             DataGridViewImageCell c = displaySettingDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] 
@@ -192,10 +227,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
             int index = (int)displaySettingDataGrid.Rows[e.RowIndex].Tag;
 
             ShowColorSetDialog(index, e.RowIndex, e.ColumnIndex);
-
         }
 
-        void ShowColorSetDialog(int index, int rowIndex, int columnIndex)
+        /// <summary>
+        /// Mouse click on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellMouseEventArgs</param>
+        private void CellMouseClicked(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                m_row = null;
+                if (e.RowIndex >= 0)
+                {
+                    m_row = displaySettingDataGrid.Rows[e.RowIndex];
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Show the color select dialog.
+        /// </summary>
+        /// <param name="index">the line index.</param>
+        /// <param name="rowIndex">the row index of cell.</param>
+        /// <param name="columnIndex">the column index of cell.</param>
+        private void ShowColorSetDialog(int index, int rowIndex, int columnIndex)
         {
             DataGridViewImageCell cell = displaySettingDataGrid.Rows[rowIndex].Cells[columnIndex] 
                 as DataGridViewImageCell;
@@ -216,16 +274,5 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
-        private void CellMouseClicked(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                m_row = null;
-                if (e.RowIndex >= 0)
-                {
-                    m_row = displaySettingDataGrid.Rows[e.RowIndex];
-                }
-            }
-        }
     }
 }

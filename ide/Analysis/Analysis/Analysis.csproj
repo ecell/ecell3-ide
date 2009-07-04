@@ -101,26 +101,26 @@
     <Compile Include="AnalysisFile\ParameterEstimationParameterFile.cs" />
     <Compile Include="AnalysisFile\RobustAnalysisParameterFile.cs" />
     <Compile Include="AnalysisFile\SensitivityAnalysisParameterFile.cs" />
-    <Compile Include="AnalysisResultWindow.cs">
+    <Compile Include="UIComponents\AnalysisResultWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AnalysisResultWindow.Designer.cs">
+    <Compile Include="UIComponents\AnalysisResultWindow.Designer.cs">
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="BifurcationAnalysis.cs" />
-    <Compile Include="BifurcationSettingDialog.cs">
+    <Compile Include="UIComponents\BifurcationSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BifurcationSettingDialog.Designer.cs">
+    <Compile Include="UIComponents\BifurcationSettingDialog.Designer.cs">
       <DependentUpon>BifurcationSettingDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Calculator.cs" />
     <Compile Include="AnalysisFile\AnalysisParameterFile.cs" />
     <Compile Include="AnalysisFile\BifurcationAnlaysisParameterFile.cs" />
-    <Compile Include="GraphResultWindow.cs">
+    <Compile Include="UIComponents\GraphResultWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GraphResultWindow.Designer.cs">
+    <Compile Include="UIComponents\GraphResultWindow.Designer.cs">
       <DependentUpon>GraphResultWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageResources.Designer.cs">
@@ -129,16 +129,16 @@
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ParameterEstimation.cs" />
-    <Compile Include="ParameterEstimationResultWindow.cs">
+    <Compile Include="UIComponents\ParameterEstimationResultWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ParameterEstimationResultWindow.Designer.cs">
+    <Compile Include="UIComponents\ParameterEstimationResultWindow.Designer.cs">
       <DependentUpon>ParameterEstimationResultWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParameterEstimationSettingDialog.cs">
+    <Compile Include="UIComponents\ParameterEstimationSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ParameterEstimationSettingDialog.Designer.cs">
+    <Compile Include="UIComponents\ParameterEstimationSettingDialog.Designer.cs">
       <DependentUpon>ParameterEstimationSettingDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,45 +148,45 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RobustAnalysis.cs" />
-    <Compile Include="RobustAnalysisSettingDialog.cs">
+    <Compile Include="UIComponents\RobustAnalysisSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RobustAnalysisSettingDialog.Designer.cs">
+    <Compile Include="UIComponents\RobustAnalysisSettingDialog.Designer.cs">
       <DependentUpon>RobustAnalysisSettingDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="SensitivityAnalysis.cs" />
-    <Compile Include="SensitivityAnalysisSettingDialog.cs">
+    <Compile Include="UIComponents\SensitivityAnalysisSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SensitivityAnalysisSettingDialog.Designer.cs">
+    <Compile Include="UIComponents\SensitivityAnalysisSettingDialog.Designer.cs">
       <DependentUpon>SensitivityAnalysisSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="SensitivityAnalysisResultWindow.cs">
+    <Compile Include="UIComponents\SensitivityAnalysisResultWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SensitivityAnalysisResultWindow.Designer.cs">
+    <Compile Include="UIComponents\SensitivityAnalysisResultWindow.Designer.cs">
       <DependentUpon>SensitivityAnalysisResultWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="SimplexCrossoverParameter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AnalysisResultWindow.ja.resx">
+    <EmbeddedResource Include="UIComponents\AnalysisResultWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AnalysisResultWindow.resx">
+    <EmbeddedResource Include="UIComponents\AnalysisResultWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BifurcationSettingDialog.ja.resx">
+    <EmbeddedResource Include="UIComponents\BifurcationSettingDialog.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>BifurcationSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BifurcationSettingDialog.resx">
+    <EmbeddedResource Include="UIComponents\BifurcationSettingDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>BifurcationSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraphResultWindow.resx">
+    <EmbeddedResource Include="UIComponents\GraphResultWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GraphResultWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,19 +198,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ParameterEstimationResultWindow.ja.resx">
+    <EmbeddedResource Include="UIComponents\ParameterEstimationResultWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ParameterEstimationResultWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ParameterEstimationResultWindow.resx">
+    <EmbeddedResource Include="UIComponents\ParameterEstimationResultWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ParameterEstimationResultWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ParameterEstimationSettingDialog.ja.resx">
+    <EmbeddedResource Include="UIComponents\ParameterEstimationSettingDialog.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ParameterEstimationSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ParameterEstimationSettingDialog.resx">
+    <EmbeddedResource Include="UIComponents\ParameterEstimationSettingDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ParameterEstimationSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,27 +219,27 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RobustAnalysisSettingDialog.ja.resx">
+    <EmbeddedResource Include="UIComponents\RobustAnalysisSettingDialog.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>RobustAnalysisSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RobustAnalysisSettingDialog.resx">
+    <EmbeddedResource Include="UIComponents\RobustAnalysisSettingDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>RobustAnalysisSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SensitivityAnalysisSettingDialog.ja.resx">
+    <EmbeddedResource Include="UIComponents\SensitivityAnalysisSettingDialog.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SensitivityAnalysisSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SensitivityAnalysisSettingDialog.resx">
+    <EmbeddedResource Include="UIComponents\SensitivityAnalysisSettingDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SensitivityAnalysisSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SensitivityAnalysisResultWindow.ja.resx">
+    <EmbeddedResource Include="UIComponents\SensitivityAnalysisResultWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SensitivityAnalysisResultWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SensitivityAnalysisResultWindow.resx">
+    <EmbeddedResource Include="UIComponents\SensitivityAnalysisResultWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SensitivityAnalysisResultWindow.cs</DependentUpon>
     </EmbeddedResource>

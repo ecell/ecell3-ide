@@ -1,3 +1,32 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +43,9 @@ using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.ProjectExplorer
 {
+    /// <summary>
+    /// Control to display the project by TreeView.
+    /// </summary>
     public partial class ProjectExplorerControl : EcellDockContent
     {
         #region Fields
@@ -95,39 +127,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner.Environment.JobManager.JobUpdateEvent += new Ecell.Job.JobUpdateEventHandler(UpdateJobStatus);
             m_owner.Environment.PluginManager.NodeImageListChange += new EventHandler(PluginManager_NodeImageListChange);
         }
-
-        void PluginManager_NodeImageListChange(object sender, EventArgs e)
-        {
-            foreach(TreeNode node in treeView1.Nodes)
-                ResetIcon(node);
-        }
-
-        private void ResetIcon(TreeNode node)
-        {
-            // Reset children
-            foreach (TreeNode child in node.Nodes)
-            {
-                ResetIcon(child);
-            }
-
-            // Reset Icon.
-            if (node.Tag == null || !(node.Tag is TagData))
-                return;
-            TagData tag = (TagData)node.Tag;
-            EcellObject eo = m_owner.DataManager.GetEcellObject(tag.ModelID, tag.Key, tag.Type);
-            if (eo == null)
-                return;
-            int index = m_owner.PluginManager.GetImageIndex(eo);
-            node.ImageIndex = index;
-        }
-
         #endregion
 
         #region Methods for EcellPlugin
         /// <summary>
         /// Change the status of project.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">project status.</param>
         internal void ChangeStatus(ProjectStatus type)
         {
             if (type == ProjectStatus.Loaded)
@@ -243,139 +249,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             treeView1.Sort();
         }
 
-        /// <summary>
-        /// Create Project Node.
-        /// </summary>
-        /// <param name="obj"></param>
-        private void CreateProjectNode(EcellObject obj)
-        {
-            // Create project node.
-            m_prjNode = new ProjectNode(obj.ModelID);
-            m_prjNode.ContextMenuStrip = this.contextMenuStripProject;
-            treeView1.Nodes.Add(m_prjNode);
-
-            // Create DM node.
-            m_DMNode = new DMRootNode(MessageResources.NameDMs);
-            m_DMNode.ContextMenuStrip = this.contextMenuStripDMCollection;
-            m_DMNode.Tag = null;
-            m_prjNode.Nodes.Add(m_DMNode);
-            SetDMNodes();
-
-            // Create ModelNode.
-            m_modelNode = new ModelRootNode(MessageResources.NameModel);
-            m_modelNode.Tag = null;
-            m_prjNode.Nodes.Add(m_modelNode);
-
-            // Create RevisionNode.
-            m_revisionNode = new RevisionRootNode(MessageResources.NameRevisions);
-            m_revisionNode.ContextMenuStrip = this.contextMenuStripRevisions;
-            m_revisionNode.Tag = null;
-            m_prjNode.Nodes.Add(m_revisionNode);
-            SetRevisions();
-
-            // Create parameter Node.
-            m_paramNode = new ParamRootNode(MessageResources.NameParameters);
-            m_paramNode.ContextMenuStrip = this.contextMenuSimulationSetCollection;
-            m_paramNode.Tag = null;
-            m_prjNode.Nodes.Add(m_paramNode);
-
-            // Create LogNode.
-            m_logNode = new LogRootNode(MessageResources.NameLogArchives);
-            m_logNode.Tag = null;
-            m_prjNode.Nodes.Add(m_logNode);
-            SetLogEntry(m_logNode);
-
-            // Create AnalysisNode.
-            m_analysisNode = new AnalysisRootNode(MessageResources.NameAnalysis);
-            m_analysisNode.Tag = null;
-            m_prjNode.Nodes.Add(m_analysisNode);
-            SetAnalysisNode();
-        }
-
-        /// <summary>
-        /// Set the DMs to nodes.
-        /// </summary>
-        private void SetDMNodes()
-        {
-            List<string> fileList = m_owner.Environment.DataManager.GetDMNameList();
-            foreach (string d in fileList)
-            {
-                if (!Util.IsDMFile(d))
-                    continue;
-                AddDM(d, null);
-            }
-        }
-
-        /// <summary>
-        /// Add the DM node from the selected path.
-        /// </summary>
-        /// <param name="dmName"></param>
-        /// <param name="path"></param>
-        public void AddDM(string dmName, string path)
-        {
-            DMNode dNode = new DMNode(dmName);
-            dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
-            dNode.SelectedImageIndex = dNode.ImageIndex;
-            dNode.Tag = dmName;
-            dNode.ContextMenuStrip = this.contextMenuStripDM;
-            m_DMNode.Nodes.Add(dNode);
-        }
-
-        /// <summary>
-        /// Set the analysis node in the load project.
-        /// </summary>
-        private void SetAnalysisNode()
-        {
-            m_analysisNode.Nodes.Clear();
-
-            foreach (string groupname in m_owner.Environment.JobManager.GroupDic.Keys)
-            {
-                if (!m_owner.Environment.JobManager.GroupDic[groupname].IsSaved)
-                    continue;
-                AnalysisNode node = new AnalysisNode(groupname);
-                node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathAnalysis);
-                node.SelectedImageIndex = node.ImageIndex;
-                node.Tag = groupname;
-                node.ContextMenuStrip = contextMenuStripJobGroup;
-
-                m_analysisNode.Nodes.Add(node);
-            }
-        }
-
-        /// <summary>
-        /// Set the revision node in the load project.
-        /// </summary>
-        private void SetRevisions()
-        {
-            m_revisionNode.Nodes.Clear();
-            List<string> revisionList = m_owner.Environment.DataManager.CurrentProject.GetRevisions();
-            foreach (string revision in revisionList)
-            {
-                RevisionNode rNode = new RevisionNode(revision);
-                rNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
-                rNode.SelectedImageIndex = rNode.ImageIndex;
-                rNode.Tag = revision;
-                rNode.ContextMenuStrip = this.contextMenuStripRevision;
-                m_revisionNode.Nodes.Add(rNode);
-            }
-
-            // Set Current Revision
-            TreeNode current = new TreeNode(Constants.xpathCurrent);
-            current.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
-            current.SelectedImageIndex = current.ImageIndex;
-            current.Tag = Constants.xpathCurrent;
-            current.ContextMenuStrip = this.contextMenuStripRevision;
-            m_revisionNode.Nodes.Add(current);
-
-        }
-
-        private void ClearFolderNodes()
-        {
-            m_logNode.Nodes.Clear();
-            m_analysisNode.Nodes.Clear();
-            m_revisionNode.Nodes.Clear();
-            m_DMNode.Nodes.Clear();
-        }
 
         /// <summary>
         /// Change the object in the load project.
@@ -529,49 +402,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// Set the log entry in the load project.
-        /// </summary>
-        /// <param name="node">the top node.</param>
-        private void SetLogEntry(TreeNode node)
-        {
-            List<string> logList = m_owner.Environment.DataManager.GetLogDataList();
-            Dictionary<string, TreeNode> nodeDic = new Dictionary<string, TreeNode>();
-            foreach (string name in logList)
-            {
-                string[] sep = name.Split(new char[] { ';' });
-                LogNode n = new LogNode(sep[1]);
-                n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
-                n.SelectedImageIndex = n.ImageIndex;
-                n.Tag = new TagData("", sep[2], Constants.xpathLog);
-                n.ContextMenuStrip = this.contextMenuStripLog;
-
-                if (nodeDic.ContainsKey(sep[0]))
-                {
-                    nodeDic[sep[0]].Nodes.Add(n);
-                }
-                else
-                {
-                    TreeNode logNode = new TreeNode(sep[0]);
-                    logNode.Tag = null;
-                    node.Nodes.Add(logNode);
-                    nodeDic.Add(sep[0], logNode);
-                    logNode.Nodes.Add(n);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Refresh the log entry node.
-        /// </summary>
-        public void RefreshLogEntry()
-        {
-            if (m_logNode == null)
-                return;
-            m_logNode.Nodes.Clear();
-            SetLogEntry(m_logNode);
-        }
-
-        /// <summary>
         /// Add the parameter node.
         /// </summary>
         /// <param name="projectID">the project id.</param>
@@ -631,7 +461,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_DMNode = null;
             m_analysisNode = null;
         }
-
         #endregion
 
         #region Methods for Internal use.
@@ -644,6 +473,209 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             ShowDialogDelegate dlg = m_owner.PluginManager.GetDelegate(Constants.delegateShowPropertyWindow) as ShowDialogDelegate;
             if (dlg != null)
                 dlg();
+        }
+
+        /// <summary>
+        /// Set the log entry in the load project.
+        /// </summary>
+        /// <param name="node">the top node.</param>
+        private void SetLogEntry(TreeNode node)
+        {
+            List<string> logList = m_owner.Environment.DataManager.GetLogDataList();
+            Dictionary<string, TreeNode> nodeDic = new Dictionary<string, TreeNode>();
+            foreach (string name in logList)
+            {
+                string[] sep = name.Split(new char[] { ';' });
+                LogNode n = new LogNode(sep[1]);
+                n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
+                n.SelectedImageIndex = n.ImageIndex;
+                n.Tag = new TagData("", sep[2], Constants.xpathLog);
+                n.ContextMenuStrip = this.contextMenuStripLog;
+
+                if (nodeDic.ContainsKey(sep[0]))
+                {
+                    nodeDic[sep[0]].Nodes.Add(n);
+                }
+                else
+                {
+                    TreeNode logNode = new TreeNode(sep[0]);
+                    logNode.Tag = null;
+                    node.Nodes.Add(logNode);
+                    nodeDic.Add(sep[0], logNode);
+                    logNode.Nodes.Add(n);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Refresh the log entry node.
+        /// </summary>
+        public void RefreshLogEntry()
+        {
+            if (m_logNode == null)
+                return;
+            m_logNode.Nodes.Clear();
+            SetLogEntry(m_logNode);
+        }
+
+        /// <summary>
+        /// Create Project Node.
+        /// </summary>
+        /// <param name="obj">the project object.</param>
+        private void CreateProjectNode(EcellObject obj)
+        {
+            // Create project node.
+            m_prjNode = new ProjectNode(obj.ModelID);
+            m_prjNode.ContextMenuStrip = this.contextMenuStripProject;
+            treeView1.Nodes.Add(m_prjNode);
+
+            // Create DM node.
+            m_DMNode = new DMRootNode(MessageResources.NameDMs);
+            m_DMNode.ContextMenuStrip = this.contextMenuStripDMCollection;
+            m_DMNode.Tag = null;
+            m_prjNode.Nodes.Add(m_DMNode);
+            SetDMNodes();
+
+            // Create ModelNode.
+            m_modelNode = new ModelRootNode(MessageResources.NameModel);
+            m_modelNode.Tag = null;
+            m_prjNode.Nodes.Add(m_modelNode);
+
+            // Create RevisionNode.
+            m_revisionNode = new RevisionRootNode(MessageResources.NameRevisions);
+            m_revisionNode.ContextMenuStrip = this.contextMenuStripRevisions;
+            m_revisionNode.Tag = null;
+            m_prjNode.Nodes.Add(m_revisionNode);
+            SetRevisions();
+
+            // Create parameter Node.
+            m_paramNode = new ParamRootNode(MessageResources.NameParameters);
+            m_paramNode.ContextMenuStrip = this.contextMenuSimulationSetCollection;
+            m_paramNode.Tag = null;
+            m_prjNode.Nodes.Add(m_paramNode);
+
+            // Create LogNode.
+            m_logNode = new LogRootNode(MessageResources.NameLogArchives);
+            m_logNode.Tag = null;
+            m_prjNode.Nodes.Add(m_logNode);
+            SetLogEntry(m_logNode);
+
+            // Create AnalysisNode.
+            m_analysisNode = new AnalysisRootNode(MessageResources.NameAnalysis);
+            m_analysisNode.Tag = null;
+            m_prjNode.Nodes.Add(m_analysisNode);
+            SetAnalysisNode();
+        }
+
+        /// <summary>
+        /// Set the DMs to nodes.
+        /// </summary>
+        private void SetDMNodes()
+        {
+            List<string> fileList = m_owner.Environment.DataManager.GetDMNameList();
+            foreach (string d in fileList)
+            {
+                if (!Util.IsDMFile(d))
+                    continue;
+                AddDM(d, null);
+            }
+        }
+
+        /// <summary>
+        /// Add the DM node from the selected path.
+        /// </summary>
+        /// <param name="dmName">the DM name.</param>
+        /// <param name="path">the DM file path.</param>
+        public void AddDM(string dmName, string path)
+        {
+            DMNode dNode = new DMNode(dmName);
+            dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
+            dNode.SelectedImageIndex = dNode.ImageIndex;
+            dNode.Tag = dmName;
+            dNode.ContextMenuStrip = this.contextMenuStripDM;
+            m_DMNode.Nodes.Add(dNode);
+        }
+
+        /// <summary>
+        /// Set the analysis node in the load project.
+        /// </summary>
+        private void SetAnalysisNode()
+        {
+            m_analysisNode.Nodes.Clear();
+
+            foreach (string groupname in m_owner.Environment.JobManager.GroupDic.Keys)
+            {
+                if (!m_owner.Environment.JobManager.GroupDic[groupname].IsSaved)
+                    continue;
+                AnalysisNode node = new AnalysisNode(groupname);
+                node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathAnalysis);
+                node.SelectedImageIndex = node.ImageIndex;
+                node.Tag = groupname;
+                node.ContextMenuStrip = contextMenuStripJobGroup;
+
+                m_analysisNode.Nodes.Add(node);
+            }
+        }
+
+        /// <summary>
+        /// Set the revision node in the load project.
+        /// </summary>
+        private void SetRevisions()
+        {
+            m_revisionNode.Nodes.Clear();
+            List<string> revisionList = m_owner.Environment.DataManager.CurrentProject.GetRevisions();
+            foreach (string revision in revisionList)
+            {
+                RevisionNode rNode = new RevisionNode(revision);
+                rNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
+                rNode.SelectedImageIndex = rNode.ImageIndex;
+                rNode.Tag = revision;
+                rNode.ContextMenuStrip = this.contextMenuStripRevision;
+                m_revisionNode.Nodes.Add(rNode);
+            }
+
+            // Set Current Revision
+            TreeNode current = new TreeNode(Constants.xpathCurrent);
+            current.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathModel);
+            current.SelectedImageIndex = current.ImageIndex;
+            current.Tag = Constants.xpathCurrent;
+            current.ContextMenuStrip = this.contextMenuStripRevision;
+            m_revisionNode.Nodes.Add(current);
+
+        }
+
+        /// <summary>
+        /// Clear the nodes of project.
+        /// </summary>
+        private void ClearFolderNodes()
+        {
+            m_logNode.Nodes.Clear();
+            m_analysisNode.Nodes.Clear();
+            m_revisionNode.Nodes.Clear();
+            m_DMNode.Nodes.Clear();
+        }
+
+        /// <summary>
+        /// Reset icon of TreeNode.
+        /// </summary>
+        /// <param name="node">the reset node.</param>
+        private void ResetIcon(TreeNode node)
+        {
+            // Reset children
+            foreach (TreeNode child in node.Nodes)
+            {
+                ResetIcon(child);
+            }
+
+            // Reset Icon.
+            if (node.Tag == null || !(node.Tag is TagData))
+                return;
+            TagData tag = (TagData)node.Tag;
+            EcellObject eo = m_owner.DataManager.GetEcellObject(tag.ModelID, tag.Key, tag.Type);
+            if (eo == null)
+                return;
+            int index = m_owner.PluginManager.GetImageIndex(eo);
+            node.ImageIndex = index;
         }
 
         /// <summary>
@@ -917,6 +949,36 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// Set the enable of popupmenu.
+        /// </summary>
+        private void SetPopupMenuAvailability()
+        {
+            ProjectStatus status = m_owner.PluginManager.Status;
+            bool saved = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
+            bool revision = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
+            bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
+            bool current = m_lastSelectedNode is RevisionNode && m_lastSelectedNode.Text == Constants.xpathCurrent;
+
+            // SimulationStatus
+            configureSimulationSetToolStripMenuItem.Enabled = !simulation;
+            // Revision
+            loadRevisionMenuItem.Enabled = !simulation && (saved || revision);
+            createNewRevisionMenuItem.Enabled = !simulation && saved;
+            createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
+            //            exportRevisionEMLMenuItem.Enabled = !current;
+            exportRevisionZipMenuItem.Enabled = !current;
+
+            // Zip
+            zipToolStripMenuItem.Enabled = !simulation && saved;
+
+            if (m_lastSelectedNode is DMNode)
+            {
+                string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
+                compileToolStripMenuItem.Enabled = (Util.IsInstalledSDK() && path != null);
+                editToolStripMenuItem.Enabled = (path != null);
+            }
+        }
         #endregion
 
         #region Event
@@ -1068,36 +1130,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
-        /// <summary>
-        /// Set the enable of popupmenu.
-        /// </summary>
-        private void SetPopupMenuAvailability()
-        {
-            ProjectStatus status = m_owner.PluginManager.Status;
-            bool saved = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
-            bool revision = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
-            bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
-            bool current = m_lastSelectedNode is RevisionNode && m_lastSelectedNode.Text == Constants.xpathCurrent;
-
-            // SimulationStatus
-            configureSimulationSetToolStripMenuItem.Enabled = !simulation;
-            // Revision
-            loadRevisionMenuItem.Enabled = !simulation && (saved || revision);
-            createNewRevisionMenuItem.Enabled = !simulation && saved;
-            createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
-//            exportRevisionEMLMenuItem.Enabled = !current;
-            exportRevisionZipMenuItem.Enabled = !current;
-
-            // Zip
-            zipToolStripMenuItem.Enabled = !simulation && saved;
-
-            if (m_lastSelectedNode is DMNode)
-            {
-                string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
-                compileToolStripMenuItem.Enabled = (Util.IsInstalledSDK() && path != null);
-                editToolStripMenuItem.Enabled = (path != null);
-            }
-        }
 
         /// <summary>
         /// Double click the node.
@@ -1573,9 +1605,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 File.Copy(model, fileName, true);
             }
-        }
-
-        
+        }        
 
         /// <summary>
         /// Click the export revision to Zip menu.
@@ -1710,9 +1740,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.Environment.JobManager.RemoveJobGroup(groupName);
             }
         }
+
+        /// <summary>
+        /// Event when node image list is changed.
+        /// </summary>
+        /// <param name="sender">PluginManager</param>
+        /// <param name="e">EventArgs</param>
+        void PluginManager_NodeImageListChange(object sender, EventArgs e)
+        {
+            foreach (TreeNode node in treeView1.Nodes)
+                ResetIcon(node);
+        }
         #endregion
 
         #region ShortCuts
+        /// <summary>
+        /// Delete the selected rows.
+        /// </summary>
         private void DeletedSelectionRow()
         {
             List<TagData> delList = new List<TagData>();
@@ -1744,12 +1788,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 Util.ShowErrorDialog(ex.Message);
             }
         }
+
         /// <summary>
-        /// 
+        /// Press key on TreeView.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
-        /// <returns></returns>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
+        /// <returns>the flag whether this event is handled.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
@@ -1761,165 +1806,175 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
-
     }
 
     #region Node classes
     /// <summary>
-    /// 
+    /// TreeNode for the project.
     /// </summary>
     internal class ProjectNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">project ID.</param>
         internal ProjectNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the model root.
     /// </summary>
     internal class ModelRootNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">Models</param>
         internal ModelRootNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the model.
     /// </summary>
     internal class ModelNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">model name.</param>
         internal ModelNode(string text)
             : base(text)
         {
 
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the parameter root.
     /// </summary>
     internal class ParamRootNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">Parameters.</param>
         internal ParamRootNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the parameter.
     /// </summary>
     internal class ParamNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">the parameter name.</param>
         internal ParamNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the DM root.
     /// </summary>
     internal class DMRootNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">DMs</param>
         internal DMRootNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the DM.
     /// </summary>
     internal class DMNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">the dm name.</param>
         internal DMNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the Log root.
     /// </summary>
     internal class LogRootNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">Logs</param>
         internal LogRootNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the Log.
     /// </summary>
     internal class LogNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">the log entry.</param>
         internal LogNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the revision root.
     /// </summary>
     internal class RevisionRootNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">Revisions</param>
         internal RevisionRootNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// TreeNode for the revision.
     /// </summary>
     internal class RevisionNode : TreeNode
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">the revision number.</param>
         internal RevisionNode(string text)
             : base(text)
         {
         }
     }
+
     /// <summary>
     /// TreeNode for the root of analysis.
     /// </summary>
@@ -1934,6 +1989,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
         }
     }
+
     /// <summary>
     /// TreeNode for the analysis.
     /// </summary>
@@ -1957,21 +2013,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     public class NameSorter : IComparer<TreeNode>, System.Collections.IComparer
     {
         /// <summary>
-        /// Compare with two object by name.
+        /// Compare with two TreeNode by name.
         /// </summary>
-        /// <param name="tx">compared object.</param>
-        /// <param name="ty">compare object.</param>
-        /// <returns></returns>
+        /// <param name="tx">the compared object.</param>
+        /// <param name="ty">the compare object.</param>
+        /// <returns>the compare result.</returns>
         public int Compare(TreeNode tx, TreeNode ty)
         {
             return string.Compare(tx.Text, ty.Text);
         }
+
         /// <summary>
-        /// 
+        /// Compare with two object.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
+        /// <param name="x">the compared object.</param>
+        /// <param name="y">the compare object.</param>
+        /// <returns>the compare result.</returns>
         int System.Collections.IComparer.Compare(object x, object y)
         {
             return Compare(x as TreeNode, y as TreeNode);
@@ -1989,9 +2046,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// The first, system sort by the type of object.
         /// The second, system sort by the name of object.
         /// </summary>
-        /// <param name="tx"></param>
-        /// <param name="ty"></param>
-        /// <returns></returns>
+        /// <param name="tx">the compared object.</param>
+        /// <param name="ty">the compare object.</param>
+        /// <returns>the compare result.</returns>
         public int Compare(TreeNode tx, TreeNode ty)
         {
             TagData tagx = tx.Tag as TagData;
@@ -2007,11 +2064,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return GetTypeNum(tagx.Type) - GetTypeNum(tagy.Type);
         }
         /// <summary>
-        /// 
+        /// Compare with two object.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
+        /// <param name="tx">the compared object.</param>
+        /// <param name="ty">the compare object.</param>
+        /// <returns>the compare result.</returns>
         int System.Collections.IComparer.Compare(object x, object y)
         {
             return Compare(x as TreeNode, y as TreeNode);

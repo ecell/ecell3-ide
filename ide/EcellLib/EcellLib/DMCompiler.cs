@@ -46,8 +46,17 @@ namespace Ecell
     public class DMCompiler
     {
         #region Fields
+        /// <summary>
+        /// source file path.
+        /// </summary>
         private string m_sourceFile;
+        /// <summary>
+        /// output file path.
+        /// </summary>
         private string m_outputFile;
+        /// <summary>
+        /// DM file path.
+        /// </summary>
         private string m_dmFile;
         #endregion
 
@@ -79,7 +88,7 @@ namespace Ecell
             set { this.m_outputFile = value; }
         }
         /// <summary>
-        /// 
+        /// get / set the dm file.
         /// </summary>
         public string DMFile
         {

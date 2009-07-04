@@ -103,7 +103,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// The delegate for updating the graph window.
         /// </summary>
-        /// <param name="isAxis"></param>
+        /// <param name="isAxis">the flag whether the range of axis is changed.</param>
         delegate void UpdateGraphCallBack(bool isAxis);
         /// <summary>
         /// The delegate for changing this aplication status.
@@ -287,8 +287,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Add logger entry to DataGridView and ZedGraphControl.
         /// Added logger entry is registed to m_paneDic.
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="tag">logger entry</param>
+        /// <param name="entry">the log entry</param>
+        /// <param name="tag">the tag of logger entry</param>
         public void AddLoggerEntry(LoggerEntry entry, TagData tag)
         {
             LineItem i = m_zCnt.GraphPane.AddCurve(entry.FullPN,
@@ -536,7 +536,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="maxAxis">max axis of x.</param>
         /// <param name="nextTime">current time of simulation.</param>
         /// <param name="data">the simulation data.</param>
-        /// <param name="isLoaded"></param>
+        /// <param name="isLoaded">the flag whether this log is loaded.</param>
         public void AddPoints(double maxAxis, double nextTime, List<LogData> data, bool isLoaded)
         {
             bool isAxis = false;
@@ -694,7 +694,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Process when user delete the logger.
         /// </summary>
-        /// <param name="tag"></param>
+        /// <param name="tag">the tag of logger entry.</param>
         public void DeleteTraceEntry(TagData tag)
         {
             EcellObject m_currentObj = m_owner.DataManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
@@ -723,10 +723,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
 
-        // ZedGraphでContextMenuを表示するたびに作り直しているので、
-        // このイベントでも毎回メニューの削除、追加をする必要がある
+        /// <summary>
+        /// Build the context menu strip.
+        /// </summary>
+        /// <param name="sender">Control object.</param>
+        /// <param name="menuStrip">the context menu strip</param>
+        /// <param name="mousePt">point of mouse.</param>
+        /// <param name="objState">object status</param>
         private void ZedControlContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
         {
+            // ZedGraphでContextMenuを表示するたびに作り直しているので、
+            // このイベントでも毎回メニューの削除、追加をする必要がある
+
             foreach (ToolStripMenuItem m in menuStrip.Items)
             {
                 if (m.Name.Contains("copy"))

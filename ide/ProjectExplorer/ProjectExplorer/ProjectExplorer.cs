@@ -157,18 +157,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             m_form.DataChanged(modelID, key, type, data);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="list"></param>
-        private void SaveSimulationResult(List<string> list)
-        {
-            m_form.RefreshLogEntry();
-        }
-        private void AddDM(string dmName, string path)
-        {
-            m_form.AddDM(dmName, path);
-        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -242,9 +232,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Change the project status.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">the project status.</param>
         public override void ChangeStatus(ProjectStatus type)
         {
             m_form.ChangeStatus(type);
@@ -271,16 +261,35 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             return false;
         }
-        #endregion
 
         /// <summary>
-        /// 
+        /// Save the simulation result.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="list">the list of log.</param>
+        private void SaveSimulationResult(List<string> list)
+        {
+            m_form.RefreshLogEntry();
+        }
+
+        /// <summary>
+        /// Add the DM.
+        /// </summary>
+        /// <param name="dmName">the DM name.</param>
+        /// <param name="path">the DM file path.</param>
+        private void AddDM(string dmName, string path)
+        {
+            m_form.AddDM(dmName, path);
+        }
+
+        /// <summary>
+        /// Show DM editor to display the file name.
+        /// </summary>
+        /// <param name="fileName">the file name.</param>
         public void ShowDMEditor(string fileName)
         {
             m_editor.path = fileName;
             m_editor.Activate();
         }
+        #endregion
     }
 }

@@ -367,8 +367,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Validate the input data in the RedrawInterval.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void RedrawInterval_Validating(object sender, CancelEventArgs e)
         {
             string text = intervalTextBox.Text;

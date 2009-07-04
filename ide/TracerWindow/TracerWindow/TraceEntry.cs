@@ -45,12 +45,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
     class TraceEntry
     {
         #region  Fields
+        /// <summary>
+        /// the log file path.
+        /// </summary>
         private string m_path;
+        /// <summary>
+        /// The LineItem of current data.
+        /// </summary>
         private LineItem m_currentLineItem;
+        /// <summary>
+        /// The LineItem of reduced data.
+        /// </summary>
         private LineItem m_tmpLineItem;
+        /// <summary>
+        /// The flag whether this log is continous.
+        /// </summary>
         private bool m_isContinuous;
+        /// <summary>
+        /// The flag whether this log is loaded.
+        /// </summary>
         private bool m_isLoaded;
+        /// <summary>
+        /// The flag whether this log is shown in Y2 axis.
+        /// </summary>
         private bool m_isY2 = false;
+        /// <summary>
+        /// The point of previous data.
+        /// </summary>
         private PointD m_prevPoints;
         #endregion
 
@@ -121,11 +142,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Constructor with any options.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="cItem"></param>
-        /// <param name="tItem"></param>
-        /// <param name="isCont"></param>
-        /// <param name="isLoad"></param>
+        /// <param name="path">the log file path</param>
+        /// <param name="cItem">The LineItem of current data</param>
+        /// <param name="tItem">The LineItem of reduced data</param>
+        /// <param name="isCont">The flag whether this log is continous</param>
+        /// <param name="isLoad">The flag whether this log is loaded</param>
         public TraceEntry(string path, LineItem cItem, LineItem tItem, bool isCont, bool isLoad)
         {
             m_path = path;
@@ -139,9 +160,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         #region SetViewer
         /// <summary>
-        /// 
+        /// Set the Line style of LineItem.
         /// </summary>
-        /// <param name="style"></param>
+        /// <param name="style">the line style.</param>
         public void SetStyle(DashStyle style)
         {
             m_currentLineItem.Line.Style = style;
@@ -149,9 +170,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Set the color of LineIte,
         /// </summary>
-        /// <param name="col"></param>
+        /// <param name="col">the color.</param>
         public void SetColor(Color col)
         {
             m_currentLineItem.Color = col;
@@ -159,9 +180,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Set the flag whether this log is shown.
         /// </summary>
-        /// <param name="visible"></param>
+        /// <param name="visible">the flag whether this log is shown</param>
         public void SetVisible(bool visible)
         {
             m_currentLineItem.IsVisible = visible;
@@ -169,15 +190,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Set the line width of LineItem.
         /// </summary>
-        /// <param name="width"></param>
+        /// <param name="width">the line width.</param>
         public void SetLineWidth(int width)
         {
             m_currentLineItem.Line.Width = (float)width;
             m_tmpLineItem.Line.Width = (float)width;
         }
 
+        /// <summary>
+        /// Set the flag whether this log is shown in Y2 axis.
+        /// </summary>
+        /// <param name="isY2">the flag whether this log is shown in Y2 axis</param>
         public void SetY2Axis(bool isY2)
         {
             m_currentLineItem.IsY2Axis = isY2;
@@ -188,15 +213,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         #region ManageData
         /// <summary>
-        /// 
+        /// Judge whether the log entry is continuous.
         /// </summary>
-        /// <param name="xmax"></param>
-        /// <param name="xmin"></param>
-        /// <param name="ymax"></param>
-        /// <param name="ymin"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
+        /// <param name="xmax">the max data of X.</param>
+        /// <param name="xmin">the min data of X.</param>
+        /// <param name="ymax">the max data of Y.</param>
+        /// <param name="ymin">the min data of Y.</param>
+        /// <param name="width">the width of window.</param>
+        /// <param name="height">the height of window.</param>
+        /// <returns>the flag whether the log entry is continuous</returns>
         public bool IsSmoothing(double xmax, double xmin, double ymax, double ymin, int width, int height)
         {
             double prex = -1.0;
@@ -221,15 +246,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Add the point data to Tracer.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="xmax"></param>
-        /// <param name="xmin"></param>
-        /// <param name="ymax"></param>
-        /// <param name="ymin"></param>
-        /// <param name="isZoom"></param>
-        /// <returns></returns>
+        /// <param name="data">the list of log data.</param>
+        /// <param name="xmax">the max of X axis.</param>
+        /// <param name="xmin">the min of X axis.</param>
+        /// <param name="ymax">the max of Y axis.</param>
+        /// <param name="ymin">the min of Y axis.</param>
+        /// <param name="isZoom">the flag whether this data is zoomed.</param>
+        /// <returns>the flag whether axis is changed.</returns>
         public bool AddPoint(List<LogValue> data, double xmax, double xmin,
             double ymax, double ymin, bool isZoom)
         {
@@ -260,7 +285,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Thin point.
         /// </summary>
         public void ThinPoints()
         {
@@ -275,7 +300,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// 
+        /// Thin point for the continuous data.
         /// </summary>
         private void ThinPointsForContinuous()
         {
@@ -302,7 +327,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
         /// <summary>
-        /// 
+        /// Thin point for the uncontinuous data.
         /// </summary>
         private void ThinPointsForNotContinuous()
         {
@@ -332,7 +357,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
         /// <summary>
-        /// 
+        /// Clear the all point.
         /// </summary>
         public void ClearPoint()
         {
@@ -341,8 +366,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             PrevPointInitialize();
 
         }
+
         /// <summary>
-        /// 
+        /// Initialize the previous point.
         /// </summary>
         public void PrevPointInitialize()
         {

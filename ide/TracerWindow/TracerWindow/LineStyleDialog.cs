@@ -121,8 +121,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// The event when this window is closing.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">LineStyleDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void LineStyleDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;

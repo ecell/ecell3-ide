@@ -44,49 +44,79 @@ namespace Ecell.IDE.Plugins.TracerWindow
     /// </summary>
     public partial class SaveTraceDialog : Form
     {
-        private TracerWindow m_owner;
-        private string m_directoryName;
-        private double m_start;
-        private double m_end;
-        private double m_simTime;
-        private string m_fileType;
-        private List<string> m_saveList;
+        #region Fields
         /// <summary>
-        /// 
+        /// The owner object.
+        /// </summary>
+        private TracerWindow m_owner;
+        /// <summary>
+        /// The directory name to save the log.
+        /// </summary>
+        private string m_directoryName;
+        /// <summary>
+        /// The start time to save the log.
+        /// </summary>
+        private double m_start;
+        /// <summary>
+        /// The end time to save the log.
+        /// </summary>
+        private double m_end;
+        /// <summary>
+        /// The simulation time.
+        /// </summary>
+        private double m_simTime;
+        /// <summary>
+        /// The file type to save the log.
+        /// </summary>
+        private string m_fileType;
+        /// <summary>
+        /// The list of log entry.
+        /// </summary>
+        private List<string> m_saveList;
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// get the directory name to save the log.
         /// </summary>
         public string DirectoryName
         {
             get { return this.m_directoryName; }
         }
+
         /// <summary>
-        /// 
+        /// get the start time to save the log.
         /// </summary>
         public double Start
         {
             get { return this.m_start; }
         }
+
         /// <summary>
-        /// 
+        /// get the end time to save the log.
         /// </summary>
         public double End
         {
             get { return this.m_end; }
         }
         /// <summary>
-        /// 
+        /// get the file type to save the log.
         /// </summary>
         public string FileType
         {
             get { return this.m_fileType; }
         }
+
         /// <summary>
-        /// 
+        /// get the list of log entry.
         /// </summary>
         public List<string> SaveList
         {
             get { return m_saveList; }
         }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -103,7 +133,22 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_end = dummy;
             m_simTime = m_end;
         }
+        #endregion
 
+        /// <summary>
+        /// Add the all logger entry in save target. 
+        /// </summary>
+        /// <param name="entry">the all logger entry.</param>
+        public void AddEntry(Dictionary<TagData, List<TraceWindow>> entry)
+        {
+            foreach (TagData tag in entry.Keys)
+            {
+                if (tag.FileName != null) continue;
+                SaveEntrySelectView.Rows.Add(new object[] { true, tag.M_path });
+            }
+        }
+
+        #region Events
         /// <summary>
         /// Set the directory to save the trace.
         /// </summary>
@@ -119,22 +164,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// Add the all logger entry in save target. 
+        /// Closing the SaveTraceDialog.
         /// </summary>
-        /// <param name="entry">the all logger entry.</param>
-        public void AddEntry(Dictionary<TagData, List<TraceWindow>> entry)
-        {
-            foreach (TagData tag in entry.Keys)
-            {
-                if (tag.FileName != null) continue;
-                SaveEntrySelectView.Rows.Add(new object[] {true, tag.M_path});
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">SaveTraceDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void SaveTraceDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult != DialogResult.OK) return;
@@ -179,11 +212,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 e.Cancel = true;
             }
         }
+
         /// <summary>
-        /// 
+        /// Validating the TextBox to input the start time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void StartTime_Validating(object sender, CancelEventArgs e)
         {
             string text = startTextBox.Text;
@@ -205,11 +239,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             m_start = dummy;
         }
+
         /// <summary>
-        /// 
+        ///  Validating the TextBox to input the end time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void EndTime_Validating(object sender, CancelEventArgs e)
         {
             string text = endTextBox.Text;
@@ -230,5 +265,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             m_end = dummy;
         }
+        #endregion
     }
 }

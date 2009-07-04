@@ -133,8 +133,8 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="icons"></param>
+        /// <param name="owner">the owner object.</param>
+        /// <param name="icons">the list of icon.</param>
         public EntityListControl(EntityList owner, ImageList icons)
         {
             m_owner = owner;
@@ -149,9 +149,9 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <summary>
         /// Event on SelectChange
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">the model ID of selected object.</param>
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             if (m_isSelected)
@@ -562,7 +562,7 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         /// <param name="msg">Message.</param>
         /// <param name="keyData">Key data.</param>
-        /// <returns></returns>
+        /// <returns>the flag whether this event is handled.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
