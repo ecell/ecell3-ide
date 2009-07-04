@@ -45,6 +45,9 @@ namespace Ecell.IDE.Plugins.MessageListWindow
     public class MessageListWindow : PluginBase
     {
         #region Fields
+        /// <summary>
+        /// control object.
+        /// </summary>
         private MessageListWindowControl m_control;
         #endregion
 
@@ -60,7 +63,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
 
         #region Inherited from PluginBase
         /// <summary>
-        /// 
+        /// Close project and clear all object.
         /// </summary>
         public override void Clear()
         {
@@ -74,8 +77,9 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         {
             return new EcellDockContent[] { m_control };
         }
+
         /// <summary>
-        /// 
+        /// Initialize of Plugin.
         /// </summary>
         public override void Initialize()
         {
@@ -86,8 +90,8 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="e"></param>
+        /// <param name="obj">ReportManager</param>
+        /// <param name="e">ReportingSessionEventArgs</param>
         public void ReportManager_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
         {
             m_control.Clear(e.ReportingSession.Group);
@@ -96,8 +100,8 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <summary>
         /// The event sequence to display the message.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="e">the message event.</param>
+        /// <param name="obj">ReportManager</param>
+        /// <param name="e">ReportEventArgs</param>
         public void ReportManager_ReportAdded(object obj, ReportEventArgs e)
         {
             m_control.AddMessageEntry(e.Report);

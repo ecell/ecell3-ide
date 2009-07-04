@@ -108,15 +108,45 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The flag whether this analysis have any result.
         /// </summary>
         private bool m_isExistResult = false;
+        /// <summary>
+        /// Estimation formulator string.
+        /// </summary>
         private const string s_estimateFormula = "Estimation Formulator";
+        /// <summary>
+        /// Simulation time string.
+        /// </summary>
         private const string s_simTime = "Simulation Time";
+        /// <summary>
+        /// Population string.
+        /// </summary>
         private const string s_population = "Population";
+        /// <summary>
+        /// Generation string.
+        /// </summary>
         private const string s_generation = "Generation";
+        /// <summary>
+        /// Estimation type string.
+        /// </summary>
         private const string s_estimateType = "Estimation Type";
+        /// <summary>
+        /// M string.
+        /// </summary>
         private const string s_m = "M";
+        /// <summary>
+        /// Initial rate string.
+        /// </summary>
         private const string s_m0 = "Initial rate(Mutation)";
+        /// <summary>
+        /// Max rate string.
+        /// </summary>
         private const string s_mmax = "Max rate(Mutation)";
+        /// <summary>
+        /// K string.
+        /// </summary>
         private const string s_k = "K(Mutation)";
+        /// <summary>
+        /// Upsilon string.
+        /// </summary>
         private const string s_upsilon = "Upsilon";
         /// <summary>
         /// Analysis name.
@@ -217,7 +247,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Get the property of analysis.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the dictionary of the property name and value.</returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -239,7 +269,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Set the property of analysis.
         /// </summary>
-        /// <param name="paramDic"></param>
+        /// <param name="paramDic">>the dictionary of the property name and value.</param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)
@@ -327,8 +357,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Create the analysis instance.
         /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
+        /// <param name="group">the group object.</param>
+        /// <returns>new ParameterEstimation object.</returns>
         public IAnalysisModule CreateNewInstance(JobGroup group)
         {
             ParameterEstimation instance = new ParameterEstimation(m_owner);

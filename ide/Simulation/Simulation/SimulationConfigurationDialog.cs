@@ -166,7 +166,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 list.Add(s.Name);
             }
-            InputParameterNameDialog newwin = new InputParameterNameDialog(this, true);
+            InputParameterNameDialog newwin = new InputParameterNameDialog(this);
             newwin.AlreadyList = list;
 
             using (newwin) 

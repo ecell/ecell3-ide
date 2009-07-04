@@ -47,6 +47,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
     public class ScriptWindow : PluginBase
     {
         #region Fields
+        /// <summary>
+        /// Control object,
+        /// </summary>
         private ScriptCommandWindow m_control;
         #endregion
 

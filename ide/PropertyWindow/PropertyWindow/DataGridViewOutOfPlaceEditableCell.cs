@@ -24,11 +24,8 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi 
 //
-// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
 using System;
@@ -45,8 +42,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
     /// <summary>
     /// delegate
     /// </summary>
-    /// <param name="c"></param>
-    /// <returns></returns>
+    /// <param name="c">DataGridViewOutOfPlaceEditableCell</param>
+    /// <returns>whether this event is handled.</returns>
     public delegate bool DataGridViewOutOfPlaceEditRequestedHandler(DataGridViewOutOfPlaceEditableCell c);
 
     /// <summary>
@@ -56,26 +53,25 @@ namespace Ecell.IDE.Plugins.PropertyWindow
     {
         #region Fields
         /// <summary>
-        /// 
+        /// string for VariableReferenceList.
         /// </summary>
         const string s_threeDots = "...";
         /// <summary>
-        /// 
+        /// Size of button.
         /// </summary>
         Size m_buttonSize;
         /// <summary>
-        /// 
+        /// The flag whether button is pressed.
         /// </summary>
         bool m_pressed;
         /// <summary>
-        /// 
+        /// The flag whether mouse is over.
         /// </summary>
         bool m_mouseOverButton;
         /// <summary>
-        /// 
+        /// The flag whether EditMode is on.
         /// </summary>
         bool m_isInOutOfPlaceEditMode;
-
         /// <summary>
         /// EventHandler for OutOfPlaceEditRequested.
         /// </summary>
@@ -98,7 +94,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get / set the flag whether EditMode is on.
         /// </summary>
         public bool IsInOutOfPlaceEditMode
         {
@@ -107,7 +103,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// 
+        /// get the default value.
         /// </summary>
         public override object DefaultNewRowValue
         {
@@ -119,7 +115,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Clone
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the clone object.</returns>
         public override object Clone()
         {
             object o = base.Clone();
@@ -129,15 +125,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// 
+        /// Set the position and size of edit panel and return the rectangle of edit panel.
         /// </summary>
-        /// <param name="cellBounds"></param>
-        /// <param name="cellClip"></param>
-        /// <param name="cellStyle"></param>
-        /// <param name="singleVerticalBorderAdded"></param>
-        /// <param name="singleHorizontalBorderAdded"></param>
-        /// <param name="isFirstDisplayedColumn"></param>
-        /// <param name="isFirstDisplayedRow"></param>
+        /// <param name="cellBounds">Bounds of edit panel.</param>
+        /// <param name="cellClip">Clip of edit panel.</param>
+        /// <param name="cellStyle">Style of edit panel.</param>
+        /// <param name="singleVerticalBorderAdded">The flag whether vertical border is added.</param>
+        /// <param name="singleHorizontalBorderAdded">The flag whether horizontal border is added.</param>
+        /// <param name="isFirstDisplayedColumn">The flag whether first column is displayed.</param>
+        /// <param name="isFirstDisplayedRow">The flag whether first row is displayed.</param>
         /// <returns></returns>
         public override Rectangle PositionEditingPanel(Rectangle cellBounds, Rectangle cellClip, DataGridViewCellStyle cellStyle, bool singleVerticalBorderAdded, bool singleHorizontalBorderAdded, bool isFirstDisplayedColumn, bool isFirstDisplayedRow)
         {
@@ -149,19 +145,19 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// 
+        /// Paint this control.
         /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="clipBounds"></param>
-        /// <param name="cellBounds"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="cellState"></param>
-        /// <param name="value"></param>
-        /// <param name="formattedValue"></param>
-        /// <param name="errorText"></param>
-        /// <param name="cellStyle"></param>
-        /// <param name="advancedBorderStyle"></param>
-        /// <param name="paintParts"></param>
+        /// <param name="graphics">Graphics object.</param>
+        /// <param name="clipBounds">Clip bound of edit panel</param>
+        /// <param name="cellBounds">Bounds of edit panel</param>
+        /// <param name="rowIndex">the row index of this control</param>
+        /// <param name="cellState">cell state.</param>
+        /// <param name="value">the value of this control</param>
+        /// <param name="formattedValue">the format string.</param>
+        /// <param name="errorText">the error message string.</param>
+        /// <param name="cellStyle">the style of this control.</param>
+        /// <param name="advancedBorderStyle">the advanced border style.</param>
+        /// <param name="paintParts">Parts of paint.</param>
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
             Size buttonSize = graphics.MeasureString(s_threeDots, cellStyle.Font).ToSize();
@@ -252,18 +248,30 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         #endregion
 
+        /// <summary>
+        /// Check whether the point is in Button.
+        /// </summary>
+        /// <param name="x">X of the point.</param>
+        /// <param name="y">Y of the point.</param>
+        /// <returns>If the point is button, return true.</returns>
         private bool IsPointInButtonArea(int x, int y)
         {
             Rectangle bounds = DataGridView.GetCellDisplayRectangle(ColumnIndex, RowIndex, true);
             return x >= bounds.Width - m_buttonSize.Width;
         }
 
+        /// <summary>
+        /// Button unpressed.
+        /// </summary>
         private void RenderButtonUnpressed()
         {
             m_pressed = false;
             DataGridView.InvalidateCell(this);
         }
 
+        /// <summary>
+        /// Button pressed.
+        /// </summary>
         private void RenderButtonPressed()
         {
             m_pressed = true;
@@ -294,7 +302,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on ContentDoubleClick.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         protected override void OnContentDoubleClick(DataGridViewCellEventArgs e)
         {
             DataGridView.BeginEdit(true);
@@ -303,8 +311,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on ClickUnsharesRow.
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
+        /// <param name="e">DataGridViewCellEventArgs</param>
+        /// <returns>the event is handled.</returns>
         protected override bool ClickUnsharesRow(DataGridViewCellEventArgs e)
         {
             return true;
@@ -313,7 +321,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on MouseUp
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">DataGridViewCellMouseEventArgs</param>
         protected override void OnMouseUp(DataGridViewCellMouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) != 0)
@@ -326,7 +334,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on MouseClick.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">DataGridViewCellMouseEventArgs</param>
         protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) != 0)
@@ -345,7 +353,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on MouseMove.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">DataGridViewCellMouseEventArgs</param>
         protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)
         {
             if (IsPointInButtonArea(e.X, e.Y))
@@ -369,7 +377,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on MouseLeave.
         /// </summary>
-        /// <param name="rowIndex"></param>
+        /// <param name="rowIndex">the row index</param>
         protected override void OnMouseLeave(int rowIndex)
         {
             if (m_mouseOverButton)
@@ -382,7 +390,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Event on MouseDoubleClick.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">DataGridViewCellMouseEventArgs</param>
         protected override void OnMouseDoubleClick(DataGridViewCellMouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) != 0)

@@ -38,6 +38,9 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.Spreadsheet
 {
+    /// <summary>
+    /// Search text dialog.
+    /// </summary>
     public partial class SearchInstanceDialog : Form
     {
         /// <summary>
@@ -73,11 +76,16 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 closeButton.PerformClick();
             }
         }
-        #endregion
 
+        /// <summary>
+        /// Event when SearchInstanceDialog is shown.
+        /// </summary>
+        /// <param name="sender">SearchInstanceDialog</param>
+        /// <param name="e">EventArgs</param>
         private void SearchInstanceShown(object sender, EventArgs e)
         {
             this.searchText.Focus();
         }
+        #endregion
     }
 }

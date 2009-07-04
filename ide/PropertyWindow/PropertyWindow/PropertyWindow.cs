@@ -53,6 +53,9 @@ using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PropertyWindow
 {
+    /// <summary>
+    /// Plugin for PropertyWindow.
+    /// </summary>
     public partial class PropertyWindow : EcellDockContent, IEcellPlugin, IDataHandler, IDockContentProvider
     {
         #region Fields
@@ -115,6 +118,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             set { m_env = value; }
         }
 
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -134,6 +138,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
             this.TabText = this.Text;
         }
+        #endregion
 
         /// <summary>
         /// Change the property of data. 
@@ -897,10 +902,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// 
+        /// Ecent when display format is changed.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">DisplayFormatEventArgs</param>
         private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
             if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)

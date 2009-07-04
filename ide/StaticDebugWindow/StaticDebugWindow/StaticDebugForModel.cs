@@ -41,18 +41,20 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
     /// <summary>
     /// Static debug for model compliance.
     /// </summary>
-    class StaticDebugForModel : IStaticDebugPlugin
+    public class StaticDebugForModel : IStaticDebugPlugin
     {
+        #region Fields
         /// <summary>
         /// Owner of this object
         /// </summary>
         private StaticDebugWindow m_owner;
-
         /// <summary>
         /// List of error message.
         /// </summary>
         private List<IReport> m_errorList = new List<IReport>();
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -60,6 +62,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         {
             m_owner = owner;
         }
+        #endregion
 
         /// <summary>
         /// Debugger Name.

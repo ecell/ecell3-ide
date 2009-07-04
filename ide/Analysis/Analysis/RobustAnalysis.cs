@@ -85,12 +85,33 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The flag whether this analysis have any result.
         /// </summary>
         private bool m_isExistResult = false;
+        /// <summary>
+        /// The number of sample string.
+        /// </summary>
         private const string s_sampleNum = "Sample Num";
+        /// <summary>
+        /// Simulation time string.
+        /// </summary>
         private const string s_simTime = "Simulation Time";
+        /// <summary>
+        /// Random check string.
+        /// </summary>
         private const string s_isRandomCheck = "Random Check";
+        /// <summary>
+        /// Window size string.
+        /// </summary>
         private const string s_winSize = "Window Size";
+        /// <summary>
+        /// Max input string.
+        /// </summary>
         private const string s_maxInput = "Max Input for FFT";
+        /// <summary>
+        /// Max frequency string.
+        /// </summary>
         private const string s_maxFreq = "Max Frequency of FFT";
+        /// <summary>
+        /// Min frequency string.
+        /// </summary>
         private const string s_minFreq = "Min Frequency of FFT";
         /// <summary>
         /// Analysis name.
@@ -188,7 +209,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Get the property of analysis.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the dictionary of the property name and value.</returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -207,7 +228,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Set the property of analysis.
         /// </summary>
-        /// <param name="paramDic"></param>
+        /// <param name="paramDic">the dictionary of the property name and value.</param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)
@@ -695,14 +716,36 @@ namespace Ecell.IDE.Plugins.Analysis
     /// </summary>
     public class RobustAnalysisParameter
     {
+        #region Fields
+        /// <summary>
+        /// The number ob samples.
+        /// </summary>
         private int m_sampleNum;
+        /// <summary>
+        /// The simulation time.
+        /// </summary>
         private double m_simulationTime;
+        /// <summary>
+        /// The max input for FFT.
+        /// </summary>
         private int m_maxData;
+        /// <summary>
+        /// The flag whether this analysis is random.
+        /// </summary>
         private bool m_isRandomCheck;
+        /// <summary>
+        /// Window size.
+        /// </summary>
         private double m_winSize;
+        /// <summary>
+        /// Max frequency for FFT.
+        /// </summary>
         private double m_maxFreq;
+        /// <summary>
+        /// Min frequency for FFT.
+        /// </summary>
         private double m_minFreq;
-
+        #endregion
 
         /// <summary>
         /// Constructor.

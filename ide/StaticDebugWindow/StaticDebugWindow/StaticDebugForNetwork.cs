@@ -41,21 +41,28 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
     /// <summary>
     /// Static debug for network compliance.
     /// </summary>
-    class StaticDebugForNetwork : IStaticDebugPlugin
+    public class StaticDebugForNetwork : IStaticDebugPlugin
     {
+        #region Fields
         /// <summary>
         /// Owner of this object
         /// </summary>
         private StaticDebugWindow m_owner;
-
+        /// <summary>
+        /// The list of exist variable.
+        /// </summary>
         private Dictionary<string, EcellObject> m_existVariableList;
-
+        /// <summary>
+        /// The list of exist process.
+        /// </summary>
         private Dictionary<string, EcellObject> m_existProcessList;
         /// <summary>
         /// List of error message.
         /// </summary>
         private List<IReport> m_errorList = new List<IReport>();
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -65,6 +72,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             m_existVariableList = new Dictionary<string, EcellObject>();
             m_existProcessList = new Dictionary<string, EcellObject>();
         }
+        #endregion
 
         /// <summary>
         /// Debugger Name.
@@ -114,7 +122,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         }
 
         /// <summary>
-        /// 
+        /// Check whether process have the reference to the same variable.
         /// </summary>
         private void CheckSameVariable()
         {

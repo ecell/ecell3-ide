@@ -47,11 +47,25 @@ namespace Ecell.IDE.Plugins.Simulation
     public class SimulationConfigurationPage : PropertyDialogPage
     {
         #region Fields
-
+        /// <summary>
+        /// TextBox to input the step count.
+        /// </summary>
         private TextBox stepCountTextBox;
+        /// <summary>
+        /// TextBox to input the wait time.
+        /// </summary>
         private TextBox waitTimeTextBox;
+        /// <summary>
+        /// DataManager
+        /// </summary>
         private DataManager m_manager;
+        /// <summary>
+        /// The number of step.
+        /// </summary>
         private int m_stepCount;
+        /// <summary>
+        /// The wait time.
+        /// </summary>
         private int m_waitTime;
         #endregion
 
@@ -59,7 +73,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Constructors
         /// </summary>
-        /// <param name="manager"></param>
+        /// <param name="manager">DataManager object.</param>
         public SimulationConfigurationPage(DataManager manager)
         {
             InitializeComponent();
@@ -72,7 +86,7 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
-        /// 
+        /// Initialize component.
         /// </summary>
         private void InitializeComponent()
         {
@@ -167,8 +181,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Validate the Text Box in step count.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void stepCountTextBox_Validating(object sender, CancelEventArgs e)
         {
             string text = stepCountTextBox.Text;
@@ -193,8 +207,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Validate the text box in wait time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void waitTimeTextBox_Validating(object sender, CancelEventArgs e)
         {
             string text = waitTimeTextBox.Text;

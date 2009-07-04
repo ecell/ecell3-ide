@@ -76,7 +76,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="owner"></param>
+        /// <param name="owner">owner object.</param>
         public ParameterEstimationResultWindow(Analysis owner)
         {
             InitializeComponent();

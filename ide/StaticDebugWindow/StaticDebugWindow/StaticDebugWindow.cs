@@ -72,28 +72,40 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         List<IStaticDebugPlugin> m_plugins = new List<IStaticDebugPlugin>();
         private bool m_isExecute;
         /// <summary>
-        /// 
+        /// The number of edit after saving or loading.
         /// </summary>
         private int m_editCount = 0;
-        private ToolStripMenuItem m_isAutoMenuItem;
-        private ToolStripMenuItem m_StaticDebugMenuItem;
-        private ToolStripMenuItem analysisMenu;
-        #endregion
         /// <summary>
-        /// 
+        /// MenuItem to change whether static debug execute automatically.
+        /// </summary>
+        private ToolStripMenuItem m_isAutoMenuItem;
+        /// <summary>
+        /// MenuItem to execute static debug manually.
+        /// </summary>
+        private ToolStripMenuItem m_StaticDebugMenuItem;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor
         /// </summary>
         public StaticDebugWindow()
         {
             m_isExecute = true;
-            InitializeComponent();
             m_messages = new List<IReport>();
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
             m_timer.Tick += new EventHandler(FireTimer);
         }
+        #endregion
 
 
-        private void InitializeComponent()
+        #region PluginBase
+        /// <summary>
+        /// Get menustrips for each plugin.
+        /// </summary>
+        /// <returns>AutoDebug, ManualDebug and separator.</returns>
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             m_isAutoMenuItem = new ToolStripMenuItem();
             m_isAutoMenuItem.Text = MessageResources.MenuItemAutoDebug;
@@ -111,29 +123,19 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             ToolStripSeparator sep1 = new ToolStripSeparator();
             sep1.Tag = 10;
 
-            analysisMenu = new ToolStripMenuItem();
+            ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
                 m_isAutoMenuItem, m_StaticDebugMenuItem, sep1
             });
             analysisMenu.Text = "Tools";
             analysisMenu.Name = MenuConstants.MenuItemTools;
-        }
 
-
-        #region PluginBase
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
-        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
             list.Add(analysisMenu);
 
             return list;
         }
-
 
         /// <summary>
         /// Returns the name of this plugin.
@@ -156,7 +158,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Add the object.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the added object.</param>
         public override void DataAdd(EcellObject data)
         {
             m_editCount++;
@@ -165,7 +167,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Add the list of object.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">the list of added objects.</param>
         public override void DataAdd(List<EcellObject> data)
         {
             m_editCount++;
@@ -174,10 +176,10 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Change the property of object.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
+        /// <param name="modelID">the model ID of changed object.</param>
+        /// <param name="key">the key of changed object.</param>
+        /// <param name="type">the type of changed object.</param>
+        /// <param name="data">the changed object.</param>
         public override void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             m_editCount++;
@@ -186,24 +188,22 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Delete the object.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="modelID">the model ID of deleted object.</param>
+        /// <param name="key">the key of deleted object.</param>
+        /// <param name="type">the type of deleted object.</param>
         public override void DataDelete(string modelID, string key, string type)
         {
             m_editCount++;
         }
 
         /// <summary>
-        /// 
+        /// Clear the edit count.
         /// </summary>
         public override void Clear()
         {
             m_editCount = 0;
         }
-        #endregion
 
-        #region Internal Methods
         /// <summary>
         /// Initializes validated patterns.
         /// </summary>
@@ -215,6 +215,28 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             m_plugins.Add(new StaticDebugForNetwork(this));
         }
 
+        /// <summary>
+        /// When change system status, change menu enable/disable.
+        /// </summary>
+        /// <param name="type">project status.</param>
+        public override void ChangeStatus(ProjectStatus type)
+        {
+            if (type == ProjectStatus.Loaded)
+            {
+                m_timer.Enabled = true;
+                m_isAutoMenuItem.Enabled = true;
+                m_StaticDebugMenuItem.Enabled = !m_isExecute;
+            }
+            else
+            {
+                m_timer.Enabled = false;
+                m_isAutoMenuItem.Enabled = false;
+                m_StaticDebugMenuItem.Enabled = false;
+            }
+        }
+        #endregion
+
+        #region Internal Methods
         /// <summary>
         /// Get key from entity path.
         /// </summary>
@@ -268,33 +290,26 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 Trace.WriteLine(e);
             }
-        }
-        
-        /// <summary>
-        /// Validates the list of the "EcellObject" 4 the mass conservation.
-        /// </summary>
-        /// <param name="ecellObjectList"></param>
-        private void ValidateMassConservation(List<EcellObject> ecellObjectList)
-        {
-            // MEN WORKING
-        }
+        }       
 
         /// <summary>
         /// Validates the mass conservation.
         /// </summary>
-        /// <param name="modelID"></param>
+        /// <param name="modelID">the debug model ID.</param>
         public void ValidateMassConservation(string modelID)
         {
             try
             {
-                this.ValidateMassConservation(this.m_dManager.GetData(modelID, null));
+                // nothing
             }
             catch (Exception ex)
             {
                 throw new EcellException("The static debug of the mass conservation failed. [" + ex.ToString() + "]");
             }
         }
+        #endregion
 
+        #region Events
         /// <summary>
         /// Execute redraw process on simulation running at every 1sec.
         /// </summary>
@@ -312,10 +327,10 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         }
 
         /// <summary>
-        /// 
+        /// Click the auto debug menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void ChangeAutoUpdate(object sender, EventArgs e)
         {
             m_isAutoMenuItem.Checked = !m_isExecute;
@@ -324,35 +339,14 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         }
 
         /// <summary>
-        /// 
+        /// Click the manual debug menu.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void StaticDebuggerExecute(object sender, EventArgs e)
         {
             Debug();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        public override void ChangeStatus(ProjectStatus type)
-        {
-            if (type == ProjectStatus.Loaded)
-            {
-                m_timer.Enabled = true;
-                m_isAutoMenuItem.Enabled = true;
-                m_StaticDebugMenuItem.Enabled = !m_isExecute;
-            }
-            else
-            {
-                m_timer.Enabled = false;
-                m_isAutoMenuItem.Enabled = false;
-                m_StaticDebugMenuItem.Enabled = false;
-            }
-        }
-
         #endregion
     }
 }

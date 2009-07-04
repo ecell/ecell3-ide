@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2009 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -112,8 +112,9 @@ namespace Ecell.IDE.Plugins.Console
         {
             return new EcellDockContent[] { m_form };
         }
+
         /// <summary>
-        /// 
+        /// Initialize plugin.
         /// </summary>
         public override void Initialize()
         {
@@ -121,33 +122,6 @@ namespace Ecell.IDE.Plugins.Console
             Environment.Console.ConsoleDataAvailable +=
                 new ConsoleDataAvailableEventHandler(Console_ConsoleDataAvailable);
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="args"></param>
-        private void Console_ConsoleDataAvailable(object o, ConsoleDataAvailableEventArgs args)
-        {
-            if (m_form.InvokeRequired)
-            {
-                m_form.Invoke(new MethodInvoker(delegate() { AppendText(args.Data); } ));
-            }
-            else
-            {
-                AppendText(args.Data);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        private void AppendText(string data)
-        {
-            if (m_form.InvokeRequired)
-                m_form.Invoke(new MethodInvoker(delegate() { m_form.AppendText(data); }));
-            else
-                m_form.AppendText(data);
         }
 
         /// <summary>
@@ -168,5 +142,35 @@ namespace Ecell.IDE.Plugins.Console
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         #endregion
+
+        /// <summary>
+        /// Event when console is available to write the data.
+        /// </summary>
+        /// <param name="o">Console</param>
+        /// <param name="args">ConsoleDataAvailableEventArgs</param>
+        private void Console_ConsoleDataAvailable(object o, ConsoleDataAvailableEventArgs args)
+        {
+            if (m_form.InvokeRequired)
+            {
+                m_form.Invoke(new MethodInvoker(delegate() { AppendText(args.Data); } ));
+            }
+            else
+            {
+                AppendText(args.Data);
+            }
+        }
+
+        /// <summary>
+        /// Append the text data.
+        /// </summary>
+        /// <param name="data">the text data.</param>
+        private void AppendText(string data)
+        {
+            if (m_form.InvokeRequired)
+                m_form.Invoke(new MethodInvoker(delegate() { m_form.AppendText(data); }));
+            else
+                m_form.AppendText(data);
+        }
+
     }
 }

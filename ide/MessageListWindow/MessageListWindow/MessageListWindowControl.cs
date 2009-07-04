@@ -47,8 +47,14 @@ namespace Ecell.IDE.Plugins.MessageListWindow
     /// </summary>
     public partial class MessageListWindowControl : EcellDockContent
     {
+        #region Fields
+        /// <summary>
+        /// owner object.
+        /// </summary>
         private MessageListWindow m_owner;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -59,10 +65,12 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             InitializeComponent();
             this.TabText = this.Text;
         }
+        #endregion
 
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
+        /// <param name="group">the clear report group name.</param>
         public void Clear(string group)
         {
             if (group == null)
@@ -118,6 +126,11 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             MLWMessageDridView.Rows.Add(r);
         }
 
+        /// <summary>
+        /// Double click on DataGridView of message.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         private void MessageCellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;

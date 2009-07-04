@@ -41,7 +41,6 @@
             // 
             resources.ApplyResources(this.paramTextBox, "paramTextBox");
             this.paramTextBox.Name = "paramTextBox";
-            this.paramTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.paramTextBox_Validating);
             // 
             // CPCreateButton
             // 

@@ -53,41 +53,88 @@ namespace Ecell.IDE.Plugins.ScriptWindow
     /// </summary>
     public partial class ScriptCommandWindow : EcellDockContent
     {
+        /// <summary>
+        /// Script executing object.
+        /// </summary>
         private class ScriptRunner
         {
+            #region Fields
+            /// <summary>
+            /// Event when auto command is reset.
+            /// </summary>
             private AutoResetEvent m_event;
+            /// <summary>
+            /// Python engine.
+            /// </summary>
             private PythonEngine m_engine;
+            /// <summary>
+            /// command string.
+            /// </summary>
             private string m_command;
+            /// <summary>
+            /// Event hanadler to start the script execution.
+            /// </summary>
+            public event EventHandler ScriptExecutionStarted;
+            /// <summary>
+            /// Event handller to stop the script execution.
+            /// </summary>
+            public event EventHandler<StopEventArgs> ScriptExecutionStopped;
+            #endregion
 
+            /// <summary>
+            /// StopEventArgs
+            /// </summary>
             public class StopEventArgs: EventArgs
             {
+                #region Fields
+                /// <summary>
+                /// The reason to stop.
+                /// </summary>
                 private Exception m_reason;
+                #endregion
 
+                /// <summary>
+                /// get the reason to stop.
+                /// </summary>
                 public Exception Reason
                 {
                     get { return m_reason; }
                 }
 
+                #region Constructors
+                /// <summary>
+                /// Constructors.
+                /// </summary>
                 public StopEventArgs()
                 {
                     m_reason = null;
                 }
 
+                /// <summary>
+                /// Constructors with the initial conditions.
+                /// </summary>
+                /// <param name="reason">the reason to stop.</param>
                 public StopEventArgs(Exception reason)
                 {
                     m_reason = reason;
                 }
+                #endregion
             }
 
-            public event EventHandler ScriptExecutionStarted;
-            public event EventHandler<StopEventArgs> ScriptExecutionStopped;
-
+            /// <summary>
+            /// Constructors.
+            /// </summary>
+            /// <param name="engine">Python engine.</param>
             public ScriptRunner(PythonEngine engine)
             {
                 m_event = new AutoResetEvent(false);
                 m_engine = engine;
             }
 
+            /// <summary>
+            /// Execute the script command.
+            /// </summary>
+            /// <param name="cmd">the script command.</param>
             public void Execute(string cmd)
             {
                 Debug.Assert(cmd != null);
@@ -98,6 +145,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 }
             }
 
+            /// <summary>
+            /// Stop the script.
+            /// </summary>
             public void Stop()
             {
                 lock (this)
@@ -107,6 +157,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 }
             }
 
+            /// <summary>
+            /// Run the script commnad.
+            /// </summary>
             public void Run()
             {
                 for (;;)
@@ -129,17 +182,41 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             }
         }
 
+        /// <summary>
+        /// NotifyingMemoryStream
+        /// </summary>
         private class NotifyingMemoryStream: MemoryStream
         {
+            #region Fields
+            /// <summary>
+            /// EventHandler object for Flush stream.
+            /// </summary>
+            /// <param name="obj">NotifyingMemoryStream</param>
+            /// <param name="prevPosisiton">Previous cursor position</param>
             public delegate void StreamFlushEventHandler(NotifyingMemoryStream obj, long prevPosisiton);
+            /// <summary>
+            /// Event handler when stream is flushed.
+            /// </summary>
             public event StreamFlushEventHandler StreamFlushed;
+            /// <summary>
+            /// Previous cursor position.
+            /// </summary>
             long m_previousPosition;
+            #endregion
 
+            #region Constructors
+            /// <summary>
+            /// Constructor
+            /// </summary>
             public NotifyingMemoryStream()
             {
                 m_previousPosition = 0;
             }
+            #endregion
 
+            /// <summary>
+            /// Flush the stream.
+            /// </summary>
             public override void Flush()
             {
                 base.Flush();
@@ -149,16 +226,49 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         }
 
         #region Fields
+        /// <summary>
+        /// Python egine.
+        /// </summary>
         private PythonEngine m_engine;
+        /// <summary>
+        /// Stream the console output.
+        /// </summary>
         private NotifyingMemoryStream m_consoleOutput;
+        /// <summary>
+        /// Bold font style.
+        /// </summary>
         private Font m_boldFont;
+        /// <summary>
+        /// Default font style.
+        /// </summary>
         private Font m_defaultFont;
+        /// <summary>
+        /// Default text color.
+        /// </summary>
         private Color m_defaultTextColor;
+        /// <summary>
+        /// String build object.
+        /// </summary>
         private StringBuilder m_statementBuffer;
+        /// <summary>
+        /// Prompt color.
+        /// </summary>
         private Color m_promptColor = Color.RoyalBlue;
+        /// <summary>
+        /// The current prompt position.
+        /// </summary>
         private int m_currentPromptCharCount;
+        /// <summary>
+        ///  The flag whether interaction is continued.
+        /// </summary>
         private bool m_interactionContinued;
+        /// <summary>
+        /// Script execute object.
+        /// </summary>
         private ScriptRunner m_scriptRunner;
+        /// <summary>
+        /// Thread object.
+        /// </summary>
         private Thread m_scriptRunnerThread;
         #endregion
 
@@ -246,8 +356,8 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// <summary>
         /// The event sequence when key is pressed.
         /// </summary>
-        /// <param name="_sender">TextBox</param>
-        /// <param name="e"></param>
+        /// <param name="_sender">RichTextBox</param>
+        /// <param name="e">KeyEventArgs</param>
         private void CommandTextKeyDown(object _sender, KeyEventArgs e)
         {
             RichTextBox sender = (RichTextBox)_sender;
@@ -281,6 +391,12 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 e.Handled = true;
             }
         }
+
+        /// <summary>
+        /// Event when the selection text is changed.
+        /// </summary>
+        /// <param name="_sender">RichTextBox.</param>
+        /// <param name="e">EventArgs</param>
         private void CommandTextSelectionChanged(object _sender, EventArgs e)
         {
             RichTextBox sender = (RichTextBox)_sender;
@@ -293,7 +409,11 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             }
         }
 
-
+        /// <summary>
+        /// Event when Scirpt command window is shown.
+        /// </summary>
+        /// <param name="sender">ScriptCommandWindow</param>
+        /// <param name="e">EventArgs</param>
         private void ShownScriptCommandWindow(object sender, EventArgs e)
         {
             SWCommandText.Focus();
@@ -301,11 +421,11 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         #endregion
 
         /// <summary>
-        /// 
+        /// Press key on DataGridView.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
-        /// <returns></returns>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
+        /// <returns>whether this event is handled.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
@@ -360,6 +480,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        /// <summary>
+        /// Reset command line text box.
+        /// </summary>
         private void ResetCommandLineControl()
         {
             string prompt = GetCurrentPrompt();
@@ -388,6 +511,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             Flush();
         }
 
+        /// <summary>
+        /// Write header.
+        /// </summary>
         private void WriteHeader()
         {
             WriteToConsole("<E-Cell IDE>\n");
@@ -395,6 +521,10 @@ namespace Ecell.IDE.Plugins.ScriptWindow
 
         }
 
+        /// <summary>
+        /// Report the return string from the script.
+        /// </summary>
+        /// <param name="e">Exception</param>
         private void ReportException(Exception e)
         {
             SetTextStyle(null, Color.DarkSalmon);
@@ -402,20 +532,21 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             SetTextStyle(null, Color.Empty);
             SWMessageText.ScrollToCaret();
         }
+
         /// <summary>
-        /// 
+        /// Write the return string to the console.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">the return string.</param>
         public void WriteToConsole(string text)
         {
             SWMessageText.Select(SWMessageText.TextLength, 0);
             SWMessageText.AppendText(text);
         }
         /// <summary>
-        /// 
+        /// Set the text style of console.
         /// </summary>
-        /// <param name="f"></param>
-        /// <param name="c"></param>
+        /// <param name="f">Font style</param>
+        /// <param name="c">Colort</param>
         public void SetTextStyle(Font f, Color c)
         {
             SWMessageText.Select(SWMessageText.TextLength, 0);
@@ -436,8 +567,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             m_consoleOutput.Seek(0, SeekOrigin.Begin);
             SWMessageText.ScrollToCaret();
         }
+
         /// <summary>
-        /// 
+        /// Get current prompt string.
         /// </summary>
         /// <returns></returns>
         private string GetCurrentPrompt()

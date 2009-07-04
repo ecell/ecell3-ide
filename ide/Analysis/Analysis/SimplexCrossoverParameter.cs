@@ -38,11 +38,28 @@ namespace Ecell.IDE.Plugins.Analysis
     /// </summary>
     public class SimplexCrossoverParameter
     {
+        #region Fields
+        /// <summary>
+        /// M
+        /// </summary>
         private Int32 m;
+        /// <summary>
+        /// The inital rate.
+        /// </summary>
         private double m0;
+        /// <summary>
+        /// The max rate.
+        /// </summary>
         private double mmax;
+        /// <summary>
+        /// K
+        /// </summary>
         private double k;
+        /// <summary>
+        /// Upsilon
+        /// </summary>
         private double upsilon;
+        #endregion
 
         /// <summary>
         /// Constructor.
@@ -59,11 +76,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="m0"></param>
-        /// <param name="mmax"></param>
-        /// <param name="k"></param>
-        /// <param name="upsilon"></param>
+        /// <param name="m">M</param>
+        /// <param name="m0">The initial rate</param>
+        /// <param name="mmax">The max rate</param>
+        /// <param name="k">K</param>
+        /// <param name="upsilon">Upsilon</param>
         public SimplexCrossoverParameter(int m, double m0, double mmax, 
                                         double k, double upsilon)
         {

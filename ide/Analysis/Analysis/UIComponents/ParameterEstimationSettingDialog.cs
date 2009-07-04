@@ -82,7 +82,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Set the parameter and display the set parameter.
         /// </summary>
-        /// <param name="param"></param>
+        /// <param name="param">parameter object.</param>
         public void SetParameter(ParameterEstimationParameter param)
         {
             parameterEstimationSimulationTimeTextBox.Text = Convert.ToString(param.SimulationTime);
@@ -103,7 +103,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Get the parameter displayed this dialog.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the input parameter object.</returns>
         public ParameterEstimationParameter GetParameter()
         {
             m_param.Param = m_simParam;

@@ -39,19 +39,25 @@ using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.Simulation
 {
+    /// <summary>
+    /// Input simulation parameter dialog
+    /// </summary>
     public partial class InputParameterNameDialog : Form
     {
         #region Fields
         /// <summary>
-        /// DataManager.
+        /// Owner object.
         /// </summary>
         private SimulationConfigurationDialog m_owner;
-        private bool m_isParam;
+        /// <summary>
+        /// The list of already exist IDs.
+        /// </summary>
         private List<string> m_alreadyList;
         #endregion
 
+        #region Accessors
         /// <summary>
-        /// 
+        /// get the input text.
         /// </summary>
         public string InputText
         {
@@ -59,22 +65,25 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
-        /// 
+        /// set the list of already exist IDs.
         /// </summary>
         public List<string> AlreadyList
         {
             set { this.m_alreadyList = value; }
         }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor for NewParameterWindow.
         /// </summary>
-        internal InputParameterNameDialog(SimulationConfigurationDialog owner, bool isParam)
+        /// <param name="owner">owner object.</param>
+        internal InputParameterNameDialog(SimulationConfigurationDialog owner)
         {
             m_owner = owner;
-            m_isParam = isParam;
             InitializeComponent();
         }
+        #endregion
 
         #region Event
         /// <summary>
@@ -87,6 +96,11 @@ namespace Ecell.IDE.Plugins.Simulation
             this.paramTextBox.Focus();
         }
 
+        /// <summary>
+        /// Check the input values when InputParameterNameDialog is closing.
+        /// </summary>
+        /// <param name="sender">InputParameterNameDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void InputParameterNameDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel)
@@ -110,10 +124,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 e.Cancel = true;
                 return;
             }
-        }
-
-        private void paramTextBox_Validating(object sender, CancelEventArgs e)
-        {
         }
         #endregion
     }

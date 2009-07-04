@@ -130,11 +130,29 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The number of bifurcation points.
         /// </summary>
         private int m_resultPoint = 0;
+        /// <summary>
+        /// The flag whether this analysis is saved.
+        /// </summary>
         private bool m_isRegist = false;
+        /// <summary>
+        /// Simulation time string.
+        /// </summary>
         private const string s_simTime = "Simulation Time";
+        /// <summary>
+        /// window size string.
+        /// </summary>
         private const string s_winSize = "Window Size";
+        /// <summary>
+        /// Max input string.
+        /// </summary>
         private const string s_maxInput = "Max Input for FFT";
+        /// <summary>
+        /// max frequency string.
+        /// </summary>
         private const string s_maxFreq = "Max Frequency of FFT";
+        /// <summary>
+        /// min frequency string.
+        /// </summary>
         private const string s_minFreq = "Min Frequency of FFT";
         /// <summary>
         /// Analysis name.
@@ -242,7 +260,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Get the property of analysis.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Dictionary the property name and value.</returns>
         public Dictionary<string, string> GetAnalysisProperty()
         {
             Dictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -259,7 +277,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Set the property of analysis.
         /// </summary>
-        /// <param name="paramDic"></param>
+        /// <param name="paramDic">Dictionary the property name and value.</param>
         public void SetAnalysisProperty(Dictionary<string, string> paramDic)
         {
             foreach (string key in paramDic.Keys)
@@ -315,8 +333,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Create the analysis instance.
         /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
+        /// <param name="group">group object.</param>
+        /// <returns>New BifurcationAnalysis.</returns>
         public IAnalysisModule CreateNewInstance(JobGroup group)
         {
             BifurcationAnalysis instance = new BifurcationAnalysis(m_owner);
@@ -733,6 +751,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Print the edge data of bifurcation analysis.
         /// </summary>
+        /// <param name="isWrite">The flag whether the result write.</param>
         private void PrintResultData(bool isWrite)
         {
             int count = 0;
@@ -1088,6 +1107,11 @@ namespace Ecell.IDE.Plugins.Analysis
             reader.Close();
         }
 
+        /// <summary>
+        /// Convert from int to BifurcationResult
+        /// </summary>
+        /// <param name="d">the int data.</param>
+        /// <returns>BifurcationResult</returns>
         static private BifurcationResult Int2Type(int d)
         {
             switch (d)
@@ -1104,6 +1128,11 @@ namespace Ecell.IDE.Plugins.Analysis
             return BifurcationResult.None;
         }
 
+        /// <summary>
+        /// Convert from BifurcationResult to int.
+        /// </summary>
+        /// <param name="type">BifurcationResult</param>
+        /// <returns>the int data.</returns>
         static private int Type2Int(BifurcationResult type)
         {
             switch (type)
@@ -1163,11 +1192,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
-        /// <param name="simTime"></param>
-        /// <param name="winSize"></param>
-        /// <param name="maxInput"></param>
-        /// <param name="maxFreq"></param>
-        /// <param name="minFreq"></param>
+        /// <param name="simTime">the simulation time.</param>
+        /// <param name="winSize">the window size.</param>
+        /// <param name="maxInput">max input for FFT.</param>
+        /// <param name="maxFreq">max frequency for FFT.</param>
+        /// <param name="minFreq">min frequency for FFT.</param>
         public BifurcationAnalysisParameter(double simTime, double winSize,
             int maxInput, double maxFreq, double minFreq)
         {

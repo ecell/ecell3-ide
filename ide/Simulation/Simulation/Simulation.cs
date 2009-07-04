@@ -130,13 +130,16 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private bool m_isChanged = false;
         /// <summary>
-        /// 
+        /// The flag whether simulation is stepping.
         /// </summary>
         private bool m_isStepping = false;
         /// <summary>
-        /// 
+        /// The flag whether simulation is suspending.
         /// </summary>
         private bool m_isSuspend = false;
+        /// <summary>
+        /// The current simulation time.
+        /// </summary>
         private double m_time = 0.0;
         #endregion
 
@@ -149,6 +152,9 @@ namespace Ecell.IDE.Plugins.Simulation
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initialize component.
+        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
@@ -324,12 +330,11 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_stepUnitCombo});
             ButtonList.Location = new Point(400, 0);
         }
-
         #endregion
 
         #region Inherited from PluginBase
         /// <summary>
-        /// 
+        /// Initialize this plugin.       
         /// </summary>
         public override void Initialize()
         {
@@ -337,13 +342,9 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
-        /// Get manustripts for Simulation
-        /// [Run]   -> [Run ...]
-        ///            [Suspend ...]
-        ///            [Stop ...]
-        /// [Setup] -> [Simulation]
+        /// Get the menu list for Simulation
         /// </summary>
-        /// <returns>MenuStripItems</returns>
+        /// <returns>MenuItemRun and MenuItemSetup.</returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
@@ -403,7 +404,6 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
-
         /// <summary>
         /// The event sequence when the simulation parameter is set.
         /// </summary>
@@ -444,9 +444,9 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
-        /// 
+        /// Get the property setting in the common setting dialog.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of property items.</returns>
         public override List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node = new PropertyNode(MessageResources.NameSimulation);
@@ -461,7 +461,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
-        /// <param name="type">System status.</param>
+        /// <param name="type">project status.</param>
         public override void ChangeStatus(ProjectStatus type)
         {
             bool isUninitialized = type == ProjectStatus.Uninitialized;
@@ -525,6 +525,10 @@ namespace Ecell.IDE.Plugins.Simulation
         }
         #endregion
 
+        /// <summary>
+        /// Show the simulation setting dialog with the set ID.
+        /// </summary>
+        /// <param name="viewParamID">the simulation parameter ID.</param>
         private void ShowSetupSimulationDialog(string viewParamID)
         {
             Dictionary<string, SimulationParameterSet> sim = new Dictionary<string, SimulationParameterSet>();
@@ -614,10 +618,10 @@ namespace Ecell.IDE.Plugins.Simulation
 
         #region Event
         /// <summary>
-        /// 
+        /// Event when display format is changed.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        /// <param name="o">DataManager.</param>
+        /// <param name="e">DisplayFormatEventArgs</param>
         void DataManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
             m_timeText.Text = m_time.ToString(m_env.DataManager.DisplayStringFormat);
@@ -807,7 +811,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">ToolStripComboBox</param>
         /// <param name="e">EventArgs</param>
-        void ParameterSelectedIndexChanged(object sender, EventArgs e)
+        private void ParameterSelectedIndexChanged(object sender, EventArgs e)
         {
             string preParam = m_dManager.CurrentProject.Info.SimulationParam;
             try
@@ -826,8 +830,12 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
-
-        void m_stepUnitCombo_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event when ComboBox of step unit is changed.
+        /// </summary>
+        /// <param name="sender">ComboBox.</param>
+        /// <param name="e">EventArgs</param>
+        private void m_stepUnitCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_stepUnitCombo.Text.Equals("Step"))
             {

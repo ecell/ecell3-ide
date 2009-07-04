@@ -337,7 +337,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// Add the object to DataGridView.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">the added object.</param>
         public void DataAdd(EcellObject obj)
         {
 
@@ -1447,8 +1447,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// Event when the cell is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
         void GridViewClickObjectCell(object sender, DataGridViewCellEventArgs e)
         {
             int ind = e.RowIndex;
@@ -1493,7 +1493,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// </summary>
         /// <param name="msg">Message.</param>
         /// <param name="keyData">Key data.</param>
-        /// <returns></returns>
+        /// <returns>whether this event is handled.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
