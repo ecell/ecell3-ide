@@ -151,9 +151,11 @@ namespace Ecell.IDE
             m_win.AddReference(key, "C");
         }
 
-
-        #endregion
-
+        /// <summary>
+        /// Event when tree view is double clicked.
+        /// </summary>
+        /// <param name="sender">TreeView</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs</param>
         private void SelectTreeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode t = this.selectTree.SelectedNode;
@@ -172,5 +174,6 @@ namespace Ecell.IDE
             string key = tag;
             m_win.AddReference(key, "P");
         }
+        #endregion
     }
 }

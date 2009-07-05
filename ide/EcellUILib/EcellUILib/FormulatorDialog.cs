@@ -40,11 +40,25 @@ using Ecell.UI.Components;
 
 namespace Ecell.IDE
 {
+    /// <summary>
+    /// Formulator setting dialog.
+    /// </summary>
     public partial class FormulatorDialog : Form
     {
+        #region Fields
+        /// <summary>
+        /// Formulator control.
+        /// </summary>
         private FormulatorControl m_cnt;
+        /// <summary>
+        /// formulator string.
+        /// </summary>
         private String m_result;
+        #endregion
 
+        /// <summary>
+        /// get the formulator string.
+        /// </summary>
         public String Result
         {
             get { return this.m_result; }
@@ -62,21 +76,38 @@ namespace Ecell.IDE
             m_cnt.Dock = DockStyle.Fill;
         }
 
+        /// <summary>
+        /// Add the reserved string.
+        /// </summary>
+        /// <param name="list">the list of reserved string.</param>
         public void AddReserveString(List<string> list)
         {
             m_cnt.AddReserveString(list);
         }
 
+        /// <summary>
+        /// Import the formulator string.
+        /// </summary>
+        /// <param name="formu">the formulator string.</param>
         public void ImportFormulate(string formu)
         {
             m_cnt.ImportFormulate(formu);
         }
 
+        /// <summary>
+        /// Set whether this is enable to add the expression.
+        /// </summary>
+        /// <param name="isExpression">the flag whether this is enable to add the expression</param>
         public void SetExpression(bool isExpression)
         {
             m_cnt.IsExpression = isExpression;
         }
 
+        /// <summary>
+        /// Closing FormulatorDialog.
+        /// </summary>
+        /// <param name="sender">FormulatorDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void FormulatorDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;

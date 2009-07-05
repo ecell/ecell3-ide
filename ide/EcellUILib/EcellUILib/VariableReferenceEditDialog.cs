@@ -212,8 +212,8 @@ namespace Ecell.IDE
         /// <summary>
         /// Create new Reference from key and prefix. 
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="prefix"></param>
+        /// <param name="key">key</param>
+        /// <param name="prefix">prefix string</param>
         public void AddReference(string key, string prefix)
         {
             int j = 0;
@@ -261,7 +261,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Add new EcennReference.
         /// </summary>
-        /// <param name="er"></param>
+        /// <param name="er">Reference object.</param>
         public void AddReference(EcellReference er)
         {
             dgv.Rows.Add(new object[] { er.Name, er.FullID, er.Coefficient });
@@ -283,8 +283,8 @@ namespace Ecell.IDE
         /// <summary>
         /// Add new variable reference.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         public void AddVarButtonClick(object sender, EventArgs e)
         {
             m_selectWindow = new VariableSelectDialog(m_dManager, m_pManager);
@@ -299,8 +299,8 @@ namespace Ecell.IDE
         /// <summary>
         /// Event on DialogClosing.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">VariableReferenceEditDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void VariableReferenceEditDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult != DialogResult.OK)
@@ -318,6 +318,69 @@ namespace Ecell.IDE
             }
         }
 
+        /// <summary>
+        /// Validating the value of cell.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewCellValidatingEventArgs</param>
+        private void DataCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                string key;
+                string fullID = (string)e.FormattedValue;
+                if (fullID.StartsWith(Constants.xpathVariable))
+                {
+                    int ind = fullID.IndexOf(':');
+                    key = fullID.Substring(ind + 1);
+                }
+                else
+                {
+                    key = fullID;
+                }
+            }
+            else if (e.ColumnIndex == 2)
+            {
+                DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
+                int dummy;
+                if (!Int32.TryParse((string)e.FormattedValue, out dummy))
+                {
+                    e.Cancel = true;
+                    dgv.CancelEdit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validatethe value of cell.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewCellEventArgs</param>
+        private void DataCellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
+                int dummy;
+                if (Int32.TryParse(c.Value.ToString(), out dummy))
+                {
+                    c.Value = dummy;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load VariableReferenceEditDialog
+        /// </summary>
+        /// <param name="sender">VariableReferenceEditDialog</param>
+        /// <param name="e">EventArgs</param>
+        private void VariableReferenceEditDialog_Load(object sender, EventArgs e)
+        {
+            variableReferenceToolTip.SetToolTip(AddVarButton,
+                MessageResources.DialogToolTipAddVar);
+            variableReferenceToolTip.SetToolTip(DeleteVarButton,
+                MessageResources.DialogToolTipDeleteVar);
+        }
         #endregion
 
         /// <summary>
@@ -369,55 +432,6 @@ namespace Ecell.IDE
             }
             // Set new list.
             this.m_refList = refList;
-        }
-
-        private void DataCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            if (e.ColumnIndex == 1)
-            {
-                string key;
-                string fullID = (string)e.FormattedValue;
-                if (fullID.StartsWith(Constants.xpathVariable))
-                {
-                    int ind = fullID.IndexOf(':');
-                    key = fullID.Substring(ind + 1);
-                }
-                else 
-                {
-                    key = fullID;
-                }
-            }
-            else if (e.ColumnIndex == 2)
-            {
-                DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
-                int dummy;
-                if (!Int32.TryParse((string)e.FormattedValue, out dummy))
-                {
-                    e.Cancel = true;
-                    dgv.CancelEdit();
-                }
-            }
-        }
-
-        private void DataCellValidated(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 2)
-            {
-                DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
-                int dummy;
-                if (Int32.TryParse(c.Value.ToString(), out dummy))
-                {
-                    c.Value = dummy;
-                }
-            }
-        }
-
-        private void VariableReferenceEditDialog_Load(object sender, EventArgs e)
-        {
-            variableReferenceToolTip.SetToolTip(AddVarButton,
-                MessageResources.DialogToolTipAddVar);
-            variableReferenceToolTip.SetToolTip(DeleteVarButton,
-                MessageResources.DialogToolTipDeleteVar);
         }
     }
 }

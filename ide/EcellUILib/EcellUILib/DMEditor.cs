@@ -108,8 +108,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when the close button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void DMECloseButtonClick(object sender, EventArgs e)
         {
             this.Close();
@@ -118,8 +118,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when this form is shown.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DMEditor</param>
+        /// <param name="e">EventArgs</param>
         protected virtual void DMEditorShown(object sender, EventArgs e)
         {
             if (m_path == null) return;
@@ -143,8 +143,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when the save button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected void DMESaveButtonClick(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(m_path)) return;
@@ -166,8 +166,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when the load button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected virtual void DMELoadButtonClick(object sender, EventArgs e)
         {
             DMEOpenFileDialog.Filter = Constants.FilterDMFile;
@@ -182,20 +182,19 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when the comile button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected virtual void DMECompileButtonClick(object sender, EventArgs e)
         {
             DMESaveButtonClick(DMESaveButton, e);
             DMCompiler.Compile(m_path, m_env);
         }
 
-        private void DMEditor_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (this.DialogResult == DialogResult.Cancel) return;
-
-        }
-
+        /// <summary>
+        /// The event sequence when the save as button is clicked.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected virtual void DMESaveAsButton_Click(object sender, EventArgs e)
         {
             DMESaveFileDialog.Filter = Constants.FilterDMFile;           

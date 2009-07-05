@@ -115,7 +115,6 @@ namespace Ecell.IDE
             this.Controls.Add(this.DMESaveButton);
             this.Name = "DMEditor";
             this.Shown += new System.EventHandler(this.DMEditorShown);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DMEditor_FormClosing);
             this.ResumeLayout(false);
 
         }

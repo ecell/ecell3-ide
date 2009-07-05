@@ -62,12 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddPropertyDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddPropertyDialog.Designer.cs">
-      <DependentUpon>AddPropertyDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="CommonContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -119,12 +113,6 @@
     <Compile Include="PropertyDialogPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PropertyEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PropertyEditor.Designer.cs">
-      <DependentUpon>PropertyEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="PropertyNode.cs" />
     <Compile Include="ScriptEditor.cs">
       <SubType>Form</SubType>
@@ -153,14 +141,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AddPropertyDialog.ja.resx">
-      <DependentUpon>AddPropertyDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddPropertyDialog.resx">
-      <DependentUpon>AddPropertyDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="CommonContextMenu.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CommonContextMenu.cs</DependentUpon>
@@ -231,14 +211,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PropertyDialogPage.resx">
       <DependentUpon>PropertyDialogPage.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyEditor.ja.resx">
-      <DependentUpon>PropertyEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyEditor.resx">
-      <DependentUpon>PropertyEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VariableReferenceEditDialog.ja.resx">

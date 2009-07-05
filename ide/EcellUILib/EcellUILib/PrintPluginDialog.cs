@@ -69,21 +69,31 @@ namespace Ecell.IDE
             /// <summary>
             /// constructors
             /// </summary>
-            /// <param name="plugin"></param>
-            /// <param name="portion"></param>
+            /// <param name="plugin">Plugin object.</param>
+            /// <param name="portion">portion of plugin.</param>
             internal Entry(IRasterizable plugin, string portion)
             {
                 m_plugin = plugin;
                 m_portion = portion;
             }
 
+            /// <summary>
+            /// convert to string.
+            /// </summary>
+            /// <returns>object string.</returns>
             public override string ToString()
             {
                 return string.Format("{0}", m_portion);
             }
 
             #region Fields
+            /// <summary>
+            /// Plugin object.
+            /// </summary>
             private IRasterizable m_plugin;
+            /// <summary>
+            /// Portion of plugin.
+            /// </summary>
             private string m_portion;
             #endregion
         }
@@ -137,8 +147,8 @@ namespace Ecell.IDE
         /// <summary>
         /// ok click event after select the print plugin.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (this.listBox1.SelectedItem == null)
@@ -153,14 +163,18 @@ namespace Ecell.IDE
         /// <summary>
         /// cancel click event.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void button2_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
         }
 
-
+        /// <summary>
+        /// Event when ListBox is select changed.
+        /// </summary>
+        /// <param name="sender">ListBox</param>
+        /// <param name="e">EventArgs</param>
         private void listBox1_SelectedValueChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
@@ -168,6 +182,10 @@ namespace Ecell.IDE
         }
         #endregion
 
+        /// <summary>
+        /// Active the selected window.
+        /// </summary>
+        /// <param name="name">the window name.</param>
         private void ActivateWindow(string name)
         {
             foreach (DockContent content in m_pManager.DockPanel.Contents)

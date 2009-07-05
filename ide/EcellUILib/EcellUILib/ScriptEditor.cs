@@ -53,8 +53,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when this form is shown.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ScriptEditor</param>
+        /// <param name="e">EventArgs</param>
         protected override void DMEditorShown(object sender, EventArgs e)
         {
             DMEComileButton.Text = MessageResources.NameExecute;
@@ -67,8 +67,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when the load button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected override void DMELoadButtonClick(object sender, EventArgs e)
         {
             DMEOpenFileDialog.Filter = Constants.FilterEssFile;
@@ -85,8 +85,8 @@ namespace Ecell.IDE
         /// <summary>
         /// The event sequence when the comile button is clicked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected override void DMECompileButtonClick(object sender, EventArgs e)
         {
             DMESaveButtonClick(DMESaveButton, e);
@@ -103,7 +103,11 @@ namespace Ecell.IDE
             DMEComileButton.Enabled = true;
         }
 
-
+        /// <summary>
+        /// The event sequence when the save as button is clicked.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         protected override void DMESaveAsButton_Click(object sender, EventArgs e)
         {
             DMESaveFileDialog.Filter = Constants.FilterEssFile;

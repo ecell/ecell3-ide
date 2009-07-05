@@ -1581,16 +1581,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// Click ToolStripMenuItem to show property.
-        /// </summary>
-        /// <param name="sender">ToolStripMenuItem</param>
-        /// <param name="e">EventArgs</param>
-        private void ClickShowPropertyMenu(object sender, EventArgs e)
-        {
-            PropertyEditor.Show(m_env, m_current);
-        }
-
-        /// <summary>
         /// Press key on DataGridView.
         /// </summary>
         /// <param name="msg">Message.</param>
