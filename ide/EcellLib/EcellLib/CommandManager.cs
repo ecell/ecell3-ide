@@ -53,6 +53,7 @@ namespace Ecell
     /// </summary>
     public class CommandManager
     {
+        #region Fields
         /// <summary>
         /// The "IronPythonConsole.exe"
         /// </summary>
@@ -62,7 +63,13 @@ namespace Ecell
         /// This object is used when the data is exchanged among IDE and script.
         /// </summary>
         public static CommandManager s_instance;
+        /// <summary>
+        /// ApplicationEnvironment
+        /// </summary>
+        private ApplicationEnvironment m_env;
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// get DataManager.
         /// </summary>
@@ -90,10 +97,9 @@ namespace Ecell
                 return null;
             }
         }
+        #endregion
 
-
-        private ApplicationEnvironment m_env;
-
+        #region Constructors
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
@@ -103,6 +109,7 @@ namespace Ecell
             m_env = env;
             s_instance = this;
         }
+        #endregion
 
         /// <summary>
         /// Creates the entity of the full ID.
@@ -271,7 +278,7 @@ namespace Ecell
         /// <summary>
         /// Load the SBML file.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the file name.</param>
         public void LoadSBML(string fileName)
         {
             m_env.DataManager.LoadSBML(fileName);
@@ -311,19 +318,19 @@ namespace Ecell
         /// <summary>
         /// Create the job stub.
         /// </summary>
-        /// <param name="groupName"></param>
-        /// <param name="ID"></param>
-        /// <returns></returns>
+        /// <param name="groupName">the group name.</param>
+        /// <param name="ID">the ID.</param>
+        /// <returns>JobStub entity.</returns>
         public JobStub CreateJobStub(string groupName, int ID)
         {
             return new JobStub(this, groupName, ID);
         }
 
         /// <summary>
-        /// 
+        /// Create the job group.
         /// </summary>
-        /// <param name="analysisName"></param>
-        /// <returns></returns>
+        /// <param name="analysisName">the analysis name.</param>
+        /// <returns>the group name.</returns>
         public string CreateJobGroup(string analysisName)
         {
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
@@ -449,10 +456,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Execute the file name.
         /// </summary>
-        /// <param name="execFileName"></param>
-        /// <param name="argument"></param>
+        /// <param name="execFileName">the execution file name.</param>
+        /// <param name="argument">the argument of execution.</param>
         public void Exec(string execFileName, string argument)
         {
             try
@@ -737,7 +744,7 @@ namespace Ecell
         /// <param name="startTime">The start time of the logger</param>
         /// <param name="endTime">The end time of the logger</param>
         /// <param name="fullPN">The logged full PN</param>
-        /// <returns></returns>
+        /// <returns>the list of LogValue.</returns>
         public List<LogValue> GetLogData(string fullPN, double startTime, double endTime)
         {
             double interval
@@ -813,7 +820,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Close project.
         /// </summary>
         public void Refresh()
         {
@@ -919,6 +926,10 @@ namespace Ecell
             m_env.DataManager.SimulationSuspend();
         }
 
+        /// <summary>
+        /// Update the initial condition.
+        /// </summary>
+        /// <param name="initialDic">the dictionary of initial name and value.</param>
         public void UpdateInitialCondition(Dictionary<string, double> initialDic)
         {
             m_env.DataManager.UpdateInitialCondition(null, ModelID, initialDic);
@@ -926,13 +937,13 @@ namespace Ecell
 
         #region JobManager
         /// <summary>
-        /// 
+        /// Set the observed data.
         /// </summary>
-        /// <param name="fullPN"></param>
-        /// <param name="max"></param>
-        /// <param name="min"></param>
-        /// <param name="differ"></param>
-        /// <param name="rate"></param>
+        /// <param name="fullPN">the FullPN of observed data.</param>
+        /// <param name="max">the max of observed data.</param>
+        /// <param name="min">the min of observed data.</param>
+        /// <param name="differ">the differ of observed data.</param>
+        /// <param name="rate">the rate of observed data.</param>
         public void SetObservedData(string fullPN, double max, double min, 
             double differ, double rate)
         {
@@ -941,12 +952,12 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Set the parameter data.
         /// </summary>
-        /// <param name="fullPN"></param>
-        /// <param name="max"></param>
-        /// <param name="min"></param>
-        /// <param name="step"></param>
+        /// <param name="fullPN">the FullPN of parameter data.</param>
+        /// <param name="max">the max of parameter data.</param>
+        /// <param name="min">the min of parameter data.</param>
+        /// <param name="step">the step of parameter data.</param>
         public void SetParameterData(string fullPN, double max, double min, double step)
         {
             EcellParameterData d = new EcellParameterData(fullPN, max, min, step);
@@ -954,9 +965,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Remove the observed data.
         /// </summary>
-        /// <param name="fullPN"></param>
+        /// <param name="fullPN">the FullPN.</param>
         public void RemoveObservedData(string fullPN)
         {
             EcellObservedData d = new EcellObservedData(fullPN, 0.0);
@@ -964,9 +975,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Remove the parameter data.
         /// </summary>
-        /// <param name="fullPN"></param>
+        /// <param name="fullPN">the FullPN.</param>
         public void RemoveParameterData(string fullPN)
         {
             EcellParameterData d = new EcellParameterData(fullPN, 0.0);
@@ -974,13 +985,13 @@ namespace Ecell
         }
         
         /// <summary>
-        /// 
+        /// Run the session for parameter range.
         /// </summary>
-        /// <param name="topDir"></param>
-        /// <param name="modelName"></param>
-        /// <param name="num"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
+        /// <param name="topDir">the top direcotry.</param>
+        /// <param name="modelName">the model name.</param>
+        /// <param name="num">the number of session.</param>
+        /// <param name="count">the step count.</param>
+        /// <returns>the list of job ID.</returns>
         public List<int> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count)
         {
             List<EcellParameterData> pList = DataManager.GetParameterData();
@@ -1003,12 +1014,12 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Run the session for parameter matrix.
         /// </summary>
-        /// <param name="topDir"></param>
-        /// <param name="modelName"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
+        /// <param name="topDir">the top direcotry.</param>
+        /// <param name="modelName">the model name.</param>
+        /// <param name="count">the step count.</param>
+        /// <returns>the list of job ID.</returns>
         public List<int> RunSimParameterMatrix(string groupName, string topDir, string modelName, double count)
         {
             List<EcellParameterData> pList = DataManager.GetParameterData();
@@ -1808,9 +1819,21 @@ namespace Ecell
         public class JobStub
         {
             #region Fields
+            /// <summary>
+            /// Job object.
+            /// </summary>
             private Job.Job m_job = null;
+            /// <summary>
+            /// Job ID.
+            /// </summary>
             private int m_id = 0;
+            /// <summary>
+            /// group name.
+            /// </summary>
             private string m_groupName;
+            /// <summary>
+            /// CommandManager object.
+            /// </summary>
             private CommandManager m_cManager = null;
             #endregion
 
@@ -1936,6 +1959,8 @@ namespace Ecell
             /// <summary>
             /// Creates the stepper stub with the current simulation parameter and the stepper ID.
             /// </summary>
+            /// <param name="cManager">CommandManager</param>
+            /// <param name="ID">Job ID.</param>
             public StepperStub(CommandManager cManager, string ID)
             {
                 this.m_cManager = cManager;

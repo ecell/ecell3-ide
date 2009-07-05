@@ -48,58 +48,59 @@ namespace Ecell
     public class ScriptWriter
     {
         /// <summary>
-        /// 
+        /// The number of Stepper.
         /// </summary>
         private int m_stepperCount = 0;
         /// <summary>
-        /// 
+        /// The number of System.
         /// </summary>
         private int m_sysCount = 0;
         /// <summary>
-        /// 
+        /// The number of Process.
         /// </summary>
         private int m_proCount = 0;
         /// <summary>
-        /// 
+        /// The number of Variable.
         /// </summary>
         private int m_varCount = 0;
         /// <summary>
-        /// 
+        /// The number of Log.
         /// </summary>
         private int m_logCount = 0;
         /// <summary>
-        /// 
+        /// The list of exported Stepper.
         /// </summary>
         private Dictionary<string, int> m_exportStepper = new Dictionary<string, int>();
         /// <summary>
-        /// 
+        /// The list of exported System.
         /// </summary>
         private Dictionary<string, int> m_exportSystem = new Dictionary<string, int>();
         /// <summary>
-        /// 
+        /// The list of exported Process.
         /// </summary>
         private Dictionary<string, int> m_exportProcess = new Dictionary<string, int>();
         /// <summary>
-        /// 
+        /// The list of exported Variable.
         /// </summary>
         private Dictionary<string, int> m_exportVariable = new Dictionary<string, int>();
         /// <summary>
-        /// 
+        /// The current project.
         /// </summary>
         private Project m_currentProject = null;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="project"></param>
+        /// <param name="project">Project object.</param>
         public ScriptWriter(Project project)
         {
             m_currentProject = project;
         }
+
         /// <summary>
         /// Saves the script.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the saved file name,</param>
         public void SaveScript(string fileName)
         {
             ClearScriptInfo();
@@ -439,33 +440,33 @@ namespace Ecell
 
         #region UnixCommand
         /// <summary>
-        /// 
+        /// Write simulation step for Unix script.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="count"></param>
-        /// <param name="enc"></param>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="count">step count.</param>
         public void WriteSimulationForStepUnix(string fileName, int count, Encoding enc)
         {
             File.AppendAllText(fileName, "step(" + count + ")\n", enc);
         }
 
         /// <summary>
-        /// 
+        /// Write simulation time for Unix script
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="time"></param>
-        /// <param name="enc"></param>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="time">simulation time.</param>
         public void WriteSimulationForTimeUnix(string fileName, double time, Encoding enc)
         {
             File.AppendAllText(fileName, "run(" + time + ")\n", enc);
         }
 
         /// <summary>
-        /// 
+        /// Write the load model script for Unix script.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="enc"></param>
-        /// <param name="jobid"></param>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="jobid">job id.</param>
         public void WriteModelEntryUnix(string fileName, Encoding enc, int jobid)
         {
             File.AppendAllText(fileName, "loadModel(\"" + jobid + ".eml\")\n", enc);
@@ -473,11 +474,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Write the export logger for Unix script.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="enc"></param>
-        /// <param name="logList"></param>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="logList">the list of logger.</param>
         public void WriteLoggerPropertyUnix(string fileName, Encoding enc, List<string> logList)
         {
             foreach (string name in logList)
@@ -489,12 +490,12 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Write the save logger entry for Unix script.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="enc"></param>
-        /// <param name="saveList"></param>
-        /// <param name="topdir"></param>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="saveList">the list of saved object.</param>
+        /// <param name="topdir">the top directory.</param>
         public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, int jobID,
             List<SaveLoggerProperty> saveList, string topdir)
         {
@@ -515,12 +516,12 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Write componentn property for Unix script.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="enc"></param>
-        /// <param name="obj"></param>
-        /// <param name="data"></param>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="obj">the object.</param>
+        /// <param name="data">the data of object.</param>
         public void WriteComponentPropertyUnix(string fileName, Encoding enc, EcellObject obj, EcellData data)
         {
             int i = 0;

@@ -111,6 +111,11 @@ namespace Ecell
     public partial class Util
     {
         /// <summary>
+        /// idParser
+        /// </summary>
+        private static Regex idParser = new Regex("[A-Za-z_]+(\\d+)$");
+
+        /// <summary>
         /// Check whether id contains the string except for letter, digit or '_'.
         /// </summary>
         /// <param name="key">id</param>
@@ -161,8 +166,8 @@ namespace Ecell
         /// <summary>
         /// Check if this key is Reserved or not.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">key</param>
+        /// <returns>return true if key is reserved string.</returns>
         static public bool IsReservedID(string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -176,8 +181,8 @@ namespace Ecell
         /// <summary>
         /// Check if this type is NG or not.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">object type.</param>
+        /// <returns>return true if type is not reserved type.</returns>
         public static bool IsNGforType(string type)
         {
             if (string.IsNullOrEmpty(type))
@@ -203,8 +208,8 @@ namespace Ecell
         /// <summary>
         /// Check if this fullPN is NG or not.
         /// </summary>
-        /// <param name="fullPN"></param>
-        /// <returns></returns>
+        /// <param name="fullPN">FullPN</param>
+        /// <returns>return true if FullPN is NG.</returns>
         public static bool IsNGforFullPN(string fullPN)
         {
             if (string.IsNullOrEmpty(fullPN) || !fullPN.Contains(":"))
@@ -220,8 +225,8 @@ namespace Ecell
         /// <summary>
         /// Check if this fullID is NG or not.
         /// </summary>
-        /// <param name="fullID"></param>
-        /// <returns></returns>
+        /// <param name="fullID">FullID</param>
+        /// <returns>return true if FullID is NG.</returns>
         public static bool IsNGforFullID(string fullID)
         {
             if (string.IsNullOrEmpty(fullID))
@@ -361,12 +366,13 @@ namespace Ecell
             // build Full Path.
             return type + Constants.delimiterColon + systemPath + Constants.delimiterColon + localID;
         }
+
         /// <summary>
         /// Build the full PN from the information of components.
         /// </summary>
-        /// <param name="fullID"></param>
-        /// <param name="propName"></param>
-        /// <returns></returns>
+        /// <param name="fullID">FullID</param>
+        /// <param name="propName">property name.</param>
+        /// <returns>build FullPN</returns>
         public static string BuildFullPN(string fullID, string propName)
         {
             if (IsNGforFullID(fullID))
@@ -393,8 +399,8 @@ namespace Ecell
         /// <summary>
         /// Get new Revision No.
         /// </summary>
-        /// <param name="sourceDir"></param>
-        /// <returns></returns>
+        /// <param name="sourceDir">source directory.</param>
+        /// <returns>the last revision.</returns>
         public static string GetRevNo(string sourceDir)
         {
             int revNo = 0;
@@ -410,10 +416,10 @@ namespace Ecell
         /// <summary>
         /// Get key moved to another system.
         /// </summary>
-        /// <param name="originalKey"></param>
-        /// <param name="originalSystemKey"></param>
-        /// <param name="newSystemKey"></param>
-        /// <returns></returns>
+        /// <param name="originalKey">the original key.</param>
+        /// <param name="originalSystemKey">the original system key.</param>
+        /// <param name="newSystemKey">the new system key.</param>
+        /// <returns>the new key.</returns>
         public static string GetMovedKey(string originalKey, string originalSystemKey, string newSystemKey)
         {
             if (IsNGforSystemKey(originalSystemKey))
@@ -436,9 +442,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// GetNewProjectName
+        /// Get new project name from source directory.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>new project name.</returns>
         public static string GetNewProjectName()
         {
             string baseDir = Util.GetBaseDir();
@@ -459,9 +465,9 @@ namespace Ecell
         /// <summary>
         /// Split Object Key to SystemPath and LocalID.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="systemPath"></param>
-        /// <param name="localID"></param>
+        /// <param name="key">the key</param>
+        /// <param name="systemPath">the system key</param>
+        /// <param name="localID">the got local ID.</param>
         public static void ParseKey(string key, out string systemPath, out string localID)
         {
             if (string.IsNullOrEmpty(key))
@@ -475,9 +481,9 @@ namespace Ecell
         /// <summary>
         /// Split Entity Key to SystemPath and LocalID.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="systemPath"></param>
-        /// <param name="localID"></param>
+        /// <param name="key">the key.</param>
+        /// <param name="systemPath">the system key.</param>
+        /// <param name="localID">the got local ID.</param>
         public static void ParseEntityKey(string key, out string systemPath, out string localID)
         {
             if (IsNGforEntityKey(key))
@@ -491,9 +497,9 @@ namespace Ecell
         /// <summary>
         /// Split systemPath to ParentSystemPath and LocalID.
         /// </summary>
-        /// <param name="systemKey"></param>
-        /// <param name="parentSystemPath"></param>
-        /// <param name="localID"></param>
+        /// <param name="systemKey">the system key.</param>
+        /// <param name="parentSystemPath">the got parent system key.</param>
+        /// <param name="localID">the got local ID.</param>
         public static void ParseSystemKey(string systemKey, out string parentSystemPath, out string localID)
         {
             if (IsNGforSystemKey(systemKey))
@@ -520,10 +526,10 @@ namespace Ecell
         /// <summary>
         /// Parse FullID to Type, SystemPath and LocalID.
         /// </summary>
-        /// <param name="fullID"></param>
-        /// <param name="type"></param>
-        /// <param name="systemPath"></param>
-        /// <param name="localID"></param>
+        /// <param name="fullID">FullID.</param>
+        /// <param name="type">the got type.</param>
+        /// <param name="systemPath">the got system key.</param>
+        /// <param name="localID">the got local ID.</param>
         public static void ParseFullID(string fullID, out string type, out string systemPath, out string localID)
         {
             string key;
@@ -538,9 +544,9 @@ namespace Ecell
         /// <summary>
         /// Parse FullID to Type, SystemPath and LocalID.
         /// </summary>
-        /// <param name="fullID"></param>
-        /// <param name="type"></param>
-        /// <param name="key"></param>
+        /// <param name="fullID">FullID</param>
+        /// <param name="type">the got type.</param>
+        /// <param name="key">the got key.</param>
         public static void ParseFullID(string fullID, out string type, out string key)
         {
             if (IsNGforFullID(fullID))
@@ -579,15 +585,12 @@ namespace Ecell
             ParseFullID(fullID, out type, out key);
         }
 
-        /// <summary>
-        /// idParser
-        /// </summary>
-        private static Regex idParser = new Regex("[A-Za-z_]+(\\d+)$");
+
         /// <summary>
         /// Get temporary id from localID.
         /// </summary>
-        /// <param name="localID"></param>
-        /// <returns></returns>
+        /// <param name="localID">local ID</param>
+        /// <returns>the temporary ID.</returns>
         public static int ParseTemporaryID(string localID)
         {
             int i = 0;
@@ -606,8 +609,8 @@ namespace Ecell
         /// <summary>
         /// GetSuperSystemPath
         /// </summary>
-        /// <param name="systemPath"></param>
-        /// <returns></returns>
+        /// <param name="systemPath">the system path.</param>
+        /// <returns>the parent system path</returns>
         public static string GetSuperSystemPath(string systemPath)
         {
             Regex postColonRegex = new Regex(":\\w*$");
@@ -626,11 +629,11 @@ namespace Ecell
             }
         }
         /// <summary>
-        /// NormalizeSystemPath
+        /// Normalize the system path.
         /// </summary>
-        /// <param name="systemPath"></param>
-        /// <param name="currentSystemPath"></param>
-        /// <returns></returns>
+        /// <param name="systemPath">the system path.</param>
+        /// <param name="currentSystemPath">the current system path.</param>
+        /// <returns>the normalized system path.</returns>
         public static string NormalizeSystemPath(string systemPath, string currentSystemPath)
         {
             if (string.IsNullOrEmpty(systemPath))
@@ -663,8 +666,8 @@ namespace Ecell
         /// <summary>
         /// Normalize VariableReference from EcellReference
         /// </summary>
-        /// <param name="er"></param>
-        /// <param name="systemPath"></param>
+        /// <param name="er">the reference object.</param>
+        /// <param name="systemPath">the system path.</param>
         public static void NormalizeVariableReference(EcellReference er, string systemPath)
         {
             string path, localID;
@@ -677,9 +680,9 @@ namespace Ecell
         /// <summary>
         /// Is there any difference or not between two processes.
         /// </summary>
-        /// <param name="oldObj"></param>
-        /// <param name="newObj"></param>
-        /// <returns></returns>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newObj">the new object.</param>
+        /// <returns>return true if VariableReference is changed.</returns>
         public static bool DoesVariableReferenceChange(EcellObject oldObj, EcellObject newObj)
         {
             if (oldObj == null || !(oldObj is EcellProcess))
@@ -699,11 +702,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Is there any difference or not between two processes.
         /// </summary>
-        /// <param name="oldObj"></param>
-        /// <param name="newObj"></param>
-        /// <returns></returns>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newObj">the new object.</param>
+        /// <returns>return true if Expression is changed.</returns>
         public static bool DoesExpressionChange(EcellObject oldObj, EcellObject newObj)
         {
             if (oldObj == null || !(oldObj is EcellProcess))
@@ -725,11 +728,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Is there any difference or not between two processes.
         /// </summary>
-        /// <param name="oldObj"></param>
-        /// <param name="newObj"></param>
-        /// <returns></returns>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newObj">the new object.</param>
+        /// <returns>return true if Activity is changed.</returns>
         public static bool DoesActivityChange(EcellObject oldObj, EcellObject newObj)
         {
             if (oldObj == null || !(oldObj is EcellProcess))
@@ -753,8 +756,8 @@ namespace Ecell
         /// <summary>
         /// Generate Random ID
         /// </summary>
-        /// <param name="len"></param>
-        /// <returns></returns>
+        /// <param name="len">the id length.</param>
+        /// <returns>the random ID.</returns>
         public static string GenerateRandomID(int len)
         {
             StringBuilder sb = new StringBuilder();
@@ -788,7 +791,7 @@ namespace Ecell
         /// <summary>
         /// Get the language from register.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>get culture information</returns>
         static public CultureInfo GetLanguage()
         {
             string isoTwoLetterLangCode = GetRegistryValue(Constants.registryLang);
@@ -828,64 +831,64 @@ namespace Ecell
     public partial class Util
     {
         /// <summary>
-        /// 
+        /// Show the error dialog.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">the error message.</param>
         public static void ShowErrorDialog(string msg)
         {
             MessageBox.Show(msg, "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
         /// <summary>
-        /// 
+        /// Show warining dialog.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">the warning message.</param>
         public static void ShowWarningDialog(string msg)
         {
             MessageBox.Show(msg, "Warning",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
         /// <summary>
-        /// 
+        /// Show notice dialog.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">the notice message.</param>
         public static void ShowNoticeDialog(string msg)
         {
             MessageBox.Show(msg, "Information",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
         /// <summary>
-        /// 
+        /// Show yes or no dialog.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
+        /// <param name="msg">the confirm message.</param>
+        /// <returns>return true if Yes is clicked.</returns>
         public static bool ShowYesNoDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                     DialogResult.Yes;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public class CancelException : EcellException {}
+
 
         /// <summary>
-        /// 
+        /// Show yes, no or cancel dialog.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
+        /// <param name="msg">the confirm message.</param>
+        /// <returns>yes is true, no is false and cancel throw Exception.</r2eturns>
         public static bool ShowYesNoCancelDialog(string msg)
         {
             return ShowYesNoCancelDialog(msg, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
-        /// 
+        /// Show yes, no or cancel dialog with the default button.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="defaultButton"></param>
-        /// <returns></returns>
+        /// <param name="msg">the confirm message.</param>
+        /// <param name="defaultButton">the default selected button.</param>
+        /// <returns>yes is true, no is false and cancel throw Exception.</returns>
         public static bool ShowYesNoCancelDialog(string msg, MessageBoxDefaultButton defaultButton)
         {
             switch (MessageBox.Show(msg, "Confirmation",
@@ -901,10 +904,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Show ok or cancel button.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
+        /// <param name="msg">the confirm message.</param>
+        /// <returns>return true if ok is clicked.</returns>
         public static bool ShowOKCancelDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
@@ -935,12 +938,15 @@ namespace Ecell
         /// </summary>
         private static bool s_noDefaultPaths;
 
+        /// <summary>
+        /// Get window setting directory.
+        /// </summary>
         private static string s_windowSettingDir = GetRegistryValue(Constants.registryWinSetDir);
 
         /// <summary>
         /// Get the temporary directory from register.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the tmporary directory.</returns>
         public static string GetTmpDir()
         {
             string topDir = Path.GetTempPath() + Path.DirectorySeparatorChar + "E-Cell IDE";
@@ -954,7 +960,7 @@ namespace Ecell
         /// <summary>
         /// Get the user directory.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the user directory.</returns>
         public static string GetUserDir()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "E-Cell IDE");
@@ -988,7 +994,7 @@ namespace Ecell
 
         /// <summary>
         /// Call this method to prevent PluginManager from loading plugins from default locations.
-        /// </summary>
+        /// </summary>        
         public static void OmitDefaultPaths()
         {
             s_noDefaultPaths = true;
@@ -997,7 +1003,7 @@ namespace Ecell
         /// <summary>
         /// Get the analysis directory from register.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the analysis directory.</returns>
         public static string GetAnalysisDir()
         {
             return GetRegistryValue(Constants.registryAnalysisDirKey);
@@ -1013,9 +1019,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Set the window setting directory.
         /// </summary>
-        /// <param name="dir"></param>
+        /// <param name="dir">the set directory.</param>
         public static void SetWindowSettingDir(string dir)
         {
             s_windowSettingDir = dir;
@@ -1036,10 +1042,11 @@ namespace Ecell
             }
             return path;
         }
+
         /// <summary>
-        /// 
+        /// Get the startup file.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the startup file.</returns>
         public static string GetStartupFile()
         {
             return GetRegistryValue(Constants.registryStartup);
@@ -1048,7 +1055,7 @@ namespace Ecell
         /// <summary>
         /// Get the DM direcory from register.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the array of dm directory.</returns>
         public static string[] GetDMDirs()
         {
             return GetDMDirs(null);
@@ -1118,10 +1125,11 @@ namespace Ecell
                 }
             }
         }
+
         /// <summary>
-        /// 
+        /// Check whether SDK and Visual Studio is installed.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>return true if SDK is installed.</returns>
         static public bool IsInstalledSDK()
         {
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
@@ -1138,10 +1146,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Check whether the file is DM.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
+        /// <param name="fileName">the file name.</param>
+        /// <returns>return true if the file is DM.</returns>
         static public bool IsDMFile(string fileName)
         {
             string name = Path.GetFileNameWithoutExtension(fileName);
@@ -1151,10 +1159,11 @@ namespace Ecell
                 return true;
             return false;
         }
+
         /// <summary>
         /// Get a list of Process Templates.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of process templates.</returns>
         static public List<string> GetProcessTemplateList()
         {
             List<string> result = new List<string>();
@@ -1175,11 +1184,12 @@ namespace Ecell
             }
             return result;
         }
+
         /// <summary>
         /// Get a Process Template.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">the template name.</param>
+        /// <returns>the templete file.</returns>
         static public string GetProcessTemplate(string name)
         {
             string result = "";
@@ -1281,8 +1291,8 @@ namespace Ecell
         /// <summary>
         /// Convert the file name that decide in E-Cell Core from entity key.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">key.</param>
+        /// <returns>the log file.</returns>
         public static string GetOutputFileName(string key)
         {
             string fileName = key.Replace("/", "_");
@@ -1305,8 +1315,8 @@ namespace Ecell
         /// <summary>
         /// IsIgnoredDir
         /// </summary>
-        /// <param name="dir"></param>
-        /// <returns></returns>
+        /// <param name="dir">the directory.</param>
+        /// <returns>return true if this directory is ignore.</returns>
         public static bool IsIgnoredDir(string dir)
         {
             string name = Path.GetFileNameWithoutExtension(dir);
@@ -1325,8 +1335,8 @@ namespace Ecell
         /// <summary>
         /// Does project "projectName" already exist or not.
         /// </summary>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
+        /// <param name="projectName">the new project name.</param>
+        /// <returns>return true if this project is exist.</returns>
         public static bool IsExistProject(string projectName)
         {
             if (string.IsNullOrEmpty(projectName))
@@ -1338,8 +1348,8 @@ namespace Ecell
         /// <summary>
         /// Copy File
         /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="targetDir"></param>
+        /// <param name="filename">the source file name.</param>
+        /// <param name="targetDir">the target directory.</param>
         public static void CopyFile(string filename, string targetDir)
         {
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
@@ -1352,8 +1362,8 @@ namespace Ecell
         /// <summary>
         /// Copy Directory.
         /// </summary>
-        /// <param name="sourceDir"></param>
-        /// <param name="targetDir"></param>
+        /// <param name="sourceDir">the source directory.</param>
+        /// <param name="targetDir">the target directory.</param>
         public static void CopyDirectory(string sourceDir, string targetDir)
         {
             CopyDirectory(sourceDir, targetDir, false);
@@ -1362,9 +1372,9 @@ namespace Ecell
         /// <summary>
         /// Copy Directory.
         /// </summary>
-        /// <param name="sourceDir"></param>
-        /// <param name="targetDir"></param>
-        /// <param name="overwrite"></param>
+        /// <param name="sourceDir">the source directory.</param>
+        /// <param name="targetDir">the target directory.</param>
+        /// <param name="overwrite">the flag whether this file is override.</param>
         public static void CopyDirectory(string sourceDir, string targetDir, bool overwrite)
         {
             if (string.IsNullOrEmpty(sourceDir) || !Directory.Exists(sourceDir))
@@ -1398,8 +1408,8 @@ namespace Ecell
         /// <summary>
         /// Get New Directory name.
         /// </summary>
-        /// <param name="targetDir"></param>
-        /// <returns></returns>
+        /// <param name="targetDir">the target directory.</param>
+        /// <returns>the new directory path.</returns>
         public static string GetNewDir(string targetDir)
         {
             int revNo = 0;
@@ -1415,8 +1425,8 @@ namespace Ecell
         /// <summary>
         /// Get new file name.
         /// </summary>
-        /// <param name="targetFile"></param>
-        /// <returns></returns>
+        /// <param name="targetFile">the target file.</param>
+        /// <returns>the new file path.</returns>
         public static string GetNewFileName(string targetFile)
         {
             int revNo = 0;
@@ -1432,8 +1442,8 @@ namespace Ecell
         /// <summary>
         /// IsHidden
         /// </summary>
-        /// <param name="dir"></param>
-        /// <returns></returns>
+        /// <param name="dir">the target directory.</param>
+        /// <returns>return true if this directory is hidden.</returns>
         public static bool IsHidden(string dir)
         {
             FileAttributes fas = File.GetAttributes(dir);
@@ -1518,10 +1528,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Convert from ValueDataFormat to string.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">ValueDataFormat</param>
+        /// <returns>the format string.</returns>
         public static string GetDisplayFormat(ValueDataFormat value)
         {
             switch (value)
@@ -1540,5 +1550,11 @@ namespace Ecell
                     return "G";
             }
         }
+
+        /// <summary>
+        /// Cancel Exception
+        /// </summary>
+        public class CancelException : EcellException { }
+
     }
 }
