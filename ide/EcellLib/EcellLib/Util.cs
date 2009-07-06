@@ -1552,6 +1552,54 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Convert Image to base64 string.
+        /// </summary>
+        /// <param name="imgFile"></param>
+        /// <returns></returns>
+        public static string ImgToBase64(string imgFile)
+        {
+            string base64 = null;
+
+            try
+            {
+                FileStream fst = new FileStream(imgFile, FileMode.Open, FileAccess.Read);
+                byte[] buf = new byte[fst.Length];
+                fst.Read(buf, 0, buf.Length);
+                base64 = Convert.ToBase64String(buf);
+                fst.Close();
+            }
+            catch (Exception e)
+            {
+                throw new EcellException("fail to convert image ", e);
+            }
+            return base64;
+        }
+
+        /// <summary>
+        /// Convert base64 string to Image.
+        /// </summary>
+        /// <param name="base64"></param>
+        /// <returns></returns>
+        public static Image Base64ToImage(string base64)
+        {
+            // Base64ToImage
+            Image img = null;
+            try
+            {
+                MemoryStream imgst = new MemoryStream();
+                byte[] buf = System.Convert.FromBase64String(base64);
+                imgst.Write(buf, 0, buf.Length);
+                img = Image.FromStream(imgst);
+                imgst.Close();
+            }
+            catch (Exception e)
+            {
+                throw new EcellException("fail to convert image", e);
+            }
+            return img;
+        }
+
+        /// <summary>
         /// Cancel Exception
         /// </summary>
         public class CancelException : EcellException { }

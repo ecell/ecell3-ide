@@ -48,6 +48,7 @@ using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.Objects;
 using Ecell.Plugin;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -827,6 +828,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             EcellObject eo = m_window.DataManager.CreateDefaultObject(model, system, type);
             return eo;
         }
+
         /// <summary>
         /// CopyNodes
         /// </summary>
@@ -1134,7 +1136,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 i++;
                 flag = (i == count);
                 string key = (cs.IsDefault)? cs.Type : cs.Name;
-                m_window.PluginManager.SetIconImage(key, cs.IconImage, flag);
+                m_window.PluginManager.SetIconImage(key, cs.Icon, flag);
             }
             m_csManager.SaveSettings();
         }

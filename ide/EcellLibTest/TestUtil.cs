@@ -40,6 +40,7 @@ namespace Ecell
     using System.Collections.Generic;
     using System.IO;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
     /// <summary>
     /// Testof Ecell Util class.
     /// </summary>
@@ -2040,5 +2041,37 @@ namespace Ecell
             Util.AddPluginDir("");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestImageStream()
+        {
+            // ImageToBase64
+            string base64 = "";
+            string file = TestConstant.TestDirectory + "Drosophila/Model.png";
+
+            base64 = Util.ImgToBase64(file);
+            Assert.IsNotNull(base64);
+
+            Image img = Util.Base64ToImage(base64);
+            Assert.IsNotNull(img);
+
+            try
+            {
+                Util.Base64ToImage("hoge");
+            }
+            catch (EcellException)
+            {
+            }
+
+            try
+            {
+                Util.ImgToBase64("hoge");
+            }
+            catch (EcellException)
+            {
+            }
+        }
     }
 }

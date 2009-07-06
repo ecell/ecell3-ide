@@ -33,6 +33,8 @@ using System.Collections.Generic;
 using System.Text;
 using Ecell.Plugin;
 using System.Reflection;
+using Ecell.Objects;
+using System.Drawing;
 
 namespace CBGridLayout
 {
@@ -78,7 +80,54 @@ namespace CBGridLayout
         /// <returns></returns>
         public override bool DoLayout(int subCommandNum, bool layoutSystem, List<Ecell.Objects.EcellObject> systemList, List<Ecell.Objects.EcellObject> nodeList)
         {
-            return false;
+
+            float Kr = 10;
+            float Ka = 0.001f;
+            int iterations = 10;
+            // Set references
+            List<LayoutReference> references = new List<LayoutReference>();
+            foreach (EcellObject obj in nodeList)
+            {
+                if (!(obj is EcellProcess))
+                    continue;
+                EcellProcess process = (EcellProcess)obj;
+                foreach (EcellReference er in process.ReferenceList)
+                {
+
+                }
+            }
+
+            for (int i = 0; i < iterations; i++)
+            {
+                // calculate repulsive forces
+                foreach (EcellObject node1 in nodeList)
+                {
+                    // each vertex has two vectors: pos and disp
+                    node1.OffsetX = 0.0f;
+                    node1.OffsetY = 0.0f;
+                    foreach (EcellObject node2 in nodeList)
+                    {
+                        if (node1 == node2)
+                            continue;
+                        PointF delta = new PointF(node1.X - node2.X, node1.Y - node2.Y);
+                        double r = Math.Sqrt(Math.Pow((double)delta.X, 2) + Math.Pow((double)delta.Y, 2));
+                        node1.OffsetX += delta.X * Kr / (float)Math.Pow(r, 2);
+                        node1.OffsetY += delta.Y * Kr / (float)Math.Pow(r, 2);
+                    }
+
+                    // calculate attractive force
+                    foreach (LayoutReference lr in references)
+                    {
+                        PointF delta = lr.Delta;
+                        double r = Math.Sqrt(Math.Pow(delta.X, 2) + Math.Pow(delta.Y, 2));
+                        lr.Process.OffsetX -= delta.X * Ka;
+                        lr.Process.OffsetY -= delta.Y * Ka;
+                        lr.Variable.OffsetX += delta.X * Ka;
+                        lr.Variable.OffsetY += delta.Y * Ka;
+                    }
+                }
+            }
+            return true;
         }
         /// <summary>
         /// 
@@ -98,5 +147,83 @@ namespace CBGridLayout
         }
 
         #endregion
+
+
+        private void Initialization()
+        {
+        }
+
+        private void SetEdgeVertex()
+        {
+        }
+
+        private void SetEdgeEdge()
+        {
+        }
+
+        private void SetVertexEdge()
+        {
+        }
+
+        private void SetDistance()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class LayoutReference
+        {
+            private EcellProcess _process;
+            private EcellVariable _variable;
+            /// <summary>
+            /// 
+            /// </summary>
+            public EcellProcess Process
+            {
+                get { return _process; }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            public EcellVariable Variable
+            {
+                get { return _variable; }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            public PointF Delta
+            {
+                get
+                {
+                    PointF point1 = new PointF(_process.X + _process.OffsetX, _process.Y + _process.OffsetY);
+                    PointF point2 = new PointF(_variable.X + _variable.OffsetX, _variable.Y + _variable.OffsetY);
+                    return new PointF(point1.X - point2.X, point1.Y - point2.Y);
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            public float Length
+            {
+                get
+                {
+                    PointF delta = this.Delta;
+                    float length = (float)Math.Sqrt(Math.Pow(delta.X, 2) + Math.Pow(delta.Y, 2));
+                    return length;
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="process"></param>
+            /// <param name="variable"></param>
+            public LayoutReference(EcellProcess process, EcellVariable variable)
+            {
+                _process = process;
+                _variable = variable;
+            }
+        }
     }
 }

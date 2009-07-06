@@ -330,7 +330,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.AppendChild(name);
 
             XmlNode icon = doc.CreateElement(ComponentConstants.xPathIconFile);
-            icon.AppendChild(doc.CreateTextNode(setting.IconFileName));
+            icon.AppendChild(doc.CreateTextNode(setting.ImageStream));
             cs.AppendChild(icon);
 
             XmlElement figure = doc.CreateElement(ComponentConstants.xPathFigure);
@@ -714,7 +714,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                     }
                     else if (parameterNode.Name.Equals(ComponentConstants.xPathIconFile))
                     {
-                        cs.IconFileName = parameterNode.InnerText;
+                        cs.ImageStream = parameterNode.InnerText;
                     }
                     else if (parameterNode.Name.Equals(ComponentConstants.xPathFigure))
                     {

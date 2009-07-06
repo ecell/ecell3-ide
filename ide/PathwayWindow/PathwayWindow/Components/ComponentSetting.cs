@@ -68,10 +68,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private bool m_IsStencil = false;
 
         /// <summary>
-        /// The icon file name.
+        /// The ImageStream of icon image.
         /// </summary>
-        private string m_iconFileName = null;
-
+        private string m_imageStream = null;
+        
         /// <summary>
         /// A FigureBase for Edit Mode.
         /// </summary>
@@ -249,14 +249,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             }
         }
         /// <summary>
-        /// Getter for IconImage.
+        /// Base64 ImageStream.
         /// </summary>
-        public string IconFileName
+        public string ImageStream
         {
-            get { return m_iconFileName; }
+            get { return m_imageStream; }
             set 
             {
-                m_iconFileName =  value;
+                m_imageStream =  value;
             }
         }
         /// <summary>
@@ -264,26 +264,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// </summary>
         public Image Image
         {
-            get
+            get 
             {
                 Image image = null;
-                if (string.IsNullOrEmpty(m_iconFileName) || !File.Exists(m_iconFileName))
-                    return image;
                 try
                 {
-                    image = Image.FromFile(m_iconFileName);
+                    if (!string.IsNullOrEmpty(m_imageStream) && File.Exists(m_imageStream))
+                        image = Image.FromFile(m_imageStream);
+                        //image = Util.Base64ToImage(m_imageStream);
                 }
                 catch (Exception)
                 {
+                    m_imageStream = null;
                 }
                 return image;
-            }
+           }
         }
 
         /// <summary>
         /// Getter for IconImage.
         /// </summary>
-        public Image IconImage
+        public Image Icon
         {
             get { return CreateIconImage(); }
         }
@@ -404,9 +405,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             // Create Icon from file.
             Image icon = null;
-            if (!string.IsNullOrEmpty(m_iconFileName) && File.Exists(m_iconFileName))
+            if (m_imageStream != null)
             {
-                icon = CreateIconImageFromFile(m_iconFileName);
+                try
+                {
+                    icon = new Bitmap(Image, 16, 16);
+                }
+                catch (Exception e)
+                {
+                    m_imageStream = null;
+                }
             }
             if (icon != null)
                 return icon;
@@ -431,26 +439,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             {
                 Font font = new Font("Arial", 10);
                 gra.DrawString("T", font, m_textBrush, new PointF(2, 0));
-            }
-            return icon;
-        }
-
-        /// <summary>
-        /// Create icon image from file
-        /// </summary>
-        /// <returns></returns>
-        private Image CreateIconImageFromFile(string fileName)
-        {
-            Image icon = null;
-            try
-            {
-                Bitmap bitmap = new Bitmap(fileName);
-                icon = new Bitmap(bitmap, 16, 16);
-            }
-            catch (Exception e)
-            {
-                m_iconFileName = null;
-                Debug.WriteLine(e);
             }
             return icon;
         }
@@ -503,7 +491,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.FillBrush = this.FillBrush;
             cs.IsGradation = this.IsGradation;
             cs.LineBrush = this.LineBrush;
-            cs.IconFileName = this.IconFileName;
+            cs.ImageStream = this.ImageStream;
 
             return cs;
         }

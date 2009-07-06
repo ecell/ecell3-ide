@@ -504,11 +504,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_canvas == null)
                 return;
 
+            bool isShift = (e.Modifiers == Keys.Shift);
             bool isCtrl = (e.Modifiers == Keys.Control);
             bool isRight = (e.Button == MouseButtons.Right);
-
             // Set Focus
-            if (!isCtrl && (!isRight || !m_selected))
+            if (isShift || (!isCtrl && (!isRight || !m_selected)) )
             {
                 m_canvas.NotifySelectChanged(this);
                 m_canvas.FocusNode = this;
@@ -596,21 +596,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return image; }
             set
             {
-                Image old = image;
-                image = value;
                 // Set Image
                 MemorizePosition();
-                if (image == null)
+                if (value == null)
                 {
                     SetBounds(0, 0, 0, 0);
                 }
                 else
                 {
-                    SetBounds(0, 0, image.Width, image.Height);
+                    SetBounds(0, 0, value.Width, value.Height);
                 }
                 InvalidatePaint();
-                FirePropertyChangedEvent(PROPERTY_KEY_IMAGE, PROPERTY_CODE_IMAGE, old, image);
+                FirePropertyChangedEvent(PROPERTY_KEY_IMAGE, PROPERTY_CODE_IMAGE, image, value);
                 ResetPosition();
+                image = value;
             }
         }
 
@@ -644,7 +643,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 RectangleF b = Bounds;
                 Graphics g = paintContext.Graphics;
 
-                g.DrawImage(image, b);
+                g.DrawImage((Image)image.Clone(), b);
             }
             else
             {

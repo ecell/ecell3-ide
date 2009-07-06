@@ -797,7 +797,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 button.ImageTransparentColor = Color.Magenta;
                 button.ComponentSetting = cs;
                 button.Name = cs.Name;
-                button.Image = cs.IconImage;
+                button.Image = cs.Icon;
                 button.Size = new System.Drawing.Size(32, 32);
                 button.CheckOnClick = true;
                 if (cs.Type == EcellObject.SYSTEM)

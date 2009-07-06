@@ -36,6 +36,7 @@ using NUnit.Framework;
 using System.Diagnostics;
 using Ecell.Objects;
 using Ecell.Exceptions;
+using System.Windows.Forms;
 
 namespace Ecell.Objects
 {
@@ -65,7 +66,7 @@ namespace Ecell.Objects
             _env = null;
             _unitUnderTest = null;
         }
-
+        
         /// <summary>
         /// TestCreateObject
         /// </summary>

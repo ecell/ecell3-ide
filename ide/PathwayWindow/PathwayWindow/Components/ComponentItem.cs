@@ -159,7 +159,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.iconFile.Filter = resources.GetString("iconFile.Filter");
             this.iconFile.FilterIndex = 0;
             this.iconFile.Name = "iconFile";
-            this.iconFile.FileChange += new EventHandler(iconFile_FileChange);
+            this.iconFile.FileChange += new System.EventHandler(this.iconFile_FileChange);
             // 
             // pCanvas
             // 
@@ -200,7 +200,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.fillBrush.Brush = cs.FillBrush;
             this.centerBrush.Brush = cs.CenterBrush;
             this.isGradation.Checked = cs.IsGradation;
-            this.iconFile.FileName = cs.IconFileName;
+            this.iconFile.FileName = cs.ImageStream;
         }
 
         /// <summary>
@@ -214,7 +214,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.FillBrush = fillBrush.Brush;
             cs.CenterBrush = centerBrush.Brush;
             cs.IsGradation = isGradation.Checked;
-            cs.IconFileName = iconFile.FileName;
+            cs.ImageStream = iconFile.FileName;
+            //try
+            //{
+            //    cs.ImageStream = Util.ImgToBase64(iconFile.FileName);
+            //}
+            //catch (Exception)
+            //{
+            //    cs.ImageStream = null;
+            //}
             string type = figureBox.ComboBox.Text;
             string args = cs.Figure.Coordinates;
             cs.Figure = FigureManager.CreateFigure(type, args);

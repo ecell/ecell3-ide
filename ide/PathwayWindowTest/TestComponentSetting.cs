@@ -2,6 +2,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 {
     using System;
     using NUnit.Framework;
+    using System.Xml;
+    using System.IO;
+    using System.Drawing;
+    using System.Drawing.Imaging;
 
     /// <summary>
     /// 
@@ -51,5 +55,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             Assert.Fail("Create or modify test(s).");
 
         }
+        
     }
 }

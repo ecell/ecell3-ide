@@ -87,7 +87,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         #region EventHandler
         private void cs_PropertyChange(object sender, EventArgs e)
         {
-            this.Image = m_cs.IconImage;
+            this.Image = m_cs.Icon;
         }
         #endregion
 
