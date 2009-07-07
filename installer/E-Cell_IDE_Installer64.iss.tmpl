@@ -319,6 +319,7 @@ Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE"; ValueData: "true";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{app}";Components: main; Flags: uninsdeletekey;
 
 ;Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main; Flags: uninsdeletekey;
 Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Components: main; Flags: uninsdeletekey;
@@ -384,14 +385,6 @@ begin
   
   if (Result = true) then
   begin
-    if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE')) then begin
-      MsgBox(CustomMessage('IDE_Installed'), mbInformation, MB_OK);
-      Result := false
-    end;  
-  end;
-    
-  if (Result = true) then
-  begin
     if IsModuleLoaded( 'ecell-ide.exe' ) then
     begin
       MsgBox( CustomMessage('IDE_Running'), mbInformation, MB_OK );
@@ -407,6 +400,37 @@ begin
       Result := false;
     end
   end
+
+  if (Result = true) then
+  begin
+    if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE')) then 
+    begin
+      if (RegValueExists(HKLM, 'Software\KeioUniv\E-Cell IDE', 'E-Cell IDE Base')) then
+      begin
+        if (RegQueryStringValue(HKLM, 'Software\KeioUniv\E-Cell IDE', 'E-Cell IDE Base', BaseString)) then
+        begin
+          MsgBox(CustomMessage('IDE_Installed'), mbInformation, MB_OK);
+      	  FileName := BaseString + '\unins000.exe';
+		  if (Exec(FileName, '', BaseString + '\', SW_SHOW, ewWaitUntilTerminated, ResultCode)) then
+		  begin
+		  end
+	      if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE')) then 
+          begin  
+            Result := false
+          end;  		  
+        end;
+      end;      
+    end;
+  end;
+  
+  if (Result = true) then
+  begin
+    if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE')) then 
+    begin  
+      MsgBox(CustomMessage('IDE_Installed'), mbInformation, MB_OK);
+      Result := false
+    end;  
+  end;      
 end;
 
 function InitializeUninstall(): Boolean;
