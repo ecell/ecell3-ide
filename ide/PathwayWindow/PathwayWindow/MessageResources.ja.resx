@@ -255,11 +255,11 @@
   <data name="ButtonToolTipZoomOut" xml:space="preserve">
     <value>ズームアウト</value>
   </data>
-  <data name="LayerMenuMoveBack" xml:space="preserve">
-    <value>背面移動</value>
+  <data name="CanvasMenuSendBack" xml:space="preserve">
+    <value>最背面に移動</value>
   </data>
-  <data name="LayerMenuMoveFront" xml:space="preserve">
-    <value>前面移動</value>
+  <data name="CanvasMenuBringFront" xml:space="preserve">
+    <value>最前面に移動</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
     <value>ダイアグラム画像の出力...</value>
@@ -383,5 +383,11 @@
   </data>
   <data name="ErrExportGraphic" xml:space="preserve">
     <value>画像出力に失敗しました。</value>
+  </data>
+  <data name="CanvasMenuBringForward" xml:space="preserve">
+    <value>前面に移動</value>
+  </data>
+  <data name="CanvasMenuSendBackward" xml:space="preserve">
+    <value>背面に移動</value>
   </data>
 </root>

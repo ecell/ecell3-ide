@@ -255,11 +255,11 @@
   <data name="ButtonToolTipZoomOut" xml:space="preserve">
     <value>Zoom out</value>
   </data>
-  <data name="LayerMenuMoveBack" xml:space="preserve">
-    <value>Move to back</value>
+  <data name="CanvasMenuSendBack" xml:space="preserve">
+    <value>Send to Back</value>
   </data>
-  <data name="LayerMenuMoveFront" xml:space="preserve">
-    <value>Move to front</value>
+  <data name="CanvasMenuBringFront" xml:space="preserve">
+    <value>Bring to Front</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
     <value>Export diagram image...</value>
@@ -383,5 +383,14 @@
   </data>
   <data name="ErrExportGraphic" xml:space="preserve">
     <value>Fail to export canvas image.</value>
+  </data>
+  <data name="CanvasMenuBringForward" xml:space="preserve">
+    <value>Bring to Forward</value>
+  </data>
+  <data name="CanvasMenuSendBackward" xml:space="preserve">
+    <value>Send to Backward</value>
+  </data>
+  <data name="CanvasMenuZOrder" xml:space="preserve">
+    <value>Set ZOrder</value>
   </data>
 </root>

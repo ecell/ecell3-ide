@@ -241,6 +241,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Bring to Forward に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuBringForward {
+            get {
+                return ResourceManager.GetString("CanvasMenuBringForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bring to Front に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuBringFront {
+            get {
+                return ResourceManager.GetString("CanvasMenuBringFront", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Change Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuChangeLayer {
@@ -349,11 +367,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Send to Back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuSendBack {
+            get {
+                return ResourceManager.GetString("CanvasMenuSendBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Send to Backward に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuSendBackward {
+            get {
+                return ResourceManager.GetString("CanvasMenuSendBackward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Alignment に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuTextAlign {
             get {
                 return ResourceManager.GetString("CanvasMenuTextAlign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set ZOrder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuZOrder {
+            get {
+                return ResourceManager.GetString("CanvasMenuZOrder", resourceCulture);
             }
         }
         
@@ -651,24 +696,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string LayerMenuMerge {
             get {
                 return ResourceManager.GetString("LayerMenuMerge", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to back に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LayerMenuMoveBack {
-            get {
-                return ResourceManager.GetString("LayerMenuMoveBack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to front に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LayerMenuMoveFront {
-            get {
-                return ResourceManager.GetString("LayerMenuMoveFront", resourceCulture);
             }
         }
         

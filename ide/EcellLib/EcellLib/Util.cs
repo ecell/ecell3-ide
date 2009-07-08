@@ -1590,7 +1590,6 @@ namespace Ecell
                 byte[] buf = System.Convert.FromBase64String(base64);
                 imgst.Write(buf, 0, buf.Length);
                 img = Image.FromStream(imgst);
-                imgst.Close();
             }
             catch (Exception e)
             {

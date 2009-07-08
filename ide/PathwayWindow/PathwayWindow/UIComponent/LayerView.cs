@@ -253,14 +253,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             this.menuMoveFront.Name = "menuMoveFront";
             resources.ApplyResources(this.menuMoveFront, "menuMoveFront");
-            this.menuMoveFront.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveFront;
+            this.menuMoveFront.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuBringFront;
             this.menuMoveFront.Click += new System.EventHandler(this.MoveFrontClick);
             // 
             // menuMoveBack
             // 
             this.menuMoveBack.Name = "menuMoveBack";
             resources.ApplyResources(this.menuMoveBack, "menuMoveBack");
-            this.menuMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveBack;
+            this.menuMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuSendBack;
             this.menuMoveBack.Click += new System.EventHandler(this.MoveBackClick);
             // 
             // LayerView

@@ -122,7 +122,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripAlignLeft;
         private ToolStripMenuItem toolStripAlignCenter;
         private ToolStripMenuItem toolStripAlignRight;
+        private ToolStripMenuItem toolStripSetZOrder;
         private ToolStripMenuItem toolStripMoveFront;
+        private ToolStripMenuItem toolStripMoveForward;
+        private ToolStripMenuItem toolStripMoveBackward;
         private ToolStripMenuItem toolStripMoveBack;
         private ToolStripMenuItem toolStripFigureSetting;
         private ToolStripMenuItem toolStripAnimationSetting;
@@ -261,7 +264,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAlignLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAlignCenter = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAlignRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSetZOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveFront = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMoveForward = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMoveBackward = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveBack = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripFigureSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAnimationSetting = new System.Windows.Forms.ToolStripMenuItem();
@@ -317,8 +323,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripSeparator2,
             this.toolStripTextAlign,
             this.toolStripChangeLayer,
-            this.toolStripMoveFront,
-            this.toolStripMoveBack,
+            this.toolStripSetZOrder,
             this.toolStripFigureSetting,
             this.toolStripAnimationSetting,
             this.toolStripSeparator3,
@@ -468,16 +473,41 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             // toolStripMoveFront
             // 
+            this.toolStripSetZOrder.Name = "toolStripSetZOrder";
+            this.toolStripSetZOrder.Size = new System.Drawing.Size(271, 22);
+            this.toolStripSetZOrder.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuZOrder;
+            this.toolStripSetZOrder.DropDown.Items.AddRange(new ToolStripItem[] {
+                this.toolStripMoveFront,
+                this.toolStripMoveForward,
+                this.toolStripMoveBackward,
+                this.toolStripMoveBack});
+            // 
+            // toolStripMoveFront
+            // 
             this.toolStripMoveFront.Name = "toolStripMoveFront";
             this.toolStripMoveFront.Size = new System.Drawing.Size(271, 22);
-            this.toolStripMoveFront.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveFront;
+            this.toolStripMoveFront.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuBringFront;
             this.toolStripMoveFront.Click += new System.EventHandler(this.MoveToFrontClick);
+            // 
+            // toolStripMoveFront
+            // 
+            this.toolStripMoveForward.Name = "toolStripMoveForward";
+            this.toolStripMoveForward.Size = new System.Drawing.Size(271, 22);
+            this.toolStripMoveForward.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuBringForward;
+            this.toolStripMoveForward.Click += new System.EventHandler(this.MoveToForwardClick);
+            // 
+            // toolStripMoveBack
+            // 
+            this.toolStripMoveBackward.Name = "toolStripMoveBackward";
+            this.toolStripMoveBackward.Size = new System.Drawing.Size(271, 22);
+            this.toolStripMoveBackward.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuSendBackward;
+            this.toolStripMoveBackward.Click += new System.EventHandler(this.MoveToBackwardClick);
             // 
             // toolStripMoveBack
             // 
             this.toolStripMoveBack.Name = "toolStripMoveBack";
             this.toolStripMoveBack.Size = new System.Drawing.Size(271, 22);
-            this.toolStripMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveBack;
+            this.toolStripMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuSendBack;
             this.toolStripMoveBack.Click += new System.EventHandler(this.MoveToBackClick);
             // 
             // toolStripFigureSetting
@@ -1264,6 +1294,48 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
                 if (node == obj)
                     flag = true;
+            }
+        }
+
+        /// <summary>
+        /// Layer move forward.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MoveToForwardClick(object sender, EventArgs e)
+        {
+            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
+
+            bool flag = false;
+            foreach (PNode node in obj.Layer.GetNodes())
+            {
+                if (flag)
+                {
+                    obj.MoveInFrontOf(node);
+                }
+                if (node == obj)
+                    flag = true;
+            }
+        }
+
+        /// <summary>
+        /// Layer move to backward.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MoveToBackwardClick(object sender, EventArgs e)
+        {
+            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
+
+            bool flag = true;
+            foreach (PNode node in obj.Layer.GetNodes())
+            {
+                if (flag)
+                {
+                    obj.MoveInFrontOf(node);
+                }
+                if (node == obj)
+                    flag = false;
             }
         }
 

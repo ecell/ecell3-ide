@@ -214,15 +214,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.FillBrush = fillBrush.Brush;
             cs.CenterBrush = centerBrush.Brush;
             cs.IsGradation = isGradation.Checked;
-            cs.ImageStream = iconFile.FileName;
-            //try
-            //{
-            //    cs.ImageStream = Util.ImgToBase64(iconFile.FileName);
-            //}
-            //catch (Exception)
-            //{
-            //    cs.ImageStream = null;
-            //}
+            try
+            {
+                cs.ImageStream = Util.ImgToBase64(iconFile.FileName);
+            }
+            catch (Exception)
+            {
+                cs.ImageStream = null;
+            }
             string type = figureBox.ComboBox.Text;
             string args = cs.Figure.Coordinates;
             cs.Figure = FigureManager.CreateFigure(type, args);

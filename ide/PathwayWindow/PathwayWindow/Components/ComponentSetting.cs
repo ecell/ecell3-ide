@@ -269,16 +269,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 Image image = null;
                 try
                 {
-                    if (!string.IsNullOrEmpty(m_imageStream) && File.Exists(m_imageStream))
-                        image = Image.FromFile(m_imageStream);
-                        //image = Util.Base64ToImage(m_imageStream);
+                    if (!string.IsNullOrEmpty(m_imageStream))
+                        image = Util.Base64ToImage(m_imageStream);
                 }
                 catch (Exception)
                 {
                     m_imageStream = null;
                 }
                 return image;
-           }
+            }
         }
 
         /// <summary>
