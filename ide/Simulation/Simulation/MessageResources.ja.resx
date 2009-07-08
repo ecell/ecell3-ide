@@ -216,4 +216,7 @@
   <data name="NameWaitTime" xml:space="preserve">
     <value>待ち時間</value>
   </data>
+  <data name="MenuItemSteppingModel" xml:space="preserve">
+    <value>ステップ実行中のモデル</value>
+  </data>
 </root>

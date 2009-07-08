@@ -205,6 +205,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Stepping model に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSteppingModel {
+            get {
+                return ResourceManager.GetString("MenuItemSteppingModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   R&amp;eset に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemStop {

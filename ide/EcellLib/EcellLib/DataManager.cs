@@ -67,6 +67,12 @@ namespace Ecell
     /// <param name="o">DataManager</param>
     /// <param name="e">DisplayFormatEventArgs</param>
     public delegate void DisplayFormatChangedEventHandler(object o, DisplayFormatEventArgs e);
+    /// <summary>
+    /// EventHandler when the stepping model is changed.
+    /// </summary>
+    /// <param name="o">DataManager</param>
+    /// <param name="e">EventArgs</param>
+    public delegate void SteppingModelChangedEventHandler(object o, EventArgs e);
 
     /// <summary>
     /// Manages data of projects, models, and so on.
@@ -77,6 +83,10 @@ namespace Ecell
         /// EventHandler when display format of value is changed.
         /// </summary>
         public event DisplayFormatChangedEventHandler DisplayFormatEvent;
+        /// <summary>
+        /// EventHandler when the stepping model is changed.
+        /// </summary>
+        public event SteppingModelChangedEventHandler SteppingModelEvent;
 
         #region Fields
         /// <summary>
@@ -143,6 +153,10 @@ namespace Ecell
         /// The flag whether this step is saving.
         /// </summary>
         private bool m_isSaveStep = false;
+        /// <summary>
+        /// The dictionary of the save data and time.
+        /// </summary>
+        private Dictionary<int, double> m_saveTimeDic = new Dictionary<int, double>();
         #endregion
 
         #region Constructor
@@ -299,6 +313,15 @@ namespace Ecell
         {
             get { return this.m_isSaveStep; }
             set { this.m_isSaveStep = value; }
+        }
+
+        /// <summary>
+        /// get / set the dictionary of the save index and time.
+        /// </summary>
+        public Dictionary<int, double> SaveTime
+        {
+            get { return this.m_saveTimeDic; }
+            set { this.m_saveTimeDic = value; }
         }
 
         #endregion
@@ -821,6 +844,16 @@ namespace Ecell
             List<EcellObject> stepperList
                 = m_currentProject.StepperDic[modelID];
             Debug.Assert(stepperList != null && stepperList.Count > 0);
+            foreach (EcellObject obj in stepperList)
+            {
+                foreach (EcellData d in obj.Value)
+                {
+                    if (!d.Gettable || !d.Value.IsDouble)
+                        continue;
+                    double v = GetPropertyValue4Stepper(obj.Key, d.Name);
+                    d.Value = new EcellValue(v);
+                }
+            }
             storedList.AddRange(stepperList);
 
             // Picks the "System" up.
@@ -990,29 +1023,33 @@ namespace Ecell
                 {
                     Directory.CreateDirectory(parentPath);
                 }
-                //
-                // Searchs the "Stepper" & the "System".
-                //
-                List<EcellObject> storedStepperList = new List<EcellObject>();
-                List<EcellObject> storedSystemList = new List<EcellObject>();
-
-                Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic;
-
                 foreach (string modelID in modelIDList)
                 {
-                    storedStepperList.AddRange(stepperDic[modelID]);
-                    storedSystemList.AddRange(sysDic[modelID]);
+                    SaveEmlFile(modelID, fileName);
                 }
-                Debug.Assert(storedStepperList != null && storedStepperList.Count > 0);
-                Debug.Assert(storedSystemList != null && storedSystemList.Count > 0);
+                ////
+                //// Searchs the "Stepper" & the "System".
+                ////
+                //List<EcellObject> storedStepperList = new List<EcellObject>();
+                //List<EcellObject> storedSystemList = new List<EcellObject>();
 
-                //
-                // Exports.
-                //
-                storedStepperList.AddRange(storedSystemList);
-                EmlWriter.Create(fileName, storedStepperList, false);
-                Trace.WriteLine("Export Model: " + message);
+                //Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+                //Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic;
+
+                //foreach (string modelID in modelIDList)
+                //{
+                //    storedStepperList.AddRange(stepperDic[modelID]);
+                //    storedSystemList.AddRange(sysDic[modelID]);
+                //}
+                //Debug.Assert(storedStepperList != null && storedStepperList.Count > 0);
+                //Debug.Assert(storedSystemList != null && storedSystemList.Count > 0);
+
+                ////
+                //// Exports.
+                ////
+                //storedStepperList.AddRange(storedSystemList);
+                //EmlWriter.Create(fileName, storedStepperList, false);
+                //Trace.WriteLine("Export Model: " + message);
             }
             catch (Exception ex)
             {
@@ -3452,14 +3489,20 @@ namespace Ecell
                 if (prevPath != null)
                 {
                     if (File.Exists(path))
+                    {
                         File.Move(path, prevPath);
+                        m_saveTimeDic[i + 1] = m_saveTimeDic[i];
+                    }
                 }
                 if (File.Exists(path))
                     File.Delete(path);
                 prevPath = path;
             }
             string savePath = tmpDir + "\\stepping1.tmp";
+            m_saveTimeDic[1] = GetCurrentSimulationTime();
             SaveSteppingModelInfo(savePath);
+            if (SteppingModelEvent != null)
+                SteppingModelEvent(this, new EventArgs());
         }
 
         /// <summary>
@@ -3475,6 +3518,9 @@ namespace Ecell
                 if (File.Exists(files[i]))
                     File.Delete(files[i]);
             }
+            m_saveTimeDic.Clear();
+            if (SteppingModelEvent != null)
+                SteppingModelEvent(this, new EventArgs());
         }
 
         /// <summary>
@@ -4288,6 +4334,7 @@ namespace Ecell
                     CreateLogger(logger, true, simulator, loggerPolicy);
                 }
             }
+            ClearSteppingModel();
         }
 
         /// <summary>

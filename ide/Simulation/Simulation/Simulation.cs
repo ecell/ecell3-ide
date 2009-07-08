@@ -119,6 +119,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// the menu strip for [Setup ...]
         /// </summary>
         private ToolStripMenuItem menuSetupSim;
+        private ToolStripMenuItem menuSteppingModel;
+        private Dictionary<int, ToolStripMenuItem> menuSteppingModelDic = new Dictionary<int, ToolStripMenuItem>();
         #endregion
 
         /// <summary>
@@ -163,7 +165,7 @@ namespace Ecell.IDE.Plugins.Simulation
             menuRunSim.Size = new Size(96, 22);
             menuRunSim.Image = (Image)resources.GetObject("media_play_green");
             menuRunSim.Text = MessageResources.MenuItemRun;
-            menuRunSim.Tag = 10;
+            menuRunSim.Tag = 5;
             menuRunSim.Enabled = false;
             menuRunSim.Click += new EventHandler(this.RunSimulation);
 
@@ -171,7 +173,7 @@ namespace Ecell.IDE.Plugins.Simulation
             menuStopSim.Name = "MenuItemSuspendSimulation";
             menuStopSim.Size = new Size(96, 22);
             menuStopSim.Text = MessageResources.MenuItemSuspend;
-            menuStopSim.Tag = 20;
+            menuStopSim.Tag = 6;
             menuStopSim.Image = (Image)resources.GetObject("media_pause"); 
             menuStopSim.Enabled = false;
             menuStopSim.Click += new EventHandler(this.StopSimulation);
@@ -181,7 +183,7 @@ namespace Ecell.IDE.Plugins.Simulation
             menuResetSim.Size = new Size(96, 22);
             menuResetSim.Image = (Image)resources.GetObject("media_stop_red");
             menuResetSim.Text = MessageResources.MenuItemStop;
-            menuResetSim.Tag = 30;
+            menuResetSim.Tag = 7;
             menuResetSim.Enabled = false;
             menuResetSim.Click += new EventHandler(this.ResetSimulation);
 
@@ -190,9 +192,33 @@ namespace Ecell.IDE.Plugins.Simulation
             menuStepSim.Size = new Size(96, 22);
             menuStepSim.Image = (Image)resources.GetObject("media_step_forward");
             menuStepSim.Text = MessageResources.MenuItemStep;
-            menuStepSim.Tag = 30;
+            menuStepSim.Tag = 8;
             menuStepSim.Enabled = false;
             menuStepSim.Click += new EventHandler(this.Step);
+
+            ToolStripSeparator sep1 = new ToolStripSeparator();
+            sep1.Tag = 9;
+
+            menuSteppingModel = new ToolStripMenuItem();
+            menuSteppingModel.Name = "menuSteppingModel";
+            menuSteppingModel.Size = new Size(96, 22);
+            menuSteppingModel.Text = MessageResources.MenuItemSteppingModel;
+            menuSteppingModel.Tag = 10;
+            menuSteppingModel.Enabled = false;
+
+            for (int i = 1; i <= 10; i++)
+            {
+                ToolStripMenuItem tmpMenu = new ToolStripMenuItem();
+                tmpMenu.Name = "menuSteppingModel" + i.ToString();
+                tmpMenu.Size = new Size(96, 22);
+                tmpMenu.Text = "";
+                tmpMenu.Tag = i;
+                tmpMenu.Enabled = false;
+                tmpMenu.Visible = false;
+                menuSteppingModelDic.Add(i, tmpMenu);
+                menuSteppingModel.DropDownItems.Add(tmpMenu);
+            }
+
 
             MenuItemRun = new ToolStripMenuItem();
             MenuItemRun.Name = "MenuItemRun";
@@ -202,7 +228,9 @@ namespace Ecell.IDE.Plugins.Simulation
                 menuRunSim,
                 menuStopSim,
                 menuResetSim,
-                menuStepSim
+                menuStepSim,
+                sep1,
+                menuSteppingModel
             });
 
             menuSetupSim = new ToolStripMenuItem();
@@ -211,7 +239,7 @@ namespace Ecell.IDE.Plugins.Simulation
             menuSetupSim.Text = MessageResources.MenuItemSetupSim;
             menuSetupSim.Tag = 10;
             menuSetupSim.Enabled = false;
-            menuSetupSim.Click += new EventHandler(this.SetupSimulation);
+            menuSetupSim.Click += new EventHandler(this.SetupSimulation);            
 
             MenuItemSetup = new ToolStripMenuItem();
             MenuItemSetup.Name = "MenuItemSetup";
@@ -339,6 +367,7 @@ namespace Ecell.IDE.Plugins.Simulation
         public override void Initialize()
         {
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DataManager_DisplayFormatEvent);
+            m_env.DataManager.SteppingModelEvent += new SteppingModelChangedEventHandler(DataManager_SteppingModelEvent);
         }
 
         /// <summary>
@@ -622,9 +651,34 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="o">DataManager.</param>
         /// <param name="e">DisplayFormatEventArgs</param>
-        void DataManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        private void DataManager_DisplayFormatEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
             m_timeText.Text = m_time.ToString(m_env.DataManager.DisplayStringFormat);
+        }
+
+        /// <summary>
+        /// Event when the stepping model is changed.
+        /// </summary>
+        /// <param name="o">DataManager.</param>
+        /// <param name="e">EventArgs</param>
+        private void DataManager_SteppingModelEvent(object o, EventArgs e)
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                menuSteppingModelDic[i].Visible = false;
+                menuSteppingModelDic[i].Enabled = false;
+            }
+
+            foreach (int id in m_dManager.SaveTime.Keys)
+            {
+                menuSteppingModelDic[id].Visible = true;
+                menuSteppingModelDic[id].Enabled = true;
+                menuSteppingModelDic[id].Text = m_dManager.SaveTime[id].ToString();
+            }
+            if (m_dManager.SaveTime.Count > 0)
+                menuSteppingModel.Enabled = true;
+            else
+                menuSteppingModel.Enabled = false;
         }
 
         /// <summary>
