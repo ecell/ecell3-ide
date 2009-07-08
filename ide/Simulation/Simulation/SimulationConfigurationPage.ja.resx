@@ -132,4 +132,7 @@
   <data name="label4.Text" xml:space="preserve">
     <value>シミュレーション設定:</value>
   </data>
+  <data name="saveCheckBox.Text" xml:space="preserve">
+    <value>ユーザ操作ごとにシミュレーション状態を保存します</value>
+  </data>
 </root>

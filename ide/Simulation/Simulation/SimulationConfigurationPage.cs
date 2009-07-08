@@ -64,6 +64,10 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private int m_stepCount;
         /// <summary>
+        /// CheckBox to input the flag.
+        /// </summary>
+        private CheckBox saveCheckBox;
+        /// <summary>
         /// The wait time.
         /// </summary>
         private int m_waitTime;
@@ -83,6 +87,7 @@ namespace Ecell.IDE.Plugins.Simulation
 
             stepCountTextBox.Text = m_stepCount.ToString();
             waitTimeTextBox.Text = m_waitTime.ToString();
+            saveCheckBox.Checked = manager.IsSaveStep;
         }
 
         /// <summary>
@@ -97,6 +102,7 @@ namespace Ecell.IDE.Plugins.Simulation
             System.Windows.Forms.Label label4;
             this.stepCountTextBox = new System.Windows.Forms.TextBox();
             this.waitTimeTextBox = new System.Windows.Forms.TextBox();
+            this.saveCheckBox = new System.Windows.Forms.CheckBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -118,6 +124,11 @@ namespace Ecell.IDE.Plugins.Simulation
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
             // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
             // stepCountTextBox
             // 
             resources.ApplyResources(this.stepCountTextBox, "stepCountTextBox");
@@ -130,13 +141,15 @@ namespace Ecell.IDE.Plugins.Simulation
             this.waitTimeTextBox.Name = "waitTimeTextBox";
             this.waitTimeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.waitTimeTextBox_Validating);
             // 
-            // label4
+            // saveCheckBox
             // 
-            resources.ApplyResources(label4, "label4");
-            label4.Name = "label4";
+            resources.ApplyResources(this.saveCheckBox, "saveCheckBox");
+            this.saveCheckBox.Name = "saveCheckBox";
+            this.saveCheckBox.UseVisualStyleBackColor = true;
             // 
             // SimulationConfigurationPage
             // 
+            this.Controls.Add(this.saveCheckBox);
             this.Controls.Add(label4);
             this.Controls.Add(this.waitTimeTextBox);
             this.Controls.Add(this.stepCountTextBox);
@@ -159,6 +172,7 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             m_manager.StepCount = m_stepCount;
             m_manager.WaitTime = m_waitTime;
+            m_manager.IsSaveStep = saveCheckBox.Checked;
         }
 
         /// <summary>

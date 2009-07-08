@@ -761,6 +761,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 catch (Exception)
                 {
+                    string message = "";
+
                     // 他のプラグインでデータを編集したか
                     // シミュレーションが異常終了したがデータを取得できなかったため。
                     // 他のプラグインでエラーメッセージが表示されるので

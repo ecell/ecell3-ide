@@ -64,8 +64,8 @@ namespace Ecell
     /// <summary>
     /// EventHandler when object is added.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">DataManager</param>
+    /// <param name="e">DisplayFormatEventArgs</param>
     public delegate void DisplayFormatChangedEventHandler(object o, DisplayFormatEventArgs e);
 
     /// <summary>
@@ -74,7 +74,7 @@ namespace Ecell
     public class DataManager
     {
         /// <summary>
-        /// 
+        /// EventHandler when display format of value is changed.
         /// </summary>
         public event DisplayFormatChangedEventHandler DisplayFormatEvent;
 
@@ -88,7 +88,7 @@ namespace Ecell
         /// </summary>
         private Project m_currentProject = null;
         /// <summary>
-        /// 
+        /// The flag whether stepping is by step.
         /// </summary>
         private bool m_isStepStepping = false;
         /// <summary>
@@ -103,12 +103,10 @@ namespace Ecell
         /// Logger list.
         /// </summary>
         private List<string> m_loggerEntry = new List<string>();
-
         /// <summary>
         /// The default directory
         /// </summary>
         private string m_defaultDir = null;
-
         /// <summary>
         /// The default count of the step 
         /// </summary>
@@ -118,11 +116,11 @@ namespace Ecell
         /// </summary>
         private double m_defaultTime = 10.0;
         /// <summary>
-        /// 
+        /// The remain step in stepping.
         /// </summary>
         private int m_remainStep = 0;
         /// <summary>
-        /// 
+        /// The remain time in stepping.
         /// </summary>
         private double m_remainTime = 0.0;
         /// <summary>
@@ -130,17 +128,21 @@ namespace Ecell
         /// </summary>
         private double m_simulationTimeLimit = -1.0;
         /// <summary>
-        /// 
+        /// The flag whether stepping is by time.
         /// </summary>
         private bool m_isTimeStepping = false;
         /// <summary>
-        /// 
+        /// The wait time between steps.
         /// </summary>
         private int m_waitTime = 0;
         /// <summary>
-        /// 
+        /// Display format of value.
         /// </summary>
         private ValueDataFormat m_format = ValueDataFormat.Normal;
+        /// <summary>
+        /// The flag whether this step is saving.
+        /// </summary>
+        private bool m_isSaveStep = false;
         #endregion
 
         #region Constructor
@@ -177,7 +179,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// get / set the dispaly format of value.
         /// </summary>
         public ValueDataFormat DisplayFormat
         {
@@ -195,7 +197,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// get / set the display format string.
         /// </summary>
         public string DisplayStringFormat
         {
@@ -288,6 +290,15 @@ namespace Ecell
         {
             get { return this.m_defaultTime; }
             set { this.m_defaultTime = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag whether the step is saving.
+        /// </summary>
+        public bool IsSaveStep
+        {
+            get { return this.m_isSaveStep; }
+            set { this.m_isSaveStep = value; }
         }
 
         #endregion
@@ -490,6 +501,8 @@ namespace Ecell
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
                 m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
+
+                ClearSteppingModel();
             }
             catch (Exception ex)
             {
@@ -748,13 +761,110 @@ namespace Ecell
             LoadProject(info);
             m_currentProject.Info.ProjectPath = oldDir;
         }
+
+        private void SaveSteppingModelInfo(string fileName)
+        {
+            string modelID = m_currentProject.Model.ModelID;
+            Encoding enc = Encoding.GetEncoding(932);
+            File.WriteAllText(fileName, "", enc);
+
+            // Picks the "Stepper" up.
+            List<EcellObject> stepperList
+                = m_currentProject.StepperDic[modelID];
+            foreach (EcellObject obj in stepperList)
+            {
+                foreach (EcellData d in obj.Value)
+                {
+                    if (!d.Gettable || !d.Value.IsDouble || !d.Settable)
+                        continue;
+                    double value = GetPropertyValue4Stepper(obj.Key, d.Name);
+                    File.AppendAllText(fileName,
+                        d.EntityPath + "," + value.ToString() + "\n",
+                        enc);
+                }
+            }
+
+
+            // Picks the "System" up.
+            List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
+            Debug.Assert(systemList != null && systemList.Count > 0);
+
+            foreach (EcellObject obj in systemList)
+            {
+                EcellObject sysObj = obj;
+ 
+                foreach (EcellObject cobj in sysObj.Children)
+                {
+                    foreach (EcellData d in cobj.Value)
+                    {
+                        if (!d.Gettable || !d.Value.IsDouble || !d.Settable)
+                            continue;
+                        double v = GetPropertyValue(d.EntityPath);
+                        File.AppendAllText(fileName, 
+                            d.EntityPath + "," + v.ToString() + "\n", 
+                            enc);
+                    }
+                }
+                //storedList.Add(sysObj);
+            }
+        }
+
+        /// <summary>
+        /// Write EML File.
+        /// </summary>
+        /// <param name="modelID">the model ID</param>
+        /// <param name="modelFileName">the model FileName</param>
+        private void SaveEmlFile(string modelID, string modelFileName)
+        {
+            List<EcellObject> storedList = new List<EcellObject>();
+            // Picks the "Stepper" up.
+            List<EcellObject> stepperList
+                = m_currentProject.StepperDic[modelID];
+            Debug.Assert(stepperList != null && stepperList.Count > 0);
+            storedList.AddRange(stepperList);
+
+            // Picks the "System" up.
+            List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
+            Debug.Assert(systemList != null && systemList.Count > 0);
+            if (this.CurrentProject.SimulationStatus != SimulationStatus.Wait)
+            {
+                foreach (EcellObject obj in systemList)
+                {
+                    //                        EcellObject sysObj = obj.Clone();
+                    EcellObject sysObj = obj;
+                    if (sysObj.Children == null)
+                    {
+                        storedList.Add(sysObj);
+                        continue;
+                    }
+                    foreach (EcellObject cobj in sysObj.Children)
+                    {
+                        foreach (EcellData d in cobj.Value)
+                        {
+                            if (!d.Gettable || !d.Value.IsDouble)
+                                continue;
+                            EcellValue v = GetEntityProperty(d.EntityPath);
+                            d.Value = v;
+                        }
+                    }
+                    storedList.Add(sysObj);
+                }
+            }
+            else
+            {
+                storedList.AddRange(systemList);
+            }
+
+            // Save eml.
+            EmlWriter.Create(modelFileName, storedList, true);
+        }
+
         /// <summary>
         /// Saves the model using the model ID.
         /// </summary>
         /// <param name="modelID">The saved model ID</param>
         internal void SaveModel(string modelID)
         {
-            List<EcellObject> storedList = new List<EcellObject>();
             string message = null;
             try
             {
@@ -777,49 +887,11 @@ namespace Ecell
                 string modelFileName
                     = modelDirName + Constants.delimiterPath + modelID + Constants.delimiterPeriod + Constants.xpathEml;
 
-                // Picks the "Stepper" up.
-                List<EcellObject> stepperList
-                    = m_currentProject.StepperDic[modelID];
-                Debug.Assert(stepperList != null && stepperList.Count > 0);
-                storedList.AddRange(stepperList);
+                SaveEmlFile(modelID, modelFileName);
 
-                // Picks the "System" up.
-                List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
-                Debug.Assert(systemList != null && systemList.Count > 0);
-                if (this.CurrentProject.SimulationStatus != SimulationStatus.Wait)
-                {
-                    foreach (EcellObject obj in systemList)
-                    {
-//                        EcellObject sysObj = obj.Clone();
-                        EcellObject sysObj = obj;
-                        if (sysObj.Children == null)
-                        {
-                            storedList.Add(sysObj);
-                            continue;
-                        }
-                        foreach (EcellObject cobj in sysObj.Children)
-                        {
-                            foreach (EcellData d in cobj.Value)
-                            {
-                                if (!d.Value.IsDouble)
-                                    continue;
-                                EcellValue v = GetEntityProperty(d.EntityPath);                                
-                                d.Value = v;
-                            }
-                        }
-                        storedList.Add(sysObj);
-                    }
-                }
-                else
-                {
-                    storedList.AddRange(systemList);
-                }
-
-                // Save eml.
-                EmlWriter.Create(modelFileName, storedList, true);
                 // Save Leml.
                 EcellModel model = (EcellModel)m_currentProject.Model;
-                model.Children = storedList;
+                model.Children = m_currentProject.SystemDic[modelID];
 
                 string leml = Path.GetDirectoryName(modelFileName) + Path.DirectorySeparatorChar +
                             Path.GetFileNameWithoutExtension(modelFileName) + Constants.FileExtLEML;
@@ -830,7 +902,6 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                storedList = null;
                 message = string.Format(MessageResources.ErrSaveModel, modelID);
                 Trace.WriteLine(message);
                 throw new EcellException(message, ex);
@@ -977,6 +1048,7 @@ namespace Ecell
                 this.m_loggerEntry.Clear();
 
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
+                this.ClearSteppingModel();
             }
             catch (Exception ex)
             {
@@ -3368,6 +3440,44 @@ namespace Ecell
 
         #region Method for Simulation Execution
         /// <summary>
+        /// Save the stepping model.
+        /// </summary>
+        private void SaveSteppingModel()
+        {
+            string tmpDir = Util.GetTmpDir();
+            string prevPath = null;
+            for (int i = 10; i >= 1; i--)
+            {
+                string path = tmpDir + "\\stepping" + i + ".tmp";
+                if (prevPath != null)
+                {
+                    if (File.Exists(path))
+                        File.Move(path, prevPath);
+                }
+                if (File.Exists(path))
+                    File.Delete(path);
+                prevPath = path;
+            }
+            string savePath = tmpDir + "\\stepping1.tmp";
+            SaveSteppingModelInfo(savePath);
+        }
+
+        /// <summary>
+        /// Clear the stepping model.
+        /// </summary>
+        private void ClearSteppingModel()
+        {
+            string tmpDir = Util.GetTmpDir();
+
+            string[] files = Directory.GetFiles(tmpDir, "stepping*.tmp");
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (File.Exists(files[i]))
+                    File.Delete(files[i]);
+            }
+        }
+
+        /// <summary>
         /// Start simulation.
         /// </summary>
         /// <param name="time"></param>
@@ -3418,6 +3528,10 @@ namespace Ecell
                             Application.DoEvents();
                         }
                     }
+                }
+                if (m_isSaveStep)
+                {
+                    SaveSteppingModel();
                 }
             }
             catch (WrappedException ex)
@@ -3487,6 +3601,10 @@ namespace Ecell
                     double aTime = m_currentProject.Simulator.GetCurrentTime();
                     m_remainTime = stoppedTime - aTime;
                 }
+                if (m_isSaveStep)
+                {
+                    SaveSteppingModel();
+                }
             }
             catch (WrappedException ex)
             {
@@ -3552,6 +3670,10 @@ namespace Ecell
                         m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                         break;
                     }
+                }
+                if (m_isSaveStep)
+                {
+                    SaveSteppingModel();
                 }
             }
             catch (WrappedException ex)

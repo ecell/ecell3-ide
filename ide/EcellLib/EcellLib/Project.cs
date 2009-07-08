@@ -136,7 +136,8 @@ namespace Ecell
                 if (m_dmDic != null)
                     stepperList.AddRange(m_dmDic[Constants.xpathStepper]);
                 stepperList.Sort();
-                sim.Dispose();
+                //20090710
+                //sim.Dispose();
                 return stepperList;
             }
         }
