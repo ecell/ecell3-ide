@@ -128,6 +128,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripMoveBackward;
         private ToolStripMenuItem toolStripMoveBack;
         private ToolStripMenuItem toolStripFigureSetting;
+        private ToolStripMenuItem toolStripShowID;
+        private ToolStripMenuItem toolStripSetHandIcon;
         private ToolStripMenuItem toolStripAnimationSetting;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem toolStripOneWayArrow;
@@ -270,6 +272,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripMoveBackward = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveBack = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripFigureSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripShowID = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSetHandIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAnimationSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripProperty = new System.Windows.Forms.ToolStripMenuItem();
@@ -325,6 +329,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripChangeLayer,
             this.toolStripSetZOrder,
             this.toolStripFigureSetting,
+            this.toolStripShowID,
+            this.toolStripSetHandIcon,
             this.toolStripAnimationSetting,
             this.toolStripSeparator3,
             this.commonMenu.loggingToolStripMenuItem,
@@ -516,6 +522,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripFigureSetting.Size = new System.Drawing.Size(271, 22);
             this.toolStripFigureSetting.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuFigureSetting;
             this.toolStripFigureSetting.Click += new System.EventHandler(this.FigureSettingClick);
+            // 
+            // toolStripShowID
+            // 
+            this.toolStripShowID.Name = "toolStripShowID";
+            this.toolStripShowID.CheckOnClick = true;
+            this.toolStripShowID.Size = new System.Drawing.Size(271, 22);
+            this.toolStripShowID.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemShowID;
+            this.toolStripShowID.Click += new System.EventHandler(this.ShowIdClick);
+            // 
+            // toolStripSetHandIcon
+            // 
+            this.toolStripSetHandIcon.Name = "toolStripSetHandIcon";
+            this.toolStripSetHandIcon.Size = new System.Drawing.Size(271, 22);
+            this.toolStripSetHandIcon.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipMoveCanvas;
+            this.toolStripSetHandIcon.Click += new EventHandler(toolStripSetHandIcon_Click);
             // 
             // toolStripAnimationSetting
             // 
@@ -916,6 +937,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 SetTextAlignmenu((PPathwayText)node);
             }
+            if (isNull)
+            {
+                toolStripShowID.Checked = toolMenuShowID.Checked;
+                toolStripSetHandIcon.Checked = toolButtonHand.Checked;
+            }
             // Show ObjectID(key).
             toolStripIdShow.Visible = isObject;
             toolStripSeparator1.Visible = isObject;
@@ -930,7 +956,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripCopy.Visible = isObject && !isRoot && isMenuOn;
             toolStripPaste.Visible = isCopiedObject && isInsideRoot && isMenuOn;
             toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isMenuOn;
-            toolStripSeparator2.Visible = isObject && !isRoot && isMenuOn;
+            toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isMenuOn;
             // Set Alias
             toolStripAlias.Visible = isVariable && isMenuOn;
             toolStripDeleteAlias.Visible = isAlias && isMenuOn;
@@ -940,6 +966,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripChangeLayer.Visible = isObject && !isRoot && isMenuOn;
             toolStripSetZOrder.Visible = isObject && !isRoot;
             toolStripFigureSetting.Visible = isObject && isMenuOn;
+            toolStripShowID.Visible = isNull && isMenuOn;
+            toolStripSetHandIcon.Visible = isNull && isMenuOn;
             toolStripAnimationSetting.Visible = isNull && isMenuOn;
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
@@ -1463,12 +1491,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void ShowIdClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            if (item.CheckState == CheckState.Checked)
-                m_con.ShowingID = true;
-            else
-                m_con.ShowingID = false;
+            bool showId = (item.CheckState == CheckState.Checked);
+            m_con.ShowingID = showId;
+            toolStripShowID.Checked = showId;
+            toolMenuShowID.Checked = showId;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void toolStripSetHandIcon_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            if(!item.Checked)
+                SetEventHandler(toolButtonHand.Handle);
+            else
+                SetEventHandler(toolButtonSelect.Handle);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeFocusMode(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
