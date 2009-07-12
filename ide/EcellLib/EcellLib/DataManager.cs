@@ -73,6 +73,8 @@ namespace Ecell
     /// <param name="o">DataManager</param>
     /// <param name="e">EventArgs</param>
     public delegate void SteppingModelChangedEventHandler(object o, EventArgs e);
+    public delegate void ApplySteppingModelEnvetHandler(object o, EventArgs e);
+
 
     /// <summary>
     /// Manages data of projects, models, and so on.
@@ -87,6 +89,7 @@ namespace Ecell
         /// EventHandler when the stepping model is changed.
         /// </summary>
         public event SteppingModelChangedEventHandler SteppingModelEvent;
+        public event ApplySteppingModelEnvetHandler ApplySteppingModelEvent;
 
         #region Fields
         /// <summary>
@@ -785,6 +788,10 @@ namespace Ecell
             m_currentProject.Info.ProjectPath = oldDir;
         }
 
+        /// <summary>
+        /// Save the stepping model to the set file name.
+        /// </summary>
+        /// <param name="fileName">the wrote file name</param>
         private void SaveSteppingModelInfo(string fileName)
         {
             string modelID = m_currentProject.Model.ModelID;
@@ -831,6 +838,47 @@ namespace Ecell
                 //storedList.Add(sysObj);
             }
         }
+
+        /// <summary>
+        /// Load the stepping model from file.
+        /// </summary>
+        /// <param name="fileName">the stepping model file.</param>
+        private void LoadSteppingModelInfo(string fileName)
+        {
+            string line;
+            string[] ele;
+            StreamReader reader;
+            reader = new StreamReader(fileName, Encoding.ASCII);
+            while ((line = reader.ReadLine()) != null)
+            {
+                ele = line.Split(new char[] { ',' });
+                string entPath = ele[0];
+                string data = ele[1];
+                if (entPath.StartsWith(Constants.xpathStepper))
+                {
+                    ele = entPath.Split(new char[] { ':' });
+                    string key = ele[2];
+                    string name = ele[3];
+                    EcellValue storedValue
+                            = new EcellValue(m_currentProject.Simulator.GetStepperProperty(key, name));
+                    if (storedValue.IsDouble)
+                        m_currentProject.Simulator.SetStepperProperty(key, name, Double.Parse(data));
+                    else if (storedValue.IsInt)
+                        m_currentProject.Simulator.SetStepperProperty(key, name, Int32.Parse(data));
+                }
+                else
+                {
+                    EcellValue storedValue
+                            = new EcellValue(m_currentProject.Simulator.GetEntityProperty(entPath));
+                    if (storedValue.IsDouble)
+                        m_currentProject.Simulator.SetEntityProperty(entPath, Double.Parse(data));
+                    else if (storedValue.IsInt)
+                        m_currentProject.Simulator.SetEntityProperty(entPath, Int32.Parse(data));
+                }
+            }
+            reader.Close();
+        }
+
 
         /// <summary>
         /// Write EML File.
@@ -3506,6 +3554,20 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Load the stepping model.
+        /// </summary>
+        /// <param name="id">the ID of stepping model.</param>
+        public void LoadSteppingModel(int id)
+        {
+            string tmpDir = Util.GetTmpDir();
+            string path = tmpDir + "\\stepping" + id + ".tmp";
+
+            LoadSteppingModelInfo(path);
+            if (ApplySteppingModelEvent != null)
+                ApplySteppingModelEvent(this, new EventArgs());
+        }
+
+        /// <summary>
         /// Clear the stepping model.
         /// </summary>
         private void ClearSteppingModel()
@@ -5180,6 +5242,36 @@ namespace Ecell
             m_currentProject.Simulator.LoadEntityProperty(
                 fullPN,
                 newValue.Value);
+        }
+
+        public void SetStepperProperty(string key, string name, string value)
+        {
+                        if (m_currentProject.Simulator == null
+                || this.GetCurrentSimulationTime() <= 0.0)
+            {
+                return;
+            }
+            EcellValue storedValue
+                = new EcellValue(m_currentProject.Simulator.GetStepperProperty(key, name));
+            EcellValue newValue = null;
+            if (storedValue.IsDouble)
+            {
+                newValue = new EcellValue(XmlConvert.ToDouble(value));
+            }
+            else if (storedValue.IsInt)
+            {
+                newValue = new EcellValue(XmlConvert.ToInt32(value));
+            }
+            else if (storedValue.IsList)
+            {
+                // newValue = new EcellValue(value);
+                return;
+            }
+            else
+            {
+                newValue = new EcellValue(value);
+            }
+            m_currentProject.Simulator.LoadStepperProperty(key, name, newValue.Value);
         }
 
         /// <summary>

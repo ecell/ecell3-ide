@@ -203,7 +203,9 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         public void Initialize()
         {
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DisplayFormatChangeEvent);
+            m_env.DataManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(ApplySteppingModelEvent);
         }
+
         /// <summary>
         /// The event sequence when the user adds the simulation parameter.
         /// </summary>
@@ -1322,6 +1324,18 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="o">DataManager</param>
         /// <param name="e">DisplayFormatEventArgs</param>
         private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        {
+            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+                return;
+            ResetPropForSimulation();
+        }
+
+        /// <summary>
+        /// Event when the stepping model is applied.
+        /// </summary>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">EventArgs</param>
+        private void ApplySteppingModelEvent(object o, EventArgs e)
         {
             if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
                 return;

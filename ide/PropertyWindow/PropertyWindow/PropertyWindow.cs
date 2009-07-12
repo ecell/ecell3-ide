@@ -904,11 +904,23 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// Ecent when display format is changed.
+        /// Event when display format is changed.
         /// </summary>
         /// <param name="o">DataManager</param>
         /// <param name="e">DisplayFormatEventArgs</param>
         private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
+        {
+            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+                return;
+            ReloadProperties();
+        }
+
+        /// <summary>
+        /// Event when the stepping model is applied.
+        /// </summary>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">EventArgs</param>
+        private void ApplySteppingModelEvent(object o, EventArgs e)
         {
             if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
                 return;
@@ -1022,7 +1034,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         !tag.Name.Equals(Constants.xpathExpression) &&
                         !tag.Name.Equals(Constants.xpathActivity))
                     {
-                        m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
+                        if (m_current.Type.Equals(Constants.xpathStepper))
+                        {
+                            m_env.DataManager.SetStepperProperty(m_current.Key, tag.Name, data);
+                        }
+                        else
+                        {
+                            m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
+                        }
                         UpdatePropForSimulation();
                     }
                     else
@@ -1216,7 +1235,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         public void Initialize()
         {
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DisplayFormatChangeEvent);
+            m_env.DataManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(ApplySteppingModelEvent);
         }
+
         /// <summary>
         /// Get the window forms of each plugin.
         /// DockContent is a docking window class of WeifenLuo.WinFormsUI plugin.

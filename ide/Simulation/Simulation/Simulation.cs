@@ -119,7 +119,13 @@ namespace Ecell.IDE.Plugins.Simulation
         /// the menu strip for [Setup ...]
         /// </summary>
         private ToolStripMenuItem menuSetupSim;
+        /// <summary>
+        /// The menu strip for loading the stepping model.
+        /// </summary>
         private ToolStripMenuItem menuSteppingModel;
+        /// <summary>
+        /// The dictionary of the saving id and menu strip.
+        /// </summary>
         private Dictionary<int, ToolStripMenuItem> menuSteppingModelDic = new Dictionary<int, ToolStripMenuItem>();
         #endregion
 
@@ -215,6 +221,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 tmpMenu.Tag = i;
                 tmpMenu.Enabled = false;
                 tmpMenu.Visible = false;
+                tmpMenu.Click += new EventHandler(ClickLoadingSteppingModel);
                 menuSteppingModelDic.Add(i, tmpMenu);
                 menuSteppingModel.DropDownItems.Add(tmpMenu);
             }
@@ -358,6 +365,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_stepUnitCombo});
             ButtonList.Location = new Point(400, 0);
         }
+
         #endregion
 
         #region Inherited from PluginBase
@@ -899,6 +907,25 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 m_stepText.Text = "1.0";
             }
+        }
+
+        /// <summary>
+        /// Event when ToolStripMenuItem for loading the stepping model is clicked.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void ClickLoadingSteppingModel(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = sender as ToolStripMenuItem;
+            foreach (int ind in menuSteppingModelDic.Keys)
+            {
+                if (menu.Equals(menuSteppingModelDic[ind]))
+                {
+                    m_dManager.LoadSteppingModel(ind);
+                    return;
+                }
+            }
+            
         }
         #endregion
     }
