@@ -390,4 +390,7 @@
   <data name="CanvasMenuSendBackward" xml:space="preserve">
     <value>背面に移動</value>
   </data>
+  <data name="CanvasMenuZOrder" xml:space="preserve">
+    <value>順序</value>
+  </data>
 </root>

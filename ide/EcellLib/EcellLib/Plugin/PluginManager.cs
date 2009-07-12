@@ -98,7 +98,12 @@ namespace Ecell.Plugin
         /// Status of the current project.
         /// </summary>
         private ProjectStatus m_status;
-        private Dictionary<string, Delegate> m_delegateDic = new Dictionary<string, Delegate>();        
+        /// <summary>
+        /// 
+        /// </summary>
+        private Dictionary<string, Delegate> m_delegateDic = new Dictionary<string, Delegate>();
+
+        private Stopwatch stopWatch = new Stopwatch();
         #endregion
 
         /// <summary>
@@ -216,7 +221,11 @@ namespace Ecell.Plugin
         {
             foreach (IDataHandler p in m_dataHandlerList)
             {
+                //stopWatch.Start();
                 p.SelectChanged(modelID, key, type);
+                //stopWatch.Stop();
+                //Trace.WriteLine(((IEcellPlugin)p).GetPluginName() + ":" + stopWatch.ElapsedMilliseconds.ToString());
+                //stopWatch.Reset();
             }
             m_env.ReportManager.SetStatus(
                 StatusBarMessageKind.Generic,

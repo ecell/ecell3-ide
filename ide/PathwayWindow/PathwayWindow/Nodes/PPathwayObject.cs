@@ -273,17 +273,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 this.m_selected = value;
-                if (value)
-                {
-                    this.Brush = m_highLightBrush;
-                    this.m_pText.Brush = m_highLightBrush;
-                }
-                else
-                {
-                    this.Brush = m_setting.CreateBrush(m_path);
-                    this.m_pText.Brush = Brushes.Transparent;
-                    RefreshView();
-                }
+                RefreshView();
             }
         }
 
@@ -379,7 +369,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public virtual void RefreshView()
         {
-            SetFillBrush();
+            // Create and set FillBrush.
+            // If Highlighted, set Hightlighted Brush.
+            if (m_selected)
+            {
+                this.Brush = m_highLightBrush;
+                this.m_pText.Brush = m_highLightBrush;
+            }
+            else
+            {
+                this.Brush = m_setting.CreateBrush(m_path);
+                this.m_pText.Brush = Brushes.Transparent;
+            }
             Refresh();
         }
 
@@ -441,19 +442,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_pText.Visible = false;
         }
         #endregion
-
-        /// <summary>
-        /// Set FillBrush
-        /// </summary>
-        private void SetFillBrush()
-        {
-            // Create and set FillBrush.
-            // If Highlighted, set Hightlighted Brush.
-            if (m_selected)
-                this.Brush = m_highLightBrush;
-            else
-                this.Brush = m_setting.CreateBrush(m_path);
-        }
 
         /// <summary>
         /// Memorize a current position for returning to this position in the future in neccessary.

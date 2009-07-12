@@ -938,8 +938,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripTextAlign.Visible = isText && isMenuOn;
             // Show Layer menu.
             toolStripChangeLayer.Visible = isObject && !isRoot && isMenuOn;
-            toolStripMoveFront.Visible = isObject && !isRoot;
-            toolStripMoveBack.Visible = isObject && !isRoot;
+            toolStripSetZOrder.Visible = isObject && !isRoot;
             toolStripFigureSetting.Visible = isObject && isMenuOn;
             toolStripAnimationSetting.Visible = isNull && isMenuOn;
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
@@ -1285,16 +1284,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
 
-            bool flag = false;
-            foreach (PNode node in obj.Layer.GetNodes())
-            {
-                if (flag)
-                {
-                    obj.MoveInFrontOf(node);
-                }
-                if (node == obj)
-                    flag = true;
-            }
+            List<PPathwayObject> list = obj.Layer.GetNodes();
+            PNode tempNode = list[list.Count -1];
+            obj.MoveInFrontOf(tempNode);
         }
 
         /// <summary>
@@ -1312,6 +1304,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (flag)
                 {
                     obj.MoveInFrontOf(node);
+                    flag = false;
                 }
                 if (node == obj)
                     flag = true;
@@ -1327,15 +1320,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
 
-            bool flag = true;
+            PNode tempNode = null;
             foreach (PNode node in obj.Layer.GetNodes())
             {
-                if (flag)
+                if (node == obj && tempNode != null)
                 {
-                    obj.MoveInFrontOf(node);
+                    tempNode.MoveInFrontOf(obj);
                 }
-                if (node == obj)
-                    flag = false;
+                tempNode = node;
             }
         }
 

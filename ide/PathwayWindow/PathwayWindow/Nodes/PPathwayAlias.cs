@@ -54,29 +54,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Accessor for m_isHighLighted.
-        /// </summary>
-        public override bool Selected
-        {
-            get { return this.m_selected; }
-            set
-            {
-                this.m_selected = value;
-                if (value)
-                {
-                    this.Brush = m_highLightBrush;
-                    this.m_pText.Brush = m_highLightBrush;
-                }
-                else
-                {
-                    this.Brush = m_fillBrush;
-                    this.m_pText.Brush = Brushes.Transparent;
-                    RefreshView();
-                }
-            }
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         public PPathwayAlias(PPathwayVariable variable)

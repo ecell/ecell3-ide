@@ -5162,24 +5162,13 @@ namespace Ecell
             bool isEnable = true;
             try
             {
-                string path = Constants.xpathProcess + Constants.delimiterColon +
-                    Constants.delimiterPath + Constants.delimiterColon +
-                    Constants.xpathSize.ToUpper();
-                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
-                sim.CreateEntity(
-                    dmName,
-                    path);
-
-                string fullPath = path + Constants.delimiterColon + "CheckProperty";
-                EcellValue newValue = new EcellValue(0.01);
-                sim.SetEntityProperty(fullPath, newValue.Value);
-                // 20090623
-                //sim.Dispose();
+                DMDescriptor desc = m_env.DMDescriptorKeeper.GetDMDescriptor(EcellObject.PROCESS, dmName);
+                isEnable = desc.CanHaveDynamicProperties;
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                return false;
+                isEnable = false;
             }
             return isEnable;
         }
