@@ -1635,8 +1635,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="type">the type of selected object.</param>
         public void SelectChanged(string key, string type)
         {
-            //Stopwatch stopWatch = new Stopwatch();
-            //stopWatch.Start();
             // Error check.
             if (key == null || type == null)
                 return;
@@ -1644,12 +1642,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_focusNode = obj;
             if (obj == null)
                 return;
-            //Trace.WriteLine("Pathway:SelectChange1:" + stopWatch.ElapsedMilliseconds);
             // Set select change.
             ResetSelect();
-            //Trace.WriteLine("Pathway:SelectChange2:" + stopWatch.ElapsedMilliseconds);
             AddSelectedNode(obj);
-            //Trace.WriteLine("Pathway:SelectChange3:" + stopWatch.ElapsedMilliseconds);
 
             // Exit if the event came from this plugin.
             if (m_isOwner)
@@ -1657,7 +1652,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_isOwner = false;
                 return;
             }
-            //Trace.WriteLine("Pathway:SelectChange4:" + stopWatch.ElapsedMilliseconds);
 
             // Move camera view.
             if (m_focusMode && obj.Visible)
@@ -1668,7 +1662,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                                                  CAMERA_ANIM_DURATION);
                 UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
             }
-            //Trace.WriteLine("Pathway:SelectChange5:" + stopWatch.ElapsedMilliseconds);
 
         }
         #endregion
@@ -1741,6 +1734,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             if (m_overviewCanvas != null)
                 m_overviewCanvas.Dispose();
+            foreach (PPathwayObject obj in GetAllObjects())
+            {
+                obj.Dispose();
+            }
         }
 
         /// <summary>

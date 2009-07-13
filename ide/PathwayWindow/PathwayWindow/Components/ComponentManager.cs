@@ -443,7 +443,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         internal void ClearSettings()
         {
             SetComponentSettings();
-            
         }
 
         /// <summary>

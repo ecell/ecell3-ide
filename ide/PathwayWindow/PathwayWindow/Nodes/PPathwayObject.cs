@@ -640,5 +640,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
         #endregion
 
+
+        #region IDisposable ÉÅÉìÉo
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Dispose()
+        {
+            if (m_setting != null)
+            {
+                this.m_setting.PropertyChange -= Setting_PropertyChange;
+            }
+        }
+        #endregion
     }
 }

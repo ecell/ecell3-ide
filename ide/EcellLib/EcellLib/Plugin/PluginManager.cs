@@ -221,11 +221,7 @@ namespace Ecell.Plugin
         {
             foreach (IDataHandler p in m_dataHandlerList)
             {
-                //stopWatch.Start();
                 p.SelectChanged(modelID, key, type);
-                //stopWatch.Stop();
-                //Trace.WriteLine(((IEcellPlugin)p).GetPluginName() + ":" + stopWatch.ElapsedMilliseconds.ToString());
-                //stopWatch.Reset();
             }
             m_env.ReportManager.SetStatus(
                 StatusBarMessageKind.Generic,

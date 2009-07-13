@@ -106,6 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ContextMenuStrip popupMenu;
         private ToolStripMenuItem toolStripIdShow;
         private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem toolStripOneWayArrow;
         private ToolStripMenuItem toolStripAnotherArrow;
         private ToolStripMenuItem toolStripBidirArrow;
         private ToolStripMenuItem toolStripConstant;
@@ -130,9 +131,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripFigureSetting;
         private ToolStripMenuItem toolStripShowID;
         private ToolStripMenuItem toolStripSetHandIcon;
+        private ToolStripMenuItem toolStripAnimation;
         private ToolStripMenuItem toolStripAnimationSetting;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem toolStripOneWayArrow;
         private ToolStripMenuItem toolStripProperty;
 
         private CommonContextMenu commonMenu;
