@@ -175,128 +175,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 ResetSystemResize();
                 return;
             }
-            // Check Aliases
-            RectangleF rect = m_obj.Rect;
-            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
-            {
-                if (variable.Aliases.Count <= 0)
-                    continue;
-                bool contein = rect.Contains(variable.CenterPointF);
-                foreach (PPathwayAlias alias in variable.Aliases)
-                {
-                    if (rect.Contains(alias.CenterPointF) == contein)
-                        continue;
-
-                    Util.ShowErrorDialog(MessageResources.ErrOutSystemAlias);
-                    return;
-                }
-            }
-
-            m_obj.Refresh();
-
-            string systemName = m_obj.EcellObject.Key;
-            List<PPathwayObject> objList = m_canvas.GetAllEntities();
-            // Select PathwayObjects being moved into current system.
-            Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
-            // Select PathwayObjects being moved to upper system.
-            Dictionary<string, PPathwayObject> beforeDict = new Dictionary<string, PPathwayObject>();
-            foreach (PPathwayObject obj in objList)
-            {
-                if (rect.Contains(obj.Rect))
-                {
-                    if (!obj.EcellObject.ParentSystemID.StartsWith(systemName) && !obj.EcellObject.Key.Equals(systemName))
-                        currentDict.Add(obj.EcellObject.Type + ":" + obj.EcellObject.Key, obj);
-                }
-                else
-                {
-                    if (obj.EcellObject.ParentSystemID.StartsWith(systemName) && !obj.EcellObject.Key.Equals(systemName))
-                        beforeDict.Add(obj.EcellObject.Type + ":" + obj.EcellObject.Key, obj);
-                }
-            }
-
-            // If ID duplication could occurred, system resizing will be aborted
-            foreach (PPathwayObject obj in currentDict.Values)
-            {
-                // Check duplicated object.
-                if (obj is PPathwayText)
-                    continue;
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + Constants.delimiterPath + obj.EcellObject.LocalID))
-                    continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + Constants.delimiterColon + obj.EcellObject.LocalID))
-                    continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + Constants.delimiterColon + obj.EcellObject.LocalID))
-                    continue;
-                // If duplicated object exists.
-                ResetSystemResize();
-                Util.ShowErrorDialog(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { obj.EcellObject.LocalID }));
-                return;
-            }
-            string parentKey = m_obj.EcellObject.ParentSystemID;
-            foreach (PPathwayObject obj in beforeDict.Values)
-            {
-                // Check duplicated object.
-                if (obj is PPathwayText)
-                    continue;
-                // Check Outroot
-                if(string.IsNullOrEmpty(parentKey))
-                {
-                    ResetSystemResize();
-                    Util.ShowErrorDialog(string.Format(
-                            MessageResources.ErrOutRoot,
-                            new object[] { obj.EcellObject.LocalID }));
-                    return;
-
-                }
-                // Check duplilcated key
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + Constants.delimiterPath + obj.EcellObject.LocalID))
-                    continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + Constants.delimiterColon + obj.EcellObject.LocalID))
-                    continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + Constants.delimiterColon + obj.EcellObject.LocalID))
-                    continue;
-                // If duplicated object exists.
-                ResetSystemResize();
-                Util.ShowErrorDialog(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { obj.EcellObject.LocalID }));
-                return;
-            }
-
-            // Move objects.
-            try
-            {
-                foreach (PPathwayObject obj in currentDict.Values)
-                {
-                    if (obj is PPathwayText)
-                        continue;
-                    string oldKey = obj.EcellObject.Key;
-                    string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
-                    // Set node change
-                    m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
-                }
-                foreach (PPathwayObject obj in beforeDict.Values)
-                {
-                    if (obj is PPathwayText)
-                        continue;
-                    string oldKey = obj.EcellObject.Key;
-                    string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
-                    // Set node change
-                    m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
-                }
-
-                // Fire DataChanged for child in system.!
-                Update();
-                m_canvas.NotifyResetSelect();
-                ClearSurroundState();
-
-                base.ResizeHandle_MouseUp(sender, e);
-            }
-            catch (Exception)
-            {
-                ResetSystemResize();
-            }
+            base.ResizeHandle_MouseUp(sender, e);
         }
 
         /// <summary>
@@ -309,6 +188,36 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             RefreshSurroundState();
             base.ResizeHandle_MouseDrag(sender, e);
             ValidateSystem();
+
+            if (e.Modifiers != Keys.Shift)
+                return;
+
+            // Resize object under
+            float x = m_obj.X;
+            float y = m_obj.Y;
+            float width = m_obj.Width;
+            float height = m_obj.Height;
+            float oldX = m_obj.EcellObject.X;
+            float oldY = m_obj.EcellObject.Y;
+            float oldWidth = m_obj.EcellObject.Width;
+            float oldHeight = m_obj.EcellObject.Height;
+            float xx = width / oldWidth;
+            float yy = height / oldHeight;
+
+            List<PPathwayObject> list = m_canvas.GetAllObjectUnder(m_obj.EcellObject.Key);
+            foreach (PPathwayObject obj in list)
+            {
+                float newX = x + (obj.X - oldX) * xx;
+                float newY = y + (obj.Y - oldY) * yy;
+                obj.OffsetX = newX - obj.X;
+                obj.OffsetY = newY - obj.Y;
+                if (obj is PPathwaySystem)
+                {
+                    obj.Width = obj.Width * xx;
+                    obj.Height = obj.Height * yy;
+                }
+            }
+
         }
 
         /// <summary>

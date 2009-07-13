@@ -2002,7 +2002,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns></returns>
         private static bool CheckMoved(PPathwayObject obj)
         {
-            if (obj.Offset != PointF.Empty)
+            if (obj.Offset != PointF.Empty || obj.Changed)
             {
                 return true;
             }

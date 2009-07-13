@@ -173,6 +173,11 @@ Source: "common\banner.png"; DestDir:"{app}\conf"; Components:main; CopyMode: al
 Source: "common\credit.info"; DestDir:"{app}\bin"; Components:main; CopyMode: alwaysoverwrite;
 
 ; ======================================================
+; document
+; ======================================================
+Source: "doc\*"; DestDir: "{app}\doc"; Components: extension; CopyMode: alwaysoverwrite;
+
+; ======================================================
 ; bin/*.exe
 ; ======================================================
 Source: "Win32\bin\ecell-ide.exe"; DestDir: "{app}\bin";  Components: main; CopyMode: alwaysoverwrite;

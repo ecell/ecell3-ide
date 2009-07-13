@@ -134,6 +134,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected bool m_isViewMode = false;
 
         /// <summary>
+        /// 
+        /// </summary>
+        protected bool m_changed = false;
+
+        /// <summary>
         /// EcellObject for this object.
         /// </summary>
         protected EcellObject m_ecellObj = null;
@@ -316,6 +321,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set { m_showingId = value;
             SetTextVisiblity();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Changed
+        {
+            get { return m_changed; }
+            set { m_changed = value; }
         }
 
         /// <summary>

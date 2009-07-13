@@ -608,6 +608,24 @@ namespace Ecell.IDE.MainWindow
             {
                 return MessageResources.MenuTutorial;
             }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public string GetLabelForManual()
+            {
+                return MessageResources.MenuManual;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public string GetManual()
+            {
+                return MessageResources.FileManual;
+            }
         }
     }
 }

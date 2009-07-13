@@ -263,13 +263,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         protected virtual void ResizeHandle_MouseUp(object sender, PInputEventArgs e)
         {
-            // Update systems
-            m_canvas.Control.NotifyDataChanged(
-                m_obj.EcellObject.Key,
-                m_obj.EcellObject.Key,
-                m_obj,
-                true,
-                true);
+            m_obj.Changed = true;
+            m_canvas.NotifyMoveObjects(true);
+            m_obj.Changed = false;
         }
 
         /// <summary>

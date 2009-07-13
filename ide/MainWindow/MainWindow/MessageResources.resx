@@ -282,4 +282,10 @@
   <data name="NameScriptEditor" xml:space="preserve">
     <value>Script Editor</value>
   </data>
+  <data name="FileManual" xml:space="preserve">
+    <value>manual_j.pdf</value>
+  </data>
+  <data name="MenuManual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
 </root>

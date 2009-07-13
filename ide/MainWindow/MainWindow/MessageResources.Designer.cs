@@ -259,6 +259,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   manual_j.pdf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FileManual {
+            get {
+                return ResourceManager.GetString("FileManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot find the specified file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FileNotFound {
@@ -300,6 +309,15 @@ namespace Ecell.IDE.MainWindow {
         internal static string MenuDelete {
             get {
                 return ResourceManager.GetString("MenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Manual に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuManual {
+            get {
+                return ResourceManager.GetString("MenuManual", resourceCulture);
             }
         }
         

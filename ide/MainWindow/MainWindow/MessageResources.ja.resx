@@ -183,6 +183,9 @@
   <data name="ExportModelDialog" xml:space="preserve">
     <value>モデルのエクスポート</value>
   </data>
+  <data name="FileManual" xml:space="preserve">
+    <value>manual_j.pdf</value>
+  </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>指定したファイルが存在しません。</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="MenuDelete" xml:space="preserve">
     <value>削除</value>
+  </data>
+  <data name="MenuManual" xml:space="preserve">
+    <value>マニュアル</value>
   </data>
   <data name="MenuPaste" xml:space="preserve">
     <value>ペースト</value>
