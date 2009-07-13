@@ -48,6 +48,10 @@ namespace Ecell.Plugin
         /// The content type.
         /// </summary>
         protected DockContentType m_type = DockContentType.NONE;
+        /// <summary>
+        /// Can this DockContent be closed or not.
+        /// </summary>
+        private bool m_isEnableClose = false;
 
         /// <summary>
         /// Can this DockContent be serialized or not.
@@ -65,6 +69,15 @@ namespace Ecell.Plugin
         {
             get { return this.m_type; }
             set { this.m_type = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag whether DockContent be enable to serialize or not.
+        /// </summary>
+        public bool EnableClose
+        {
+            get { return this.m_isEnableClose; }
+            set { this.m_isEnableClose = value; }
         }
         #endregion
 

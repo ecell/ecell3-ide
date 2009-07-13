@@ -602,7 +602,14 @@ namespace Ecell.IDE.MainWindow
             content.FloatPane = null;
             content.DockHandler.DockPanel = this.dockPanel;
             content.IsHidden = false;
-            content.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
+            if (content.EnableClose)
+            {
+                content.FormClosing += new FormClosingEventHandler(this.Graph_Closing);
+            }
+            else
+            {
+                content.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
+            }
 
             //Create DockWindow Menu
             DockToolStripMenuItem item = new DockToolStripMenuItem(content);
@@ -624,6 +631,7 @@ namespace Ecell.IDE.MainWindow
             content.Show(this.dockPanel, DockState.Document);
         }
 
+
         /// <summary>
         /// Get specified DockContent
         /// </summary>
@@ -634,6 +642,11 @@ namespace Ecell.IDE.MainWindow
             return retval;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DockContent_Closing(object sender, FormClosingEventArgs e)
         {
             m_env.LogManager.Append(new ApplicationLogEntry(
@@ -646,6 +659,28 @@ namespace Ecell.IDE.MainWindow
                 // hide dock window
                 ((DockContent)sender).Hide();
                 e.Cancel = true;
+            }
+            else
+            {
+                ((Form)sender).Controls.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Graph_Closing(object sender, FormClosingEventArgs e)
+        {
+            DockContent cont = sender as DockContent;
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                ToolStripItem[] items = graphGroupToolStripMenuItem.DropDownItems.Find(cont.Name, true);
+                for (int i = 0; i < items.Length; i++)
+                {
+                    graphGroupToolStripMenuItem.DropDownItems.Remove(items[i]);
+                }
             }
             else
             {
