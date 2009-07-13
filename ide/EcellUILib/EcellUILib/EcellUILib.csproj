@@ -80,6 +80,9 @@
     <Compile Include="FormulatorDialog.designer.cs">
       <DependentUpon>FormulatorDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LayoutPane.cs">
       <SubType>Form</SubType>
     </Compile>

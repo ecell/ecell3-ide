@@ -721,4 +721,10 @@
   <data name="exportSBMLMenuItem.Text" xml:space="preserve">
     <value>SBML形式で出力(&amp;M)...</value>
   </data>
+  <data name="analysisGroupToolStripMenuItem.Text" xml:space="preserve">
+    <value>解析</value>
+  </data>
+  <data name="graphGroupToolStripMenuItem.Text" xml:space="preserve">
+    <value>グラフ</value>
+  </data>
 </root>

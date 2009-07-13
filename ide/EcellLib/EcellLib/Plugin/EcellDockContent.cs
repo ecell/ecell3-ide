@@ -44,6 +44,10 @@ namespace Ecell.Plugin
         /// Can this DockContent be serialized or not.
         /// </summary>
         protected bool m_isSavable = false;
+        /// <summary>
+        /// The content type.
+        /// </summary>
+        protected DockContentType m_type = DockContentType.NONE;
 
         /// <summary>
         /// Can this DockContent be serialized or not.
@@ -52,6 +56,15 @@ namespace Ecell.Plugin
         {
             get { return m_isSavable; }
             set { m_isSavable = value; }
+        }
+
+        /// <summary>
+        /// get / set the content type.
+        /// </summary>
+        public DockContentType ContentType
+        {
+            get { return this.m_type; }
+            set { this.m_type = value; }
         }
         #endregion
 
@@ -97,6 +110,7 @@ namespace Ecell.Plugin
                 return GetDesktopLocation(this);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -113,5 +127,24 @@ namespace Ecell.Plugin
             return pos;
         }
         #endregion
+    }
+
+    /// <summary>
+    /// DockContent Type.
+    /// </summary>
+    public enum DockContentType
+    {
+        /// <summary>
+        /// no style.
+        /// </summary>
+        NONE = 0,
+        /// <summary>
+        /// analysis style.
+        /// </summary>
+        ANALYSIS = 1,
+        /// <summary>
+        /// graph style.
+        /// </summary>
+        GRAPH = 2
     }
 }

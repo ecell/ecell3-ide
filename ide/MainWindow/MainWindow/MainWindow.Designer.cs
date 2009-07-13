@@ -104,6 +104,8 @@ namespace Ecell.IDE.MainWindow
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.analysisGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -502,7 +504,9 @@ namespace Ecell.IDE.MainWindow
             // MenuItemView
             // 
             this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showWindowToolStripMenuItem});
+            this.showWindowToolStripMenuItem,
+            this.analysisGroupToolStripMenuItem,
+            this.graphGroupToolStripMenuItem});
             this.MenuItemView.Name = "MenuItemView";
             resources.ApplyResources(this.MenuItemView, "MenuItemView");
             // 
@@ -569,6 +573,16 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
+            // 
+            // analysisGroupToolStripMenuItem
+            // 
+            this.analysisGroupToolStripMenuItem.Name = "analysisGroupToolStripMenuItem";
+            resources.ApplyResources(this.analysisGroupToolStripMenuItem, "analysisGroupToolStripMenuItem");
+            // 
+            // graphGroupToolStripMenuItem
+            // 
+            this.graphGroupToolStripMenuItem.Name = "graphGroupToolStripMenuItem";
+            resources.ApplyResources(this.graphGroupToolStripMenuItem, "graphGroupToolStripMenuItem");
             // 
             // MainWindow
             // 
@@ -689,6 +703,8 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripButton toolStripUndoButton;
         private System.Windows.Forms.ToolStripButton toolStripRedoButton;
         private System.Windows.Forms.ToolStripMenuItem exportSBMLMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem analysisGroupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem graphGroupToolStripMenuItem;
     }
 }
 

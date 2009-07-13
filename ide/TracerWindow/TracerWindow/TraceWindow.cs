@@ -174,6 +174,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             tableLayoutPanel1.Controls.Add(m_zCnt, 0, 0);
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
+
+            this.ContentType = DockContentType.GRAPH;
         }
 
         /// <summary>

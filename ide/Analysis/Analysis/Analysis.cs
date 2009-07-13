@@ -587,17 +587,21 @@ namespace Ecell.IDE.Plugins.Analysis
             m_robustParameter = new RobustAnalysisParameter();
 
             m_rWin = new AnalysisResultWindow(this);
-            m_bifurcationDialog = new BifurcationSettingDialog(this);
+            m_bifurcationDialog = new BifurcationSettingDialog(this);            
             m_bifurcationDialog.SetParameter(m_bifurcateParameter);
+            m_bifurcationDialog.ContentType = DockContentType.ANALYSIS;
 
             m_robustDialog = new RobustAnalysisSettingDialog(this);
             m_robustDialog.SetParameter(m_robustParameter);
+            m_robustDialog.ContentType = DockContentType.ANALYSIS;
 
             m_sensitivityDialog = new SensitivityAnalysisSettingDialog(this);
             m_sensitivityDialog.SetParameter(m_sensitivityParameter);
+            m_sensitivityDialog.ContentType = DockContentType.ANALYSIS;
 
             m_estimationDialog = new ParameterEstimationSettingDialog(this);
             m_estimationDialog.SetParameter(m_estimationParameter);
+            m_estimationDialog.ContentType = DockContentType.ANALYSIS;
         }
 
         /// <summary>

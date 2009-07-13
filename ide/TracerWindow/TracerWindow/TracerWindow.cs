@@ -221,7 +221,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             m_menuList = new List<ToolStripMenuItem>();
 
-            m_showWin = new ToolStripMenuItem();
+            m_showWin = new GraphToolStripMenuItem();
             m_showWin.Text = MessageResources.MenuItemShowTraceText;
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);

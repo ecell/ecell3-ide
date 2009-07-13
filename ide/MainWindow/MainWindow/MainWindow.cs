@@ -248,9 +248,18 @@ namespace Ecell.IDE.MainWindow
                             {
                                 // if you want to sort menu item at first plugin,
                                 // you copy above program sequence.
-                                this.menustrip.Items.AddRange(new ToolStripItem[] { menu });
+                                if (menu is GraphToolStripMenuItem)
+                                {
+                                    graphGroupToolStripMenuItem.DropDown.Items.Add(menu);
+                                }
+                                else
+                                {
+                                    this.menustrip.Items.AddRange(new ToolStripItem[] { menu });
+                                }
                                 continue;
                             }
+
+
 
                             while (menu.DropDownItems.Count > 0)
                             {
@@ -259,6 +268,13 @@ namespace Ecell.IDE.MainWindow
                                 ToolStripItem item = menu.DropDownItems[0];
                                 IEnumerator iter = menuItem.DropDownItems.GetEnumerator();
                                 int i = 0;
+
+                                if (item is GraphToolStripMenuItem)
+                                {
+                                    graphGroupToolStripMenuItem.DropDown.Items.Add(item);
+                                    continue;
+                                }
+
                                 while (iter.MoveNext())
                                 {
                                     ToolStripItem t = (ToolStripItem)iter.Current;
@@ -590,7 +606,18 @@ namespace Ecell.IDE.MainWindow
 
             //Create DockWindow Menu
             DockToolStripMenuItem item = new DockToolStripMenuItem(content);
-            this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
+            if (content.ContentType == DockContentType.NONE)
+            {
+                this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
+            }
+            else if (content.ContentType == DockContentType.ANALYSIS)
+            {
+                this.analysisGroupToolStripMenuItem.DropDown.Items.Add(item);
+            }
+            else if (content.ContentType == DockContentType.GRAPH)
+            {
+                this.graphGroupToolStripMenuItem.DropDown.Items.Add(item);
+            }
 
             m_dockWindowDic.Add(content.Name, content);
             content.ResumeLayout();
