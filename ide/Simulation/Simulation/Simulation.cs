@@ -42,6 +42,7 @@ using Ecell;
 using Ecell.Objects;
 using Ecell.Plugin;
 using Ecell.Exceptions;
+using Ecell.Events;
 
 namespace Ecell.IDE.Plugins.Simulation
 {
@@ -376,7 +377,9 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DataManager_DisplayFormatEvent);
             m_env.DataManager.SteppingModelEvent += new SteppingModelChangedEventHandler(DataManager_SteppingModelEvent);
+            m_env.DataManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(DataManager_ApplySteppingModelEvent);
         }
+
 
         /// <summary>
         /// Get the menu list for Simulation
@@ -668,8 +671,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Event when the stepping model is changed.
         /// </summary>
         /// <param name="o">DataManager.</param>
-        /// <param name="e">EventArgs</param>
-        private void DataManager_SteppingModelEvent(object o, EventArgs e)
+        /// <param name="e">SteppingModelEventArgs</param>
+        private void DataManager_SteppingModelEvent(object o, SteppingModelEventArgs e)
         {
             for (int i = 1; i <= 10; i++)
             {
@@ -687,6 +690,16 @@ namespace Ecell.IDE.Plugins.Simulation
                 menuSteppingModel.Enabled = true;
             else
                 menuSteppingModel.Enabled = false;
+        }
+        
+        /// <summary>
+        /// Event when the stepping model is applied.
+        /// </summary>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">SteppingModelEventArgs</param>
+        private void DataManager_ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
+        {
+            m_timeText.Text = e.ApplyTime.ToString(m_env.DataManager.DisplayStringFormat);
         }
 
         /// <summary>

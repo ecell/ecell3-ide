@@ -44,6 +44,7 @@ using System.Diagnostics;
 using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Logger;
+using Ecell.Events;
 
 namespace Ecell.IDE.Plugins.Spreadsheet
 {
@@ -532,10 +533,14 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 foreach (string entPath in m_propDic.Keys)
                 {
-                    EcellValue v = m_env.DataManager.GetEntityProperty(entPath);
-                    if (v == null) continue;
-                    if (v.IsDouble)
+                    try
+                    {
+                        double v = m_env.DataManager.GetPropertyValue(entPath);
                         m_propDic[entPath].Value = ((double)v).ToString(m_env.DataManager.DisplayStringFormat);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
             catch (Exception)
@@ -1334,12 +1339,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Event when the stepping model is applied.
         /// </summary>
         /// <param name="o">DataManager</param>
-        /// <param name="e">EventArgs</param>
-        private void ApplySteppingModelEvent(object o, EventArgs e)
+        /// <param name="e">SteppingModelEventArgs</param>
+        private void ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
         {
             if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
                 return;
-            ResetPropForSimulation();
+            UpdatePropForSimulation();
         }
 
         /// <summary>

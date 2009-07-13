@@ -41,6 +41,7 @@ using System.Windows.Forms;
 using EcellCoreLib;
 using Ecell.Objects;
 using Ecell.Exceptions;
+using Ecell.Reporting;
 using System.Text.RegularExpressions;
 
 namespace Ecell
@@ -403,8 +404,12 @@ namespace Ecell
                     // If file is not Eml, return.
                     if (modelObj.Children == null || modelObj.Children.Count <= 0)
                         continue;
-                    if(!string.IsNullOrEmpty(modelObj.ErrMsg) && m_env.PluginManager.DockPanel != null)
-                        Util.ShowWarningDialog(modelObj.ErrMsg + "\n");
+                    if (!string.IsNullOrEmpty(modelObj.ErrMsg) && m_env.PluginManager.DockPanel != null)
+                    {
+                        Util.ShowWarningDialog(MessageResources.WarnLoadDM);
+                        m_env.Console.Write(modelObj.ErrMsg);
+                        m_env.Console.Flush();
+                    }
 
                     // If this project is template.
                     if (m_info.ProjectType == ProjectType.Template)

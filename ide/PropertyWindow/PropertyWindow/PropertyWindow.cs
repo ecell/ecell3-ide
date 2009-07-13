@@ -50,6 +50,7 @@ using Ecell.Plugin;
 using Ecell.Logger;
 using Ecell.IDE;
 using Ecell.Exceptions;
+using Ecell.Events;
 
 namespace Ecell.IDE.Plugins.PropertyWindow
 {
@@ -919,8 +920,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// Event when the stepping model is applied.
         /// </summary>
         /// <param name="o">DataManager</param>
-        /// <param name="e">EventArgs</param>
-        private void ApplySteppingModelEvent(object o, EventArgs e)
+        /// <param name="e">SteppingModelEventArgs</param>
+        private void ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
         {
             if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
                 return;

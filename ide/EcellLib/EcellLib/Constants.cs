@@ -55,6 +55,10 @@ namespace Ecell
         /// Report group name for Analysis.
         /// </summary>
         public const string groupAnalysis = "analysis";
+        /// <summary>
+        /// Report group name for Loading.
+        /// </summary>
+        public const string groupLoad = "loading";
         #endregion
 
         #region Default Settings

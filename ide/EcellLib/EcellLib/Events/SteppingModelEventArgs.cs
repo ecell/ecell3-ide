@@ -24,46 +24,44 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>.
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Reporting
+
+namespace Ecell.Events
 {
     /// <summary>
-    /// Report for Analysis.
+    /// SteppingModelEventArgs
     /// </summary>
-    public class AnalysisReport : Report
+    public class SteppingModelEventArgs : EventArgs
     {
+        #region Fields
         /// <summary>
-        /// Job group name.
+        /// Time of the stepping model.
         /// </summary>
-        private string m_jobGroupName;
+        private double m_applyTime;
+        #endregion
 
         /// <summary>
-        /// get the location of report.
+        /// get the time of stepping model.
         /// </summary>
-        public override string Location
+        public double ApplyTime
         {
-            get
-            {
-                return this.m_jobGroupName;
-            }
+            get { return this.m_applyTime; }
         }
 
         /// <summary>
-        /// Constructor.
+        /// Constructor
         /// </summary>
-        /// <param name="type">message type.</param>
-        /// <param name="message">message.</param>
-        /// <param name="group">report group name.</param>
-        /// <param name="jobGroupName">location.</param>
-        public AnalysisReport(MessageType type, string message, string group, string jobGroupName)
-            : base (type, message, group)
+        /// <param name="time">the time of stepping model.</param>
+        public SteppingModelEventArgs(double time)
         {
-            m_jobGroupName = jobGroupName;
+            m_applyTime = time;
         }
     }
 }

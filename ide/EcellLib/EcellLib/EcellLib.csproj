@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -140,6 +140,7 @@
     <Compile Include="DataStorer.cs" />
     <Compile Include="DynamicModuleManager.cs" />
     <Compile Include="Events\DisplayFormatEventArgs.cs" />
+    <Compile Include="Events\SteppingModelEventArgs.cs" />
     <Compile Include="Exceptions\EcellException.cs" />
     <Compile Include="Exceptions\IgnoreException.cs" />
     <Compile Include="Exceptions\SimulationException.cs" />

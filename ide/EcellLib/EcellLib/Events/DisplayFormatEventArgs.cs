@@ -40,11 +40,14 @@ namespace Ecell.Events
     public class DisplayFormatEventArgs : EventArgs
     {
         #region Fields
+        /// <summary>
+        /// Display format string
+        /// </summary>
         private string m_dataFormat;
         #endregion
 
         /// <summary>
-        /// 
+        /// get the display format string
         /// </summary>
         public string DisplayFormat
         {
@@ -54,7 +57,7 @@ namespace Ecell.Events
         /// <summary>
         /// Constructors
         /// </summary>
-        /// <param name="format"></param>
+        /// <param name="format">the display format string</param>
         public DisplayFormatEventArgs(string format)
         {
             m_dataFormat = format;

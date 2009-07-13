@@ -71,9 +71,14 @@ namespace Ecell
     /// EventHandler when the stepping model is changed.
     /// </summary>
     /// <param name="o">DataManager</param>
-    /// <param name="e">EventArgs</param>
-    public delegate void SteppingModelChangedEventHandler(object o, EventArgs e);
-    public delegate void ApplySteppingModelEnvetHandler(object o, EventArgs e);
+    /// <param name="e">SteppingModelEventArgs</param>
+    public delegate void SteppingModelChangedEventHandler(object o, SteppingModelEventArgs e);
+    /// <summary>
+    /// EventHandler when the stepping model is applied.
+    /// </summary>
+    /// <param name="o">DataManager</param>
+    /// <param name="e">SteppingModelEventArgs</param>
+    public delegate void ApplySteppingModelEnvetHandler(object o, SteppingModelEventArgs e);
 
 
     /// <summary>
@@ -89,6 +94,9 @@ namespace Ecell
         /// EventHandler when the stepping model is changed.
         /// </summary>
         public event SteppingModelChangedEventHandler SteppingModelEvent;
+        /// <summary>
+        /// EventHandler when the stepping model is applied.
+        /// </summary>
         public event ApplySteppingModelEnvetHandler ApplySteppingModelEvent;
 
         #region Fields
@@ -160,6 +168,10 @@ namespace Ecell
         /// The dictionary of the save data and time.
         /// </summary>
         private Dictionary<int, double> m_saveTimeDic = new Dictionary<int, double>();
+        /// <summary>
+        /// The dictionary of the loading stepping data.
+        /// </summary>
+        private Dictionary<string, EcellValue> m_steppingData = null;
         #endregion
 
         #region Constructor
@@ -805,7 +817,7 @@ namespace Ecell
             {
                 foreach (EcellData d in obj.Value)
                 {
-                    if (!d.Gettable || !d.Value.IsDouble || !d.Settable)
+                    if (!d.Gettable || !d.Value.IsDouble)
                         continue;
                     double value = GetPropertyValue4Stepper(obj.Key, d.Name);
                     File.AppendAllText(fileName,
@@ -827,7 +839,7 @@ namespace Ecell
                 {
                     foreach (EcellData d in cobj.Value)
                     {
-                        if (!d.Gettable || !d.Value.IsDouble || !d.Settable)
+                        if (!d.Gettable || !d.Value.IsDouble)
                             continue;
                         double v = GetPropertyValue(d.EntityPath);
                         File.AppendAllText(fileName, 
@@ -835,9 +847,9 @@ namespace Ecell
                             enc);
                     }
                 }
-                //storedList.Add(sysObj);
             }
         }
+
 
         /// <summary>
         /// Load the stepping model from file.
@@ -845,6 +857,7 @@ namespace Ecell
         /// <param name="fileName">the stepping model file.</param>
         private void LoadSteppingModelInfo(string fileName)
         {
+            m_steppingData = new Dictionary<string, EcellValue>();
             string line;
             string[] ele;
             StreamReader reader;
@@ -862,18 +875,22 @@ namespace Ecell
                     EcellValue storedValue
                             = new EcellValue(m_currentProject.Simulator.GetStepperProperty(key, name));
                     if (storedValue.IsDouble)
-                        m_currentProject.Simulator.SetStepperProperty(key, name, Double.Parse(data));
+                        m_steppingData.Add(entPath, new EcellValue(Double.Parse(data)));
                     else if (storedValue.IsInt)
-                        m_currentProject.Simulator.SetStepperProperty(key, name, Int32.Parse(data));
+                        m_steppingData.Add(entPath, new EcellValue(Int32.Parse(data)));
+                    else
+                        m_steppingData.Add(entPath, new EcellValue(data));
                 }
                 else
                 {
                     EcellValue storedValue
                             = new EcellValue(m_currentProject.Simulator.GetEntityProperty(entPath));
                     if (storedValue.IsDouble)
-                        m_currentProject.Simulator.SetEntityProperty(entPath, Double.Parse(data));
+                        m_steppingData.Add(entPath, new EcellValue(Double.Parse(data)));
                     else if (storedValue.IsInt)
-                        m_currentProject.Simulator.SetEntityProperty(entPath, Int32.Parse(data));
+                        m_steppingData.Add(entPath, new EcellValue(Int32.Parse(data)));
+                    else
+                        m_steppingData.Add(entPath, new EcellValue(data));
                 }
             }
             reader.Close();
@@ -3550,7 +3567,7 @@ namespace Ecell
             m_saveTimeDic[1] = GetCurrentSimulationTime();
             SaveSteppingModelInfo(savePath);
             if (SteppingModelEvent != null)
-                SteppingModelEvent(this, new EventArgs());
+                SteppingModelEvent(this, new SteppingModelEventArgs(m_saveTimeDic[1]));
         }
 
         /// <summary>
@@ -3564,7 +3581,7 @@ namespace Ecell
 
             LoadSteppingModelInfo(path);
             if (ApplySteppingModelEvent != null)
-                ApplySteppingModelEvent(this, new EventArgs());
+                ApplySteppingModelEvent(this, new SteppingModelEventArgs(m_saveTimeDic[id]));
         }
 
         /// <summary>
@@ -3582,7 +3599,7 @@ namespace Ecell
             }
             m_saveTimeDic.Clear();
             if (SteppingModelEvent != null)
-                SteppingModelEvent(this, new EventArgs());
+                SteppingModelEvent(this, new SteppingModelEventArgs(0.0));
         }
 
         /// <summary>
@@ -3591,6 +3608,7 @@ namespace Ecell
         /// <param name="time"></param>
         public void StartSimulation(double time)
         {
+            m_steppingData = null;
             if (m_isTimeStepping && m_remainTime > 0.0)
             {
                 StartStepSimulation(m_remainTime);
@@ -3661,6 +3679,7 @@ namespace Ecell
         /// <param name="time"></param>
         public void StartStepSimulation(double time)
         {
+            m_steppingData = null;
             try
             {
                 if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
@@ -3732,6 +3751,7 @@ namespace Ecell
         /// <param name="step"></param>
         public void StartStepSimulation(int step)
         {
+            m_steppingData = null;
             try
             {
                 if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
@@ -3842,6 +3862,7 @@ namespace Ecell
                 m_isStepStepping = false;
                 m_remainTime = 0.0;
                 m_remainStep = 0;
+                m_steppingData = null;
             }
             catch (WrappedException ex)
             {
@@ -5273,6 +5294,10 @@ namespace Ecell
         {
             try
             {
+                if (m_steppingData != null)
+                {
+                    return (double)m_steppingData[fullPN];
+                }
                 return (double)m_currentProject.Simulator.GetEntityProperty(fullPN);
             }
             catch (Exception ex)
@@ -5291,6 +5316,11 @@ namespace Ecell
         {
             try
             {
+                if (m_steppingData != null)
+                {
+                    string fullPN = Constants.xpathStepper + "::" + stepperID + ":" + name;
+                    return (double)m_steppingData[fullPN];
+                }
                 return (double)m_currentProject.Simulator.GetStepperProperty(stepperID, name);
             }
             catch (Exception ex)
