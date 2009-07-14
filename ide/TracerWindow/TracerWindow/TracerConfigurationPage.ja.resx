@@ -136,10 +136,10 @@
     <value>Y軸、Y2軸の最大、最小が変更されます。</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Y軸</value>
+    <value>Y軸:</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Y2軸</value>
+    <value>Y2軸:</value>
   </data>
   <data name="Y2MaxCheckBox.Text" xml:space="preserve">
     <value>最大</value>

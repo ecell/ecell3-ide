@@ -219,8 +219,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 PropertyNode node = new PropertyNode(MessageResources.WindowPathway);
                 node.Nodes.Add(new PropertyNode(m_animCon.PathwaySettingsPage));
-                node.Nodes.Add(new PropertyNode(m_animCon.AnimationSettingsPage));
-                node.Nodes.Add(new PropertyNode(this.ComponentSettingsPage));
+//                node.Nodes.Add(new PropertyNode(m_animCon.AnimationSettingsPage));
+//                node.Nodes.Add(new PropertyNode(this.ComponentSettingsPage));
 
                 List<IPropertyItem> nodeList = new List<IPropertyItem>();
                 nodeList.Add(node);

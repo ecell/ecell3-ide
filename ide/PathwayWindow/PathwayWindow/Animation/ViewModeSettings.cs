@@ -33,6 +33,7 @@ using System.Windows.Forms;
 
 using Ecell.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -41,12 +42,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// </summary>
     internal class ViewModeSettings : UserControl
     {
-        private GroupBox groupBox;
-        private PropertyBrushItem bgBrush;
-        private PropertyBrushItem edgeBrush;
-        private PropertyTextItem edgeWidth;
+        private Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox backgroundImageComboBox;
+        private System.ComponentModel.IContainer components;
+        private Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox arrowImageComboBox;
+        private TextBox maxWidthTextBox;
 
         private AnimationControl m_control;
+
+        public AnimationControl Control
+        {
+            set
+            {
+                this.m_control = value;
+                backgroundImageComboBox.Brush = m_control.ViewBGBrush;
+                arrowImageComboBox.Brush = m_control.ViewEdgeBrush;
+                maxWidthTextBox.Text = m_control.MaxEdgeWidth.ToString();
+            }
+        }
 
         /// <summary>
         /// 
@@ -59,72 +71,89 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public ViewModeSettings(AnimationControl control)
+        public ViewModeSettings(AnimationControl control) :
+            this()
         {
             m_control = control;
-            InitializeComponent();
 
-            //MessageResources.DialogTextBackgroundBrush
-            //MessageResources.DialogTextEdgeBrush
-            //MessageResources.DialogTextMaxEdgeWidth
-            bgBrush.Brush = control.ViewBGBrush;
-            edgeBrush.Brush = control.ViewEdgeBrush;
-            edgeWidth.Text = control.MaxEdgeWidth.ToString();
+            backgroundImageComboBox.Brush = control.ViewBGBrush;
+            arrowImageComboBox.Brush = control.ViewEdgeBrush;
+            maxWidthTextBox.Text = control.MaxEdgeWidth.ToString();
         }
 
         void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewModeSettings));
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.bgBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.edgeBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.edgeWidth = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
-            this.groupBox.SuspendLayout();
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
+            this.maxWidthTextBox = new System.Windows.Forms.TextBox();
+            this.arrowImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
+            this.backgroundImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // groupBox
+            // label1
             // 
-            resources.ApplyResources(this.groupBox, "groupBox");
-            this.groupBox.Controls.Add(this.bgBrush);
-            this.groupBox.Controls.Add(this.edgeBrush);
-            this.groupBox.Controls.Add(this.edgeWidth);
-            this.groupBox.Name = "groupBox";
-            this.groupBox.TabStop = false;
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
-            // bgBrush
+            // label2
             // 
-            resources.ApplyResources(this.bgBrush, "bgBrush");
-            this.bgBrush.Name = "bgBrush";
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
-            // edgeBrush
+            // label3
             // 
-            resources.ApplyResources(this.edgeBrush, "edgeBrush");
-            this.edgeBrush.Name = "edgeBrush";
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
-            // edgeWidth
+            // label4
             // 
-            resources.ApplyResources(this.edgeWidth, "edgeWidth");
-            this.edgeWidth.Name = "edgeWidth";
-            this.edgeWidth.Validating += new System.ComponentModel.CancelEventHandler(this.MaxEdgeWidthValidating);
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
             // 
-            // ViewModeItems
+            // maxWidthTextBox
+            // 
+            resources.ApplyResources(this.maxWidthTextBox, "maxWidthTextBox");
+            this.maxWidthTextBox.Name = "maxWidthTextBox";
+            // 
+            // arrowImageComboBox
+            // 
+            resources.ApplyResources(this.arrowImageComboBox, "arrowImageComboBox");
+            this.arrowImageComboBox.Name = "arrowImageComboBox";
+            // 
+            // backgroundImageComboBox
+            // 
+            resources.ApplyResources(this.backgroundImageComboBox, "backgroundImageComboBox");
+            this.backgroundImageComboBox.Name = "backgroundImageComboBox";
+            // 
+            // ViewModeSettings
             // 
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.groupBox);
-            this.Name = "ViewModeItems";
-            this.groupBox.ResumeLayout(false);
-            this.groupBox.PerformLayout();
+            this.Controls.Add(this.maxWidthTextBox);
+            this.Controls.Add(label4);
+            this.Controls.Add(this.arrowImageComboBox);
+            this.Controls.Add(label3);
+            this.Controls.Add(label2);
+            this.Controls.Add(this.backgroundImageComboBox);
+            this.Controls.Add(label1);
+            this.Name = "ViewModeSettings";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         void MaxEdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string text = edgeWidth.Text;
+            string text = maxWidthTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, edgeWidth.LabelText));
-                edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, MessageResources.NameArrowMaxWidth));
+                maxWidthTextBox.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
             }
@@ -132,8 +161,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
-                edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowMaxWidth));
+                maxWidthTextBox.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
             }
@@ -141,20 +170,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         public void ApplyChanges()
         {
-            m_control.ViewBGBrush = bgBrush.Brush;
-            m_control.MaxEdgeWidth = float.Parse(edgeWidth.Text);
-            m_control.ViewEdgeBrush = edgeBrush.Brush;
+            m_control.ViewBGBrush = BrushManager.ParseStringToBrush(backgroundImageComboBox.Text);
+            m_control.ViewEdgeBrush = BrushManager.ParseStringToBrush(arrowImageComboBox.Text);
+            m_control.MaxEdgeWidth = float.Parse(maxWidthTextBox.Text);
+            //m_control.ViewBGBrush = bgBrush.Brush;
+            //m_control.MaxEdgeWidth = float.Parse(edgeWidth.Text);
+            //m_control.ViewEdgeBrush = edgeBrush.Brush;
         }
 
         public void ItemClosing()
         {
-            string text = edgeWidth.Text;
+            string text = maxWidthTextBox.Text;
 
             // 0 < EdgeWidth <= 100
             float dummy;
             if (!float.TryParse(text, out dummy) || dummy <= 0 || dummy > 100)
             {
-                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowMaxWidth));
             }
         }
     }

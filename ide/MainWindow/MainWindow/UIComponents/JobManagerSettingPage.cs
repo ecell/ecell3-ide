@@ -93,6 +93,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobManagerSettingPage));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
@@ -102,8 +103,14 @@ namespace Ecell.IDE.MainWindow.UIComponents
             this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.concTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.envDataGridView)).BeginInit();
             this.SuspendLayout();
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
             // label1
             // 
@@ -167,6 +174,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.concTextBox);
             this.Controls.Add(this.envDataGridView);

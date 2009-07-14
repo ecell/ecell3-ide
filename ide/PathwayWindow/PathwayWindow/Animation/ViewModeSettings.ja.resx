@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="bgBrush.LabelText" xml:space="preserve">
-    <value>背景色</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>表示モード:</value>
   </data>
-  <data name="edgeBrush.LabelText" xml:space="preserve">
-    <value>矢印の色</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>背景色を選択してください。</value>
   </data>
-  <data name="edgeWidth.LabelText" xml:space="preserve">
-    <value>矢印の最大の太さ</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>矢印の色を選択してください。</value>
   </data>
-  <data name="groupBox.Text" xml:space="preserve">
-    <value>表示モード</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>矢印の最大の太さが変更されます。</value>
   </data>
 </root>

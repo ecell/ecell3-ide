@@ -133,6 +133,6 @@
     <value>シミュレーション設定:</value>
   </data>
   <data name="saveCheckBox.Text" xml:space="preserve">
-    <value>ユーザ操作ごとにシミュレーション状態を保存します</value>
+    <value>ユーザ操作ごとにシミュレーション状態を保存します。</value>
   </data>
 </root>

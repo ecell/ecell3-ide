@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 131</value>
+    <value>163, 106</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 12</value>
@@ -163,7 +163,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 106</value>
+    <value>5, 81</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>236, 12</value>
@@ -222,8 +222,98 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
+  <metadata name="label5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 131</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 12</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Max and Min of Y axis is changed.</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <metadata name="label6.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 156</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Y Axis:</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <metadata name="label7.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 181</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Y2 Axis:</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="intervalTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 128</value>
+    <value>7, 103</value>
   </data>
   <data name="intervalTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 19</value>
@@ -247,7 +337,7 @@
     <value>14</value>
   </data>
   <data name="numberTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 53</value>
+    <value>7, 53</value>
   </data>
   <data name="numberTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 19</value>
@@ -298,7 +388,7 @@
     <value>11</value>
   </data>
   <data name="YMinTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 228</value>
+    <value>335, 153</value>
   </data>
   <data name="YMinTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 19</value>
@@ -319,7 +409,7 @@
     <value>10</value>
   </data>
   <data name="Y2MinTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 278</value>
+    <value>335, 178</value>
   </data>
   <data name="Y2MinTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 19</value>
@@ -339,41 +429,11 @@
   <data name="&gt;&gt;Y2MinTextBox.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <metadata name="label5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 180</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 12</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Max and Min of Y axis is changed.</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="YMaxCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="YMaxCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 230</value>
+    <value>94, 155</value>
   </data>
   <data name="YMaxCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 16</value>
@@ -400,7 +460,7 @@
     <value>True</value>
   </data>
   <data name="YMinCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 230</value>
+    <value>275, 155</value>
   </data>
   <data name="YMinCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 16</value>
@@ -424,7 +484,7 @@
     <value>6</value>
   </data>
   <data name="YMaxTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 228</value>
+    <value>154, 153</value>
   </data>
   <data name="YMaxTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 19</value>
@@ -444,71 +504,11 @@
   <data name="&gt;&gt;YMaxTextBox.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <metadata name="label6.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 206</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Y Axis:</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <metadata name="label7.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 256</value>
-  </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Y2 Axis:</value>
-  </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
-  </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="Y2MaxCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Y2MaxCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 280</value>
+    <value>94, 180</value>
   </data>
   <data name="Y2MaxCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 16</value>
@@ -532,7 +532,7 @@
     <value>2</value>
   </data>
   <data name="Y2MaxTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 278</value>
+    <value>154, 178</value>
   </data>
   <data name="Y2MaxTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 19</value>
@@ -556,7 +556,7 @@
     <value>True</value>
   </data>
   <data name="Y2MinCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 280</value>
+    <value>275, 180</value>
   </data>
   <data name="Y2MinCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 16</value>

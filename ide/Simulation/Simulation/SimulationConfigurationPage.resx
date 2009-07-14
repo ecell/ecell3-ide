@@ -156,7 +156,7 @@
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 106</value>
+    <value>3, 81</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>321, 12</value>
@@ -186,7 +186,7 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>161, 131</value>
+    <value>161, 106</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 12</value>
@@ -265,7 +265,7 @@
     <value>3</value>
   </data>
   <data name="waitTimeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 128</value>
+    <value>5, 103</value>
   </data>
   <data name="waitTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 19</value>
@@ -289,7 +289,7 @@
     <value>True</value>
   </data>
   <data name="saveCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 178</value>
+    <value>5, 130</value>
   </data>
   <data name="saveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>262, 16</value>

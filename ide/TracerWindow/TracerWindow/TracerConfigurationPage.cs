@@ -191,6 +191,21 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
             // 
+            // label5
+            // 
+            resources.ApplyResources(label5, "label5");
+            label5.Name = "label5";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(label6, "label6");
+            label6.Name = "label6";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(label7, "label7");
+            label7.Name = "label7";
+            // 
             // intervalTextBox
             // 
             resources.ApplyResources(this.intervalTextBox, "intervalTextBox");
@@ -220,11 +235,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.Y2MinTextBox.Name = "Y2MinTextBox";
             this.Y2MinTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Y2MinValidating);
             // 
-            // label5
-            // 
-            resources.ApplyResources(label5, "label5");
-            label5.Name = "label5";
-            // 
             // YMaxCheckBox
             // 
             resources.ApplyResources(this.YMaxCheckBox, "YMaxCheckBox");
@@ -244,16 +254,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(this.YMaxTextBox, "YMaxTextBox");
             this.YMaxTextBox.Name = "YMaxTextBox";
             this.YMaxTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.YMaxValidating);
-            // 
-            // label6
-            // 
-            resources.ApplyResources(label6, "label6");
-            label6.Name = "label6";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(label7, "label7");
-            label7.Name = "label7";
             // 
             // Y2MaxCheckBox
             // 

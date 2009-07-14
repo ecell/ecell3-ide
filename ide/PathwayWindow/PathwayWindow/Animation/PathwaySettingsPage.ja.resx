@@ -123,4 +123,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ダイアグラム設定</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ダイアグラム設定:</value>
+  </data>
 </root>

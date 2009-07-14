@@ -33,6 +33,7 @@ using System.Windows.Forms;
 
 using Ecell.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -41,12 +42,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// </summary>
     internal class EditModeSettings : UserControl
     {
-        private GroupBox groupBox;
-        private PropertyBrushItem bgBrushItem;
-        private PropertyBrushItem edgeBrushItem;
-        private PropertyTextItem edgeWidth;
-        private PropertyCheckBoxItem highQualityCheckBox;
+        private CheckBox unsharpCheckBox;
+        private Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox backgroundImageComboBox;
+        private System.ComponentModel.IContainer components;
+        private Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox arrowColorImageComboBox;
+        private TextBox widthTextBox;
         private AnimationControl m_control;
+
+        public AnimationControl Control
+        {
+            set
+            {
+                m_control = value;
+                backgroundImageComboBox.Brush = m_control.EditBGBrush;
+                arrowColorImageComboBox.Brush = m_control.EditEdgeBrush;
+                widthTextBox.Text = m_control.EdgeWidth.ToString();
+                unsharpCheckBox.Checked = m_control.Control.HighQuality;
+            }
+        }
 
         public EditModeSettings()
         {
@@ -56,15 +69,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public EditModeSettings(AnimationControl control)
+        public EditModeSettings(AnimationControl control) :
+            this()
         {
             m_control = control;
-            InitializeComponent();
 
-            bgBrushItem.Brush = control.EditBGBrush;
-            edgeWidth.Text = control.EdgeWidth.ToString();
-            edgeBrushItem.Brush = control.EditEdgeBrush;
-            highQualityCheckBox.Checked = control.Control.HighQuality;
+            backgroundImageComboBox.Brush = control.EditBGBrush;
+            arrowColorImageComboBox.Brush = control.EditEdgeBrush;
+            widthTextBox.Text = control.EdgeWidth.ToString();
+            unsharpCheckBox.Checked = control.Control.HighQuality;
 
             //MessageResources.DialogTextBackgroundBrush;
             //MessageResources.DialogTextEdgeWidth;
@@ -73,78 +86,76 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditModeSettings));
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.highQualityCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
-            this.bgBrushItem = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.edgeBrushItem = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.edgeWidth = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
-            this.groupBox.SuspendLayout();
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
+            this.unsharpCheckBox = new System.Windows.Forms.CheckBox();
+            this.widthTextBox = new System.Windows.Forms.TextBox();
+            this.arrowColorImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
+            this.backgroundImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // groupBox
+            // label1
             // 
-            this.groupBox.AccessibleDescription = null;
-            this.groupBox.AccessibleName = null;
-            resources.ApplyResources(this.groupBox, "groupBox");
-            this.groupBox.BackgroundImage = null;
-            this.groupBox.Controls.Add(this.highQualityCheckBox);
-            this.groupBox.Controls.Add(this.bgBrushItem);
-            this.groupBox.Controls.Add(this.edgeBrushItem);
-            this.groupBox.Controls.Add(this.edgeWidth);
-            this.groupBox.Font = null;
-            this.groupBox.Name = "groupBox";
-            this.groupBox.TabStop = false;
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
-            // highQualityCheckBox
+            // label2
             // 
-            this.highQualityCheckBox.AccessibleDescription = null;
-            this.highQualityCheckBox.AccessibleName = null;
-            resources.ApplyResources(this.highQualityCheckBox, "highQualityCheckBox");
-            this.highQualityCheckBox.BackgroundImage = null;
-            this.highQualityCheckBox.Checked = false;
-            this.highQualityCheckBox.Font = null;
-            this.highQualityCheckBox.Name = "highQualityCheckBox";
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
-            // bgBrushItem
+            // label3
             // 
-            this.bgBrushItem.AccessibleDescription = null;
-            this.bgBrushItem.AccessibleName = null;
-            resources.ApplyResources(this.bgBrushItem, "bgBrushItem");
-            this.bgBrushItem.BackgroundImage = null;
-            this.bgBrushItem.Font = null;
-            this.bgBrushItem.Name = "bgBrushItem";
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
-            // edgeBrushItem
+            // label4
             // 
-            this.edgeBrushItem.AccessibleDescription = null;
-            this.edgeBrushItem.AccessibleName = null;
-            resources.ApplyResources(this.edgeBrushItem, "edgeBrushItem");
-            this.edgeBrushItem.BackgroundImage = null;
-            this.edgeBrushItem.Font = null;
-            this.edgeBrushItem.Name = "edgeBrushItem";
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
             // 
-            // edgeWidth
+            // unsharpCheckBox
             // 
-            this.edgeWidth.AccessibleDescription = null;
-            this.edgeWidth.AccessibleName = null;
-            resources.ApplyResources(this.edgeWidth, "edgeWidth");
-            this.edgeWidth.BackgroundImage = null;
-            this.edgeWidth.Font = null;
-            this.edgeWidth.Name = "edgeWidth";
-            this.edgeWidth.Validating += new System.ComponentModel.CancelEventHandler(this.EdgeWidthValidating);
+            resources.ApplyResources(this.unsharpCheckBox, "unsharpCheckBox");
+            this.unsharpCheckBox.Name = "unsharpCheckBox";
+            this.unsharpCheckBox.UseVisualStyleBackColor = true;
             // 
-            // EditModeItems
+            // widthTextBox
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
+            resources.ApplyResources(this.widthTextBox, "widthTextBox");
+            this.widthTextBox.Name = "widthTextBox";
+            // 
+            // arrowColorImageComboBox
+            // 
+            this.arrowColorImageComboBox.Brush = null;
+            resources.ApplyResources(this.arrowColorImageComboBox, "arrowColorImageComboBox");
+            this.arrowColorImageComboBox.Name = "arrowColorImageComboBox";
+            // 
+            // backgroundImageComboBox
+            // 
+            this.backgroundImageComboBox.Brush = null;
+            resources.ApplyResources(this.backgroundImageComboBox, "backgroundImageComboBox");
+            this.backgroundImageComboBox.Name = "backgroundImageComboBox";
+            // 
+            // EditModeSettings
+            // 
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
-            this.Controls.Add(this.groupBox);
-            this.Font = null;
-            this.Name = "EditModeItems";
-            this.groupBox.ResumeLayout(false);
-            this.groupBox.PerformLayout();
+            this.Controls.Add(this.widthTextBox);
+            this.Controls.Add(this.arrowColorImageComboBox);
+            this.Controls.Add(this.backgroundImageComboBox);
+            this.Controls.Add(this.unsharpCheckBox);
+            this.Controls.Add(label4);
+            this.Controls.Add(label3);
+            this.Controls.Add(label2);
+            this.Controls.Add(label1);
+            this.Name = "EditModeSettings";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,11 +163,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void EdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string text = edgeWidth.Text;
+            string text = widthTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, edgeWidth.LabelText));
-                edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, MessageResources.NameArrowWidth));
+                widthTextBox.Text = Convert.ToString(m_control.EdgeWidth);
                 e.Cancel = true;
                 return;
             }
@@ -164,8 +175,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
-                edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowWidth));
+                widthTextBox.Text = Convert.ToString(m_control.EdgeWidth);
                 e.Cancel = true;
                 return;
             }
@@ -173,21 +184,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         public void ApplyChanges()
         {
-            m_control.EditBGBrush = this.bgBrushItem.Brush;
-            m_control.EditEdgeBrush = this.edgeBrushItem.Brush;
-            m_control.EdgeWidth = float.Parse(this.edgeWidth.Text);
-            m_control.Control.HighQuality = this.highQualityCheckBox.Checked;
+            m_control.EditBGBrush = BrushManager.ParseStringToBrush(backgroundImageComboBox.Text);
+            m_control.EditEdgeBrush = BrushManager.ParseStringToBrush(arrowColorImageComboBox.Text);
+            m_control.EdgeWidth = float.Parse(widthTextBox.Text);
+            m_control.Control.HighQuality = unsharpCheckBox.Checked;
+            //m_control.EditBGBrush = this.bgBrushItem.Brush;
+            //m_control.EditEdgeBrush = this.edgeBrushItem.Brush;
+            //m_control.EdgeWidth = float.Parse(this.edgeWidth.Text);
+            //m_control.Control.HighQuality = this.highQualityCheckBox.Checked;
         }
 
         public void ItemClosing()
         {
-            string text = edgeWidth.Text;
+            string text = widthTextBox.Text;
 
             // 0 < EdgeWidth <= 100
             float dummy;
             if (!float.TryParse(text, out dummy) || dummy <= 0 || dummy > 100)
             {
-                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowWidth));
             }
         }
     }

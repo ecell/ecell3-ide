@@ -38,6 +38,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     internal class PathwaySettingsPage : PropertyDialogPage
     {
         private AnimationControl m_con;
+        private System.Windows.Forms.Label label1;
         private EditModeSettings m_editModeItems;
         private ViewModeSettings m_viewModeItems;
 
@@ -46,16 +47,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             InitializeComponent();
             m_con = control;
-            m_editModeItems = new EditModeSettings(control);
-            m_viewModeItems = new ViewModeSettings(control);
+            m_editModeItems.Control = control;
+            m_viewModeItems.Control = control;
+            //m_editModeItems = new EditModeSettings(control);
+            //m_viewModeItems = new ViewModeSettings(control);
 
-            this.SuspendLayout();
-            this.Controls.Add(m_editModeItems);
-            this.Controls.Add(m_viewModeItems);
+            //this.SuspendLayout();
+            //this.Controls.Add(m_editModeItems);
+            //this.Controls.Add(m_viewModeItems);
 
-            m_viewModeItems.Top = m_editModeItems.Top + m_editModeItems.Height;
-            this.ResumeLayout();
-            this.PerformLayout();
+            //m_viewModeItems.Top = m_editModeItems.Top + m_editModeItems.Height;
+            //this.ResumeLayout();
+            //this.PerformLayout();
         }
 
         public override void ApplyChange()
@@ -87,13 +90,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingsPage));
+            this.m_editModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.EditModeSettings();
+            this.m_viewModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.ViewModeSettings();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // m_editModeItems
+            // 
+            resources.ApplyResources(this.m_editModeItems, "m_editModeItems");
+            this.m_editModeItems.Name = "m_editModeItems";
+            // 
+            // m_viewModeItems
+            // 
+            resources.ApplyResources(this.m_viewModeItems, "m_viewModeItems");
+            this.m_viewModeItems.Name = "m_viewModeItems";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // PathwaySettingsPage
             // 
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.m_viewModeItems);
+            this.Controls.Add(this.m_editModeItems);
             this.Name = "PathwaySettingsPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
     }

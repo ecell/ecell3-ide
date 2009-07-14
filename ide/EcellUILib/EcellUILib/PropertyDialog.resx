@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>517, 474</value>
+    <value>561, 324</value>
   </data>
   <data name="buttonOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -157,7 +157,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>597, 474</value>
+    <value>641, 324</value>
   </data>
   <data name="buttonCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 23</value>
@@ -187,7 +187,7 @@
     <value>6, 7</value>
   </data>
   <data name="propertyTree.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 453</value>
+    <value>210, 303</value>
   </data>
   <data name="propertyTree.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -208,10 +208,10 @@
     <value>Top, Bottom, Left</value>
   </data>
   <data name="propertyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 7</value>
+    <value>222, 7</value>
   </data>
   <data name="propertyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 453</value>
+    <value>493, 303</value>
   </data>
   <data name="propertyPanel.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -235,7 +235,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>683, 509</value>
+    <value>727, 359</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

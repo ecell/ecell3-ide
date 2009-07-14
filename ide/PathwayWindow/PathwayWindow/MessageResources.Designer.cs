@@ -862,6 +862,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   the max width of arrow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameArrowMaxWidth {
+            get {
+                return ResourceManager.GetString("NameArrowMaxWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   the arrow width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameArrowWidth {
+            get {
+                return ResourceManager.GetString("NameArrowWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WindowLayer {

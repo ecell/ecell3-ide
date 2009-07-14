@@ -122,7 +122,7 @@
     <value>53, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>環境設定</value>
+    <value>グリッド環境を選択してください。</value>
   </data>
   <data name="NameColumn.HeaderText" xml:space="preserve">
     <value>名称</value>
@@ -134,9 +134,12 @@
     <value>41, 12</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>並列数</value>
+    <value>グリッドの並列数が変更されます。</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>ジョブ設定（実験用)</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>ジョブ設定:</value>
   </data>
 </root>

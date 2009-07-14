@@ -393,4 +393,10 @@
   <data name="CanvasMenuZOrder" xml:space="preserve">
     <value>Set ZOrder</value>
   </data>
+  <data name="NameArrowMaxWidth" xml:space="preserve">
+    <value>the max width of arrow</value>
+  </data>
+  <data name="NameArrowWidth" xml:space="preserve">
+    <value>the arrow width</value>
+  </data>
 </root>

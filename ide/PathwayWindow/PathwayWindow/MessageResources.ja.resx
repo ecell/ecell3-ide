@@ -393,4 +393,10 @@
   <data name="CanvasMenuZOrder" xml:space="preserve">
     <value>順序</value>
   </data>
+  <data name="NameArrowMaxWidth" xml:space="preserve">
+    <value>矢印の最大の太さ</value>
+  </data>
+  <data name="NameArrowWidth" xml:space="preserve">
+    <value>矢印の太さ</value>
+  </data>
 </root>
