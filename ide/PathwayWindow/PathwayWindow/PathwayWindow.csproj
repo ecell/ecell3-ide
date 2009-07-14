@@ -328,6 +328,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>ComponentSettingsPage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Graphic\BrushComboBox.resx">
+      <DependentUpon>BrushComboBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\AnimationDialog.ja.resx">
       <DependentUpon>AnimationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
