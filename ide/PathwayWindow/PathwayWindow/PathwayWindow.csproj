@@ -137,6 +137,9 @@
     <Compile Include="Figure\Diamond.cs" />
     <Compile Include="Figure\SystemEllipse.cs" />
     <Compile Include="Figure\Triangle.cs" />
+    <Compile Include="Graphic\BrushComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
     <Compile Include="Animation\AnimationControl.cs">
     </Compile>
