@@ -225,7 +225,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         /// <summary>
         /// 
         /// </summary>
-        private void SetText()
+        internal void SetText()
         {
             if (!imageList.Images.ContainsKey(text))
                 return;

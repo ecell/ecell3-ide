@@ -36,14 +36,14 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
+
     /// <summary>
-    /// 
+    /// UI class for PropertyDialog
     /// </summary>
     public class BrushComboBox : UserControl
     {
-                private ImageComboBox comboBoxBrush;
+        private ImageComboBox comboBoxBrush;
         private Brush brush;
-        private System.ComponentModel.IContainer components;
 
         #region EventHandler for BrushChange
         private EventHandler m_onBrushChange;
@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         {
             get { return brush; }
             set
-            { 
+            {
                 brush = value;
                 comboBoxBrush.Text = BrushManager.ParseBrushToString(brush);
                 RaiseBrushChange();
@@ -92,13 +92,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         public new bool Enabled
         {
             get { return comboBoxBrush.Enabled; }
-            set 
+            set
             {
                 comboBoxBrush.Enabled = value;
                 base.Enabled = value;
             }
         }
-        
+
         #endregion
 
         /// <summary>
@@ -107,12 +107,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         public BrushComboBox()
         {
             InitializeComponent();
-            this.comboBoxBrush.ImageList = BrushManager.GetBrushImageList();
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="label"></param>
         /// <param name="brush"></param>
         public BrushComboBox(Brush brush)
             :this()
@@ -122,34 +122,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.comboBoxBrush = new Ecell.IDE.Plugins.PathwayWindow.Graphic.ImageComboBox();
+            // set Brushes
+            this.brush = Brushes.Black;
+            this.comboBoxBrush = new ImageComboBox(BrushManager.GetBrushImageList());
             this.SuspendLayout();
-
-            // 
-            // m_comboBoxBrush
-            // 
-            this.comboBoxBrush.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxBrush.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBoxBrush.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxBrush.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.comboBoxBrush.FormattingEnabled = true;
-            this.comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-            this.comboBoxBrush.Location = new System.Drawing.Point(0, 0);
-            this.comboBoxBrush.MaxDropDownItems = 10;
-            this.comboBoxBrush.Name = "comboBoxBrush";
-            this.comboBoxBrush.Size = new System.Drawing.Size(158, 20);
-            this.comboBoxBrush.TabIndex = 0;
-            this.comboBoxBrush.Text = "Black";
-            this.comboBoxBrush.SelectedIndexChanged += new System.EventHandler(this.cBoxBrush_SelectedIndexChanged);
-            this.comboBoxBrush.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cBoxNomalBrush_KeyDown);
-            // 
-            // BrushComboBox
-            // 
             this.Controls.Add(this.comboBoxBrush);
-            this.Name = "BrushComboBox";
-            this.Size = new System.Drawing.Size(158, 21);
+            // 
+            // comboBoxBrush
+            // 
+            this.comboBoxBrush.Dock = DockStyle.Fill;
+            this.comboBoxBrush.FormattingEnabled = true;
+            this.comboBoxBrush.Location = new Point(1, 1);
+            this.comboBoxBrush.Size = new Size(100, 20);
+            this.comboBoxBrush.TabIndex = 0;
+            this.comboBoxBrush.Text = BrushManager.ParseBrushToString(brush);
+            this.comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
+            this.comboBoxBrush.KeyDown += new KeyEventHandler(cBoxNomalBrush_KeyDown);
+            this.comboBoxBrush.SelectedIndexChanged += new EventHandler(cBoxBrush_SelectedIndexChanged);
+            //
+            //
+            //
+            this.Size = new Size(105, 20);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -161,7 +156,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 
         void cBoxNomalBrush_KeyDown(object sender, KeyEventArgs e)
         {
-            if(!(e.KeyCode == Keys.Enter))
+            if (!(e.KeyCode == Keys.Enter))
                 return;
             string brushName = ((ComboBox)sender).Text;
             SetBrush(brushName);
