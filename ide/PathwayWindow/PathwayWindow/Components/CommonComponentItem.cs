@@ -45,14 +45,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     internal class CommonComponentItem : UserControl
     {
         #region Fields
-        private GroupBox groupBox;
-        private PropertyComboboxItem figureBox;
-        private PropertyBrushItem textBrush;
-        private PropertyBrushItem lineBrush;
-        private PropertyBrushItem fillBrush;
-        private PropertyBrushItem centerBrush;
-        private PropertyCheckBoxItem isGradation;
-        private PropertyOpenFileItem iconFile;
+
         private Label settingLabel;
         private CheckBox gradationCheckBox;
         private Button fileLoadButton;
@@ -63,6 +56,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private BrushComboBox centerColorBrushComboBox;
         private BrushComboBox fillColorBrushComboBox;
         private Button resetSettingButton;
+        private FigureComboBox figureComboBox;
 
         private PToolBoxCanvas pCanvas;
         #endregion
@@ -105,43 +99,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label6;
-            this.groupBox = new System.Windows.Forms.GroupBox();
             this.settingLabel = new System.Windows.Forms.Label();
             this.gradationCheckBox = new System.Windows.Forms.CheckBox();
             this.fileLoadButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.iconFileTtextBox = new System.Windows.Forms.TextBox();
             this.resetSettingButton = new System.Windows.Forms.Button();
+            this.figureComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox();
             this.fillColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.centerColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.lineColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.textColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.pCanvas = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas();
-            this.isGradation = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
-            this.figureBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem();
-            this.textBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.lineBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.fillBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.centerBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.iconFile = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem();
-
-            this.pCanvas = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas();
-            this.settingLabel = new System.Windows.Forms.Label();
-            this.gradationCheckBox = new System.Windows.Forms.CheckBox();
-            this.fileLoadButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.iconFileTtextBox = new System.Windows.Forms.TextBox();
-            this.textColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
-            this.lineColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
-            this.centerColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
-            this.fillColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
-
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
-            this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -169,19 +143,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             resources.ApplyResources(label6, "label6");
             label6.Name = "label6";
             // 
-            // groupBox
-            // 
-            this.groupBox.Controls.Add(this.isGradation);
-            this.groupBox.Controls.Add(this.figureBox);
-            this.groupBox.Controls.Add(this.textBrush);
-            this.groupBox.Controls.Add(this.lineBrush);
-            this.groupBox.Controls.Add(this.fillBrush);
-            this.groupBox.Controls.Add(this.centerBrush);
-            this.groupBox.Controls.Add(this.iconFile);
-            resources.ApplyResources(this.groupBox, "groupBox");
-            this.groupBox.Name = "groupBox";
-            this.groupBox.TabStop = false;
-            // 
             // settingLabel
             // 
             resources.ApplyResources(this.settingLabel, "settingLabel");
@@ -199,6 +160,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             resources.ApplyResources(this.fileLoadButton, "fileLoadButton");
             this.fileLoadButton.Name = "fileLoadButton";
             this.fileLoadButton.UseVisualStyleBackColor = true;
+            this.fileLoadButton.Click += new System.EventHandler(this.openFileDialogClick);
             // 
             // label7
             // 
@@ -216,6 +178,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.resetSettingButton.Name = "resetSettingButton";
             this.resetSettingButton.UseVisualStyleBackColor = true;
             this.resetSettingButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
+            // figureComboBox
+            // 
+            this.figureComboBox.Figure = "Rectangle";
+            resources.ApplyResources(this.figureComboBox, "figureComboBox");
+            this.figureComboBox.Name = "figureComboBox";
+            this.figureComboBox.ReadOnly = false;
+            this.figureComboBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
             // 
             // fillColorBrushComboBox
             // 
@@ -251,55 +221,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.RegionManagement = true;
             this.pCanvas.Setting = null;
             // 
-            // isGradation
-            // 
-            resources.ApplyResources(this.isGradation, "isGradation");
-            this.isGradation.Checked = false;
-            this.isGradation.Name = "isGradation";
-            // 
-            // figureBox
-            // 
-            resources.ApplyResources(this.figureBox, "figureBox");
-            this.figureBox.Name = "figureBox";
-            this.figureBox.ReadOnly = true;
-            this.figureBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
-            // 
-            // textBrush
-            // 
-            resources.ApplyResources(this.textBrush, "textBrush");
-            this.textBrush.Name = "textBrush";
-            this.textBrush.BrushChange += new System.EventHandler(this.textBrush_BrushChange);
-            // 
-            // lineBrush
-            // 
-            resources.ApplyResources(this.lineBrush, "lineBrush");
-            this.lineBrush.Name = "lineBrush";
-            this.lineBrush.BrushChange += new System.EventHandler(this.lineBrush_BrushChange);
-            // 
-            // fillBrush
-            // 
-            resources.ApplyResources(this.fillBrush, "fillBrush");
-            this.fillBrush.Name = "fillBrush";
-            this.fillBrush.BrushChange += new System.EventHandler(this.fillBrush_BrushChange);
-            // 
-            // centerBrush
-            // 
-            resources.ApplyResources(this.centerBrush, "centerBrush");
-            this.centerBrush.Name = "centerBrush";
-            this.centerBrush.BrushChange += new System.EventHandler(this.fillBrush_BrushChange);
-            // 
-            // iconFile
-            // 
-            resources.ApplyResources(this.iconFile, "iconFile");
-            this.iconFile.FileName = "";
-            this.iconFile.Filter = resources.GetString("iconFile.Filter");
-            this.iconFile.FilterIndex = 0;
-            this.iconFile.Name = "iconFile";
-            this.iconFile.FileChange += new System.EventHandler(this.iconFile_FileChange);
-            // 
             // CommonComponentItem
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.figureComboBox);
             this.Controls.Add(this.resetSettingButton);
             this.Controls.Add(this.fillColorBrushComboBox);
             this.Controls.Add(this.centerColorBrushComboBox);
@@ -316,10 +241,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.Controls.Add(label2);
             this.Controls.Add(this.settingLabel);
             this.Controls.Add(this.pCanvas);
-            this.Controls.Add(this.groupBox);
             this.Name = "CommonComponentItem";
-            this.groupBox.ResumeLayout(false);
-            this.groupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,11 +261,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.gradationCheckBox.Checked = cs.IsGradation;
             this.centerColorBrushComboBox.Brush = cs.CenterBrush;            
             this.centerColorBrushComboBox.Enabled = cs.IsGradation;
-            this.iconFileTtextBox.Text = cs.ImageStream;            
+            this.iconFileTtextBox.Text = cs.ImageStream;
+            this.figureComboBox.Figure = cs.Figure.Type;
 
-            // Set Figure.
-            if (this.figureBox.ComboBox.Items.Count <= 0)
-                this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
+            //// Set Figure.
+            //if (this.figureBox.ComboBox.Items.Count <= 0)
+            //    this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
 
             // Set Parameter.
             //this.figureBox.ComboBox.Text = cs.Figure.Type;
@@ -362,6 +285,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             ComponentSetting cs = this.pCanvas.Setting;
 
+            cs.Figure.Type = figureComboBox.Figure;
             cs.TextBrush = textColorBrushComboBox.Brush;
             cs.LineBrush = lineColorBrushComboBox.Brush;
             cs.FillBrush = fillColorBrushComboBox.Brush;
@@ -369,15 +293,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.IsGradation = gradationCheckBox.Checked;
             try
             {
-                cs.ImageStream = Util.ImgToBase64(iconFile.FileName);
+                cs.ImageStream = Util.ImgToBase64(iconFileTtextBox.Text);
             }
             catch (Exception)
             {
                 cs.ImageStream = null;
             }
-            string type = figureBox.ComboBox.Text;
-            string args = cs.Figure.Coordinates;
-            cs.Figure = FigureManager.CreateFigure(type, args);
             cs.RaisePropertyChange();
         }
 
@@ -407,21 +328,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// Set Image
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void iconFile_FileChange(object sender, EventArgs e)
+        void IconFileChanged()
         {
             Image image = null;
             try
             {
-                image = Image.FromFile(iconFile.FileName);
+                image = Image.FromFile(iconFileTtextBox.Text);
             }
             catch (Exception)
             {
             }
             if (image == null)
             {
-                iconFile.FileName = null;
+                iconFileTtextBox.Text = null;
             }
             this.pCanvas.Object.Image = image;
         }
@@ -474,7 +393,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <param name="e"></param>
         void figureBox_TextChange(object sender, EventArgs e)
         {
-            string type = figureBox.ComboBox.Text;
+            string type = figureComboBox.Figure;
             string args = this.pCanvas.Setting.Figure.Coordinates;
             IFigure figure = FigureManager.CreateFigure(type, args);
             this.pCanvas.Object.Figure = figure;
@@ -491,6 +410,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             SetItem(pCanvas.Setting);
         }
 
+
+        private void openFileDialogClick(object sender, EventArgs e)
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommonComponentItem));
+            OpenFileDialog dlg = new OpenFileDialog();
+            using (dlg)
+            {
+                dlg.Filter = resources.GetString("iconFile.Filter");
+                dlg.FilterIndex = 0;
+                dlg.FileName = iconFileTtextBox.Text;
+                dlg.CheckFileExists = true;
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    iconFileTtextBox.Text = dlg.FileName;
+                    IconFileChanged();
+                }
+            }
+        }
+
         #endregion
+
     }
 }

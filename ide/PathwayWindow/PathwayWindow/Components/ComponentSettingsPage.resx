@@ -126,7 +126,7 @@
     <value>3, 3</value>
   </data>
   <data name="commonComponentItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>449, 442</value>
+    <value>449, 224</value>
   </data>
   <data name="commonComponentItem.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -135,7 +135,7 @@
     <value>commonComponentItem</value>
   </data>
   <data name="&gt;&gt;commonComponentItem.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Components.CommonComponentItem, PathwayWindow, Version=1.1.3118.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Components.CommonComponentItem, PathwayWindow, Version=1.1.3122.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;commonComponentItem.Parent" xml:space="preserve">
     <value>$this</value>
@@ -146,12 +146,15 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Off</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>548, 465</value>
+    <value>548, 225</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Component Settings</value>

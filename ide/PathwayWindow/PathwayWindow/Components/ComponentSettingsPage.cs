@@ -103,8 +103,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // 
             // ComponentSettingsPage
             // 
-            this.Controls.Add(this.commonComponentItem);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.commonComponentItem);
             this.Name = "ComponentSettingsPage";
             this.ResumeLayout(false);
             this.PerformLayout();
