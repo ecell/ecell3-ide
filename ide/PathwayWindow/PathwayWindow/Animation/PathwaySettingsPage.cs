@@ -90,33 +90,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingsPage));
-            this.m_editModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.EditModeSettings();
-            this.m_viewModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.ViewModeSettings();
             this.label1 = new System.Windows.Forms.Label();
+            this.m_viewModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.ViewModeSettings();
+            this.m_editModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.EditModeSettings();
             this.SuspendLayout();
-            // 
-            // m_editModeItems
-            // 
-            resources.ApplyResources(this.m_editModeItems, "m_editModeItems");
-            this.m_editModeItems.Name = "m_editModeItems";
-            // 
-            // m_viewModeItems
-            // 
-            resources.ApplyResources(this.m_viewModeItems, "m_viewModeItems");
-            this.m_viewModeItems.Name = "m_viewModeItems";
             // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // m_viewModeItems
+            // 
+            resources.ApplyResources(this.m_viewModeItems, "m_viewModeItems");
+            this.m_viewModeItems.Name = "m_viewModeItems";
+            // 
+            // m_editModeItems
+            // 
+            resources.ApplyResources(this.m_editModeItems, "m_editModeItems");
+            this.m_editModeItems.Name = "m_editModeItems";
+            // 
             // PathwaySettingsPage
             // 
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.label1);
             this.Controls.Add(this.m_viewModeItems);
             this.Controls.Add(this.m_editModeItems);
             this.Name = "PathwaySettingsPage";
-            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 

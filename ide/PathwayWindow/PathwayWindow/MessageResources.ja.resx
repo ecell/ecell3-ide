@@ -399,4 +399,7 @@
   <data name="NameArrowWidth" xml:space="preserve">
     <value>矢印の太さ</value>
   </data>
+  <data name="WindowComponent" xml:space="preserve">
+    <value>コンポーネント設定</value>
+  </data>
 </root>

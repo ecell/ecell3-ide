@@ -880,6 +880,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Component settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WindowComponent {
+            get {
+                return ResourceManager.GetString("WindowComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WindowLayer {

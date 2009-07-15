@@ -399,4 +399,7 @@
   <data name="NameArrowWidth" xml:space="preserve">
     <value>the arrow width</value>
   </data>
+  <data name="WindowComponent" xml:space="preserve">
+    <value>Component settings</value>
+  </data>
 </root>

@@ -205,10 +205,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Create TabPage for PathwaySettingDialog
         /// </summary>
         /// <returns></returns>
-        public PropertyDialogPage ComponentSettingsPage
-        {
-            get { return new ComponentSettingsPage(this); }
-        }
+        //public PropertyDialogPage ComponentSettingsPage
+        //{
+        //    get { return new ComponentSettingsPage(this); }
+        //}
 
         /// <summary>
         /// Get the TabPages for PropertyDialog.
@@ -219,6 +219,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 PropertyNode node = new PropertyNode(MessageResources.WindowPathway);
                 node.Nodes.Add(new PropertyNode(m_animCon.PathwaySettingsPage));
+                PropertyNode compNode = new PropertyNode(MessageResources.WindowComponent);
+                foreach (ComponentSetting s in m_csManager.DefaultComponentSettings)
+                {
+                    compNode.Nodes.Add(new PropertyNode(new ComponentSettingsPage(this, s)));
+                }
+                node.Nodes.Add(compNode);
 //                node.Nodes.Add(new PropertyNode(m_animCon.AnimationSettingsPage));
 //                node.Nodes.Add(new PropertyNode(this.ComponentSettingsPage));
 

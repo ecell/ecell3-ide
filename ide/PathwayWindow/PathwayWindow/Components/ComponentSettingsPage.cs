@@ -39,6 +39,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// 
         /// </summary>
         PathwayControl m_con = null;
+        private CommonComponentItem commonComponentItem;
         /// <summary>
         /// 
         /// </summary>
@@ -47,27 +48,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public ComponentSettingsPage(PathwayControl control)
+        public ComponentSettingsPage(PathwayControl control, ComponentSetting setting)
             : base()
         {
             InitializeComponent();
 
             m_con = control;
             m_manager = control.ComponentManager;
+            this.Text = setting.Type;
+            commonComponentItem.Setting = setting;
 
-            this.SuspendLayout();
-            int top = 0;
-            foreach (ComponentSetting cs in m_manager.DefaultComponentSettings)
-            {
-                ComponentItem item = new ComponentItem(cs);
-                item.Top = top;
-                item.SuspendLayout();
-                this.Controls.Add(item);
-                item.ResumeLayout();
-                item.PerformLayout();
-                top += item.Height;
-            }
-            this.ResumeLayout();
+            //this.SuspendLayout();
+            //int top = 0;
+            //foreach (ComponentSetting cs in m_manager.DefaultComponentSettings)
+            //{                
+            //    ComponentItem item = new ComponentItem(cs);
+            //    item.Top = top;
+            //    item.SuspendLayout();
+            //    this.Controls.Add(item);
+            //    item.ResumeLayout();
+            //    item.PerformLayout();
+            //    top += item.Height;
+            //}
+            //this.ResumeLayout();
         }
         /// <summary>
         /// 
@@ -75,10 +78,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public override void ApplyChange()
         {
             base.ApplyChange();
-            foreach (ComponentItem item in this.Controls)
-            {
-                item.ApplyChange();
-            }
+            //foreach (ComponentItem item in this.Controls)
+            //{
+                
+//            item.ApplyChange();
+
+            //}
             m_con.ResetObjectSettings();
 
         }
@@ -88,22 +93,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();
-            foreach (ComponentItem item in this.Controls)
-            {
-                item.ItemClosing();
-            }
+            //foreach (ComponentItem item in this.Controls)
+            //{
+
+//                item.ItemClosing();
+
+            //}
         }
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentSettingsPage));
+            this.commonComponentItem = new Ecell.IDE.Plugins.PathwayWindow.Components.CommonComponentItem();
             this.SuspendLayout();
+            // 
+            // commonComponentItem
+            // 
+            resources.ApplyResources(this.commonComponentItem, "commonComponentItem");
+            this.commonComponentItem.Name = "commonComponentItem";
             // 
             // ComponentSettingsPage
             // 
+            this.Controls.Add(this.commonComponentItem);
             resources.ApplyResources(this, "$this");
             this.Name = "ComponentSettingsPage";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
     }
