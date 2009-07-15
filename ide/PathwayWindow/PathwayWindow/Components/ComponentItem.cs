@@ -81,6 +81,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentItem));
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.resetButton = new System.Windows.Forms.Button();
             this.isGradation = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
             this.figureBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox();
@@ -90,7 +91,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.centerBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.iconFile = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem();
             this.pCanvas = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +109,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             resources.ApplyResources(this.groupBox, "groupBox");
             this.groupBox.Name = "groupBox";
             this.groupBox.TabStop = false;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // resetButton
             // 
@@ -175,11 +180,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Object = null;
             this.pCanvas.RegionManagement = true;
             this.pCanvas.Setting = null;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
             // 
             // ComponentItem
             // 

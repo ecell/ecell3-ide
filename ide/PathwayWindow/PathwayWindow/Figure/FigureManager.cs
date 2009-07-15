@@ -164,12 +164,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             ImageList list = new ImageList();
             foreach (string type in GetFigureList())
             {
-                IFigure figure = CreateFigure(type, 0, 0, 80, 80);
+                IFigure figure = CreateFigure(type, 0, 0, 140, 120);
                 GraphicsPath gp = figure.GraphicsPath;
-                Image icon = new Bitmap(80, 80);
-                System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(icon);
-                gra.FillPath(Brushes.Black, gp);
-                gra.DrawPath(new Pen(Brushes.Black, 0), gp);
+                Image image = new Bitmap(160, 160);
+                System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(image);
+                gra.FillPath(Brushes.Orange, gp);
+                gra.DrawPath(new Pen(Brushes.Orange, 0), gp);
+
+                Image icon = new Bitmap(image, 16, 16);
                 list.Images.Add(type, icon);
             }
             return list;

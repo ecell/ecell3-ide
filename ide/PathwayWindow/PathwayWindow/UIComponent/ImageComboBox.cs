@@ -294,14 +294,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             try
             {
                 int width = 14;
-                int height = 14;
+                int height = 12;
                 imageName = this.Items[e.Index].ToString();
                 if (imageList.Images.Count >= 0 && imageList.Images.ContainsKey(imageName))
                 {
-                    Image image = imageList.Images[imageName];
-                    Image icon = new Bitmap(image, width, height);
-                    e.Graphics.DrawImage(icon, bounds.Left + 1, bounds.Top + 1, width, height);
-                    e.Graphics.DrawString(imageName, e.Font, textBrush, bounds.Left + icon.Width, bounds.Top);
+                    Image icon = imageList.Images[imageName];
+                    e.Graphics.DrawImage(icon, bounds.Left, bounds.Top);
+                    e.Graphics.DrawString(imageName, e.Font, textBrush, bounds.Left + icon.Width + 2, bounds.Top);
                 }
                 else
                 {

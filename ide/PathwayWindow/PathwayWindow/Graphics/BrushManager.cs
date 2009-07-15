@@ -94,7 +94,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
                 Brush brush = m_brushDic[key];
                 Image image = new Bitmap(16, 16);
                 System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(image);
-                gra.FillRectangle(brush, 0, 0, 15, 15);
+                gra.FillRectangle(brush, 0, 0, 15, 13);
+                gra.DrawRectangle(new Pen(Brushes.Black), 0, 0, 15, 13);
                 m_imageList.Images.Add(key, image);
             }
             return m_imageList;

@@ -151,7 +151,7 @@
     <value>NoControl</value>
   </data>
   <data name="resetButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 170</value>
+    <value>286, 170</value>
   </data>
   <data name="resetButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 23</value>
@@ -193,7 +193,7 @@
     <value>isGradation</value>
   </data>
   <data name="&gt;&gt;isGradation.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;isGradation.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -208,7 +208,7 @@
     <value>126, 18</value>
   </data>
   <data name="figureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 28</value>
+    <value>167, 28</value>
   </data>
   <data name="figureBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -217,7 +217,7 @@
     <value>figureBox</value>
   </data>
   <data name="&gt;&gt;figureBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;figureBox.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -244,7 +244,7 @@
     <value>textBrush</value>
   </data>
   <data name="&gt;&gt;textBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;textBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -271,7 +271,7 @@
     <value>lineBrush</value>
   </data>
   <data name="&gt;&gt;lineBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lineBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -298,7 +298,7 @@
     <value>fillBrush</value>
   </data>
   <data name="&gt;&gt;fillBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fillBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -325,7 +325,7 @@
     <value>centerBrush</value>
   </data>
   <data name="&gt;&gt;centerBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;centerBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -355,7 +355,7 @@
     <value>iconFile</value>
   </data>
   <data name="&gt;&gt;iconFile.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;iconFile.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -364,7 +364,7 @@
     <value>8</value>
   </data>
   <data name="pCanvas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>240, 30</value>
+    <value>240, 52</value>
   </data>
   <data name="pCanvas.Size" type="System.Drawing.Size, System.Drawing">
     <value>105, 80</value>
@@ -379,7 +379,7 @@
     <value>pCanvas</value>
   </data>
   <data name="&gt;&gt;pCanvas.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3120.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3125.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pCanvas.Parent" xml:space="preserve">
     <value>groupBox</value>
