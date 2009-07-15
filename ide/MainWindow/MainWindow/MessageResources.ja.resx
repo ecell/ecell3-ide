@@ -132,6 +132,9 @@
   <data name="ConfirmUnsavableWindows" xml:space="preserve">
     <value>以下のウインドウはWindow設定の保存対象に含まれません。</value>
   </data>
+  <data name="ConfirmUnsaved" xml:space="preserve">
+    <value>モデルの変更は保存されていません。本当に閉じてよろしいですか？</value>
+  </data>
   <data name="DialogTitleSaveAs" xml:space="preserve">
     <value>新しいプロジェクトとして保存</value>
   </data>

@@ -106,6 +106,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Your changes have not been saved. Are you sure to exit? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmUnsaved {
+            get {
+                return ResourceManager.GetString("ConfirmUnsaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save as new Project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTitleSaveAs {

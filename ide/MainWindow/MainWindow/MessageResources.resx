@@ -288,4 +288,7 @@
   <data name="MenuManual" xml:space="preserve">
     <value>Manual</value>
   </data>
+  <data name="ConfirmUnsaved" xml:space="preserve">
+    <value>Your changes have not been saved. Are you sure to exit?</value>
+  </data>
 </root>

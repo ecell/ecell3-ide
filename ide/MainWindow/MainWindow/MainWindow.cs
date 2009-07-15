@@ -141,17 +141,21 @@ namespace Ecell.IDE.MainWindow
         private enum ConfirmState
         {
             /// <summary>
-            /// 
+            /// Save
             /// </summary>
             Yes,
             /// <summary>
-            /// 
+            /// Not saved.
             /// </summary>
             No,
             /// <summary>
-            /// 
+            /// Cancel to save Change.
             /// </summary>
-            Canceled
+            Canceled,
+            /// <summary>
+            /// Changed but not saved.
+            /// </summary>
+            NotSaved
         }
         #endregion
 
@@ -1118,7 +1122,7 @@ namespace Ecell.IDE.MainWindow
                         state = ConfirmState.Yes;
                     }
                     else
-                        state = ConfirmState.No;
+                        state = ConfirmState.NotSaved;
                 }
                 catch (Exception)
                 {
@@ -1695,8 +1699,16 @@ namespace Ecell.IDE.MainWindow
                 Thread.Sleep(1000);
             }
 
-            if (CloseConfirm() == ConfirmState.Canceled)
+            // Confirm saving
+            ConfirmState state = CloseConfirm();
+            if (state == ConfirmState.Canceled)
+            {
                 e.Cancel = true;
+            }
+            else if (state == ConfirmState.NotSaved && !Util.ShowOKCancelDialog(MessageResources.ConfirmUnsaved))
+            {
+                e.Cancel = true;
+            }
 
             SaveRecentProject();
             SaveWindowSetting(m_userWindowSettingPath, true);
