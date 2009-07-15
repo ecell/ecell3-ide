@@ -473,7 +473,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected override void Paint(PPaintContext paintContext)
         {
             Brush b = this.Brush;
-            Graphics g = paintContext.Graphics;
+            System.Drawing.Graphics g = paintContext.Graphics;
 
             if (b != null)
             {

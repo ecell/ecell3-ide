@@ -140,7 +140,7 @@
     <Compile Include="Figure\Diamond.cs" />
     <Compile Include="Figure\SystemEllipse.cs" />
     <Compile Include="Figure\Triangle.cs" />
-    <Compile Include="Graphic\BrushComboBox.cs">
+    <Compile Include="UIComponent\BrushComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
@@ -152,8 +152,11 @@
     <Compile Include="Figure\IFigure.cs" />
     <Compile Include="Figure\RoundedRectangle.cs" />
     <Compile Include="Figure\SystemRectangle.cs" />
-    <Compile Include="Graphic\BrushManager.cs" />
-    <Compile Include="Graphic\ImageComboBox.cs">
+    <Compile Include="Graphics\BrushManager.cs" />
+    <Compile Include="UIComponent\FigureComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIComponent\ImageComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
@@ -195,8 +198,8 @@
     <Compile Include="Exceptions\NoSuchComponentKindException.cs" />
     <Compile Include="Exceptions\PathwayException.cs" />
     <Compile Include="Nodes\PPathwayLine.cs" />
-    <Compile Include="Graphic\GraphicsExporter.cs" />
-    <Compile Include="Graphic\SVGUtil.cs" />
+    <Compile Include="Graphics\GraphicsExporter.cs" />
+    <Compile Include="Graphics\SVGUtil.cs" />
     <Compile Include="PathUtil.cs" />
     <Compile Include="UIComponent\AnimationDialog.cs">
       <SubType>Form</SubType>
@@ -339,7 +342,7 @@
       <DependentUpon>CommonComponentItem.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Graphic\BrushComboBox.resx">
+    <EmbeddedResource Include="UIComponent\BrushComboBox.resx">
       <DependentUpon>BrushComboBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\AnimationDialog.ja.resx">

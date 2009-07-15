@@ -41,7 +41,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
 

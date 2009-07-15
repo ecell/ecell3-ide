@@ -643,7 +643,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (image != null)
             {
                 RectangleF b = Bounds;
-                Graphics g = paintContext.Graphics;
+                System.Drawing.Graphics g = paintContext.Graphics;
 
                 g.DrawImage((Image)image.Clone(), b);
             }

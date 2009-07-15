@@ -39,7 +39,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
 
@@ -421,7 +421,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // Create Icon from FigureBase.
             GraphicsPath gp;
             icon = new Bitmap(16, 16);
-            Graphics gra = Graphics.FromImage(icon);
+            System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(icon);
             if (m_type == EcellObject.TEXT)
             {
                 gp = new GraphicsPath();

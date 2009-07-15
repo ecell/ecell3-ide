@@ -33,6 +33,7 @@ using System.Windows.Forms;
 
 using Ecell.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -43,13 +44,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     internal class AnimationSettings : UserControl
     {
         private GroupBox edgeBox;
-        private PropertyBrushItem edgeHighBrush;
-        private PropertyBrushItem edgeLowBrush;
-        private PropertyBrushItem edgeNGBrush;
+        private BrushComboBox edgeHighBrush;
+        private BrushComboBox edgeLowBrush;
+        private BrushComboBox edgeNGBrush;
         private PropertyTextItem thresholdHigh;
         private PropertyTextItem thresholdLow;
         private PropertyCheckBoxItem autoThresholdCheckBox;
-        private PropertyBrushItem propertyBrush;
+        private BrushComboBox propertyBrush;
         private PropertyCheckBoxItem aviOutputCheckBox;
         private PropertySaveFileItem aviFileName;
         private GroupBox outputBox;
@@ -57,6 +58,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private Label edgeLabel;
         private Label variableLabel;
         private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
 
         private AnimationControl animCon;
 
@@ -85,20 +90,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationSettings));
             this.edgeBox = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.edgeLabel = new System.Windows.Forms.Label();
-            this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.edgeLowBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
+            this.edgeLowBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.autoThresholdCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
             this.thresholdHigh = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
             this.thresholdLow = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
-            this.edgeNGBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.aviOutputCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
-            this.propertyBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
-            this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem();
+            this.edgeNGBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.outputBox = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.aviOutputCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
+            this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem();
             this.variableBox = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.variableLabel = new System.Windows.Forms.Label();
+            this.propertyBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.edgeBox.SuspendLayout();
             this.outputBox.SuspendLayout();
             this.variableBox.SuspendLayout();
@@ -107,6 +116,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // edgeBox
             // 
             resources.ApplyResources(this.edgeBox, "edgeBox");
+            this.edgeBox.Controls.Add(this.label4);
+            this.edgeBox.Controls.Add(this.label3);
+            this.edgeBox.Controls.Add(this.label2);
             this.edgeBox.Controls.Add(this.edgeLabel);
             this.edgeBox.Controls.Add(this.edgeHighBrush);
             this.edgeBox.Controls.Add(this.edgeLowBrush);
@@ -116,6 +128,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeBox.Controls.Add(this.edgeNGBrush);
             this.edgeBox.Name = "edgeBox";
             this.edgeBox.TabStop = false;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
             // 
             // edgeLabel
             // 
@@ -157,26 +184,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             resources.ApplyResources(this.edgeNGBrush, "edgeNGBrush");
             this.edgeNGBrush.Name = "edgeNGBrush";
             // 
-            // aviOutputCheckBox
-            // 
-            resources.ApplyResources(this.aviOutputCheckBox, "aviOutputCheckBox");
-            this.aviOutputCheckBox.Checked = false;
-            this.aviOutputCheckBox.Name = "aviOutputCheckBox";
-            this.aviOutputCheckBox.CheckedChanged += new System.EventHandler(this.aviOutputCheckBox_CheckedChanged);
-            // 
-            // propertyBrush
-            // 
-            resources.ApplyResources(this.propertyBrush, "propertyBrush");
-            this.propertyBrush.Name = "propertyBrush";
-            // 
-            // aviFileName
-            // 
-            resources.ApplyResources(this.aviFileName, "aviFileName");
-            this.aviFileName.FileName = "";
-            this.aviFileName.Filter = null;
-            this.aviFileName.FilterIndex = 0;
-            this.aviFileName.Name = "aviFileName";
-            // 
             // outputBox
             // 
             resources.ApplyResources(this.outputBox, "outputBox");
@@ -191,26 +198,52 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // aviOutputCheckBox
+            // 
+            resources.ApplyResources(this.aviOutputCheckBox, "aviOutputCheckBox");
+            this.aviOutputCheckBox.Checked = false;
+            this.aviOutputCheckBox.Name = "aviOutputCheckBox";
+            this.aviOutputCheckBox.CheckedChanged += new System.EventHandler(this.aviOutputCheckBox_CheckedChanged);
+            // 
+            // aviFileName
+            // 
+            resources.ApplyResources(this.aviFileName, "aviFileName");
+            this.aviFileName.FileName = "";
+            this.aviFileName.Filter = null;
+            this.aviFileName.FilterIndex = 0;
+            this.aviFileName.Name = "aviFileName";
+            // 
             // variableBox
             // 
             resources.ApplyResources(this.variableBox, "variableBox");
+            this.variableBox.Controls.Add(this.label5);
             this.variableBox.Controls.Add(this.variableLabel);
             this.variableBox.Controls.Add(this.propertyBrush);
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
             // 
             // variableLabel
             // 
             resources.ApplyResources(this.variableLabel, "variableLabel");
             this.variableLabel.Name = "variableLabel";
             // 
-            // AnimationItems
+            // propertyBrush
+            // 
+            resources.ApplyResources(this.propertyBrush, "propertyBrush");
+            this.propertyBrush.Name = "propertyBrush";
+            // 
+            // AnimationSettings
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.variableBox);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.edgeBox);
-            this.Name = "AnimationItems";
+            this.Name = "AnimationSettings";
             this.edgeBox.ResumeLayout(false);
             this.edgeBox.PerformLayout();
             this.outputBox.ResumeLayout(false);
@@ -219,6 +252,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.variableBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         void aviOutputCheckBox_CheckedChanged(object sender, EventArgs e)

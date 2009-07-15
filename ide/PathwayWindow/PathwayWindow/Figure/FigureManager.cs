@@ -29,6 +29,9 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
@@ -37,6 +40,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
     /// </summary>
     public class FigureManager
     {
+        private static ImageList figureIcons = null;
+        /// <summary>
+        /// FigureIcons for FigureComboBox.
+        /// </summary>
+        public static ImageList FigureIcons
+        {
+            get
+            {
+                if (figureIcons == null)
+                    figureIcons = CreateFigureIcons();
+                return figureIcons;
+            }
+        }
+
         /// <summary>
         /// FigureManager to create figure.
         /// </summary>
@@ -135,6 +152,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             List<string> list = new List<string>();
             list.AddRange(GetEntityFigures());
             list.AddRange(GetSystemFigures());
+            return list;
+        }
+
+        /// <summary>
+        /// Create a list of Figure icons.
+        /// </summary>
+        /// <returns></returns>
+        private static ImageList CreateFigureIcons()
+        {
+            ImageList list = new ImageList();
+            foreach (string type in GetFigureList())
+            {
+                IFigure figure = CreateFigure(type, 0, 0, 80, 80);
+                GraphicsPath gp = figure.IconPath;
+                Image icon = new Bitmap(15, 15);
+                System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(icon);
+                gra.FillPath(Brushes.Black, gp);
+                gra.DrawPath(new Pen(Brushes.Black, 0), gp);
+                list.Images.Add(type, icon);
+            }
             return list;
         }
 

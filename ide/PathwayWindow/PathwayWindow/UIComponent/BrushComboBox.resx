@@ -117,28 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="resetButton.Text" xml:space="preserve">
-    <value>リセット</value>
-  </data>
-  <data name="isGradation.LabelText" xml:space="preserve">
-    <value>グラデーション</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>形状</value>
-  </data>
-  <data name="textBrush.LabelText" xml:space="preserve">
-    <value>文字色</value>
-  </data>
-  <data name="lineBrush.LabelText" xml:space="preserve">
-    <value>線の色</value>
-  </data>
-  <data name="fillBrush.LabelText" xml:space="preserve">
-    <value>塗りつぶし色</value>
-  </data>
-  <data name="centerBrush.LabelText" xml:space="preserve">
-    <value>中央色</value>
-  </data>
-  <data name="iconFile.LabelText" xml:space="preserve">
-    <value>アイコンファイル</value>
-  </data>
 </root>

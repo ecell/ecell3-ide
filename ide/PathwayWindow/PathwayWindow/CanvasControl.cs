@@ -40,7 +40,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Ecell.Action;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;

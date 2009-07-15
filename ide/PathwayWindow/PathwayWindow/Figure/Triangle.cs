@@ -30,7 +30,7 @@
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using System;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Figure

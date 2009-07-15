@@ -42,7 +42,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;

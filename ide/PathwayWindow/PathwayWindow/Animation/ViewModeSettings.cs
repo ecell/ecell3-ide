@@ -33,7 +33,7 @@ using System.Windows.Forms;
 
 using Ecell.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -42,9 +42,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// </summary>
     internal class ViewModeSettings : UserControl
     {
-        private Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox backgroundImageComboBox;
+        private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox backgroundImageComboBox;
         private System.ComponentModel.IContainer components;
-        private Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox arrowImageComboBox;
+        private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox arrowImageComboBox;
         private TextBox maxWidthTextBox;
 
         private AnimationControl m_control;
@@ -89,8 +89,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             this.maxWidthTextBox = new System.Windows.Forms.TextBox();
-            this.arrowImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
-            this.backgroundImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
+            this.arrowImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
+            this.backgroundImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();

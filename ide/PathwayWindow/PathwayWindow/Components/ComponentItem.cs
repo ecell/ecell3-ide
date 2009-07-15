@@ -32,7 +32,7 @@ using System;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using System.Drawing;
 
@@ -46,7 +46,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     {
         #region Fields
         private GroupBox groupBox;
-        private PropertyComboboxItem figureBox;
+        private FigureComboBox figureBox;
         private PropertyBrushItem textBrush;
         private PropertyBrushItem lineBrush;
         private PropertyBrushItem fillBrush;
@@ -54,6 +54,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private PropertyCheckBoxItem isGradation;
         private PropertyOpenFileItem iconFile;
         private Button resetButton;
+        private Label label1;
 
         private PToolBoxCanvas pCanvas;
         #endregion
@@ -82,18 +83,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.resetButton = new System.Windows.Forms.Button();
             this.isGradation = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
-            this.figureBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem();
+            this.figureBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox();
             this.textBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.lineBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.fillBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.centerBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
             this.iconFile = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem();
             this.pCanvas = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.label1);
             this.groupBox.Controls.Add(this.resetButton);
             this.groupBox.Controls.Add(this.isGradation);
             this.groupBox.Controls.Add(this.figureBox);
@@ -124,6 +127,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // figureBox
             // 
             resources.ApplyResources(this.figureBox, "figureBox");
+            this.figureBox.Figure = "";
             this.figureBox.Name = "figureBox";
             this.figureBox.ReadOnly = true;
             this.figureBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
@@ -171,6 +175,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Object = null;
             this.pCanvas.RegionManagement = true;
             this.pCanvas.Setting = null;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // ComponentItem
             // 
@@ -325,6 +334,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         void figureBox_TextChange(object sender, EventArgs e)
         {
             string type = figureBox.ComboBox.Text;
+            if (string.IsNullOrEmpty(type))
+                return;
             string args = this.pCanvas.Setting.Figure.Coordinates;
             IFigure figure = FigureManager.CreateFigure(type, args);
             this.pCanvas.Object.Figure = figure;

@@ -32,7 +32,7 @@ using System;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using System.Drawing;
 
@@ -119,10 +119,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.fileLoadButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.iconFileTtextBox = new System.Windows.Forms.TextBox();
-            this.textColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
-            this.lineColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
-            this.centerColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
-            this.fillColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.Graphic.BrushComboBox();
+            this.textColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
+            this.lineColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
+            this.centerColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
+            this.fillColorBrushComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();

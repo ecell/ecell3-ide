@@ -36,7 +36,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using AviFile;
-using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Collections.Generic;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
