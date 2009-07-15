@@ -293,12 +293,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             string imageName = "";
             try
             {
+                int width = 14;
+                int height = 14;
                 imageName = this.Items[e.Index].ToString();
                 if (imageList.Images.Count >= 0 && imageList.Images.ContainsKey(imageName))
                 {
                     Image image = imageList.Images[imageName];
-                    e.Graphics.DrawImage(image, bounds.Left + 1, bounds.Top + 1, 15, 15);
-                    e.Graphics.DrawString(imageName, e.Font, textBrush, bounds.Left + image.Width, bounds.Top);
+                    Image icon = new Bitmap(image, width, height);
+                    e.Graphics.DrawImage(icon, bounds.Left + 1, bounds.Top + 1, width, height);
+                    e.Graphics.DrawString(imageName, e.Font, textBrush, bounds.Left + icon.Width, bounds.Top);
                 }
                 else
                 {

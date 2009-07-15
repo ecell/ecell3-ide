@@ -135,7 +135,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.figureComboBox.TabIndex = 0;
             this.figureComboBox.Text = "Rectangle";
             this.figureComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
-            this.figureComboBox.TextChanged += new EventHandler(figureComboBox_TextChanged);
+            this.figureComboBox.SelectedIndexChanged += new EventHandler(figureComboBox_SelectedIndexChanged);
             //
             //
             //
@@ -178,7 +178,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void figureComboBox_TextChanged(object sender, EventArgs e)
+        void figureComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             RaiseTextChange();
         }

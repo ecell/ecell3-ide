@@ -165,8 +165,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             foreach (string type in GetFigureList())
             {
                 IFigure figure = CreateFigure(type, 0, 0, 80, 80);
-                GraphicsPath gp = figure.IconPath;
-                Image icon = new Bitmap(15, 15);
+                GraphicsPath gp = figure.GraphicsPath;
+                Image icon = new Bitmap(80, 80);
                 System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(icon);
                 gra.FillPath(Brushes.Black, gp);
                 gra.DrawPath(new Pen(Brushes.Black, 0), gp);

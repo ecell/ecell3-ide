@@ -200,8 +200,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Object.Text = "Sample";
             this.pCanvas.Object.Refresh();
             // Set Figure.
-            if (this.figureBox.ComboBox.Items.Count <= 0)
-                this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
+            //if (this.figureBox.ComboBox.Items.Count <= 0)
+            this.figureBox.ComboBox.Items.Clear();
+            this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
             // Set Parameter.
             this.figureBox.ComboBox.Text = cs.Figure.Type;
             this.textBrush.Brush = cs.TextBrush;

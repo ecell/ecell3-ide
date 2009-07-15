@@ -1,4 +1,4 @@
-namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     using System;
     using NUnit.Framework;

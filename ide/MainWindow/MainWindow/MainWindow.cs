@@ -119,10 +119,40 @@ namespace Ecell.IDE.MainWindow
         /// RecentProjects
         /// </summary>
         private List<KeyValuePair<string, string>> m_recentProjects = new List<KeyValuePair<string, string>>();
+        /// <summary>
+        /// 
+        /// </summary>
         private GridJobStatusDialog m_statusDialog;
+        /// <summary>
+        /// 
+        /// </summary>
         private string m_title;
+        /// <summary>
+        /// 
+        /// </summary>
         private EcellWebBrowser m_browser;
+        /// <summary>
+        /// 
+        /// </summary>
         private ScriptEditor m_scriptEditor;
+        /// <summary>
+        /// Result of save confirm
+        /// </summary>
+        private enum ConfirmState
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            Yes,
+            /// <summary>
+            /// 
+            /// </summary>
+            No,
+            /// <summary>
+            /// 
+            /// </summary>
+            Canceled
+        }
         #endregion
 
         #region Accessor
@@ -369,7 +399,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         void LoadRecentProjectMenuClick(object sender, EventArgs e)
         {
-            if (!CloseConfirm())
+            if (CloseConfirm() == ConfirmState.Canceled)
                 return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             string filename = (string)item.Tag;
@@ -1042,7 +1072,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void NewProjectMenuClick(object sender, EventArgs e)
         {
-            if (!CloseConfirm())
+            if (CloseConfirm() == ConfirmState.Canceled)
                 return;
             m_env.DataManager.CreateNewProject(Util.GetNewProjectName(), "");
         }
@@ -1051,11 +1081,13 @@ namespace Ecell.IDE.MainWindow
         /// Save confirm.
         /// </summary>
         /// <returns>
-        /// It return true when the current project was closed successfully
-        /// and returns false when SaveProject is canceled.
+        /// It return Yes when the current project was Saved
+        /// or returns No when not saved
+        /// and returns Canceled when SaveProject is canceled.
         /// </returns>
-        private bool CloseConfirm()
+        private ConfirmState CloseConfirm()
         {
+            ConfirmState state = ConfirmState.No;
             List<string> runGroupList = GetRunningAnalysisCount();
             if (runGroupList.Count > 0)
             {
@@ -1064,7 +1096,8 @@ namespace Ecell.IDE.MainWindow
                     mes = mes + "\n" + runGroupList[i];
                 if (!Util.ShowYesNoDialog(string.Format(MessageResources.ConfirmAnalysisStop, mes)))
                 {
-                    return false;
+                    state = ConfirmState.Canceled;
+                    return state;
                 }
                 foreach (string name in runGroupList)
                 {
@@ -1080,19 +1113,25 @@ namespace Ecell.IDE.MainWindow
                     ProjectType type = m_env.DataManager.CurrentProject.Info.ProjectType;
                     // Save if answer is yes.
                     if (type != ProjectType.Revision && Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
+                    {
                         SaveProject();
+                        state = ConfirmState.Yes;
+                    }
+                    else
+                        state = ConfirmState.No;
                 }
                 catch (Exception)
                 {
                     // Return false when canceled
-                    return false;
+                    state = ConfirmState.Canceled;
+                    return state;
                 }
             }
             // Close project.
             CloseProject();
 
             // Return true when the current project was closed successfully.
-            return true;
+            return state;
         }
 
         /// <summary>
@@ -1110,7 +1149,7 @@ namespace Ecell.IDE.MainWindow
                 if (ped.ShowDialog() != DialogResult.OK)
                     return;
                 // Check the modification and confirm save.
-                if (!CloseConfirm())
+                if (CloseConfirm() == ConfirmState.Canceled)
                     return;
                 try
                 {
@@ -1136,7 +1175,7 @@ namespace Ecell.IDE.MainWindow
             if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
             {
                 // Check the modification and confirm save.
-                if (!CloseConfirm())
+                if (CloseConfirm() == ConfirmState.Canceled)
                     return;
                 ProjectInfo info = win.SelectedProject;
                 info.DMDirList.AddRange(win.DMList);
@@ -1253,7 +1292,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void CloseProjectMenuClick(object sender, EventArgs e)
         {
-            if (!CloseConfirm())
+            if (CloseConfirm() == ConfirmState.Canceled)
                 return;
         }
 
@@ -1273,7 +1312,7 @@ namespace Ecell.IDE.MainWindow
                 if (openFileDialog.ShowDialog() != DialogResult.OK)
                     return;
                 // Check current project and save it.
-                if (!CloseConfirm())
+                if (CloseConfirm() == ConfirmState.Canceled)
                     return;
                 // Close project
                 if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
@@ -1656,7 +1695,7 @@ namespace Ecell.IDE.MainWindow
                 Thread.Sleep(1000);
             }
 
-            if (!CloseConfirm())
+            if (CloseConfirm() == ConfirmState.Canceled)
                 e.Cancel = true;
 
             SaveRecentProject();
@@ -1747,7 +1786,7 @@ namespace Ecell.IDE.MainWindow
             {
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
-                if (!CloseConfirm())
+                if (CloseConfirm() == ConfirmState.Canceled)
                     return;
                 string filename = dialog.FileName;
                 try
