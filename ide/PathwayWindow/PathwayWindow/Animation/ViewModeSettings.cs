@@ -170,8 +170,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         public void ApplyChanges()
         {
-            m_control.ViewBGBrush = BrushManager.ParseStringToBrush(backgroundImageComboBox.Text);
-            m_control.ViewEdgeBrush = BrushManager.ParseStringToBrush(arrowImageComboBox.Text);
+            m_control.ViewBGBrush = backgroundImageComboBox.Brush;
+            m_control.ViewEdgeBrush = arrowImageComboBox.Brush;
             m_control.MaxEdgeWidth = float.Parse(maxWidthTextBox.Text);
             //m_control.ViewBGBrush = bgBrush.Brush;
             //m_control.MaxEdgeWidth = float.Parse(edgeWidth.Text);

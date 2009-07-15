@@ -78,14 +78,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public override void ApplyChange()
         {
             base.ApplyChange();
-            //foreach (ComponentItem item in this.Controls)
-            //{
-                
-//            item.ApplyChange();
-
-            //}
+            commonComponentItem.ApplyChange();
             m_con.ResetObjectSettings();
-
         }
         /// <summary>
         /// 
@@ -93,12 +87,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();
-            //foreach (ComponentItem item in this.Controls)
-            //{
-
-//                item.ItemClosing();
-
-            //}
+            commonComponentItem.ItemClosing();
         }
 
         private void InitializeComponent()

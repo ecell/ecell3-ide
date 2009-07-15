@@ -184,8 +184,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         public void ApplyChanges()
         {
-            m_control.EditBGBrush = BrushManager.ParseStringToBrush(backgroundImageComboBox.Text);
-            m_control.EditEdgeBrush = BrushManager.ParseStringToBrush(arrowColorImageComboBox.Text);
+            m_control.EditBGBrush = backgroundImageComboBox.Brush;
+            m_control.EditEdgeBrush = arrowColorImageComboBox.Brush;
             m_control.EdgeWidth = float.Parse(widthTextBox.Text);
             m_control.Control.HighQuality = unsharpCheckBox.Checked;
             //m_control.EditBGBrush = this.bgBrushItem.Brush;
