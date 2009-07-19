@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMEComileButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -201,33 +201,6 @@
   <data name="&gt;&gt;DMELoadButton.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="DMETextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="DMETextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="DMETextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>423, 409</value>
-  </data>
-  <data name="DMETextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="DMETextBox.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;DMETextBox.Name" xml:space="preserve">
-    <value>DMETextBox</value>
-  </data>
-  <data name="&gt;&gt;DMETextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMETextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;DMETextBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <metadata name="DMEOpenFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -256,11 +229,41 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMESaveAsButton.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <metadata name="DMESaveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>169, 17</value>
   </metadata>
+  <data name="codeEditorControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <metadata name="syntaxDocument1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>320, 17</value>
+  </metadata>
+  <data name="codeEditorControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="codeEditorControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>423, 409</value>
+  </data>
+  <data name="codeEditorControl.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="codeEditorControl.Text" xml:space="preserve">
+    <value>codeEditorControl1</value>
+  </data>
+  <data name="&gt;&gt;codeEditorControl.Name" xml:space="preserve">
+    <value>codeEditorControl</value>
+  </data>
+  <data name="&gt;&gt;codeEditorControl.Type" xml:space="preserve">
+    <value>Fireball.Windows.Forms.CodeEditorControl, Fireball.CodeEditor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f84d0e3f884fb1e4</value>
+  </data>
+  <data name="&gt;&gt;codeEditorControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;codeEditorControl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -366,6 +369,12 @@
   </data>
   <data name="&gt;&gt;DMESaveFileDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;syntaxDocument1.Name" xml:space="preserve">
+    <value>syntaxDocument1</value>
+  </data>
+  <data name="&gt;&gt;syntaxDocument1.Type" xml:space="preserve">
+    <value>Fireball.Syntax.SyntaxDocument, Fireball.SyntaxDocument, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f84d0e3f884fb1e4</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>DMEditor</value>

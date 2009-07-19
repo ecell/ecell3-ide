@@ -142,6 +142,30 @@
       <Project>{EB193AD3-99DC-477F-BDF9-C071812B93D0}</Project>
       <Name>Formulator</Name>
     </ProjectReference>
+    <Reference Include="Fireball.CodeEditor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Fireball.CodeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Fireball.CodeEditor.SyntaxFiles, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Fireball.CodeEditor.SyntaxFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Fireball.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Fireball.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Fireball.SyntaxDocument, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Fireball.SyntaxDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="Fireball.Win32, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Fireball.Win32.dll</HintPath>
+    </Reference>
+    <Reference Include="Fireball.Windows.Forms, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Fireball.Windows.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommonContextMenu.ja.resx">

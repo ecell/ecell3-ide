@@ -34,6 +34,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
+using Fireball.Syntax;
+using Fireball.CodeEditor.SyntaxFiles;
+
 namespace Ecell.IDE
 {
     /// <summary>
@@ -48,6 +51,7 @@ namespace Ecell.IDE
         public ScriptEditor(ApplicationEnvironment env)
         {
             m_env = env;
+            CodeEditorSyntaxLoader.SetSyntax(codeEditorControl, SyntaxLanguage.Python);
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace Ecell.IDE
             if (DMEOpenFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            DMETextBox.Text = "";
+            codeEditorControl.Text = "";
             m_path = DMEOpenFileDialog.FileName;
             DMEComileButton.Enabled = true;
             LoadFile();
@@ -116,19 +120,20 @@ namespace Ecell.IDE
                 return;
             }
             string path = DMESaveFileDialog.FileName;
-            StreamWriter writer = null;
+            //StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter(path, false, Encoding.UTF8);
-                writer.Write(DMETextBox.Text);
+                codeEditorControl.Save(path);
+                //writer = new StreamWriter(path, false, Encoding.UTF8);
+                //writer.Write(codeEditorControl.Text);
                 m_path = path;
             }
             finally
             {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
+                //if (writer != null)
+                //{
+                //    writer.Close();
+                //}
             }
         }
     }

@@ -39,6 +39,9 @@ using System.Windows.Forms;
 
 using Ecell.Plugin;
 
+using Fireball.Syntax;
+using Fireball.CodeEditor.SyntaxFiles;
+
 namespace Ecell.IDE
 {
     /// <summary>
@@ -65,6 +68,7 @@ namespace Ecell.IDE
         {
             InitializeComponent();
             m_path = null;
+            CodeEditorSyntaxLoader.SetSyntax(codeEditorControl, SyntaxLanguage.CPP);
         }
         #endregion
 
@@ -99,7 +103,7 @@ namespace Ecell.IDE
                     DMESaveButton.Enabled = false;
                     DMESaveAsButton.Enabled = false;
                     DMEComileButton.Enabled = false;
-                    DMETextBox.Text = "";
+                    codeEditorControl.Text = "";
                 }
             }
         }
@@ -130,14 +134,15 @@ namespace Ecell.IDE
         /// </summary>
         protected void LoadFile()
         {
-            string line = "";
-            DMETextBox.Text = "";
-            TextReader l_reader = new StreamReader(m_path);
-            while ((line = l_reader.ReadLine()) != null)
-            {
-                DMETextBox.Text += line + "\n";
-            }
-            l_reader.Close();
+            codeEditorControl.Open(m_path);
+            //string line = "";
+            //codeEditorControl.Text = "";
+            //TextReader l_reader = new StreamReader(m_path);
+            //while ((line = l_reader.ReadLine()) != null)
+            //{
+            //    codeEditorControl.Text += line + "\n";
+            //}
+            //l_reader.Close();
         }
 
         /// <summary>
@@ -148,18 +153,19 @@ namespace Ecell.IDE
         protected void DMESaveButtonClick(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(m_path)) return;
-            StreamWriter writer = null;
+            //StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter(m_path, false, Encoding.UTF8);
-                writer.Write(DMETextBox.Text);
+                codeEditorControl.Save();
+                //writer = new StreamWriter(m_path, false, Encoding.UTF8);
+                //writer.Write(codeEditorControl.Text);
             }
             finally
             {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
+                //if (writer != null)
+                //{
+                //    writer.Close();
+                //}
             }
         }
 
@@ -174,7 +180,7 @@ namespace Ecell.IDE
             if (DMEOpenFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            DMETextBox.Text = "";
+            codeEditorControl.Text = "";
             m_path = DMEOpenFileDialog.FileName;
             LoadFile();
         }
@@ -212,11 +218,12 @@ namespace Ecell.IDE
                 return;
             }
             
-            StreamWriter writer = null;
+            //StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter(path, false, Encoding.UTF8);
-                writer.Write(DMETextBox.Text);
+                codeEditorControl.Save(path);
+                //writer = new StreamWriter(path, false, Encoding.UTF8);
+                //writer.Write(codeEditorControl.Text);
                 AddDMDelegate dlg = m_env.PluginManager.GetDelegate(Constants.delegateAddDM) as AddDMDelegate;
                 if (dlg != null)
                     dlg(dmName, path);
@@ -224,10 +231,10 @@ namespace Ecell.IDE
             }
             finally
             {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
+                //if (writer != null)
+                //{
+                //    writer.Close();
+                //}
             }
         }
         #endregion

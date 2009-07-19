@@ -57,14 +57,17 @@ namespace Ecell.IDE
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DMEditor));
+            Fireball.Windows.Forms.LineMarginRender lineMarginRender1 = new Fireball.Windows.Forms.LineMarginRender();
             this.DMEComileButton = new System.Windows.Forms.Button();
             this.DMESaveButton = new System.Windows.Forms.Button();
             this.DMELoadButton = new System.Windows.Forms.Button();
-            this.DMETextBox = new System.Windows.Forms.RichTextBox();
             this.DMEOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.DMESaveAsButton = new System.Windows.Forms.Button();
             this.DMESaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.codeEditorControl = new Fireball.Windows.Forms.CodeEditorControl();
+            this.syntaxDocument1 = new Fireball.Syntax.SyntaxDocument(this.components);
             this.SuspendLayout();
             // 
             // DMEComileButton
@@ -88,11 +91,6 @@ namespace Ecell.IDE
             this.DMELoadButton.UseVisualStyleBackColor = true;
             this.DMELoadButton.Click += new System.EventHandler(this.DMELoadButtonClick);
             // 
-            // DMETextBox
-            // 
-            resources.ApplyResources(this.DMETextBox, "DMETextBox");
-            this.DMETextBox.Name = "DMETextBox";
-            // 
             // DMEOpenFileDialog
             // 
             this.DMEOpenFileDialog.FileName = "DME";
@@ -104,13 +102,46 @@ namespace Ecell.IDE
             this.DMESaveAsButton.UseVisualStyleBackColor = true;
             this.DMESaveAsButton.Click += new System.EventHandler(this.DMESaveAsButton_Click);
             // 
+            // codeEditorControl
+            // 
+            this.codeEditorControl.ActiveView = Fireball.Windows.Forms.CodeEditor.ActiveView.BottomRight;
+            resources.ApplyResources(this.codeEditorControl, "codeEditorControl");
+            this.codeEditorControl.AutoListPosition = null;
+            this.codeEditorControl.AutoListSelectedText = "";
+            this.codeEditorControl.AutoListVisible = false;
+            this.codeEditorControl.CopyAsRTF = false;
+            this.codeEditorControl.Document = this.syntaxDocument1;
+            this.codeEditorControl.InfoTipCount = 1;
+            this.codeEditorControl.InfoTipPosition = null;
+            this.codeEditorControl.InfoTipSelectedIndex = 0;
+            this.codeEditorControl.InfoTipVisible = false;
+            lineMarginRender1.Bounds = new System.Drawing.Rectangle(19, 0, 19, 16);
+            this.codeEditorControl.LineMarginRender = lineMarginRender1;
+            this.codeEditorControl.LockCursorUpdate = false;
+            this.codeEditorControl.Name = "codeEditorControl";
+            this.codeEditorControl.Saved = false;
+            this.codeEditorControl.ShowScopeIndicator = false;
+            this.codeEditorControl.SmoothScroll = false;
+            this.codeEditorControl.SplitviewH = -4;
+            this.codeEditorControl.SplitviewV = -4;
+            this.codeEditorControl.TabGuideColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(243)))), ((int)(((byte)(234)))));
+            this.codeEditorControl.WhitespaceColor = System.Drawing.SystemColors.ControlDark;
+            // 
+            // syntaxDocument1
+            // 
+            this.syntaxDocument1.Lines = new string[] {
+        ""};
+            this.syntaxDocument1.MaxUndoBufferSize = 1000;
+            this.syntaxDocument1.Modified = false;
+            this.syntaxDocument1.UndoStep = 0;
+            // 
             // DMEditor
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.codeEditorControl);
             this.Controls.Add(this.DMESaveAsButton);
             this.Controls.Add(this.DMEComileButton);
-            this.Controls.Add(this.DMETextBox);
             this.Controls.Add(this.DMELoadButton);
             this.Controls.Add(this.DMESaveButton);
             this.Name = "DMEditor";
@@ -137,11 +168,9 @@ namespace Ecell.IDE
         /// File selection dialog.
         /// </summary>
         protected System.Windows.Forms.OpenFileDialog DMEOpenFileDialog;
-        /// <summary>
-        /// RichTextBox to display the source file.
-        /// </summary>
-        protected System.Windows.Forms.RichTextBox DMETextBox;
         private System.Windows.Forms.Button DMESaveAsButton;
         protected System.Windows.Forms.SaveFileDialog DMESaveFileDialog;
+        private Fireball.Syntax.SyntaxDocument syntaxDocument1;
+        protected Fireball.Windows.Forms.CodeEditorControl codeEditorControl;
     }
 }
