@@ -1132,7 +1132,7 @@ namespace Ecell.IDE.MainWindow
                 }
             }
             // Close project.
-            CloseProject();
+            //CloseProject();
 
             // Return true when the current project was closed successfully.
             return state;
@@ -1298,6 +1298,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (CloseConfirm() == ConfirmState.Canceled)
                 return;
+            CloseProject();
         }
 
         /// <summary>
