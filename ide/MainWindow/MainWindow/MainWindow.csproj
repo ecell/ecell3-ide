@@ -308,6 +308,18 @@
       <DependentUpon>ProjectWizardWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIComponents\PWDMPanel.ja.resx">
+      <DependentUpon>PWDMPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponents\PWDMPanel.resx">
+      <DependentUpon>PWDMPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponents\PWProjectPanel.ja.resx">
+      <DependentUpon>PWProjectPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponents\PWProjectPanel.resx">
+      <DependentUpon>PWProjectPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIComponents\RootFolderSettingPage.ja.resx">
       <DependentUpon>RootFolderSettingPage.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -328,6 +340,15 @@
     </Compile>
     <Compile Include="UIComponents\DockToolStripMenuItem.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIComponents\PWDMPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIComponents\PWDMPanel.Designer.cs">
+      <DependentUpon>PWDMPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIComponents\PWProjectPanel.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UIComponents\RootFolderSettingPage.cs">
       <SubType>UserControl</SubType>

@@ -29,134 +29,33 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
-            this.DMLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.DMListBox = new System.Windows.Forms.ListBox();
-            this.DMListLabel = new System.Windows.Forms.Label();
-            this.ProjectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.ProjectPatternList = new System.Windows.Forms.TableLayoutPanel();
-            this.CommentBox = new System.Windows.Forms.GroupBox();
-            this.ProjectCommentTextBox = new System.Windows.Forms.TextBox();
-            this.ProjectBox = new System.Windows.Forms.GroupBox();
-            this.ProjectIDTextBox = new System.Windows.Forms.TextBox();
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.ButtonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.DMRemoveButton = new System.Windows.Forms.Button();
-            this.DMAddButon = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.DMLayoutPanel.SuspendLayout();
-            this.ProjectLayoutPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
-            this.ProjectPatternList.SuspendLayout();
-            this.CommentBox.SuspendLayout();
-            this.ProjectBox.SuspendLayout();
+            this.ProjectPanel = new Ecell.IDE.MainWindow.UIComponents.PWProjectPanel();
+            this.DMPanel = new Ecell.IDE.MainWindow.UIComponents.PWDMPanel();
             this.MainLayoutPanel.SuspendLayout();
             this.ButtonLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // DMLayoutPanel
-            // 
-            resources.ApplyResources(this.DMLayoutPanel, "DMLayoutPanel");
-            this.DMLayoutPanel.Controls.Add(this.DMListBox, 1, 1);
-            this.DMLayoutPanel.Controls.Add(this.DMListLabel, 1, 0);
-            this.DMLayoutPanel.Name = "DMLayoutPanel";
-            // 
-            // DMListBox
-            // 
-            resources.ApplyResources(this.DMListBox, "DMListBox");
-            this.DMListBox.FormattingEnabled = true;
-            this.DMListBox.Name = "DMListBox";
-            this.DMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            // 
-            // DMListLabel
-            // 
-            resources.ApplyResources(this.DMListLabel, "DMListLabel");
-            this.DMListLabel.Name = "DMListLabel";
-            // 
-            // ProjectLayoutPanel
-            // 
-            resources.ApplyResources(this.ProjectLayoutPanel, "ProjectLayoutPanel");
-            this.ProjectLayoutPanel.Controls.Add(this.PictureBox, 0, 0);
-            this.ProjectLayoutPanel.Controls.Add(this.ProjectPatternList, 1, 0);
-            this.ProjectLayoutPanel.Name = "ProjectLayoutPanel";
-            // 
-            // PictureBox
-            // 
-            this.PictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.PictureBox, "PictureBox");
-            this.PictureBox.Name = "PictureBox";
-            this.PictureBox.TabStop = false;
-            // 
-            // ProjectPatternList
-            // 
-            resources.ApplyResources(this.ProjectPatternList, "ProjectPatternList");
-            this.ProjectPatternList.Controls.Add(this.CommentBox, 0, 6);
-            this.ProjectPatternList.Controls.Add(this.ProjectBox, 0, 5);
-            this.ProjectPatternList.Name = "ProjectPatternList";
-            // 
-            // CommentBox
-            // 
-            this.CommentBox.Controls.Add(this.ProjectCommentTextBox);
-            resources.ApplyResources(this.CommentBox, "CommentBox");
-            this.CommentBox.Name = "CommentBox";
-            this.CommentBox.TabStop = false;
-            // 
-            // ProjectCommentTextBox
-            // 
-            this.ProjectCommentTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.ProjectCommentTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.ProjectCommentTextBox, "ProjectCommentTextBox");
-            this.ProjectCommentTextBox.Name = "ProjectCommentTextBox";
-            // 
-            // ProjectBox
-            // 
-            this.ProjectBox.Controls.Add(this.ProjectIDTextBox);
-            resources.ApplyResources(this.ProjectBox, "ProjectBox");
-            this.ProjectBox.Name = "ProjectBox";
-            this.ProjectBox.TabStop = false;
-            // 
-            // ProjectIDTextBox
-            // 
-            this.ProjectIDTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.ProjectIDTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.ProjectIDTextBox, "ProjectIDTextBox");
-            this.ProjectIDTextBox.Name = "ProjectIDTextBox";
-            // 
             // MainLayoutPanel
             // 
             resources.ApplyResources(this.MainLayoutPanel, "MainLayoutPanel");
-            this.MainLayoutPanel.Controls.Add(this.DMLayoutPanel, 0, 1);
-            this.MainLayoutPanel.Controls.Add(this.ProjectLayoutPanel, 0, 2);
-            this.MainLayoutPanel.Controls.Add(this.ButtonLayoutPanel, 0, 3);
+            this.MainLayoutPanel.Controls.Add(this.ButtonLayoutPanel, 0, 2);
             this.MainLayoutPanel.Controls.Add(this.textBox1, 0, 0);
+            this.MainLayoutPanel.Controls.Add(this.ProjectPanel, 0, 1);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
             // 
             // ButtonLayoutPanel
             // 
             resources.ApplyResources(this.ButtonLayoutPanel, "ButtonLayoutPanel");
-            this.ButtonLayoutPanel.Controls.Add(this.DMRemoveButton, 1, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.DMAddButon, 1, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.CloseButton, 6, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.BackButton, 4, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.OKButton, 5, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.CloseButton, 4, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.BackButton, 2, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.OKButton, 3, 0);
             this.ButtonLayoutPanel.Name = "ButtonLayoutPanel";
-            // 
-            // DMRemoveButton
-            // 
-            resources.ApplyResources(this.DMRemoveButton, "DMRemoveButton");
-            this.DMRemoveButton.Name = "DMRemoveButton";
-            this.DMRemoveButton.UseVisualStyleBackColor = true;
-            this.DMRemoveButton.Click += new System.EventHandler(this.DMRemove_Click);
-            // 
-            // DMAddButon
-            // 
-            resources.ApplyResources(this.DMAddButon, "DMAddButon");
-            this.DMAddButon.Name = "DMAddButon";
-            this.DMAddButon.UseVisualStyleBackColor = true;
-            this.DMAddButon.Click += new System.EventHandler(this.DMAdd_Click);
             // 
             // CloseButton
             // 
@@ -186,6 +85,17 @@
             resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
             // 
+            // ProjectPanel
+            // 
+            resources.ApplyResources(this.ProjectPanel, "ProjectPanel");
+            this.ProjectPanel.Name = "ProjectPanel";
+            this.ProjectPanel.ProjectChange += new System.EventHandler(ProjectPanel_ProjectChange);
+            // 
+            // DMPanel
+            // 
+            resources.ApplyResources(this.DMPanel, "DMPanel");
+            this.DMPanel.Name = "DMPanel";
+            // 
             // ProjectWizardWindow
             // 
             this.AcceptButton = this.OKButton;
@@ -198,15 +108,6 @@
             this.Name = "ProjectWizardWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProjectWizardWindow_FormClosing);
-            this.DMLayoutPanel.ResumeLayout(false);
-            this.DMLayoutPanel.PerformLayout();
-            this.ProjectLayoutPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
-            this.ProjectPatternList.ResumeLayout(false);
-            this.CommentBox.ResumeLayout(false);
-            this.CommentBox.PerformLayout();
-            this.ProjectBox.ResumeLayout(false);
-            this.ProjectBox.PerformLayout();
             this.MainLayoutPanel.ResumeLayout(false);
             this.MainLayoutPanel.PerformLayout();
             this.ButtonLayoutPanel.ResumeLayout(false);
@@ -216,25 +117,14 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel DMLayoutPanel;
-        private System.Windows.Forms.TableLayoutPanel ProjectLayoutPanel;
-        private System.Windows.Forms.PictureBox PictureBox;
         private System.Windows.Forms.TableLayoutPanel MainLayoutPanel;
-        private System.Windows.Forms.TableLayoutPanel ProjectPatternList;
-        private System.Windows.Forms.GroupBox CommentBox;
-        private System.Windows.Forms.TextBox ProjectCommentTextBox;
-        private System.Windows.Forms.GroupBox ProjectBox;
-        private System.Windows.Forms.TextBox ProjectIDTextBox;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ListBox DMListBox;
-        private System.Windows.Forms.Label DMListLabel;
         private System.Windows.Forms.TableLayoutPanel ButtonLayoutPanel;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.Button DMRemoveButton;
-        private System.Windows.Forms.Button DMAddButon;
-
+        private Ecell.IDE.MainWindow.UIComponents.PWProjectPanel ProjectPanel;
+        private Ecell.IDE.MainWindow.UIComponents.PWDMPanel DMPanel;
 
     }
 }

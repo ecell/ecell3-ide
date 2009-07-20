@@ -72,10 +72,10 @@ namespace Ecell.IDE.MainWindow
             get
             {
                 List<string> list = new List<string>();
-                int len = DMListBox.Items.Count;
+                int len = DMPanel.DMListBox.Items.Count;
                 for (int i = 0; i < len; i++)
                 {
-                    string dir = DMListBox.Items[i] as string;
+                    string dir = DMPanel.DMListBox.Items[i] as string;
                     if (dir == null) 
                         continue;
                     list.Add(dir);
@@ -95,56 +95,22 @@ namespace Ecell.IDE.MainWindow
         {
             InitializeComponent();
             textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
-            LoadProjectTemplates();
 
-            MainLayoutPanel.Controls.Remove(DMLayoutPanel);
-            MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
+            MainLayoutPanel.Controls.Remove(DMPanel);
+            MainLayoutPanel.Controls.Add(ProjectPanel, 0, 1);
         }
         #endregion
 
         #region private Method
         /// <summary>
-        /// Load the list of window setting.
-        /// </summary>
-        private void LoadProjectTemplates()
-        {
-            // Load Projects
-            string path = Path.Combine(Util.GetWindowSettingDir(), "Templates");
-            if (path == null || !Directory.Exists(path))
-                return;
-            string[] dirs = Directory.GetDirectories(path);
-            int i = 0;
-            foreach (string dir in dirs)
-            {
-                if (i >= 5)
-                    break;
-                string prjXMLFileName = Path.Combine(dir, Constants.fileProjectXML);
-                // Check project.xml and load.
-                if (!File.Exists(prjXMLFileName))
-                    continue;
-
-                ProjectInfo project = ProjectInfoLoader.Load(prjXMLFileName);
-                ProjectLabel label = new ProjectLabel(project);
-                label.Click += new EventHandler(label_Click);
-                ProjectPatternList.Controls.Add(label, 0, i);
-                i++;
-            }
-        }
-        /// <summary>
-        /// Event on click ProjectLabel.
-        /// This event set the selected project.
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void label_Click(object sender, EventArgs e)
+        void ProjectPanel_ProjectChange(object sender, System.EventArgs e)
         {
-            ProjectLabel label = (ProjectLabel)sender;
-            m_project = label.Project;
-            string filepath = Path.Combine(m_project.ProjectPath, "model.png");
-            PictureBox.Image = Image.FromFile(filepath);
-            ProjectIDTextBox.Text = m_project.Name;
-            ProjectCommentTextBox.Text = m_project.Comment;
-            OKButton.Enabled = true;
+            m_project = ProjectPanel.Project;
+            this.OKButton.Enabled = (ProjectPanel.Project != null);
         }
 
         /// <summary>
@@ -156,7 +122,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (m_project == null)
                 return;
-            string projectName = ProjectIDTextBox.Text;
+            string projectName = ProjectPanel.IDTextBox.Text;
 
             if (Util.IsExistProject(projectName)
                 && !Util.ShowOKCancelDialog(
@@ -167,10 +133,11 @@ namespace Ecell.IDE.MainWindow
                 return;
             }
             m_project.Name = projectName;
-            m_project.Comment = ProjectCommentTextBox.Text;
+            m_project.Comment = ProjectPanel.CommentTextBox.Text;
             // Set Page
             SetNextPage();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -180,13 +147,12 @@ namespace Ecell.IDE.MainWindow
             OKButton.Text = MessageResources.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
             OKButton.Click -= this.OKButton_Click;
-            DMRemoveButton.Visible = true;
-            DMAddButon.Visible = true;
-            MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
-            ProjectLayoutPanel.Dock = DockStyle.Fill;
-            MainLayoutPanel.Controls.Add(DMLayoutPanel, 0, 1);
+            MainLayoutPanel.Controls.Remove(ProjectPanel);
+            DMPanel.Dock = DockStyle.Fill;
+            MainLayoutPanel.Controls.Add(DMPanel, 0, 1);
             BackButton.Enabled = true;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -198,45 +164,10 @@ namespace Ecell.IDE.MainWindow
             OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
             OKButton.Click += new EventHandler(OKButton_Click);
-            DMAddButon.Visible = false;
-            DMRemoveButton.Visible = false;
-            MainLayoutPanel.Controls.Remove(DMLayoutPanel);
-            MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
+            MainLayoutPanel.Controls.Remove(DMPanel);
+            MainLayoutPanel.Controls.Add(ProjectPanel, 0, 1);
             BackButton.Enabled = false;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DMAdd_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog win = new FolderBrowserDialog();
-            win.Description = MessageResources.SelectDMDir;
-            using (win)
-            {
-                if (win.ShowDialog() != DialogResult.OK)
-                    return;
-
-                if (DMListBox.Items.Contains(win.SelectedPath))
-                    return;
-
-                DMListBox.Items.Add(win.SelectedPath);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DMRemove_Click(object sender, EventArgs e)
-        {
-            while (DMListBox.SelectedIndex > -1)
-            {
-                DMListBox.Items.RemoveAt(DMListBox.SelectedIndex);
-            }
-        }
-
         #endregion
 
 
