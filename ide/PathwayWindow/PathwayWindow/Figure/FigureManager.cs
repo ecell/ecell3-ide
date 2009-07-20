@@ -174,7 +174,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
                 Image icon = new Bitmap(image, 16, 16);
                 list.Images.Add(type, image);
             }
-            return list;
+            return list;    
         }
 
         /// <summary>

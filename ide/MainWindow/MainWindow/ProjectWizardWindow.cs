@@ -59,8 +59,12 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         public ProjectInfo SelectedProject
         {
-            get { return m_project; }
-            set { m_project = value; }
+            get
+            {
+                m_project.Name = DMPanel.ProjectName.Text;
+                m_project.Comment = DMPanel.Comment.Text;
+                return m_project;
+            }
         }
 
         /// <summary>
@@ -118,22 +122,12 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OKButton_Click(object sender, EventArgs e)
+        private void GoNext_Click(object sender, EventArgs e)
         {
             if (m_project == null)
                 return;
             string projectName = ProjectPanel.IDTextBox.Text;
 
-            if (Util.IsExistProject(projectName)
-                && !Util.ShowOKCancelDialog(
-                string.Format(MessageResources.ErrExistProject, projectName)
-                + "\n" + MessageResources.ConfirmOverwrite)
-                )
-            {
-                return;
-            }
-            m_project.Name = projectName;
-            m_project.Comment = ProjectPanel.CommentTextBox.Text;
             // Set Page
             SetNextPage();
         }
@@ -146,11 +140,14 @@ namespace Ecell.IDE.MainWindow
             textBox1.Text = MessageResources.ProjectWizardSelectDM;
             OKButton.Text = MessageResources.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
-            OKButton.Click -= this.OKButton_Click;
+            OKButton.Click -= GoNext_Click;
             MainLayoutPanel.Controls.Remove(ProjectPanel);
             DMPanel.Dock = DockStyle.Fill;
             MainLayoutPanel.Controls.Add(DMPanel, 0, 1);
             BackButton.Enabled = true;
+
+            DMPanel.ProjectName.Text = Util.GetNewProjectName();
+            DMPanel.Comment.Text = "Template:" + m_project.Name + "\r\nComment:" + m_project.Comment;
         }
 
         /// <summary>
@@ -163,7 +160,7 @@ namespace Ecell.IDE.MainWindow
             textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
             OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
-            OKButton.Click += new EventHandler(OKButton_Click);
+            OKButton.Click += GoNext_Click;
             MainLayoutPanel.Controls.Remove(DMPanel);
             MainLayoutPanel.Controls.Add(ProjectPanel, 0, 1);
             BackButton.Enabled = false;
@@ -222,16 +219,22 @@ namespace Ecell.IDE.MainWindow
 
         }
 
-
         private void ProjectWizardWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.DialogResult == DialogResult.Cancel) return;
+            if (this.DialogResult == DialogResult.Cancel)
+                return;
             string projectName = m_project.Name;
+            string msg = string.Format(MessageResources.ErrExistProject, projectName)
+                        + "\n" + MessageResources.ConfirmOverwrite;
+
             if (Util.IsNGforIDonWindows(projectName) || projectName.Length > 64)
             {
                 Util.ShowWarningDialog(string.Format(MessageResources.ErrIDNG, "Project ID"));
                 e.Cancel = true;
-                return;
+            }
+            else if (Util.IsExistProject(projectName) && !Util.ShowOKCancelDialog(msg))
+            {
+                e.Cancel = true;
             }
             return;
         }

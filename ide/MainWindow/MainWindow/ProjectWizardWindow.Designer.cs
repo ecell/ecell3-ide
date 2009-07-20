@@ -76,7 +76,7 @@
             resources.ApplyResources(this.OKButton, "OKButton");
             this.OKButton.Name = "OKButton";
             this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
+            this.OKButton.Click += new System.EventHandler(this.GoNext_Click);
             // 
             // textBox1
             // 
@@ -84,12 +84,14 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
+            this.textBox1.TabStop = false;
             // 
             // ProjectPanel
             // 
             resources.ApplyResources(this.ProjectPanel, "ProjectPanel");
             this.ProjectPanel.Name = "ProjectPanel";
-            this.ProjectPanel.ProjectChange += new System.EventHandler(ProjectPanel_ProjectChange);
+            this.ProjectPanel.Project = null;
+            this.ProjectPanel.ProjectChange += new System.EventHandler(this.ProjectPanel_ProjectChange);
             // 
             // DMPanel
             // 

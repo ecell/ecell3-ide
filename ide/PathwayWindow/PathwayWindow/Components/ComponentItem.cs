@@ -238,13 +238,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.RaisePropertyChange();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ItemClosing()
-        {
-        }
-
         #region EventHandlers
         /// <summary>
         /// Event on ChangeTextBrush

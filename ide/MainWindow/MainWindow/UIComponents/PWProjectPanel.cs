@@ -106,10 +106,12 @@ namespace Ecell.IDE.MainWindow.UIComponents
             // 
             // IDTextBox
             // 
-            this.IDTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.IDTextBox.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.IDTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.IDTextBox, "IDTextBox");
             this.IDTextBox.Name = "IDTextBox";
+            this.IDTextBox.ReadOnly = true;
+            this.IDTextBox.TabStop = false;
             // 
             // CommentBox
             // 
@@ -120,10 +122,12 @@ namespace Ecell.IDE.MainWindow.UIComponents
             // 
             // CommentTextBox
             // 
-            this.CommentTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.CommentTextBox.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.CommentTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.CommentTextBox, "CommentTextBox");
             this.CommentTextBox.Name = "CommentTextBox";
+            this.CommentTextBox.ReadOnly = true;
+            this.CommentTextBox.TabStop = false;
             // 
             // PWProjectPanel
             // 
@@ -163,7 +167,6 @@ namespace Ecell.IDE.MainWindow.UIComponents
             if (path == null || !Directory.Exists(path))
                 return;
             string[] dirs = Directory.GetDirectories(path);
-            int i = 0;
             foreach (string dir in dirs)
             {
                 string prjXMLFileName = Path.Combine(dir, Constants.fileProjectXML);

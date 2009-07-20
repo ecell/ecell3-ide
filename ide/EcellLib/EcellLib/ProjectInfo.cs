@@ -314,6 +314,15 @@ namespace Ecell
                 m_modelList.Add(model);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.m_prjName;
+        }
         #endregion
 
     }

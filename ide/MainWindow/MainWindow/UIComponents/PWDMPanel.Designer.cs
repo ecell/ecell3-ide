@@ -33,6 +33,10 @@
             this.DMListBox = new System.Windows.Forms.ListBox();
             this.DMRemoveButton = new System.Windows.Forms.Button();
             this.DMAddButon = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ProjectName = new System.Windows.Forms.TextBox();
+            this.Comment = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // DMListLabel
@@ -61,10 +65,36 @@
             this.DMAddButon.UseVisualStyleBackColor = true;
             this.DMAddButon.Click += new System.EventHandler(this.DMAddButon_Click);
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // ProjectName
+            // 
+            resources.ApplyResources(this.ProjectName, "ProjectName");
+            this.ProjectName.Name = "ProjectName";
+            // 
+            // Comment
+            // 
+            this.Comment.AcceptsReturn = true;
+            this.Comment.AcceptsTab = true;
+            resources.ApplyResources(this.Comment, "Comment");
+            this.Comment.Name = "Comment";
+            // 
             // PWDMPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Comment);
+            this.Controls.Add(this.ProjectName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.DMRemoveButton);
             this.Controls.Add(this.DMAddButon);
             this.Controls.Add(this.DMListBox);
@@ -81,5 +111,9 @@
         public System.Windows.Forms.ListBox DMListBox;
         private System.Windows.Forms.Button DMRemoveButton;
         private System.Windows.Forms.Button DMAddButon;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.TextBox ProjectName;
+        public System.Windows.Forms.TextBox Comment;
     }
 }

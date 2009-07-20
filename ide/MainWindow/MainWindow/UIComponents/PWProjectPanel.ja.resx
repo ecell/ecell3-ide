@@ -125,7 +125,7 @@
     <value>プロジェクトテンプレート（&amp;P:）</value>
   </data>
   <data name="ProjectBox.Text" xml:space="preserve">
-    <value>プロジェクト名（&amp;N）:</value>
+    <value>テンプレート名（&amp;N）:</value>
   </data>
   <data name="CommentBox.Text" xml:space="preserve">
     <value>概要（&amp;C）:</value>
