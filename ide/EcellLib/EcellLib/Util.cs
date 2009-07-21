@@ -877,7 +877,7 @@ namespace Ecell
         /// Show yes, no or cancel dialog.
         /// </summary>
         /// <param name="msg">the confirm message.</param>
-        /// <returns>yes is true, no is false and cancel throw Exception.</r2eturns>
+        /// <returns>yes is true, no is false and cancel throw Exception.</returns>
         public static bool ShowYesNoCancelDialog(string msg)
         {
             return ShowYesNoCancelDialog(msg, MessageBoxDefaultButton.Button1);

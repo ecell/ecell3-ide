@@ -44,7 +44,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     {
         private CheckBox unsharpCheckBox;
         private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox backgroundImageComboBox;
-        private System.ComponentModel.IContainer components;
         private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox arrowColorImageComboBox;
         private TextBox widthTextBox;
         private AnimationControl m_control;

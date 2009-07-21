@@ -202,15 +202,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Create TabPage for PathwaySettingDialog
-        /// </summary>
-        /// <returns></returns>
-        //public PropertyDialogPage ComponentSettingsPage
-        //{
-        //    get { return new ComponentSettingsPage(this); }
-        //}
-
-        /// <summary>
         /// Get the TabPages for PropertyDialog.
         /// </summary>
         public List<IPropertyItem> PropertySettings
@@ -1220,6 +1211,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="objList"></param>
         public void NotifyDataChanged(List<PPathwayObject> objList)
         {
+            if (objList == null || objList.Count <= 0)
+                return;
             m_canvas.PCanvas.Camera.Pickable = false;
             foreach (PPathwayObject obj in objList)
             {

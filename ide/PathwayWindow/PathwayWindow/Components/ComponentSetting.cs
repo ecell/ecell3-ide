@@ -410,7 +410,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 {
                     icon = new Bitmap(Image, 16, 16);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     m_imageStream = null;
                 }

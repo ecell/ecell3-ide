@@ -126,8 +126,6 @@ namespace Ecell.IDE.MainWindow
         {
             if (m_project == null)
                 return;
-            string projectName = ProjectPanel.IDTextBox.Text;
-
             // Set Page
             SetNextPage();
         }

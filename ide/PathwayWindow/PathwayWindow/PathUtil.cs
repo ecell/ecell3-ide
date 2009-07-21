@@ -129,6 +129,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             eo.OffsetX = 0f;
             eo.OffsetY = 0f;
             eo.isFixed = false;
+            eo.Layout.Figure = obj.Setting.Name;
         }
 
         /// <summary>

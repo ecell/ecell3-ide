@@ -48,6 +48,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// 
         /// </summary>
         /// <param name="control"></param>
+        /// <param name="setting"></param>
         public ComponentSettingsPage(PathwayControl control, ComponentSetting setting)
             : base()
         {

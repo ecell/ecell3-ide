@@ -1402,15 +1402,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 dlg.ApplyChange();
-                obj.Setting = cs;
                 m_con.ComponentManager.RegisterSetting(cs);
+                m_con.SetNodeIcons();
             }
 
             // Update.
-            EcellObject eo = obj.EcellObject.Clone();
-            eo.Layout.Figure = cs.Name;
-            m_con.SetNodeIcons();
-            m_con.NotifyDataChanged(eo.Key, eo, true, true);
+            List<PPathwayObject> list = new List<PPathwayObject>();
+            foreach (PPathwayObject pObj in m_con.Canvas.SelectedNodes)
+            {
+                if (!pObj.Setting.Type.Equals(cs.Type))
+                    continue;
+                pObj.Setting = cs;
+                list.Add(pObj);
+            }
+            m_con.NotifyDataChanged(list);
         }
         
         /// <summary>

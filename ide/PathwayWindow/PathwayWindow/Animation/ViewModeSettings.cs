@@ -43,7 +43,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     internal class ViewModeSettings : UserControl
     {
         private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox backgroundImageComboBox;
-        private System.ComponentModel.IContainer components;
         private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox arrowImageComboBox;
         private TextBox maxWidthTextBox;
 
