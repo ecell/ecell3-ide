@@ -128,6 +128,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="tn">the selected node.</param>
         private void HighLight(TreeNode tn)
         {
+            if (tn == null) return;
             if (tn.BackColor != SystemColors.Highlight)
             {
                 tn.BackColor = SystemColors.Highlight;
@@ -145,6 +146,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="tn">the selected node.</param>
         private void LowlightNode(TreeNode tn)
         {
+            if (tn == null) return;
             if (tn.BackColor != this.BackColor)
             {
                 tn.BackColor = this.BackColor;
@@ -204,7 +206,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="isScroll">the flag whether EnsureVisible is executed.</param>
         public void SelectNode(TreeNode tn, bool isChanged, bool isScroll)
         {
-            if (m_isUpdate)
+            if (m_isUpdate || tn == null)
                 return;
             ClearSelNode();
             if (!this.SelNodes.Contains(tn))
