@@ -124,6 +124,11 @@
     </Compile>
     <Compile Include="DockWindowSerializer.cs">
     </Compile>
+    <Compile Include="MessageResources.ja.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResources.ja.resx</DependentUpon>
+    </Compile>
     <Compile Include="UIComponents\GeneralConfigurationPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -265,6 +270,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResources.ja.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
