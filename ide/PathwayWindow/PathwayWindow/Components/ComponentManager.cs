@@ -381,6 +381,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// 
         /// </summary>
         /// <param name="type"></param>
+        /// <returns></returns>
+        public List<ComponentSetting> GetSettings(string type)
+        {
+            List<ComponentSetting> list = new List<ComponentSetting>();
+            Dictionary<string, ComponentSetting> dic = GetSettingDictionary(type);
+            foreach (ComponentSetting cs in dic.Values)
+            {
+                list.Add(cs);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
         /// <param name="key"></param>
         /// <returns></returns>
         public ComponentSetting GetSetting(string type, string key)

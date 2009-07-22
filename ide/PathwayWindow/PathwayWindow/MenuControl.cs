@@ -1396,14 +1396,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             cs.IsStencil = false;
 
             // Show Setting Dialog.
-            ComponentDialog dlg = new ComponentDialog(cs);
+            ComponentDialog dlg = new ComponentDialog(m_con.ComponentManager);
             using (dlg)
             {
+                dlg.IsPathway = true;
+                dlg.Setting = cs;
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 dlg.ApplyChange();
+                cs = dlg.Setting;
                 m_con.ComponentManager.RegisterSetting(cs);
                 m_con.SetNodeIcons();
+                // Register new stencil
+                if (dlg.DoesRegister)
+                {
+                    ComponentSetting stencil = cs.Clone();
+                    stencil.Name = m_con.ComponentManager.GetRandomKey();
+                    m_con.Stencil.AddStencil(stencil);
+                }
             }
 
             // Update.

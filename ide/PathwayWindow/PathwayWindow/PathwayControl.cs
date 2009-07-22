@@ -177,7 +177,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Accessor for m_layerView.
         /// </summary>
-        public Stencils ToolBox
+        public Stencils Stencil
         {
             get { return m_toolBox; }
         }

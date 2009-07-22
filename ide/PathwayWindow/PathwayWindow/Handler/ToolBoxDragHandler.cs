@@ -178,8 +178,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             Point systemPos = GetSystemPos(e);
 
             // If ToolBox window contains the systemPos, return.
-            Rectangle rect = m_con.ToolBox.Bounds;
-            rect.Location = m_con.ToolBox.GetDesktopLocation();
+            Rectangle rect = m_con.Stencil.Bounds;
+            rect.Location = m_con.Stencil.GetDesktopLocation();
             if (rect.Contains(systemPos))
             {
                 ResetEventHandler();

@@ -171,7 +171,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
                 gra.FillPath(Brushes.Orange, gp);
                 gra.DrawPath(new Pen(Brushes.Orange, 0), gp);
 
-                Image icon = new Bitmap(image, 16, 16);
                 list.Images.Add(type, image);
             }
             return list;    

@@ -81,24 +81,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
         /// Returns a list of Brush ImageList.
         /// </summary>
         /// <returns></returns>
-        public static ImageList GetBrushImageList()
+        public static ImageList BrushImageList
         {
-            if (m_brushDic == null)
-                m_brushDic = CreateBrushDictionary();
-            if (m_imageList != null)
-                return m_imageList;
-
-            m_imageList = new ImageList();
-            foreach (string key in m_brushDic.Keys)
+            get
             {
-                Brush brush = m_brushDic[key];
-                Image image = new Bitmap(16, 16);
-                System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(image);
-                gra.FillRectangle(brush, 0, 0, 15, 13);
-                gra.DrawRectangle(new Pen(Brushes.Black), 0, 0, 15, 13);
-                m_imageList.Images.Add(key, image);
+                if (m_brushDic == null)
+                    m_brushDic = CreateBrushDictionary();
+                if (m_imageList != null)
+                    return m_imageList;
+
+                m_imageList = new ImageList();
+                foreach (string key in m_brushDic.Keys)
+                {
+                    Brush brush = m_brushDic[key];
+                    Image image = new Bitmap(16, 16);
+                    System.Drawing.Graphics gra = System.Drawing.Graphics.FromImage(image);
+                    gra.FillRectangle(brush, 0, 0, 15, 13);
+                    gra.DrawRectangle(new Pen(Brushes.Black), 0, 0, 15, 13);
+                    m_imageList.Images.Add(key, image);
+                }
+                return m_imageList;
             }
-            return m_imageList;
         }
 
         /// <summary>

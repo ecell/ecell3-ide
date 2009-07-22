@@ -43,8 +43,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     /// </summary>
     public class BrushComboBox : UserControl
     {
-        private ImageComboBox brushComboBox;
+        private ImageComboBox imageComboBox;
         private Brush brush;
+        private System.ComponentModel.IContainer components;
 
         #region EventHandler for BrushChange
         private EventHandler m_onBrushChange;
@@ -82,7 +83,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             set
             {
                 brush = value;
-                brushComboBox.Text = BrushManager.ParseBrushToString(brush);
+                imageComboBox.Text = BrushManager.ParseBrushToString(brush);
                 RaiseBrushChange();
             }
         }
@@ -92,10 +93,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         public new bool Enabled
         {
-            get { return brushComboBox.Enabled; }
+            get { return imageComboBox.Enabled; }
             set
             {
-                brushComboBox.Enabled = value;
+                imageComboBox.Enabled = value;
                 base.Enabled = value;
             }
         }
@@ -108,6 +109,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public BrushComboBox()
         {
             InitializeComponent();
+            this.imageComboBox.ImageList = BrushManager.BrushImageList;
         }
 
         /// <summary>
@@ -122,29 +124,173 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void InitializeComponent()
         {
-            // set Brushes
-            this.brush = Brushes.Black;
-            this.brushComboBox = new ImageComboBox(BrushManager.GetBrushImageList());
+            this.components = new System.ComponentModel.Container();
+            this.imageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.ImageComboBox();
             this.SuspendLayout();
-            this.Controls.Add(this.brushComboBox);
             // 
-            // comboBoxBrush
+            // imageComboBox
             // 
-            this.brushComboBox.Dock = DockStyle.Fill;
-            this.brushComboBox.FormattingEnabled = true;
-            this.brushComboBox.Location = new Point(1, 1);
-            this.brushComboBox.Size = new Size(100, 20);
-            this.brushComboBox.TabIndex = 0;
-            this.brushComboBox.Text = BrushManager.ParseBrushToString(brush);
-            this.brushComboBox.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-            this.brushComboBox.KeyDown += new KeyEventHandler(cBoxNomalBrush_KeyDown);
-            this.brushComboBox.SelectedIndexChanged += new EventHandler(cBoxBrush_SelectedIndexChanged);
-            //
-            //
-            //
-            this.Size = new Size(105, 22);
+            this.imageComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.imageComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.imageComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.imageComboBox.FormattingEnabled = true;
+            this.imageComboBox.Items.AddRange(new object[] {
+            "AliceBlue",
+            "AntiqueWhite",
+            "Aqua",
+            "Aquamarine",
+            "Azure",
+            "Beige",
+            "Bisque",
+            "Black",
+            "BlanchedAlmond",
+            "Blue",
+            "BlueViolet",
+            "Brown",
+            "BurlyWood",
+            "CadetBlue",
+            "Chartreuse",
+            "Chocolate",
+            "Coral",
+            "CornflowerBlue",
+            "Cornsilk",
+            "Crimson",
+            "Cyan",
+            "DarkBlue",
+            "DarkCyan",
+            "DarkGoldenrod",
+            "DarkGray",
+            "DarkGreen",
+            "DarkKhaki",
+            "DarkMagenta",
+            "DarkOliveGreen",
+            "DarkOrange",
+            "DarkOrchid",
+            "DarkRed",
+            "DarkSalmon",
+            "DarkSeaGreen",
+            "DarkSlateBlue",
+            "DarkSlateGray",
+            "DarkTurquoise",
+            "DarkViolet",
+            "DeepPink",
+            "DeepSkyBlue",
+            "DimGray",
+            "DodgerBlue",
+            "Firebrick",
+            "FloralWhite",
+            "ForestGreen",
+            "Fuchsia",
+            "Gainsboro",
+            "GhostWhite",
+            "Gold",
+            "Goldenrod",
+            "Gray",
+            "Green",
+            "GreenYellow",
+            "Honeydew",
+            "HotPink",
+            "IndianRed",
+            "Indigo",
+            "Ivory",
+            "Khaki",
+            "Lavender",
+            "LavenderBlush",
+            "LawnGreen",
+            "LemonChiffon",
+            "LightBlue",
+            "LightCoral",
+            "LightCyan",
+            "LightGoldenrodYellow",
+            "LightGray",
+            "LightGreen",
+            "LightPink",
+            "LightSalmon",
+            "LightSeaGreen",
+            "LightSkyBlue",
+            "LightSlateGray",
+            "LightSteelBlue",
+            "LightYellow",
+            "Lime",
+            "LimeGreen",
+            "Linen",
+            "Magenta",
+            "Maroon",
+            "MediumAquamarine",
+            "MediumBlue",
+            "MediumOrchid",
+            "MediumPurple",
+            "MediumSeaGreen",
+            "MediumSlateBlue",
+            "MediumSpringGreen",
+            "MediumTurquoise",
+            "MediumVioletRed",
+            "MidnightBlue",
+            "MintCream",
+            "MistyRose",
+            "Moccasin",
+            "NavajoWhite",
+            "Navy",
+            "OldLace",
+            "Olive",
+            "OliveDrab",
+            "Orange",
+            "OrangeRed",
+            "Orchid",
+            "PaleGoldenrod",
+            "PaleGreen",
+            "PaleTurquoise",
+            "PaleVioletRed",
+            "PapayaWhip",
+            "PeachPuff",
+            "Peru",
+            "Pink",
+            "Plum",
+            "PowderBlue",
+            "Purple",
+            "Red",
+            "RosyBrown",
+            "RoyalBlue",
+            "SaddleBrown",
+            "Salmon",
+            "SandyBrown",
+            "SeaGreen",
+            "SeaShell",
+            "Sienna",
+            "Silver",
+            "SkyBlue",
+            "SlateBlue",
+            "SlateGray",
+            "Snow",
+            "SpringGreen",
+            "SteelBlue",
+            "Tan",
+            "Teal",
+            "Thistle",
+            "Tomato",
+            "Turquoise",
+            "Violet",
+            "Wheat",
+            "White",
+            "WhiteSmoke",
+            "Yellow",
+            "YellowGreen"});
+            this.imageComboBox.Location = new System.Drawing.Point(0, 0);
+            this.imageComboBox.MaxDropDownItems = 10;
+            this.imageComboBox.Name = "imageComboBox";
+            this.imageComboBox.Size = new System.Drawing.Size(105, 20);
+            this.imageComboBox.TabIndex = 0;
+            this.imageComboBox.Text = "Black";
+            this.imageComboBox.SelectedIndexChanged += new System.EventHandler(this.cBoxBrush_SelectedIndexChanged);
+            this.imageComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cBoxNomalBrush_KeyDown);
+            // 
+            // BrushComboBox
+            // 
+            this.Controls.Add(this.imageComboBox);
+            this.Name = "BrushComboBox";
+            this.Size = new System.Drawing.Size(105, 22);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

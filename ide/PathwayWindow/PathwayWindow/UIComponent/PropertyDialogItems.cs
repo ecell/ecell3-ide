@@ -303,6 +303,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public PropertyBrushItem()
         {
             InitializeComponent();
+            this.comboBoxBrush.ImageList = BrushManager.BrushImageList;
         }
 
         /// <summary>
@@ -311,8 +312,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="label"></param>
         /// <param name="brush"></param>
         public PropertyBrushItem(string label, Brush brush)
+            :this()
         {
-            InitializeComponent();
             this.LabelText = label;
             this.Brush = brush;
         }
@@ -321,7 +322,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             // set Brushes
             this.brush = Brushes.Black;
-            this.comboBoxBrush = new ImageComboBox(BrushManager.GetBrushImageList());
+            this.comboBoxBrush = new ImageComboBox();
             this.SuspendLayout();
             this.Controls.Add(this.comboBoxBrush);
 

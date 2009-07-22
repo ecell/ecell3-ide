@@ -203,7 +203,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void SetNewItem(ComponentSetting cs)
         {
             PToolBoxCanvas pCanvas = new PToolBoxCanvas(cs);
-            cs.IsStencil = true;
             ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(this);
             pCanvas.AddInputEventListener(eventHandler);
             pCanvas.ContextMenuStrip = this.StencilMenuStrip;
@@ -224,12 +223,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             PPathwayObject obj = objects[0];
             ComponentSetting cs = obj.Setting.Clone();
             cs.Name = m_con.ComponentManager.GetRandomKey();
+            AddStencil(cs);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cs"></param>
+        public void AddStencil(ComponentSetting cs)
+        {
             if (cs.IsDefault || cs.IsStencil)
             {
                 Util.ShowErrorDialog(MessageResources.ErrAddStencil);
                 return;
             }
-
+            cs.IsStencil = true;
             m_con.ComponentManager.RegisterSetting(cs);
             SetNewItem(cs);
             m_con.SetNodeIcons();
@@ -262,7 +270,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (m_stencil == null)
                 return;
             // Show Setting Dialog.
-            ComponentDialog dlg = new ComponentDialog(m_stencil.Setting);
+            ComponentDialog dlg = new ComponentDialog(m_con.ComponentManager);
+            dlg.Setting = m_stencil.Setting;
             using (dlg)
             {
                 if (dlg.ShowDialog() != DialogResult.OK)

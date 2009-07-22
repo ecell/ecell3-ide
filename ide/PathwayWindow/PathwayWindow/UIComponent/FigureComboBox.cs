@@ -43,7 +43,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     /// </summary>
     public class FigureComboBox : UserControl
     {
-        private ImageComboBox figureComboBox;
+        private ImageComboBox imageComboBox;
+        private IContainer components;
 
         #region EventHandler for FigureChange
         private EventHandler m_onFigureChange;
@@ -77,10 +78,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         public string Figure
         {
-            get { return figureComboBox.Text; }
+            get { return imageComboBox.Text; }
             set
             {
-                figureComboBox.Text = value;
+                imageComboBox.Text = value;
                 RaiseFigureChange();
             }
         }
@@ -90,10 +91,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         public new bool Enabled
         {
-            get { return figureComboBox.Enabled; }
+            get { return imageComboBox.Enabled; }
             set
             {
-                figureComboBox.Enabled = value;
+                imageComboBox.Enabled = value;
                 base.Enabled = value;
             }
         }
@@ -106,7 +107,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public FigureComboBox()
         {
             InitializeComponent();
-            this.figureComboBox.ImageList = FigureManager.FigureIcons;
+            this.imageComboBox.ImageList = FigureManager.FigureIcons;
         }
 
         /// <summary>
@@ -116,32 +117,44 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public FigureComboBox(string figure)
             :this()
         {
-            this.figureComboBox.Text = figure;
+            this.imageComboBox.Text = figure;
         }
 
         private void InitializeComponent()
         {
-            // set Brushes
-            this.figureComboBox = new ImageComboBox();
+            this.components = new System.ComponentModel.Container();
+            this.imageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.ImageComboBox();
             this.SuspendLayout();
-            this.Controls.Add(this.figureComboBox);
             // 
-            // comboBoxBrush
+            // imageComboBox
             // 
-            this.figureComboBox.Dock = DockStyle.Fill;
-            this.figureComboBox.FormattingEnabled = true;
-            this.figureComboBox.Location = new Point(1, 1);
-            this.figureComboBox.Size = new Size(100, 20);
-            this.figureComboBox.TabIndex = 0;
-            this.figureComboBox.Text = "Rectangle";
-            this.figureComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
-            this.figureComboBox.SelectedIndexChanged += new EventHandler(figureComboBox_SelectedIndexChanged);
-            //
-            //
-            //
-            this.Size = new Size(105, 22);
+            this.imageComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.imageComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.imageComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.imageComboBox.FormattingEnabled = true;
+            this.imageComboBox.Items.AddRange(new object[] {
+            "Ellipse",
+            "Rectangle",
+            "Diamond",
+            "Triangle",
+            "RoundedRectangle",
+            "SystemRectangle",
+            "SystemEllipse"});
+            this.imageComboBox.Location = new System.Drawing.Point(0, 0);
+            this.imageComboBox.MaxDropDownItems = 10;
+            this.imageComboBox.Name = "imageComboBox";
+            this.imageComboBox.Size = new System.Drawing.Size(105, 20);
+            this.imageComboBox.TabIndex = 0;
+            this.imageComboBox.Text = "Rectangle";
+            this.imageComboBox.SelectedIndexChanged += new System.EventHandler(this.figureComboBox_SelectedIndexChanged);
+            // 
+            // FigureComboBox
+            // 
+            this.Controls.Add(this.imageComboBox);
+            this.Name = "FigureComboBox";
+            this.Size = new System.Drawing.Size(105, 22);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -153,7 +166,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public ImageComboBox ComboBox
         {
-            get { return figureComboBox; }
+            get { return imageComboBox; }
         }
 
         /// <summary>
@@ -163,13 +176,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ReadOnly
         {
-            get { return (figureComboBox.DropDownStyle == ComboBoxStyle.DropDownList); }
+            get { return (imageComboBox.DropDownStyle == ComboBoxStyle.DropDownList); }
             set
             {
                 if (value)
-                    this.figureComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                    this.imageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
                 else
-                    this.figureComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+                    this.imageComboBox.DropDownStyle = ComboBoxStyle.DropDown;
             }
         }
 

@@ -47,14 +47,105 @@ namespace Ecell.IDE
     /// </summary>
     public partial class ComponentDialog : Form
     {
+        #region Fields
+        /// <summary>
+        /// ComponentManager
+        /// </summary>
+        private ComponentManager m_csManager = null;
+        /// <summary>
+        /// Current Setting.
+        /// </summary>
+        private ComponentSetting m_cs = null;
+        /// <summary>
+        /// Is pathway or not.
+        /// </summary>
+        private bool m_isPathway = false;
+        
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
+        public ComponentSetting Setting
+        {
+            get { return m_cs; }
+            set
+            {
+                m_cs = value;
+                componentItem.SetItem(value);
+                SetContextMenu();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsPathway
+        {
+            get { return m_isPathway; }
+            set
+            {
+                m_isPathway = value;
+                registerCheckBox.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool DoesRegister
+        {
+            get { return registerCheckBox.Checked; }
+        }
+        
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="cs"></param>
-        public ComponentDialog(ComponentSetting cs)
+        public ComponentDialog()
         {
             InitializeComponent();
-            componentItem.SetItem(cs);
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="csManager"></param>
+        public ComponentDialog(ComponentManager csManager)
+            :this()
+        {
+            m_csManager = csManager;
+        }
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetContextMenu()
+        {
+            contextMenuStrip.Items.Clear();
+            if (!m_isPathway)
+                return;
+
+            string type = m_cs.Type;
+            List<ComponentSetting> list = m_csManager.GetSettings(type);
+            foreach (ComponentSetting cs in list)
+            {
+                if (!cs.IsStencil)
+                    continue;
+                StencilMenuItem item = new StencilMenuItem(cs.Icon);
+                item.Setting = cs;
+                item.Click += new EventHandler(item_Click);
+                contextMenuStrip.Items.Add(item);
+            }
+        }
+
+        void item_Click(object sender, EventArgs e)
+        {
+            StencilMenuItem item = (StencilMenuItem)sender;
+            this.Setting = item.Setting;
         }
 
         /// <summary>
@@ -65,5 +156,30 @@ namespace Ecell.IDE
             componentItem.ApplyChange();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public class StencilMenuItem : ToolStripMenuItem
+        {
+            private ComponentSetting m_setting = null;
+            public ComponentSetting Setting
+            {
+                get { return m_setting; }
+                set { m_setting = value; }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="image"></param>
+            public StencilMenuItem(Image image)
+                : base(image)
+            {
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
