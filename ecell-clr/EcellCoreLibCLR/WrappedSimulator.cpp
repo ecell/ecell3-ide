@@ -344,7 +344,7 @@ namespace EcellCoreLib {
         ~WrappedSimulator()
         {
             delete theModel;
-            delete thePropertiedObjectMaker;
+//            delete thePropertiedObjectMaker;
         }
 
         void Initialize()
@@ -772,7 +772,8 @@ namespace EcellCoreLib {
         {
             try
             {
-                return FromPolymorph(theModel->getStepper(WrappedCString(aStepperID))->getProperty(WrappedCString(aPropertyName)));
+				libecs::StepperCptr anEntityPtr(theModel->getStepper(WrappedCString(aStepperID)));
+                return FromPolymorph(anEntityPtr->getProperty(WrappedCString(aPropertyName)));
             }
             catch (libecs::Exception const& e)
             {
