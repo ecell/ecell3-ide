@@ -90,11 +90,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override EcellObject EcellObject
         {
             get { return base.m_ecellObj; }
-            set {
+            set
+            {
+                // Width
                 if (value.Width < MIN_WIDTH)
                     base.Width = MIN_WIDTH;
                 else
                     base.Width = value.Width;
+                // Height
                 if (value.Height < MIN_HEIGHT)
                     base.Height = MIN_HEIGHT;
                 else
@@ -220,6 +223,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 obj.Refresh();
             }
             base.Refresh();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override void RefreshSettings()
+        {
+            MemorizePosition();
+            base.RefreshSettings();
+            ResetPosition();
         }
 
         /// <summary>

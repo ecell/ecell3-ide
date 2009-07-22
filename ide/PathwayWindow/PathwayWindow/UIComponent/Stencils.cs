@@ -222,7 +222,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             }
 
             PPathwayObject obj = objects[0];
-            ComponentSetting cs = obj.Setting;
+            ComponentSetting cs = obj.Setting.Clone();
+            cs.Name = m_con.ComponentManager.GetRandomKey();
             if (cs.IsDefault || cs.IsStencil)
             {
                 Util.ShowErrorDialog(MessageResources.ErrAddStencil);

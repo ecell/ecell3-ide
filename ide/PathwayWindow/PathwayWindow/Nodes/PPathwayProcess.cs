@@ -63,8 +63,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
-                RefreshStepperIcon();
                 ResetEdges();
+                RefreshStepperIcon();
             }
         }
 

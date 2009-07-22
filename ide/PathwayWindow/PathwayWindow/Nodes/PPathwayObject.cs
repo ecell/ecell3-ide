@@ -254,9 +254,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 this.m_figure = value;
-                MemorizePosition();
+                PointF point = this.CenterPointF;
                 AddPath(m_figure.GraphicsPath, false);
-                ResetPosition();
+                this.CenterPointF = point;
             }
         }
 
@@ -410,7 +410,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             RefreshView();
             // Set Image
             this.Image = m_setting.Image;
-            ResetPosition();
         }
 
         /// <summary>
@@ -598,19 +597,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return image; }
             set
             {
-                // Set Image
-                MemorizePosition();
-                if (value == null)
-                {
-                    SetBounds(0, 0, 0, 0);
-                }
-                else
-                {
-                    SetBounds(0, 0, value.Width, value.Height);
-                }
                 InvalidatePaint();
                 FirePropertyChangedEvent(PROPERTY_KEY_IMAGE, PROPERTY_CODE_IMAGE, image, value);
-                ResetPosition();
                 image = value;
             }
         }
