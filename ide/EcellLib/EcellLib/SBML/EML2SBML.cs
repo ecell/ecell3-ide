@@ -72,7 +72,7 @@ namespace Ecell.SBML
             WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
             EcellModel model = EmlReader.Parse(emlfile, sim);
             SaveSBML(model, output);
-            sim.Dispose();
+            //sim.Dispose();
         }
 
         /// <summary>

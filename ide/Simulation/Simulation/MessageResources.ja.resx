@@ -219,4 +219,10 @@
   <data name="MenuItemSteppingModel" xml:space="preserve">
     <value>ステップ実行中のモデル</value>
   </data>
+  <data name="MenuToolTipBack" xml:space="preserve">
+    <value>シミュレーションを１段階戻す</value>
+  </data>
+  <data name="MenuToolTipFoward" xml:space="preserve">
+    <value>シミュレーションを１段階進める</value>
+  </data>
 </root>

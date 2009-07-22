@@ -421,7 +421,7 @@ namespace Ecell
             {
                 // 20090623
                 //if (sim != null)
-                //    sim.Dispose();
+                    //sim.Dispose();
             }
 
         }
@@ -2827,7 +2827,8 @@ namespace Ecell
                 sim,
                 dummyEcellObject,
                 new Dictionary<string, double>());
-            SetPropertyList(dummyEcellObject, dic);
+            SetPropertyList(dummyEcellObject, dic);            
+            //sim.Dispose();
             return dic;
         }
 
@@ -2861,13 +2862,13 @@ namespace Ecell
             string sizePath = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
             string sizeValuePath = Constants.xpathVariable + Constants.delimiterColon + sizePath +
                 Constants.delimiterColon + Constants.xpathValue;
-            WrappedSimulator simulator = null;
+            WrappedSimulator sim = null;
             EcellObject dummySizeObject = null;
             EcellObject variableObject = null;
             try
             {
-                simulator = m_currentProject.CreateSimulatorInstance();
-                BuildDefaultSimulator(simulator, null, null);
+                sim = m_currentProject.CreateSimulatorInstance();
+                BuildDefaultSimulator(sim, null, null);
                 dummySizeObject = EcellObject.CreateObject(
                     "",
                     sizePath,
@@ -2875,17 +2876,17 @@ namespace Ecell
                     EcellObject.VARIABLE,
                     null
                     );
-                simulator.SetEntityProperty(sizeValuePath, ((EcellSystem)sys).SizeInVolume);
-                simulator.CreateEntity(Constants.xpathVariable, Constants.xpathVariable + Constants.delimiterColon + variablePath);
+                sim.SetEntityProperty(sizeValuePath, ((EcellSystem)sys).SizeInVolume);
+                sim.CreateEntity(Constants.xpathVariable, Constants.xpathVariable + Constants.delimiterColon + variablePath);
                 foreach (EcellData data in variable.Value)
                 {
                     if (!data.Settable) continue;
                     if (data.Name.Equals(updateData.Name)) continue;
-                    simulator.SetEntityProperty(
+                    sim.SetEntityProperty(
                         Constants.xpathVariable + Constants.delimiterColon + variablePath +
                         Constants.delimiterColon + data.Name, data.Value.Value);
                 }
-                simulator.SetEntityProperty(
+                sim.SetEntityProperty(
                     Constants.xpathVariable + Constants.delimiterColon + variablePath +
                     Constants.delimiterColon + updateData.Name, updateData.Value.Value);
 
@@ -2897,7 +2898,7 @@ namespace Ecell
                     null
                     );
                 DataStorer.DataStored4Variable(
-                    simulator,
+                    sim,
                     variableObject,
                     new Dictionary<string, double>());
 
@@ -2911,8 +2912,8 @@ namespace Ecell
             finally
             {
                 //20090623
-                //simulator.Dispose();
-                //simulator = null;
+                //sim.Dispose();
+                //sim = null;
                 variableObject = null;
             }
         }
@@ -2924,12 +2925,12 @@ namespace Ecell
         public Dictionary<string, EcellData> GetVariableProperty()
         {
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator simulator = null;
+            WrappedSimulator sim = null;
             EcellObject dummyEcellObject = null;
             try
             {
-                simulator = m_currentProject.CreateSimulatorInstance();
-                BuildDefaultSimulator(simulator, null, null);
+                sim = m_currentProject.CreateSimulatorInstance();
+                BuildDefaultSimulator(sim, null, null);
                 dummyEcellObject = EcellObject.CreateObject(
                     "",
                     Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
@@ -2938,16 +2939,16 @@ namespace Ecell
                     null
                     );
                 DataStorer.DataStored4Variable(
-                        simulator,
+                        sim,
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
                 //20090623
-                //simulator.Dispose();
+                //sim.Dispose();
             }
             finally
             {
-                simulator = null;
+                sim = null;
                 dummyEcellObject = null;
             }
             return dic;
@@ -2963,18 +2964,27 @@ namespace Ecell
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
             try
             {
-                string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
                 WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
                 sim.CreateStepper("DAEStepper", "temporaryStepper");
                 sim.SetEntityProperty("System::/:StepperID", "temporaryStepper");
                 sim.CreateEntity(dmName,
                     Constants.xpathProcess + Constants.delimiterColon + key);
-                EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, null);
+                EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, new List<EcellData>());
                 DataStorer.DataStored4Process(
                         sim,
                         m_env.DMDescriptorKeeper,
                         dummyEcellObject,
                         new Dictionary<string, double>());
+                //string key = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
+                //BuildDefaultSimulator(sim, dmName, "ODEStepper");
+                //EcellObject dummyEcellObject = EcellObject.CreateObject("",
+                //    key, EcellObject.PROCESS, dmName, null);
+                //DataStorer.DataStored4Process(
+                //        sim,
+                //        m_env.DMDescriptorKeeper,
+                //        dummyEcellObject,
+                //        new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
                 // 20090623
                 //sim.Dispose();

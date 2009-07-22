@@ -71,6 +71,10 @@ namespace Ecell.IDE.Plugins.Simulation
         /// The wait time.
         /// </summary>
         private int m_waitTime;
+        /// <summary>
+        /// Owner object.
+        /// </summary>
+        private Simulation m_owner;
         #endregion
 
         #region Constructors
@@ -78,7 +82,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Constructors
         /// </summary>
         /// <param name="manager">DataManager object.</param>
-        public SimulationConfigurationPage(DataManager manager)
+        public SimulationConfigurationPage(DataManager manager, Simulation sim)
         {
             InitializeComponent();
             m_manager = manager;
@@ -88,6 +92,7 @@ namespace Ecell.IDE.Plugins.Simulation
             stepCountTextBox.Text = m_stepCount.ToString();
             waitTimeTextBox.Text = m_waitTime.ToString();
             saveCheckBox.Checked = manager.IsSaveStep;
+            m_owner = sim;
         }
 
         /// <summary>
@@ -173,6 +178,8 @@ namespace Ecell.IDE.Plugins.Simulation
             m_manager.StepCount = m_stepCount;
             m_manager.WaitTime = m_waitTime;
             m_manager.IsSaveStep = saveCheckBox.Checked;
+
+            m_owner.IsSaveSteppingModel = m_manager.IsSaveStep;
         }
 
         /// <summary>

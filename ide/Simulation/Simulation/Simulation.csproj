@@ -179,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />
+    <None Include="Resources\nav_right_blue.png" />
+    <None Include="Resources\nav_left_blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

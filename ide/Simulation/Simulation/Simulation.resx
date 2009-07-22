@@ -136,6 +136,12 @@
   <data name="media_stop_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="nav_left_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\nav_left_blue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nav_right_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\nav_right_blue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="red1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\red1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

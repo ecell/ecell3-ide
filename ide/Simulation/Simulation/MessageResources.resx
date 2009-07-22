@@ -219,4 +219,10 @@
   <data name="MenuItemSteppingModel" xml:space="preserve">
     <value>Stepping model</value>
   </data>
+  <data name="MenuToolTipBack" xml:space="preserve">
+    <value>Back to one simulation action.</value>
+  </data>
+  <data name="MenuToolTipFoward" xml:space="preserve">
+    <value>Foward to one simulation action.</value>
+  </data>
 </root>

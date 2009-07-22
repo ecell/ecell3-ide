@@ -232,6 +232,24 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Back to one simulation action. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipBack {
+            get {
+                return ResourceManager.GetString("MenuToolTipBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Foward to one simulation action. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipFoward {
+            get {
+                return ResourceManager.GetString("MenuToolTipFoward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Select the parameter used in simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipParamCombo {

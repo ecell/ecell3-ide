@@ -230,7 +230,7 @@ namespace Ecell
                     descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                 }
                 // 20090623
-//                sim.Dispose();
+                //sim.Dispose();
             }
 
             m_descs = descs;

@@ -74,6 +74,18 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private ToolStripButton m_stepButton;
         /// <summary>
+        /// Button to go foward by one step.
+        /// </summary>
+        private ToolStripButton m_fowardButton;
+        /// <summary>
+        /// Button to go back by one step.
+        /// </summary>
+        private ToolStripButton m_backButton;
+        /// <summary>
+        /// Separator
+        /// </summary>
+        private ToolStripSeparator m_separator;
+        /// <summary>
         /// TextBox of displaying simulation time.
         /// </summary>
         private ToolStripTextBox m_timeText;
@@ -150,6 +162,10 @@ namespace Ecell.IDE.Plugins.Simulation
         /// The current simulation time.
         /// </summary>
         private double m_time = 0.0;
+        /// <summary>
+        /// The simulation time for the loaded model.
+        /// </summary>
+        private double m_loadedModel = 0.0;
         #endregion
 
         #region Constructor
@@ -350,6 +366,34 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepUnitCombo.SelectedIndex = 0;
             m_stepUnitCombo.SelectedIndexChanged += new EventHandler(m_stepUnitCombo_SelectedIndexChanged);
 
+            m_separator = new ToolStripSeparator();
+            m_separator.Visible = false;
+            m_separator.Tag = 12;
+
+            m_backButton = new ToolStripButton();
+            m_backButton.Image = (Image)resources.GetObject("nav_left_blue");
+            m_backButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_backButton.Name = "BackStep";
+            m_backButton.Size = new System.Drawing.Size(23, 22);
+            m_backButton.Tag = 13;
+            m_backButton.Text = "";
+            m_backButton.Enabled = false;
+            m_backButton.Visible = false;
+            m_backButton.ToolTipText = MessageResources.MenuToolTipBack;
+            m_backButton.Click += new System.EventHandler(this.StepBackButtonClicked);
+
+            m_fowardButton = new ToolStripButton();
+            m_fowardButton.Image = (Image)resources.GetObject("nav_right_blue");
+            m_fowardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_fowardButton.Name = "ForwardStep";
+            m_fowardButton.Size = new System.Drawing.Size(23, 22);
+            m_fowardButton.Tag = 14;
+            m_fowardButton.Text = "";
+            m_fowardButton.Enabled = false;
+            m_fowardButton.Visible = false;
+            m_fowardButton.ToolTipText = MessageResources.MenuToolTipFoward;
+            m_fowardButton.Click += new System.EventHandler(this.StepForwardButtonClicked);
+
             ButtonList = new ToolStrip();
 
             ButtonList.Items.AddRange( new ToolStripItem[] {
@@ -363,10 +407,28 @@ namespace Ecell.IDE.Plugins.Simulation
                 sep,
                 m_stepButton,
                 m_stepText,
-                m_stepUnitCombo});
+                m_stepUnitCombo,
+                m_separator,
+                m_backButton,
+                m_fowardButton
+            });
             ButtonList.Location = new Point(400, 0);
         }
+        #endregion
 
+        #region Accessors
+        /// <summary>
+        /// get / set the flag whether stepping model is saved.
+        /// </summary>
+        public bool IsSaveSteppingModel
+        {
+            set
+            {
+                this.m_separator.Visible = value;
+                this.m_backButton.Visible = value;
+                this.m_fowardButton.Visible = value;
+            }
+        }
         #endregion
 
         #region Inherited from PluginBase
@@ -490,7 +552,7 @@ namespace Ecell.IDE.Plugins.Simulation
         public override List<IPropertyItem> GetPropertySettings()
         {
             PropertyNode node = new PropertyNode(MessageResources.NameSimulation);
-            node.Nodes.Add(new PropertyNode(new SimulationConfigurationPage(m_env.DataManager)));
+            node.Nodes.Add(new PropertyNode(new SimulationConfigurationPage(m_env.DataManager, this)));
 
             List<IPropertyItem> nodeList = new List<IPropertyItem>();
             nodeList.Add(node);
@@ -526,6 +588,8 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stopButton.Enabled = isRunning || isStepping;
             m_resetButton.Enabled = isSuspended;
             m_stepButton.Enabled = isLoaded || isSuspended;
+            m_fowardButton.Enabled = false;
+            m_backButton.Enabled = !isRunning && !isStepping && m_dManager.SaveTime.Count > 0;
 
             m_runButton.Checked = isRunning;
             m_stopButton.Checked = isSuspended;
@@ -543,6 +607,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_paramsCombo.Enabled = isLoaded;
 
             m_type = type;
+            m_loadedModel = 0.0;
         }
 
 
@@ -686,10 +751,18 @@ namespace Ecell.IDE.Plugins.Simulation
                 menuSteppingModelDic[id].Enabled = true;
                 menuSteppingModelDic[id].Text = m_dManager.SaveTime[id].ToString();
             }
-            if (m_dManager.SaveTime.Count > 0)
+            if (m_dManager.SaveTime.Count > 1)
+            {
                 menuSteppingModel.Enabled = true;
+                m_backButton.Enabled = true;
+                m_fowardButton.Enabled = false;
+            }
             else
+            {
                 menuSteppingModel.Enabled = false;
+                m_backButton.Enabled = false;
+                m_fowardButton.Enabled = false;
+            }
         }
         
         /// <summary>
@@ -700,6 +773,30 @@ namespace Ecell.IDE.Plugins.Simulation
         private void DataManager_ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
         {
             m_timeText.Text = e.ApplyTime.ToString(m_env.DataManager.DisplayStringFormat);
+            int index = m_dManager.SaveTime.Count;
+            int count = 0;
+            foreach (int id in m_dManager.SaveTime.Keys)
+            {
+                if (m_dManager.SaveTime[id] == e.ApplyTime)
+                {
+                    if (count == 0)
+                    {
+                        m_fowardButton.Enabled = false;
+                        m_backButton.Enabled = true;
+                    }
+                    else if (count == index - 1)
+                    {
+                        m_fowardButton.Enabled = true;
+                        m_backButton.Enabled = false;
+                    }
+                    else
+                    {
+                        m_fowardButton.Enabled = true;
+                        m_backButton.Enabled = true;
+                    }
+                }
+                count++;
+            }
         }
 
         /// <summary>
@@ -707,7 +804,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripMenuItem)</param>
         /// <param name="e">EventArgs</param>
-        public void SetupSimulation(object sender, EventArgs e)
+        private void SetupSimulation(object sender, EventArgs e)
         {
             ShowSetupSimulationDialog(null);
         }
@@ -718,7 +815,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripButton)</param>
         /// <param name="e">EventArgs</param>
-        public void RunSimulation(object sender, EventArgs e)
+        private void RunSimulation(object sender, EventArgs e)
         {
             if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) 
                 return;
@@ -758,7 +855,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripButton)</param>
         /// <param name="e">EventArgs</param>
-        public void StopSimulation(object sender, EventArgs e)
+        private void StopSimulation(object sender, EventArgs e)
         {
             if (m_type != ProjectStatus.Running && m_type != ProjectStatus.Stepping)
                 return;
@@ -781,7 +878,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripButton)</param>
         /// <param name="e">EventArgs</param>
-        public void Step(object sender, EventArgs e)
+        private void Step(object sender, EventArgs e)
         {
             if (m_type == ProjectStatus.Running) return;
             if (m_type == ProjectStatus.Uninitialized) return;
@@ -856,7 +953,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripButton)</param>
         /// <param name="e">EventArgs</param>
-        public void ResetSimulation(object sender, EventArgs e)
+        private void ResetSimulation(object sender, EventArgs e)
         {
             m_stepText.Control.Update();
 
@@ -878,6 +975,44 @@ namespace Ecell.IDE.Plugins.Simulation
                 Trace.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
+            }
+        }
+
+        /// <summary>
+        /// Back button for the stepping model is clickend.
+        /// </summary>
+        /// <param name="sender">ToolStripButton</param>
+        /// <param name="e">EventArgs.</param>
+        private void StepBackButtonClicked(object sender, EventArgs e)
+        {
+            foreach (int ind in m_dManager.SaveTime.Keys)
+            {                
+                if (m_dManager.SaveTime[ind] == m_loadedModel)
+                {
+                    m_dManager.LoadSteppingModel(ind + 1);
+                    m_loadedModel = m_dManager.SaveTime[ind + 1];
+                    return;
+                }
+            }
+            m_dManager.LoadSteppingModel(1);
+            m_loadedModel = m_dManager.SaveTime[1];
+        }
+
+        /// <summary>
+        /// Foward button for the stepping model is clicked.
+        /// </summary>
+        /// <param name="sender">ToolStripButton</param>
+        /// <param name="e">EventArgs.</param>
+        private void StepForwardButtonClicked(object sender, EventArgs e)
+        {
+            foreach (int ind in m_dManager.SaveTime.Keys)
+            {
+                if (m_dManager.SaveTime[ind] == m_loadedModel)
+                {
+                    m_dManager.LoadSteppingModel(ind - 1);
+                    m_loadedModel = m_dManager.SaveTime[ind - 1];
+                    return;
+                }
             }
         }
 
@@ -935,6 +1070,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (menu.Equals(menuSteppingModelDic[ind]))
                 {
                     m_dManager.LoadSteppingModel(ind);
+                    m_loadedModel = m_dManager.SaveTime[ind];
                     return;
                 }
             }
