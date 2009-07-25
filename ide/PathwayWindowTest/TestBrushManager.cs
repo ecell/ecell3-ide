@@ -45,11 +45,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
         /// 
         /// </summary>
         [Test()]
-        public void TestGetBrushImageList()
+        public void TestBrushImageList()
         {
             System.Windows.Forms.ImageList expectedImageList = null;
             System.Windows.Forms.ImageList resultImageList = null;
-            resultImageList = BrushManager.GetBrushImageList();
+            resultImageList = BrushManager.BrushImageList;
             Assert.AreEqual(expectedImageList, resultImageList, "GetBrushImageList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

@@ -72,6 +72,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
             foreach (PPathwayProcess process in m_canvas.Processes.Values)
             {
+                process.Stepper.Setting = this.Setting;
                 process.RefreshStepperIcon();
             }
         }

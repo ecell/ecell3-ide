@@ -1225,7 +1225,10 @@ namespace Ecell.IDE.MainWindow
             }
             catch (EcellException e)
             {
-                Util.ShowErrorDialog(e.Message);
+                if(e.InnerException is UnauthorizedAccessException)
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrUnauthorizedAccess, Util.GetBaseDir()));
+                else
+                    Util.ShowErrorDialog(e.Message);
             }
         }
 

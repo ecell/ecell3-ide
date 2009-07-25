@@ -146,7 +146,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.m_selected; }
             set
             {
-                this.m_selected = value;
+                base.Selected = value;
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
@@ -155,7 +155,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 {
                     this.Brush = m_setting.CreateBrush(m_path);
                 }
-                RaiseHightLightChanged();
             }
         }
 
@@ -230,9 +229,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected override void RefreshSettings()
         {
-            MemorizePosition();
             base.RefreshSettings();
-            ResetPosition();
+            RefreshView();
         }
 
         /// <summary>

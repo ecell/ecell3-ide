@@ -250,6 +250,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Authorization exception for the workspace [ {0} ]. Please confirm your access right to the workspace. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrUnauthorizedAccess {
+            get {
+                return ResourceManager.GetString("ErrUnauthorizedAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please set the project root folder. Project is saved in this folder. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ExpModelMes {

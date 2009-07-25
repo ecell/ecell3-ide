@@ -279,6 +279,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 this.m_selected = value;
                 RefreshView();
+                RaiseHightLightChanged();
             }
         }
 
@@ -403,6 +404,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected virtual void RefreshSettings()
         {
+            MemorizePosition();
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
             this.Brush = m_setting.CreateBrush(m_path);
@@ -410,6 +412,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             RefreshView();
             // Set Image
             this.Image = m_setting.Image;
+            ResetPosition();
         }
 
         /// <summary>

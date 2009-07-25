@@ -291,4 +291,7 @@
   <data name="ConfirmUnsaved" xml:space="preserve">
     <value>Your changes have not been saved. Are you sure to exit?</value>
   </data>
+  <data name="ErrUnauthorizedAccess" xml:space="preserve">
+    <value>Authorization exception for the workspace [ {0} ]. Please confirm your access right to the workspace.</value>
+  </data>
 </root>

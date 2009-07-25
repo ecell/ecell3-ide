@@ -180,6 +180,9 @@
   <data name="ErrSaveWindowSettings" xml:space="preserve">
     <value>ウィンドウ設定を保存できません。</value>
   </data>
+  <data name="ErrUnauthorizedAccess" xml:space="preserve">
+    <value>ワークスペース[ {0} ]に対するアクセス権限例外です。\nワークスペースへのアクセス権限を確認してください。</value>
+  </data>
   <data name="ExpModelMes" xml:space="preserve">
     <value>プロジェクトルートフォルダを設定してください。ここに各プロジェクトが保存されます。</value>
   </data>

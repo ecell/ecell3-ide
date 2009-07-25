@@ -73,10 +73,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public override bool ViewMode
         {
-            get
-            {
-                return base.ViewMode;
-            }
+            get { return base.ViewMode; }
             set
             {
                 ChangePath(value);
@@ -138,7 +135,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 base.AddPath(m_figure.GraphicsPath, false);
             }
             base.CenterPointF = centerPos;
-            RefreshStepperIcon();
+            //RefreshStepperIcon();
         }
 
         /// <summary>
@@ -215,6 +212,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (_stepper == null)
             {
                 _stepper = m_canvas.Control.ComponentManager.StepperSetting.CreateTemplate();
+                _stepper.AddPath(_stepper.Figure.CreatePath(new RectangleF(0,0,10,10)), false);
                 _stepper.Pickable = false;
             }
             EcellValue value = m_ecellObj.GetEcellValue(EcellProcess.STEPPERID);
@@ -225,12 +223,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             this.AddChild(_stepper);
-            _stepper.AddPath(stepper.Figure.CreatePath(_stepper.Rect), false);
             _stepper.Width = 10;
             _stepper.Height = 10;
             _stepper.X = this.Right - 10;
             _stepper.Y = this.Bottom - 10;
-
+            _stepper.AddPath(stepper.Figure.CreatePath(_stepper.Rect), false);
             _stepper.LineBrush = stepper.Setting.LineBrush;
             _stepper.Brush = stepper.Setting.CreateBrush(_stepper.Path);
             _stepper.MoveToFront();
