@@ -138,7 +138,7 @@ namespace Ecell
                             new DMModuleInfo(dmPath, entry));
                     }
                 }
-                // 20090623
+                // 20090727
                 //sim.Dispose();
             }
 
@@ -185,7 +185,7 @@ namespace Ecell
                     infoList.Add(info);
                     perDirectoryModuleList[moduleType].Add(info);
                 }
-                // 20090623
+                // 20090727
                 //sim.Dispose();
             }
 
@@ -229,7 +229,7 @@ namespace Ecell
                 {
                     descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                 }
-                // 20090623
+                // 20090727
                 //sim.Dispose();
             }
 

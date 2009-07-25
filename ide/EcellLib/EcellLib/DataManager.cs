@@ -79,7 +79,7 @@ namespace Ecell
     /// <param name="o">DataManager</param>
     /// <param name="e">SteppingModelEventArgs</param>
     public delegate void ApplySteppingModelEnvetHandler(object o, SteppingModelEventArgs e);
-
+    public delegate void ReloadSimulatorEventHandler(object o, EventArgs e);
 
     /// <summary>
     /// Manages data of projects, models, and so on.
@@ -98,6 +98,10 @@ namespace Ecell
         /// EventHandler when the stepping model is applied.
         /// </summary>
         public event ApplySteppingModelEnvetHandler ApplySteppingModelEvent;
+        /// <summary>
+        /// EventHandler when the simulator is reloaded.
+        /// </summary>
+        public event ReloadSimulatorEventHandler ReloadSimulatorEvent;
 
         #region Fields
         /// <summary>
@@ -419,7 +423,7 @@ namespace Ecell
             }
             finally
             {
-                // 20090623
+                // 20090727
                 //if (sim != null)
                     //sim.Dispose();
             }
@@ -2827,7 +2831,8 @@ namespace Ecell
                 sim,
                 dummyEcellObject,
                 new Dictionary<string, double>());
-            SetPropertyList(dummyEcellObject, dic);            
+            SetPropertyList(dummyEcellObject, dic); 
+            // 20090727
             //sim.Dispose();
             return dic;
         }
@@ -2911,7 +2916,7 @@ namespace Ecell
             }
             finally
             {
-                //20090623
+                // 20090727
                 //sim.Dispose();
                 //sim = null;
                 variableObject = null;
@@ -2943,7 +2948,7 @@ namespace Ecell
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
-                //20090623
+                // 20090727
                 //sim.Dispose();
             }
             finally
@@ -2966,8 +2971,8 @@ namespace Ecell
             {
                 WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
                 string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
-                sim.CreateStepper("DAEStepper", "temporaryStepper");
-                sim.SetEntityProperty("System::/:StepperID", "temporaryStepper");
+                //sim.CreateStepper("ODEStepper", "temporaryStepper");
+                //sim.SetEntityProperty("System::/:StepperID", "temporaryStepper");
                 sim.CreateEntity(dmName,
                     Constants.xpathProcess + Constants.delimiterColon + key);
                 EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, new List<EcellData>());
@@ -2986,7 +2991,7 @@ namespace Ecell
                 //        dummyEcellObject,
                 //        new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
-                // 20090623
+                // 20090727
                 //sim.Dispose();
             }
             catch (Exception ex)
@@ -3014,7 +3019,7 @@ namespace Ecell
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
                 DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
                 list = dummyEcellObject.Value;
-                //20090623
+                // 20090727
                 //sim.Dispose();
             }
             finally
@@ -5307,7 +5312,7 @@ namespace Ecell
                 if (m_steppingData != null)
                 {
                     return (double)m_steppingData[fullPN];
-                }
+                }                
                 return (double)m_currentProject.Simulator.GetEntityProperty(fullPN);
             }
             catch (Exception ex)
@@ -5444,6 +5449,19 @@ namespace Ecell
             return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Info.Name), Constants.ParameterDirName);
         }
 
+        public void UnloadSimulator()
+        {
+            if (m_currentProject != null)
+                m_currentProject.UnloadSimulator();
+        }
+
+        public void ReloadSimulator()
+        {
+            m_currentProject.ReloadSimulator();
+            if (ReloadSimulatorEvent != null)
+                ReloadSimulatorEvent(this, new EventArgs());
+        }
+
         #endregion
 
         #region Methof for DM
@@ -5497,14 +5515,28 @@ namespace Ecell
         }
 
         /// <summary>
-        /// GetDMFileName
+        /// Get the source file path of DM.
         /// </summary>
-        /// <param name="indexName"></param>
-        /// <returns></returns>
-        public string GetDMFileName(string indexName)
+        /// <param name="indexName">Index name of DM.</param>
+        /// <returns>the source file path.</returns>
+        public string GetDMSourceFileName(string indexName)
         {
             string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
             path = Path.Combine(path, indexName + Constants.FileExtSource);
+            if (!File.Exists(path))
+                path = null;
+            return path;
+        }
+
+        /// <summary>
+        /// Get the DLL file path of DM.
+        /// </summary>
+        /// <param name="indexName">Index name of DM.</param>
+        /// <returns>the DLL file path.</returns>
+        public string GetDMDLLFileName(string indexName)
+        {
+            string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
+            path = Path.Combine(path, indexName + Constants.FileExtDM);
             if (!File.Exists(path))
                 path = null;
             return path;

@@ -131,6 +131,11 @@ namespace Ecell
                 return GetProperty(name);
             }
         }
+
+        public Dictionary<string, PropertyDescriptor> Property
+        {
+            get { return m_props; }
+        }
         #endregion
 
         #region Constructor

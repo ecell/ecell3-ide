@@ -929,6 +929,18 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
+        /// Event when the simulator is reloaded.
+        /// </summary>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">EventArgs</param>
+        private void DataManager_ReloadSimulatorEvent(object o, EventArgs e)
+        {
+            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+                return;
+            ReloadProperties();
+        }
+
+        /// <summary>
         /// Click on cell for VariableReferneceList.
         /// </summary>
         /// <param name="o">DataGridViewCell.</param>
@@ -1237,7 +1249,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DisplayFormatChangeEvent);
             m_env.DataManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(ApplySteppingModelEvent);
+            m_env.DataManager.ReloadSimulatorEvent += new ReloadSimulatorEventHandler(DataManager_ReloadSimulatorEvent);
         }
+
 
         /// <summary>
         /// Get the window forms of each plugin.

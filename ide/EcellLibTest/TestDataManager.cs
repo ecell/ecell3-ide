@@ -223,7 +223,7 @@ namespace Ecell
 
             string dir = _unitUnderTest.GetDMDir();
             List<string> list = _unitUnderTest.GetDMNameList();
-            string dmName = _unitUnderTest.GetDMFileName("");
+            string dmName = _unitUnderTest.GetDMSourceFileName("");
 
             string simDir = _unitUnderTest.GetSimulationResultSaveDirectory();
 

@@ -137,7 +137,7 @@ namespace Ecell
                 if (m_dmDic != null)
                     stepperList.AddRange(m_dmDic[Constants.xpathStepper]);
                 stepperList.Sort();
-                //20090710
+                // 20090727
                 //sim.Dispose();
                 return stepperList;
             }
@@ -373,6 +373,19 @@ namespace Ecell
             m_simulator = CreateSimulatorInstance();
         }
 
+        public void UnloadSimulator()
+        {
+            if (m_simulator != null)
+            {
+                m_simulator.Dispose();
+                m_simulator = null;
+            }
+        }
+
+        public void ReloadSimulator()
+        {
+            m_simulator = CreateSimulatorInstance();
+        }
 
         /// <summary>
         /// Loads the eml formatted file and returns the model ID.

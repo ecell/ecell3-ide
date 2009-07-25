@@ -341,4 +341,7 @@
   <data name="exportRevisionSBMLToolStripMenuItem.Text" xml:space="preserve">
     <value>SBML出力...</value>
   </data>
+  <data name="deleteDMToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
 </root>

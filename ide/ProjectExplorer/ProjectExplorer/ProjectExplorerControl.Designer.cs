@@ -43,6 +43,7 @@
             this.contextMenuStripDM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.importDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -161,7 +162,8 @@
             this.compileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.toolStripSeparator5,
-            this.propertyToolStripMenuItem});
+            this.propertyToolStripMenuItem,
+            this.deleteDMToolStripMenuItem});
             this.contextMenuStripDM.Name = "contextMenuStripDM";
             resources.ApplyResources(this.contextMenuStripDM, "contextMenuStripDM");
             // 
@@ -175,6 +177,12 @@
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
             resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
             this.propertyToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDMProperty);
+            // 
+            // deleteDMToolStripMenuItem
+            // 
+            this.deleteDMToolStripMenuItem.Name = "deleteDMToolStripMenuItem";
+            resources.ApplyResources(this.deleteDMToolStripMenuItem, "deleteDMToolStripMenuItem");
+            this.deleteDMToolStripMenuItem.Click += new System.EventHandler(this.TreeView_DeleteDM);
             // 
             // contextMenuStripDMCollection
             // 
@@ -496,6 +504,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem deleteJobGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportModelSBMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteDMToolStripMenuItem;
 
     }
 }

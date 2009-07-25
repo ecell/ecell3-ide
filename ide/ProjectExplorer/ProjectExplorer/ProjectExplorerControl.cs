@@ -126,6 +126,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_lastSelectedNode = null;
             m_owner.Environment.JobManager.JobUpdateEvent += new Ecell.Job.JobUpdateEventHandler(UpdateJobStatus);
             m_owner.Environment.PluginManager.NodeImageListChange += new EventHandler(PluginManager_NodeImageListChange);
+            m_owner.Environment.DataManager.ReloadSimulatorEvent += new ReloadSimulatorEventHandler(DataManager_ReloadSimulatorEvent);
+            deleteDMToolStripMenuItem.Visible = false;
         }
         #endregion
 
@@ -581,6 +583,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        public void ResetDM()
+        {
+            m_DMNode.Nodes.Clear();
+            SetDMNodes();
+        }
+
         /// <summary>
         /// Add the DM node from the selected path.
         /// </summary>
@@ -974,8 +982,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             if (m_lastSelectedNode is DMNode)
             {
-                string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
+                string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
                 compileToolStripMenuItem.Enabled = (Util.IsInstalledSDK() && path != null);
+                deleteDMToolStripMenuItem.Enabled = m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait;
                 editToolStripMenuItem.Enabled = (path != null);
             }
         }
@@ -989,7 +998,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs.</param>
         private void TreeViewCompile(object sender, EventArgs e)
         {
-            string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
+            string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
             if (path == null) return;
             DMCompiler.Compile(path, m_owner.Environment);
         }
@@ -1045,7 +1054,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewDMDisplay(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
-            string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
+            string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
             if (path == null) return;
             DisplayDMEditor(path);
         }
@@ -1150,7 +1159,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             if (e.Node is DMNode)
             {
-                string path = m_owner.Environment.DataManager.GetDMFileName(e.Node.Text);
+                string path = m_owner.Environment.DataManager.GetDMSourceFileName(e.Node.Text);
                 if (path == null)
                     return;
                 DisplayDMEditor(path);
@@ -1577,6 +1586,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     return;
 
                 m_owner.Environment.DataManager.ImportDM(win.SelectedPath);
+                // 20090727
+                //m_owner.DataManager.UnloadSimulator();
+                //m_owner.DataManager.ReloadSimulator();
                 m_DMNode.Nodes.Clear();
                 SetDMNodes();
             }
@@ -1742,6 +1754,31 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
+        /// Delete the DM.
+        /// </summary>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeView_DeleteDM(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode is DMNode)
+            {
+                DMNode node = m_lastSelectedNode as DMNode;
+                string path = m_owner.DataManager.GetDMDLLFileName((string)m_lastSelectedNode.Tag);
+                string source = m_owner.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
+
+                string destpath = path + ".tmp";
+                m_owner.DataManager.UnloadSimulator();
+                if (File.Exists(path))
+                    File.Move(path, destpath);
+                if (File.Exists(source))
+                    File.Delete(source);
+                m_owner.DataManager.ReloadSimulator();
+                if (File.Exists(destpath))
+                    File.Delete(destpath);
+            }
+        }
+
+        /// <summary>
         /// Event when node image list is changed.
         /// </summary>
         /// <param name="sender">PluginManager</param>
@@ -1750,6 +1787,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             foreach (TreeNode node in treeView1.Nodes)
                 ResetIcon(node);
+        }
+
+        /// <summary>
+        /// Event when the simulator is reloaded.
+        /// </summary>
+        /// <param name="o">DataManager</param>
+        /// <param name="e">EventArgs</param>
+        private void DataManager_ReloadSimulatorEvent(object o, EventArgs e)
+        {
+            ResetDM();
         }
         #endregion
 
@@ -1806,6 +1853,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
     }
 
     #region Node classes
