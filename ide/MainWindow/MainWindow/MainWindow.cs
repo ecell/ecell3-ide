@@ -231,7 +231,7 @@ namespace Ecell.IDE.MainWindow
         private void setFilePath()
         {
             m_defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Constants.fileWinSetting);
-            m_userWindowSettingPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Application.ProductName);
+            m_userWindowSettingPath = Util.GetUserDir();
             m_userWindowSettingPath2 = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting + ".view");
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
@@ -1464,27 +1464,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// The action of [Setup]->[Set Root Directory] menu click.
-        /// Set base directory of e-cell for loading plugin.
-        /// </summary>
-        /// <param name="sender">object(ToolStripMenuItem)</param>
-        /// <param name="e">EventArgs</param>
-        private void SetRootDirMenuClick(object sender, EventArgs e)
-        {
-            string currentDir = Util.GetBaseDir();
-
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.SelectedPath = currentDir;
-            using (dialog)
-            {
-                dialog.Description = MessageResources.ExpModelMes;
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-                Util.SetBaseDir(dialog.SelectedPath);
-            }
-        }
-
-        /// <summary>
         /// The action of disposing MainWindow.
         /// </summary>
         /// <param name="sender"></param>
@@ -1632,27 +1611,6 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
-        /// <summary>
-        /// Event when setup IDE menu is clicked.
-        /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs</param>
-        private void SetupIDEMenuClick(object sender, EventArgs e)
-        {
-            InitialPreferencesDialog ipd = new InitialPreferencesDialog(false);
-            using (ipd)
-            {
-                if (ipd.ShowDialog() != DialogResult.OK)
-                    return;
-                LoadWindowSetting(ipd.FilePath);
-
-                if (ipd.Language.Equals(Util.GetLanguage()))
-                    return;
-                Util.SetLanguage(ipd.Language);
-                Util.ShowNoticeDialog(MessageResources.ConfirmRestart);
-            }
-        }
-        
         /// <summary>
         /// Event when Settings menu is clicked.
         /// </summary>

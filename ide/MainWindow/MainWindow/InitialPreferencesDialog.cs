@@ -91,6 +91,7 @@ namespace Ecell.IDE.MainWindow
                     break;
             }
 
+            // Load WindowSettings
             if (isInitial)
                 this.Text = MessageResources.TitleInitialSet;
             string dirStr = Util.GetWindowSettingDir();
@@ -129,7 +130,7 @@ namespace Ecell.IDE.MainWindow
                 }
             }
 
-
+            // Load WindowSettings
             int id = 0;
             int curId = 0;
             if (!isInitial)
@@ -159,6 +160,12 @@ namespace Ecell.IDE.MainWindow
                 m_patternList.Add(b);
                 id++;
             }
+
+            // Set WorkSpace
+            string path = Util.GetBaseDir();
+            Util.SetBaseDir(path);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
 
         /// <summary>
