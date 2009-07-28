@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
+using System.Security.AccessControl;
 
 namespace Ecell.IDE.MainWindow.UIComponents
 {
@@ -123,6 +124,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
                 textBox.Text = folderBrowserDialog.SelectedPath;
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -133,5 +135,12 @@ namespace Ecell.IDE.MainWindow.UIComponents
             Util.SetBaseDir(textBox.Text);
         }
 
+        public override void PropertyDialogClosing()
+        {
+            base.PropertyDialogClosing();
+            DirectoryInfo info = new DirectoryInfo(textBox.Text);
+            DirectorySecurity security == Directory.GetAccessControl(textBox.Text);
+            if (security.AccessRightType == DirectorySecurity
+        }
     }
 }

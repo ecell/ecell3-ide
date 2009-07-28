@@ -80,10 +80,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private Dictionary<string, EcellDockContent> m_dockWindowDic;
         /// <summary>
-        /// defaultWindowSettingPath (string)
-        /// </summary>
-        private string m_defaultWindowSettingPath;
-        /// <summary>
         /// userWindowSettingPath (string)
         /// </summary>
         private string m_userWindowSettingPath;
@@ -230,7 +226,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void setFilePath()
         {
-            m_defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Constants.fileWinSetting);
             m_userWindowSettingPath = Util.GetUserDir();
             m_userWindowSettingPath2 = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting + ".view");
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
@@ -578,17 +573,22 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         public void LoadDefaultWindowSetting()
         {
-            //Load user window settings.
+            // Load user window settings.
+            if (LoadWindowSetting(m_userWindowSettingPath, true))
+                return;
+
             // Load default window settings when failed.
-            if (!LoadWindowSetting(m_userWindowSettingPath, true))
+            InitialPreferencesDialog win = new InitialPreferencesDialog(true);
+            using (win)
             {
-                InitialPreferencesDialog win = new InitialPreferencesDialog(true);
-                using (win)
+                if (win.ShowDialog() == DialogResult.OK)
                 {
-                    if (win.ShowDialog() == DialogResult.OK)
-                        LoadWindowSetting(win.FilePath, true);
-                    else
-                        LoadWindowSetting(m_defaultWindowSettingPath, true);
+                    LoadWindowSetting(win.FilePath, true);
+                }
+                else
+                {
+                    string setting = Path.Combine(Util.GetWindowSettingDir(), "Base.xml");
+                    LoadWindowSetting(setting, true);
                 }
             }
         }

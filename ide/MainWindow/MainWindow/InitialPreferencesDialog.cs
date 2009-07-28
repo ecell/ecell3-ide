@@ -163,7 +163,6 @@ namespace Ecell.IDE.MainWindow
 
             // Set WorkSpace
             string path = Util.GetBaseDir();
-            Util.SetBaseDir(path);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
         }
