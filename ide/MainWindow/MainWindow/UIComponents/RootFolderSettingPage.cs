@@ -34,6 +34,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Security.AccessControl;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.MainWindow.UIComponents
 {
@@ -138,9 +139,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();
-            DirectoryInfo info = new DirectoryInfo(textBox.Text);
-            DirectorySecurity security == Directory.GetAccessControl(textBox.Text);
-            if (security.AccessRightType == DirectorySecurity
+            if (string.IsNullOrEmpty(textBox.Text))
+                throw new EcellException(string.Format(MessageResources.ErrNoSet, "WorkSpace" ));
         }
     }
 }
