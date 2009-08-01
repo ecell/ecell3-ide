@@ -26,6 +26,7 @@
 //
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;

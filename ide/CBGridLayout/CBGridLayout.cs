@@ -62,6 +62,7 @@ namespace CBGridLayout
         {
             return "CBGridLayout";
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -70,6 +71,7 @@ namespace CBGridLayout
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -129,6 +131,7 @@ namespace CBGridLayout
             }
             return true;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -137,6 +140,7 @@ namespace CBGridLayout
         {
             return LayoutType.Whole;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -148,11 +152,16 @@ namespace CBGridLayout
 
         #endregion
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void Initialization()
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetEdgeVertex()
         {
         }
@@ -161,10 +170,16 @@ namespace CBGridLayout
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetVertexEdge()
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetDistance()
         {
         }

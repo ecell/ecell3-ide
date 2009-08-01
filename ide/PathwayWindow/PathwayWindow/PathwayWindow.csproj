@@ -140,6 +140,8 @@
     <Compile Include="Figure\Diamond.cs" />
     <Compile Include="Figure\SystemEllipse.cs" />
     <Compile Include="Figure\Triangle.cs" />
+    <Compile Include="Nodes\PPathwayGraph.cs" />
+    <Compile Include="Nodes\PPathwayProperty.cs" />
     <Compile Include="UIComponent\BrushComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

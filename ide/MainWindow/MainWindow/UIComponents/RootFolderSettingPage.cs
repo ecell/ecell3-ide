@@ -139,8 +139,11 @@ namespace Ecell.IDE.MainWindow.UIComponents
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();
-            if (string.IsNullOrEmpty(textBox.Text))
+            string path = textBox.Text;
+            if (string.IsNullOrEmpty(path))
                 throw new EcellException(string.Format(MessageResources.ErrNoSet, "WorkSpace" ));
+
+            
         }
     }
 }
