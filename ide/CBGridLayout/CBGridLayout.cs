@@ -36,7 +36,7 @@ using System.Reflection;
 using Ecell.Objects;
 using System.Drawing;
 
-namespace CBGridLayout
+namespace Ecell.IDE.Plugins.CBGridLayout
 {
     /// <summary>
     /// 

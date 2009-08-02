@@ -31,6 +31,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -41,10 +43,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     {
         #region Fields
         /// <summary>
+        /// Default Graph size.
+        /// </summary>
+        public const float GRAPH_SIZE = 150f;
+        /// <summary>
+        /// Max number of plots.
+        /// </summary>
+        public const int MAX_COUNT = 20;
+        /// <summary>
         /// List of Values.
         /// </summary>
         private List<double> m_values = new List<double>();
-        
+        /// <summary>
+        /// Graph object.
+        /// </summary>
+        private PPathwayNode graph = null;
         #endregion
 
         #region Constructors
@@ -53,12 +66,76 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayGraph()
         {
+            this.Brush = Brushes.White;
+            this.Pen = new Pen(Brushes.Black);
+            this.Width = GRAPH_SIZE;
+            this.Height = GRAPH_SIZE;
+            GraphicsPath path = new GraphicsPath();
+            path.AddRectangle(new RectangleF(0, 0, GRAPH_SIZE, GRAPH_SIZE));
+            this.AddPath(path, false);
+
+            this.graph = new PPathwayNode();
+            this.graph.Pen = new Pen(Brushes.Red);
+            this.AddChild(graph);
         }
 
         #endregion
 
         #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetValue(double value)
+        {
+            m_values.Add(value);
+            if (m_values.Count > MAX_COUNT)
+                m_values.RemoveAt(0);
 
+            DrawGraph();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DrawGraph()
+        {
+            // Set max and min
+            double max = m_values[0];
+            double min = m_values[0];
+            foreach (double val in m_values)
+            {
+                if (val > max)
+                    max = val;
+                if (val < min)
+                    min = val;
+            }
+            double rate = 150d / (max - min);
+
+            // create plots
+            int i = 0;
+            float x = 7.5f;
+            List<PointF> plots = new List<PointF>();
+            foreach (double val in m_values)
+            {
+                PointF plot = new PointF();
+                plot.X = 3.75f + x * i;
+                plot.Y = GRAPH_SIZE - (float)((val - min) * rate);
+                plots.Add(plot);
+            }
+            GraphicsPath path = new GraphicsPath();
+            path.AddBeziers(plots.ToArray());
+            graph.AddPath(path, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Reset()
+        {
+            m_values.Clear();
+            graph.Reset();
+        }
         #endregion
 
     }

@@ -34,7 +34,7 @@ using System.Text;
 using Ecell.IDE;
 using Ecell.Plugin;
 
-namespace CBGridLayout
+namespace Ecell.IDE.Plugins.CBGridLayout
 {
     /// <summary>
     /// 
