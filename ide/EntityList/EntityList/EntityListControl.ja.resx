@@ -121,7 +121,7 @@
     <value>クリア</value>
   </data>
   <data name="Type.HeaderText" xml:space="preserve">
-    <value>種別</value>
+    <value>形状</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Type.Width" type="System.Int32, mscorlib">
@@ -140,6 +140,6 @@
     <value>エンティティ名</value>
   </data>
   <data name="typeToolStripMenuItem.Text" xml:space="preserve">
-    <value>種別</value>
+    <value>形状</value>
   </data>
 </root>

@@ -156,11 +156,11 @@
   <data name="objectListDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <metadata name="Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="Type.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="Type.HeaderText" xml:space="preserve">
-    <value>Type</value>
+    <value>Figure</value>
   </data>
   <data name="Type.MinimumWidth" type="System.Int32, mscorlib">
     <value>16</value>
@@ -168,21 +168,21 @@
   <data name="Type.Width" type="System.Int32, mscorlib">
     <value>36</value>
   </data>
-  <metadata name="ClassName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ClassName.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="ClassName.HeaderText" xml:space="preserve">
     <value>Class</value>
   </data>
-  <metadata name="ID.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ID.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="ID.HeaderText" xml:space="preserve">
     <value>Path:ID</value>
   </data>
-  <metadata name="ObjectName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ObjectName.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="ObjectName.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -264,14 +264,14 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="titleContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="titleContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="typeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 22</value>
   </data>
   <data name="typeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Figure</value>
   </data>
   <data name="classToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 22</value>
@@ -300,9 +300,9 @@
   <data name="&gt;&gt;titleContextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
