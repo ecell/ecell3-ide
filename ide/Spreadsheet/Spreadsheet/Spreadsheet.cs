@@ -105,7 +105,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// The status of selected Model now.
         /// </summary>
-        private ProjectStatus m_type = ProjectStatus.Uninitialized;
+        private ProjectStatus m_status = ProjectStatus.Uninitialized;
         /// <summary>
         /// Dictionary of entity path and DataGridViewCell displayed the property of entity path.
         /// </summary>
@@ -485,7 +485,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 m_time.Stop();
                 UpdatePropForSimulation();
             }
-            else if ((m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping) &&
+            else if ((m_status == ProjectStatus.Running || m_status == ProjectStatus.Suspended || m_status == ProjectStatus.Stepping) &&
                     status == ProjectStatus.Loaded)
             {
                 m_time.Enabled = false;
@@ -496,7 +496,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 UpdatePropForSimulation();
             }
-            m_type = status;
+            m_status = status;
         }
 
         /// <summary>
@@ -1330,7 +1330,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">DisplayFormatEventArgs</param>
         private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
-            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+            if (m_status == ProjectStatus.Uninitialized || m_status == ProjectStatus.Loading)
                 return;
             ResetPropForSimulation();
         }
@@ -1342,7 +1342,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">SteppingModelEventArgs</param>
         private void ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
         {
-            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+            if (m_status == ProjectStatus.Uninitialized || m_status == ProjectStatus.Loading)
                 return;
             UpdatePropForSimulation();
         }

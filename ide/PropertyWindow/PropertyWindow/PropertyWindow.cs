@@ -75,11 +75,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
-        Timer m_time;
+        private Timer m_time;
         /// <summary>
         /// Current status of project.
         /// </summary>
-        private ProjectStatus m_type = ProjectStatus.Uninitialized;
+        private ProjectStatus m_status = ProjectStatus.Uninitialized;
         /// <summary>
         /// Dictionary of property of displayed object.
         /// </summary>
@@ -570,7 +570,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 AddProperty(dSize, m_current.Type);
             }
 
-            if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
+            if (m_status == ProjectStatus.Suspended || m_status == ProjectStatus.Stepping)
             {
                 UpdatePropForSimulation();
             }
@@ -762,8 +762,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 catch (Exception)
                 {
-                    string message = "";
-
                     // 他のプラグインでデータを編集したか
                     // シミュレーションが異常終了したがデータを取得できなかったため。
                     // 他のプラグインでエラーメッセージが表示されるので
@@ -774,7 +772,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
 //                m_dgv.Enabled = true;
                 m_dgv.ReadOnly = false;
-                if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
+                if (m_status == ProjectStatus.Running || m_status == ProjectStatus.Suspended || m_status == ProjectStatus.Stepping)
                 {
                     m_time.Enabled = false;
                     m_time.Stop();
@@ -804,7 +802,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     // ここでは出さないようにする。
                 }
             }
-            m_type = type;
+            m_status = type;
         }
 
         /// <summary>
@@ -911,7 +909,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="e">DisplayFormatEventArgs</param>
         private void DisplayFormatChangeEvent(object o, Ecell.Events.DisplayFormatEventArgs e)
         {
-            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+            if (m_status == ProjectStatus.Uninitialized || m_status == ProjectStatus.Loading)
                 return;
             ReloadProperties();
         }
@@ -923,7 +921,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="e">SteppingModelEventArgs</param>
         private void ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
         {
-            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+            if (m_status == ProjectStatus.Uninitialized || m_status == ProjectStatus.Loading)
                 return;
             ReloadProperties();
         }
@@ -935,7 +933,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="e">EventArgs</param>
         private void DataManager_ReloadSimulatorEvent(object o, EventArgs e)
         {
-            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+            if (m_status == ProjectStatus.Uninitialized || m_status == ProjectStatus.Loading)
                 return;
             ReloadProperties();
         }

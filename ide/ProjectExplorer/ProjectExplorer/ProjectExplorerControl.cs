@@ -583,6 +583,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// Reset DM information.
+        /// </summary>
         public void ResetDM()
         {
             m_DMNode.Nodes.Clear();
@@ -2114,8 +2117,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Compare with two object.
         /// </summary>
-        /// <param name="tx">the compared object.</param>
-        /// <param name="ty">the compare object.</param>
+        /// <param name="x">the compared object.</param>
+        /// <param name="y">the compare object.</param>
         /// <returns>the compare result.</returns>
         int System.Collections.IComparer.Compare(object x, object y)
         {

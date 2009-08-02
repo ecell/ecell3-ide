@@ -82,6 +82,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Constructors
         /// </summary>
         /// <param name="manager">DataManager object.</param>
+        /// <param name="sim">Simulator</param>
         public SimulationConfigurationPage(DataManager manager, Simulation sim)
         {
             InitializeComponent();
