@@ -344,7 +344,7 @@ namespace EcellCoreLib {
         ~WrappedSimulator()
         {
             delete theModel;
-//            delete thePropertiedObjectMaker;
+            //delete thePropertiedObjectMaker;
         }
 
         void Initialize()
