@@ -73,7 +73,7 @@ namespace Ecell.SBML
             EcellModel model = EmlReader.Parse(emlfile, sim);
             SaveSBML(model, output);
             // 20090727
-            //sim.Dispose();
+            sim.Dispose();
         }
 
         /// <summary>

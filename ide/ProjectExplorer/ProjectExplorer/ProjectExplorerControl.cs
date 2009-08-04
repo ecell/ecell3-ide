@@ -127,7 +127,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner.Environment.JobManager.JobUpdateEvent += new Ecell.Job.JobUpdateEventHandler(UpdateJobStatus);
             m_owner.Environment.PluginManager.NodeImageListChange += new EventHandler(PluginManager_NodeImageListChange);
             m_owner.Environment.DataManager.ReloadSimulatorEvent += new ReloadSimulatorEventHandler(DataManager_ReloadSimulatorEvent);
-            deleteDMToolStripMenuItem.Visible = false;
+            deleteDMToolStripMenuItem.Visible = true;
         }
         #endregion
 

@@ -138,7 +138,7 @@ namespace Ecell
                     stepperList.AddRange(m_dmDic[Constants.xpathStepper]);
                 stepperList.Sort();
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
                 return stepperList;
             }
         }

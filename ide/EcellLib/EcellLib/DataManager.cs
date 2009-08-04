@@ -424,8 +424,8 @@ namespace Ecell
             finally
             {
                 // 20090727
-                //if (sim != null)
-                    //sim.Dispose();
+                if (sim != null)
+                    sim.Dispose();
             }
 
         }
@@ -2833,7 +2833,7 @@ namespace Ecell
                 new Dictionary<string, double>());
             SetPropertyList(dummyEcellObject, dic); 
             // 20090727
-            //sim.Dispose();
+            sim.Dispose();
             return dic;
         }
 
@@ -2917,8 +2917,8 @@ namespace Ecell
             finally
             {
                 // 20090727
-                //sim.Dispose();
-                //sim = null;
+                sim.Dispose();
+                sim = null;
                 variableObject = null;
             }
         }
@@ -2949,7 +2949,7 @@ namespace Ecell
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
             }
             finally
             {
@@ -2992,7 +2992,7 @@ namespace Ecell
                 //        new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
             }
             catch (Exception ex)
             {
@@ -3020,7 +3020,7 @@ namespace Ecell
                 DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
                 list = dummyEcellObject.Value;
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
             }
             finally
             {

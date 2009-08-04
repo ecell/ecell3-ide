@@ -139,7 +139,7 @@ namespace Ecell
                     }
                 }
                 // 20090727
-                sim.Dispose();
+               sim.Dispose();
             }
 
             // Searches the DM paths
