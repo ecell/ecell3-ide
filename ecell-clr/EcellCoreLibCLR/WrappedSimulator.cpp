@@ -289,6 +289,27 @@ namespace EcellCoreLib {
         String^ id_;
     };
 
+	public ref class ModuleMakerEntry
+	{
+	public:
+		ModuleMakerEntry()
+			: theEntry(libecs::createDefaultModuleMaker()) {}
+
+		ModuleMakerEntry(ModuleMaker<libecs::EcsObject>* data)
+			: theEntry(data) {}
+
+		property ModuleMaker<libecs::EcsObject>* Maker
+		{
+			ModuleMaker<libecs::EcsObject>* get()
+			{
+				return theEntry;
+			}
+		}
+
+	private:
+		ModuleMaker<libecs::EcsObject>* theEntry;
+	};
+
     public ref class WrappedSimulator
     {
     public:
@@ -322,9 +343,7 @@ namespace EcellCoreLib {
         }
 
         WrappedSimulator(System::Collections::IEnumerable^ l_dmPath)
-            try: thePropertiedObjectMaker( libecs::createDefaultModuleMaker() ),
-                 theModel( new libecs::Model( *thePropertiedObjectMaker ) ),
-                 theEventCheckInterval(30)
+            try: theEventCheckInterval(30)
         {
             StringBuilder^ dmPathRepr = gcnew StringBuilder();
             for each (String^ i in l_dmPath) {
@@ -332,6 +351,16 @@ namespace EcellCoreLib {
                 dmPathRepr->Append(static_cast<wchar_t>(libecs::Model::PATH_SEPARATOR));
             }
             --dmPathRepr->Length;
+			if (theModuleDic->ContainsKey(dmPathRepr->ToString()))
+			{
+				thePropertiedObjectMaker = theModuleDic[dmPathRepr->ToString()]->Maker;
+			}
+			else
+			{
+				thePropertiedObjectMaker = libecs::createDefaultModuleMaker();
+				theModuleDic->Add(dmPathRepr->ToString(), gcnew ModuleMakerEntry(thePropertiedObjectMaker));
+			}
+			theModel = new libecs::Model(*thePropertiedObjectMaker);
             theModel->setDMSearchPath(WrappedCString(dmPathRepr->ToString()));
         }
         catch ( std::exception const& e )
@@ -1076,6 +1105,7 @@ namespace EcellCoreLib {
         libecs::Model                 *theModel;
 
         System::EventHandler^         theEventHandler;
+		static Dictionary<String^, ModuleMakerEntry^>^ theModuleDic = gcnew Dictionary<String^, ModuleMakerEntry^>();
     };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
