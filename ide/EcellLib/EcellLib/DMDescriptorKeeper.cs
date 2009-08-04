@@ -139,7 +139,7 @@ namespace Ecell
                     }
                 }
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
             }
 
             // Searches the DM paths
@@ -186,7 +186,7 @@ namespace Ecell
                     perDirectoryModuleList[moduleType].Add(info);
                 }
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
             }
 
             Dictionary<string, Dictionary<string, DMDescriptor>> descs =
@@ -230,7 +230,7 @@ namespace Ecell
                     descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                 }
                 // 20090727
-                //sim.Dispose();
+                sim.Dispose();
             }
 
             m_descs = descs;
@@ -275,8 +275,8 @@ namespace Ecell
                 Dictionary<string, PropertyDescriptor> pdescs = GetStepperPropertyDescriptors(sim, stepper);
 
                 // Check DynamicProperty
-                bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
-                desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, dynamic, pdescs);
+                //bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
+                desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, false, pdescs);
                 desc.Description = info.Description;
 
             }

@@ -366,6 +366,10 @@ namespace Ecell
         /// </summary>
         public const string xpathDM = "dm";
         /// <summary>
+        /// Reserved XML path name for DM and source.
+        /// </summary>
+        public const string xpathDMSource = "dmsource";
+        /// <summary>
         /// Reserved XML path name for EML.
         /// </summary>
         public const string xpathEml = "eml";

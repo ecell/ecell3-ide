@@ -604,7 +604,7 @@ namespace Ecell.Plugin
                 {
                     throw new EcellException(String.Format(MessageResources.ErrLoadFile,
                         new object[] { path }));
-                }
+                }                
                 pb = RegisterPlugin(aType);
             }
             catch (Exception e)
