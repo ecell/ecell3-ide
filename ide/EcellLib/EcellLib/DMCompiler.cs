@@ -103,6 +103,10 @@ namespace Ecell
         /// <param name="env">Application Environmant object.</param>
         public void Compile(ApplicationEnvironment env)
         {
+            if (m_sourceFile == null || !File.Exists(m_sourceFile))
+            {
+                return;
+            }
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
             if (string.IsNullOrEmpty(stageHome))
             {
@@ -264,6 +268,8 @@ namespace Ecell
         /// <param name="env">Application Environment object.</param>
         public static void Compile(string fileName, ApplicationEnvironment env)
         {
+            if (fileName == null || !File.Exists(fileName))
+                return;
             DMCompiler cm = new DMCompiler();
             cm.SourceFile = fileName;
             string outdir = Path.Combine(Path.GetDirectoryName(fileName), Constants.TmpDirName);

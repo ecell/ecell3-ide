@@ -266,6 +266,17 @@ namespace Ecell.IDE.Plugins.Analysis
             return result;
         }
 
+        /// <summary>
+        /// Change the status of project.
+        /// </summary>
+        /// <param name="status">the status of project.</param>
+        public void ChangeStatus(ProjectStatus status)
+        {
+            if (status == ProjectStatus.Loaded)
+                executeButton.Enabled = true;
+            else
+                executeButton.Enabled = false;
+        }
 
         #region Events
         /// <summary>

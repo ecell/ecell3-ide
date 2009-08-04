@@ -457,6 +457,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteSensitivityAnalysis()
         {
+            if (m_env.PluginManager.Status == ProjectStatus.Uninitialized)
+                return;
             m_sensitivityParameter = m_sensitivityDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
@@ -474,6 +476,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteBifurcationAnalysis()
         {
+            if (m_env.PluginManager.Status == ProjectStatus.Uninitialized)
+                return;
             m_bifurcateParameter = m_bifurcationDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
@@ -491,6 +495,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteRobustAnalysis()
         {
+            if (m_env.PluginManager.Status == ProjectStatus.Uninitialized)
+                return;
             m_robustParameter = m_robustDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
@@ -510,6 +516,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void ExecuteParameterEstimation()
         {
+            if (m_env.PluginManager.Status == ProjectStatus.Uninitialized)
+                return;
             m_estimationParameter = m_estimationDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
@@ -631,7 +639,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="type">System status.</param>
         public override void ChangeStatus(ProjectStatus type)
         {
-
+            m_estimationDialog.ChangeStatus(type);
+            m_robustDialog.ChangeStatus(type);
+            m_sensitivityDialog.ChangeStatus(type);
+            m_bifurcationDialog.ChangeStatus(type);
         }
 
         /// <summary>
