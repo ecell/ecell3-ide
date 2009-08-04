@@ -92,9 +92,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             String name = INTextBox.Text;
             bool isOverride = false;
-
             string filename = Path.Combine(m_dir, name);
             filename = filename + Constants.FileExtSource;
+
+            if (!Directory.Exists(m_dir))
+                Directory.CreateDirectory(m_dir);
+
             if (File.Exists(filename))
             {
                 if (!Util.ShowOKCancelDialog(string.Format(MessageResources.ConfirmOverrideFile, filename)))

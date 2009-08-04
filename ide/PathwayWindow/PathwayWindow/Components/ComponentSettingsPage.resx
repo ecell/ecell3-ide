@@ -135,7 +135,7 @@
     <value>commonComponentItem</value>
   </data>
   <data name="&gt;&gt;commonComponentItem.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Components.CommonComponentItem, PathwayWindow, Version=1.1.3122.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Components.CommonComponentItem, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;commonComponentItem.Parent" xml:space="preserve">
     <value>$this</value>
@@ -154,7 +154,7 @@
     <value>Off</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>548, 225</value>
+    <value>548, 255</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Component Settings</value>

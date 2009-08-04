@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="resetSettingButton.Text" xml:space="preserve">
-    <value>リセット</value>
+    <value>デフォルト設定の復元</value>
   </data>
   <data name="gradationCheckBox.Text" xml:space="preserve">
     <value>グラデーションモードを設定してください。</value>

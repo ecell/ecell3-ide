@@ -427,16 +427,16 @@
     <value>NoControl</value>
   </data>
   <data name="resetSettingButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>371, 178</value>
+    <value>5, 213</value>
   </data>
   <data name="resetSettingButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>187, 23</value>
   </data>
   <data name="resetSettingButton.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
   <data name="resetSettingButton.Text" xml:space="preserve">
-    <value>Reset</value>
+    <value>Restore the default settings</value>
   </data>
   <data name="&gt;&gt;resetSettingButton.Name" xml:space="preserve">
     <value>resetSettingButton</value>
@@ -463,7 +463,7 @@
     <value>figureComboBox</value>
   </data>
   <data name="&gt;&gt;figureComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox, PathwayWindow, Version=1.1.3133.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;figureComboBox.Parent" xml:space="preserve">
     <value>$this</value>
@@ -484,7 +484,7 @@
     <value>fillColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;fillColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3133.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fillColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
@@ -505,7 +505,7 @@
     <value>centerColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;centerColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3133.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;centerColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
@@ -526,7 +526,7 @@
     <value>lineColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;lineColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3133.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lineColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
@@ -547,7 +547,7 @@
     <value>textColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;textColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3133.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;textColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
@@ -571,7 +571,7 @@
     <value>pCanvas</value>
   </data>
   <data name="&gt;&gt;pCanvas.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3133.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pCanvas.Parent" xml:space="preserve">
     <value>$this</value>
@@ -586,7 +586,7 @@
     <value>True</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 231</value>
+    <value>461, 255</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>CommonComponentItem</value>
