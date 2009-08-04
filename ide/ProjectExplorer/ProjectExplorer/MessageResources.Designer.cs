@@ -106,6 +106,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Cannot import DM. Please delete the same file name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrImportDM {
+            get {
+                return ResourceManager.GetString("ErrImportDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoInput {
@@ -268,11 +277,29 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Please delete the tmp file in DM directory or restart E-Cell IDE. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnDeleteDM {
+            get {
+                return ResourceManager.GetString("WarnDeleteDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnDMName {
             get {
                 return ResourceManager.GetString("WarnDMName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This DM is in used. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnUsedDM {
+            get {
+                return ResourceManager.GetString("WarnUsedDM", resourceCulture);
             }
         }
     }

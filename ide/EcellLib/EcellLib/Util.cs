@@ -1402,7 +1402,9 @@ namespace Ecell
                 Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
             // Copy Files.
             foreach (string file in files)
+            {
                 File.Copy(file, file.Replace(sourceDir, targetDir), overwrite);
+            }
         }
 
         /// <summary>

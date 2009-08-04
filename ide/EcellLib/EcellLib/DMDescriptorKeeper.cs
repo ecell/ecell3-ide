@@ -275,8 +275,8 @@ namespace Ecell
                 Dictionary<string, PropertyDescriptor> pdescs = GetStepperPropertyDescriptors(sim, stepper);
 
                 // Check DynamicProperty
-                //bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
-                desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, false, pdescs);
+                bool dynamic = CheckDynamicProperty(sim, stepper, pdescs);
+                desc = new DMDescriptor(stepper, info.Path, Constants.xpathStepper, dynamic, pdescs);
                 desc.Description = info.Description;
 
             }

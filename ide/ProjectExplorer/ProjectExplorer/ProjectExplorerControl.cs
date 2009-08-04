@@ -1588,10 +1588,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (win.ShowDialog() != DialogResult.OK)
                     return;
 
-                m_owner.Environment.DataManager.ImportDM(win.SelectedPath);
+                try
+                {
+                    m_owner.Environment.DataManager.ImportDM(win.SelectedPath);
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrImportDM);
+                }
                 // 20090727
-                //m_owner.DataManager.UnloadSimulator();
-                //m_owner.DataManager.ReloadSimulator();
+                m_owner.DataManager.UnloadSimulator();
+                m_owner.DataManager.ReloadSimulator();
                 m_DMNode.Nodes.Clear();
                 SetDMNodes();
             }
@@ -1766,18 +1773,45 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_lastSelectedNode is DMNode)
             {
                 DMNode node = m_lastSelectedNode as DMNode;
+                string classname = node.Text;
+                if (classname.EndsWith(Constants.xpathProcess))
+                {
+                    if (m_owner.DataManager.CurrentProject.IsUsedProcessClass(classname))
+                    {
+                        Util.ShowErrorDialog(MessageResources.WarnUsedDM);
+                        return;
+                    }
+                }
+                else
+                {
+                    if (m_owner.DataManager.CurrentProject.IsUsedStepperClass(classname))
+                    {
+                        Util.ShowErrorDialog(MessageResources.WarnUsedDM);
+                        return;
+                    }
+                }
                 string path = m_owner.DataManager.GetDMDLLFileName((string)m_lastSelectedNode.Tag);
                 string source = m_owner.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
 
                 string destpath = path + ".tmp";
+                try
+                {
+                    if (File.Exists(destpath))
+                        File.Delete(destpath);
+                }
+                catch (Exception)
+                {
+                    Util.ShowWarningDialog(MessageResources.WarnDeleteDM);
+                    return;
+                }
                 m_owner.DataManager.UnloadSimulator();
                 if (File.Exists(path))
                     File.Move(path, destpath);
                 if (File.Exists(source))
                     File.Delete(source);
                 m_owner.DataManager.ReloadSimulator();
-                if (File.Exists(destpath))
-                    File.Delete(destpath);
+                //if (File.Exists(destpath))
+                //    File.Delete(destpath);
             }
         }
 

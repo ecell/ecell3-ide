@@ -734,6 +734,44 @@ namespace Ecell
             return false;
         }
 
+
+        /// <summary>
+        /// Check whether this stepper class is used.
+        /// </summary>
+        /// <param name="classname">the stepper class name.</param>
+        /// <returns>if stepper is used, return truue.</returns>
+        public bool IsUsedStepperClass(string classname)
+        {
+            foreach (EcellObject stepper in m_stepperDic[Model.ModelID])
+            {
+                if (stepper.Classname.Equals(classname))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Check whether this process class is used.
+        /// </summary>
+        /// <param name="classname">the process class name.</param>
+        /// <returns>if process is used, return truue.</returns>
+        public bool IsUsedProcessClass(string classname)
+        {
+            foreach (EcellObject sysobj in m_systemDic[Model.ModelID])
+            {
+                if (sysobj.Children == null)
+                    continue;
+                foreach (EcellObject child in sysobj.Children)
+                {
+                    if (!(child is EcellProcess))
+                        continue;
+                    if (child.Classname.Equals(classname))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         #region Methods for Save
         /// <summary>
         /// 

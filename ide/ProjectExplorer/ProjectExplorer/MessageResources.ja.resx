@@ -132,6 +132,9 @@
   <data name="ErrDelStep" xml:space="preserve">
     <value>少なくともモデルには１つのステッパーが必要です。</value>
   </data>
+  <data name="ErrImportDM" xml:space="preserve">
+    <value>ダイナミックモジュールの読み込みができません。同じファイル名のファイルを削除してください。</value>
+  </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません。</value>
   </data>
@@ -186,7 +189,13 @@
   <data name="SelectDMDir" xml:space="preserve">
     <value>ダイナミックモジュールディレクトリを選択してください。</value>
   </data>
+  <data name="WarnDeleteDM" xml:space="preserve">
+    <value>ダイナミックモジュールディレクトリのテンポラリファイルを削除するか、E-Cell IDEを再起動してください。</value>
+  </data>
   <data name="WarnDMName" xml:space="preserve">
     <value>ダイナミックモジュールの名前は、ProcessもしくはStepperで終わる必要があります。</value>
+  </data>
+  <data name="WarnUsedDM" xml:space="preserve">
+    <value>このダイナミックモジュールは使用中です。</value>
   </data>
 </root>
