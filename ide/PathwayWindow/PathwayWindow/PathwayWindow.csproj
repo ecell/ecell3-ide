@@ -404,6 +404,8 @@
     <Content Include="Resources\arrow_long_left_w.gif" />
     <Content Include="Resources\arrow_long_right_w.gif" />
     <Content Include="Resources\LayerView.ico" />
+    <None Include="Resources\layout.png" />
+    <None Include="Resources\layout.ico" />
     <Content Include="Resources\move.cur" />
     <Content Include="Resources\move.gif" />
     <None Include="Resources\PathwayView.ico" />

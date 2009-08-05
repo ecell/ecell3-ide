@@ -221,7 +221,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (this.DialogResult == DialogResult.Cancel)
                 return;
-            string projectName = m_project.Name;
+            string projectName = DMPanel.ProjectName.Text;
             string msg = string.Format(MessageResources.ErrExistProject, projectName)
                         + "\n" + MessageResources.ConfirmOverwrite;
 

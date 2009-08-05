@@ -118,6 +118,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public string Label
         {
+            set { this.label.Text = value; }
             get { return this.label.Text; }
         }
 
@@ -129,6 +130,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.value.Text; }
             set { this.value.Text = value; }
         }
+
+        /// <summary>
+        /// TextBrush of value text.
+        /// </summary>
+        public Brush TextBrush
+        {
+            get { return this.value.TextBrush; }
+            set { this.value.TextBrush = value; }
+        }
         #endregion
 
         #region Constructors
@@ -137,16 +147,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayProperty()
         {
+            this.Pickable = false;
             this.label = new PText();
             this.label.X = this.X;
             this.label.Y = this.Y;
             this.label.Brush = Brushes.Gray;
             this.label.Width = 50;
+            this.label.Pickable = false;
+            this.AddChild(this.label);
+
             this.value = new PText();
             this.value.X = this.X + 50;
             this.value.Y = this.Y;
             this.value.Brush = Brushes.White;
             this.value.Width = 50;
+            this.value.Pickable = false;
+            this.AddChild(this.value);
         }
 
         /// <summary>

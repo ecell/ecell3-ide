@@ -1087,9 +1087,11 @@ namespace Ecell.IDE.MainWindow
         /// Save confirm.
         /// </summary>
         /// <returns>
-        /// It return Yes when the current project was Saved
-        /// or returns No when not saved
-        /// and returns Canceled when SaveProject is canceled.
+        /// When the user select...
+        /// Saving, return Yes.
+        /// Not Saving, returns NotSaved.
+        /// Cancel, returns Canceled.
+        /// and when there is no change, returns No.
         /// </returns>
         private ConfirmState CloseConfirm()
         {
@@ -1111,32 +1113,29 @@ namespace Ecell.IDE.MainWindow
                         m_env.JobManager.Stop(name, 0);
                 }
             }
+            // No change
+            Project project = m_env.DataManager.CurrentProject;
+            if (project == null || (m_editCount == 0 && project.Info.ProjectType == ProjectType.Project))
+                return state;
 
-            if (m_editCount > 0)
+            // Confirm saving.
+            try
             {
-                try
+                // Save if answer is yes.
+                if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
                 {
-                    ProjectType type = m_env.DataManager.CurrentProject.Info.ProjectType;
-                    // Save if answer is yes.
-                    if (type != ProjectType.Revision && Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
-                    {
-                        SaveProject();
-                        state = ConfirmState.Yes;
-                    }
-                    else
-                        state = ConfirmState.NotSaved;
+                    SaveProject();
+                    state = ConfirmState.Yes;
                 }
-                catch (Exception)
-                {
-                    // Return false when canceled
-                    state = ConfirmState.Canceled;
-                    return state;
-                }
+                else
+                    state = ConfirmState.NotSaved;
             }
-            // Close project.
-            //CloseProject();
+            catch (Exception)
+            {
+                // Return canceled
+                state = ConfirmState.Canceled;
+            }
 
-            // Return true when the current project was closed successfully.
             return state;
         }
 

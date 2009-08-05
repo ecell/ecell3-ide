@@ -123,7 +123,7 @@
   <data name="isGradation.LabelText" xml:space="preserve">
     <value>グラデーション</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
+  <data name="label1.Text" xml:space="preserve">
     <value>形状</value>
   </data>
   <data name="textBrush.LabelText" xml:space="preserve">
