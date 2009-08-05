@@ -73,7 +73,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         #region Inherited from PluginBase
         /// <summary>
-        /// 
+        /// Initialize
         /// </summary>
         public override void Initialize()
         {
@@ -238,6 +238,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override void ChangeStatus(ProjectStatus type)
         {
             m_form.ChangeStatus(type);
+            m_editor.ChangeStatus(type);
         }
 
 

@@ -108,6 +108,18 @@ namespace Ecell.IDE
             }
         }
 
+        /// <summary>
+        /// Change the status of project.
+        /// </summary>
+        /// <param name="status">the status of project.</param>
+        public void ChangeStatus(ProjectStatus status)
+        {
+            if (status == ProjectStatus.Uninitialized)
+                DMEComileButton.Enabled = false;
+            else
+                DMEComileButton.Enabled = true;
+        }
+
         #region Events
         /// <summary>
         /// The event sequence when the close button is clicked.
@@ -135,6 +147,7 @@ namespace Ecell.IDE
         protected void LoadFile()
         {
             codeEditorControl.Open(m_path);
+            DMESaveButton.Enabled = true;
             //string line = "";
             //codeEditorControl.Text = "";
             //TextReader l_reader = new StreamReader(m_path);

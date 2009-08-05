@@ -921,6 +921,8 @@ namespace Ecell.IDE.MainWindow
             toolStripSaveProjectButton.Enabled = (suspend || loaded) && !revision;
             toolStripSaveAsButton.Enabled = (suspend || loaded);
 
+            m_scriptEditor.ChangeStatus(status);            
+
             // Reset edit count.
             if (unInitialized || (m_status == ProjectStatus.Loading && loaded))
                 m_editCount = 0;

@@ -107,13 +107,13 @@ namespace Ecell.IDE
             this.codeEditorControl.ActiveView = Fireball.Windows.Forms.CodeEditor.ActiveView.BottomRight;
             resources.ApplyResources(this.codeEditorControl, "codeEditorControl");
             this.codeEditorControl.AutoListPosition = null;
-            this.codeEditorControl.AutoListSelectedText = "";
+            this.codeEditorControl.AutoListSelectedText = "a123";
             this.codeEditorControl.AutoListVisible = false;
             this.codeEditorControl.CopyAsRTF = false;
             this.codeEditorControl.Document = this.syntaxDocument1;
             this.codeEditorControl.InfoTipCount = 1;
             this.codeEditorControl.InfoTipPosition = null;
-            this.codeEditorControl.InfoTipSelectedIndex = 0;
+            this.codeEditorControl.InfoTipSelectedIndex = 1;
             this.codeEditorControl.InfoTipVisible = false;
             lineMarginRender1.Bounds = new System.Drawing.Rectangle(19, 0, 19, 16);
             this.codeEditorControl.LineMarginRender = lineMarginRender1;

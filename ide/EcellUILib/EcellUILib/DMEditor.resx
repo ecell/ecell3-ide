@@ -150,6 +150,9 @@
   <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="DMESaveButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>280, 427</value>
   </data>

@@ -66,10 +66,6 @@ namespace Ecell.IDE.Plugins.EntityList
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.clearButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
-            this.Type = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ObjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.titleContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -77,6 +73,10 @@ namespace Ecell.IDE.Plugins.EntityList
             this.classToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pathIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Type = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ObjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.titleContextMenuStrip.SuspendLayout();
@@ -122,40 +122,6 @@ namespace Ecell.IDE.Plugins.EntityList
             this.objectListDataGrid.MouseLeave += new System.EventHandler(this.DataGridViewMouseLeave);
             this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
             this.objectListDataGrid.SelectionChanged += new System.EventHandler(this.EntSelectionChanged);
-            // 
-            // Type
-            // 
-            this.Type.FillWeight = 10F;
-            this.Type.Frozen = true;
-            resources.ApplyResources(this.Type, "Type");
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // ClassName
-            // 
-            this.ClassName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ClassName.FillWeight = 30F;
-            resources.ApplyResources(this.ClassName, "ClassName");
-            this.ClassName.Name = "ClassName";
-            this.ClassName.ReadOnly = true;
-            // 
-            // ID
-            // 
-            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ID.FillWeight = 30F;
-            resources.ApplyResources(this.ID, "ID");
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            // 
-            // ObjectName
-            // 
-            this.ObjectName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ObjectName.FillWeight = 30F;
-            resources.ApplyResources(this.ObjectName, "ObjectName");
-            this.ObjectName.Name = "ObjectName";
-            this.ObjectName.ReadOnly = true;
             // 
             // panel1
             // 
@@ -210,6 +176,39 @@ namespace Ecell.IDE.Plugins.EntityList
             this.nameToolStripMenuItem.Tag = "ObjectName";
             this.nameToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
             // 
+            // Type
+            // 
+            this.Type.FillWeight = 10F;
+            this.Type.Frozen = true;
+            resources.ApplyResources(this.Type, "Type");
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ClassName
+            // 
+            this.ClassName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ClassName.FillWeight = 30F;
+            resources.ApplyResources(this.ClassName, "ClassName");
+            this.ClassName.Name = "ClassName";
+            this.ClassName.ReadOnly = true;
+            // 
+            // ID
+            // 
+            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ID.FillWeight = 30F;
+            resources.ApplyResources(this.ID, "ID");
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            // 
+            // ObjectName
+            // 
+            this.ObjectName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ObjectName.FillWeight = 30F;
+            resources.ApplyResources(this.ObjectName, "ObjectName");
+            this.ObjectName.Name = "ObjectName";
+            this.ObjectName.ReadOnly = true;
+            // 
             // EntityListControl
             // 
             resources.ApplyResources(this, "$this");
@@ -229,10 +228,6 @@ namespace Ecell.IDE.Plugins.EntityList
 
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.DataGridView objectListDataGrid;
-        private System.Windows.Forms.DataGridViewImageColumn Type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.ContextMenuStrip titleContextMenuStrip;
@@ -240,5 +235,9 @@ namespace Ecell.IDE.Plugins.EntityList
         private System.Windows.Forms.ToolStripMenuItem classToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pathIDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nameToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewImageColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;
     }
 }

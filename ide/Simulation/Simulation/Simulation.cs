@@ -589,7 +589,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_resetButton.Enabled = isSuspended;
             m_stepButton.Enabled = isLoaded || isSuspended;
             m_fowardButton.Enabled = false;
-            m_backButton.Enabled = !isRunning && !isStepping && m_dManager.SaveTime.Count > 0;
+            m_backButton.Enabled = !isRunning && !isStepping && m_dManager.SaveTime.Count > 1;
 
             m_runButton.Checked = isRunning;
             m_stopButton.Checked = isSuspended;
@@ -780,20 +780,14 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (m_dManager.SaveTime[id] == e.ApplyTime)
                 {
                     if (count == 0)
-                    {
                         m_fowardButton.Enabled = false;
-                        m_backButton.Enabled = true;
-                    }
-                    else if (count == index - 1)
-                    {
-                        m_fowardButton.Enabled = true;
-                        m_backButton.Enabled = false;
-                    }
                     else
-                    {
                         m_fowardButton.Enabled = true;
+
+                    if (count == index - 1)
+                        m_backButton.Enabled = false;
+                    else
                         m_backButton.Enabled = true;
-                    }
                 }
                 count++;
             }
