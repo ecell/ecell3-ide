@@ -147,7 +147,6 @@ namespace Ecell.IDE
         protected void LoadFile()
         {
             codeEditorControl.Open(m_path);
-            DMESaveButton.Enabled = true;
             //string line = "";
             //codeEditorControl.Text = "";
             //TextReader l_reader = new StreamReader(m_path);
@@ -165,7 +164,11 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs</param>
         protected void DMESaveButtonClick(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(m_path)) return;
+            if (String.IsNullOrEmpty(m_path))
+            {
+                DMESaveAsButton_Click(sender, e);
+                return;
+            }
             //StreamWriter writer = null;
             try
             {
@@ -195,6 +198,7 @@ namespace Ecell.IDE
 
             codeEditorControl.Text = "";
             m_path = DMEOpenFileDialog.FileName;
+            fileNameLabel.Text = m_path;
             LoadFile();
         }
 
@@ -241,6 +245,7 @@ namespace Ecell.IDE
                 if (dlg != null)
                     dlg(dmName, path);
                 m_path = path;
+                fileNameLabel.Text = m_path;
             }
             finally
             {

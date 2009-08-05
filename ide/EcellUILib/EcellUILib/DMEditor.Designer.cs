@@ -68,6 +68,7 @@ namespace Ecell.IDE
             this.DMESaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.codeEditorControl = new Fireball.Windows.Forms.CodeEditorControl();
             this.syntaxDocument1 = new Fireball.Syntax.SyntaxDocument(this.components);
+            this.fileNameLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // DMEComileButton
@@ -135,10 +136,16 @@ namespace Ecell.IDE
             this.syntaxDocument1.Modified = false;
             this.syntaxDocument1.UndoStep = 0;
             // 
+            // fileNameLabel
+            // 
+            resources.ApplyResources(this.fileNameLabel, "fileNameLabel");
+            this.fileNameLabel.Name = "fileNameLabel";
+            // 
             // DMEditor
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.fileNameLabel);
             this.Controls.Add(this.codeEditorControl);
             this.Controls.Add(this.DMESaveAsButton);
             this.Controls.Add(this.DMEComileButton);
@@ -147,6 +154,7 @@ namespace Ecell.IDE
             this.Name = "DMEditor";
             this.Shown += new System.EventHandler(this.DMEditorShown);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -172,5 +180,6 @@ namespace Ecell.IDE
         protected System.Windows.Forms.SaveFileDialog DMESaveFileDialog;
         private Fireball.Syntax.SyntaxDocument syntaxDocument1;
         protected Fireball.Windows.Forms.CodeEditorControl codeEditorControl;
+        private System.Windows.Forms.Label fileNameLabel;
     }
 }
