@@ -120,7 +120,7 @@
   <data name="resetSettingButton.Text" xml:space="preserve">
     <value>デフォルト設定の復元</value>
   </data>
-  <data name="gradationCheckBox.Text" xml:space="preserve">
+  <data name="label1.Text" xml:space="preserve">
     <value>グラデーションモードを設定してください。</value>
   </data>
   <data name="label2.Text" xml:space="preserve">

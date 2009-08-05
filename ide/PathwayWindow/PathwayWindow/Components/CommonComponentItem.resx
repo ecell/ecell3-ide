@@ -151,7 +151,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -184,7 +184,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -217,7 +217,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <metadata name="label5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -250,7 +250,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <metadata name="label6.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -283,7 +283,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="settingLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -310,7 +310,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;settingLabel.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="gradationCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -319,16 +319,13 @@
     <value>NoControl</value>
   </data>
   <data name="gradationCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 131</value>
+    <value>226, 132</value>
   </data>
   <data name="gradationCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 16</value>
+    <value>15, 14</value>
   </data>
   <data name="gradationCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
-  </data>
-  <data name="gradationCheckBox.Text" xml:space="preserve">
-    <value>Set the gradation mode.</value>
   </data>
   <data name="&gt;&gt;gradationCheckBox.Name" xml:space="preserve">
     <value>gradationCheckBox</value>
@@ -340,7 +337,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gradationCheckBox.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="fileLoadButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -367,7 +364,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;fileLoadButton.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -397,7 +394,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="iconFileTtextBox.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -421,7 +418,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;iconFileTtextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="resetSettingButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -448,7 +445,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;resetSettingButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="figureComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>226, 24</value>
@@ -463,13 +460,13 @@
     <value>figureComboBox</value>
   </data>
   <data name="&gt;&gt;figureComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.FigureComboBox, PathwayWindow, Version=1.1.3162.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;figureComboBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;figureComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="fillColorBrushComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>226, 104</value>
@@ -484,13 +481,13 @@
     <value>fillColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;fillColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3162.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fillColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;fillColorBrushComboBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="centerColorBrushComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>226, 154</value>
@@ -505,13 +502,13 @@
     <value>centerColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;centerColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3162.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;centerColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;centerColorBrushComboBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lineColorBrushComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>226, 78</value>
@@ -526,13 +523,13 @@
     <value>lineColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;lineColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3162.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lineColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lineColorBrushComboBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="textColorBrushComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>226, 52</value>
@@ -547,13 +544,13 @@
     <value>textColorBrushComboBox</value>
   </data>
   <data name="&gt;&gt;textColorBrushComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3162.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;textColorBrushComboBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textColorBrushComboBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="pCanvas.Location" type="System.Drawing.Point, System.Drawing">
     <value>341, 52</value>
@@ -571,13 +568,46 @@
     <value>pCanvas</value>
   </data>
   <data name="&gt;&gt;pCanvas.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3152.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas, PathwayWindow, Version=1.1.3162.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pCanvas.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pCanvas.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
+  </data>
+  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 132</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 12</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Set the gradation mode.</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

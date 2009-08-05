@@ -207,14 +207,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             List<PPathwayObject> list = m_canvas.GetAllObjectUnder(m_obj.EcellObject.Key);
             foreach (PPathwayObject obj in list)
             {
-                float newX = x + (obj.X - oldX) * xx;
-                float newY = y + (obj.Y - oldY) * yy;
-                obj.OffsetX = newX - obj.X;
-                obj.OffsetY = newY - obj.Y;
                 if (obj is PPathwaySystem)
                 {
-                    obj.Width = obj.Width * xx;
-                    obj.Height = obj.Height * yy;
+                    float newX = x + (obj.EcellObject.X - oldX) * xx;
+                    float newY = y + (obj.EcellObject.Y - oldY) * yy;
+                    obj.OffsetX = newX - obj.EcellObject.X;
+                    obj.OffsetY = newY - obj.EcellObject.Y;
+                    obj.Width = obj.EcellObject.Width * xx;
+                    obj.Height = obj.EcellObject.Height * yy;
+                }
+                else
+                {
+                    float newX = x + (obj.EcellObject.CenterPointF.X - oldX) * xx;
+                    float newY = y + (obj.EcellObject.CenterPointF.Y - oldY) * yy;
+                    obj.OffsetX = newX - obj.EcellObject.CenterPointF.X;
+                    obj.OffsetY = newY - obj.EcellObject.CenterPointF.Y;
                 }
             }
 
