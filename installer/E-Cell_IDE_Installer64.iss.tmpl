@@ -353,7 +353,7 @@ Name: "{group}\E-Cell IDE(Trace)"; Filename: "{app}\bin\ecell-ide.exe"; Paramete
 Name: "{userappdata}\$Inst$"; Attribs: hidden; Flags: uninsalwaysuninstall
 
 [Run]
-Filename: "{app}\UninsHs.exe"; Parameters: "/r0=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\i.exe"; WorkingDir: "{app}"; Flags: runhidden runminimized skipifdoesntexist
+Filename: "{app}\UninsHs.exe"; Parameters: "/r3=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\i.exe"; WorkingDir: "{app}"; Flags: runhidden runminimized skipifdoesntexist
 Filename: "{app}\tr.exe"; Parameters: """{commondocs}\SamplePlugin\SamplePlugin\SamplePlugin.csproj"" ""{app}""" ; WorkingDir: "{app}"; Flags: skipifdoesntexist
 
 [InstallDelete]

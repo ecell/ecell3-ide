@@ -95,7 +95,7 @@ NewFolderName=新しいフォルダ
 
 ; *** "Welcome" wizard page
 WelcomeLabel1=[name] セットアップウィザードの開始
-WelcomeLabel2=このプログラムはご使用のコンピュータへ [name/ver] をインストールします。%n%n続行する前に他のアプリケーションをすべて終了してください。
+WelcomeLabel2=このプログラムはご使用のコンピュータへ [name/ver] をインストールします。%n%n続行する前に他のアプリケーションをすべて終了することをおすすめします。
 
 ; *** "Password" wizard page
 WizardPassword=パスワード
