@@ -34,25 +34,19 @@
             // 
             // simText
             // 
-            this.simText.AccessibleDescription = null;
-            this.simText.AccessibleName = null;
-            resources.ApplyResources(this.simText, "simText");
             this.simText.BackColor = System.Drawing.SystemColors.Window;
-            this.simText.BackgroundImage = null;
+            resources.ApplyResources(this.simText, "simText");
             this.simText.Name = "simText";
             this.simText.ReadOnly = true;
+            this.simText.ShortcutsEnabled = false;
             // 
-            // MessageWindowControl
+            // ConsoleControl
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.Controls.Add(this.simText);
-            this.Font = null;
-            this.Name = "MessageWindowControl";
-            this.ToolTipText = null;
+            this.Name = "ConsoleControl";
+            this.TabText = "MessageWindow";
             this.ResumeLayout(false);
             this.PerformLayout();
 
