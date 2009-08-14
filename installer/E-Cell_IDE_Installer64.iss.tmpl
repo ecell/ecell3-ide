@@ -36,6 +36,7 @@ AppName = E-Cell IDE 1.0 beta 6
 AppID = ECell_IDE
 AppModifyPath="{app}\UninsHs.exe" /m0=ECell_IDE
 LicenseFile=License.txt
+UninstallDisplayIcon={app}\bin\ecell-ide.exe
 
 [Components]
 Name: main; Description: "Main"; Types: full compact custom; Flags: fixed
@@ -199,7 +200,6 @@ Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Components: main; 
 Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\SessionManager.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
 Source: "x64\bin\ICSharpCode.SharpZipLib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
