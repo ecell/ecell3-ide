@@ -120,12 +120,9 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             m_StaticDebugMenuItem.Enabled = !m_isExecute;
             m_StaticDebugMenuItem.Click += new EventHandler(StaticDebuggerExecute);
 
-            ToolStripSeparator sep1 = new ToolStripSeparator();
-            sep1.Tag = 10;
-
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
-                m_isAutoMenuItem, m_StaticDebugMenuItem, sep1
+                m_isAutoMenuItem, m_StaticDebugMenuItem
             });
             analysisMenu.Text = "Tools";
             analysisMenu.Name = MenuConstants.MenuItemTools;
