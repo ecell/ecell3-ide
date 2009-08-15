@@ -273,7 +273,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.gradationCheckBox.Checked = cs.IsGradation;
             this.centerColorBrushComboBox.Brush = cs.CenterBrush;            
             this.centerColorBrushComboBox.Enabled = cs.IsGradation;
-            this.iconFileTtextBox.Text = cs.ImageStream;
+            this.iconFileTtextBox.Text = cs.IconFile;
             this.figureComboBox.Figure = cs.Figure.Type;
 
             //// Set Figure.
@@ -305,10 +305,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.IsGradation = gradationCheckBox.Checked;
             try
             {
+                cs.IconFile = iconFileTtextBox.Text;
                 cs.ImageStream = Util.ImgToBase64(iconFileTtextBox.Text);
             }
             catch (Exception)
             {
+                cs.IconFile = null;
                 cs.ImageStream = null;
             }
             cs.RaisePropertyChange();

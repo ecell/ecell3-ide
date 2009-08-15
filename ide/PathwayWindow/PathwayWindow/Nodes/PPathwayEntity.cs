@@ -199,6 +199,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             foreach (PPathwayLine line in m_relations)
                 line.Refresh();
             base.Refresh();
+            m_pProperty.X = this.X + this.Width;
+            m_pProperty.Y = this.Y;
+            if(m_pProperty.Visible)
+                m_pProperty.Refresh();
         }
         #endregion
     }

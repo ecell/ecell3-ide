@@ -210,7 +210,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.fillBrush.Brush = cs.FillBrush;
             this.centerBrush.Brush = cs.CenterBrush;
             this.isGradation.Checked = cs.IsGradation;
-            this.iconFile.FileName = cs.ImageStream;
+            this.iconFile.FileName = cs.IconFile;
         }
 
         /// <summary>
@@ -226,10 +226,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.IsGradation = isGradation.Checked;
             try
             {
+                cs.IconFile = iconFile.FileName;
                 cs.ImageStream = Util.ImgToBase64(iconFile.FileName);
             }
             catch (Exception)
             {
+                cs.IconFile = null;
                 cs.ImageStream = null;
             }
             string type = figureBox.ComboBox.Text;

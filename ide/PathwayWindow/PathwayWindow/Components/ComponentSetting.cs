@@ -71,7 +71,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// The ImageStream of icon image.
         /// </summary>
         private string m_imageStream = null;
-        
+
+        /// <summary>
+        /// The FileName of icon image.
+        /// </summary>
+        private string m_iconFile = null;
+
         /// <summary>
         /// A FigureBase for Edit Mode.
         /// </summary>
@@ -248,17 +253,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 this.m_figure = value;
             }
         }
+
+        /// <summary>
+        /// Base64 ImageStream.
+        /// </summary>
+        public string IconFile
+        {
+            get { return m_iconFile; }
+            set { m_iconFile = value; }
+        }
+
         /// <summary>
         /// Base64 ImageStream.
         /// </summary>
         public string ImageStream
         {
             get { return m_imageStream; }
-            set 
-            {
-                m_imageStream =  value;
-            }
+            set { m_imageStream = value; }
         }
+
         /// <summary>
         /// Return true if icon exists.
         /// </summary>
@@ -490,6 +503,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.FillBrush = this.FillBrush;
             cs.IsGradation = this.IsGradation;
             cs.LineBrush = this.LineBrush;
+            cs.IconFile = this.IconFile;
             cs.ImageStream = this.ImageStream;
 
             return cs;

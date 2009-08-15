@@ -372,8 +372,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public AnimationControl(PathwayControl control)
         {
             _con = control;
-            _con.CanvasChange += new EventHandler(m_con_CanvasChange);
-            _con.ProjectStatusChange += new EventHandler(m_con_ProjectStatusChange);
+            _con.CanvasChange += new EventHandler(Control_CanvasChange);
+            _con.ProjectStatusChange += new EventHandler(Control_ProjectStatusChange);
             _con.AnimationChange += new EventHandler(m_con_AnimationChange);
             LoadSettings();
             _dManager = _con.Window.DataManager;
@@ -386,7 +386,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void m_con_AnimationChange(object sender, EventArgs e)
         {
-            SetSimulationStatus();
+            if(_con.IsAnimation)
+                SetSimulationStatus();
+            else
+                StopSimulation();
         }
 
         /// <summary>
@@ -395,7 +398,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void Dispose()
         {
             StopSimulation();
-            _con.ProjectStatusChange -= m_con_ProjectStatusChange;
+            _con.ProjectStatusChange -= Control_ProjectStatusChange;
         }
 
         #endregion
@@ -406,7 +409,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_con_CanvasChange(object sender, EventArgs e)
+        void Control_CanvasChange(object sender, EventArgs e)
         {
             _canvas = _con.Canvas;
         }
@@ -416,34 +419,46 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_con_ProjectStatusChange(object sender, EventArgs e)
+        void Control_ProjectStatusChange(object sender, EventArgs e)
         {
-            SetSimulationStatus();
+            UpdateSimulationStatus();
         }
 
-        internal void SetSimulationStatus()
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void UpdateSimulationStatus()
         {
             if (_con.IsAnimation)
             {
-                SetPropForSimulation();
-                ProjectStatus status = _con.ProjectStatus;
-                if (status == ProjectStatus.Running || status == ProjectStatus.Stepping)
-                {
-                    StartSimulation();
-                }
-                else if(status == ProjectStatus.Loaded)
-                {
-                    StopSimulation();
-                }
+                if (_con.ProjectStatus == ProjectStatus.Running
+                    || _con.ProjectStatus == ProjectStatus.Stepping
+                    || _con.ProjectStatus == ProjectStatus.Suspended)
+                    SetSimulationStatus();
                 else
-                {
-                    UpdatePropForSimulation();
-                    PauseSimulation();
-                }
+                    StopSimulation();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void SetSimulationStatus()
+        {
+            SetPropForSimulation();
+            ProjectStatus status = _con.ProjectStatus;
+            if (status == ProjectStatus.Running || status == ProjectStatus.Stepping)
+            {
+                StartSimulation();
+            }
+            else if(status == ProjectStatus.Loaded)
+            {
+                StopSimulation();
             }
             else
             {
-                StopSimulation();
+                UpdatePropForSimulation();
+                PauseSimulation();
             }
         }
 
@@ -611,7 +626,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set Process.
             foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
-                if (!process.Visible)
+                if (!process.Visible || !process.ViewMode)
                     continue;
                 // Line setting.
                 process.ViewMode = false;

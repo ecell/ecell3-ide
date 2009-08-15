@@ -177,6 +177,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         public const string xPathIconFile = "IconFile";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathIconImage = "IconImage";
         #endregion
     }
 }

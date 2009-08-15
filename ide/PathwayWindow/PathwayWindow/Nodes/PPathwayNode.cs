@@ -290,6 +290,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// See <see cref="GraphicsPath.AddRectangle(RectangleF)">GraphicsPath.AddRectangle</see>.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public virtual void AddRect(float x, float y, float width, float height)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddRectangle(new RectangleF(x, y, width, height));
+            AddPath(path, false);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="pen"></param>

@@ -35,6 +35,7 @@ using UMD.HCIL.Piccolo;
 using Ecell.Objects;
 using UMD.HCIL.Piccolo.Nodes;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -108,6 +109,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     public class PPathwayProperty : PPathwayNode
     {
         #region Fields
+        const float VALUE_POS = 102.5f;
+        const float VALUE_WIDTH = 140.5f;
         PText label = null;
         PText value = null;
         #endregion
@@ -148,19 +151,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public PPathwayProperty()
         {
             this.Pickable = false;
+            this.Visible = false;
+            this.Pen = new Pen(Brushes.Black);
+            this.Brush = Brushes.AntiqueWhite;
+            GraphicsPath path = new GraphicsPath();
+            path.AddRectangle(new RectangleF(0, 0, VALUE_POS + VALUE_WIDTH, 20.5f));
+            path.AddLine(VALUE_POS, 0, VALUE_POS, 20.5f);
+            this.AddPath(path, false);
+
             this.label = new PText();
             this.label.X = this.X;
             this.label.Y = this.Y;
-            this.label.Brush = Brushes.Gray;
-            this.label.Width = 50;
+            this.label.Brush = Brushes.Transparent;
             this.label.Pickable = false;
+            this.label.TextAlignment = StringAlignment.Near;
             this.AddChild(this.label);
 
             this.value = new PText();
-            this.value.X = this.X + 50;
+            this.value.X = this.X + VALUE_POS;
             this.value.Y = this.Y;
-            this.value.Brush = Brushes.White;
-            this.value.Width = 50;
+            this.value.Brush = Brushes.Transparent;
             this.value.Pickable = false;
             this.AddChild(this.value);
         }
@@ -179,7 +189,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Refresh()
+        {
+            base.Refresh();
+            this.label.X = this.X;
+            this.label.Y = this.Y;
+            this.value.X = this.X + VALUE_POS;
+            this.value.Y = this.Y;
+        }
         #endregion
     }
 }

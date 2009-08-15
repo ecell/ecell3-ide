@@ -42,6 +42,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private EditModeSettings m_editModeItems;
         private ViewModeSettings m_viewModeItems;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="control"></param>
         public PathwaySettingsPage(AnimationControl control)
             : base()
         {
@@ -61,6 +65,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             //this.PerformLayout();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void ApplyChange()
         {
             try
@@ -72,7 +79,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 m_con.SaveSettings();
 
                 // Set canvas BG brush.
-                m_con.SetSimulationStatus();
+                m_con.UpdateSimulationStatus();
             }
             catch (Exception)
             {
@@ -80,6 +87,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();
@@ -87,6 +97,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_viewModeItems.ItemClosing();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingsPage));
