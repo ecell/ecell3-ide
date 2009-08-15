@@ -124,6 +124,8 @@ namespace Ecell.IDE.MainWindow
             // 
             // webBrowser
             // 
+            this.webBrowser.AccessibleDescription = null;
+            this.webBrowser.AccessibleName = null;
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
@@ -135,17 +137,25 @@ namespace Ecell.IDE.MainWindow
             // 
             // URLLabel
             // 
+            this.URLLabel.AccessibleDescription = null;
+            this.URLLabel.AccessibleName = null;
+            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.URLLabel.BackgroundImage = null;
             this.URLLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.URLLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.URLLabel.Name = "URLLabel";
-            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.Spring = true;
             // 
             // toolStrip
             // 
+            this.toolStrip.AccessibleDescription = null;
+            this.toolStrip.AccessibleName = null;
+            resources.ApplyResources(this.toolStrip, "toolStrip");
+            this.toolStrip.BackgroundImage = null;
+            this.toolStrip.Font = null;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ButtonBack,
             this.ButtonForward,
@@ -154,54 +164,73 @@ namespace Ecell.IDE.MainWindow
             this.ButtonRefresh,
             this.ButtonNavigate,
             this.URLComboBox});
-            resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.SizeChanged += new System.EventHandler(this.toolStrip_SizeChanged);
             // 
             // ButtonBack
             // 
-            this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonBack.AccessibleDescription = null;
+            this.ButtonBack.AccessibleName = null;
             resources.ApplyResources(this.ButtonBack, "ButtonBack");
+            this.ButtonBack.BackgroundImage = null;
+            this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonBack.Name = "ButtonBack";
             this.ButtonBack.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonForward
             // 
-            this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonForward.AccessibleDescription = null;
+            this.ButtonForward.AccessibleName = null;
             resources.ApplyResources(this.ButtonForward, "ButtonForward");
+            this.ButtonForward.BackgroundImage = null;
+            this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonForward.Name = "ButtonForward";
             this.ButtonForward.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonStop
             // 
-            this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonStop.AccessibleDescription = null;
+            this.ButtonStop.AccessibleName = null;
             resources.ApplyResources(this.ButtonStop, "ButtonStop");
+            this.ButtonStop.BackgroundImage = null;
+            this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonStop.Name = "ButtonStop";
             this.ButtonStop.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonHome
             // 
-            this.ButtonHome.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonHome.AccessibleDescription = null;
+            this.ButtonHome.AccessibleName = null;
             resources.ApplyResources(this.ButtonHome, "ButtonHome");
+            this.ButtonHome.BackgroundImage = null;
+            this.ButtonHome.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonHome.Name = "ButtonHome";
             this.ButtonHome.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonRefresh
             // 
-            this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonRefresh.AccessibleDescription = null;
+            this.ButtonRefresh.AccessibleName = null;
             resources.ApplyResources(this.ButtonRefresh, "ButtonRefresh");
+            this.ButtonRefresh.BackgroundImage = null;
+            this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonRefresh.Name = "ButtonRefresh";
             this.ButtonRefresh.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonNavigate
             // 
-            this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonNavigate.AccessibleDescription = null;
+            this.ButtonNavigate.AccessibleName = null;
             resources.ApplyResources(this.ButtonNavigate, "ButtonNavigate");
+            this.ButtonNavigate.BackgroundImage = null;
+            this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonNavigate.Name = "ButtonNavigate";
             this.ButtonNavigate.Click += new System.EventHandler(this.Button_Click);
             // 
             // URLComboBox
             // 
+            this.URLComboBox.AccessibleDescription = null;
+            this.URLComboBox.AccessibleName = null;
             this.URLComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.URLComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
             resources.ApplyResources(this.URLComboBox, "URLComboBox");
@@ -212,18 +241,27 @@ namespace Ecell.IDE.MainWindow
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.webBrowser);
+            this.panel1.AccessibleDescription = null;
+            this.panel1.AccessibleName = null;
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.BackgroundImage = null;
+            this.panel1.Controls.Add(this.webBrowser);
+            this.panel1.Font = null;
             this.panel1.Name = "panel1";
             // 
             // EcellWebBrowser
             // 
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BackgroundImage = null;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
             this.IsSavable = true;
             this.Name = "EcellWebBrowser";
+            this.TabText = "ウェブブラウザ";
+            this.ToolTipText = null;
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
