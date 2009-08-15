@@ -1549,13 +1549,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs</param>
         private void TreeViewCloseProject(object sender, EventArgs e)
         {
-            if (m_owner.Environment.ActionManager.Undoable)
+            if (m_owner.Environment.ActionManager.Undoable && m_owner.Environment.DataManager.CurrentProject.Info.ProjectType != ProjectType.Revision)
             {
                 try
                 {
                     // Save if answer is yes.
                     if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
-                        m_owner.Environment.DataManager.SaveProject();
+                        m_owner.Environment.DataManager.SaveProject(ProjectType.Project);
                 }
                 catch (Exception)
                 {

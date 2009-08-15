@@ -276,18 +276,18 @@ namespace Ecell
         /// <summary>
         /// Save project.
         /// </summary>
-        public void Save()
+        public void Save(ProjectType status)
         {
-            Save(m_prjPath);
+            Save(m_prjPath, status);
         }
 
         /// <summary>
         /// Save project.
         /// </summary>
         /// <param name="filePath"></param>
-        public void Save(string filePath)
+        public void Save(string filePath, ProjectType status)
         {
-            ProjectInfoSaver.Save(this, filePath);
+            ProjectInfoSaver.Save(this, filePath, status);
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace Ecell
         /// </summary>
         /// <param name="project">target project</param>
         /// <param name="filepath"></param>
-        public static void Save(ProjectInfo project, string filepath)
+        public static void Save(ProjectInfo project, string filepath, ProjectType status)
         {
             // Get Saving Directory.
             string saveDir = GetSaveDir(project, filepath);
@@ -503,7 +503,7 @@ namespace Ecell
             // Save both InfoText and XML setting file.
             try
             {
-                SaveProjectXML(project, saveDir);
+                SaveProjectXML(project, saveDir, status);
             }
             catch (Exception ex)
             {
@@ -540,7 +540,7 @@ namespace Ecell
         /// </summary>
         /// <param name="project"></param>
         /// <param name="saveDir"></param>
-        public static void SaveProjectXML(ProjectInfo project, string saveDir)
+        public static void SaveProjectXML(ProjectInfo project, string saveDir, ProjectType status)
         {
             XmlTextWriter xmlOut = null;
             string projectXML = Path.Combine(saveDir, Constants.fileProjectXML);
@@ -566,6 +566,7 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textEditCount, project.EditCount.ToString());
                 xmlOut.WriteElementString(Constants.textComment, project.Comment);
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
+                xmlOut.WriteElementString(Constants.xpathType, ((Int32)status).ToString());
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
 

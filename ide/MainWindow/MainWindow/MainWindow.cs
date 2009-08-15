@@ -1216,7 +1216,7 @@ namespace Ecell.IDE.MainWindow
                 if (!ConfirmOverwrite(project))
                     return;
 
-                m_env.DataManager.SaveProject();
+                m_env.DataManager.SaveProject(ProjectType.Project);
                 CheckAndReplaceRecentProject(project.Info);
                 m_editCount = 0;
             }
@@ -1288,9 +1288,8 @@ namespace Ecell.IDE.MainWindow
                     return;
 
                 // Save as new project.
-                m_env.DataManager.SaveProject();
+                m_env.DataManager.SaveProject(ProjectType.Project);
             }
-
         }
         /// <summary>
         /// The action of [close projct] menu click.

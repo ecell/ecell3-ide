@@ -756,7 +756,7 @@ namespace Ecell
         {
             if (m_currentProject == null)
                 return;
-            SaveProject();
+            SaveProject(ProjectType.Revision);
 
             string sourceDir = m_currentProject.Info.ProjectPath;
             string revNo = Util.GetRevNo(sourceDir);
@@ -980,7 +980,7 @@ namespace Ecell
 
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
                 {
-                    m_currentProject.Save();
+                    m_currentProject.Save(m_currentProject.Info.ProjectType);
                 }
                 // Set Model dir and filename.
                 string modelDirName = Path.Combine(m_currentProject.Info.ProjectPath, Constants.xpathModel);
@@ -1013,14 +1013,14 @@ namespace Ecell
         /// <summary>
         /// Save current project.
         /// </summary>
-        public void SaveProject()
+        public void SaveProject(ProjectType status)
         {
             try
             {
                 // Set project dir.
                 SetDefaultDir();
                 // Save ProjectInfo.
-                m_currentProject.Save();
+                m_currentProject.Save(status);
                 List<string> modelList = m_currentProject.GetSavableModel();
                 List<string> paramList = m_currentProject.GetSavableSimulationParameter();
                 List<string> logList = m_currentProject.GetSavableSimulationResult();
@@ -4164,7 +4164,7 @@ namespace Ecell
 
                     if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + projectID))
                     {
-                        m_currentProject.Save();
+                        m_currentProject.Save(m_currentProject.Info.ProjectType);
                     }
                     simulationDirName = GetSimulationResultSaveDirectory();
                 }
@@ -5058,7 +5058,7 @@ namespace Ecell
 
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
                 {
-                    m_currentProject.Save();
+                    m_currentProject.Save(m_currentProject.Info.ProjectType);
                 }
                 string simulationDirName = Path.Combine(m_currentProject.Info.ProjectPath, Constants.xpathParameters);
 
