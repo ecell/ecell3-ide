@@ -152,10 +152,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             foreach (PPathwayVariable variable in _variables)
             {
                 variable.Property.Visible = true;
-                variable.Property.TextBrush = propertyBrush.Brush;
-                string fullPN = variable.EcellObject.FullID + ":" + _property;
-                variable.Property.Label = _property;
-                variable.Property.Value = this.GetTextValue(fullPN);
+                foreach (PPathwayProperty property in variable.Property.Properties)
+                {
+                    string fullPN = variable.EcellObject.FullID + ":" + property.Label;
+                    property.Value = this.GetTextValue(fullPN);
+                }
                 variable.Refresh();
             }
         }
@@ -168,8 +169,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             base.UpdateProperty();
             foreach (PPathwayVariable variable in _variables)
             {
-                string fullPN = variable.EcellObject.FullID + ":" + _property;
-                variable.Property.Value = this.GetTextValue(fullPN);
+                foreach (PPathwayProperty property in variable.Property.Properties)
+                {
+                    string fullPN = variable.EcellObject.FullID + ":" + property.Label;
+                    property.Value = this.GetTextValue(fullPN);
+                }
             }
         }
 
@@ -181,8 +185,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             foreach (PPathwayVariable variable in _variables)
             {
                 variable.Property.Visible = false;
-                variable.Property.Label = "";
-                variable.Property.Value = "";
             }
             base.ResetProperty();
         }

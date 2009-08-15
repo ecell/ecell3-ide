@@ -61,7 +61,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// PText for showing this object's ID.
         /// </summary>
-        protected PPathwayProperty m_pProperty;
+        protected PPathwayProperties m_pProperty;
 
         /// <summary>
         /// list of relations.
@@ -104,10 +104,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        public virtual PPathwayProperty Property
+        public virtual PPathwayProperties Property
         {
             get { return m_pProperty; }
             set { m_pProperty = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override Ecell.Objects.EcellObject EcellObject
+        {
+            get
+            {
+                return base.EcellObject;
+            }
+            set
+            {
+                base.EcellObject = value;
+                m_pProperty.SetObject(this);
+            }
         }
         #endregion
 
@@ -122,7 +138,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.VisibleChanged += new PPropertyEventHandler(PPathwayNode_VisibleChanged);
             m_tempFigure = new EllipseFigure(-5, -5, 10, 10);
             // PropertyText
-            m_pProperty = new PPathwayProperty();
+            m_pProperty = new PPathwayProperties(this);
             m_pProperty.Pickable = false;
             this.AddChild(m_pProperty);
         }
