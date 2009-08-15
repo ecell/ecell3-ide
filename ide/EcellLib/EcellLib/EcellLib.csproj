@@ -254,6 +254,9 @@
   <ItemGroup>
     <Content Include="ECellIDE.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AssemblyInfo.cs.tmpl" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -269,5 +272,6 @@ FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_ST
 SETLOCAL
 SET _STG_HOME=$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)
 SET PATH=$(PATH);$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(TargetDir)</PostBuildEvent>
+    <PreBuildEvent>SubWCRev "$(ProjectDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>
