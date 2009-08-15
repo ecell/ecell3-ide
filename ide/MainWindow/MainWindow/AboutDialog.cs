@@ -52,7 +52,7 @@ namespace Ecell.IDE.MainWindow
             this.ecellLink.Links[0].LinkData = "http://www.e-cell.org/ide/";
             this.assemblyVersionLabel.Text = versionText;
             this.productNameLabel.Text = informationText;
-            this.copyLabel.Text = copyrightText;
+            this.copyLabel.Text = "Copyright\r\n" + copyrightText;
         }
 
         private void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)

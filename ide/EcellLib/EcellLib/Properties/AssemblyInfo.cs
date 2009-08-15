@@ -6,12 +6,12 @@ using System.Security;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。 
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("EcellLib")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Ecell IDE Library")]
+[assembly: AssemblyProduct("E-Cell IDE 1.0 RC2")]
+[assembly: AssemblyDescription("E-Cell IDE Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EcellLib")]
-[assembly: AssemblyCopyright("Copyright (C)  2006")]
+[assembly: AssemblyCompany("Keio University\r\nMitsubishi Space Software CO., LTD.")]
+[assembly: AssemblyCopyright("(C)Keio University\r\n(C)Mitsubishi Space Software CO., LTD.\r\n(C)The Molecular Sciences Institute.\r\nAll rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AllowPartiallyTrustedCallers]

@@ -56,7 +56,7 @@ namespace Ecell.IDE
             InitializeComponent();
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
             VersionNumber.Text = ((AssemblyProductAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false)[0]).Product;
-            CopyrightNotice.Text = ((AssemblyCopyrightAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
+            CopyrightNotice.Text = "Copyright\r\n" + ((AssemblyCopyrightAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
             m_ehandler = new Ecell.Logging.LogEntryAppendedEventHandler(LogManager_LogEntryAppended);
             env.LogManager.LogEntryAppended += m_ehandler;
         }

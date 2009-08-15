@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。 
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("EcellUILib")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Ecell IDE UI Library")]
+[assembly: AssemblyProduct("E-Cell IDE 1.0 RC2")]
+[assembly: AssemblyDescription("E-Cell IDE UI Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("慶應大学")]
-[assembly: AssemblyProduct("EcellUILib")]
-[assembly: AssemblyCopyright("Copyright (C) 慶應大学 2008")]
+[assembly: AssemblyCompany("Keio University\r\nMitsubishi Space Software CO., LTD.")]
+[assembly: AssemblyCopyright("(C)Keio University\r\n(C)Mitsubishi Space Software CO., LTD.\r\n(C)The Molecular Sciences Institute.\r\nAll rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
