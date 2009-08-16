@@ -589,7 +589,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_resetButton.Enabled = isSuspended;
             m_stepButton.Enabled = isLoaded || isSuspended;
             m_fowardButton.Enabled = false;
-            m_backButton.Enabled = !isRunning && !isStepping && m_dManager.SaveTime.Count > 1;
+            m_backButton.Enabled = !isRunning && !isStepping && !isLoaded && m_dManager.SaveTime.Count > 1;
 
             m_runButton.Checked = isRunning;
             m_stopButton.Checked = isSuspended;

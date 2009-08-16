@@ -3604,6 +3604,8 @@ namespace Ecell
         /// </summary>
         private void ClearSteppingModel()
         {
+            if (SaveTime.Count == 0)
+                return;
             string tmpDir = Util.GetTmpDir();
 
             string[] files = Directory.GetFiles(tmpDir, "stepping*.tmp");

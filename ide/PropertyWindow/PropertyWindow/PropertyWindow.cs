@@ -156,7 +156,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 m_env.DataManager.DataChanged(modelID, key, obj.Type, obj);
                 if (obj != m_current)
                 {
-                    UpdateProperties();
+                    if (m_status == ProjectStatus.Suspended || m_status == ProjectStatus.Stepping)
+                    {
+                        UpdatePropForSimulation();
+                    }
+                    else
+                    {
+                        UpdateProperties();
+                    }
                     changeSuccess = false;
                 }
             }
@@ -803,6 +810,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
             }
             m_status = type;
+            m_dgv.ReadOnly = false;
         }
 
         /// <summary>
@@ -924,6 +932,20 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_status == ProjectStatus.Uninitialized || m_status == ProjectStatus.Loading)
                 return;
             ReloadProperties();
+
+            int count = 0;
+            foreach (int id in m_env.DataManager.SaveTime.Keys)
+            {
+                if (m_env.DataManager.SaveTime[id] == e.ApplyTime)
+                {
+                    if (count == 0)
+                        m_dgv.ReadOnly = false;
+                    else
+                        m_dgv.ReadOnly = true;
+
+                }
+                count++;
+            }
         }
 
         /// <summary>
