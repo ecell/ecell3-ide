@@ -135,7 +135,13 @@ namespace Ecell
                     }
                 }
                 if (m_dmDic != null)
-                    stepperList.AddRange(m_dmDic[Constants.xpathStepper]);
+                {
+                    foreach (string name in m_dmDic[Constants.xpathStepper])
+                    {
+                        if (!stepperList.Contains(name))
+                            stepperList.Add(name);
+                    }
+                }
                 stepperList.Sort();
                 // 20090727
                 sim.Dispose();
