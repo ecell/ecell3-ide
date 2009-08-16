@@ -377,7 +377,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_estimation.Clear();
                 m_mutation = m_param.Param.Initial;
-                m_owner.ClearResult();
                 m_execParamDic.Clear();
 
                 if (m_param.Population <= 0)

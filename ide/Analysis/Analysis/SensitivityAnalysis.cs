@@ -329,7 +329,6 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ExecuteAnalysis()
         {
             DataManager dManager = m_owner.DataManager;
-            m_owner.ClearResult();
             m_model = "";
             List<string> modelList = m_owner.DataManager.GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];

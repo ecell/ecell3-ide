@@ -353,7 +353,6 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             try
             {
-                m_owner.ClearResult();
                 String tmpDir = m_owner.JobManager.TmpDir;
                 int num = m_param.SampleNum;
                 double simTime = m_param.SimulationTime; ;

@@ -442,7 +442,6 @@ namespace Ecell.IDE.Plugins.Analysis
                     m_observedList.Add(o.Copy());
                 }
 
-                m_owner.ClearResult();
                 for (int i = 0; i <= s_num; i++)
                 {
                     for (int j = 0; j <= s_num; j++)
