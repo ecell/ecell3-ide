@@ -140,6 +140,11 @@ namespace Ecell.Plugin
             {
                 return "1.0";
             }
+
+            public override IEnumerable<System.Windows.Forms.ToolStripMenuItem> GetMenuStripItems()
+            {
+                return null;
+            }
         }
     }
 }

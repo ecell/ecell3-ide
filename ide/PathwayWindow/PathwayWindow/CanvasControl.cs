@@ -1660,7 +1660,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
                                                  true,
                                                  CAMERA_ANIM_DURATION);
-                UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
+                //UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
             }
 
         }
