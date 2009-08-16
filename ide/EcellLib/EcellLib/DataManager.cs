@@ -1676,9 +1676,7 @@ namespace Ecell
         {
             // Get changed node.
             EcellObject oldNode = m_currentProject.GetEcellObject(modelID, type, key, false);
-            EcellObject oldSystem = m_currentProject.GetEcellObject(modelID, Constants.xpathSystem, Util.GetSuperSystemPath(key), false);
             Debug.Assert(oldNode != null);
-            Debug.Assert(oldSystem != null);
 
             string paramId = m_currentProject.Info.SimulationParam;
             if (Constants.defaultSimParam.Equals(paramId))
@@ -1689,6 +1687,8 @@ namespace Ecell
             {
                 if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam))
                 {
+                    EcellObject oldSystem = m_currentProject.GetEcellObject(modelID, Constants.xpathSystem, Util.GetSuperSystemPath(key), true);
+                    Debug.Assert(oldSystem != null);
                     oldSystem.Children.Remove(oldNode);
                     oldSystem.Children.Add(ecellObject);
                 }

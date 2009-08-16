@@ -511,8 +511,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (isAxis && !m_zCnt.GraphPane.IsZoomed)
             {
                 m_zCnt.AxisChange();
-                if (m_zCnt.GraphPane.YAxis.Scale.Min > 0)
-                    m_zCnt.GraphPane.YAxis.Scale.Min = 0;
                 if (m_zCnt.GraphPane.YAxis.Scale.Max > 1000)
                     m_zCnt.GraphPane.YAxis.Scale.Format = "e1";
                 else

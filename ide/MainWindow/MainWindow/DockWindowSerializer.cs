@@ -267,6 +267,11 @@ namespace Ecell.IDE.MainWindow
             List<DockContent> list = new List<DockContent>();
             foreach (DockContent content in dockPanel.Contents)
             {
+                if (content is EcellDockContent)
+                {
+                    if (((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+                        continue;
+                }
                 list.Add(content);
             }
             if (list.Count <= 0)
@@ -803,7 +808,7 @@ namespace Ecell.IDE.MainWindow
                 int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
                 if (xmlIn.Name != "Content" || id != i)
                     throw new ArgumentException();
-
+                
                 contents[i].Name = xmlIn.GetAttribute("Name");
                 contents[i].AutoHidePortion = Convert.ToDouble(xmlIn.GetAttribute("AutoHidePortion"), CultureInfo.InvariantCulture);
                 contents[i].IsHidden = Convert.ToBoolean(xmlIn.GetAttribute("IsHidden"), CultureInfo.InvariantCulture);

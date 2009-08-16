@@ -1132,7 +1132,7 @@ namespace Ecell
 
             if (entity != null && !isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
             {
-                string simParam = Info.SimulationParam;
+                string simParam = Info.SimulationParam;               
                 entity = entity.Clone();
                 foreach (EcellData data in entity.Value)
                 {
@@ -1299,7 +1299,11 @@ namespace Ecell
             foreach (EcellData newData in newobj.Value)
             {
                 if (!newData.Settable || (!newData.Value.IsDouble && !newData.Value.IsInt))
+                {
+                    defaultObj.RemoveEcellValue(newData.Name);
+                    defaultObj.Value.Add(newData);
                     continue;
+                }
                 EcellData defaultData = defaultObj.GetEcellData(newData.Name);
                 if (defaultData == null)
                     continue;
