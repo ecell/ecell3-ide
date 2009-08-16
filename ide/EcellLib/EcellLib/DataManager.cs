@@ -3612,7 +3612,7 @@ namespace Ecell
         /// </summary>
         private void ClearSteppingModel()
         {
-            if (SaveTime.Count == 0)
+            if (!m_isSaveStep)
                 return;
             string tmpDir = Util.GetTmpDir();
 
