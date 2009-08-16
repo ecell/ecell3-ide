@@ -46,6 +46,11 @@
     <Compile Include="CBGridLayoutPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="MessageResGridLayout.Designer.cs">
+      <DependentUpon>MessageResGridLayout.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +60,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CBGridLayoutPanel.resx">
       <DependentUpon>CBGridLayoutPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResGridLayout.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResGridLayout.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResGridLayout.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

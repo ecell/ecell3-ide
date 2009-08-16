@@ -238,7 +238,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
             layoutMenu.Name = MenuConstants.MenuItemLayout;

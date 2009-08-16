@@ -35,6 +35,7 @@ using Ecell.Plugin;
 using System.Reflection;
 using Ecell.Objects;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.CBGridLayout
 {
@@ -54,6 +55,28 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         #endregion
 
         #region Inherited from ILayout
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        {
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
+
+            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
+                MessageResGridLayout.MenuItemGrid,
+                null,
+                new EventHandler(delegate(object o, EventArgs e)
+                {
+                    m_env.PluginManager.DiagramEditor.InitiateLayout(this, 0);
+                })
+            );
+
+            algoMenu.ToolTipText = MessageResGridLayout.ToolTip;
+            layoutMenu.DropDownItems.Add(algoMenu);
+            return new ToolStripMenuItem[] { layoutMenu };
+        }
         /// <summary>
         /// 
         /// </summary>

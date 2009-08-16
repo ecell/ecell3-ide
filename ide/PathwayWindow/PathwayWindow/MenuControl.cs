@@ -771,7 +771,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             // toolMenuAnimation
             // 
-            this.toolMenuAnimation.Checked = true;
+            this.toolMenuAnimation.Checked = false;
             this.toolMenuAnimation.CheckOnClick = true;
             this.toolMenuAnimation.Name = "toolMenuAnimation";
             this.toolMenuAnimation.Size = new System.Drawing.Size(169, 22);

@@ -35,13 +35,14 @@ using System.Reflection;
 using Ecell.Objects;
 using System.Xml;
 using Ecell.Exceptions;
+using System.Windows.Forms;
 
 namespace Ecell.Plugin
 {
     /// <summary>
     /// Common algorithm of Layout algorithm.
     /// </summary>
-    public abstract class LayoutBase: IEcellPlugin, ILayoutAlgorithm
+    public abstract class LayoutBase : IEcellPlugin, ILayoutAlgorithm, IMenuStripProvider
     {
         /// <summary>
         /// 
@@ -293,6 +294,12 @@ namespace Ecell.Plugin
         /// </summary>
         /// <returns></returns>
         public abstract string GetLayoutName();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract IEnumerable<ToolStripMenuItem> GetMenuStripItems();
 
     }
 }

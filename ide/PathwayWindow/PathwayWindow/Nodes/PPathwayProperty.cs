@@ -122,7 +122,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
         private void AddValue(EcellData data)
         {
-            PPathwayProperty property = new PPathwayProperty(data.Name, data.Value.ToString());
+            string name = data.Name;
+            string value = data.ToString();
+            PPathwayProperty property = new PPathwayProperty(name, value);
             m_properties.Add(property);
             this.AddChild(property);
             Refresh();

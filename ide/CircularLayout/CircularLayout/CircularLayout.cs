@@ -43,7 +43,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
     /// <summary>
     /// Layout algorithm to layout nodes on a circle
     /// </summary>
-    public class CircularLayout : LayoutBase, IMenuStripProvider
+    public class CircularLayout : LayoutBase
     {
         /// <summary>
         /// Constructor
@@ -589,7 +589,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
         /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
             layoutMenu.Name = MenuConstants.MenuItemLayout;
