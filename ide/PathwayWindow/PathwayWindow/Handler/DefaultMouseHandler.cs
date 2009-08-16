@@ -55,7 +55,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Rectangle dashed-line area for surrouding object.
         /// </summary>
-        private PPath m_selectedPath;
+        private PPathwayNode m_selectedPath;
 
         /// <summary>
         /// Flag to show dragged state.
@@ -69,6 +69,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public DefaultMouseHandler(PathwayControl control)
             : base(control)
         {
+            m_selectedPath = new PPathwayNode();
         }
         
         /// <summary>
@@ -92,7 +93,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             canvas.NotifyResetSelect();
             if (e.Button == MouseButtons.Left)
             {
-                m_selectedPath = new PPath();
                 canvas.ControlLayer.AddChild(m_selectedPath);
             }
             else if (e.Button == MouseButtons.Middle)
@@ -113,7 +113,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.OnMouseUp(sender, e);
             if (m_selectedPath != null)
                 m_selectedPath.RemoveFromParent();
-            m_selectedPath = null;
+            m_selectedPath.Reset();
             m_isDragged = false;
             m_con.Canvas.NotifyMoveObjects(true);
             m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
@@ -140,7 +140,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             CanvasControl canvas = m_con.Canvas;
             m_selectedPath.Reset();
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
-            m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
+            if (rect.Width == 0.0f || rect.Height == 0.0f)
+                return;
+            m_selectedPath.AddRect(rect.X, rect.Y, rect.Width, rect.Height);
 
             // Select object.
             List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
@@ -176,7 +178,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <returns>The judgement whether this event is accepted.</returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
-            return true;
+            bool mouse = e.IsMouseEvent;
+            bool key = e.IsKeyEvent || e.IsKeyPressEvent;
+            return (mouse || key) && !(mouse && key);
         }
     }
 }

@@ -912,14 +912,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Get position diff
             PointF diff = GetDistance(this.m_mousePos, m_copiedNodes[0].PointF);
-            PPathwaySystem system = m_canvas.Systems[newSysKey];
-            foreach (EcellObject eo in m_copiedNodes)
+            PPathwaySystem system = null;
+            if (!string.IsNullOrEmpty(newSysKey))
             {
-                //Create new EcellObject
-                if (eo.X + diff.X < system.X + PPathwaySystem.SYSTEM_MARGIN)
-                    diff.X = system.X - eo.X + PPathwaySystem.SYSTEM_MARGIN;
-                if (eo.Y + diff.Y < system.Y + PPathwaySystem.SYSTEM_MARGIN)
-                    diff.Y = system.Y - eo.Y + PPathwaySystem.SYSTEM_MARGIN;
+                system = m_canvas.Systems[newSysKey];
+                foreach (EcellObject eo in m_copiedNodes)
+                {
+                    //Create new EcellObject
+                    if (eo.X + diff.X < system.X + PPathwaySystem.SYSTEM_MARGIN)
+                        diff.X = system.X - eo.X + PPathwaySystem.SYSTEM_MARGIN;
+                    if (eo.Y + diff.Y < system.Y + PPathwaySystem.SYSTEM_MARGIN)
+                        diff.Y = system.Y - eo.Y + PPathwaySystem.SYSTEM_MARGIN;
+                }
             }
 
             // Set m_copiedNodes.

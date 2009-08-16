@@ -250,20 +250,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 _thresholdHigh = 0;
             foreach (PPathwayProcess process in _processes)
             {
-                process.ViewMode = true;
-                process.Stepper.Visible = false;
                 if (!process.Visible)
                     continue;
+                if(!process.ViewMode)
+                    process.ViewMode = true;
                 // Line setting.
                 foreach (PPathwayLine line in process.Relations)
                 {
                     line.EdgeBrush = _viewEdgeBrush;
+                    line.EdgeWidth = _control.EdgeWidth;
                 }
 
                 // Set threshold
+                if (!_autoThreshold)
+                    continue;
                 float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                if (_autoThreshold)
-                    SetThreshold(activity);
+                SetThreshold(activity);
             }
 
         }
@@ -322,8 +324,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                process.ViewMode = false;
-                process.Stepper.Visible = true;
+                if(process.ViewMode)
+                    process.ViewMode = false;
                 foreach (PPathwayLine line in process.Relations)
                 {
                     line.SetEdge(editEdgeBrush, normalEdgeWidth);

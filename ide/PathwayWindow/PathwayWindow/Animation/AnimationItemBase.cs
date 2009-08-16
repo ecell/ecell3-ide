@@ -161,7 +161,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
             // Set canvas
             _canvas = _control.Canvas;
-
+            this.ResetProperty();
             _systems.AddRange(_canvas.Systems.Values);
             _steppers.AddRange(_canvas.Steppers.Values);
             _processes.AddRange(_canvas.Processes.Values);

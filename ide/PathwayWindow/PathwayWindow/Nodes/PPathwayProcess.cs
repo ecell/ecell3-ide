@@ -77,6 +77,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 ChangePath(value);
+                Stepper.Visible = !value;
                 base.ViewMode = value;
             }
         }

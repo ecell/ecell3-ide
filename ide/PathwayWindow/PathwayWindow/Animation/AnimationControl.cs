@@ -523,9 +523,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void StopSimulation()
         {
             TimerStop();
-            if(!_con.IsAnimation)
-                ResetPropForSimulation();
             _isPausing = false;
+            if (_con.IsAnimation)
+                SetPropForSimulation();
+            else
+                ResetPropForSimulation();
+
             if (_aviManager != null)
             {
                 //m_stream.Close();
@@ -566,20 +569,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _canvas.BackGroundBrush = _viewBGBrush;
             _format = _con.Window.DataManager.DisplayStringFormat;
             // Set Edge
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
-            {
-                if (process.ViewMode || !process.Visible)
-                    continue;
-                process.ViewMode = true;
-                process.Stepper.Visible = false;
-                if (!process.Visible)
-                    continue;
-                // Line setting.
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    line.EdgeBrush = _viewEdgeBrush;
-                }
-            }
+            //foreach (PPathwayProcess process in _canvas.Processes.Values)
+            //{
+            //    if (process.ViewMode || !process.Visible)
+            //        continue;
+            //    process.ViewMode = true;
+            //    process.Stepper.Visible = false;
+            //    if (!process.Visible)
+            //        continue;
+            //    // Line setting.
+            //    foreach (PPathwayLine line in process.Relations)
+            //    {
+            //        line.EdgeBrush = _viewEdgeBrush;
+            //    }
+            //}
 
             foreach (IAnimationItem item in _items)
             {
@@ -626,19 +629,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set Canvas
             _canvas.BackGroundBrush = _editBGBrush;
             // Set Process.
-            foreach (PPathwayProcess process in _canvas.Processes.Values)
-            {
-                if (!process.ViewMode || !process.Visible)
-                    continue;
-                // Line setting.
-                process.ViewMode = false;
-                process.Stepper.Visible = true;
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    line.EdgeBrush = _editEdgeBrush;
-                    line.EdgeWidth = _normalEdgeWidth;
-                }
-            }
+            //foreach (PPathwayProcess process in _canvas.Processes.Values)
+            //{
+            //    if (!process.ViewMode || !process.Visible)
+            //        continue;
+            //    // Line setting.
+            //    process.ViewMode = false;
+            //    process.Stepper.Visible = true;
+            //    foreach (PPathwayLine line in process.Relations)
+            //    {
+            //        line.EdgeBrush = _editEdgeBrush;
+            //        line.EdgeWidth = _normalEdgeWidth;
+            //    }
+            //}
 
             //
             foreach (IAnimationItem item in _items)
