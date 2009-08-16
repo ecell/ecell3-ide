@@ -1679,6 +1679,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// This timer delegate is called for updating overview after object-moving anime has finished.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void timer_Tick(object sender, EventArgs e)
+        {
+            Timer timer = ((Timer)sender);
+            m_con.Menu.Zoom(1f);
+            timer.Stop();
+            timer.Dispose();
+        }
+
+        /// <summary>
         /// Refresh overview.
         /// </summary>
         /// <param name="sender"></param>
@@ -1696,17 +1709,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             RectangleF rect = m_pCanvas.Camera.ViewBounds;
             m_overviewCanvas.UpdateOverview(rect);
-        }
-        /// <summary>
-        /// This timer delegate is called for updating overview after object-moving anime has finished.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void timer_Tick(object sender, EventArgs e)
-        {
-            m_con.Menu.Zoom(1f);
-            ((Timer)sender).Stop();
-            ((Timer)sender).Dispose();
         }
 
         /// <summary>

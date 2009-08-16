@@ -248,6 +248,8 @@ namespace Ecell
                 string destFileName
                     = Path.GetDirectoryName(fileName) + Constants.delimiterPath
                     + Constants.delimiterUnderbar + date + Constants.delimiterUnderbar + Path.GetFileName(fileName);
+                if (File.Exists(destFileName))
+                    File.Delete(destFileName);
                 File.Move(fileName, destFileName);
             }
             //

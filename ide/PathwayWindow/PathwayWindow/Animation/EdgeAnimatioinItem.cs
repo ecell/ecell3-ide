@@ -328,7 +328,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     process.ViewMode = false;
                 foreach (PPathwayLine line in process.Relations)
                 {
-                    line.SetEdge(editEdgeBrush, normalEdgeWidth);
+                    line.EdgeBrush = editEdgeBrush;
+                    line.EdgeWidth = normalEdgeWidth;
                 }
             }
             base.ResetProperty();
