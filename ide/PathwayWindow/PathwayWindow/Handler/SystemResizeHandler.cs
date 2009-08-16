@@ -117,15 +117,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         private void RefreshSurroundState()
         {
-            ClearSurroundState();
             RectangleF rect = m_obj.Rect;
-            m_surroundedBySystem = m_canvas.GetSurroundedObject(rect);
-            if (m_surroundedBySystem.Contains(m_obj))
-                m_surroundedBySystem.Remove(m_obj);
-            foreach (PPathwayObject obj in m_surroundedBySystem)
+            List<PPathwayObject> list = m_canvas.GetSurroundedObject(rect);
+            if (list.Contains(m_obj))
+                list.Remove(m_obj);
+            // Select
+            foreach (PPathwayObject obj in list)
             {
-                obj.Selected = true;
+                if(!obj.Selected)
+                    obj.Selected = true;
             }
+            // Reset select
+            if (m_surroundedBySystem != null)
+            {
+                foreach (PPathwayObject obj in m_surroundedBySystem)
+                {
+                    if (list.Contains(obj))
+                        continue;
+                    obj.Selected = false;
+                }
+            }
+            m_surroundedBySystem = list;
         }
 
         /// <summary>
@@ -138,7 +150,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             foreach (PPathwayObject obj in m_surroundedBySystem)
             {
-                obj.Selected = false;
+                if (obj.Selected)
+                    obj.Selected = false;
             }
             m_surroundedBySystem = null;
         }
@@ -167,7 +180,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         protected override void ResizeHandle_MouseUp(object sender, PInputEventArgs e)
         {
-            RefreshSurroundState();
 
             // If selected system overlaps another, reset system region.
             if (m_canvas.DoesSystemOverlaps((PPathwaySystem)m_obj))
@@ -175,6 +187,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 ResetSystemResize();
                 return;
             }
+            RefreshSurroundState();
             base.ResizeHandle_MouseUp(sender, e);
         }
 
@@ -185,9 +198,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         protected override void ResizeHandle_MouseDrag(object sender, PInputEventArgs e)
         {
-            RefreshSurroundState();
             base.ResizeHandle_MouseDrag(sender, e);
             ValidateSystem();
+            RefreshSurroundState();
 
             if (e.Modifiers != Keys.Shift)
                 return;

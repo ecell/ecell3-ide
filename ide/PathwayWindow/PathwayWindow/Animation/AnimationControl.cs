@@ -568,6 +568,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set Edge
             foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
+                if (process.ViewMode || !process.Visible)
+                    continue;
                 process.ViewMode = true;
                 process.Stepper.Visible = false;
                 if (!process.Visible)
@@ -626,7 +628,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set Process.
             foreach (PPathwayProcess process in _canvas.Processes.Values)
             {
-                if (!process.Visible || !process.ViewMode)
+                if (!process.ViewMode || !process.Visible)
                     continue;
                 // Line setting.
                 process.ViewMode = false;
@@ -645,8 +647,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
 
             // Reset objects.
-            foreach (PPathwayObject obj in _canvas.GetAllEntities())
-                obj.Refresh();
+            //foreach (PPathwayObject obj in _canvas.GetAllEntities())
+            //    obj.Refresh();
         }
         #endregion
 
