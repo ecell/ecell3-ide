@@ -52,6 +52,7 @@ namespace Ecell.IDE.Plugins.Console
             base.m_isSavable = true;
             InitializeComponent();
             this.TabText = this.Text;
+            simText.ContextMenu = new ContextMenu();
         }
 
         /// <summary>
@@ -62,6 +63,22 @@ namespace Ecell.IDE.Plugins.Console
         {
             simText.Select(simText.TextLength, 0);
             simText.AppendText(text);
+        }
+
+        /// <summary>
+        /// Press key on Console.
+        /// </summary>
+        /// <param name="msg">Message.</param>
+        /// <param name="keyData">Key data.</param>
+        /// <returns>the flag whether this event is handled.</returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                Clipboard.SetText(simText.SelectedText);
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

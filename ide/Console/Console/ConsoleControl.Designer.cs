@@ -38,7 +38,6 @@
             resources.ApplyResources(this.simText, "simText");
             this.simText.Name = "simText";
             this.simText.ReadOnly = true;
-            this.simText.ShortcutsEnabled = false;
             // 
             // ConsoleControl
             // 
