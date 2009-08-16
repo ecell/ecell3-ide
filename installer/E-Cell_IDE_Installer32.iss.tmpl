@@ -218,6 +218,13 @@ Source: "Win32\bin\libsbmlcsD.dll"; DestDir: "{app}\bin"; Components: main; Copy
 Source: "Win32\bin\libsbmlcsP.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\libsbmlcs.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
+Source: "Win32\bin\Fireball.CodeEditor.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\Fireball.CodeEditor.SyntaxFiles.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\Fireball.Core.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\Fireball.SyntaxDocument.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\Fireball.Win32.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\Fireball.Windows.Forms.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
 
 ; ======================================================
 ; bin/ja/*
@@ -356,7 +363,7 @@ Name: "{group}\samples\heatshock"; Filename: "{app}\bin\ecell-ide.exe"; Paramete
 Name: "{group}\samples\Simple"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "simple.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\simple\Model\";Components: extension
 Name: "{group}\samples\tauleap"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "tauleap.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\tauleap\Model\";Components: extension
 Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "Toy_Hybrid.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\Toy_Hybrid\Model\";Components: extension
-;Name: "{group}\sample code\plugin"; Filename: "{commondocs}\SamplePlugin\SamplePlugin.sln"; Components: sample
+Name: "{group}\sample code\plugin"; Filename: "{commondocs}\SamplePlugin\SamplePlugin.sln"; Components: sample
 Name: "{group}\E-Cell IDE(Trace)"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "/TRACE"; IconIndex: 0; Components: extension
 
 [Dirs]
