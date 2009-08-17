@@ -50,7 +50,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// 
         /// </summary>
-        private string text;
+        private string text = "";
         /// <summary>
         /// 
         /// </summary>
@@ -275,9 +275,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             base.OnSelectedIndexChanged(e);
-
-            int index = this.SelectedIndex;
             text = this.Text;
+            SetText();
         }
 
         /// <summary>

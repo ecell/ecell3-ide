@@ -48,10 +48,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        PPathwayObject m_obj = null;
-        /// <summary>
-        /// 
-        /// </summary>
         List<PPathwayProperty> m_properties = new List<PPathwayProperty>();
         #endregion
 
@@ -72,63 +68,54 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
-        public PPathwayProperties()
+        public PPathwayProperties(PPathwayObject obj)
         {
             this.Pickable = false;
-        }
-
-        /// <summary>
-        /// Constructor with PPathwayObject.
-        /// </summary>
-        /// <param name="obj"></param>
-        public PPathwayProperties(PPathwayObject obj)
-            :this()
-        {
-            SetObject(obj);
             this.Visible = false;
+            SetObject(obj);
         }
-        #endregion
 
-        #region Methods
         /// <summary>
-        /// Set Properties
+        /// Set Object
         /// </summary>
         /// <param name="obj"></param>
-        public void SetObject(PPathwayObject obj)
+        private void SetObject(PPathwayObject obj)
         {
-            m_obj = obj;
-            if (m_obj.EcellObject == null)
-                return;
             // Reset
             this.RemoveAllChildren();
             this.m_properties.Clear();
             // Set Property
-            switch (obj.EcellObject.Type)
+            if(obj is PPathwayProcess)
             {
-                case EcellObject.SYSTEM:
-                    break;
-                case EcellObject.PROCESS:
-                    AddValue(m_obj.EcellObject.GetEcellData("Activity"));
-                    AddValue(m_obj.EcellObject.GetEcellData("MolarActivity"));
-                    break;
-                case EcellObject.VARIABLE:
-                    AddValue(m_obj.EcellObject.GetEcellData("Value"));
-                    AddValue(m_obj.EcellObject.GetEcellData("MolarConc"));
-                    AddValue(m_obj.EcellObject.GetEcellData("NumberConc"));
-                    break;
+                AddValue("Activity");
+                AddValue("MolarActivity");
+            }
+            else if(obj is PPathwayVariable)
+            {
+                AddValue("Value");
+                AddValue("MolarConc");
+                AddValue("NumberConc");
             }
 
         }
 
-        private void AddValue(EcellData data)
+        /// <summary>
+        /// Set parameter
+        /// </summary>
+        /// <param name="param"></param>
+        private void AddValue(string param)
         {
-            string name = data.Name;
-            string value = data.ToString();
+            string name = param;
+            string value = "";
             PPathwayProperty property = new PPathwayProperty(name, value);
             m_properties.Add(property);
             this.AddChild(property);
             Refresh();
         }
+        #endregion
+
+        #region Methods
+
 
         /// <summary>
         /// 
@@ -139,6 +126,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             int i = 0;
             foreach (PPathwayProperty property in m_properties)
             {
+                if (!property.Visible)
+                    continue;
                 property.X = this.X;
                 property.Y = this.Y + i * 20.5f;
                 property.Refresh();

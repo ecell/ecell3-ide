@@ -183,8 +183,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             if (e.Index < 0)
                 return;
-            string text = ((ListBox)sender).Items[e.Index].ToString();
-            e.Graphics.DrawString(text, e.Font, Brushes.Black, e.Bounds);
+            // Set BackGround
+            e.DrawBackground();
+            // Set Text Brush
+            Brush brush = Brushes.Black;
+            object item = ((ListBox)sender).Items[e.Index];
+            if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
+            {
+                if (item is EdgeAnimationItem)
+                    brush = Brushes.Red;
+                else if (item is PropertyViewAnimationItem)
+                    brush = Brushes.Navy;
+            }
+            else
+            {
+                brush = Brushes.White;
+            }
+            // Draw Text
+            string text = item.ToString();
+            e.Graphics.DrawString(text, e.Font, brush, e.Bounds);
+
             e.DrawFocusRectangle();
 
         }

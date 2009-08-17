@@ -122,7 +122,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
-                m_pProperty.SetObject(this);
             }
         }
         #endregion

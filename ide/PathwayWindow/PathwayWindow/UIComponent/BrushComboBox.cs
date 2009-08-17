@@ -279,7 +279,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.imageComboBox.Location = new System.Drawing.Point(0, 0);
             this.imageComboBox.MaxDropDownItems = 10;
             this.imageComboBox.Name = "imageComboBox";
-            this.imageComboBox.Size = new System.Drawing.Size(105, 20);
+            this.imageComboBox.Size = new System.Drawing.Size(134, 20);
             this.imageComboBox.TabIndex = 0;
             this.imageComboBox.Text = "Black";
             this.imageComboBox.SelectedIndexChanged += new System.EventHandler(this.cBoxBrush_SelectedIndexChanged);
@@ -289,7 +289,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             this.Controls.Add(this.imageComboBox);
             this.Name = "BrushComboBox";
-            this.Size = new System.Drawing.Size(105, 22);
+            this.Size = new System.Drawing.Size(134, 22);
             this.ResumeLayout(false);
 
         }

@@ -363,6 +363,9 @@
       <DependentUpon>AnimationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIComponent\BrushComboBox.resx">
+      <DependentUpon>BrushComboBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\ComponentDialog.ja.resx">
       <DependentUpon>ComponentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -370,6 +373,9 @@
     <EmbeddedResource Include="UIComponent\ComponentDialog.resx">
       <DependentUpon>ComponentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponent\FigureComboBox.resx">
+      <DependentUpon>FigureComboBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\PropertyDialogItems.resx">
       <DependentUpon>PropertyDialogItems.cs</DependentUpon>

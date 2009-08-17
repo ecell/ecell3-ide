@@ -144,7 +144,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.imageComboBox.Location = new System.Drawing.Point(0, 0);
             this.imageComboBox.MaxDropDownItems = 10;
             this.imageComboBox.Name = "imageComboBox";
-            this.imageComboBox.Size = new System.Drawing.Size(105, 20);
+            this.imageComboBox.Size = new System.Drawing.Size(146, 20);
             this.imageComboBox.TabIndex = 0;
             this.imageComboBox.Text = "Rectangle";
             this.imageComboBox.SelectedIndexChanged += new System.EventHandler(this.figureComboBox_SelectedIndexChanged);
@@ -153,7 +153,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             this.Controls.Add(this.imageComboBox);
             this.Name = "FigureComboBox";
-            this.Size = new System.Drawing.Size(105, 22);
+            this.Size = new System.Drawing.Size(146, 22);
             this.ResumeLayout(false);
 
         }

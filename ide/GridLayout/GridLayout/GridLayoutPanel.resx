@@ -158,10 +158,6 @@
   <data name="defMargin.Text" xml:space="preserve">
     <value>30</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="defMargin.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;defMargin.Name" xml:space="preserve">
     <value>defMargin</value>
   </data>
@@ -185,9 +181,6 @@
   </data>
   <data name="annealingRepeats.Text" xml:space="preserve">
     <value>250</value>
-  </data>
-  <data name="annealingRepeats.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;annealingRepeats.Name" xml:space="preserve">
     <value>annealingRepeats</value>
@@ -240,9 +233,6 @@
   <data name="initialT.Text" xml:space="preserve">
     <value>60</value>
   </data>
-  <data name="initialT.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;initialT.Name" xml:space="preserve">
     <value>initialT</value>
   </data>
@@ -293,9 +283,6 @@
   </data>
   <data name="naturalLength.Text" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="naturalLength.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;naturalLength.Name" xml:space="preserve">
     <value>naturalLength</value>
@@ -397,6 +384,6 @@
     <value>GridLayoutPanel</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.LayoutPanel, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.LayoutPanel, EcellUILib, Version=1.1.3190.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

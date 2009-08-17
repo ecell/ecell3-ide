@@ -43,9 +43,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     {
         #region Fields
         private System.Windows.Forms.GroupBox variableBox;
-        private Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem propertyCombobox;
-        private System.Windows.Forms.Label edgeLabel;
-        private Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem propertyBrush;
+        private System.Windows.Forms.GroupBox processBox;
+        private System.Windows.Forms.CheckBox checkBoxNumberConc;
+        private System.Windows.Forms.CheckBox checkBoxMolarConc;
+        private System.Windows.Forms.CheckBox checkBoxValue;
+        private System.Windows.Forms.CheckBox checkBoxMolarActivity;
+        private System.Windows.Forms.CheckBox checkBoxActivity;
         private string _property;
         #endregion
 
@@ -65,18 +68,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             : base(control)
         {
             InitializeComponent();
-            SetPropertyItems();
         }
         /// <summary>
         /// 
         /// </summary>
         private void SetPropertyItems()
         {
-            this.propertyCombobox.ComboBox.Text = "MolarConc";
-            this.propertyCombobox.ComboBox.Items.Add("MolarConc");
-            this.propertyCombobox.ComboBox.Items.Add("NumberConc");
-            this.propertyCombobox.ComboBox.Items.Add("Value");
-            this.propertyBrush.Brush = _control.PropertyBrush;
         }
 
         /// <summary>
@@ -86,46 +83,105 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyViewAnimationItem));
             this.variableBox = new System.Windows.Forms.GroupBox();
-            this.edgeLabel = new System.Windows.Forms.Label();
-            this.propertyCombobox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem();
-            this.propertyBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.checkBoxNumberConc = new System.Windows.Forms.CheckBox();
+            this.checkBoxMolarConc = new System.Windows.Forms.CheckBox();
+            this.checkBoxValue = new System.Windows.Forms.CheckBox();
+            this.processBox = new System.Windows.Forms.GroupBox();
+            this.checkBoxMolarActivity = new System.Windows.Forms.CheckBox();
+            this.checkBoxActivity = new System.Windows.Forms.CheckBox();
             this.variableBox.SuspendLayout();
+            this.processBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // variableBox
             // 
+            this.variableBox.AccessibleDescription = null;
+            this.variableBox.AccessibleName = null;
             resources.ApplyResources(this.variableBox, "variableBox");
-            this.variableBox.Controls.Add(this.edgeLabel);
-            this.variableBox.Controls.Add(this.propertyCombobox);
-            this.variableBox.Controls.Add(this.propertyBrush);
+            this.variableBox.BackgroundImage = null;
+            this.variableBox.Controls.Add(this.checkBoxNumberConc);
+            this.variableBox.Controls.Add(this.checkBoxMolarConc);
+            this.variableBox.Controls.Add(this.checkBoxValue);
+            this.variableBox.Font = null;
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
             // 
-            // edgeLabel
+            // checkBoxNumberConc
             // 
-            this.edgeLabel.AutoEllipsis = true;
-            this.edgeLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            resources.ApplyResources(this.edgeLabel, "edgeLabel");
-            this.edgeLabel.Name = "edgeLabel";
+            this.checkBoxNumberConc.AccessibleDescription = null;
+            this.checkBoxNumberConc.AccessibleName = null;
+            resources.ApplyResources(this.checkBoxNumberConc, "checkBoxNumberConc");
+            this.checkBoxNumberConc.BackgroundImage = null;
+            this.checkBoxNumberConc.Font = null;
+            this.checkBoxNumberConc.Name = "checkBoxNumberConc";
+            this.checkBoxNumberConc.UseVisualStyleBackColor = true;
             // 
-            // propertyCombobox
+            // checkBoxMolarConc
             // 
-            resources.ApplyResources(this.propertyCombobox, "propertyCombobox");
-            this.propertyCombobox.Name = "propertyCombobox";
-            this.propertyCombobox.ReadOnly = false;
+            this.checkBoxMolarConc.AccessibleDescription = null;
+            this.checkBoxMolarConc.AccessibleName = null;
+            resources.ApplyResources(this.checkBoxMolarConc, "checkBoxMolarConc");
+            this.checkBoxMolarConc.BackgroundImage = null;
+            this.checkBoxMolarConc.Font = null;
+            this.checkBoxMolarConc.Name = "checkBoxMolarConc";
+            this.checkBoxMolarConc.UseVisualStyleBackColor = true;
             // 
-            // propertyBrush
+            // checkBoxValue
             // 
-            resources.ApplyResources(this.propertyBrush, "propertyBrush");
-            this.propertyBrush.Name = "propertyBrush";
+            this.checkBoxValue.AccessibleDescription = null;
+            this.checkBoxValue.AccessibleName = null;
+            resources.ApplyResources(this.checkBoxValue, "checkBoxValue");
+            this.checkBoxValue.BackgroundImage = null;
+            this.checkBoxValue.Font = null;
+            this.checkBoxValue.Name = "checkBoxValue";
+            this.checkBoxValue.UseVisualStyleBackColor = true;
+            // 
+            // processBox
+            // 
+            this.processBox.AccessibleDescription = null;
+            this.processBox.AccessibleName = null;
+            resources.ApplyResources(this.processBox, "processBox");
+            this.processBox.BackgroundImage = null;
+            this.processBox.Controls.Add(this.checkBoxMolarActivity);
+            this.processBox.Controls.Add(this.checkBoxActivity);
+            this.processBox.Font = null;
+            this.processBox.Name = "processBox";
+            this.processBox.TabStop = false;
+            // 
+            // checkBoxMolarActivity
+            // 
+            this.checkBoxMolarActivity.AccessibleDescription = null;
+            this.checkBoxMolarActivity.AccessibleName = null;
+            resources.ApplyResources(this.checkBoxMolarActivity, "checkBoxMolarActivity");
+            this.checkBoxMolarActivity.BackgroundImage = null;
+            this.checkBoxMolarActivity.Font = null;
+            this.checkBoxMolarActivity.Name = "checkBoxMolarActivity";
+            this.checkBoxMolarActivity.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxActivity
+            // 
+            this.checkBoxActivity.AccessibleDescription = null;
+            this.checkBoxActivity.AccessibleName = null;
+            resources.ApplyResources(this.checkBoxActivity, "checkBoxActivity");
+            this.checkBoxActivity.BackgroundImage = null;
+            this.checkBoxActivity.Font = null;
+            this.checkBoxActivity.Name = "checkBoxActivity";
+            this.checkBoxActivity.UseVisualStyleBackColor = true;
             // 
             // PropertyViewAnimationItem
             // 
-            this.Controls.Add(this.variableBox);
-            this.Name = "PropertyViewAnimationItem";
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
+            this.Controls.Add(this.processBox);
+            this.Controls.Add(this.variableBox);
+            this.Font = null;
+            this.Name = "PropertyViewAnimationItem";
             this.variableBox.ResumeLayout(false);
             this.variableBox.PerformLayout();
+            this.processBox.ResumeLayout(false);
+            this.processBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,7 +196,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ApplyChange()
         {
             base.ApplyChange();
-            _property = this.propertyCombobox.ComboBox.Text;
         }
 
         /// <summary>
@@ -149,10 +204,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetProperty()
         {
             base.SetProperty();
-            _property = this.propertyCombobox.ComboBox.Text;
+            // Variable
             foreach (PPathwayVariable variable in _variables)
             {
                 variable.Property.Visible = true;
+                // Visibility
+                variable.Property.Properties[0].Visible = checkBoxValue.Checked;
+                variable.Property.Properties[1].Visible = checkBoxMolarConc.Checked;
+                variable.Property.Properties[2].Visible = checkBoxNumberConc.Checked;
+                // SetParam
                 foreach (PPathwayProperty property in variable.Property.Properties)
                 {
                     string fullPN = variable.EcellObject.FullID + ":" + property.Label;
@@ -160,6 +220,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 }
                 variable.Refresh();
             }
+
+            // Process
+            foreach (PPathwayProcess process in _processes)
+            {
+                process.Property.Visible = true;
+                // Visibility
+                process.Property.Properties[0].Visible = checkBoxActivity.Checked;
+                process.Property.Properties[1].Visible = checkBoxMolarActivity.Checked;
+                // SetParam
+                foreach (PPathwayProperty property in process.Property.Properties)
+                {
+                    string fullPN = process.EcellObject.FullID + ":" + property.Label;
+                    property.Value = this.GetTextValue(fullPN);
+                }
+                process.Refresh();
+            }
+
         }
 
         /// <summary>
@@ -168,11 +245,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void UpdateProperty()
         {
             base.UpdateProperty();
+            // Variable
             foreach (PPathwayVariable variable in _variables)
             {
+                if (!variable.Visible)
+                    continue;
                 foreach (PPathwayProperty property in variable.Property.Properties)
                 {
+                    if (!property.Visible)
+                        continue;
                     string fullPN = variable.EcellObject.FullID + ":" + property.Label;
+                    property.Value = this.GetTextValue(fullPN);
+                }
+            }
+            // Process
+            foreach (PPathwayProcess process in _processes)
+            {
+                if (!process.Visible)
+                    continue;
+                foreach (PPathwayProperty property in process.Property.Properties)
+                {
+                    if (!property.Visible)
+                        continue;
+                    string fullPN = process.EcellObject.FullID + ":" + property.Label;
                     property.Value = this.GetTextValue(fullPN);
                 }
             }
@@ -183,11 +278,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetProperty()
         {
+            // Variable
             foreach (PPathwayVariable variable in _variables)
             {
                 variable.Property.Visible = false;
             }
+            // Process
+            foreach (PPathwayProcess process in _processes)
+            {
+                process.Property.Visible = false;
+            }
             base.ResetProperty();
+
         }
         #endregion
 
