@@ -130,8 +130,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             // imageComboBox
             // 
-            this.imageComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.imageComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.imageComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
             this.imageComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.imageComboBox.FormattingEnabled = true;
@@ -289,7 +288,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             this.Controls.Add(this.imageComboBox);
             this.Name = "BrushComboBox";
-            this.Size = new System.Drawing.Size(134, 22);
+            this.Size = new System.Drawing.Size(134, 20);
             this.ResumeLayout(false);
 
         }

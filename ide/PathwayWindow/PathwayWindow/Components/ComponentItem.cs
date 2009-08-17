@@ -158,7 +158,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // figureBox
             // 
             resources.ApplyResources(this.figureBox, "figureBox");
-            this.figureBox.Figure = "";
+            this.figureBox.Figure = "Rectangle";
             this.figureBox.Name = "figureBox";
             this.figureBox.ReadOnly = true;
             this.figureBox.TextChange += new System.EventHandler(this.figureBox_TextChange);

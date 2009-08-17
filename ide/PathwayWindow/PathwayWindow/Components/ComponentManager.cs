@@ -304,10 +304,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 }
 
                 setting.Figure = cs.Figure;
+                setting.TextBrush = cs.TextBrush;
+                setting.LineBrush = cs.LineBrush;
                 setting.CenterBrush = cs.CenterBrush;
                 setting.FillBrush = cs.FillBrush;
                 setting.IsGradation = cs.IsGradation;
-                setting.LineBrush = cs.LineBrush;
+                setting.IconFile = cs.IconFile;
+                setting.ImageStream = cs.ImageStream;
                 setting.RaisePropertyChange();
             }
         }

@@ -71,7 +71,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             get { return imageList; }
             set { imageList = value; }
         }
-
         #endregion
 
         #region external method from User32.dll

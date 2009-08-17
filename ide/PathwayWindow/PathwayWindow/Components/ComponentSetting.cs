@@ -499,8 +499,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             cs.IsDefault = this.IsDefault;
             cs.IsStencil = this.IsStencil;
             cs.Figure = (IFigure)this.Figure.Clone();
-            cs.CenterBrush = this.CenterBrush;
+            cs.TextBrush = this.TextBrush;
             cs.FillBrush = this.FillBrush;
+            cs.CenterBrush = this.CenterBrush;
             cs.IsGradation = this.IsGradation;
             cs.LineBrush = this.LineBrush;
             cs.IconFile = this.IconFile;
