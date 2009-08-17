@@ -1043,7 +1043,7 @@ namespace Ecell
                 EcellObject project = EcellObject.CreateObject(m_currentProject.Info.Name, "", Constants.xpathProject, "", new List<EcellData>());
                 project.SetEcellValue(Constants.textComment, new EcellValue(m_currentProject.Info.Comment));
                 m_env.PluginManager.DataChanged(project.ModelID, project.Key,project.ModelID, project);
-
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
                 m_env.Console.Flush();
             }

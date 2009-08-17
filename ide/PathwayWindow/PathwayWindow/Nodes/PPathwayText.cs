@@ -149,7 +149,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.m_selected; }
             set
             {
-                this.m_selected = value;
+                base.Selected = value;
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
