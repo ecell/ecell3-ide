@@ -133,18 +133,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
         private static string CreateSVGProperties(PPathwayEntity entity)
         {
             string svgObj = "";
+            float margin = 2f;
             PPathwayProperties properties = entity.Property;
-            if (properties.Visible && properties.Properties.Count > 0)
+            foreach (PPathwayProperty property in entity.Property.Properties)
             {
-                foreach (PPathwayProperty property in entity.Property.Properties)
-                {
-                    string pen = BrushManager.ParseBrushToString(property.Pen.Brush);
-                    string fill = BrushManager.ParseBrushToString(property.Brush);
-                    svgObj += SVGUtil.Rectangle(property.Rect, pen, fill);
-                    svgObj += SVGUtil.Line(new PointF(property.value.X, property.value.Y), new PointF(property.value.X, property.value.Y));
-                    svgObj += SVGUtil.Text(new PointF(property.label.X, property.label.Y), property.Label, pen);
-                    svgObj += SVGUtil.Text(new PointF(property.value.X, property.value.Y), property.Value, pen);
-                }
+                if (!property.Visible)
+                    continue;
+                string pen = BrushManager.ParseBrushToString(Brushes.Black);
+                string fill = BrushManager.ParseBrushToString(property.Brush);
+                svgObj += SVGUtil.Rectangle(property.Rect, pen, fill);
+                svgObj += SVGUtil.Line(new PointF(property.value.X, property.value.Y), new PointF(property.value.X, property.value.Y + property.Height), pen, "1");
+                svgObj += SVGUtil.Text(new PointF(property.label.X + margin, property.label.Y + SVGUtil.SVG_FONT_SIZE + margin), property.Label, pen);
+                svgObj += SVGUtil.Text(new PointF(property.value.X + margin, property.value.Y + SVGUtil.SVG_FONT_SIZE + margin), property.Value, pen);
             }
             return svgObj;
         }

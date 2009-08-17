@@ -56,7 +56,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Used to draw line to reconnect.
         /// </summary>
-        internal static readonly Brush LINE_BRUSH = new SolidBrush(Color.FromArgb(200, Color.Orange));
+        internal static readonly Brush LINE_BRUSH = Brushes.Gold;
 
         #endregion
 

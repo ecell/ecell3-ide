@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        internal static readonly Brush SelectedBrush = Brushes.Yellow;
+        internal static readonly Brush SelectedBrush = Brushes.Gold;
         #endregion
 
         #region Fields
@@ -194,8 +194,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_selected = value;
                 if (value)
                 {
-                    this.Brush = LineHandler.LINE_BRUSH;
-                    this.Pen.Brush = LineHandler.LINE_BRUSH;
+                    this.Brush = SelectedBrush;
+                    this.Pen.Brush = SelectedBrush;
                 }
                 else
                 {

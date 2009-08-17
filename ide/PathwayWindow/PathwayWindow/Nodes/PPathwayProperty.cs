@@ -145,6 +145,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         #region Fields
         const float VALUE_POS = 102.5f;
         const float VALUE_WIDTH = 140.5f;
+        const float MARGIN_Y = 2f;
         internal PText label = null;
         internal PText value = null;
         #endregion
