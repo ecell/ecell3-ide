@@ -146,6 +146,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     index = dataGridViewTextBoxColumn3.Index;
                     r1.Cells[index].Value = data.Min;
 
+                    r1.Tag = data.Copy();
                     return;
                 }
             }

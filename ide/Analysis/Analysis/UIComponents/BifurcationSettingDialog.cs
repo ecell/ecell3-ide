@@ -149,6 +149,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     index = dataGridViewTextBoxColumn4.Index;
                     r1.Cells[index].Value = data.Step;
 
+                    r1.Tag = data.Copy();
                     return;
                 }
             }
@@ -204,6 +205,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     index = dataGridViewTextBoxColumn9.Index;
                     r1.Cells[index].Value = data.Rate;
 
+                    r1.Tag = data.Copy();
                     return;
                 }
             }
