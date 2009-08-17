@@ -312,7 +312,7 @@ namespace Ecell.IDE.MainWindow
             {
                 if (!(content is EcellDockContent))
                     list += Environment.NewLine + " - " + content.Text;
-                else if (!((EcellDockContent)content).IsSavable)
+                else if (!content.HideOnClose)
                     list += Environment.NewLine + " - " + content.Text;
             }
 

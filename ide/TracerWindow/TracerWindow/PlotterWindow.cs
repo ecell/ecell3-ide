@@ -77,7 +77,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public PlotterWindow(TracerWindow control)
         {
             m_owner = control;
-            m_isSavable = false;
+            this.HideOnClose = false;
             InitializeComponent();
 
             m_zCnt = new ZedGraphControl();

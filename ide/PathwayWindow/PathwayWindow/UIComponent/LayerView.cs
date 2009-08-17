@@ -106,7 +106,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         public LayerView(PathwayControl control)
         {
-            base.m_isSavable = true;
             this.m_con = control;
             control.CanvasChange += new EventHandler(OnCanvasChange);
             control.ProjectStatusChange += new EventHandler(OnProjectStatusChange);

@@ -291,7 +291,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.jobTreeView);
-            this.IsSavable = true;
             this.Name = "GridJobStatusDialog";
             this.TabText = "Job status";
             this.Shown += new System.EventHandler(this.WinShown);

@@ -111,7 +111,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public ProjectExplorerControl(ProjectExplorer owner)
         {
             m_owner = owner;
-            base.m_isSavable = true;
             InitializeComponent();
             m_nameSorter = new NameSorter();
             m_typeSorter = new TypeSorter();

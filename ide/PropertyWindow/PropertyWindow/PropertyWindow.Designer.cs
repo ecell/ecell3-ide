@@ -184,7 +184,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.m_dgv);
             this.Controls.Add(this.label1);
-            this.IsSavable = true;
             this.Name = "PropertyWindow";
             this.TabText = "Property";
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();

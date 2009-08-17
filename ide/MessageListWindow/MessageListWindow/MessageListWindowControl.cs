@@ -61,7 +61,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         public MessageListWindowControl(MessageListWindow owner)
         {
             m_owner = owner;
-            base.m_isSavable = true;
             InitializeComponent();
             this.TabText = this.Text;
         }

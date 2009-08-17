@@ -189,7 +189,6 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.loggerDataGrid);
-            this.IsSavable = true;
             this.Name = "LoggerWindow";
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).EndInit();
             this.gridContextMenuStrip.ResumeLayout(false);

@@ -175,7 +175,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.BackgroundImage = null;
             this.Controls.Add(this.flowLayoutPanel);
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
-            this.IsSavable = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Stencils";

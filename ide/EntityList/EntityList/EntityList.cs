@@ -99,7 +99,6 @@ namespace Ecell.IDE.Plugins.EntityList
             win.Text = MessageResources.EntityList;
             win.Icon = Resources.EntityList;
             win.TabText = win.Text;
-            win.IsSavable = true;
             return new EcellDockContent[] { win };
         }
 

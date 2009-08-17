@@ -278,7 +278,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// </summary>
         public ScriptCommandWindow()
         {
-            base.m_isSavable = true;
             InitializeComponent();
             this.SWMessageText.Font = this.SWCommandText.Font = new Font(
                 FontFamily.GenericMonospace, 9.0f

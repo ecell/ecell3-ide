@@ -274,7 +274,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {            
             m_gridView.Dock = DockStyle.Fill;
             this.TabText = this.Text;
-            this.IsSavable = true;
             return new EcellDockContent[] { this };
         }
 

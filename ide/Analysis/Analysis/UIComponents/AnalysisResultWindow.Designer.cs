@@ -45,7 +45,6 @@
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.tabControl1);
-            this.IsSavable = true;
             this.Name = "AnalysisResultWindow";
             this.ResumeLayout(false);
 

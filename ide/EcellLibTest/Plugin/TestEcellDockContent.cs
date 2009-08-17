@@ -74,10 +74,10 @@ namespace Ecell.Plugin
             EcellDockContent content = new EcellDockContent();
             Assert.IsNotNull(content, "Constructor of type, EcellDockContent failed to create instance.");
             Assert.AreEqual("Ecell.Plugin.EcellDockContent", content.GetType().ToString(), "Type is unexpected value.");
-            Assert.AreEqual(false, content.IsSavable, "IsSavable is unexpected value.");
+            Assert.AreEqual(true, content.HideOnClose, "HideOnClose is unexpected value.");
 
-            content.IsSavable = true;
-            Assert.AreEqual(true, content.IsSavable, "IsSavable is unexpected value.");
+            content.HideOnClose = true;
+            Assert.AreEqual(true, content.HideOnClose, "HideOnClose is unexpected value.");
 
             Form form = null;
             try

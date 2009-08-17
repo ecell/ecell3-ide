@@ -141,7 +141,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public TraceWindow(TracerWindow control)
         {
             m_owner = control;
-            m_isSavable = false;
+            this.HideOnClose = false;
             InitializeComponent();
             
             m_zCnt = new ZedGraphControl();

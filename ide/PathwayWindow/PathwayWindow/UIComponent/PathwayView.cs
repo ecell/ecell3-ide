@@ -59,7 +59,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="control">PathwayControl</param>
         public PathwayView(PathwayControl control)
         {
-            base.m_isSavable = true;
             this.m_con = control;
             this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
 

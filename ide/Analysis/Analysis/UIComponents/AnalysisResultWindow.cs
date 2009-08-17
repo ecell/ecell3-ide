@@ -175,7 +175,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_graphContent.Icon = Resources.GraphResult;
             m_graphContent.TabText = m_graphContent.Text;
             m_graphContent.ContentType = DockContentType.ANALYSIS;
-            m_graphContent.IsSavable = true;
 
             m_sensContent = new EcellDockContent();
             m_sensResultWindow.Dock = DockStyle.Fill;
@@ -185,7 +184,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_sensContent.Icon = Resources.SensitivityResult;
             m_sensContent.TabText = m_sensContent.Text;
             m_sensContent.ContentType = DockContentType.ANALYSIS;
-            m_sensContent.IsSavable = true;
 
             m_paramContent = new EcellDockContent();
             m_paramResultWindow.Dock = DockStyle.Fill;
@@ -195,7 +193,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_paramContent.Icon = Resources.ParameterEstimationResult;
             m_paramContent.TabText = m_paramContent.Text;
             m_paramContent.ContentType = DockContentType.ANALYSIS;
-            m_paramContent.IsSavable = true;
 
             return new EcellDockContent[] { m_graphContent, m_sensContent, m_paramContent };
         }

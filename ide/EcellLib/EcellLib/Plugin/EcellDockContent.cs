@@ -41,10 +41,6 @@ namespace Ecell.Plugin
     {
         #region Fields
         /// <summary>
-        /// Can this DockContent be serialized or not.
-        /// </summary>
-        protected bool m_isSavable = false;
-        /// <summary>
         /// The content type.
         /// </summary>
         protected DockContentType m_type = DockContentType.NONE;
@@ -52,15 +48,6 @@ namespace Ecell.Plugin
         /// Can this DockContent be closed or not.
         /// </summary>
         private bool m_isEnableClose = false;
-
-        /// <summary>
-        /// Can this DockContent be serialized or not.
-        /// </summary>
-        public bool IsSavable
-        {
-            get { return m_isSavable; }
-            set { m_isSavable = value; }
-        }
 
         /// <summary>
         /// get / set the content type.
@@ -99,6 +86,7 @@ namespace Ecell.Plugin
             // 
             this.ClientSize = new System.Drawing.Size(392, 373);
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
+            this.HideOnClose = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(50, 50);
             this.Name = "EcellDockContent";

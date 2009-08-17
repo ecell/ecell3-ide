@@ -49,7 +49,6 @@ namespace Ecell.IDE.Plugins.Console
         /// </summary>
         public ConsoleControl()
         {
-            base.m_isSavable = true;
             InitializeComponent();
             this.TabText = this.Text;
             simText.ContextMenu = new ContextMenu();
