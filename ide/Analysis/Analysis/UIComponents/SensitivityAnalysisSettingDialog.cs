@@ -75,7 +75,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public SensitivityAnalysisParameter GetParameter()
         {
             return m_param;
-        }
+        }        
 
         /// <summary>
         /// Set the parameter of sensitivity analysis to this form.

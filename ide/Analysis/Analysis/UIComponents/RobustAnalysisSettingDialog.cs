@@ -79,6 +79,15 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Close project
+        /// </summary>
+        public void Clear()
+        {
+            robustAnalysisObservedDataGrid.Rows.Clear();
+            robustAnalysisParameterDataGrid.Rows.Clear();
+        }
+
+        /// <summary>
         /// Set the robust analysis parameter.
         /// </summary>
         /// <param name="p">the parameter of robust analysis.</param>

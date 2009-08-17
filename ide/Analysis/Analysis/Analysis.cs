@@ -653,6 +653,9 @@ namespace Ecell.IDE.Plugins.Analysis
             m_paramList.Clear();
             m_observedList.Clear();
             ClearResult();
+            m_estimationDialog.Clear();
+            m_bifurcationDialog.Clear();
+            m_robustDialog.Clear();
         }
 
         /// <summary>

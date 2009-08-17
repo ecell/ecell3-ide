@@ -111,6 +111,15 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Close project
+        /// </summary>
+        public void Clear()
+        {
+            parameterEstimationParameterDataGrid.Rows.Clear();
+            estimationFormulatorTextBox.Text = "";
+        }
+
+        /// <summary>
         /// Remove the parameter data.
         /// </summary>
         /// <param name="data">the removed parameter data.</param>
