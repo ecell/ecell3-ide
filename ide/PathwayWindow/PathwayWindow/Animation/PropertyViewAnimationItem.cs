@@ -112,6 +112,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             resources.ApplyResources(this.propertyCombobox, "propertyCombobox");
             this.propertyCombobox.Name = "propertyCombobox";
+            this.propertyCombobox.ReadOnly = false;
             // 
             // propertyBrush
             // 

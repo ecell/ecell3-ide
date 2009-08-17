@@ -58,6 +58,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 
         private PToolBoxCanvas pCanvas;
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Changed
+        {
+            get 
+            {
+                if (pCanvas.Setting.Figure.Type != figureBox.Figure)
+                    return true;
+                if (pCanvas.Setting.TextBrush != textBrush.Brush)
+                    return true;
+                if (pCanvas.Setting.LineBrush != lineBrush.Brush)
+                    return true;
+                if (pCanvas.Setting.FillBrush != fillBrush.Brush)
+                    return true;
+                if (pCanvas.Setting.IsGradation != isGradation.Checked)
+                    return true;
+                if (pCanvas.Setting.FillBrush != fillBrush.Brush)
+                    return true;
+                if (pCanvas.Setting.CenterBrush != centerBrush.Brush)
+                    return true;
+                if (pCanvas.Setting.IconFile != iconFile.FileName)
+                    return true;
+                return false;
+            }
+        }
 
         /// <summary>
         /// Constructor

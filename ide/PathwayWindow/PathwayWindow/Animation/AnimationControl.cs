@@ -118,22 +118,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         private bool _autoThreshold = false;
-        /// <summary>
-        /// 
-        /// </summary>
-        private bool _isRecordMovie = false;
-        /// <summary>
-        /// Movie File
-        /// </summary>
-        private string _movieFile = "ecell.avi";
-        /// <summary>
-        /// 
-        /// </summary>
-        private AviManager _aviManager = null;
-        /// <summary>
-        /// 
-        /// </summary>
-        private VideoStream _stream = null;
         #endregion
 
         #region Object Fields
@@ -331,22 +315,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             get { return _autoThreshold; }
             set { _autoThreshold = value; }
         }
-        /// <summary>
-        /// Get/Set m_isRecordMovie
-        /// </summary>
-        public bool DoesRecordMovie
-        {
-            get { return _isRecordMovie; }
-            set { _isRecordMovie = value; }
-        }
-        /// <summary>
-        /// Get/Set m_movieFile
-        /// </summary>
-        public string AviFile
-        {
-            get { return _movieFile; }
-            set { _movieFile = value; }
-        }
+
         /// <summary>
         /// get PropertyDialogTabPage for Animation settings.
         /// </summary>
@@ -484,27 +453,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if(!_con.IsAnimation)
                 return;
             SetPropForSimulation();
-            // Avi
-            if (_isRecordMovie && _aviManager == null)
-            {
-                try
-                {
-                    // Delete File.
-                    if (File.Exists(_movieFile))
-                        File.Delete(_movieFile);
-                    // Create Movie.
-                    _aviManager = new AviManager(_movieFile, false);
-                    Bitmap bmp = new Bitmap(_canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush));
-                    _stream = _aviManager.AddVideoStream(false, 10, bmp);
-                }
-                catch(Exception e)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
-                    _isRecordMovie = false;
-                    _stream = null;
-                    _aviManager = null;
-                }
-            }
+
             TimerStart();
             _isPausing = true;
 
@@ -524,18 +473,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             TimerStop();
             _isPausing = false;
+            // Reset
+            ResetPropForSimulation();
+            // Set initial param if animation mode.
             if (_con.IsAnimation)
                 SetPropForSimulation();
-            else
-                ResetPropForSimulation();
-
-            if (_aviManager != null)
-            {
-                //m_stream.Close();
-                _aviManager.Close();
-                _aviManager = null;
-                _stream = null;
-            }
         }
         /// <summary>
         /// Start Timer.
@@ -568,21 +510,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _canvas = _con.Canvas;
             _canvas.BackGroundBrush = _viewBGBrush;
             _format = _con.Window.DataManager.DisplayStringFormat;
-            // Set Edge
-            //foreach (PPathwayProcess process in _canvas.Processes.Values)
-            //{
-            //    if (process.ViewMode || !process.Visible)
-            //        continue;
-            //    process.ViewMode = true;
-            //    process.Stepper.Visible = false;
-            //    if (!process.Visible)
-            //        continue;
-            //    // Line setting.
-            //    foreach (PPathwayLine line in process.Relations)
-            //    {
-            //        line.EdgeBrush = _viewEdgeBrush;
-            //    }
-            //}
 
             foreach (IAnimationItem item in _items)
             {
@@ -607,15 +534,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
 
             _canvas.PCanvas.Refresh();
-            // write video stream.
-            if (_stream != null)
-            {
-                Bitmap bmp = new Bitmap(
-                    _canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush),
-                    _stream.Width,
-                    _stream.Height);
-                _stream.AddFrame(bmp);
-            }
         }
 
         /// <summary>
@@ -628,20 +546,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
             // Set Canvas
             _canvas.BackGroundBrush = _editBGBrush;
-            // Set Process.
-            //foreach (PPathwayProcess process in _canvas.Processes.Values)
-            //{
-            //    if (!process.ViewMode || !process.Visible)
-            //        continue;
-            //    // Line setting.
-            //    process.ViewMode = false;
-            //    process.Stepper.Visible = true;
-            //    foreach (PPathwayLine line in process.Relations)
-            //    {
-            //        line.EdgeBrush = _editEdgeBrush;
-            //        line.EdgeWidth = _normalEdgeWidth;
-            //    }
-            //}
 
             //
             foreach (IAnimationItem item in _items)
@@ -649,9 +553,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 item.ResetProperty();
             }
 
-            // Reset objects.
-            //foreach (PPathwayObject obj in _canvas.GetAllEntities())
-            //    obj.Refresh();
         }
         #endregion
 

@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// 
     /// </summary>
-    public class EdgeAnimatioinItem: AnimationItemBase
+    public class EdgeAnimationItem: AnimationItemBase
     {
         #region Fields
         /// <summary>
@@ -97,7 +97,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public EdgeAnimatioinItem()
+        public EdgeAnimationItem()
         {
             InitializeComponent();
         }
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public EdgeAnimatioinItem(AnimationControl control)
+        public EdgeAnimationItem(AnimationControl control)
             : base(control)
         {
             InitializeComponent();
@@ -125,7 +125,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EdgeAnimatioinItem));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EdgeAnimationItem));
             this.edgeBox = new System.Windows.Forms.GroupBox();
             this.edgeLabel = new System.Windows.Forms.Label();
             this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();

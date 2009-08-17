@@ -112,7 +112,7 @@
     <Compile Include="Animation\AnimationSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Animation\EdgeAnimatioinItem.cs">
+    <Compile Include="Animation\EdgeAnimationItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\EditModeSettings.cs">
@@ -126,6 +126,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\ViewModeSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Animation\MovieAnimationItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Components\ComponentItem.cs">
@@ -280,12 +283,12 @@
       <DependentUpon>AnimationSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\EdgeAnimatioinItem.ja.resx">
-      <DependentUpon>EdgeAnimatioinItem.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\EdgeAnimationItem.ja.resx">
+      <DependentUpon>EdgeAnimationItem.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\EdgeAnimatioinItem.resx">
-      <DependentUpon>EdgeAnimatioinItem.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\EdgeAnimationItem.resx">
+      <DependentUpon>EdgeAnimationItem.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\EditModeSettings.ja.resx">
@@ -318,6 +321,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\ViewModeSettings.resx">
       <DependentUpon>ViewModeSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\MovieAnimationItem.ja.resx">
+      <DependentUpon>MovieAnimationItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\MovieAnimationItem.resx">
+      <DependentUpon>MovieAnimationItem.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\ComponentItem.ja.resx">

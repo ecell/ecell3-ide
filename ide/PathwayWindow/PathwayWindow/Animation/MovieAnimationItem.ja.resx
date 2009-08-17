@@ -117,47 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="buttonAdd.Text" xml:space="preserve">
-    <value>追加...</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>出力する動画ファイル名を設定してください。</value>
   </data>
-  <data name="buttonDelete.Text" xml:space="preserve">
-    <value>削除</value>
+  <data name="aviFileName.LabelText" xml:space="preserve">
+    <value>AVIファイル名</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="labelItems.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 12</value>
-  </data>
-  <data name="labelItems.Text" xml:space="preserve">
-    <value>アイテム:</value>
-  </data>
-  <data name="buttonCancel.Text" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="addEdgeAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
-  </data>
-  <data name="addEdgeAnimationToolStripMenuItem.Text" xml:space="preserve">
-    <value>エッジアニメーションの追加</value>
-  </data>
-  <data name="addNodeAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
-  </data>
-  <data name="addNodeAnimationToolStripMenuItem.Text" xml:space="preserve">
-    <value>エンティティアニメーションの追加</value>
-  </data>
-  <data name="addPropertyViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
-  </data>
-  <data name="addPropertyViewToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロパティ表示の追加</value>
-  </data>
-  <data name="contextMenuAddItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 70</value>
+  <data name="outputBox.Text" xml:space="preserve">
+    <value>出力動画の設定</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>アニメーション設定</value>
-  </data>
-  <data name="outputMovieToolStripMenuItem.Text" xml:space="preserve">
     <value>動画出力</value>
   </data>
 </root>

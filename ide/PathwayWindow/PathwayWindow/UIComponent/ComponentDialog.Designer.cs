@@ -39,73 +39,50 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.AccessibleDescription = null;
-            this.buttonOK.AccessibleName = null;
             resources.ApplyResources(this.buttonOK, "buttonOK");
-            this.buttonOK.BackgroundImage = null;
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Font = null;
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.AccessibleDescription = null;
-            this.buttonCancel.AccessibleName = null;
             resources.ApplyResources(this.buttonCancel, "buttonCancel");
-            this.buttonCancel.BackgroundImage = null;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Font = null;
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip
             // 
-            this.contextMenuStrip.AccessibleDescription = null;
-            this.contextMenuStrip.AccessibleName = null;
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
-            this.contextMenuStrip.BackgroundImage = null;
-            this.contextMenuStrip.Font = null;
             this.contextMenuStrip.Name = "contextMenuStrip";
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
             // componentItem
             // 
-            this.componentItem.AccessibleDescription = null;
-            this.componentItem.AccessibleName = null;
             resources.ApplyResources(this.componentItem, "componentItem");
-            this.componentItem.BackgroundImage = null;
             this.componentItem.ContextMenuStrip = this.contextMenuStrip;
-            this.componentItem.Font = null;
             this.componentItem.Name = "componentItem";
             // 
             // registerCheckBox
             // 
-            this.registerCheckBox.AccessibleDescription = null;
-            this.registerCheckBox.AccessibleName = null;
             resources.ApplyResources(this.registerCheckBox, "registerCheckBox");
-            this.registerCheckBox.BackgroundImage = null;
-            this.registerCheckBox.Font = null;
             this.registerCheckBox.Name = "registerCheckBox";
             this.registerCheckBox.UseVisualStyleBackColor = true;
             // 
             // ComponentDialog
             // 
             this.AcceptButton = this.buttonOK;
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.CancelButton = this.buttonCancel;
             this.Controls.Add(this.registerCheckBox);
             this.Controls.Add(this.componentItem);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Font = null;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ComponentDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ComponentDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

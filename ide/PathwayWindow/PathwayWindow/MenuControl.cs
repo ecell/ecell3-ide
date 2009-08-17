@@ -1410,9 +1410,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Register new stencil
                 if (dlg.DoesRegister)
                 {
-                    ComponentSetting stencil = cs.Clone();
-                    stencil.Name = m_con.ComponentManager.GetRandomKey();
-                    m_con.Stencil.AddStencil(stencil);
+                    m_con.Stencil.AddStencil(cs);
                 }
             }
 

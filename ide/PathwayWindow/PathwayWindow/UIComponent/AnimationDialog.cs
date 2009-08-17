@@ -131,18 +131,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         }
 
-        private void addEdgeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void outputMovieToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (IAnimationItem item in this.listBox.Items)
             {
-                if (!(item is EdgeAnimatioinItem))
+                if (!(item is MovieAnimationItem))
                     continue;
                 this.panel.Controls.Clear();
                 this.panel.Controls.Add((AnimationItemBase)item);
                 return;
             }
 
-            EdgeAnimatioinItem newItem = new EdgeAnimatioinItem(_control);
+            MovieAnimationItem newItem = new MovieAnimationItem(_control);
+            AddItem(newItem);
+
+        }
+        private void addEdgeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (IAnimationItem item in this.listBox.Items)
+            {
+                if (!(item is EdgeAnimationItem))
+                    continue;
+                this.panel.Controls.Clear();
+                this.panel.Controls.Add((AnimationItemBase)item);
+                return;
+            }
+
+            EdgeAnimationItem newItem = new EdgeAnimationItem(_control);
             AddItem(newItem);
         }
 
@@ -173,5 +188,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             e.DrawFocusRectangle();
 
         }
+
     }
 }

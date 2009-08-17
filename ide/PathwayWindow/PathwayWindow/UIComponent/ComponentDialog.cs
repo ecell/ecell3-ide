@@ -162,6 +162,9 @@ namespace Ecell.IDE
         public class StencilMenuItem : ToolStripMenuItem
         {
             private ComponentSetting m_setting = null;
+            /// <summary>
+            /// 
+            /// </summary>
             public ComponentSetting Setting
             {
                 get { return m_setting; }
@@ -177,9 +180,10 @@ namespace Ecell.IDE
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ComponentDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            if(!componentItem.Changed)
+                this.DialogResult = DialogResult.Cancel;
         }
     }
 }

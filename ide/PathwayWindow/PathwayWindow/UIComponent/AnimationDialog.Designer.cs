@@ -41,6 +41,7 @@
             this.addEdgeAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNodeAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addPropertyViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.outputMovieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuAddItem.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,7 +98,8 @@
             this.contextMenuAddItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addEdgeAnimationToolStripMenuItem,
             this.addNodeAnimationToolStripMenuItem,
-            this.addPropertyViewToolStripMenuItem});
+            this.addPropertyViewToolStripMenuItem,
+            this.outputMovieToolStripMenuItem});
             this.contextMenuAddItem.Name = "contextMenuAddItem";
             resources.ApplyResources(this.contextMenuAddItem, "contextMenuAddItem");
             // 
@@ -118,6 +120,12 @@
             this.addPropertyViewToolStripMenuItem.Name = "addPropertyViewToolStripMenuItem";
             resources.ApplyResources(this.addPropertyViewToolStripMenuItem, "addPropertyViewToolStripMenuItem");
             this.addPropertyViewToolStripMenuItem.Click += new System.EventHandler(this.addPropertyViewToolStripMenuItem_Click);
+            // 
+            // outputMovieToolStripMenuItem
+            // 
+            this.outputMovieToolStripMenuItem.Name = "outputMovieToolStripMenuItem";
+            resources.ApplyResources(this.outputMovieToolStripMenuItem, "outputMovieToolStripMenuItem");
+            this.outputMovieToolStripMenuItem.Click += new System.EventHandler(this.outputMovieToolStripMenuItem_Click);
             // 
             // AnimationDialog
             // 
@@ -155,5 +163,6 @@
         private System.Windows.Forms.ToolStripMenuItem addEdgeAnimationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNodeAnimationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addPropertyViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem outputMovieToolStripMenuItem;
     }
 }
