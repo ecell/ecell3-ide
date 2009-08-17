@@ -93,6 +93,11 @@ namespace Ecell.IDE.Plugins.Simulation
             stepCountTextBox.Text = m_stepCount.ToString();
             waitTimeTextBox.Text = m_waitTime.ToString();
             saveCheckBox.Checked = manager.IsSaveStep;
+            //if (manager.Environment.PluginManager.Status == ProjectStatus.Loaded ||
+            //    manager.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
+            //    saveCheckBox.Enabled = true;
+            //else
+            //    saveCheckBox.Enabled = false;
             m_owner = sim;
         }
 

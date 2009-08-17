@@ -772,7 +772,16 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">SteppingModelEventArgs</param>
         private void DataManager_ApplySteppingModelEvent(object o, SteppingModelEventArgs e)
         {
-            m_timeText.Text = e.ApplyTime.ToString(m_env.DataManager.DisplayStringFormat);
+            if (m_type == ProjectStatus.Uninitialized || m_type == ProjectStatus.Loading)
+                return;
+            if (e.ApplyTime < 0.0)
+            {                
+                m_timeText.Text = DataManager.CurrentProject.Simulator.GetCurrentTime().ToString(m_env.DataManager.DisplayStringFormat);
+            }
+            else
+            {
+                m_timeText.Text = e.ApplyTime.ToString(m_env.DataManager.DisplayStringFormat);
+            }
             int index = m_dManager.SaveTime.Count;
             int count = 0;
             foreach (int id in m_dManager.SaveTime.Keys)

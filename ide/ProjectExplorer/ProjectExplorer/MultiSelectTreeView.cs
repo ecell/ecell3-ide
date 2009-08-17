@@ -333,7 +333,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="bPrev">the flag whether the ranselection is previous.</param>
         private void SelectRange(TreeNode tn, bool bPrev)
         {
-            m_env.PluginManager.ResetSelect();
+            if (!m_isUpdate)
+                m_env.PluginManager.ResetSelect();
             TreeNode tnTemp = tnMouseDown;
             if (tnTemp == null) return;
             SelectNodes(tnTemp, true);

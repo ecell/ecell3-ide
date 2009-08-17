@@ -331,7 +331,13 @@ namespace Ecell
         public bool IsSaveStep
         {
             get { return this.m_isSaveStep; }
-            set { this.m_isSaveStep = value; }
+            set 
+            { 
+                this.m_isSaveStep = value;
+                this.m_steppingData = null;
+                if (!value && ApplySteppingModelEvent != null)
+                    ApplySteppingModelEvent(this, new SteppingModelEventArgs(-1.0));
+            }
         }
 
         /// <summary>
@@ -811,8 +817,8 @@ namespace Ecell
         private void SaveSteppingModelInfo(string fileName)
         {
             string modelID = m_currentProject.Model.ModelID;
-            Encoding enc = Encoding.GetEncoding(932);
-            File.WriteAllText(fileName, "", enc);
+            Encoding enc = Encoding.Unicode;
+            File.WriteAllText(fileName, "", Encoding.Unicode);
 
             // Picks the "Stepper" up.
             List<EcellObject> stepperList
@@ -838,6 +844,16 @@ namespace Ecell
             foreach (EcellObject obj in systemList)
             {
                 EcellObject sysObj = obj;
+
+                foreach (EcellData d in sysObj.Value)
+                {
+                    if (!d.Gettable || !d.Value.IsDouble)
+                        continue;
+                    double v = GetPropertyValue(d.EntityPath);
+                    File.AppendAllText(fileName,
+                        d.EntityPath + "," + v.ToString() + "\n",
+                        enc);
+                }
  
                 foreach (EcellObject cobj in sysObj.Children)
                 {
@@ -865,7 +881,7 @@ namespace Ecell
             string line;
             string[] ele;
             StreamReader reader;
-            reader = new StreamReader(fileName, Encoding.ASCII);
+            reader = new StreamReader(fileName, Encoding.Unicode);
             while ((line = reader.ReadLine()) != null)
             {
                 ele = line.Split(new char[] { ',' });
@@ -5319,7 +5335,7 @@ namespace Ecell
         {
             try
             {
-                if (m_steppingData != null)
+                if (m_steppingData != null && m_steppingData.ContainsKey(fullPN))
                 {
                     return (double)m_steppingData[fullPN];
                 }                
