@@ -66,7 +66,8 @@ namespace Ecell.IDE
             this.DMEOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.DMESaveAsButton = new System.Windows.Forms.Button();
             this.DMESaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.codeEditorControl = new Fireball.Windows.Forms.CodeEditorControl();
+//            this.codeEditorControl = new Fireball.Windows.Forms.CodeEditorControl();
+            this.codeEditorControl = new EcellCodeEditor();
             this.syntaxDocument1 = new Fireball.Syntax.SyntaxDocument(this.components);
             this.fileNameLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -179,7 +180,8 @@ namespace Ecell.IDE
         private System.Windows.Forms.Button DMESaveAsButton;
         protected System.Windows.Forms.SaveFileDialog DMESaveFileDialog;
         private Fireball.Syntax.SyntaxDocument syntaxDocument1;
-        protected Fireball.Windows.Forms.CodeEditorControl codeEditorControl;
+        //protected Fireball.Windows.Forms.CodeEditorControl codeEditorControl;
+        protected EcellCodeEditor codeEditorControl;
         private System.Windows.Forms.Label fileNameLabel;
     }
 }

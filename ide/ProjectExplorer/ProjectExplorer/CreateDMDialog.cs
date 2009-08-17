@@ -123,7 +123,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             if (!isOverride)
             {
-                TreeNode dNode = new TreeNode(name);
+                DMNode dNode = new DMNode(name);
                 dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = name;

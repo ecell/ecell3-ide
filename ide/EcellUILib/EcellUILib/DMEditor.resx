@@ -150,6 +150,9 @@
   <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="DMESaveButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>280, 427</value>
   </data>
@@ -207,6 +210,9 @@
   <data name="DMESaveAsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="DMESaveAsButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="DMESaveAsButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>360, 427</value>
   </data>
@@ -240,6 +246,9 @@
   <metadata name="syntaxDocument1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>320, 17</value>
   </metadata>
+  <data name="codeEditorControl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
   <data name="codeEditorControl.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 31</value>
   </data>

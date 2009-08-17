@@ -1807,7 +1807,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (File.Exists(path))
                     File.Move(path, destpath);
                 if (File.Exists(source))
+                {
+                    File.WriteAllText(source, "");
+                    m_owner.DeleteDM(source);
                     File.Delete(source);
+                }
                 m_owner.DataManager.ReloadSimulator();
                 //if (File.Exists(destpath))
                 //    File.Delete(destpath);
@@ -1987,7 +1991,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     /// <summary>
     /// TreeNode for the DM.
     /// </summary>
-    internal class DMNode : TreeNode
+    public class DMNode : TreeNode
     {
         /// <summary>
         /// Constructors.

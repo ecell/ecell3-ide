@@ -247,6 +247,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_line = null;
             CurveList l = m_zCnt.GraphPane.CurveList;
             l.Clear();
+            m_zCnt.Refresh();
         }
 
         /// <summary>

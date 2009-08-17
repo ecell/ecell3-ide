@@ -557,7 +557,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (isSensitivityWindow)
             {
                 m_rWin.SensitivityWindow.GroupName = groupName;
-                m_rWin.SensitivityAnalysisContent.Activate();
+                m_rWin.SensitivityAnalysisContent.Activate();                
             }
             if (isParameterWindow)
             {

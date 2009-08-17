@@ -106,6 +106,20 @@ namespace Ecell.IDE
                     codeEditorControl.Text = "";
                 }
             }
+            get
+            {
+                return m_path;
+            }
+        }
+
+        public void DeleteSourceFile()
+        {
+            fileNameLabel.Text = "";
+            DMESaveButton.Enabled = false;
+            DMESaveAsButton.Enabled = false;
+            DMEComileButton.Enabled = false;
+            codeEditorControl.ReLoadFile();           
+            m_path = null;
         }
 
         /// <summary>
@@ -147,6 +161,7 @@ namespace Ecell.IDE
         protected void LoadFile()
         {
             codeEditorControl.Open(m_path);
+            fileNameLabel.Text = m_path;
             //string line = "";
             //codeEditorControl.Text = "";
             //TextReader l_reader = new StreamReader(m_path);
@@ -256,5 +271,26 @@ namespace Ecell.IDE
             }
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Code editor that can not accept multibyte string.
+    /// </summary>
+    public class EcellCodeEditor : Fireball.Windows.Forms.CodeEditorControl
+    {
+        /// <summary>
+        /// Check input character.
+        /// </summary>
+        /// <param name="e">KeyPressEventArgs</param>
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            byte[] byte_data = System.Text.Encoding.GetEncoding(932).GetBytes(new string(e.KeyChar, 1));
+            if (byte_data.Length == 1)
+            {
+                base.OnKeyPress(e);
+                return;
+            }
+            e.Handled = true;
+        }
     }
 }

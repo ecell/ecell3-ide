@@ -1701,7 +1701,8 @@ namespace Ecell
             this.CheckDifferences(oldNode, ecellObject, paramId);
             if (key.Equals(ecellObject.Key))
             {
-                if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam))
+                if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam) ||
+                    !oldNode.Classname.Equals(ecellObject.Classname) || oldNode.Value.Count != ecellObject.Value.Count)
                 {
                     EcellObject oldSystem = m_currentProject.GetEcellObject(modelID, Constants.xpathSystem, Util.GetSuperSystemPath(key), true);
                     Debug.Assert(oldSystem != null);
@@ -3587,7 +3588,8 @@ namespace Ecell
                     if (File.Exists(path))
                     {
                         File.Move(path, prevPath);
-                        m_saveTimeDic[i + 1] = m_saveTimeDic[i];
+                        if (m_saveTimeDic.ContainsKey(i))
+                            m_saveTimeDic[i + 1] = m_saveTimeDic[i];
                     }
                 }
                 if (File.Exists(path))
