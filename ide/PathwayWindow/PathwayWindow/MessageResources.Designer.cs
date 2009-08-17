@@ -574,7 +574,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Cannot partially-overlap with other Systems. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot overlap Systems. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOverSystem {
             get {

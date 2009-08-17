@@ -184,6 +184,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // If selected system overlaps another, reset system region.
             if (m_canvas.DoesSystemOverlaps((PPathwaySystem)m_obj))
             {
+                Util.ShowErrorDialog(MessageResources.ErrOverSystem);
                 ResetSystemResize();
                 return;
             }

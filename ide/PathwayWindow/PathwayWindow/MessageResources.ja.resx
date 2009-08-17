@@ -133,7 +133,7 @@
     <value>ルートシステム外にはオブジェクトを置けません。</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
-    <value>Systemを一部分だけ重ねることはできません。</value>
+    <value>Systemを重ねることはできません。</value>
   </data>
   <data name="ErrUnknowType" xml:space="preserve">
     <value>追加されたエンティティのタイプが不明です。</value>

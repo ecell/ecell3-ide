@@ -1441,6 +1441,15 @@ namespace Ecell
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
 
+            // Check Stepper
+            if (entity is EcellProcess)
+            {
+                EcellProcess process = (EcellProcess)entity;
+                string stepper = process.StepperID;
+                if (!m_currentProject.StepperDic.ContainsKey(stepper))
+                    process.StepperID = GetStepper(entity.ModelID)[0].Key;
+            }
+
             // Add object.
             bool findFlag = false;
             foreach (EcellObject system in sysDic[modelID])
@@ -1466,15 +1475,6 @@ namespace Ecell
 
                 findFlag = true;
                 break;
-            }
-
-            // Check Stepper
-            if (entity is EcellProcess)
-            {
-                EcellProcess process = (EcellProcess)entity;
-                string stepper = process.StepperID;
-                if (!m_currentProject.StepperDic.ContainsKey(stepper))
-                    process.StepperID = GetStepper(entity.ModelID)[0].Key;
             }
 
             if (messageFlag)

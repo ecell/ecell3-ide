@@ -133,7 +133,7 @@
     <value>Cannot put any objects to outside root System.</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
-    <value>Cannot partially-overlap with other Systems.</value>
+    <value>Cannot overlap Systems.</value>
   </data>
   <data name="ErrUnknowType" xml:space="preserve">
     <value>The type of added Entity is unknown.</value>
