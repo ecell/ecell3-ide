@@ -772,5 +772,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 SetAnimationStatus();
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void Reset()
+        {
+            ResetAnimation();
+            _items.Clear();
+        }
     }
 }

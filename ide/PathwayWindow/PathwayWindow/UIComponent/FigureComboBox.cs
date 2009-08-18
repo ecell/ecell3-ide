@@ -117,7 +117,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public FigureComboBox(string figure)
             :this()
         {
-            this.imageComboBox.Text = figure;
+            this.Figure = figure;
         }
 
         private void InitializeComponent()
@@ -148,6 +148,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.imageComboBox.TabIndex = 0;
             this.imageComboBox.Text = "Rectangle";
             this.imageComboBox.SelectedIndexChanged += new System.EventHandler(this.figureComboBox_SelectedIndexChanged);
+            this.imageComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.figureComboBox_KeyDown);
             // 
             // FigureComboBox
             // 
@@ -194,6 +195,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         void figureComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             RaiseTextChange();
+            string figure = ((ComboBox)sender).Text;
+            this.Figure = figure;
+        }
+
+        void figureComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(e.KeyCode == Keys.Enter))
+                return;
+            string figure = ((ComboBox)sender).Text;
+            this.Figure = figure;
         }
 
         #region EventHandler for ComboBoxChange
