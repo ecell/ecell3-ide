@@ -1452,6 +1452,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             if (d != null)
                                 val = d;
                         }
+                        else if (pair.Value.Name == Constants.xpathK && newClassName.Equals(Constants.DefaultProcessName))
+                        {
+                            val.Value = new EcellValue(1.0);
+                        }
                         props.Add(val);
                     }
                 }
