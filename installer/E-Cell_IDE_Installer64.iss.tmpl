@@ -315,6 +315,11 @@ Source: "SamplePluginProject\*"; DestDir: "{commondocs}\SamplePlugin"; Component
 Source: "SamplePluginProject\SamplePlugin\*"; DestDir: "{commondocs}\SamplePlugin\SamplePlugin"; Components: sample; CopyMode: alwaysoverwrite;
 Source: "SamplePluginProject\SamplePlugin\Properties\*"; DestDir: "{commondocs}\SamplePlugin\SamplePlugin\Properties"; Components: sample; CopyMode: alwaysoverwrite;
 
+; ======================================================
+; docs
+; ======================================================
+Source: "usermanual.pdf"; DestDir: "{commondocs}\E-Cell manual"; Components: main; CopyMode: alwaysoverwrite;
+
 
 [Registry]
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
