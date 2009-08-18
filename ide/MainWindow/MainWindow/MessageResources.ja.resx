@@ -190,7 +190,7 @@
     <value>モデルのエクスポート</value>
   </data>
   <data name="FileManual" xml:space="preserve">
-    <value>manual_j.pdf</value>
+    <value>usermanual.pdf</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>指定したファイルが存在しません。</value>
