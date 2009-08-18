@@ -199,7 +199,7 @@ namespace Ecell.Plugin
         /// <param name="margin">distance between</param>
         public void SetGrid(List<EcellObject> nodeList, List<EcellObject> systemList, float margin)
         {
-            Dictionary<string, List<PointF>> gridDic = GetLayoutGrid(systemList, 60f);
+            Dictionary<string, List<PointF>> gridDic = GetLayoutGrid(systemList, margin);
             foreach (EcellObject entity in nodeList)
             {
                 // Get nearest point

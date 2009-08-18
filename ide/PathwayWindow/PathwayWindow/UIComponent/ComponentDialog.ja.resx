@@ -206,4 +206,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>図の書式設定</value>
   </data>
+  <data name="setExistingStencilToolStripMenuItem.Text" xml:space="preserve">
+    <value>既存の書式を設定</value>
+  </data>
 </root>

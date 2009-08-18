@@ -35,6 +35,8 @@
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.componentItem = new Ecell.IDE.Plugins.PathwayWindow.Components.ComponentItem();
             this.registerCheckBox = new System.Windows.Forms.CheckBox();
+            this.setExistingStencilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -53,6 +55,8 @@
             // 
             // contextMenuStrip
             // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setExistingStencilToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
@@ -67,6 +71,11 @@
             resources.ApplyResources(this.registerCheckBox, "registerCheckBox");
             this.registerCheckBox.Name = "registerCheckBox";
             this.registerCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // setExistingStencilToolStripMenuItem
+            // 
+            this.setExistingStencilToolStripMenuItem.Name = "setExistingStencilToolStripMenuItem";
+            resources.ApplyResources(this.setExistingStencilToolStripMenuItem, "setExistingStencilToolStripMenuItem");
             // 
             // ComponentDialog
             // 
@@ -84,6 +93,7 @@
             this.Name = "ComponentDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ComponentDialog_FormClosing);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,5 +106,6 @@
         private Ecell.IDE.Plugins.PathwayWindow.Components.ComponentItem componentItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.CheckBox registerCheckBox;
+        private System.Windows.Forms.ToolStripMenuItem setExistingStencilToolStripMenuItem;
     }
 }

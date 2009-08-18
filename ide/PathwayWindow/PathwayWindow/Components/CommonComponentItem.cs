@@ -278,18 +278,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.iconFileTtextBox.Text = cs.IconFile;
             this.figureComboBox.Figure = cs.Figure.Type;
 
-            //// Set Figure.
-            //if (this.figureBox.ComboBox.Items.Count <= 0)
-            //    this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
-
-            // Set Parameter.
-            //this.figureBox.ComboBox.Text = cs.Figure.Type;
-            //this.textBrush.Brush = cs.TextBrush;
-            //this.lineBrush.Brush = cs.LineBrush;
-            //this.fillBrush.Brush = cs.FillBrush;
-            //this.centerBrush.Brush = cs.CenterBrush;
-            //this.isGradation.Checked = cs.IsGradation;
-            //this.iconFile.FileName = cs.ImageStream;
         }
 
         /// <summary>
@@ -424,7 +412,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private void resetButton_Click(object sender, EventArgs e)
         {
             ComponentSetting cs = ComponentManager.CreateDefaultSetting(pCanvas.Setting.Type);
-            SetItem(cs);
+
+            this.textColorBrushComboBox.Brush = cs.TextBrush;
+            this.lineColorBrushComboBox.Brush = cs.LineBrush;
+            this.fillColorBrushComboBox.Brush = cs.FillBrush;
+            this.gradationCheckBox.Checked = cs.IsGradation;
+            this.centerColorBrushComboBox.Brush = cs.CenterBrush;
+            this.centerColorBrushComboBox.Enabled = cs.IsGradation;
+            this.iconFileTtextBox.Text = cs.IconFile;
+            this.figureComboBox.Figure = cs.Figure.Type;
+
         }
 
 

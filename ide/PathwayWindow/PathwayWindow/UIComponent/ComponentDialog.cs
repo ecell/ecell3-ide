@@ -138,7 +138,7 @@ namespace Ecell.IDE
                 StencilMenuItem item = new StencilMenuItem(cs.Icon);
                 item.Setting = cs;
                 item.Click += new EventHandler(item_Click);
-                contextMenuStrip.Items.Add(item);
+                setExistingStencilToolStripMenuItem.DropDownItems.Add(item);
             }
         }
 
