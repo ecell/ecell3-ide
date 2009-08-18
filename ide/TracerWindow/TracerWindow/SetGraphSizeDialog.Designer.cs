@@ -118,6 +118,7 @@
             // 
             resources.ApplyResources(this.y2MinTextBox, "y2MinTextBox");
             this.y2MinTextBox.Name = "y2MinTextBox";
+            this.y2MinTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Y2MinValidating);
             // 
             // y2MaxTextBox
             // 

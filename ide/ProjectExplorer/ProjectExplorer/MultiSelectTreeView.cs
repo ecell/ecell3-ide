@@ -404,6 +404,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             base.OnMouseDown(e);
         }
 
+
         /// <summary>
         /// The event sequence when mouse is up.
         /// The flag whether this component is collapasing is set false.
@@ -444,17 +445,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">MouseEventArgs</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (m_isDrag) return;
-            bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
-            TreeNode tn = this.GetNodeAt(e.X, e.Y);
-            bool bPrev = ptMouseDown.Y - e.Y > 0;
-            
-            if (e.Button == MouseButtons.Left &&
-                (bStartPainting || (tn != tnMouseDown && tn != null)))
-            {
-                if (!m_isExpand && !m_isCollapse)
-                    SelectRange(tn, bPrev);
-            }
+            //if (m_isDrag) return;
+            //bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
+            //TreeNode tn = this.GetNodeAt(e.X, e.Y);
+            //bool bPrev = ptMouseDown.Y - e.Y > 0;
+
+            //if (e.Button == MouseButtons.Left &&
+            //    (bStartPainting || (tn != tnMouseDown && tn != null)))
+            //{
+            //    if (!m_isExpand && !m_isCollapse)
+            //        SelectRange(tn, bPrev);
+            //}
             base.OnMouseMove(e);
         }
 

@@ -935,8 +935,13 @@ namespace Ecell
                 {
                     if (!d.Gettable || !d.Value.IsDouble)
                         continue;
-                    double v = GetPropertyValue4Stepper(obj.Key, d.Name);
-                    d.Value = new EcellValue(v);
+                    if (m_env.PluginManager.Status == ProjectStatus.Running ||
+                        m_env.PluginManager.Status == ProjectStatus.Stepping ||
+                        m_env.PluginManager.Status == ProjectStatus.Suspended)
+                    {
+                        double v = GetPropertyValue4Stepper(obj.Key, d.Name);
+                        d.Value = new EcellValue(v);
+                    }
                 }
             }
             storedList.AddRange(stepperList);
@@ -961,8 +966,13 @@ namespace Ecell
                         {
                             if (!d.Gettable || !d.Value.IsDouble)
                                 continue;
-                            EcellValue v = GetEntityProperty(d.EntityPath);
-                            d.Value = v;
+                            if (m_env.PluginManager.Status == ProjectStatus.Running ||
+                                m_env.PluginManager.Status == ProjectStatus.Stepping ||
+                                m_env.PluginManager.Status == ProjectStatus.Suspended)
+                            {
+                                EcellValue v = GetEntityProperty(d.EntityPath);
+                                d.Value = v;
+                            }
                         }
                     }
                     storedList.Add(sysObj);
