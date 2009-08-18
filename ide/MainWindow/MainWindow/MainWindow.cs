@@ -193,12 +193,15 @@ namespace Ecell.IDE.MainWindow
         }
         #endregion
 
+        private string tmpPath;
+
         #region Initializer
         /// <summary>
         /// 
         /// </summary>
         public void Initialize()
         {
+            CheckDefaultWindowSetting();
             InitializeComponent();
 
             m_statusDialog = new GridJobStatusDialog(m_env.JobManager);
@@ -569,9 +572,9 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Load default window settings.
+        /// Check default window settings.
         /// </summary>
-        public void LoadDefaultWindowSetting()
+        public void CheckDefaultWindowSetting()
         {
             // Load user window settings.
             if (LoadWindowSetting(m_userWindowSettingPath, true))
@@ -583,15 +586,30 @@ namespace Ecell.IDE.MainWindow
             {
                 if (win.ShowDialog() == DialogResult.OK)
                 {
-                    LoadWindowSetting(win.FilePath, true);
+                    tmpPath = win.FilePath;
                 }
                 else
                 {
                     string setting = Path.Combine(Util.GetWindowSettingDir(), "Base.xml");
-                    LoadWindowSetting(setting, true);
+                    tmpPath = setting;
                 }
                 Util.SetLanguage(win.Language);
+                Util.InitialLanguage();
             }
+        }
+
+        /// <summary>
+        /// Load default window settings.
+        /// </summary>
+        public void LoadDefaultWindowSetting()
+        {
+            // Load user window settings.
+            if (LoadWindowSetting(m_userWindowSettingPath, true))
+                return;
+
+            // Load default window settings when failed.
+            if (tmpPath != null && File.Exists(tmpPath))
+                LoadWindowSetting(tmpPath);
         }
         #endregion
 
