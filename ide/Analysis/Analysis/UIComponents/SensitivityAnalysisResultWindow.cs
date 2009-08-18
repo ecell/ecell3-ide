@@ -91,6 +91,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             SACCCGridView.Rows.Clear();
             SAFCCGridView.Rows.Clear();
+            groupLabel.Text = "";
         }
 
         /// <summary>

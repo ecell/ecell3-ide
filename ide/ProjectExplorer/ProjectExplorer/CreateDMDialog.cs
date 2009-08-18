@@ -93,6 +93,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             String name = INTextBox.Text;
             bool isOverride = false;
             string filename = Path.Combine(m_dir, name);
+            string dmFilename = filename + Constants.FileExtDM;
             filename = filename + Constants.FileExtSource;
 
             if (!Directory.Exists(m_dir))
@@ -106,6 +107,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
                 isOverride = true;
             }
+            if (File.Exists(dmFilename))
+                isOverride = true;
+
             //                File.Create(filename);
             StreamWriter writer = null;
             try
@@ -124,7 +128,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (!isOverride)
             {
                 DMNode dNode = new DMNode(name);
-                dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
+                dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDMSource);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = name;
                 dNode.ContextMenuStrip = m_menu;

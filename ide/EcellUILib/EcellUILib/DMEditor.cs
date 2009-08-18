@@ -83,7 +83,7 @@ namespace Ecell.IDE
         /// <summary>
         /// set dm file path.
         /// </summary>
-        public string path
+        public virtual string path
         {
             set
             {                
@@ -126,12 +126,17 @@ namespace Ecell.IDE
         /// Change the status of project.
         /// </summary>
         /// <param name="status">the status of project.</param>
-        public void ChangeStatus(ProjectStatus status)
+        public virtual void ChangeStatus(ProjectStatus status)
         {
             if (status == ProjectStatus.Uninitialized)
+            {
                 DMEComileButton.Enabled = false;
+            }
             else
+            {
                 DMEComileButton.Enabled = true;
+
+            }
         }
 
         #region Events

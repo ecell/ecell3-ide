@@ -265,7 +265,7 @@
     <value>codeEditorControl</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.Type" xml:space="preserve">
-    <value>Fireball.Windows.Forms.CodeEditorControl, Fireball.CodeEditor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f84d0e3f884fb1e4</value>
+    <value>Ecell.IDE.EcellCodeEditor, EcellUILib, Version=1.1.3204.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.Parent" xml:space="preserve">
     <value>$this</value>
@@ -413,6 +413,6 @@
     <value>DMEditor</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3195.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3207.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

@@ -126,6 +126,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ClearResult()
         {
             dataGridView1.Rows.Clear();
+            groupLabel.Text = "";
         }
 
         /// <summary>

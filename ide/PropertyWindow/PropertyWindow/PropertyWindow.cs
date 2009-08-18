@@ -1311,10 +1311,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 newPropIndex++;
 
             string propName = s_newPropPrefix + newPropIndex;
-            m_current.SetEcellValue(propName, new EcellValue(0.0));
+            EcellObject tmp = m_current.Clone();
+            tmp.SetEcellValue(propName, new EcellValue(0.0));
 
             m_env.DataManager.DataChanged(m_current.ModelID,
-                m_current.Key, m_current.Type, m_current);
+                m_current.Key, m_current.Type, tmp);
         }
 
         /// <summary>

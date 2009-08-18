@@ -599,7 +599,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public void AddDM(string dmName, string path)
         {
             DMNode dNode = new DMNode(dmName);
-            dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
+            string fileName = m_owner.Environment.DataManager.GetDMSourceFileName(dmName);
+            if (File.Exists(fileName))
+                dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDMSource);
+            else
+                dNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathDM);
             dNode.SelectedImageIndex = dNode.ImageIndex;
             dNode.Tag = dmName;
             dNode.ContextMenuStrip = this.contextMenuStripDM;

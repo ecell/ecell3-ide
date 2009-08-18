@@ -247,6 +247,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_line = null;
             CurveList l = m_zCnt.GraphPane.CurveList;
             l.Clear();
+            groupNameLabel.Text = "";
             m_zCnt.Refresh();
         }
 

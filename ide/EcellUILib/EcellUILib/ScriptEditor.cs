@@ -52,6 +52,36 @@ namespace Ecell.IDE
         {
             m_env = env;
             CodeEditorSyntaxLoader.SetSyntax(codeEditorControl, SyntaxLanguage.Python);
+            DMESaveButton.Enabled = true;
+            DMESaveAsButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// set dm file path.
+        /// </summary>
+        public override string path
+        {
+            set
+            {
+                m_path = value;
+                if (m_path != null)
+                {
+                    LoadFile();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void ChangeStatus(ProjectStatus status)
+        {
+            base.ChangeStatus(status);
         }
 
         /// <summary>
@@ -62,7 +92,6 @@ namespace Ecell.IDE
         protected override void DMEditorShown(object sender, EventArgs e)
         {
             DMEComileButton.Text = MessageResources.NameExecute;
-            DMEComileButton.Enabled = false;
 
             if (m_path == null) return;
             LoadFile();
