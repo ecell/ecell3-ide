@@ -122,7 +122,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
             rman.SetStatus(
                 StatusBarMessageKind.QuickInspector,
-                string.Format("X:{0:###.##}, Y:{1:###.##}", pos.X, pos.Y)
+                string.Format("X:{0:####.##}, Y:{1:####.##}", pos.X, pos.Y)
             );
         }
 

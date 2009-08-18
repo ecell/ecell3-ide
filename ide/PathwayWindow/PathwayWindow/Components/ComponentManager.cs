@@ -287,7 +287,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                CreateDefaultSettings();
+                UpdateComponent(CreateDefaultSettings());
                 return;
             }
         }
@@ -471,7 +471,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// 
         /// </summary>
-        internal void CreateDefaultSettings()
+        public List<ComponentSetting> CreateDefaultSettings()
         {
             List<ComponentSetting> list = new List<ComponentSetting>();
             // Set hard coded default system ComponentSettings
@@ -543,7 +543,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defStepperCs.IsGradation = true;
             list.Add(defStepperCs);
 
-            UpdateComponent(list);
+            return list;
         }
 
         /// <summary>
@@ -575,7 +575,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// </summary>
         private void SetComponentSettings()
         {
-            CreateDefaultSettings();
+            UpdateComponent(CreateDefaultSettings());
             string filename = GetUserSettingsFilePath();
             if (File.Exists(filename))
                 LoadSettings(filename);

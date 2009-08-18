@@ -277,7 +277,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   manual_j.pdf に類似しているローカライズされた文字列を検索します。
+        ///   usermanual.pdf に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FileManual {
             get {
