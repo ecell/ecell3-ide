@@ -3631,14 +3631,6 @@ namespace Ecell
             LoadSteppingModelInfo(path);
             if (ApplySteppingModelEvent != null)
                 ApplySteppingModelEvent(this, new SteppingModelEventArgs(m_saveTimeDic[id]));
-            //try
-            //{
-            //    m_env.PluginManager.ChangeStatus(ProjectStatus.Stepping);
-            //}
-            //catch (Exception e)
-            //{
-            //    Trace.WriteLine(e.ToString());
-            //}
         }
 
         /// <summary>

@@ -137,7 +137,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void SetProperty()
+        public override void SetAnimation()
         {
             // Set canvas
             _canvas = _control.Canvas;
@@ -168,7 +168,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void UpdateProperty()
+        public override void UpdateAnimation()
         {
             // write video stream.
             if (_stream != null)
@@ -184,7 +184,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void ResetProperty()
+        public override void StopAnimation()
+        {
+            CloseMovie();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void ResetAnimation()
+        {
+            CloseMovie();
+        }
+
+        private void CloseMovie()
         {
             if (_aviManager != null)
             {

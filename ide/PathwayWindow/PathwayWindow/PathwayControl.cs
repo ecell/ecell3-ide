@@ -579,7 +579,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
         }
 
         /// <summary>
@@ -628,7 +628,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
 
         }
 
@@ -745,7 +745,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.SelectChanged(key, type);
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
 
         }
 
@@ -765,7 +765,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.AddSelect(key, type);
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
 
         }
 
@@ -785,7 +785,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.RemoveSelect(key, type);
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
 
         }
 
@@ -799,7 +799,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.ResetSelect();
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
 
         }
 
@@ -812,7 +812,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             SetNodeIcons();
             if (m_animCon.DoesAnimationOnGoing)
-                m_animCon.SetPropForSimulation();
+                m_animCon.SetAnimation();
         }
         /// <summary>
         /// 
@@ -1277,7 +1277,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 Debug.WriteLine(e.Message);
                 if (m_isAnimation)
-                    m_animCon.SetPropForSimulation();
+                    m_animCon.SetAnimation();
                 throw new PathwayException("Error DataChange: " + oldKey, e);
             }
         }

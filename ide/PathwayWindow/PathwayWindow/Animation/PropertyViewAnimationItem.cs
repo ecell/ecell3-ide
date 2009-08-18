@@ -200,9 +200,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void SetProperty()
+        public override void SetAnimation()
         {
-            base.SetProperty();
+            base.SetAnimation();
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
@@ -241,9 +241,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void UpdateProperty()
+        public override void UpdateAnimation()
         {
-            base.UpdateProperty();
+            base.UpdateAnimation();
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
@@ -275,13 +275,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void ResetProperty()
+        public override void StopAnimation()
         {
-            if (_control.Control.IsAnimation)
-            {
-                SetProperty();
-                return;
-            }
+            UpdateAnimation();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void ResetAnimation()
+        {
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
@@ -292,7 +295,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             {
                 process.Property.Visible = false;
             }
-            base.ResetProperty();
+            base.ResetAnimation();
 
         }
         #endregion

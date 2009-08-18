@@ -338,11 +338,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _con.AnimationChange += new EventHandler(m_con_AnimationChange);
             LoadSettings();
             _dManager = _con.Window.DataManager;
+            _dManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(_dManager_ApplySteppingModelEvent);
             // Set Timer.
             _timer = new Timer();
             _timer.Enabled = false;
             _timer.Interval = 200;
             _timer.Tick += new EventHandler(TimerFire);
+        }
+
+        void _dManager_ApplySteppingModelEvent(object o, Ecell.Events.SteppingModelEventArgs e)
+        {
+            SetAnimationStatus();
         }
 
         void m_con_AnimationChange(object sender, EventArgs e)
@@ -356,9 +362,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void SetAnimationStatus()
         {
             if (_con.IsAnimation)
-                SetPropForSimulation();
+                SetAnimation();
             else
-                ResetPropForSimulation();
+                ResetAnimation();
         }
 
         /// <summary>
@@ -366,7 +372,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void Dispose()
         {
-            ResetPropForSimulation();
+            ResetAnimation();
             _con.ProjectStatusChange -= Control_ProjectStatusChange;
         }
 
@@ -402,7 +408,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             else
             {
-                ResetPropForSimulation();
+                ResetAnimation();
             }
         }
 
@@ -417,7 +423,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void TimerFire(object sender, EventArgs e)
         {
             _timer.Enabled = false;
-            UpdatePropForSimulation();
+            UpdateAnimation();
             _timer.Enabled = true;
         }
         /// <summary>
@@ -425,7 +431,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void StartSimulation()
         {
-            SetPropForSimulation();
+            SetAnimation();
 
             TimerStart();
             _isPausing = true;
@@ -437,6 +443,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void PauseSimulation()
         {
             TimerStop();
+            UpdateAnimation();
             _isPausing = true;
         }
         /// <summary>
@@ -447,7 +454,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             TimerStop();
             _isPausing = false;
             // Reset
-            ResetPropForSimulation();
+            StopAnimation();
         }
         /// <summary>
         /// Start Timer.
@@ -472,7 +479,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public void SetPropForSimulation()
+        public void SetAnimation()
         {
             if (_con.Canvas == null)
                 return;
@@ -480,27 +487,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _canvas = _con.Canvas;
             _canvas.BackGroundBrush = _viewBGBrush;
             _format = _con.Window.DataManager.DisplayStringFormat;
-
+            // SetAnimation
             foreach (IAnimationItem item in _items)
             {
-                item.SetProperty();
+                item.SetAnimation();
             }
 
             if (_isPausing)
-                UpdatePropForSimulation();
+                UpdateAnimation();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void UpdatePropForSimulation()
+        public void UpdateAnimation()
         {
             if (_canvas == null)
                 return;
             // Do animation
             foreach (IAnimationItem item in _items)
             {
-                item.UpdateProperty();
+                item.UpdateAnimation();
             }
 
             _canvas.PCanvas.Refresh();
@@ -509,7 +516,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public void ResetPropForSimulation()
+        public void StopAnimation()
+        {
+            if (_canvas == null)
+                return;
+            // Stop animation
+            foreach (IAnimationItem item in _items)
+            {
+                item.StopAnimation();
+            }
+
+            _canvas.PCanvas.Refresh();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ResetAnimation()
         {
             TimerStop();
             if (_canvas == null)
@@ -517,10 +540,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set Canvas
             _canvas.BackGroundBrush = _editBGBrush;
 
-            //
+            // Reset
             foreach (IAnimationItem item in _items)
             {
-                item.ResetProperty();
+                item.ResetAnimation();
             }
 
         }
@@ -736,7 +759,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Reset Animation Status.
                 foreach (IAnimationItem item in _items)
                 {
-                    item.ResetProperty();
+                    item.ResetAnimation();
                 }
                 _items.Clear();
                 _items.AddRange(dlg.Items);

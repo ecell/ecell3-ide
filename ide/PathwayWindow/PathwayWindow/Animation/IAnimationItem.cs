@@ -42,17 +42,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// Initialize Animation
         /// </summary>
-        void SetProperty();
+        void SetAnimation();
 
         /// <summary>
         /// Update Animation
         /// </summary>
-        void UpdateProperty();
+        void UpdateAnimation();
+
+        /// <summary>
+        /// Stop Animation
+        /// </summary>
+        void StopAnimation();
 
         /// <summary>
         /// Reset Animation.
         /// </summary>
-        void ResetProperty();
+        void ResetAnimation();
 
         /// <summary>
         /// Set Setting Panel.

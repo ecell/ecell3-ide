@@ -120,7 +120,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         [Test()]
         public void TestSetPropForSimulation()
         {
-            _unitUnderTest.SetPropForSimulation();
+            _unitUnderTest.SetAnimation();
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -130,7 +130,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         [Test()]
         public void TestUpdatePropForSimulation()
         {
-            _unitUnderTest.UpdatePropForSimulation();
+            _unitUnderTest.UpdateAnimation();
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -140,7 +140,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         [Test()]
         public void TestResetPropForSimulation()
         {
-            _unitUnderTest.ResetPropForSimulation();
+            _unitUnderTest.ResetAnimation();
             Assert.Fail("Create or modify test(s).");
 
         }

@@ -186,12 +186,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
 
         private static string CreateSVGHeader(CanvasControl canvas)
         {
+            // Set root system's rect.
             PPathwaySystem system = canvas.Systems[Constants.delimiterPath];
             RectangleF rect = system.Rect;
             rect.X -= 50f;
             rect.Y -= 50f;
             rect.Width += 100f;
             rect.Height += 100f;
+            // Add Stepper width.
+            float stepperWidth = 0f;
+            foreach (PPathwayStepper stepper in canvas.Steppers.Values)
+            {
+                if (stepper.Width > stepperWidth)
+                    stepperWidth = stepper.Width;
+            }
+            rect.Width += stepperWidth;
+
+            // Create SVG canvas.
             float viewWidth = rect.Width * 0.7f;
             float viewHeight = rect.Height * 0.7f;
             string header = "<svg xmlns=\"http://www.w3.org/2000/svg\""
@@ -202,7 +213,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             + rect.Y.ToString() + " "
             + rect.Width.ToString() + " "
             + rect.Height.ToString() + "\">\n";
-            // Set BackGround
+            // Set BackGround brush
             string brush = BrushManager.ParseBrushToString(canvas.BackGroundBrush);
             header += SVGUtil.Rectangle(rect, brush, brush);
             return header;

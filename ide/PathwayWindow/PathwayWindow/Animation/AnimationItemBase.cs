@@ -155,7 +155,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public virtual void SetProperty()
+        public virtual void SetAnimation()
         {
             if (_control == null)
                 return;
@@ -175,14 +175,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public virtual void UpdateProperty()
+        public virtual void UpdateAnimation()
+        {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void StopAnimation()
         {
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void ResetProperty()
+        public virtual void ResetAnimation()
         {
             ResetDic();
         }

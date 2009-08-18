@@ -242,9 +242,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void SetProperty()
+        public override void SetAnimation()
         {
-            base.SetProperty();
+            base.SetAnimation();
 
             if (_autoThreshold)
                 _thresholdHigh = 0;
@@ -273,7 +273,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void UpdateProperty()
+        public override void UpdateAnimation()
         {
             foreach (PPathwayProcess process in _processes)
             {
@@ -315,14 +315,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public override void ResetProperty()
+        public override void StopAnimation()
         {
-            if (_control.Control.IsAnimation)
-            {
-                SetProperty();
-                return;
-            }
+            UpdateAnimation();
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void ResetAnimation()
+        {
             Brush editEdgeBrush = _control.EditEdgeBrush;
             float normalEdgeWidth = _control.EdgeWidth;
             foreach (PPathwayProcess process in _processes)
@@ -338,7 +340,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     line.EdgeWidth = normalEdgeWidth;
                 }
             }
-            base.ResetProperty();
+            base.ResetAnimation();
         }
 
         /// <summary>
@@ -368,7 +370,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _ngEdgeBrush = edgeNGBrush.Brush;
 
             if (_control.DoesAnimationOnGoing)
-                UpdateProperty();
+                UpdateAnimation();
 
         }
         #endregion
