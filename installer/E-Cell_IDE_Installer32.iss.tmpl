@@ -353,7 +353,8 @@ Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 
 [Icons]
 Name: "{group}\E-Cell IDE"; Filename: "{app}\bin\ecell-ide.exe"; IconIndex: 0; Components: extension
-Name: "{commondesktop}\E-Cell IDE"; Filename: "{app}\bin\ecell-ide.exe"; IconIndex: 0; Components: extension
+Name: "{commondesktop}\E-Cell IDE"; Filename: "{app}\bin\ecell-ide.exe"; IconIndex: 0; Components: extension ; Tasks: desktopiconen
+Name: "{commondesktop}\E-Cell IDE"; Filename: "{app}\bin\ecell-ide.exe"; IconIndex: 0; Components: extension ; Tasks: desktopiconjp
 Name: "{group}\samples\BrabchG"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "branchG.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\branchG\Model\"; Components: extension
 ;Name: "{group}\samples\Cascade"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "cascade.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\cascade\Model\";Components: extension
 Name: "{group}\samples\Drosophila"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "Drosophila.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\Drosophila\Model\";Components: extension
@@ -388,6 +389,10 @@ en.IDE_DotNet=This application needs Microsoft .NET Framework version 2.0. %nPle
 jp.IDE_DotNet=Microsoft .NET Frameworkがインストールされていません。%nダウンロード及びインストール手順の確認は以下のURLにアクセスしてください。%n%n (http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&DisplayLang=ja)
 en.IDE_Installed=E-Cell IDE is already installed, please unistall E-Cell IDE.
 jp.IDE_Installed=E-Cell IDEがインストールされています。E-Cell IDEをアンインストールしてください。
+
+[Tasks]
+Name: "desktopiconen"; Description: "Create a desktop shortcut"; Components: main extension sample; Languages: en;
+Name: "desktopiconjp"; Description: "デスクトップショートカットを作成します"; Components: main extension sample; Languages: jp;
 
 [Code]
 function IsModuleLoaded(modulename: String ):  Boolean;
