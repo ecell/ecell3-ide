@@ -126,6 +126,11 @@
     </Compile>
     <Compile Include="DockWindowSerializer.cs">
     </Compile>
+    <Compile Include="MessageResources.ja.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResources.ja.resx</DependentUpon>
+    </Compile>
     <Compile Include="UIComponents\GeneralConfigurationPage.cs">
       <SubType>UserControl</SubType>
     </Compile>

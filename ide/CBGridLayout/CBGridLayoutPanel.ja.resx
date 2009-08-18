@@ -117,19 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.Text" xml:space="preserve">
-    <value>CBグリッド</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>CBによるグリッドレイアウト</value>
   </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
     <value>反発係数</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>引力係数</value>
   </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
   <data name="label4.Text" xml:space="preserve">
     <value>反復回数</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 12</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>ノード間距離</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>CBグリッド</value>
   </data>
 </root>

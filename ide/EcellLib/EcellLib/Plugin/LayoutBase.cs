@@ -192,6 +192,94 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
+        /// Set Grid position.
+        /// </summary>
+        /// <param name="nodeList"></param>
+        /// <param name="systemList"></param>
+        /// <param name="margin">distance between</param>
+        public void SetGrid(List<EcellObject> nodeList, List<EcellObject> systemList, float margin)
+        {
+            Dictionary<string, List<PointF>> gridDic = GetLayoutGrid(systemList, 60f);
+            foreach (EcellObject entity in nodeList)
+            {
+                // Get nearest point
+                List<PointF> grids = gridDic[entity.ParentSystemID];
+                PointF point = entity.PointF;
+                PointF newPos = point;
+                float dist = GetDistance(point, grids[0]);
+                foreach (PointF grid in grids)
+                {
+                    float temp = GetDistance(point, grid);
+                    if (dist < temp)
+                        continue;
+                    // set grid.
+                    newPos = grid;
+                    dist = temp;
+                }
+                grids.Remove(newPos);
+                entity.PointF = newPos;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point1"></param>
+        /// <param name="point2"></param>
+        /// <returns></returns>
+        public float GetDistance(PointF point1, PointF point2)
+        {
+            float dist = (float)Math.Sqrt(Math.Pow((double)(point1.X - point2.X), 2d) + Math.Pow((double)(point1.Y - point2.Y), 2d));
+            return dist;
+
+        }
+
+        /// <summary>
+        /// Create LayoutGrid with
+        /// </summary>
+        /// <param name="systemList"></param>
+        /// <returns></returns>
+        public static Dictionary<string, List<PointF>> GetLayoutGrid(List<EcellObject> systemList, float margin)
+        {
+            Dictionary<string, List<PointF>> gridDic = new Dictionary<string, List<PointF>>();
+            // Set Grid
+            foreach (EcellObject system in systemList)
+            {
+                List<PointF> list = new List<PointF>();
+                for (int x = (int)(system.X + margin /2f); x < system.Layout.Right; )
+                {
+                    for (int y = (int)(system.Y + margin / 2f); y < system.Layout.Bottom; )
+                    {
+                        list.Add(new PointF((float)x,(float)y));
+                        y = y + (int)margin;
+                    }
+                    x = x + (int)margin;
+                }
+                gridDic.Add(system.Key, list);
+            }
+            // Remove duplicated point.
+            foreach (EcellObject system in systemList)
+            {
+                if (!gridDic.ContainsKey(system.ParentSystemID))
+                    continue;
+
+                List<PointF> list = gridDic[system.ParentSystemID];
+                List<PointF> temp = new List<PointF>();
+                RectangleF rect = system.Rect;
+                foreach (PointF grid in list)
+                {
+                    if (rect.Contains(grid))
+                        temp.Add(grid);
+                }
+                foreach (PointF grid in temp)
+                {
+                    list.Remove(grid);
+                }
+            }
+            return gridDic;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="pointA"></param>

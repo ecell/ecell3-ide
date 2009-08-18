@@ -47,6 +47,7 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         #region Fields
         private float m_kr = 200f;
         private float m_ka = 0.01f;
+        private float m_margin = 60f;
         private int m_iteration = 100;
         #endregion
 
@@ -77,6 +78,12 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         {
             get { return m_iteration; }
             set { this.m_iteration = value; }
+        }
+
+        public float Margin
+        {
+            get { return m_margin; }
+            set { this.m_margin = value; }
         }
         #endregion
 
@@ -151,6 +158,9 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                 {
                     EcellVariable variable = null;
                     varDic.TryGetValue(er.Key, out variable);
+                    if (variable == null)
+                        continue;
+
                     LayoutReference lr = new LayoutReference(process, variable);
                     references.Add(lr);
                 }
@@ -192,7 +202,11 @@ namespace Ecell.IDE.Plugins.CBGridLayout
             {
                 node.X = node.X + node.OffsetX;
                 node.Y = node.Y + node.OffsetY;
+                node.OffsetX = 0;
+                node.OffsetY = 0;
             }
+            // Set Grid
+            SetGrid(nodeList, systemList, m_margin);
             return true;
         }
 
@@ -224,28 +238,44 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         }
 
         /// <summary>
-        /// 
+        /// a function that calculates the costs 
+        /// from the sum of the vertex-edge crossings between ev ∈ E'v ⊂ Ev and
+        /// v' ∈ V' for all the mappings of v to a point.
         /// </summary>
-        private void SetEdgeVertex()
-        {
-        }
-
         private void SetEdgeEdge()
         {
         }
 
         /// <summary>
-        /// 
+        /// a function that calculates the costs
+        /// from the sum of the vertex-edge crossings between ev ∈ E'v ⊂ Ev and 
+        /// v' ∈ V' for all the mappings of v to a point.
+        /// </summary>
+        private void SetEdgeVertex()
+        {
+        }
+
+        /// <summary>
+        /// a function that calculates the costs from
+        /// the sum of the vertex-edge crossings between v and e ∈ E for all the
+        /// mappings of v to a point.
         /// </summary>
         private void SetVertexEdge()
         {
         }
 
         /// <summary>
-        /// 
+        ///  a function that calculates the sum of the distance costs between
+        ///  v and v ∈ V  for all the mappings of v to a point.
         /// </summary>
-        private void SetDistance()
+        private float SetDistance(EcellObject obj, List<EcellObject> list)
         {
+            float distance = 0;
+            foreach(EcellObject eo in list)
+            {
+
+            }
+            return distance;
         }
 
         /// <summary>
