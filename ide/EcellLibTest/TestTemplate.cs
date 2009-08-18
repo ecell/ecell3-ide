@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Ecell
 {
@@ -90,6 +91,27 @@ namespace Ecell
             {
                 Trace.WriteLine(e.StackTrace);
             }
+        }
+
+        
+        /// <summary>
+        /// Test SampleCode
+        /// </summary>
+        [Test()]
+        public void TestSampleCode()
+        {
+            List<PointF> list = new List<PointF>();
+            PointF point1 = new PointF(0, 0);
+            list.Add(point1);
+
+            Assert.IsTrue(list.Contains(point1));
+
+            PointF point2 = new PointF(0, 0);
+            Assert.IsTrue(list.Contains(point2));
+
+            PointF point3 = new PointF(0, 10);
+            Assert.IsFalse(list.Contains(point3));
+
         }
 
     }

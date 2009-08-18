@@ -471,7 +471,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <summary>
         /// 
         /// </summary>
-        public List<ComponentSetting> CreateDefaultSettings()
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static ComponentSetting CreateDefaultSetting(string type)
+        {
+            ComponentSetting cs = null;
+            List<ComponentSetting> list = CreateDefaultSettings();
+            foreach (ComponentSetting c in list)
+            {
+                if (c.Type.Equals(type))
+                    cs = c;
+            }
+            return cs;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static List<ComponentSetting> CreateDefaultSettings()
         {
             List<ComponentSetting> list = new List<ComponentSetting>();
             // Set hard coded default system ComponentSettings

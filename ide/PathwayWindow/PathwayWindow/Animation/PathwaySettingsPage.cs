@@ -77,6 +77,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 m_viewModeItems.ApplyChanges();
                 // SaveSettings
                 m_con.SaveSettings();
+                m_con.Canvas.RefreshEdges();
 
                 // Set canvas BG brush.
                 m_con.SetAnimationStatus();

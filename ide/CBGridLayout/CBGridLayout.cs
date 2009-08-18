@@ -106,9 +106,18 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         public override bool DoLayout(int subCommandNum, bool layoutSystem, List<Ecell.Objects.EcellObject> systemList, List<Ecell.Objects.EcellObject> nodeList)
         {
 
-            float Kr = 10;
-            float Ka = 0.001f;
-            int iterations = 10;
+            float Kr = 200;
+            float Ka = 0.01f;
+            int iterations = 100;
+            Dictionary<string, EcellVariable> varDic = new Dictionary<string, EcellVariable>();
+            foreach (EcellObject obj in nodeList)
+            {
+                if (!(obj is EcellVariable))
+                    continue;
+                EcellVariable variable = (EcellVariable)obj;
+                varDic.Add(variable.Key, variable);
+            }
+
             // Set references
             List<LayoutReference> references = new List<LayoutReference>();
             foreach (EcellObject obj in nodeList)
@@ -118,18 +127,22 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                 EcellProcess process = (EcellProcess)obj;
                 foreach (EcellReference er in process.ReferenceList)
                 {
-
+                    EcellVariable variable = null;
+                    varDic.TryGetValue(er.Key, out variable);
+                    LayoutReference lr = new LayoutReference(process, variable);
+                    references.Add(lr);
                 }
             }
 
             for (int i = 0; i < iterations; i++)
             {
-                // calculate repulsive forces
+                // calculate repulsive & attractive forces
                 foreach (EcellObject node1 in nodeList)
                 {
                     // each vertex has two vectors: pos and disp
                     node1.OffsetX = 0.0f;
                     node1.OffsetY = 0.0f;
+                    // calculate repulsive forces
                     foreach (EcellObject node2 in nodeList)
                     {
                         if (node1 == node2)
@@ -151,6 +164,12 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                         lr.Variable.OffsetY += delta.Y * Ka;
                     }
                 }
+            }
+            // Set Layout
+            foreach (EcellObject node in nodeList)
+            {
+                node.X = node.X + node.OffsetX;
+                node.Y = node.Y + node.OffsetY;
             }
             return true;
         }

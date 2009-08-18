@@ -109,9 +109,6 @@
     <Compile Include="Animation\AnimationSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Animation\AnimationSettingsPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Animation\EdgeAnimationItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,14 +270,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\AnimationSettings.resx">
       <DependentUpon>AnimationSettings.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Animation\AnimationSettingsPage.ja.resx">
-      <DependentUpon>AnimationSettingsPage.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Animation\AnimationSettingsPage.resx">
-      <DependentUpon>AnimationSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\EdgeAnimationItem.ja.resx">
