@@ -82,7 +82,7 @@ namespace Ecell
             EcellData data = obj.GetEcellData(Constants.xpathActivity);
             Assert.IsTrue(data.Logged, "Logger info in leml is unexpected value.");            
 
-            _unitUnderTest.SaveProject(ProjectType.Project);
+            _unitUnderTest.SaveProject();
         }
         
         /// <summary>

@@ -1720,7 +1720,7 @@ namespace Ecell
             {
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
                 _unitUnderTest.CurrentProject.Info.Name = "Drosophila2";
-                _unitUnderTest.SaveProject(ProjectType.Project);
+                _unitUnderTest.SaveProject();
             }
             catch (Exception)
             {
@@ -1734,7 +1734,7 @@ namespace Ecell
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
                 _unitUnderTest.StartStepSimulation(1.0, true);
                 _unitUnderTest.CurrentProject.Info.Name = "Drosophila2";
-                _unitUnderTest.SaveProject(ProjectType.Project);             
+                _unitUnderTest.SaveProject();             
                 _unitUnderTest.SimulationStop();
             }
             catch (Exception)

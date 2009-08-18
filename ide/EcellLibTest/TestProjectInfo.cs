@@ -363,7 +363,7 @@ namespace Ecell
                 // Load and Save.
                 string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
-                info1.Save(ProjectType.Project);
+                info1.Save();
 
             }
             catch (Exception e)
@@ -377,7 +377,7 @@ namespace Ecell
                 // Load and Save.
                 string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
-                info1.Save(infoFile1, ProjectType.Project);
+                info1.Save(infoFile1);
             }
             catch (Exception e)
             {
@@ -390,7 +390,7 @@ namespace Ecell
                 // Save to Another Directory.
                 string infoFile1 = TestConstant.Model_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
-                info1.Save(infoFile1, ProjectType.Project);
+                info1.Save(infoFile1);
             }
             catch (Exception e)
             {
@@ -403,7 +403,7 @@ namespace Ecell
                 // Load and Save.
                 string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
-                info1.Save(infoFile1, ProjectType.Project);
+                info1.Save(infoFile1);
             }
             catch (Exception e)
             {
@@ -419,7 +419,7 @@ namespace Ecell
                 if (Directory.Exists(saveDir))                    
                     Directory.Delete(saveDir, true);
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
-                info1.Save(saveDir, ProjectType.Project);
+                info1.Save(saveDir);
             }
             catch (Exception e)
             {
@@ -436,7 +436,7 @@ namespace Ecell
             try
             {
                 ProjectInfo info = new ProjectInfo();
-                info.Save(ProjectType.Project);
+                info.Save();
                 Assert.Fail("Incorrect null check.");
             }
             catch (Exception e)
@@ -447,7 +447,7 @@ namespace Ecell
             try
             {
                 ProjectInfo info = new ProjectInfo();
-                info.Save(ProjectType.Project);
+                info.Save();
                 Assert.Fail("Incorrect null check.");
             }
             catch (Exception e)
@@ -468,7 +468,7 @@ namespace Ecell
                 string infoFile1 = TestConstant.Project_CoupledOscillator;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.FindModels();
-                info1.Save(ProjectType.Project);
+                info1.Save();
 
             }
             catch (Exception e)
