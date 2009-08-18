@@ -1455,8 +1455,14 @@ namespace Ecell
             if (entity is EcellProcess)
             {
                 EcellProcess process = (EcellProcess)entity;
-                string stepper = process.StepperID;
-                if (!m_currentProject.StepperDic.ContainsKey(stepper))
+                string stepperID = process.StepperID;
+                EcellObject stepper = null;
+                foreach (EcellObject s in GetStepper(modelID))
+                {
+                    if (s.Key.Equals(stepperID))
+                        stepper = s;
+                }
+                if (stepper == null)
                     process.StepperID = GetStepper(entity.ModelID)[0].Key;
             }
 

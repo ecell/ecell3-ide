@@ -94,6 +94,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             // Resizing is aborted
             m_obj.ResetPosition();
+            foreach (PPathwaySystem system in m_canvas.Systems.Values)
+            {
+                system.ResetPosition();
+            }
             ValidateSystem();
             m_obj.RefreshView();
             Update();
@@ -228,7 +232,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     obj.OffsetX = newX - obj.EcellObject.X;
                     obj.OffsetY = newY - obj.EcellObject.Y;
                     obj.Width = obj.EcellObject.Width * xx;
+                    if (obj.Width < PPathwaySystem.MIN_WIDTH)
+                        obj.Width = PPathwaySystem.MIN_WIDTH;
                     obj.Height = obj.EcellObject.Height * yy;
+                    if (obj.Height < PPathwaySystem.MIN_HEIGHT)
+                        obj.Height = PPathwaySystem.MIN_HEIGHT;
+                    obj.;
                 }
                 else
                 {
