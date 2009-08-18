@@ -214,6 +214,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public PathwayResizeHandler ResizeHandler
+        {
+            get { return m_resizeHandler; }
+            set { m_resizeHandler = value; }
+        }
+
+        /// <summary>
         /// Accessor for Text.
         /// </summary>
         public PText PText

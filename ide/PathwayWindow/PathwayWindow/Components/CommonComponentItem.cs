@@ -266,6 +266,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Setting = cs;
             this.pCanvas.Object.Text = "Sample";
             this.pCanvas.Object.Refresh();
+            this.figureComboBox.ComboBox.Items.Clear();
+            this.figureComboBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
 
             this.textColorBrushComboBox.Brush = cs.TextBrush;
             this.lineColorBrushComboBox.Brush = cs.LineBrush;

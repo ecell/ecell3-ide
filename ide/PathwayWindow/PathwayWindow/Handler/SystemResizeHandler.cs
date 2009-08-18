@@ -237,7 +237,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     obj.Height = obj.EcellObject.Height * yy;
                     if (obj.Height < PPathwaySystem.MIN_HEIGHT)
                         obj.Height = PPathwaySystem.MIN_HEIGHT;
-                    obj.;
+                    obj.ResizeHandler.Update();
                 }
                 else
                 {
