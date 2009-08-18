@@ -259,7 +259,7 @@ namespace Ecell.IDE.MainWindow
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
             this.Name = "EcellWebBrowser";
-            this.TabText = "ウェブブラウザ";
+            this.TabText = this.Text;
             this.ToolTipText = null;
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
