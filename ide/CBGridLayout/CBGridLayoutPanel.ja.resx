@@ -120,4 +120,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>CBグリッド</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>CBによるグリッドレイアウト</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>反発係数</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>引力係数</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>反復回数</value>
+  </data>
 </root>

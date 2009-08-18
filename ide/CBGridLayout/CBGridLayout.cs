@@ -44,6 +44,12 @@ namespace Ecell.IDE.Plugins.CBGridLayout
     /// </summary>
     public class CBGridLayout : LayoutBase
     {
+        #region Fields
+        private float m_kr = 200f;
+        private float m_ka = 0.01f;
+        private int m_iteration = 100;
+        #endregion
+
         #region Constructor
         /// <summary>
         /// 
@@ -51,6 +57,26 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         public CBGridLayout()
         {
             m_panel = new CBGridLayoutPanel(this);
+        }
+        #endregion
+
+        #region Accessors
+        public float Kr
+        {
+            get { return m_kr; }
+            set { this.m_kr = value; }
+        }
+
+        public float Ka
+        {
+            get { return m_ka; }
+            set { this.m_ka = value; }
+        }
+
+        public int Iteration
+        {
+            get { return m_iteration; }
+            set { this.m_iteration = value; }
         }
         #endregion
 
@@ -105,10 +131,6 @@ namespace Ecell.IDE.Plugins.CBGridLayout
         /// <returns></returns>
         public override bool DoLayout(int subCommandNum, bool layoutSystem, List<Ecell.Objects.EcellObject> systemList, List<Ecell.Objects.EcellObject> nodeList)
         {
-
-            float Kr = 200;
-            float Ka = 0.01f;
-            int iterations = 100;
             Dictionary<string, EcellVariable> varDic = new Dictionary<string, EcellVariable>();
             foreach (EcellObject obj in nodeList)
             {
@@ -134,7 +156,7 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                 }
             }
 
-            for (int i = 0; i < iterations; i++)
+            for (int i = 0; i < m_iteration; i++)
             {
                 // calculate repulsive & attractive forces
                 foreach (EcellObject node1 in nodeList)
@@ -149,8 +171,8 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                             continue;
                         PointF delta = new PointF(node1.X - node2.X, node1.Y - node2.Y);
                         double r = Math.Sqrt(Math.Pow((double)delta.X, 2) + Math.Pow((double)delta.Y, 2));
-                        node1.OffsetX += delta.X * Kr / (float)Math.Pow(r, 2);
-                        node1.OffsetY += delta.Y * Kr / (float)Math.Pow(r, 2);
+                        node1.OffsetX += delta.X * m_kr / (float)Math.Pow(r, 2);
+                        node1.OffsetY += delta.Y * m_kr / (float)Math.Pow(r, 2);
                     }
 
                     // calculate attractive force
@@ -158,10 +180,10 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                     {
                         PointF delta = lr.Delta;
                         double r = Math.Sqrt(Math.Pow(delta.X, 2) + Math.Pow(delta.Y, 2));
-                        lr.Process.OffsetX -= delta.X * Ka;
-                        lr.Process.OffsetY -= delta.Y * Ka;
-                        lr.Variable.OffsetX += delta.X * Ka;
-                        lr.Variable.OffsetY += delta.Y * Ka;
+                        lr.Process.OffsetX -= delta.X * m_ka;
+                        lr.Process.OffsetY -= delta.Y * m_ka;
+                        lr.Variable.OffsetX += delta.X * m_ka;
+                        lr.Variable.OffsetY += delta.Y * m_ka;
                     }
                 }
             }

@@ -199,7 +199,7 @@ namespace Ecell.IDE.Plugins.GridLayout
                 return;
             }
             float dummy;
-            if (!float.TryParse(text, out dummy))
+            if (!float.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResGridLayout.ErrInvalidValue, defMargin.Text));
                 defMargin.Text = Convert.ToString(alogorithm.DefMargin);
@@ -224,7 +224,7 @@ namespace Ecell.IDE.Plugins.GridLayout
                 return;
             }
             float dummy;
-            if (!float.TryParse(text, out dummy))
+            if (!float.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResGridLayout.ErrInvalidValue, annealingRepeats.Text));
                 annealingRepeats.Text = Convert.ToString(alogorithm.Kmax);
@@ -250,7 +250,7 @@ namespace Ecell.IDE.Plugins.GridLayout
                 return;
             }
             float dummy;
-            if (!float.TryParse(text, out dummy))
+            if (!float.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResGridLayout.ErrInvalidValue, initialT.Text));
                 initialT.Text = Convert.ToString(alogorithm.InitialT);
@@ -276,7 +276,7 @@ namespace Ecell.IDE.Plugins.GridLayout
                 return;
             }
             float dummy;
-            if (!float.TryParse(text, out dummy))
+            if (!float.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResGridLayout.ErrInvalidValue, naturalLength.Text));
                 naturalLength.Text = Convert.ToString(alogorithm.NaturalLength);
