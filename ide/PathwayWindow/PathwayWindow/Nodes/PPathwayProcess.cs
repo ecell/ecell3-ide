@@ -166,7 +166,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             try
             {
-                Brush brush = m_canvas.Control.Animation.EdgeBrush;
                 float width = m_canvas.Control.Animation.EdgeWidth;
                 foreach (EcellReference er in list)
                 {
@@ -177,7 +176,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     EdgeInfo edge = new EdgeInfo(process.Key, list, er);
                     PPathwayLine line = new PPathwayLine(m_canvas, edge, this, var);
                     m_layer.AddChild(line);
-                    line.EdgeBrush = brush;
                     line.EdgeWidth = width;
                     line.Selected = this.Selected || var.Selected;
                     line.Visible = this.Visible && var.Visible;

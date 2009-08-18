@@ -363,6 +363,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         void PluginManager_Refresh(object sender, EventArgs e)
         {
             m_canvas.RefreshEdges();
+            m_animCon.SetAnimationStatus();
         }
         #endregion
 

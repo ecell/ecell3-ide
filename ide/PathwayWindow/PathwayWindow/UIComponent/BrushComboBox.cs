@@ -133,6 +133,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.imageComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
             this.imageComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.imageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             this.imageComboBox.FormattingEnabled = true;
             this.imageComboBox.Items.AddRange(new object[] {
             "AliceBlue",

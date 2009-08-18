@@ -50,12 +50,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// High threshold of edge animation.
         /// </summary>
-        private float _thresholdHigh = 100f;
+        private double _thresholdHigh = 100f;
 
         /// <summary>
         /// Low threshold of edge animation.
         /// </summary>
-        private float _thresholdLow = 0f;
+        private double _thresholdLow = 0f;
 
         /// <summary>
         /// Max edge width on edge animation.
@@ -264,7 +264,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Set threshold
                 if (!_autoThreshold)
                     continue;
-                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
+                double activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 SetThreshold(activity);
             }
 
@@ -281,7 +281,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
 
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
+                double activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 float width = GetEdgeWidth(activity);
                 Brush brush = GetEdgeBrush(activity);
 
@@ -299,7 +299,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
-                float molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                double molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                 float width = GetEdgeWidth(molerConc);
                 Brush brush = GetEdgeBrush(molerConc);
 
@@ -317,6 +317,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetProperty()
         {
+            if (_control.Control.IsAnimation)
+            {
+                SetProperty();
+                return;
+            }
+
             Brush editEdgeBrush = _control.EditEdgeBrush;
             float normalEdgeWidth = _control.EdgeWidth;
             foreach (PPathwayProcess process in _processes)
@@ -372,15 +378,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
-        private float GetEdgeWidth(float activity)
+        private float GetEdgeWidth(double activity)
         {
-            if (float.IsNaN(activity))
+            if (double.IsNaN(activity))
                 return 0f;
             else if (activity <= _thresholdLow || _thresholdHigh == 0f)
                 return 0f;
             else if (activity >= _thresholdHigh)
                 return _maxEdgeWidth;
-            return _maxEdgeWidth * activity / _thresholdHigh;
+            return (float)(_maxEdgeWidth * activity / _thresholdHigh);
         }
 
         /// <summary>
@@ -388,9 +394,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
-        private Brush GetEdgeBrush(float activity)
+        private Brush GetEdgeBrush(double activity)
         {
-            if (float.IsNaN(activity) || float.IsInfinity(activity))
+            if (double.IsNaN(activity) || double.IsInfinity(activity))
                 return _ngEdgeBrush;
             else if (activity <= _thresholdLow)
                 return _lowEdgeBrush;
@@ -403,7 +409,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Set threshold
         /// </summary>
         /// <param name="activity"></param>
-        private void SetThreshold(float activity)
+        private void SetThreshold(double activity)
         {
             if (activity > _thresholdHigh)
                 _thresholdHigh = activity;

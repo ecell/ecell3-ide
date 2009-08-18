@@ -65,11 +65,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// High threshold of edge animation.
         /// </summary>
-        private float _thresholdHigh = 100f;
+        private double _thresholdHigh = 100d;
         /// <summary>
         /// Low threshold of edge animation.
         /// </summary>
-        private float _thresholdLow = 0f;
+        private double _thresholdLow = 0d;
         /// <summary>
         /// Normal edge width.
         /// </summary>
@@ -188,7 +188,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// Get/Set m_thresholdHigh
         /// </summary>
-        public float ThresholdHigh
+        public double ThresholdHigh
         {
             get { return _thresholdHigh; }
             set { _thresholdHigh = value; }
@@ -197,7 +197,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// Get/Set m_thresholdLow
         /// </summary>
-        public float ThresholdLow
+        public double ThresholdLow
         {
             get { return _thresholdLow; }
             set { _thresholdLow = value; }
@@ -355,10 +355,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void m_con_AnimationChange(object sender, EventArgs e)
         {
-            if(_con.IsAnimation)
-                SetSimulationStatus();
+            SetAnimationStatus();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SetAnimationStatus()
+        {
+            if (_con.IsAnimation)
+                SetPropForSimulation();
             else
-                StopSimulation();
+                ResetPropForSimulation();
         }
 
         /// <summary>
@@ -366,7 +374,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void Dispose()
         {
-            StopSimulation();
+            ResetPropForSimulation();
             _con.ProjectStatusChange -= Control_ProjectStatusChange;
         }
 
@@ -390,44 +398,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e"></param>
         void Control_ProjectStatusChange(object sender, EventArgs e)
         {
-            UpdateSimulationStatus();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        internal void UpdateSimulationStatus()
-        {
             if (_con.IsAnimation)
             {
                 if (_con.ProjectStatus == ProjectStatus.Running
-                    || _con.ProjectStatus == ProjectStatus.Stepping
-                    || _con.ProjectStatus == ProjectStatus.Suspended)
-                    SetSimulationStatus();
+                    || _con.ProjectStatus == ProjectStatus.Stepping)
+                    StartSimulation();
+                else if (_con.ProjectStatus == ProjectStatus.Suspended)
+                    PauseSimulation();
                 else
                     StopSimulation();
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        internal void SetSimulationStatus()
-        {
-            SetPropForSimulation();
-            ProjectStatus status = _con.ProjectStatus;
-            if (status == ProjectStatus.Running || status == ProjectStatus.Stepping)
-            {
-                StartSimulation();
-            }
-            else if(status == ProjectStatus.Loaded)
-            {
-                StopSimulation();
-            }
             else
             {
-                UpdatePropForSimulation();
-                PauseSimulation();
+                ResetPropForSimulation();
             }
         }
 
@@ -450,8 +433,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void StartSimulation()
         {
-            if(!_con.IsAnimation)
-                return;
             SetPropForSimulation();
 
             TimerStart();
@@ -475,9 +456,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _isPausing = false;
             // Reset
             ResetPropForSimulation();
-            // Set initial param if animation mode.
-            if (_con.IsAnimation)
-                SetPropForSimulation();
         }
         /// <summary>
         /// Start Timer.
@@ -776,7 +754,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     _con.Menu.SetAnimation(true);
                 else
                     _con.Menu.SetAnimation(false);
-                SetSimulationStatus();
+                SetAnimationStatus();
             }
         }
     }

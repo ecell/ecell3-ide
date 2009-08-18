@@ -97,8 +97,15 @@ namespace Ecell.IDE
                     }
                 }
             };
-            Application.Idle += onIdle;
-            Application.Run(window);
+            try
+            {
+                Application.Idle += onIdle;
+                Application.Run(window);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+            }
         }
 
         /// <summary>

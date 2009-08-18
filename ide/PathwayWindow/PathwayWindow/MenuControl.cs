@@ -131,7 +131,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripFigureSetting;
         private ToolStripMenuItem toolStripShowID;
         private ToolStripMenuItem toolStripSetHandIcon;
-        private ToolStripMenuItem toolStripAnimation;
         private ToolStripMenuItem toolStripAnimationSetting;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem toolStripProperty;

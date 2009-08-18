@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 m_con.SaveSettings();
 
                 // Set canvas BG brush.
-                m_con.UpdateSimulationStatus();
+                m_con.SetAnimationStatus();
             }
             catch (Exception)
             {

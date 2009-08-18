@@ -686,6 +686,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 return;
             int index = m_owner.PluginManager.GetImageIndex(eo);
             node.ImageIndex = index;
+            node.SelectedImageIndex = index;
         }
 
         /// <summary>

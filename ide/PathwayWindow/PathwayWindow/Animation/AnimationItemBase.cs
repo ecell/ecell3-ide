@@ -162,7 +162,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set canvas
             _canvas = _control.Canvas;
             // Set Entities
-            this.ResetProperty();
+            ResetDic(); 
             _systems.AddRange(_canvas.Systems.Values);
             _steppers.AddRange(_canvas.Steppers.Values);
             _processes.AddRange(_canvas.Processes.Values);
@@ -183,6 +183,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         public virtual void ResetProperty()
+        {
+            ResetDic();
+        }
+
+        private void ResetDic()
         {
             _systems.Clear();
             _steppers.Clear();
@@ -219,15 +224,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="fullPN"></param>
         /// <returns></returns>
-        protected float GetFloatValue(string fullPN)
+        protected double GetFloatValue(string fullPN)
         {
-            float num = 0.0f;
+            double num = 0.0d;
             try
             {
                 if (_dManager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
                         _dManager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
-                    num = (float)_dManager.GetPropertyValue(fullPN);
+                    num = _dManager.GetPropertyValue(fullPN);
                 }
                 else
                 {
@@ -259,7 +264,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <returns></returns>
         protected string GetTextValue(string fullPN)
         {
-            float value = GetFloatValue(fullPN);
+            double value = GetFloatValue(fullPN);
             string text = value.ToString(_format);
             return text;
         }

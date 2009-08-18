@@ -421,6 +421,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <param name="e"></param>
         private void resetButton_Click(object sender, EventArgs e)
         {
+            
             SetItem(pCanvas.Setting);
         }
 

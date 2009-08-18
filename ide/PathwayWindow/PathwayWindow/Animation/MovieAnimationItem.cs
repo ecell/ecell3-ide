@@ -142,27 +142,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set canvas
             _canvas = _control.Canvas;
             // Avi
-            if (_aviManager == null)
-            {
-                string filename = this.aviFileName.FileName;
-                try
-                {
-                    // Delete File.
-                    if (File.Exists(filename))
-                        File.Delete(filename);
-                    // Create Movie.
-                    _aviManager = new AviManager(filename, false);
-                    Bitmap bmp = new Bitmap(_canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush));
-                    _stream = _aviManager.AddVideoStream(false, 10, bmp);
-                }
-                catch (Exception e)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
-                    _stream = null;
-                    _aviManager = null;
-                }
-            }
+            if (_aviManager != null)
+                return;
 
+            // Set AviManager.
+            string filename = this.aviFileName.FileName;
+            try
+            {
+                // Delete File.
+                if (File.Exists(filename))
+                    File.Delete(filename);
+                // Create Movie.
+                _aviManager = new AviManager(filename, false);
+                Bitmap bmp = new Bitmap(_canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush));
+                _stream = _aviManager.AddVideoStream(false, 10, bmp);
+            }
+            catch (Exception e)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
+                _stream = null;
+                _aviManager = null;
+            }
         }
 
         /// <summary>
@@ -186,13 +186,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetProperty()
         {
-            if (_stream != null)
-            {
-                _stream.Close();
-                _stream = null;
-            }
             if (_aviManager != null)
             {
+                _stream = null;
                 _aviManager.Close();
                 _aviManager = null;
             }

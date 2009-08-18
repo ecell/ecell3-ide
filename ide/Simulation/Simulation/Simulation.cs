@@ -967,7 +967,6 @@ namespace Ecell.IDE.Plugins.Simulation
 
             if (!Util.ShowYesNoDialog(MessageResources.ConfirmReset)) return;
             ProjectStatus preType = m_type;
-            m_pManager.ChangeStatus(ProjectStatus.Loaded);
             try
             {
                 m_isSuspend = false;
@@ -979,6 +978,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
+            m_pManager.ChangeStatus(ProjectStatus.Loaded);
         }
 
         /// <summary>

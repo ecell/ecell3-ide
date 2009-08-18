@@ -49,7 +49,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private System.Windows.Forms.CheckBox checkBoxValue;
         private System.Windows.Forms.CheckBox checkBoxMolarActivity;
         private System.Windows.Forms.CheckBox checkBoxActivity;
-        private string _property;
         #endregion
 
         #region Constructor
@@ -278,6 +277,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetProperty()
         {
+            if (_control.Control.IsAnimation)
+            {
+                SetProperty();
+                return;
+            }
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
