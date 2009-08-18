@@ -186,32 +186,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.figureComboBox.Figure = "Rectangle";
             resources.ApplyResources(this.figureComboBox, "figureComboBox");
             this.figureComboBox.Name = "figureComboBox";
-            this.figureComboBox.ReadOnly = false;
+            this.figureComboBox.ReadOnly = true;
             this.figureComboBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
             // 
             // fillColorBrushComboBox
             // 
-            this.fillColorBrushComboBox.Brush = null;
+            this.fillColorBrushComboBox.Brush = Brushes.Black;
             resources.ApplyResources(this.fillColorBrushComboBox, "fillColorBrushComboBox");
             this.fillColorBrushComboBox.Name = "fillColorBrushComboBox";
             this.fillColorBrushComboBox.BrushChange += new System.EventHandler(this.fillBrush_BrushChange);
             // 
             // centerColorBrushComboBox
             // 
-            this.centerColorBrushComboBox.Brush = null;
+            this.centerColorBrushComboBox.Brush = Brushes.Black;
             resources.ApplyResources(this.centerColorBrushComboBox, "centerColorBrushComboBox");
             this.centerColorBrushComboBox.Name = "centerColorBrushComboBox";
             // 
             // lineColorBrushComboBox
             // 
-            this.lineColorBrushComboBox.Brush = null;
+            this.lineColorBrushComboBox.Brush = Brushes.Black;
             resources.ApplyResources(this.lineColorBrushComboBox, "lineColorBrushComboBox");
             this.lineColorBrushComboBox.Name = "lineColorBrushComboBox";
             this.lineColorBrushComboBox.BrushChange += new System.EventHandler(this.lineBrush_BrushChange);
             // 
             // textColorBrushComboBox
             // 
-            this.textColorBrushComboBox.Brush = null;
+            this.textColorBrushComboBox.Brush = Brushes.Black;
             resources.ApplyResources(this.textColorBrushComboBox, "textColorBrushComboBox");
             this.textColorBrushComboBox.Name = "textColorBrushComboBox";
             this.textColorBrushComboBox.BrushChange += new System.EventHandler(this.textBrush_BrushChange);
