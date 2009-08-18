@@ -295,7 +295,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
-                target.ImageIndex = m_owner.PluginManager.GetImageIndex(data);
+                int index = m_owner.PluginManager.GetImageIndex(data);
+                target.ImageIndex = index;
+                target.SelectedImageIndex = index;
                 string targetText = data.LocalID;
 
                 if (target.Text != targetText)
@@ -1559,7 +1561,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     // Save if answer is yes.
                     if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
-                        m_owner.Environment.DataManager.SaveProject(ProjectType.Project);
+                        m_owner.Environment.DataManager.SaveProject();
                 }
                 catch (Exception)
                 {

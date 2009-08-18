@@ -762,7 +762,7 @@ namespace Ecell
         {
             if (m_currentProject == null)
                 return;
-            SaveProject(ProjectType.Revision);
+            SaveProject();
 
             string sourceDir = m_currentProject.Info.ProjectPath;
             string revNo = Util.GetRevNo(sourceDir);
@@ -779,6 +779,15 @@ namespace Ecell
                 Util.CopyFile(file, targetDir);
             m_env.Console.WriteLine(string.Format(MessageResources.InfoNewRev,
                 m_currentProject.Info.Name, revNo));
+            // 
+            string revision = Path.Combine(targetDir,Constants.fileProjectXML);
+            if (!File.Exists(revision))
+                throw new EcellException(string.Format(MessageResources.ErrCreRevision, revNo));
+            ProjectInfo info = ProjectInfoLoader.Load(revision);
+            info.ProjectType = ProjectType.Revision;
+            info.ProjectPath = targetDir;
+            info.Save();
+
         }
 
         /// <summary>
@@ -1006,7 +1015,7 @@ namespace Ecell
 
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
                 {
-                    m_currentProject.Save(m_currentProject.Info.ProjectType);
+                    m_currentProject.Save();
                 }
                 // Set Model dir and filename.
                 string modelDirName = Path.Combine(m_currentProject.Info.ProjectPath, Constants.xpathModel);
@@ -1039,14 +1048,14 @@ namespace Ecell
         /// <summary>
         /// Save current project.
         /// </summary>
-        public void SaveProject(ProjectType status)
+        public void SaveProject()
         {
             try
             {
                 // Set project dir.
                 SetDefaultDir();
                 // Save ProjectInfo.
-                m_currentProject.Save(status);
+                m_currentProject.Save();
                 List<string> modelList = m_currentProject.GetSavableModel();
                 List<string> paramList = m_currentProject.GetSavableSimulationParameter();
                 List<string> logList = m_currentProject.GetSavableSimulationResult();
@@ -4200,7 +4209,7 @@ namespace Ecell
 
                     if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + projectID))
                     {
-                        m_currentProject.Save(m_currentProject.Info.ProjectType);
+                        m_currentProject.Save();
                     }
                     simulationDirName = GetSimulationResultSaveDirectory();
                 }
@@ -5094,7 +5103,7 @@ namespace Ecell
 
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
                 {
-                    m_currentProject.Save(m_currentProject.Info.ProjectType);
+                    m_currentProject.Save();
                 }
                 string simulationDirName = Path.Combine(m_currentProject.Info.ProjectPath, Constants.xpathParameters);
 

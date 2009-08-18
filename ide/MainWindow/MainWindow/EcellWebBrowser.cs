@@ -571,7 +571,7 @@ namespace Ecell.IDE.MainWindow
                     {
                         // Save if answer is yes.
                         if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
-                            m_browser.Environment.DataManager.SaveProject(ProjectType.Project);
+                            m_browser.Environment.DataManager.SaveProject();
                     }
                     catch (Exception)
                     {

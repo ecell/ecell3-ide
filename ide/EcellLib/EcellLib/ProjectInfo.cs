@@ -276,18 +276,18 @@ namespace Ecell
         /// <summary>
         /// Save project.
         /// </summary>
-        public void Save(ProjectType status)
+        public void Save()
         {
-            Save(m_prjPath, status);
+            Save(m_prjPath);
         }
 
         /// <summary>
         /// Save project.
         /// </summary>
         /// <param name="filePath"></param>
-        public void Save(string filePath, ProjectType status)
+        public void Save(string filePath)
         {
-            ProjectInfoSaver.Save(this, filePath, status);
+            ProjectInfoSaver.Save(this, filePath);
         }
 
         /// <summary>
@@ -346,6 +346,8 @@ namespace Ecell
                 string ext = Path.GetExtension(filepath);
                 if (ext.Equals(Constants.FileExtXML))
                     project = LoadProjectFromXML(filepath);
+                else if (ext.Equals(Constants.FileExtINFO))
+                    project = LoadProjectFromInfo(filepath);
                 else if (ext.Equals(Constants.FileExtEML))
                     project = LoadProjectFromEml(filepath);
                 //else if (ext.Equals(Constants.FileExtSBML))
@@ -449,6 +451,60 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get Project from Info file.
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        private static ProjectInfo LoadProjectFromInfo(string filepath)
+        {
+            ProjectInfo project = null;
+            string line = "";
+            string comment = "";
+            string simParam = "";
+            string time = File.GetLastWriteTime(filepath).ToString();
+
+            string dirPathName = Path.GetDirectoryName(filepath);
+            string prjName = Path.GetFileName(dirPathName);
+            TextReader reader = new StreamReader(filepath);
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.IndexOf(Constants.textComment) == 0)
+                {
+                    if (line.IndexOf(Constants.delimiterEqual) != -1)
+                    {
+                        comment = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
+                    }
+                    else
+                    {
+                        comment = line.Substring(line.IndexOf(Constants.textComment));
+                    }
+                }
+                else if (line.IndexOf(Constants.textParameter) == 0)
+                {
+                    simParam = line;
+                }
+                else if (!comment.Equals(""))
+                {
+                    comment = comment + "\n" + line;
+                }
+                else if (line.IndexOf(Constants.xpathProject) == 0)
+                {
+                    if (line.IndexOf(Constants.delimiterEqual) != -1)
+                    {
+                        prjName = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
+                    }
+                    else
+                    {
+                        prjName = line.Substring(line.IndexOf(Constants.textComment));
+                    }
+                }
+            }
+            reader.Close();
+            project = new ProjectInfo(prjName, comment, time, simParam);
+            return project;
+        }
+
+        /// <summary>
         /// Get Project from Eml file.
         /// </summary>
         /// <param name="filepath"></param>
@@ -494,7 +550,7 @@ namespace Ecell
         /// </summary>
         /// <param name="project">target project</param>
         /// <param name="filepath"></param>
-        public static void Save(ProjectInfo project, string filepath, ProjectType status)
+        public static void Save(ProjectInfo project, string filepath)
         {
             // Get Saving Directory.
             string saveDir = GetSaveDir(project, filepath);
@@ -503,7 +559,7 @@ namespace Ecell
             // Save both InfoText and XML setting file.
             try
             {
-                SaveProjectXML(project, saveDir, status);
+                SaveProjectXML(project, saveDir);
             }
             catch (Exception ex)
             {
@@ -540,7 +596,7 @@ namespace Ecell
         /// </summary>
         /// <param name="project"></param>
         /// <param name="saveDir"></param>
-        public static void SaveProjectXML(ProjectInfo project, string saveDir, ProjectType status)
+        public static void SaveProjectXML(ProjectInfo project, string saveDir)
         {
             XmlTextWriter xmlOut = null;
             string projectXML = Path.Combine(saveDir, Constants.fileProjectXML);
@@ -566,7 +622,7 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textEditCount, project.EditCount.ToString());
                 xmlOut.WriteElementString(Constants.textComment, project.Comment);
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
-                xmlOut.WriteElementString(Constants.xpathType, ((Int32)status).ToString());
+                xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.ProjectType).ToString());
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
 

@@ -782,7 +782,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public void Save(ProjectType status)
+        public void Save()
         {
             // get old path
             string oldPath = m_info.ProjectPath;
@@ -818,7 +818,7 @@ namespace Ecell
             }
 
             // Save ProjectInfo
-            m_info.Save(status);
+            m_info.Save();
 
             // Copy DMs.
             string dmDir = Path.Combine(m_info.ProjectPath, Constants.DMDirName);

@@ -160,6 +160,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Cannot create the revision ({0}). に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrCreRevision {
+            get {
+                return ResourceManager.GetString("ErrCreRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot create the simulation parameter ({0}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreSimParam {

@@ -97,6 +97,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             foreach (PPathwaySystem system in m_canvas.Systems.Values)
             {
                 system.ResetPosition();
+                system.RefreshView();
             }
             ValidateSystem();
             m_obj.RefreshView();

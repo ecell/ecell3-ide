@@ -67,6 +67,10 @@ namespace Ecell
         /// </summary>
         public const string fileProjectXML = "project.xml";
         /// <summary>
+        /// Reserved the name of file..
+        /// </summary>
+        public const string fileProjectInfo = "project.info";
+        /// <summary>
         /// Reserved the file name of window setting.
         /// </summary>
         public const string fileWinSetting = "window.config";

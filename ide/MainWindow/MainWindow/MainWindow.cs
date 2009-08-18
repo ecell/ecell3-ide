@@ -1218,7 +1218,7 @@ namespace Ecell.IDE.MainWindow
                 if (!ConfirmOverwrite(project))
                     return;
 
-                m_env.DataManager.SaveProject(ProjectType.Project);
+                m_env.DataManager.SaveProject();
                 CheckAndReplaceRecentProject(project.Info);
                 m_editCount = 0;
             }
@@ -1290,7 +1290,7 @@ namespace Ecell.IDE.MainWindow
                     return;
 
                 // Save as new project.
-                m_env.DataManager.SaveProject(ProjectType.Project);
+                m_env.DataManager.SaveProject();
             }
         }
         /// <summary>

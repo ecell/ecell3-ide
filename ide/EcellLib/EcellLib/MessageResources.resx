@@ -386,4 +386,7 @@ New revision {0}:{1} was created.</value>
   <data name="ErrStepperStillInUse" xml:space="preserve">
     <value>There is at least one Entity that refers to the Stepper {0}</value>
   </data>
+  <data name="ErrCreRevision" xml:space="preserve">
+    <value>Cannot create the revision ({0}).</value>
+  </data>
 </root>
