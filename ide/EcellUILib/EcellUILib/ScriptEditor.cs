@@ -111,7 +111,6 @@ namespace Ecell.IDE
 
             codeEditorControl.Text = "";
             m_path = DMEOpenFileDialog.FileName;
-            DMEComileButton.Enabled = true;
             LoadFile();
         }
 
@@ -156,7 +155,6 @@ namespace Ecell.IDE
                 //writer = new StreamWriter(path, false, Encoding.UTF8);
                 //writer.Write(codeEditorControl.Text);
                 m_path = path;
-                DMEComileButton.Enabled = true;
             }
             finally
             {
