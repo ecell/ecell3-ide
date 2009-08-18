@@ -111,9 +111,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseUp(object sender, PInputEventArgs e)
         {
             base.OnMouseUp(sender, e);
-            if (m_selectedPath != null)
-                m_selectedPath.RemoveFromParent();
-            m_selectedPath.Reset();
+            Reset();
             m_isDragged = false;
             m_con.Canvas.NotifyMoveObjects(true);
             m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
@@ -169,6 +167,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 if(!canvas.SelectedNodes.Contains(node))
                     canvas.NotifyAddSelect(node);
             }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            if (m_selectedPath != null)
+                m_selectedPath.RemoveFromParent();
+            m_selectedPath.Reset();
         }
 
         /// <summary>
