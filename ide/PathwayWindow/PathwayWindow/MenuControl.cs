@@ -1475,6 +1475,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception ex)
             {
                 Util.ShowErrorDialog(ex.Message);
+                m_con.Canvas.PCanvas.Camera.Pickable = true;
             }
         }
 

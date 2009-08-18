@@ -331,6 +331,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Manual for Docking Window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuDockManual {
+            get {
+                return ResourceManager.GetString("MenuDockManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Manual に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuManual {

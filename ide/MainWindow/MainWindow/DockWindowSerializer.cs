@@ -494,6 +494,9 @@ namespace Ecell.IDE.MainWindow
         {
             foreach (DockContent content in dockPanel.Contents)
             {
+                // Pass Graph
+                if (content is EcellDockContent && ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+                    continue;
                 // Check Unrecorded content.
                 bool isRecorded = false;
                 foreach (DockContent recorded in contentList)

@@ -659,6 +659,15 @@ namespace Ecell.IDE.MainWindow
             /// 
             /// </summary>
             /// <returns></returns>
+            public string GetLabelForDockManual()
+            {
+                return MessageResources.MenuDockManual;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public string GetManual()
             {
                 return MessageResources.FileManual;

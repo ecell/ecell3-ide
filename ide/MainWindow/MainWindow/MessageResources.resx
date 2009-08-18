@@ -294,4 +294,7 @@
   <data name="ErrUnauthorizedAccess" xml:space="preserve">
     <value>Authorization exception for the workspace [ {0} ]. Please confirm your access right to the workspace.</value>
   </data>
+  <data name="MenuDockManual" xml:space="preserve">
+    <value>Manual for Docking Window.</value>
+  </data>
 </root>
