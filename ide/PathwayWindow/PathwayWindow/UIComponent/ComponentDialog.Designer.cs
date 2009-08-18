@@ -33,9 +33,9 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.setExistingStencilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.componentItem = new Ecell.IDE.Plugins.PathwayWindow.Components.ComponentItem();
             this.registerCheckBox = new System.Windows.Forms.CheckBox();
-            this.setExistingStencilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,6 +60,11 @@
             this.contextMenuStrip.Name = "contextMenuStrip";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
+            // setExistingStencilToolStripMenuItem
+            // 
+            this.setExistingStencilToolStripMenuItem.Name = "setExistingStencilToolStripMenuItem";
+            resources.ApplyResources(this.setExistingStencilToolStripMenuItem, "setExistingStencilToolStripMenuItem");
+            // 
             // componentItem
             // 
             resources.ApplyResources(this.componentItem, "componentItem");
@@ -71,11 +76,6 @@
             resources.ApplyResources(this.registerCheckBox, "registerCheckBox");
             this.registerCheckBox.Name = "registerCheckBox";
             this.registerCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // setExistingStencilToolStripMenuItem
-            // 
-            this.setExistingStencilToolStripMenuItem.Name = "setExistingStencilToolStripMenuItem";
-            resources.ApplyResources(this.setExistingStencilToolStripMenuItem, "setExistingStencilToolStripMenuItem");
             // 
             // ComponentDialog
             // 

@@ -370,7 +370,7 @@
     <value>デフォルトのステンシルは削除できません。</value>
   </data>
   <data name="ErrNoStencil" xml:space="preserve">
-    <value>登録するエンティティを一つ選択してください。</value>
+    <value>登録したいエンティティを一つだけコピーしてください。</value>
   </data>
   <data name="ButtonToolTipCreateStepper" xml:space="preserve">
     <value>Stepperの追加</value>

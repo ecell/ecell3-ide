@@ -370,7 +370,7 @@
     <value>Can't delete default setting.</value>
   </data>
   <data name="ErrNoStencil" xml:space="preserve">
-    <value>Select one object to add stencil.</value>
+    <value>Copy one object before adding stencil.</value>
   </data>
   <data name="ButtonToolTipCreateStepper" xml:space="preserve">
     <value>Create new Stepper.</value>

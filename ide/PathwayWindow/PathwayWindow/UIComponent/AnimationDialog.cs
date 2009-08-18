@@ -187,19 +187,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             e.DrawBackground();
             // Set Text Brush
             Brush brush = Brushes.Black;
-            object item = ((ListBox)sender).Items[e.Index];
-            if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
-            {
-                if (item is EdgeAnimationItem)
-                    brush = Brushes.Red;
-                else if (item is PropertyViewAnimationItem)
-                    brush = Brushes.Navy;
-            }
-            else
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
                 brush = Brushes.White;
             }
             // Draw Text
+            object item = ((ListBox)sender).Items[e.Index];
             string text = item.ToString();
             e.Graphics.DrawString(text, e.Font, brush, e.Bounds);
 

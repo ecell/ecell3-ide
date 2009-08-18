@@ -60,7 +60,10 @@ namespace Ecell.IDE
         /// Is pathway or not.
         /// </summary>
         private bool m_isPathway = false;
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_isExistSetting = false;
         #endregion
 
         #region Properties
@@ -125,10 +128,11 @@ namespace Ecell.IDE
         /// </summary>
         private void SetContextMenu()
         {
-            contextMenuStrip.Items.Clear();
             if (!m_isPathway)
                 return;
-
+            setExistingStencilToolStripMenuItem.Visible = true;
+            setExistingStencilToolStripMenuItem.DropDownItems.Clear();
+            // Set Stencil template
             string type = m_cs.Type;
             List<ComponentSetting> list = m_csManager.GetSettings(type);
             foreach (ComponentSetting cs in list)
@@ -146,6 +150,7 @@ namespace Ecell.IDE
         {
             StencilMenuItem item = (StencilMenuItem)sender;
             this.Setting = item.Setting;
+            m_isExistSetting = true;
         }
 
         /// <summary>
@@ -182,8 +187,15 @@ namespace Ecell.IDE
 
         private void ComponentDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!componentItem.Changed)
+            if(!componentItem.Changed && !m_isExistSetting)
                 this.DialogResult = DialogResult.Cancel;
+            else if(componentItem.Changed && m_isExistSetting)
+            {
+                this.m_cs = m_cs.Clone();
+                m_cs.Name = m_csManager.GetRandomKey();
+                m_cs.IsDefault = false;
+                m_cs.IsStencil = false;
+            }
         }
     }
 }

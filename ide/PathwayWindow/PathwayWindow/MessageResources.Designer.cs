@@ -529,7 +529,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Select one object to add stencil. に類似しているローカライズされた文字列を検索します。
+        ///   Copy one object before adding stencil. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoStencil {
             get {

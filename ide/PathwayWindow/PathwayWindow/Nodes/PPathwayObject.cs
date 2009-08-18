@@ -414,14 +414,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected virtual void RefreshSettings()
         {
             MemorizePosition();
-            this.PText.TextBrush = m_setting.TextBrush;
-            this.LineBrush = m_setting.LineBrush;
-            this.Brush = m_setting.CreateBrush(m_path);
             this.Figure = m_setting.Figure;
-            RefreshView();
             // Set Image
             this.Image = m_setting.Image;
             ResetPosition();
+            this.PText.TextBrush = m_setting.TextBrush;
+            this.LineBrush = m_setting.LineBrush;
+            this.Brush = m_setting.CreateBrush(m_path);
+            RefreshView();
         }
 
         /// <summary>

@@ -276,6 +276,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             else
                 y = outerPoint.Y;
 
+            // if outerPoint is inside of this rect.
+            if (x == outerPoint.X && y == outerPoint.Y)
+                return innerPoint;
+
             return new PointF(x, y);
         }
 

@@ -224,13 +224,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             this.AddChild(_stepper);
-            _stepper.Width = 10;
-            _stepper.Height = 10;
             _stepper.X = this.Right - 10;
             _stepper.Y = this.Bottom - 10;
-            _stepper.AddPath(stepper.Figure.CreatePath(_stepper.Rect), false);
-            _stepper.LineBrush = stepper.Setting.LineBrush;
-            _stepper.Brush = stepper.Setting.CreateBrush(_stepper.Path);
+            _stepper.Setting = stepper.Setting;
             _stepper.MoveToFront();
         }
 
