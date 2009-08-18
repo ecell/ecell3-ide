@@ -837,7 +837,7 @@ namespace Ecell
             double tmp = m_env.DataManager.DefaultTime;
             m_env.DataManager.DefaultTime = interval;
 //            m_env.DataManager.SimulationStartKeepSetting(interval);
-            m_env.DataManager.StartStepSimulation(interval);
+            m_env.DataManager.StartStepSimulation(interval, true);
             m_env.DataManager.DefaultTime = tmp;
         }
 
@@ -894,7 +894,7 @@ namespace Ecell
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);           
 //            m_env.DataManager.SimulationStartKeepSetting(count);
-            m_env.DataManager.StartStepSimulation(count);
+            m_env.DataManager.StartStepSimulation(count, true);
         }
 
         /// <summary>
@@ -905,7 +905,7 @@ namespace Ecell
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
 //            m_env.DataManager.SimulationStart(count, 0);
-            m_env.DataManager.StartStepSimulation(count);
+            m_env.DataManager.StartStepSimulation(count, true);
         }
 
         /// <summary>

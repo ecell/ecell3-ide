@@ -1732,7 +1732,7 @@ namespace Ecell
             {
                 string fileName = TestConstant.TestDirectory + TestConstant.SUSPEND_FILE;
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
-                _unitUnderTest.StartStepSimulation(1.0);
+                _unitUnderTest.StartStepSimulation(1.0, true);
                 _unitUnderTest.CurrentProject.Info.Name = "Drosophila2";
                 _unitUnderTest.SaveProject(ProjectType.Project);             
                 _unitUnderTest.SimulationStop();
@@ -1835,7 +1835,7 @@ namespace Ecell
             EcellObject variable = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:M", "Variable");
             EcellData d = variable.GetEcellData(Constants.xpathValue);
             d.Logged = true;
-            _unitUnderTest.StartStepSimulation(10.0);
+            _unitUnderTest.StartStepSimulation(10.0, true);
             _unitUnderTest.SaveSimulationResult();
 
             string l_savedDirName = "";
@@ -1862,7 +1862,7 @@ namespace Ecell
             string l_value = "";
             _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
 
-            _unitUnderTest.StartStepSimulation(100);
+            _unitUnderTest.StartStepSimulation(100, true);
 
             try
             {
@@ -2134,13 +2134,13 @@ namespace Ecell
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             int l_step1 = 1;
-            _unitUnderTest.StartStepSimulation(l_step1);
+            _unitUnderTest.StartStepSimulation(l_step1, true);
 
             int l_step10 = 10;
-            _unitUnderTest.StartStepSimulation(l_step10);
+            _unitUnderTest.StartStepSimulation(l_step10, true);
 
             int l_step100 = 100;
-            _unitUnderTest.StartStepSimulation(l_step100);
+            _unitUnderTest.StartStepSimulation(l_step100, true);
 
             Type type = _unitUnderTest.GetType();
             FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -2149,12 +2149,12 @@ namespace Ecell
             info.SetValue(_unitUnderTest, 10);
             info = type.GetField("m_defaultTime", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 1);
-            _unitUnderTest.StartStepSimulation(l_step10);
+            _unitUnderTest.StartStepSimulation(l_step10, true);
             // Test Catch WrappedException.
             try
             {
                 _unitUnderTest.CurrentProject.Simulator.SetEntityProperty("Process:/CELL/CYTOPLASM:R_toy1:Expression", "hoge");
-                _unitUnderTest.StartStepSimulation(l_step10);
+                _unitUnderTest.StartStepSimulation(l_step10, true);
                 Assert.Fail();
             }
             catch (Exception e)
@@ -2165,7 +2165,7 @@ namespace Ecell
             try
             {
                 _unitUnderTest.CurrentProject.Simulator = null;
-                _unitUnderTest.StartStepSimulation(l_step10);
+                _unitUnderTest.StartStepSimulation(l_step10, true);
                 Assert.Fail();
             }
             catch (Exception e)
@@ -2186,13 +2186,13 @@ namespace Ecell
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             double l_sec1 = 0.5;
-            _unitUnderTest.StartStepSimulation(l_sec1);
+            _unitUnderTest.StartStepSimulation(l_sec1, true);
 
             double l_sec2 = 1.0;
-            _unitUnderTest.StartStepSimulation(l_sec2);
+            _unitUnderTest.StartStepSimulation(l_sec2, true);
 
             double l_sec3 = 5.0;
-            _unitUnderTest.StartStepSimulation(l_sec3);
+            _unitUnderTest.StartStepSimulation(l_sec3, true);
 
             Type type = _unitUnderTest.GetType();
             FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -2201,12 +2201,12 @@ namespace Ecell
             info.SetValue(_unitUnderTest, 10);
             info = type.GetField("m_defaultTime", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 1);
-            _unitUnderTest.StartStepSimulation(l_sec2);
+            _unitUnderTest.StartStepSimulation(l_sec2, true);
             // Test Catch WrappedException.
             try
             {
                 _unitUnderTest.CurrentProject.Simulator.SetEntityProperty("Process:/CELL/CYTOPLASM:R_toy1:Expression", "hoge");
-                _unitUnderTest.StartStepSimulation(l_sec2);
+                _unitUnderTest.StartStepSimulation(l_sec2, true);
                 Assert.Fail();
             }
             catch (Exception e)
@@ -2217,7 +2217,7 @@ namespace Ecell
             try
             {
                 _unitUnderTest.CurrentProject.Simulator = null;
-                _unitUnderTest.StartStepSimulation(l_sec2);
+                _unitUnderTest.StartStepSimulation(l_sec2, true);
                 Assert.Fail();
             }
             catch (Exception e)
@@ -2236,7 +2236,7 @@ namespace Ecell
         {
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
-            _unitUnderTest.StartStepSimulation(2000);
+            _unitUnderTest.StartStepSimulation(2000, true);
 
             _unitUnderTest.SimulationStop();
 

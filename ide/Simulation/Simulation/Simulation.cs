@@ -926,7 +926,7 @@ namespace Ecell.IDE.Plugins.Simulation
                     if (stepCount < 0) return;
                         // m_dManager.SimulationStartKeepSetting(stepCount); 
                         // m_dManager.SimulationStart(stepCount);
-                    m_dManager.StartStepSimulation(stepCount);
+                    m_dManager.StartStepSimulation(stepCount, true);
                 }
                 else
                 {
@@ -934,7 +934,7 @@ namespace Ecell.IDE.Plugins.Simulation
                     if (timeCount < 0) return;
                     // m_dManager.SimulationStartKeepSetting(timeCount); 
                     // m_dManager.SimulationStart(timeCount);
-                    m_dManager.StartStepSimulation(timeCount);
+                    m_dManager.StartStepSimulation(timeCount, true);
                 }
             }
             catch (SimulationException ex)

@@ -3652,16 +3652,16 @@ namespace Ecell
         public void StartSimulation(double time)
         {
             m_steppingData = null;
-            if (m_isTimeStepping && m_remainTime > 0.0)
-            {
-                StartStepSimulation(m_remainTime);
-                return;
-            }
-            else if (m_isStepStepping && m_remainStep > 0)
-            {
-                StartStepSimulation(m_remainStep);
-                return;
-            }
+            //if (m_isTimeStepping && m_remainTime > 0.0)
+            //{
+            //    StartStepSimulation(m_remainTime, false);
+            //    return;
+            //}
+            //else if (m_isStepStepping && m_remainStep > 0)
+            //{
+            //    StartStepSimulation(m_remainStep, false);
+            //    return;
+            //}
 
             try
             {
@@ -3719,8 +3719,9 @@ namespace Ecell
         /// <summary>
         /// Step Simulation with time.
         /// </summary>
-        /// <param name="time"></param>
-        public void StartStepSimulation(double time)
+        /// <param name="time">step time</param>
+        /// <param name="isDirect">the flag whether this function is called.</param>
+        public void StartStepSimulation(double time, bool isDirect)
         {
             m_steppingData = null;
             try
@@ -3731,12 +3732,13 @@ namespace Ecell
                 }
                 double cTime = m_currentProject.Simulator.GetCurrentTime();
                 double stoppedTime;
-                if (!(m_isTimeStepping && m_remainTime > 0.0))
-                {
+//                if (!(m_isTimeStepping && m_remainTime > 0.0) || isDirect)
+//                {
                     m_isTimeStepping = true;
                     m_remainTime = time;
-                }
+//                }
                 stoppedTime = cTime + m_remainTime;
+                m_remainStep = 0;
 
                 m_currentProject.SimulationStatus = SimulationStatus.Run;
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoStartStepSim, "t:" + time.ToString()));
@@ -3791,8 +3793,9 @@ namespace Ecell
         /// <summary>
         /// Step simulation with step.
         /// </summary>
-        /// <param name="step"></param>
-        public void StartStepSimulation(int step)
+        /// <param name="step">step count</param>
+        /// <param name="isDirect">the flag whether this function is called.</param>
+        public void StartStepSimulation(int step, bool isDirect)
         {
             m_steppingData = null;
             try
@@ -3803,16 +3806,13 @@ namespace Ecell
                 }
                 double cTime = m_currentProject.Simulator.GetCurrentTime();
                 double stoppedTime;
-                if (m_isStepStepping && m_remainStep > 0)
-                {
-                    // nothing.
-                }
-                else
-                {
+//                if (!(m_isStepStepping && m_remainStep > 0) || isDirect)
+//                {
                     m_isStepStepping = true;
                     m_remainStep = step;
-                }
+//                }
                 stoppedTime = cTime + m_remainTime;
+                m_remainTime = 0.0;
 
                 m_currentProject.SimulationStatus = SimulationStatus.Run;
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoStartStepSim, "step:" + step.ToString()));

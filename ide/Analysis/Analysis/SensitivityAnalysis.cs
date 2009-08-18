@@ -670,7 +670,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_valueBuffer.Clear();
             m_activityBuffer.Clear();
 //          dManager.SimulationStartKeepSetting(m_param.Step);
-            dManager.StartStepSimulation(m_param.Step);
+            dManager.StartStepSimulation(m_param.Step, true);
             foreach (SaveLoggerProperty p in m_saveList)
             {
                 double dV = dManager.GetPropertyValue(p.FullPath);

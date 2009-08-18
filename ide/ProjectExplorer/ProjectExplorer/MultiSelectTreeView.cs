@@ -168,6 +168,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 LowlightNode(tn);
             }
             this.SelNodes.Clear();
+            this.SelectedNode = null;
         }
 
         /// <summary>
