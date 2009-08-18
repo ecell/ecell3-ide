@@ -590,6 +590,7 @@ namespace Ecell.IDE.MainWindow
                     string setting = Path.Combine(Util.GetWindowSettingDir(), "Base.xml");
                     LoadWindowSetting(setting, true);
                 }
+                Util.SetLanguage(win.Language);
             }
         }
         #endregion
