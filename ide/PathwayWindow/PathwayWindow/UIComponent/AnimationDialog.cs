@@ -95,7 +95,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         internal void ApplyChange()
         {
-            foreach (IAnimationItem item in _control.Items)
+            foreach (IAnimationItem item in this.Items)
             {
                 item.ApplyChange();
             }
