@@ -293,6 +293,19 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public void NotifyAnalysisFinished()
         {
+            if (m_group.Status == AnalysisStatus.Stopped)
+                return;
+
+            foreach (Job.Job j in m_group.Jobs)
+            {
+                if (j.Status == JobStatus.ERROR)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                    m_group.IsGroupError = true;
+                    return;
+                }
+            }
+
             try
             {
                 CreateEpsilonElastictyMatrix();

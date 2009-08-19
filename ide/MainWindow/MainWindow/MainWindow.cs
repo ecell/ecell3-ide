@@ -201,6 +201,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         public void Initialize()
         {
+            setFilePath();
             CheckDefaultWindowSetting();
             InitializeComponent();
 
@@ -213,7 +214,6 @@ namespace Ecell.IDE.MainWindow
             // Load plugins
             LoadPlugins();
             //Load default window settings.
-            setFilePath();
             SetRecentProject();
             SetStartUpWindow();
             LoadDefaultWindowSetting();
@@ -577,7 +577,7 @@ namespace Ecell.IDE.MainWindow
         public void CheckDefaultWindowSetting()
         {
             // Load user window settings.
-            if (LoadWindowSetting(m_userWindowSettingPath, true))
+            if (File.Exists(m_userWindowSettingPath))
                 return;
 
             // Load default window settings when failed.
