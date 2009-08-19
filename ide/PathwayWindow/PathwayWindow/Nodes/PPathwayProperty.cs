@@ -131,6 +131,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 property.X = this.X;
                 property.Y = this.Y + i * 20.5f;
                 property.Refresh();
+                this.Width = property.Width;
                 i++;
             }
         }

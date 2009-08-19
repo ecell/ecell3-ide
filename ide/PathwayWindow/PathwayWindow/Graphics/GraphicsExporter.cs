@@ -33,6 +33,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
+using System.Collections.Generic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
 {
@@ -189,18 +190,46 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             // Set root system's rect.
             PPathwaySystem system = canvas.Systems[Constants.delimiterPath];
             RectangleF rect = system.Rect;
+
+            // Update position
+            List<PPathwayObject> list = canvas.GetAllObjects();
+            float top = rect.Y;
+            float left = rect.X;
+            float right = rect.X;
+            float bottom = rect.Y;
+            foreach (PPathwayObject obj in list)
+            {
+                //
+                if (obj.Top < top)
+                    top = obj.Top;
+                //
+                if (obj.Left < left)
+                    left = obj.Left;
+                //
+                float tmpRight = obj.Right;
+                if (obj is PPathwayEntity && ((PPathwayEntity)obj).Property.Visible)
+                    tmpRight = ((PPathwayEntity)obj).Property.Right;
+                if (tmpRight > right)
+                    right = tmpRight;
+                // 
+                if (obj.Bottom > bottom)
+                    bottom = obj.Bottom;
+            }
+            // Set Top position.
+            rect.Y = top;
+            // Set Left position.
+            rect.X = left;
+            // Set Right position.
+            rect.Width = right - rect.X;
+            // Set Bottom position.
+            rect.Height = bottom - rect.Y;
+
+            // Set Margin
             rect.X -= 50f;
             rect.Y -= 50f;
             rect.Width += 100f;
             rect.Height += 100f;
-            // Add Stepper width.
-            float stepperWidth = 0f;
-            foreach (PPathwayStepper stepper in canvas.Steppers.Values)
-            {
-                if (stepper.Width > stepperWidth)
-                    stepperWidth = stepper.Width;
-            }
-            rect.Width += stepperWidth;
+
 
             // Create SVG canvas.
             float viewWidth = rect.Width * 0.7f;

@@ -191,7 +191,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // 
             // fillColorBrushComboBox
             // 
-            this.fillColorBrushComboBox.Brush = Brushes.Black;
             resources.ApplyResources(this.fillColorBrushComboBox, "fillColorBrushComboBox");
             this.fillColorBrushComboBox.Name = "fillColorBrushComboBox";
             this.fillColorBrushComboBox.BrushChange += new System.EventHandler(this.fillBrush_BrushChange);
@@ -201,6 +200,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.centerColorBrushComboBox.Brush = Brushes.Black;
             resources.ApplyResources(this.centerColorBrushComboBox, "centerColorBrushComboBox");
             this.centerColorBrushComboBox.Name = "centerColorBrushComboBox";
+            this.centerColorBrushComboBox.BrushChange += new EventHandler(this.centerBrush_BrushChange);
             // 
             // lineColorBrushComboBox
             // 
@@ -362,6 +362,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             ChangeFillBrush();
         }
 
+        /// <summary>
+        /// Event on ChangeFillBrush
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void centerBrush_BrushChange(object sender, EventArgs e)
+        {
+            BrushComboBox brushBox = (BrushComboBox)sender;
+            if (brushBox.Brush == null)
+                return;
+            ChangeFillBrush();
+        }
         /// <summary>
         /// Event on ChangeIsGradation
         /// </summary>

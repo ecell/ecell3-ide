@@ -110,6 +110,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             InitializeComponent();
             this.imageComboBox.ImageList = BrushManager.BrushImageList;
+            this.Brush = Brushes.Black;
         }
 
         /// <summary>

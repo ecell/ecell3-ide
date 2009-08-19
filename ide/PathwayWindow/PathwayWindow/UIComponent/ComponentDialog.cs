@@ -53,10 +53,6 @@ namespace Ecell.IDE
         /// </summary>
         private ComponentManager m_csManager = null;
         /// <summary>
-        /// Current Setting.
-        /// </summary>
-        private ComponentSetting m_cs = null;
-        /// <summary>
         /// Is pathway or not.
         /// </summary>
         private bool m_isPathway = false;
@@ -72,10 +68,9 @@ namespace Ecell.IDE
         /// </summary>
         public ComponentSetting Setting
         {
-            get { return m_cs; }
+            get { return componentItem.PCanvas.Setting; }
             set
             {
-                m_cs = value;
                 componentItem.SetItem(value);
                 SetContextMenu();
             }
@@ -133,7 +128,7 @@ namespace Ecell.IDE
             setExistingStencilToolStripMenuItem.Visible = true;
             setExistingStencilToolStripMenuItem.DropDownItems.Clear();
             // Set Stencil template
-            string type = m_cs.Type;
+            string type = componentItem.PCanvas.Setting.Type;
             List<ComponentSetting> list = m_csManager.GetSettings(type);
             foreach (ComponentSetting cs in list)
             {
@@ -191,10 +186,14 @@ namespace Ecell.IDE
                 this.DialogResult = DialogResult.Cancel;
             else if(componentItem.Changed && m_isExistSetting)
             {
-                this.m_cs = m_cs.Clone();
-                m_cs.Name = m_csManager.GetRandomKey();
-                m_cs.IsDefault = false;
-                m_cs.IsStencil = false;
+                ComponentSetting oldCs = componentItem.PCanvas.Setting;
+                ComponentSetting newCs = oldCs.Clone();
+                // Set Setting
+                newCs.Name = m_csManager.GetRandomKey();
+                newCs.IsDefault = false;
+                newCs.IsStencil = false;
+                componentItem.UpdateSetting(newCs);
+                componentItem.SetItem(newCs);
             }
         }
     }

@@ -57,6 +57,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private Label label1;
 
         private PToolBoxCanvas pCanvas;
+        /// <summary>
+        /// 
+        /// </summary>
+        public PToolBoxCanvas PCanvas
+        {
+            get { return pCanvas; }
+            set { pCanvas = value; }
+        }
         #endregion
         /// <summary>
         /// 
@@ -245,6 +253,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public void ApplyChange()
         {
             ComponentSetting cs = this.pCanvas.Setting;
+            UpdateSetting(cs);
+            cs.RaisePropertyChange();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cs"></param>
+        internal void UpdateSetting(ComponentSetting cs)
+        {
             cs.TextBrush = textBrush.Brush;
             cs.LineBrush = lineBrush.Brush;
             cs.FillBrush = fillBrush.Brush;
@@ -263,7 +281,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             string type = figureBox.ComboBox.Text;
             string args = cs.Figure.Coordinates;
             cs.Figure = FigureManager.CreateFigure(type, args);
-            cs.RaisePropertyChange();
         }
 
         #region EventHandlers
