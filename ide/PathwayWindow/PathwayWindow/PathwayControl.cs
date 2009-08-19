@@ -904,7 +904,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void PasteNodes()
         {
-            m_canvas.PCanvas.Camera.Pickable = false;
             if (this.m_copiedNodes == null || this.m_copiedNodes.Count == 0)
                 return;
 
@@ -1034,7 +1033,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set Anchor.
             m_window.Environment.ActionManager.AddAction(new AnchorAction());
-            m_canvas.PCanvas.Camera.Pickable = true;
         }
 
         /// <summary>

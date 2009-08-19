@@ -181,7 +181,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             }
             else if ((int)keyData == (int)Keys.Control + (int)Keys.V)
             {
-                m_con.PasteNodes();
+                m_con.Canvas.PCanvas.Camera.Pickable = false;
+                try
+                {
+                    m_con.PasteNodes();
+                }
+                catch (Exception e)
+                {
+                    Util.ShowErrorDialog(e.Message);
+                }
+                m_con.Canvas.PCanvas.Camera.Pickable = true;
                 return true;
             }
             else if ((int)keyData == (int)Keys.Control + (int)Keys.X)

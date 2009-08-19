@@ -1468,6 +1468,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (!m_con.Canvas.PCanvas.Focused)
                 return;
+            m_con.Canvas.PCanvas.Camera.Pickable = false;
             try
             {
                 m_con.PasteNodes();
@@ -1475,9 +1476,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception ex)
             {
                 Util.ShowErrorDialog(ex.Message);
-                m_con.Canvas.PCanvas.Camera.Pickable = true;
                 ResetEventHandler();
             }
+            m_con.Canvas.PCanvas.Camera.Pickable = true;
         }
 
         /// <summary>
