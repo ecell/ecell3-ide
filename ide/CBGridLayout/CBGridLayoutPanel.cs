@@ -273,6 +273,11 @@ namespace Ecell.IDE.Plugins.CBGridLayout
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void marginTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             CBGridLayout alogorithm = (CBGridLayout)m_algorithm;
@@ -284,8 +289,8 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                 e.Cancel = true;
                 return;
             }
-            float dummy;
-            if (!float.TryParse(text, out dummy) || dummy < 0.0)
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy < 0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResGridLayout.ErrInvalidValue, label5.Text));
                 marginTextBox.Text = Convert.ToString(alogorithm.Margin);
