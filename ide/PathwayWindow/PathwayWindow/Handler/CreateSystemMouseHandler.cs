@@ -119,6 +119,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
             m_selectedPath.Reset();
+            m_startPoint = PointF.Empty;
+            m_surSystem = null;
         }
 
         /// <summary>
@@ -226,6 +228,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (m_canvas.DoesSystemOverlaps(rect))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOverSystem);
+                Reset();
                 return;
             }
             // Check Aliases
@@ -273,8 +276,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
                 m_canvas.NotifyResetSelect();
             }
-            m_startPoint = PointF.Empty;
-            m_surSystem = null;
+            Reset();
         }
     }
 }
