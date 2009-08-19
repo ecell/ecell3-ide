@@ -987,7 +987,7 @@ namespace Ecell.Job
             List<string> resList = new List<string>();
             foreach (SaveLoggerProperty s in logList)
             {
-                string outName = Util.GetOutputFileName(s.FullPath);
+                string outName = Util.GetOutputFileName(s.FullPath, false);
                 string fileName = topDir + "/" + outName;
                 s.DirName = topDir;
                 resList.Add(fileName);

@@ -334,7 +334,7 @@ namespace Ecell.Job
                 if (key == null)
                     return result;
 
-                string fileName = Util.GetOutputFileName(key); 
+                string fileName = Util.GetOutputFileName(key, true); 
 
                 // ‰Šú‰»
                 // grid-proxy-init

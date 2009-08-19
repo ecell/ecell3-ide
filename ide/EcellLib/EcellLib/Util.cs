@@ -1293,11 +1293,12 @@ namespace Ecell
         /// </summary>
         /// <param name="key">key.</param>
         /// <returns>the log file.</returns>
-        public static string GetOutputFileName(string key)
+        public static string GetOutputFileName(string key, bool isUnix)
         {
             string fileName = key.Replace("/", "_");
             fileName = fileName.Replace(":", "_");
-//            fileName = fileName.Replace("__", "_");
+            if (isUnix)            
+                fileName = fileName.Replace("__", "_");
             fileName = fileName + ".csv";
             return fileName;
         }

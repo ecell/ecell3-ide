@@ -2003,7 +2003,7 @@ namespace Ecell
             string file = Util.GetStartupFile();
             Assert.IsNotNull(file, "GetStartupFile method returned unexpected result.");
 
-            file = Util.GetOutputFileName("/S0/S1:V0:Value");
+            file = Util.GetOutputFileName("/S0/S1:V0:Value", false);
             Assert.IsNotNull(file, "GetStartupFile method returned unexpected result.");
 
             string dir = Util.GetBaseDir();

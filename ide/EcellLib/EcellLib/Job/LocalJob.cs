@@ -238,7 +238,7 @@ namespace Ecell.Job
             if (key == null)
                 return result;
 
-            string fileName = Util.GetOutputFileName(key);
+            string fileName = Util.GetOutputFileName(key, false);
 
             foreach (string extFileName in ExtraFileList)
             {
