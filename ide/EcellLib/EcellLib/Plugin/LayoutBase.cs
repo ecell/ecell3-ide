@@ -241,6 +241,8 @@ namespace Ecell.Plugin
         /// <returns></returns>
         public static Dictionary<string, List<PointF>> GetLayoutGrid(List<EcellObject> systemList, float margin)
         {
+            if (margin < 10f)
+                margin = 10f;
             Dictionary<string, List<PointF>> gridDic = new Dictionary<string, List<PointF>>();
             // Set Grid
             foreach (EcellObject system in systemList)

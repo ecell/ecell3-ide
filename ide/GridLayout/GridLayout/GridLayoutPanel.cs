@@ -174,9 +174,9 @@ namespace Ecell.IDE.Plugins.GridLayout
         {
             GridLayout alogorithm = (GridLayout)m_algorithm;
             alogorithm.Kmax = int.Parse(this.annealingRepeats.Text);
-            alogorithm.NaturalLength = int.Parse(this.naturalLength.Text);
-            alogorithm.InitialT = int.Parse(this.initialT.Text);
-            alogorithm.DefMargin = int.Parse(this.defMargin.Text);
+            alogorithm.NaturalLength = (float)double.Parse(this.naturalLength.Text);
+            alogorithm.InitialT = (float)double.Parse(this.initialT.Text);
+            alogorithm.DefMargin = (float)double.Parse(this.defMargin.Text);
             alogorithm.SubIndex = (scratchCheckBox.Checked) ? 0 : 1;
         }
         #endregion

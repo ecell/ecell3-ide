@@ -625,7 +625,7 @@ namespace Ecell.IDE.MainWindow
             for (int i = 0; i < contents.Length; i++)
             {
                 IDockContent content = SetDockContent(dockPanel, contents[i]);
-                if (content == null)
+                if (content == null || ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
                     content = new DockContent();
                 content.DockHandler.DockPanel = dockPanel;
                 content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
@@ -736,7 +736,7 @@ namespace Ecell.IDE.MainWindow
             foreach (DockContent cont in dockPanel.Contents)
                 if (cont.Name.Equals(contentStruct.Name))
                     content = cont;
-            if (content == null)
+            if (content == null || ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
                 return null;
             // Set parameter.
             content.Pane = null;
