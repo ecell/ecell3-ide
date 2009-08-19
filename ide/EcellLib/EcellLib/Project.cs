@@ -1318,6 +1318,8 @@ namespace Ecell
                     InitialCondition[Info.SimulationParam][newobj.ModelID].Remove(newData.EntityPath);
                 }
             }
+
+            defaultObj.Layout = newobj.Layout.Clone();
         }
 
         public void UpdateInitialCondition(EcellObject oldObj, EcellObject newObj)
