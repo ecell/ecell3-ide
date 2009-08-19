@@ -460,7 +460,7 @@ namespace Ecell
             ProjectInfo project = null;
             string line = "";
             string comment = "";
-            string simParam = "";
+            string simParam = Constants.defaultSimParam;
             string time = File.GetLastWriteTime(filepath).ToString();
 
             string dirPathName = Path.GetDirectoryName(filepath);

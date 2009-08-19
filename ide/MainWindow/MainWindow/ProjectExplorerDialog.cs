@@ -336,6 +336,8 @@ namespace Ecell.IDE.MainWindow
                 string ext = Path.GetExtension(filepath);
                 if (filepath.EndsWith(Constants.fileProjectXML))
                     return FileType.Project;
+                else if (ext.Equals(Constants.FileExtINFO))
+                    return FileType.Project;
                 else if (ext.Equals(Constants.FileExtEML))
                     return FileType.Model;
                 else
