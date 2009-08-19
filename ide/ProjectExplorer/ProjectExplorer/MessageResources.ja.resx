@@ -198,4 +198,7 @@
   <data name="WarnUsedDM" xml:space="preserve">
     <value>このダイナミックモジュールは使用中です。</value>
   </data>
+  <data name="ErrNoDescription" xml:space="preserve">
+    <value>このダイナミックモジュールにはデスクリプションが設定されていません。</value>
+  </data>
 </root>

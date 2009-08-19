@@ -115,6 +115,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   This DM do not set the description. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoDescription {
+            get {
+                return ResourceManager.GetString("ErrNoDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoInput {
