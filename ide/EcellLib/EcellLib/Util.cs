@@ -1297,9 +1297,15 @@ namespace Ecell
         {
             string fileName = key.Replace("/", "_");
             fileName = fileName.Replace(":", "_");
-            if (isUnix)            
+            if (isUnix)
+            {
                 fileName = fileName.Replace("__", "_");
-            fileName = fileName + ".csv";
+                fileName = fileName + ".ecd";
+            }
+            else
+            {
+                fileName = fileName + ".csv";
+            }
             return fileName;
         }
 

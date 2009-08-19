@@ -334,7 +334,8 @@ namespace Ecell.Job
                 if (key == null)
                     return result;
 
-                string fileName = Util.GetOutputFileName(key, true); 
+                string ufileName = Util.GetOutputFileName(key, true);
+                string wfileName = Util.GetOutputFileName(key, false); 
 
                 // èâä˙âª
                 // grid-proxy-init
@@ -352,7 +353,7 @@ namespace Ecell.Job
                 argument = " -d file://tmp/tmp.log -s gsiftp://"
                 + Param[GlobusJob.SERVER_NAME].ToString() + ""
                 + Param[GlobusJob.TOPDIR_NAME].ToString() + "/"
-                + this.Machine + "/" + this.JobID + "/" + fileName;
+                + this.Machine + "/" + this.JobID + "/" + ufileName;
                 cmd = cmd + argument;
                 m_process.StandardInput.WriteLine(cmd);
                 m_process.StandardInput.Flush();
@@ -364,11 +365,11 @@ namespace Ecell.Job
                 }
 
                 // TempÇ…à⁄ìÆ
-                File.Move("tmp.log", JobDirectory + "/" + fileName);
+                File.Move("tmp.log", JobDirectory + "/" + wfileName);
                 //File.Move($logfile, $tmpdir/$logfile)
                 // ÉçÉOÇÃì«Ç›çûÇ›
                 //
-                StreamReader hReader = new StreamReader(JobDirectory + "/" + fileName, Encoding.ASCII);
+                StreamReader hReader = new StreamReader(JobDirectory + "/" + wfileName, Encoding.ASCII);
                 char splitter = '\t';
 
                 while (!hReader.EndOfStream)
