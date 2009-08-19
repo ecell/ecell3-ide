@@ -1156,8 +1156,8 @@ namespace Ecell.Job
             //m_env.DataManager.ExportModel(modelList, modelFile);
 
             List<EcellObject> storedList = new List<EcellObject>();
-            storedList.AddRange(m_env.DataManager.CurrentProject.StepperDic[modelName]);
-            storedList.AddRange(m_env.DataManager.CurrentProject.SystemDic[modelName]);
+            storedList.AddRange(stepperList);
+            storedList.AddRange(sysList);
             EmlWriter.Create(modelFile, storedList, false);
 
             writer.ClearScriptInfo();

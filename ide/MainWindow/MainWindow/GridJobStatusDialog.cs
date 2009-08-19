@@ -323,8 +323,7 @@ namespace Ecell.IDE.MainWindow
             }
             if (e.Button == MouseButtons.Right)
             {
-                jobTreeView.SelectedNode = e.Node;
-                return;
+                jobTreeView.SelectedNode = e.Node;                
             }
             if (node is JobTreeNode)
             {                

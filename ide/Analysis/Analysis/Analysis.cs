@@ -462,8 +462,16 @@ namespace Ecell.IDE.Plugins.Analysis
             m_sensitivityParameter = m_sensitivityDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
-            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            List<EcellObject> sysObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.SystemDic[modelName])
+            {
+                sysObj.Add(e.Clone());
+            }
+            List<EcellObject> stepperObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.StepperDic[modelName])
+            {
+                stepperObj.Add(e.Clone());
+            } 
             JobGroup g = m_env.JobManager.CreateJobGroup(SensitivityAnalysis.s_analysisName, sysObj, stepperObj);
             SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis(this);
             sensitivityAnalysis.Group = g;
@@ -481,8 +489,16 @@ namespace Ecell.IDE.Plugins.Analysis
             m_bifurcateParameter = m_bifurcationDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
-            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            List<EcellObject> sysObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.SystemDic[modelName])
+            {
+                sysObj.Add(e.Clone());
+            }
+            List<EcellObject> stepperObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.StepperDic[modelName])
+            {
+                stepperObj.Add(e.Clone());
+            } 
             JobGroup g = m_env.JobManager.CreateJobGroup(BifurcationAnalysis.s_analysisName, sysObj, stepperObj);
             BifurcationAnalysis bifurcationAnalysis = new BifurcationAnalysis(this);
             bifurcationAnalysis.Group = g;
@@ -500,8 +516,18 @@ namespace Ecell.IDE.Plugins.Analysis
             m_robustParameter = m_robustDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
-            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+
+            List<EcellObject> sysObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.SystemDic[modelName])
+            {
+                sysObj.Add(e.Clone());
+            }
+            List<EcellObject> stepperObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.StepperDic[modelName])
+            {
+                stepperObj.Add(e.Clone());
+            }
+
             JobGroup g = m_env.JobManager.CreateJobGroup(RobustAnalysis.s_analysisName, sysObj, stepperObj);
             RobustAnalysis robustAnalysis = new RobustAnalysis(this);
             robustAnalysis.Group = g;
@@ -521,8 +547,16 @@ namespace Ecell.IDE.Plugins.Analysis
             m_estimationParameter = m_estimationDialog.GetParameter();
             ShowGridStatusDialog();
             string modelName = m_env.DataManager.CurrentProject.Model.ModelID;
-            List<EcellObject> sysObj = m_env.DataManager.CurrentProject.SystemDic[modelName];
-            List<EcellObject> stepperObj = m_env.DataManager.CurrentProject.StepperDic[modelName];
+            List<EcellObject> sysObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.SystemDic[modelName])
+            {
+                sysObj.Add(e.Clone());
+            }
+            List<EcellObject> stepperObj = new List<EcellObject>();
+            foreach (EcellObject e in m_env.DataManager.CurrentProject.StepperDic[modelName])
+            {
+                stepperObj.Add(e.Clone());
+            } 
             JobGroup g = m_env.JobManager.CreateJobGroup(ParameterEstimation.s_analysisName, sysObj, stepperObj);
             ParameterEstimation parameterEstimation = new ParameterEstimation(this);
             parameterEstimation.Group = g;
