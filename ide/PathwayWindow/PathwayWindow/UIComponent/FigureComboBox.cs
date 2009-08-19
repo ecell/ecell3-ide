@@ -171,23 +171,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Get ComboBox.
-        /// </summary>
-        [Browsable(true)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public bool ReadOnly
-        {
-            get { return (imageComboBox.DropDownStyle == ComboBoxStyle.DropDownList); }
-            set
-            {
-                if (value)
-                    this.imageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-                else
-                    this.imageComboBox.DropDownStyle = ComboBoxStyle.DropDown;
-            }
-        }
-
-        /// <summary>
         /// Event on text changed.
         /// </summary>
         /// <param name="sender"></param>
@@ -205,6 +188,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             string figure = ((ComboBox)sender).Text;
             this.Figure = figure;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        public void SetItemType(string type)
+        {
+            imageComboBox.Items.Clear();
+            imageComboBox.Items.AddRange(FigureManager.GetFigureList(type).ToArray());
+
         }
 
         #region EventHandler for ComboBoxChange

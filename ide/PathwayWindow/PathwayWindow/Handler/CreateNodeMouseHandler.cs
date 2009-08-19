@@ -89,6 +89,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             SetTemplate(e);
         }
 
+        public override void OnLostFocus(object sender, PInputEventArgs e)
+        {
+            base.OnLostFocus(sender, e);
+            Reset();
+        }
+
+        public override void OnMouseLeave(object sender, PInputEventArgs e)
+        {
+            base.OnMouseLeave(sender, e);
+            Reset();
+        }
+
         /// <summary>
         /// Called when the mouse is down on the canvas.
         /// </summary>
@@ -99,9 +111,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.OnMouseDown(sender, e);
 
             // Cancel
-            if (!(e.PickedNode is PCamera))
-                return;
-            if (e.Button == MouseButtons.Right)
+            if (!(e.PickedNode is PCamera) || e.Button == MouseButtons.Right)
             {
                 m_con.Menu.ResetEventHandler();
                 return;

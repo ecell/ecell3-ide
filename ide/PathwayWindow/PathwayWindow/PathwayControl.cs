@@ -1068,6 +1068,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         internal void DeteleNodes()
         {
             // Delete Selected Line
+            bool delete = false;
             PPathwayLine line = m_canvas.LineHandler.SelectedLine;
             if (line != null)
             {
@@ -1078,6 +1079,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     0,
                     true);
                 m_canvas.ResetSelectedLine();
+                delete = true;
             }
 
             // Delete Selected Nodes
@@ -1086,8 +1088,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             foreach (PPathwayObject deleteNode in slist)
             {
                 NotifyDataDelete(deleteNode, false);
+                delete = true;
             }
-            m_window.Environment.ActionManager.AddAction(new AnchorAction());
+            if(delete)
+                m_window.Environment.ActionManager.AddAction(new AnchorAction());
         }
 
         /// <summary>

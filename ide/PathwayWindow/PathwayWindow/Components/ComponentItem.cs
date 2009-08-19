@@ -168,7 +168,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             resources.ApplyResources(this.figureBox, "figureBox");
             this.figureBox.Figure = "Rectangle";
             this.figureBox.Name = "figureBox";
-            this.figureBox.ReadOnly = true;
             this.figureBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
             // 
             // textBrush
@@ -235,10 +234,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Object.Refresh();
             // Set Figure.
             //if (this.figureBox.ComboBox.Items.Count <= 0)
-            this.figureBox.ComboBox.Items.Clear();
-            this.figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
+            this.figureBox.SetItemType(cs.Type);
+
             // Set Parameter.
-            this.figureBox.ComboBox.Text = cs.Figure.Type;
+            this.figureBox.Figure = cs.Figure.Type;
             this.textBrush.Brush = cs.TextBrush;
             this.lineBrush.Brush = cs.LineBrush;
             this.fillBrush.Brush = cs.FillBrush;
@@ -278,7 +277,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 cs.IconFile = null;
                 cs.ImageStream = null;
             }
-            string type = figureBox.ComboBox.Text;
+            string type = figureBox.Figure;
             string args = cs.Figure.Coordinates;
             cs.Figure = FigureManager.CreateFigure(type, args);
         }
@@ -372,7 +371,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <param name="e"></param>
         void figureBox_TextChange(object sender, EventArgs e)
         {
-            string type = figureBox.ComboBox.Text;
+            string type = figureBox.Figure;
             if (string.IsNullOrEmpty(type))
                 return;
             string args = this.pCanvas.Setting.Figure.Coordinates;

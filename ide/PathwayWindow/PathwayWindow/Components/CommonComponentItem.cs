@@ -186,7 +186,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.figureComboBox.Figure = "Rectangle";
             resources.ApplyResources(this.figureComboBox, "figureComboBox");
             this.figureComboBox.Name = "figureComboBox";
-            this.figureComboBox.ReadOnly = true;
             this.figureComboBox.TextChange += new System.EventHandler(this.figureBox_TextChange);
             // 
             // fillColorBrushComboBox
@@ -266,8 +265,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.pCanvas.Setting = cs;
             this.pCanvas.Object.Text = "Sample";
             this.pCanvas.Object.Refresh();
-            this.figureComboBox.ComboBox.Items.Clear();
-            this.figureComboBox.ComboBox.Items.AddRange(FigureManager.GetFigureList(cs.Type).ToArray());
+            this.figureComboBox.SetItemType(cs.Type);
 
             this.textColorBrushComboBox.Brush = cs.TextBrush;
             this.lineColorBrushComboBox.Brush = cs.LineBrush;
