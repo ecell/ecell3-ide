@@ -297,5 +297,25 @@ namespace Ecell.IDE
             }
             e.Handled = true;
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                Copy();
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.X)
+            {
+                Cut();
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.V)
+            {
+                Paste();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }
