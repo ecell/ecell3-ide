@@ -708,12 +708,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void Clear()
         {
+            // Reset Animation.
+            m_animCon.Reset();
             // Clear Canvas dictionary.
             if (m_canvas != null)
                 m_canvas.Dispose();
             Canvas = null;
             m_csManager.ClearSettings();
-            m_animCon.Reset();
             SetNodeIcons();
         }
 
