@@ -289,8 +289,8 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                 e.Cancel = true;
                 return;
             }
-            int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy < 0)
+            float dummy;
+            if (!float.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResGridLayout.ErrInvalidValue, label5.Text));
                 marginTextBox.Text = Convert.ToString(alogorithm.Margin);
