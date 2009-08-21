@@ -132,7 +132,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 camera.Canvas.Refresh();
                 return;
             }
-            if (m_selectedPath == null || !m_isDragged)
+            if (m_selectedPath.Parent == null || !m_isDragged)
                 return;
 
             CanvasControl canvas = m_con.Canvas;
