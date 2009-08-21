@@ -844,6 +844,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     if (win.ShowDialog() == DialogResult.OK)
                     {
                         if (win.SaveList.Count <= 0) return;
+                        if (String.IsNullOrEmpty(DataManager.CurrentProject.Info.ProjectPath))
+                            DataManager.CurrentProject.Save();
                         m_env.DataManager.SaveSimulationResult(win.DirectoryName,
                             win.Start, win.End, win.FileType, win.SaveList);
                         SaveSimulationResultDelegate dlg = 

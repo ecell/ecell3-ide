@@ -201,4 +201,7 @@
   <data name="ErrNoDescription" xml:space="preserve">
     <value>このダイナミックモジュールにはデスクリプションが設定されていません。</value>
   </data>
+  <data name="WarnNoLoad" xml:space="preserve">
+    <value>このダイナミックモジュールは読み込まれていません。</value>
+  </data>
 </root>

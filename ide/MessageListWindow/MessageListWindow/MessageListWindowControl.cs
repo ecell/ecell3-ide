@@ -137,8 +137,28 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             ObjectReport mes = MLWMessageDridView.Rows[e.RowIndex].Tag as ObjectReport;
             if (mes == null) return;
 
+           
+            m_isSelected = true;
+            m_selectedRow = MLWMessageDridView.Rows[e.RowIndex];
+            m_selectedRow.Selected = true;
             m_owner.PluginManager.SelectChanged(mes.Object.ModelID,
                 mes.Object.Key, mes.Object.Type);
+            m_isSelected = false;
+        }
+
+        private bool m_isSelected = false;
+        private DataGridViewRow m_selectedRow = null;
+        private bool m_isSelectionChanged = false;
+
+        private void MLWMessageDridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (m_isSelected && m_selectedRow != null && m_selectedRow.Index != -1 && !m_isSelectionChanged)
+            {
+                m_isSelectionChanged = true;
+                MLWMessageDridView.ClearSelection();
+                m_selectedRow.Selected = true;
+                m_isSelectionChanged = false;
+            }
         }
     }
 }

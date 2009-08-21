@@ -304,7 +304,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             DataGridViewRow row = SearchIndex(type, key);
             if (row != null)
+            {
+                m_isSelected = true;
                 row.Selected = false;
+                m_isSelected = false;
+            }
         }
 
         /// <summary>

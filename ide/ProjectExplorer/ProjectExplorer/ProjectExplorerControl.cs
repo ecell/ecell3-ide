@@ -1721,6 +1721,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 desc = m_owner.Environment.DMDescriptorKeeper.GetDMDescriptor(Constants.xpathStepper, dmName);
             }
+            if (desc == null)
+            {
+                Util.ShowWarningDialog(MessageResources.WarnNoLoad);
+                return;
+            }
             if (string.IsNullOrEmpty(desc.Description))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoDescription);

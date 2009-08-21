@@ -692,6 +692,12 @@ namespace Ecell.IDE.Plugins.EntityList
             EnterDragMode();
             m_dragObject = null;
         }
+
+        /// <summary>
+        /// Mouse leave on DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">EventArgs</param>
         private void DataGridViewMouseLeave(object sender, EventArgs e)
         {
             m_isSelected = false;

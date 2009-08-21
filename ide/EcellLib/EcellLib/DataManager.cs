@@ -841,7 +841,7 @@ namespace Ecell
                     double value = GetPropertyValue4Stepper(obj.Key, d.Name);
                     File.AppendAllText(fileName,
                         d.EntityPath + "," + value.ToString() + "\n",
-                        enc);
+                        enc);                  
                 }
             }
 
@@ -853,7 +853,6 @@ namespace Ecell
             foreach (EcellObject obj in systemList)
             {
                 EcellObject sysObj = obj;
-
                 foreach (EcellData d in sysObj.Value)
                 {
                     if (!d.Gettable || !d.Value.IsDouble)

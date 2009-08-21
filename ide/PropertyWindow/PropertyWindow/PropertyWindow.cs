@@ -650,6 +650,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             EcellObject obj = GetData(modelID, key, type);
             if (obj == null) return;
             m_current = obj;
+            Console.WriteLine("Select change" + " : " + type + " : " + key);
 
             ReloadProperties();
         }
@@ -663,6 +664,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         public void AddSelect(string modelID, string key, string type)
         {
             SelectChanged(modelID, key, type);
+            Console.WriteLine("Add select" + " : " + type + " : " + key);
         }
 
         /// <summary>
@@ -1229,6 +1231,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
+            Clear();
         }
         /// <summary>
         /// Reset all selected objects.

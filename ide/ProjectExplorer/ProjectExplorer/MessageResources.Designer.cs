@@ -304,6 +304,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   This DM is not loaded. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnNoLoad {
+            get {
+                return ResourceManager.GetString("WarnNoLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This DM is in used. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnUsedDM {

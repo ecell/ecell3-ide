@@ -68,6 +68,7 @@
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.ClickCopyMenu);
             // 
             // Spreadsheet
             // 

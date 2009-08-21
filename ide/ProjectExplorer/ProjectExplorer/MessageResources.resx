@@ -201,4 +201,7 @@
   <data name="ErrNoDescription" xml:space="preserve">
     <value>This DM do not set the description.</value>
   </data>
+  <data name="WarnNoLoad" xml:space="preserve">
+    <value>This DM is not loaded.</value>
+  </data>
 </root>
