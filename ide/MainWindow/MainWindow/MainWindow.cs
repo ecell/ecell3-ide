@@ -1202,12 +1202,12 @@ namespace Ecell.IDE.MainWindow
                 if (CloseConfirm() == ConfirmState.Canceled)
                     return;
                 ProjectInfo info = win.SelectedProject;
-                info.ProjectPath = null;
                 info.ProjectType = ProjectType.Template;
                 info.DMDirList.AddRange(win.DMList);
                 try
                 {
                     m_env.DataManager.LoadProject(info);
+                    m_env.DataManager.CurrentProject.Info.ProjectPath = null;
                 }
                 catch (Exception)
                 {
