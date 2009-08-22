@@ -94,10 +94,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             // Resizing is aborted
             m_obj.ResetPosition();
-            foreach (PPathwaySystem system in m_canvas.Systems.Values)
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_obj.EcellObject.Key))
             {
-                system.ResetPosition();
-                system.RefreshView();
+                obj.ResetPosition();
+                obj.RefreshView();
             }
             ValidateSystem();
             m_obj.RefreshView();

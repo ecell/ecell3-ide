@@ -1513,7 +1513,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Move Node.
             if (obj is PPathwayEntity)
             {
-                if (DoesSystemContains(newkey, obj.Rect))
+                if (DoesSystemContains(sysKey, obj.CenterPointF))
                     return;
 
                 obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);

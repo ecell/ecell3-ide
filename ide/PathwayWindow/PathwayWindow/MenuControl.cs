@@ -903,7 +903,47 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         #region Internal Methods
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void ResetPopupMenus()
+        {
+            // Show ObjectID(key).
+            toolStripIdShow.Visible = false;
+            toolStripSeparator1.Visible = false;
+            // Show Line menus.
+            toolStripOneWayArrow.Visible = false;
+            toolStripAnotherArrow.Visible = false;
+            toolStripBidirArrow.Visible = false;
+            toolStripConstant.Visible = false;
+            toolStripDeleteArrow.Visible = false;
+            // Show Node / System edit menus.
+            toolStripCut.Visible = false;
+            toolStripCopy.Visible = false;
+            toolStripPaste.Visible = false;
+            toolStripDelete.Visible = false;
+            toolStripSeparator2.Visible = false;
+            // Set Alias
+            toolStripAlias.Visible = false;
+            toolStripDeleteAlias.Visible = false;
+            // Set Text menu.
+            toolStripTextAlign.Visible = false;
+            // Show Layer menu.
+            toolStripChangeLayer.Visible = false;
+            toolStripSetZOrder.Visible = false;
+            toolStripFigureSetting.Visible = false;
+            toolStripShowID.Visible = false;
+            toolStripSetHandIcon.Visible = false;
+            toolStripAnimationSetting.Visible = false;
+            toolStripSeparator3.Visible = false;
+            // Show Logger menu.
+            commonMenu.addToolStripMenuItem.Visible = false;
+            commonMenu.mergeSystemToolStripMenuItem.Visible = false;
+            commonMenu.loggingToolStripMenuItem.Visible = false;
+            commonMenu.observedToolStripMenuItem.Visible = false;
+            commonMenu.parameterToolStripMenuItem.Visible = false;
+            commonMenu.propertyToolStripMenuItem.Visible = false;
+        }
         /// <summary>
         /// SetPopupMenus
         /// </summary>
