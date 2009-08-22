@@ -227,11 +227,17 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         /// <param name="status">the status of project.</param>
         public void ChangeStatus(ProjectStatus status)
-        {            
+        {
             if (status == ProjectStatus.Loaded)
+            {
                 executeButton.Enabled = true;
+                formulatorButton.Enabled = true;
+            }
             else
+            {
                 executeButton.Enabled = false;
+                formulatorButton.Enabled = false;
+            }
         }
 
         #region Events
@@ -243,6 +249,8 @@ namespace Ecell.IDE.Plugins.Analysis
         private void formulatorButtonClicked(object sender, EventArgs e)
         {
             DataManager manager = m_owner.DataManager;
+            if (manager.CurrentProject == null)
+                return;
             m_fwin = new FormulatorDialog();
             m_fwin.SetExpression(false);
 

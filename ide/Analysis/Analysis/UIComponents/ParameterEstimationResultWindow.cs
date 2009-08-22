@@ -155,7 +155,8 @@ namespace Ecell.IDE.Plugins.Analysis
         private void peCntMenu_Opening(object sender, CancelEventArgs e)
         {
             DataManager manager = m_owner.DataManager;
-            if (manager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
+            if (manager.CurrentProject == null ||
+                manager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
                 manager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
                 e.Cancel = true;
         }
