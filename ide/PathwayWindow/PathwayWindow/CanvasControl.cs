@@ -1928,36 +1928,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
                         objList.Add(obj);
+                    if (!objList.Contains(obj) && CheckMoved(obj))
+                        objList.Add(obj);
                 }
                 foreach (PPathwayProcess obj in m_processes.Values)
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
+                        objList.Add(obj);
+                    if (!objList.Contains(obj) && CheckMoved(obj))
                         objList.Add(obj);
                 }
                 foreach (PPathwayVariable obj in m_variables.Values)
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
                         objList.Add(obj);
+                    if (!objList.Contains(obj) && CheckMoved(obj))
+                        objList.Add(obj);
+                    foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                    {
+                        if (alias.Offset != PointF.Empty && !objList.Contains(alias.Variable))
+                            objList.Add(alias.Variable);
+                    }
                 }
                 foreach (PPathwayText obj in m_texts.Values)
                 {
                     if (CheckMoveErrorAndKeyChange(obj))
                         objList.Add(obj);
-                }
-                // Check Moved Object.
-                foreach (PPathwayObject obj in all)
-                {
                     if (!objList.Contains(obj) && CheckMoved(obj))
                         objList.Add(obj);
-                    if (obj is PPathwayVariable)
-                    {
-                        foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
-                        {
-                            if (alias.Offset != PointF.Empty && !objList.Contains(alias.Variable))
-                                objList.Add(alias.Variable);
-                        }
-                    }
-
                 }
 
                 // MoveObject

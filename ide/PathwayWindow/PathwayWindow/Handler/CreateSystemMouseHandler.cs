@@ -224,7 +224,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_selectedPath.Reset();
 
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
-            // Check Error
+            // Check size
+            if (rect.Width <= PPathwaySystem.MIN_WIDTH || rect.Height <= PPathwaySystem.MIN_HEIGHT)
+                return;
+            // Check overlap
             if (m_canvas.DoesSystemOverlaps(rect))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOverSystem);
@@ -247,35 +250,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 }
             }
 
-            if (rect.Width >= PPathwaySystem.MIN_WIDTH && rect.Height >= PPathwaySystem.MIN_HEIGHT)
+
+            EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM);
+
+            eo.X = rect.X;
+            eo.Y = rect.Y;
+            eo.Width = rect.Width;
+            eo.Height = rect.Height;
+            eo.isFixed = true;
+            m_con.NotifyDataAdd(eo, false);
+
+            m_canvas.ResetSelect();
+            // Add system.
+            // Move Children.
+            m_canvas.NotifyMoveObjects(false);
+
+            // Reset System.
+            PPathwayObject obj = m_canvas.GetObject(eo.Key, eo.Type);
+            if (obj != null)
             {
-
-                EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM);
-
-                eo.X = rect.X;
-                eo.Y = rect.Y;
-                eo.Width = rect.Width;
-                eo.Height = rect.Height;
-                eo.isFixed = true;
-
-                m_canvas.ResetSelect();
-                // Add system.
-                m_con.NotifyDataAdd(eo, false);
-                // Move Children.
-                m_canvas.NotifyMoveObjects(false);
-                // Reset System.
-                PPathwayObject obj = m_canvas.GetObject(eo.Key, eo.Type);
-                if (obj != null)
-                {
-                    m_con.NotifyDataChanged(obj, true);
-                    m_con.Canvas.NotifySelectChanged(obj);
-                }
-                m_con.Menu.ResetEventHandler();
+                m_con.NotifyDataChanged(obj, true);
+                m_con.Canvas.NotifySelectChanged(obj);
             }
-            else
-            {
-                m_canvas.NotifyResetSelect();
-            }
+            m_con.Menu.ResetEventHandler();
             Reset();
         }
     }

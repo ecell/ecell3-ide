@@ -1626,11 +1626,12 @@ namespace Ecell
 
             try
             {
-                // Record action
                 EcellObject oldObj = GetEcellObject(modelID, key, type);
-
                 // Checks the EcellObject
                 CheckEntityPath(ecellObject);
+                // Record action
+                if (isRecorded)
+                    this.m_env.ActionManager.AddAction(new DataChangeAction(CurrentProject.Info.SimulationParam, oldObj, ecellObject));
 
                 // 4 System & Entity
                 if (ecellObject.Type.Equals(Constants.xpathModel))
@@ -1665,8 +1666,6 @@ namespace Ecell
                 //    m_env.PluginManager.SetPosition(oldObj);
                 // Set Event Anchor.
                 // Record Action.
-                if (isRecorded)
-                    this.m_env.ActionManager.AddAction(new DataChangeAction(CurrentProject.Info.SimulationParam, oldObj, ecellObject));
                 if (isRecorded && isAnchor)
                     this.m_env.ActionManager.AddAction(new AnchorAction());
             }
