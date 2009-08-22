@@ -1687,14 +1687,17 @@ namespace Ecell.IDE.MainWindow
             if (state == ConfirmState.Canceled)
             {
                 e.Cancel = true;
+                return;
             }
             else if (state == ConfirmState.NotSaved && !Util.ShowOKCancelDialog(MessageResources.ConfirmUnsaved))
             {
                 e.Cancel = true;
+                return;
             }
 
             SaveRecentProject();
             SaveWindowSetting(m_userWindowSettingPath, true);
+            m_browser.EcellWebBrowserClear();
 
             base.OnClosing(e);
         }

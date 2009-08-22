@@ -104,6 +104,16 @@ namespace Ecell.IDE.MainWindow
             SetStartPage();
         }
 
+        public void EcellWebBrowserClear()
+        {
+            webBrowser.Navigate("about:blank");
+            Application.DoEvents();
+            CoFreeUnusedLibraries();
+        }
+
+        [DllImport("ole32.dll")]
+        static extern void CoFreeUnusedLibraries();
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EcellWebBrowser));
