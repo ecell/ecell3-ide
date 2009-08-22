@@ -1360,7 +1360,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="groupName">Group name.</param>
         /// <param name="message">Error message.</param>
-        public void NotifyErroeMessage(string groupName, string message)
+        public void NotifyErrorMessage(string groupName, string message)
         {
             try
             {

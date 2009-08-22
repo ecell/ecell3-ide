@@ -514,7 +514,6 @@ namespace Ecell
 
             _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:M", "Variable", variable);
 
-            MessageBox.Show("Click \"Cancel\" button on next dialog.");
             _env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
             _unitUnderTest.CurrentProject.SimulationStatus = SimulationStatus.Suspended;
             _unitUnderTest.DataChanged(modelID, "/CELL:M", "Variable", variable);
@@ -741,7 +740,6 @@ namespace Ecell
             // Check Simulation Confirm.
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
             _env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            MessageBox.Show("Click 'No' button of next Dialog.");
             try
             {
                 _unitUnderTest.DataMerge(modelID, "/CELL/CYTOPLASM");

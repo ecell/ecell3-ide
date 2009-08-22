@@ -645,13 +645,13 @@ namespace Ecell.Plugin
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
             obj = new EcellText("", "/:Text", "", "", new List<EcellData>());
-            expectedInt32 = 9;
+            expectedInt32 = 10;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(obj);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
             obj = new EcellStepper("", "", "", "", new List<EcellData>());
-            expectedInt32 = 10;
+            expectedInt32 = 11;
             resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(obj);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");

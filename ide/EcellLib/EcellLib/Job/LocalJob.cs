@@ -191,7 +191,7 @@ namespace Ecell.Job
                 else
                 {                       
                     this.Status = JobStatus.ERROR;
-                    Manager.NotifyErroeMessage(this.GroupName, this.StdErr);
+                    Manager.NotifyErrorMessage(this.GroupName, this.StdErr);
                 }
                 m_currentProcess = null;
             }

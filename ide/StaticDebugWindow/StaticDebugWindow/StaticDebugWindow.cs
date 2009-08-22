@@ -107,19 +107,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <returns>AutoDebug, ManualDebug and separator.</returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            m_isAutoMenuItem = new ToolStripMenuItem();
-            m_isAutoMenuItem.Text = MessageResources.MenuItemAutoDebug;
-            m_isAutoMenuItem.Tag = 0;
-            m_isAutoMenuItem.Enabled = true;
-            m_isAutoMenuItem.Checked = m_isExecute;
-            m_isAutoMenuItem.Click += new EventHandler(ChangeAutoUpdate);
-
-            m_StaticDebugMenuItem = new ToolStripMenuItem();
-            m_StaticDebugMenuItem.Text = MessageResources.MenuItemStaticDebugText;
-            m_StaticDebugMenuItem.Tag = 5;
-            m_StaticDebugMenuItem.Enabled = !m_isExecute;
-            m_StaticDebugMenuItem.Click += new EventHandler(StaticDebuggerExecute);
-
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
                 m_isAutoMenuItem, m_StaticDebugMenuItem
@@ -210,6 +197,20 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
 
             m_plugins.Add(new StaticDebugForModel(this));
             m_plugins.Add(new StaticDebugForNetwork(this));
+
+            m_isAutoMenuItem = new ToolStripMenuItem();
+            m_isAutoMenuItem.Text = MessageResources.MenuItemAutoDebug;
+            m_isAutoMenuItem.Tag = 0;
+            m_isAutoMenuItem.Enabled = true;
+            m_isAutoMenuItem.Checked = m_isExecute;
+            m_isAutoMenuItem.Click += new EventHandler(ChangeAutoUpdate);
+
+            m_StaticDebugMenuItem = new ToolStripMenuItem();
+            m_StaticDebugMenuItem.Text = MessageResources.MenuItemStaticDebugText;
+            m_StaticDebugMenuItem.Tag = 5;
+            m_StaticDebugMenuItem.Enabled = !m_isExecute;
+            m_StaticDebugMenuItem.Click += new EventHandler(StaticDebuggerExecute);
+
         }
 
         /// <summary>

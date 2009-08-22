@@ -930,7 +930,8 @@ namespace Ecell
         /// </summary>
         /// <param name="modelID">the model ID</param>
         /// <param name="modelFileName">the model FileName</param>
-        private void SaveEmlFile(string modelID, string modelFileName)
+        /// <param name="isProjectSave"></param>
+        private void SaveEmlFile(string modelID, string modelFileName, bool isProjectSave)
         {
             List<EcellObject> storedList = new List<EcellObject>();
             // Picks the "Stepper" up.
@@ -992,7 +993,7 @@ namespace Ecell
             }
 
             // Save eml.
-            EmlWriter.Create(modelFileName, storedList, true);
+            EmlWriter.Create(modelFileName, storedList, isProjectSave);
         }
 
         /// <summary>
@@ -1023,7 +1024,7 @@ namespace Ecell
                 string modelFileName
                     = modelDirName + Constants.delimiterPath + modelID + Constants.delimiterPeriod + Constants.xpathEml;
 
-                SaveEmlFile(modelID, modelFileName);
+                SaveEmlFile(modelID, modelFileName, true);
 
                 // Save Leml.
                 EcellModel model = (EcellModel)m_currentProject.Model;
@@ -1128,7 +1129,7 @@ namespace Ecell
                 }
                 foreach (string modelID in modelIDList)
                 {
-                    SaveEmlFile(modelID, fileName);
+                    SaveEmlFile(modelID, fileName, false);
                 }
                 ////
                 //// Searchs the "Stepper" & the "System".
