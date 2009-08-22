@@ -1244,6 +1244,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (m_con.Canvas == null || !m_con.Canvas.PCanvas.Focused)
                 return;
+            ResetEventHandler();
             m_con.DeteleNodes();
         }
 

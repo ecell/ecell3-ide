@@ -129,13 +129,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             base.OnMouseDown(e);
         }
 
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            // Set popup menu visibility flags.
-            m_con.Menu.SetPopupMenus();
-            base.OnMouseClick(e);
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -143,6 +136,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
+            // Set popup menu visibility flags.
+            m_con.Menu.SetPopupMenus();
         }
 
     }
