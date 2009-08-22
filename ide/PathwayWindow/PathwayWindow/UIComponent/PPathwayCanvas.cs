@@ -127,8 +127,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Focus(); 
             m_canvas.FocusNode = null;
             base.OnMouseDown(e);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
             // Set popup menu visibility flags.
             m_con.Menu.SetPopupMenus();
+
+            base.OnMouseUp(e);
         }
 
     }

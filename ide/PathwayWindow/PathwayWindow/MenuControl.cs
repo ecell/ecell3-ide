@@ -1718,6 +1718,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
                 try
                 {
+                    ResetEventHandler();
                     // save SVG image
                     if (sfd.FileName.EndsWith(Constants.FileExtSVG))
                     {

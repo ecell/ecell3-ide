@@ -693,7 +693,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (m_canvas == null || !m_canvas.ModelID.Equals(modelID))
                 return;
-
+            m_menu.ResetEventHandler();
             string fileName = Path.Combine(directory, modelID + Constants.FileExtLEML);
             Bitmap image = m_canvas.OverviewCanvas.ToImage(400, 400);
             fileName = directory + Constants.FileExtPNG;
@@ -726,7 +726,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (m_canvas == null)
                 return new Bitmap(1, 1);
-
+            m_menu.ResetEventHandler();
             return m_canvas.ToImage();
         }
 
