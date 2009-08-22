@@ -338,6 +338,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.commonMenu.parameterToolStripMenuItem,
             this.commonMenu.propertyToolStripMenuItem});
             this.popupMenu.Name = "popupMenu";
+            this.popupMenu.Opening += new CancelEventHandler(popupMenu_Opening);
             this.popupMenu.Size = new System.Drawing.Size(272, 462);
             // 
             // toolStripIdShow
@@ -849,6 +850,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenu.ResumeLayout(false);
             this.toolMenu.PerformLayout();
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void popupMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if(!m_con.Canvas.PCanvas.Focus())
+                e.Cancel = true;
+            SetPopupMenus();
         }
         #endregion
 
