@@ -344,18 +344,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             this.toolStripIdShow.Name = "toolStripIdShow";
             this.toolStripIdShow.Size = new System.Drawing.Size(271, 22);
+            this.toolStripIdShow.Visible = false;
             this.toolStripIdShow.Enabled = false;
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(268, 6);
+            this.toolStripSeparator1.Visible = false;
             // 
             // toolStripOneWayArrow
             // 
             this.toolStripOneWayArrow.Name = "toolStripOneWayArrow";
             this.toolStripOneWayArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripOneWayArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuOnewayArrow;
+            this.toolStripOneWayArrow.Visible = false;
             this.toolStripOneWayArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripAnotherArrow
@@ -363,6 +366,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAnotherArrow.Name = "toolStripAnotherArrow";
             this.toolStripAnotherArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripAnotherArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAnotherArrow;
+            this.toolStripAnotherArrow.Visible = false;
             this.toolStripAnotherArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripBidirArrow
@@ -370,6 +374,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripBidirArrow.Name = "toolStripBidirArrow";
             this.toolStripBidirArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripBidirArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuBidirArrow;
+            this.toolStripBidirArrow.Visible = false;
             this.toolStripBidirArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripConstant
@@ -377,6 +382,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripConstant.Name = "toolStripConstant";
             this.toolStripConstant.Size = new System.Drawing.Size(271, 22);
             this.toolStripConstant.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuConstantLine;
+            this.toolStripConstant.Visible = false;
             this.toolStripConstant.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripDeleteArrow
@@ -384,6 +390,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripDeleteArrow.Name = "toolStripDeleteArrow";
             this.toolStripDeleteArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripDeleteArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDelete;
+            this.toolStripDeleteArrow.Visible = false;
             this.toolStripDeleteArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // commonMenu
@@ -395,6 +402,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripCut.Name = "toolStripCut";
             this.toolStripCut.Size = new System.Drawing.Size(271, 22);
             this.toolStripCut.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuCut;
+            this.toolStripCut.Visible = false;
             this.toolStripCut.Click += new System.EventHandler(this.CutClick);
             // 
             // toolStripCopy
@@ -402,6 +410,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripCopy.Name = "toolStripCopy";
             this.toolStripCopy.Size = new System.Drawing.Size(271, 22);
             this.toolStripCopy.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuCopy;
+            this.toolStripCopy.Visible = false;
             this.toolStripCopy.Click += new System.EventHandler(this.CopyClick);
             // 
             // toolStripPaste
@@ -409,6 +418,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripPaste.Name = "toolStripPaste";
             this.toolStripPaste.Size = new System.Drawing.Size(271, 22);
             this.toolStripPaste.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuPaste;
+            this.toolStripPaste.Visible = false;
             this.toolStripPaste.Click += new System.EventHandler(this.PasteClick);
             // 
             // toolStripDelete
@@ -416,6 +426,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripDelete.Name = "toolStripDelete";
             this.toolStripDelete.Size = new System.Drawing.Size(271, 22);
             this.toolStripDelete.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDelete;
+            this.toolStripDelete.Visible = false;
             this.toolStripDelete.Click += new System.EventHandler(this.DeleteClick);
             // 
             // toolStripAlias
@@ -423,6 +434,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAlias.Name = "toolStripAlias";
             this.toolStripAlias.Size = new System.Drawing.Size(271, 22);
             this.toolStripAlias.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAlias;
+            this.toolStripAlias.Visible = false;
             this.toolStripAlias.Click += new System.EventHandler(this.CreateAliasClick);
             // 
             // toolStripDeleteAlias
@@ -430,24 +442,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripDeleteAlias.Name = "toolStripDeleteAlias";
             this.toolStripDeleteAlias.Size = new System.Drawing.Size(271, 22);
             this.toolStripDeleteAlias.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDeleteAlias;
+            this.toolStripDeleteAlias.Visible = false;
             this.toolStripDeleteAlias.Click += new System.EventHandler(this.DeleteAliasClick);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(268, 6);
+            this.toolStripSeparator2.Visible = false;
             // 
             // toolStripChangeLayer
             // 
             this.toolStripChangeLayer.Name = "toolStripChangeLayer";
             this.toolStripChangeLayer.Size = new System.Drawing.Size(271, 22);
             this.toolStripChangeLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuChangeLayer;
+            this.toolStripChangeLayer.Visible = false;
             // 
             // toolStripTextAlign
             // 
             this.toolStripTextAlign.Name = "toolStripTextAlign";
             this.toolStripTextAlign.Size = new System.Drawing.Size(271, 22);
             this.toolStripTextAlign.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuTextAlign;
+            this.toolStripTextAlign.Visible = false;
             this.toolStripTextAlign.DropDown.Items.AddRange(new ToolStripItem[] {
                 this.toolStripAlignLeft,
                 this.toolStripAlignCenter,
@@ -482,6 +498,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripSetZOrder.Name = "toolStripSetZOrder";
             this.toolStripSetZOrder.Size = new System.Drawing.Size(271, 22);
             this.toolStripSetZOrder.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuZOrder;
+            this.toolStripSetZOrder.Visible = false;
             this.toolStripSetZOrder.DropDown.Items.AddRange(new ToolStripItem[] {
                 this.toolStripMoveFront,
                 this.toolStripMoveForward,
@@ -521,6 +538,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripFigureSetting.Name = "toolStripFigureSetting";
             this.toolStripFigureSetting.Size = new System.Drawing.Size(271, 22);
             this.toolStripFigureSetting.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuFigureSetting;
+            this.toolStripFigureSetting.Visible = false;
             this.toolStripFigureSetting.Click += new System.EventHandler(this.FigureSettingClick);
             // 
             // toolStripShowID
@@ -529,6 +547,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripShowID.CheckOnClick = true;
             this.toolStripShowID.Size = new System.Drawing.Size(271, 22);
             this.toolStripShowID.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemShowID;
+            this.toolStripShowID.Visible = false;
             this.toolStripShowID.Click += new System.EventHandler(this.ShowIdClick);
             // 
             // toolStripSetHandIcon
@@ -536,6 +555,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripSetHandIcon.Name = "toolStripSetHandIcon";
             this.toolStripSetHandIcon.Size = new System.Drawing.Size(271, 22);
             this.toolStripSetHandIcon.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipMoveCanvas;
+            this.toolStripSetHandIcon.Visible = false;
             this.toolStripSetHandIcon.Click += new EventHandler(toolStripSetHandIcon_Click);
             // 
             // toolStripAnimationSetting
@@ -543,18 +563,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAnimationSetting.Name = "toolStripAnimationSetting";
             this.toolStripAnimationSetting.Size = new System.Drawing.Size(271, 22);
             this.toolStripAnimationSetting.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAnimationSetting;
+            this.toolStripAnimationSetting.Visible = false;
             this.toolStripAnimationSetting.Click += new System.EventHandler(this.AnimationSettingClick);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(268, 6);
+            this.toolStripSeparator3.Visible = false;
             // 
             // toolStripProperty
             // 
             this.toolStripProperty.Name = "toolStripProperty";
             this.toolStripProperty.Size = new System.Drawing.Size(182, 22);
             this.toolStripProperty.Text = "toolStripMenuItem1";
+            this.toolStripProperty.Visible = false;
             // 
             // toolButton
             // 

@@ -224,6 +224,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             this.AddChild(_stepper);
+            _stepper.Width = 10;
+            _stepper.Height = 10;
             _stepper.X = this.Right - 10;
             _stepper.Y = this.Bottom - 10;
             _stepper.Setting = stepper.Setting;
