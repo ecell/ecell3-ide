@@ -135,7 +135,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            m_canvas.FocusNode = null;
             base.OnMouseUp(e);
         }
 

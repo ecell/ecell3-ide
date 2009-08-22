@@ -420,7 +420,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             System.Drawing.PointF pointF = new System.Drawing.PointF();
             Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayEntity expectedPPathwayNode = null;
             Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayEntity resultPPathwayNode = null;
-            resultPPathwayNode = _unitUnderTest.GetPickedNode(pointF);
+            resultPPathwayNode = _unitUnderTest.GetPickedEntity(pointF);
             Assert.AreEqual(expectedPPathwayNode, resultPPathwayNode, "GetPickedNode method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

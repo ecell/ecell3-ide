@@ -964,7 +964,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
 
             // Set popup menu visibility flags.
-            PNode node = m_con.Canvas.FocusNode;
+            PNode node = m_con.Canvas.GetPickedObject(m_con.MousePosition);
 
             bool isNull = (node == null);
             bool isAlias = (node is PPathwayAlias);

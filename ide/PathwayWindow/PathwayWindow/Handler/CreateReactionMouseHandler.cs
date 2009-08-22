@@ -80,7 +80,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.OnMouseDown(sender, e);
 
             CanvasControl canvas = m_con.Canvas;
-            PPathwayEntity newNode = canvas.GetPickedNode(e.Position);
+            PPathwayEntity newNode = canvas.GetPickedEntity(e.Position);
             // Set start node.
             if (newNode == null)
             {

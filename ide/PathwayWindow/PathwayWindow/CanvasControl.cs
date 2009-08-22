@@ -1215,7 +1215,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         /// <param name="pointF"></param>
         /// <returns></returns>
-        public PPathwayEntity GetPickedNode(PointF pointF)
+        public PPathwayEntity GetPickedEntity(PointF pointF)
         {
             PPathwayEntity pickedObj = null;
             List<PPathwayLayer> layers = new List<PPathwayLayer>();
@@ -1236,6 +1236,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             return pickedObj;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointF"></param>
+        /// <returns></returns>
+        public PPathwayObject GetPickedObject(PointF pointF)
+        {
+            PPathwayObject pickedObj = null;
+            List<PPathwayLayer> layers = new List<PPathwayLayer>();
+            layers.Add(m_defaultLayer);
+            layers.AddRange(m_layers.Values);
+
+            foreach (PPathwayLayer layer in layers)
+            {
+                foreach (PPathwayObject obj in layer.GetNodes())
+                {
+                    if (!obj.Visible || !obj.Rect.Contains(pointF))
+                        continue;
+                    pickedObj = (PPathwayObject)obj;
+                }
+            }
+            return pickedObj;
+
+        }
         /// <summary>
         /// Get all EcellObjects of this object.
         /// </summary>

@@ -122,7 +122,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
             // Set pos
             m_con.MousePosition = pos;
-            m_con.Canvas.FocusNode = m_con.Canvas.GetPickedNode(pos);
+            // m_con.Canvas.FocusNode = m_con.Canvas.GetPickedNode(pos);
 
             rman.SetStatus(
                 StatusBarMessageKind.QuickInspector,

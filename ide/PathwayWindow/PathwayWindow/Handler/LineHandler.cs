@@ -272,7 +272,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         void LineHandle_MouseUp(object sender, PInputEventArgs e)
         {
             // Check exception.
-            PPathwayEntity obj = m_canvas.GetPickedNode(e.Position);
+            PPathwayEntity obj = m_canvas.GetPickedEntity(e.Position);
             if (m_selectedLine == null || obj == null)
             {
                 ResetLinePosition();
