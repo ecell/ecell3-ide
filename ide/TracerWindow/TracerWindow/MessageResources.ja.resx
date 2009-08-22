@@ -144,6 +144,9 @@
   <data name="ErrOverTime" xml:space="preserve">
     <value>再描画間隔が大きすぎます[0-3600]。</value>
   </data>
+  <data name="ErrProjectUnsaved" xml:space="preserve">
+    <value>シミュレーションログを保存する前にプロジェクトを保存してください。</value>
+  </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>同じパラメータをX軸とＹ軸に設定しています。</value>
   </data>

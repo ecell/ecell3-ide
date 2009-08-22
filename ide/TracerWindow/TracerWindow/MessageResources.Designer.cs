@@ -142,6 +142,15 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Save this project before the simulation log is saved. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrProjectUnsaved {
+            get {
+                return ResourceManager.GetString("ErrProjectUnsaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The same parameter is selected for X-axis and Y-axis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSameAxis {
