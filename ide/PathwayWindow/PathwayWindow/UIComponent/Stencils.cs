@@ -211,16 +211,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void AddStencilMenuItem_Click(object sender, System.EventArgs e)
         {
-            List<PPathwayObject> objects = m_con.Canvas.SelectedNodes;
-            // Check Item Count
-            if (objects.Count != 1)
+            if (m_con.Canvas == null)
+                return;
+            List<EcellObject> list = m_con.CopiedNodes;
+            if (list.Count != 1)
             {
                 Util.ShowErrorDialog(MessageResources.ErrNoStencil);
                 return;
             }
 
-            PPathwayObject obj = objects[0];
-            ComponentSetting cs = obj.Setting;
+            EcellObject obj = list[0];
+            ComponentSetting cs = m_con.ComponentManager.GetSetting(obj.Type, obj.Layout.Figure);
             if (cs.IsStencil)
             {
                 Util.ShowErrorDialog(MessageResources.ErrAddStencil);
