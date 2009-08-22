@@ -139,10 +139,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // edgeBox
             // 
-            this.edgeBox.AccessibleDescription = null;
-            this.edgeBox.AccessibleName = null;
             resources.ApplyResources(this.edgeBox, "edgeBox");
-            this.edgeBox.BackgroundImage = null;
             this.edgeBox.Controls.Add(this.edgeLabel);
             this.edgeBox.Controls.Add(this.edgeHighBrush);
             this.edgeBox.Controls.Add(this.edgeLowBrush);
@@ -150,86 +147,55 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.edgeBox.Controls.Add(this.thresholdHigh);
             this.edgeBox.Controls.Add(this.thresholdLow);
             this.edgeBox.Controls.Add(this.edgeNGBrush);
-            this.edgeBox.Font = null;
             this.edgeBox.Name = "edgeBox";
             this.edgeBox.TabStop = false;
             // 
             // edgeLabel
             // 
-            this.edgeLabel.AccessibleDescription = null;
-            this.edgeLabel.AccessibleName = null;
-            resources.ApplyResources(this.edgeLabel, "edgeLabel");
             this.edgeLabel.AutoEllipsis = true;
             this.edgeLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.edgeLabel.Font = null;
+            resources.ApplyResources(this.edgeLabel, "edgeLabel");
             this.edgeLabel.Name = "edgeLabel";
             // 
             // edgeHighBrush
             // 
-            this.edgeHighBrush.AccessibleDescription = null;
-            this.edgeHighBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeHighBrush, "edgeHighBrush");
-            this.edgeHighBrush.BackgroundImage = null;
-            this.edgeHighBrush.Font = null;
             this.edgeHighBrush.Name = "edgeHighBrush";
             // 
             // edgeLowBrush
             // 
-            this.edgeLowBrush.AccessibleDescription = null;
-            this.edgeLowBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeLowBrush, "edgeLowBrush");
-            this.edgeLowBrush.BackgroundImage = null;
-            this.edgeLowBrush.Font = null;
             this.edgeLowBrush.Name = "edgeLowBrush";
             // 
             // autoThresholdCheckBox
             // 
-            this.autoThresholdCheckBox.AccessibleDescription = null;
-            this.autoThresholdCheckBox.AccessibleName = null;
             resources.ApplyResources(this.autoThresholdCheckBox, "autoThresholdCheckBox");
-            this.autoThresholdCheckBox.BackgroundImage = null;
             this.autoThresholdCheckBox.Checked = false;
-            this.autoThresholdCheckBox.Font = null;
             this.autoThresholdCheckBox.Name = "autoThresholdCheckBox";
+            this.autoThresholdCheckBox.CheckedChanged += new System.EventHandler(this.autoThresholdCheckBox_CheckedChanged);
             // 
             // thresholdHigh
             // 
-            this.thresholdHigh.AccessibleDescription = null;
-            this.thresholdHigh.AccessibleName = null;
             resources.ApplyResources(this.thresholdHigh, "thresholdHigh");
-            this.thresholdHigh.BackgroundImage = null;
-            this.thresholdHigh.Font = null;
             this.thresholdHigh.Name = "thresholdHigh";
             this.thresholdHigh.Validating += new System.ComponentModel.CancelEventHandler(this.HighThresholdValidating);
             // 
             // thresholdLow
             // 
-            this.thresholdLow.AccessibleDescription = null;
-            this.thresholdLow.AccessibleName = null;
             resources.ApplyResources(this.thresholdLow, "thresholdLow");
-            this.thresholdLow.BackgroundImage = null;
-            this.thresholdLow.Font = null;
             this.thresholdLow.Name = "thresholdLow";
             this.thresholdLow.Validating += new System.ComponentModel.CancelEventHandler(this.LowThresholdValidating);
             // 
             // edgeNGBrush
             // 
-            this.edgeNGBrush.AccessibleDescription = null;
-            this.edgeNGBrush.AccessibleName = null;
             resources.ApplyResources(this.edgeNGBrush, "edgeNGBrush");
-            this.edgeNGBrush.BackgroundImage = null;
-            this.edgeNGBrush.Font = null;
             this.edgeNGBrush.Name = "edgeNGBrush";
             // 
-            // EdgeAnimatioinItem
+            // EdgeAnimationItem
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.edgeBox);
-            this.Font = null;
-            this.Name = "EdgeAnimatioinItem";
+            this.Name = "EdgeAnimationItem";
+            resources.ApplyResources(this, "$this");
             this.edgeBox.ResumeLayout(false);
             this.edgeBox.PerformLayout();
             this.ResumeLayout(false);
@@ -243,7 +209,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         public override void SetAnimation()
-        {
+        {            
             base.SetAnimation();
 
             if (_autoThreshold)
@@ -457,6 +423,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 thresholdLow.Text = Convert.ToString(_control.ThresholdLow);
                 e.Cancel = true;
                 return;
+            }
+        }
+
+        private void autoThresholdCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoThresholdCheckBox.Checked)
+            {
+                thresholdHigh.Enabled = false;
+                thresholdLow.Enabled = false;
+            }
+            else
+            {
+                thresholdHigh.Enabled = true;
+                thresholdLow.Enabled = true;
             }
         }
     }
