@@ -285,7 +285,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             ComponentSetting cs = this.pCanvas.Setting;
 
-            cs.Figure.Type = figureComboBox.Figure;
+            cs.Figure = FigureManager.CreateFigure(figureComboBox.Figure, cs.Figure.Coordinates);
             cs.TextBrush = textColorBrushComboBox.Brush;
             cs.LineBrush = lineColorBrushComboBox.Brush;
             cs.FillBrush = fillColorBrushComboBox.Brush;
