@@ -964,7 +964,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
 
             // Set popup menu visibility flags.
-            PNode node = m_con.Canvas.GetPickedObject(m_con.MousePosition);
+            PPathwayObject obj = m_con.Canvas.GetPickedObject(m_con.MousePosition);
+            PNode node = m_con.Canvas.FocusNode;
+            if (obj == node)
+                node = obj;
+            else if(!(node is PPathwayLine))
+                node = null;
 
             bool isNull = (node == null);
             bool isAlias = (node is PPathwayAlias);
@@ -995,11 +1000,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set popup menu text.
             if (isObject)
             {
-                EcellObject obj = ((PPathwayObject)node).EcellObject;
-                commonMenu.Object = obj;
-                toolStripIdShow.Text = obj.FullID;
-                SetLayerManu(obj);
-                if (obj.Key.Equals(Constants.delimiterPath))
+                EcellObject eo = ((PPathwayObject)node).EcellObject;
+                commonMenu.Object = eo;
+                toolStripIdShow.Text = eo.FullID;
+                SetLayerManu(eo);
+                if (eo.Key.Equals(Constants.delimiterPath))
                     isRoot = true;
             }
             if (isLine)
