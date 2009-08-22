@@ -1093,7 +1093,7 @@ namespace Ecell
                 break;
             }
 
-            if (!isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
+            if (system != null && !isDefault && !Info.SimulationParam.Equals(Constants.defaultSimParam))
             {
                 string simParam = Info.SimulationParam;
                 system = system.Clone();
