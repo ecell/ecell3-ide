@@ -575,6 +575,7 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ExecuteButtonClick(object sender, EventArgs e)
         {
             executeButton.Enabled = false;
+            System.Threading.Thread.Sleep(1000);
             if (m_param.Generation <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameGenerationNum));

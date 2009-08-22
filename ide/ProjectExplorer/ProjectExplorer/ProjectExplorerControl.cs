@@ -1235,6 +1235,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">ItemDragEventArgs</param>
         private void TreeViewItemDrag(object sender, ItemDragEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+                return;
             List<string> fileList = new List<string>();
             List<EcellObject> oList = new List<EcellObject>();
             if (!this.treeView1.SelNodes.Contains((TreeNode)e.Item))

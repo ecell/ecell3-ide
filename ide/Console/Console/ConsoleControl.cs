@@ -74,7 +74,8 @@ namespace Ecell.IDE.Plugins.Console
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
             {
-                Clipboard.SetText(simText.SelectedText);
+                if (!string.IsNullOrEmpty(simText.SelectedText))
+                    Clipboard.SetText(simText.SelectedText);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
