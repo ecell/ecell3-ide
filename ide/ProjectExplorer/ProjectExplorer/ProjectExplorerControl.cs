@@ -985,8 +985,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             createNewRevisionMenuItem.Enabled = !simulation && saved;
             createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
 
-            //            exportRevisionEMLMenuItem.Enabled = !current;
-            exportRevisionZipMenuItem.Enabled = !current;
+            // exportRevisionEMLMenuItem.Enabled = !current;
+            exportRevisionZipMenuItem.Enabled = !current && saved;
 
             // Zip
             zipToolStripMenuItem.Enabled = !simulation && saved;
