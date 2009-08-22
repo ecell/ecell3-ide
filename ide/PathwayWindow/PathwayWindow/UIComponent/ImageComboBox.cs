@@ -228,8 +228,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             if (!imageList.Images.ContainsKey(text))
                 return;
-            icon = imageList.Images[text];
+            if (editBox.Handle == IntPtr.Zero)
+                return;
 
+            icon = imageList.Images[text];
             // Set Text.
             gfx = System.Drawing.Graphics.FromHwnd(editBox.Handle);
             gfx.Clear(this.BackColor);
