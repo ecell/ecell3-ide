@@ -379,6 +379,9 @@ namespace Ecell
                 EcellValue defaultValue = null;
                 if (attrs.Gettable)
                 {
+                    if (propName.Equals(Constants.xpathMolarActivity) || propName.Equals(Constants.xpathActivity))
+                        defaultValue = new EcellValue(0.0);
+                    
                     try
                     {
                         defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));

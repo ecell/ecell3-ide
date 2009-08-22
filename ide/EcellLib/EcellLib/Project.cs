@@ -1298,7 +1298,7 @@ namespace Ecell
 
             foreach (EcellData newData in newobj.Value)
             {
-                if (!newData.Settable || (!newData.Value.IsDouble && !newData.Value.IsInt))
+                if (!newData.Settable || (newData.Value == null || (!newData.Value.IsDouble && !newData.Value.IsInt)))
                 {
                     defaultObj.RemoveEcellValue(newData.Name);
                     defaultObj.Value.Add(newData);
