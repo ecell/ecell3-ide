@@ -312,10 +312,18 @@ namespace Ecell.IDE
             }
             else if ((int)keyData == (int)Keys.Control + (int)Keys.V)
             {
-                Paste();
+                string data = Clipboard.GetText();
+                byte[] byte_data = System.Text.Encoding.GetEncoding(932).GetBytes(data);
+                if (byte_data.Length == data.Length)
+                    Paste();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
         }
     }
 }
