@@ -846,11 +846,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         if (win.SaveList.Count <= 0) return;
                         if (String.IsNullOrEmpty(DataManager.CurrentProject.Info.ProjectPath))
                         {
-                            if (!Util.ShowOKCancelDialog(MessageResources.ErrProjectUnsaved))
-                            {
-                                return;
-                            }
-                            DataManager.SaveProject();
+                            Util.ShowWarningDialog(MessageResources.ErrProjectUnsaved);
+                            return;
                         }
                         m_env.DataManager.SaveSimulationResult(win.DirectoryName,
                             win.Start, win.End, win.FileType, win.SaveList);
