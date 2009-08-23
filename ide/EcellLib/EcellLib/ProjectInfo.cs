@@ -501,6 +501,9 @@ namespace Ecell
             }
             reader.Close();
             project = new ProjectInfo(prjName, comment, time, simParam);
+            project.ProjectType = ProjectType.Project;
+            project.ProjectPath = dirPathName;
+
             return project;
         }
 

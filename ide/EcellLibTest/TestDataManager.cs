@@ -2412,13 +2412,15 @@ namespace Ecell
         [Test()]
         public void TestStep()
         {
+            Assert.AreEqual(false, _unitUnderTest.IsSaveStep, "IsSaveStep returned unexpected value.");
+
             _unitUnderTest.IsSaveStep = true;
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             _unitUnderTest.StartStepSimulation(1, true);
             _unitUnderTest.StartStepSimulation(1, true);
             _unitUnderTest.StartStepSimulation(1, true);
-
+            _unitUnderTest.LoadSteppingModel(1);
         }
     }
 }

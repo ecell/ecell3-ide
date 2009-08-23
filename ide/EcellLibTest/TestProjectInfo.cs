@@ -84,6 +84,7 @@ namespace Ecell
                 info = new ProjectInfo(Name, Comment, "", SimParam);
                 info = new ProjectInfo(Name, Comment, null, SimParam);
                 info = new ProjectInfo(Name, null, null, SimParam);
+                info = new ProjectInfo(Name, "", null, null);
             }
             catch (Exception e)
             {
@@ -278,16 +279,28 @@ namespace Ecell
                 Assert.AreEqual(infoFile1, info1.ProjectFile, "ProjectFile is unexpected value.");
                 Assert.AreEqual(Path.GetDirectoryName(infoFile1), info1.ProjectPath, "ProjectPath is unexpected value.");
                 Assert.IsEmpty(info1.Models, "Models is unexpected value.");
+                Assert.IsNotNull(info1.DMDirList, "DMDirList is unexpected value.");
+                Assert.IsNotEmpty(info1.ToString(), "ToString method returns unexpected value.");
 
                 // Load from eml.
-                string infoFile5 = TestConstant.Model_Drosophila;
-                ProjectInfo info5 = ProjectInfoLoader.Load(infoFile5);
-                Assert.AreEqual("Drosophila", info5.Name, "Name is unexpected value.");
-                Assert.AreEqual(ProjectType.Model, info5.ProjectType, "ProjectType is unexpected value.");
-                Assert.AreEqual(infoFile5, info5.ProjectFile, "ProjectFile is unexpected value.");
-                Assert.IsNull(info5.ProjectPath, "ProjectPath is unexpected value.");
-                Assert.IsNotEmpty(info5.Models, "Models is unexpected value.");
-                info5.FindModels();
+                string infoFile2 = TestConstant.Model_Drosophila;
+                ProjectInfo info2 = ProjectInfoLoader.Load(infoFile2);
+                Assert.AreEqual("Drosophila", info2.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Model, info2.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile2, info2.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.IsNull(info2.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsNotEmpty(info2.Models, "Models is unexpected value.");
+                info2.FindModels();
+
+                // Load from info.
+                string infoFile3 = Path.Combine(TestConstant.TestDirectory, "Drosophila");
+                infoFile3 = Path.Combine(infoFile3, Constants.fileProjectInfo);
+                ProjectInfo info3 = ProjectInfoLoader.Load(infoFile3);
+                Assert.AreEqual("Drosophila", info3.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Project, info3.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile3, info3.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.IsNotNull(info3.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsNotEmpty(info2.Models, "Models is unexpected value.");
 
             }
             catch (Exception e)

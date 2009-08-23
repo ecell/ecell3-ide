@@ -187,6 +187,60 @@ namespace Ecell
             _unitUnderTest.SortSystems();
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetters()
+        {
+            List<string> list = _unitUnderTest.GetRevisions();
+            Assert.IsNotEmpty(list, "GetRevisions is unexpected value.");
+
+            EcellObject obj = _unitUnderTest.GetEcellObject("Drosophila", "System", "/", Constants.defaultSimParam);
+            Assert.IsNotNull(obj, "GetEcellObject is unexpected value.");
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestIsUsed()
+        {
+            // Process
+            bool isUsed = _unitUnderTest.IsUsedProcessClass("HogeProcess");
+            Assert.IsFalse(isUsed, "IsUsedProcessClass is unexpected value.");
+
+            isUsed = _unitUnderTest.IsUsedProcessClass("ExpressionFluxProcess");
+            Assert.IsTrue(isUsed, "IsUsedProcessClass is unexpected value.");
+
+            // Stepper of Process
+            isUsed = _unitUnderTest.IsUsedStepperClass("ODEStepper");
+            Assert.IsTrue(isUsed, "IsUsedProcessClass is unexpected value.");
+
+            isUsed = _unitUnderTest.IsUsedStepperClass("DAEStepper");
+            Assert.IsFalse(isUsed, "IsUsedProcessClass is unexpected value.");
+
+            // Stepper
+            isUsed = _unitUnderTest.IsUsedStepper("DAEStepper");
+            Assert.IsFalse(isUsed, "IsUsedProcessClass is unexpected value.");
+
+            isUsed = _unitUnderTest.IsUsedStepperClass("ODEStepper");
+            Assert.IsTrue(isUsed, "IsUsedProcessClass is unexpected value.");
+
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestUnload()
+        {
+            _unitUnderTest.ReloadSimulator();
+            _unitUnderTest.UnloadSimulator();
+        }
+
+
         /// <summary>
         /// 
         /// </summary>

@@ -5313,9 +5313,15 @@ namespace Ecell
                 newValue.Value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public void SetStepperProperty(string key, string name, string value)
         {
-                        if (m_currentProject.Simulator == null
+            if (m_currentProject.Simulator == null
                 || this.GetCurrentSimulationTime() <= 0.0)
             {
                 return;
@@ -5493,12 +5499,18 @@ namespace Ecell
             return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Info.Name), Constants.ParameterDirName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void UnloadSimulator()
         {
             if (m_currentProject != null)
                 m_currentProject.UnloadSimulator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void ReloadSimulator()
         {
             m_currentProject.ReloadSimulator();
