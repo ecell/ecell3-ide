@@ -2422,5 +2422,16 @@ namespace Ecell
             _unitUnderTest.StartStepSimulation(1, true);
             _unitUnderTest.LoadSteppingModel(1);
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestUnload()
+        {
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            _unitUnderTest.ReloadSimulator();
+            _unitUnderTest.UnloadSimulator();
+        }
     }
 }

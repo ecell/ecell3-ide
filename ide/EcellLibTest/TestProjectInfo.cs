@@ -84,7 +84,6 @@ namespace Ecell
                 info = new ProjectInfo(Name, Comment, "", SimParam);
                 info = new ProjectInfo(Name, Comment, null, SimParam);
                 info = new ProjectInfo(Name, null, null, SimParam);
-                info = new ProjectInfo(Name, "", null, null);
             }
             catch (Exception e)
             {
