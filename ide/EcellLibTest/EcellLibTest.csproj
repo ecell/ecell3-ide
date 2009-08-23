@@ -77,6 +77,7 @@
     <Compile Include="Job\TestJob.cs" />
     <Compile Include="Job\TestJobGroup.cs" />
     <Compile Include="Job\TestJobManager.cs" />
+    <Compile Include="Job\TestJobUpdateEventArgs.cs" />
     <Compile Include="Job\TestLocalJob.cs" />
     <Compile Include="Job\TestLocalJobProxy.cs" />
     <Compile Include="Logger\TestLoggerEntry.cs" />

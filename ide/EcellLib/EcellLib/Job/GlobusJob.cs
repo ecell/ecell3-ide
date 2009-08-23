@@ -294,6 +294,8 @@ namespace Ecell.Job
         /// <param name="message">the report message.</param>
         private void NotifyErrorMessage(string message)
         {
+            if (Manager == null)
+                return;
             Manager.NotifyErrorMessage(this.GroupName, message);
         }
 

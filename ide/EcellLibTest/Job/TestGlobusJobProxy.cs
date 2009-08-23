@@ -92,6 +92,9 @@ namespace Ecell.Job
 
             resultJob = _unitUnderTest.CreateJob("", "", new List<string>(), "");
             Assert.IsNotNull(resultJob, "CreateJob method returned unexpected result.");
+
+            resultJob = _unitUnderTest.CreateJob(0);
+            Assert.IsNotNull(resultJob, "CreateJob method returned unexpected result.");
         }
         /// <summary>
         /// 

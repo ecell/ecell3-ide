@@ -88,7 +88,7 @@ namespace Ecell.Job
             _unitUnderTest.retry();
         }
 
-                /// <summary>
+        /// <summary>
         /// 
         /// </summary>
         [Test()]
