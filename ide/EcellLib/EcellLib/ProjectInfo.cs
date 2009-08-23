@@ -552,13 +552,13 @@ namespace Ecell
         /// <param name="filepath"></param>
         public static void Save(ProjectInfo project, string filepath)
         {
-            // Get Saving Directory.
-            string saveDir = GetSaveDir(project, filepath);
-            if (!Directory.Exists(saveDir))
-                Directory.CreateDirectory(saveDir);
-            // Save both InfoText and XML setting file.
             try
             {
+                // Get Saving Directory.
+                string saveDir = GetSaveDir(project, filepath);
+                if (!Directory.Exists(saveDir))
+                    Directory.CreateDirectory(saveDir);
+                // Save XML setting file.
                 SaveProjectXML(project, saveDir);
             }
             catch (Exception ex)

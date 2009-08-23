@@ -112,6 +112,22 @@ namespace Ecell
         }
 
         /// <summary>
+        /// TestGetDMDLLFileName
+        /// </summary>
+        [Test()]
+        public void TestGetDMDLLFileName()
+        {
+            _unitUnderTest.LoadProject(TestConstant.Project_CoupledOscillator);
+
+            string path = _unitUnderTest.GetDMDLLFileName("");
+            Assert.AreEqual(null, path, "DLLFileName is unexpected value.");
+
+            path = _unitUnderTest.GetDMDLLFileName("FOProcess");
+            string name = Path.GetFileName(path);
+            Assert.AreEqual("FOProcess.dll", name, "DLLFileName is unexpected value.");
+        }
+
+        /// <summary>
         /// TestLoadProject
         /// </summary>
         [Test()]
@@ -1643,6 +1659,7 @@ namespace Ecell
             }
 
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2389,5 +2406,19 @@ namespace Ecell
             _unitUnderTest.DataChanged("Drosophila", "/CELL/CYTOPLASM:M", "Variable", variable);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestStep()
+        {
+            _unitUnderTest.IsSaveStep = true;
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+
+            _unitUnderTest.StartStepSimulation(1, true);
+            _unitUnderTest.StartStepSimulation(1, true);
+            _unitUnderTest.StartStepSimulation(1, true);
+
+        }
     }
 }

@@ -354,6 +354,7 @@ namespace Ecell
                 Assert.AreEqual(module.Name, dmName);
                 Assert.AreNotEqual(module.Path, "");
                 Assert.IsNotNull(((IEnumerable)module).GetEnumerator());
+                Assert.IsNotNull(module.Property);
 
                 Trace.WriteLine("DynamicModule:" + module.Name);
                 foreach (PropertyDescriptor prop in module)
