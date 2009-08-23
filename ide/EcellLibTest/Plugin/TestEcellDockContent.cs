@@ -75,6 +75,7 @@ namespace Ecell.Plugin
             Assert.IsNotNull(content, "Constructor of type, EcellDockContent failed to create instance.");
             Assert.AreEqual("Ecell.Plugin.EcellDockContent", content.GetType().ToString(), "Type is unexpected value.");
             Assert.AreEqual(true, content.HideOnClose, "HideOnClose is unexpected value.");
+            Assert.AreEqual(DockContentType.NONE, content.ContentType, "ContentType is unexpected value.");
 
             content.HideOnClose = true;
             Assert.AreEqual(true, content.HideOnClose, "HideOnClose is unexpected value.");
@@ -101,6 +102,7 @@ namespace Ecell.Plugin
                 content.FloatAt(new Rectangle(100, 100, 500, 500));
                 content.GetDesktopLocation();
                 content.Hide();
+                content.ContentType = DockContentType.NONE;
             }
             catch (Exception)
             {

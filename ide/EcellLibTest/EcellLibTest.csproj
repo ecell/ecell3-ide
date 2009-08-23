@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{009F33C7-F664-495B-80EB-FCEA9664A3B1}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -69,6 +69,7 @@
   -->
   <ItemGroup>
     <Compile Include="Events\TestDisplayFormatEventArgs.cs" />
+    <Compile Include="Events\TestStepModelEventArgs.cs" />
     <Compile Include="Exceptions\TestEcellException.cs" />
     <Compile Include="Job\TestExecuteParameter.cs" />
     <Compile Include="Job\TestGlobusJob.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Reporting\TestReportingSessionEventArgs.cs" />
     <Compile Include="Reporting\TestReportManager.cs" />
     <Compile Include="Reporting\TestStatusUpdateEventArgs.cs" />
+    <Compile Include="Reporting\TestAnalysisReport.cs" />
     <Compile Include="SBML\TestEML2SBML.cs" />
     <Compile Include="SBML\TestProcessConverter.cs" />
     <Compile Include="SBML\TestSBML2EML.cs" />

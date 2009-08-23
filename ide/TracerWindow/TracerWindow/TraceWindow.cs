@@ -176,7 +176,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
 
             this.ContentType = DockContentType.GRAPH;
-            this.EnableClose = true;
+            this.HideOnClose = false;
         }
 
         /// <summary>

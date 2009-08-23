@@ -655,7 +655,7 @@ namespace Ecell.IDE.MainWindow
             content.FloatPane = null;
             content.DockHandler.DockPanel = this.dockPanel;
             content.IsHidden = false;
-            if (content.EnableClose)
+            if (content.ContentType == DockContentType.GRAPH)
             {
                 content.FormClosing += new FormClosingEventHandler(this.Graph_Closing);
             }
