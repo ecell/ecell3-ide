@@ -1913,7 +1913,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrExportSim, parameterID));
                     return;
                 }
-                Util.ShowWarningDialog(String.Format(MessageResources.InfoExportSim, parameterID));
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoExportSim, parameterID));
             }
         }
 

@@ -53,18 +53,32 @@ namespace Ecell.IDE.Plugins.Simulation
         /// The owner of this object.
         /// </summary>
         private Simulation m_owner = null;
-
+        /// <summary>
+        /// The flag whether the logger setting is by step.
+        /// </summary>
         private bool freqByStepTextBox_filledWithDefaultValue = false;
-
+        /// <summary>
+        /// The flag whether the logger setting is by sec.
+        /// </summary>
         private bool freqBySecTextBox_filledWithDefaultValue = false;
+        /// <summary>
+        /// Default step count.
+        /// </summary>
         private const int m_defaultStepCount = 1;
+        /// <summary>
+        /// Default redraw interval.
+        /// </summary>
         private const double m_defaultInterval = 0.01;
+        /// <summary>
+        /// Default log size.
+        /// </summary>
         private const int m_defaultMaxLogSize = 500;
-
-        private bool m_isRunnging = false;
-        private bool m_isStepperAddOrDelete = false;
         #endregion
 
+        #region Accessors
+        /// <summary>
+        /// get the list of result.
+        /// </summary>
         public IEnumerable<SimulationParameterSet> Result
         {
             get
@@ -76,6 +90,9 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// get the current simulation parameter.
+        /// </summary>
         public String CurrentParameterID
         {
             get
@@ -84,22 +101,15 @@ namespace Ecell.IDE.Plugins.Simulation
                 return sps.Name;
             }
         }
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor for SimulationSetup.
         /// </summary>
         public SimulationConfigurationDialog(Simulation owner, IEnumerable<SimulationParameterSet> simParamSets)
         {
             m_owner = owner;
-            if (m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
-                m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
-            {
-                m_isRunnging = true;
-            }
-            else
-            {
-                m_isRunnging = false;
-            }
             InitializeComponent();
             perModelSimulationParameterBindingSource.CurrentChanged += new EventHandler(perModelSimulationParameterBindingSource_CurrentChanged);
             perModelSimulationParameterBindingSource.MoveFirst();
@@ -117,12 +127,7 @@ namespace Ecell.IDE.Plugins.Simulation
             if (current != null)
                 ChangeParameterID(current);
         }
-
-        void perModelSimulationParameterBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-            PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
-            initialConditionsBindingSource.DataSource = p.InitialConditions;
-        }
+        #endregion
 
         /// <summary>
         /// Redraw simulation setup window on changing model ID.
@@ -142,16 +147,33 @@ namespace Ecell.IDE.Plugins.Simulation
             m_simParamSets.CurrencyManager.Position = m_simParamSets.IndexOf(paramSet);
         }
 
+        /// <summary>
+        /// Check this simulation paramter is already exist.
+        /// </summary>
+        /// <param name="name">the simulation parameter</param>
+        /// <returns>if exist, return true.</returns>
+        public bool IsExistParameterSet(string name)
+        {
+            for (int i = 0; i < m_simParamSets.Count; i++)
+            {
+                if (((SimulationParameterSet)m_simParamSets[i]).Name.ToUpper().Equals(name.ToUpper()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #region Event
         /// <summary>
-        /// The action of changing selected model in stepper tab.
+        /// The selected simulation parameter sets is changed.
         /// </summary>
-        /// <param name="sender">object(ComboBox)</param>
+        /// <param name="sender">BindingSource</param>
         /// <param name="e">EventArgs</param>
-        public void ModelComboSelectedIndexChanged(object sender, EventArgs e)
+        void perModelSimulationParameterBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            string modelName = modelCombo.Text;
-            ChangeModelID(modelName);
+            PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
+            initialConditionsBindingSource.DataSource = p.InitialConditions;
         }
 
         /// <summary>
@@ -198,17 +220,6 @@ namespace Ecell.IDE.Plugins.Simulation
             m_simParamSets.RemoveCurrent();
         }
 
-        public bool IsExistParameterSet(string name)
-        {
-            for (int i = 0; i < m_simParamSets.Count; i++)
-            {
-                if (((SimulationParameterSet)m_simParamSets[i]).Name.ToUpper().Equals(name.ToUpper()))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         /// <summary>
         /// Event when key is pressed.
@@ -222,8 +233,12 @@ namespace Ecell.IDE.Plugins.Simulation
                 Close();
             }
         }
-        #endregion
 
+        /// <summary>
+        /// Selected simulation parameter is changed.
+        /// </summary>
+        /// <param name="sender">BindingSource</param>
+        /// <param name="e">EventArgs</param>
         private void m_simParamSets_CurrentChanged(object sender, EventArgs e)
         {
             LoggerPolicy pol = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy;
@@ -282,6 +297,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// The check of RadioButton for override is changed.
+        /// </summary>
+        /// <param name="sender">RadioButton</param>
+        /// <param name="e">EventArgs</param>
         private void overrideRadio_CheckedChanged(object sender, EventArgs e)
         {
             ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.DiskFullAction =
@@ -290,6 +310,11 @@ namespace Ecell.IDE.Plugins.Simulation
                 DiskFullAction.Terminate;
         }
 
+        /// <summary>
+        /// The check of RadioButton for by step is changed.
+        /// </summary>
+        /// <param name="sender">RadioButton</param>
+        /// <param name="e">EventArgs</param>
         private void freqByStepRadio_CheckedChanged(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Checked)
@@ -324,6 +349,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// Validating the TextBox of by step.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void freqByStepTextBox_Validating(object sender, CancelEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -349,6 +379,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// Validated the TextBox of by step.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void freqByStepTextBox_Validated(object sender, EventArgs e)
         {
             ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount = Int32.Parse(freqByStepTextBox.Text);
@@ -357,6 +392,11 @@ namespace Ecell.IDE.Plugins.Simulation
             freqBySecTextBox_filledWithDefaultValue = true;
         }
 
+        /// <summary>
+        /// Validating the TextBox of by sec.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">CancelEventArgs</param>
         private void freqBySecTextBox_Validating(object sender, CancelEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -383,6 +423,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// Validated the TextBox of by sec.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void freqBySecTextBox_Validated(object sender, EventArgs e)
         {
             ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadInterval = Double.Parse(freqBySecTextBox.Text);
@@ -391,6 +436,11 @@ namespace Ecell.IDE.Plugins.Simulation
             freqByStepTextBox_filledWithDefaultValue = true;
         }
 
+        /// <summary>
+        /// Check of RadioButton for no limit is changed.
+        /// </summary>
+        /// <param name="sender">RadioButton</param>
+        /// <param name="e">EventArgs</param>
         private void noLimitRadio_CheckedChanged(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Checked)
@@ -411,28 +461,53 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// TextBox of by step is changed.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void freqByStepTextBox_TextChanged(object sender, EventArgs e)
         {
             freqByStepTextBox_filledWithDefaultValue = false;
         }
 
+        /// <summary>
+        /// TextBox of by sec is changed.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void freqBySecTextBox_TextChanged(object sender, EventArgs e)
         {
             freqBySecTextBox_filledWithDefaultValue = false;
         }
 
+        /// <summary>
+        /// Occur Error event on DataGridView of initial parameters.
+        /// </summary>
+        /// <param name="sender">BindingSource</param>
+        /// <param name="e">BindingManagerDataErrorEventArgs</param>
         private void initialConditionsBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
             tabControl1.Focus();
         }
 
+        /// <summary>
+        /// Occur Error event on property of logger.
+        /// </summary>
+        /// <param name="sender">BindingSource</param>
+        /// <param name="e">BindingManagerDataErrorEventArgs</param>
         private void propertiesBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
             tabControl1.Focus();
         }
 
+        /// <summary>
+        /// Validated the TextBox of max KB,
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">EventArgs</param>
         private void maxKbTextBox_Validated(object sender, EventArgs e)
         {
             if (maxSizeRadio.Checked)
@@ -445,6 +520,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// Validating the TextBox of max KB.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">CancelEventArgs</param>
         private void maxKbTextBox_Validating(object sender, CancelEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -473,12 +553,22 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// Occur error event on DataGridView of the initial parameters.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DataGridViewDataErrorEventArgs</param>
         private void InitialParameterDataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
             initialConditionsBindingSource.ResetBindings(false);
         }
 
+        /// <summary>
+        /// Closing this window. Check the input parameter.
+        /// </summary>
+        /// <param name="sender">SimulationConfigurationDialog</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void SimulationConfigurationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -535,33 +625,35 @@ namespace Ecell.IDE.Plugins.Simulation
                     return;
                 }
             }
-
-            if (m_isRunnging && m_isStepperAddOrDelete)
-            {
-                try
-                {
-                    m_owner.DataManager.ConfirmReset("add or delete", EcellObject.STEPPER);
-                }
-                catch (IgnoreException)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-            }
         }
 
+        /// <summary>
+        /// Loading the this window. Set tool tip to Button.
+        /// </summary>
+        /// <param name="sender">SimulationConfigurationDialog</param>
+        /// <param name="e">EventArgs</param>
         private void SimulationConfigurationDialog_Load(object sender, EventArgs e)
         {
             simSettingToolTip.SetToolTip(SSCreateButton, MessageResources.DialogToolTipCreSim);
             simSettingToolTip.SetToolTip(SSDeleteButton, MessageResources.DialogToolTipDeleteSim);
         }
 
+        /// <summary>
+        /// Opening the context menu on DataGridView of the initial parameters.
+        /// </summary>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
         private void initialContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             if (initialParameters.SelectedCells.Count <= 0)
                 e.Cancel = true;
         }
 
+        /// <summary>
+        /// Delete the data of initial parameters.
+        /// </summary>
+        /// <param name="sender">MenuToolStripItem</param>
+        /// <param name="e">EventArgs</param>
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string simParam = paramCombo.Text;
@@ -587,7 +679,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
-
+        /// <summary>
+        /// Import the data of simulation parameter from the file.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void ImportSimulationParameterClicked(object sender, EventArgs e)
         {
             if (m_owner.DataManager.CurrentProject == null)
@@ -636,6 +732,11 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        /// <summary>
+        /// Export the data of simulation sets to the file.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void ExportSimulationParameterClicked(object sender, EventArgs e)
         {
             if (m_owner.DataManager.CurrentProject == null)
@@ -659,5 +760,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoExportSim, parameterID));
             }
         }
+        #endregion
     }
 }

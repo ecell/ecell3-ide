@@ -700,7 +700,10 @@ namespace Ecell.IDE.Plugins.Simulation
                                 Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.InitialConditions.Count);
                                 foreach (MutableKeyValuePair<string, double> pair in pmsp.InitialConditions)
                                     pairs.Add(pair.Key, pair.Value);
-                                m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, pairs);
+                                if (sps.Name.Equals(Constants.defaultSimParam))
+                                    m_dManager.ImportSimulationParameter(pmsp.ModelID, sps.Name, pairs);
+                                else
+                                    m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, pairs);
                             }
                         }
 
