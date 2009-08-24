@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// 
     /// </summary>
-    public class EdgeAnimationItem: AnimationItemBase
+    public class EntityAnimationItem: AnimationItemBase
     {
         #region Fields
         /// <summary>
@@ -97,7 +97,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public EdgeAnimationItem()
+        public EntityAnimationItem()
         {
             InitializeComponent();
         }
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public EdgeAnimationItem(AnimationControl control)
+        public EntityAnimationItem(AnimationControl control)
             : base(control)
         {
             InitializeComponent();
@@ -125,7 +125,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EdgeAnimationItem));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityAnimationItem));
             this.edgeBox = new System.Windows.Forms.GroupBox();
             this.edgeLabel = new System.Windows.Forms.Label();
             this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
@@ -191,10 +191,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             resources.ApplyResources(this.edgeNGBrush, "edgeNGBrush");
             this.edgeNGBrush.Name = "edgeNGBrush";
             // 
-            // EdgeAnimationItem
+            // EntityAnimationItem
             // 
             this.Controls.Add(this.edgeBox);
-            this.Name = "EdgeAnimationItem";
+            this.Name = "EntityAnimationItem";
             resources.ApplyResources(this, "$this");
             this.edgeBox.ResumeLayout(false);
             this.edgeBox.PerformLayout();
@@ -214,24 +214,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             if (_autoThreshold)
                 _thresholdHigh = 0;
-            foreach (PPathwayProcess process in _processes)
+            foreach (PPathwayVariable variable in _variables)
             {
-                if (!process.Visible)
+                if (!variable.Visible)
                     continue;
-                if(!process.ViewMode)
-                    process.ViewMode = true;
+                if(!variable.ViewMode)
+                    variable.ViewMode = true;
                 // Line setting.
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    line.EdgeBrush = _viewEdgeBrush;
-                    line.EdgeWidth = _control.EdgeWidth;
-                }
 
                 // Set threshold
                 if (!_autoThreshold)
                     continue;
-                double activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                SetThreshold(activity);
+                double molarConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                SetThreshold(molarConc);
+
+                float size = GetEntitySize(molarConc);
+                Brush brush = GetEntityBrush(molarConc);
+                PointF pos = variable.CenterPointF;
+                variable.Width = size * variable.Figure.Width;
+                variable.Height = size * variable.Figure.Height;
+                variable.Brush = brush;
+                variable.CenterPointF = pos;
             }
 
         }
@@ -241,40 +244,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void UpdateAnimation()
         {
-            foreach (PPathwayProcess process in _processes)
-            {
-                if (!process.Visible)
-                    continue;
-
-                // Line setting.
-                double activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                float width = GetEdgeWidth(activity);
-                Brush brush = GetEdgeBrush(activity);
-
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    if (line.Info.LineType != LineType.Dashed)
-                        line.SetEdge(brush, width);
-                }
-                // Set threshold
-                if (_autoThreshold)
-                    SetThreshold(activity);
-            }
             foreach (PPathwayVariable variable in _variables)
             {
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
-                double molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                float width = GetEdgeWidth(molerConc);
-                Brush brush = GetEdgeBrush(molerConc);
-
-                // Set Effector.
-                foreach (PPathwayLine line in variable.Relations)
-                {
-                    if (line.Info.LineType == LineType.Dashed)
-                        line.SetEdge(brush, width);
-                }
+                double molarConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                float size = GetEntitySize(molarConc);
+                Brush brush = GetEntityBrush(molarConc);
+                PointF pos = variable.CenterPointF;
+                variable.Width = size * variable.Figure.Width;
+                variable.Height = size * variable.Figure.Height;
+                variable.Brush = brush;
+                variable.CenterPointF = pos;
             }
         }
 
@@ -291,21 +273,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetAnimation()
         {
-            Brush editEdgeBrush = _control.EditEdgeBrush;
-            float normalEdgeWidth = _control.EdgeWidth;
-            foreach (PPathwayProcess process in _processes)
+            foreach (PPathwayVariable variable in _variables)
             {
-                if (!process.Visible)
+                if (!variable.Visible)
                     continue;
-                // Line setting.
-                if(process.ViewMode)
-                    process.ViewMode = false;
-                foreach (PPathwayLine line in process.Relations)
-                {
-                    line.EdgeBrush = editEdgeBrush;
-                    line.EdgeWidth = normalEdgeWidth;
-                }
+                variable.ViewMode = false;
+                PointF pos = variable.CenterPointF;
+                variable.Width = variable.Figure.Width;
+                variable.Height = variable.Figure.Height;
+                variable.CenterPointF = pos;
+                variable.RefreshView();
             }
+
             base.ResetAnimation();
         }
 
@@ -346,15 +325,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
-        private float GetEdgeWidth(double activity)
+        private float GetEntitySize(double activity)
         {
             if (double.IsNaN(activity))
-                return 0f;
+                return 0.01f;
             else if (activity <= _thresholdLow || _thresholdLow == _thresholdHigh)
-                return 0f;
+                return 0.01f;
             else if (activity >= _thresholdHigh)
-                return _maxEdgeWidth;
-            return (float)(_maxEdgeWidth * (activity - _thresholdLow) / (_thresholdHigh - _thresholdLow));
+                return 2.01f;
+            return (float)(2d * (activity - _thresholdLow)/ (_thresholdHigh - _thresholdLow) + 0.01d);
         }
 
         /// <summary>
@@ -362,7 +341,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
-        private Brush GetEdgeBrush(double activity)
+        private Brush GetEntityBrush(double activity)
         {
             if (double.IsNaN(activity) || double.IsInfinity(activity))
                 return _ngEdgeBrush;

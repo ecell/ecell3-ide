@@ -168,7 +168,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     canvas.NotifyAddSelect(node);
             }
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Reset()
         {
             base.Reset();

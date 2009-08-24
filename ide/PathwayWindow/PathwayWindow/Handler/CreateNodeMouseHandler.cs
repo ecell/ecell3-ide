@@ -88,13 +88,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             base.OnMouseMove(sender, e);
             SetTemplate(e);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void OnLostFocus(object sender, PInputEventArgs e)
         {
             base.OnLostFocus(sender, e);
             Reset();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void OnMouseLeave(object sender, PInputEventArgs e)
         {
             base.OnMouseLeave(sender, e);

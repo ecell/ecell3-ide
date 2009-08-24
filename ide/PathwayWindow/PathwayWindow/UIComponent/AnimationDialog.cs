@@ -161,6 +161,36 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             AddItem(newItem);
         }
 
+        private void addVariableAnimationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (IAnimationItem item in this.listBox.Items)
+            {
+                if (!(item is EntityAnimationItem))
+                    continue;
+                this.panel.Controls.Clear();
+                this.panel.Controls.Add((AnimationItemBase)item);
+                return;
+            }
+
+            EntityAnimationItem newItem = new EntityAnimationItem(_control);
+            AddItem(newItem);
+        }
+
+        private void addEntityGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (IAnimationItem item in this.listBox.Items)
+            {
+                if (!(item is GraphAnimationItem))
+                    continue;
+                this.panel.Controls.Clear();
+                this.panel.Controls.Add((AnimationItemBase)item);
+                return;
+            }
+
+            GraphAnimationItem newItem = new GraphAnimationItem(_control);
+            AddItem(newItem);
+        }
+
         /// <summary>
         /// 
         /// </summary>
