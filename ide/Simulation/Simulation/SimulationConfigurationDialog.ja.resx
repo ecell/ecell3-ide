@@ -452,4 +452,10 @@
   <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="SSExportButton.Text" xml:space="preserve">
+    <value>出力...</value>
+  </data>
+  <data name="SSImportButton.Text" xml:space="preserve">
+    <value>読み込み...</value>
+  </data>
 </root>

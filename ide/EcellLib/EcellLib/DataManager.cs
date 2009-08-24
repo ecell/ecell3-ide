@@ -1098,6 +1098,108 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Export the simulation parameter to the file.
+        /// </summary>
+        /// <param name="modelID">the modelID to export simulation parameter.</param>
+        /// <param name="parameterID">the parameter ID.</param>
+        /// <param name="fileName">the fileName</param>
+        public void ExportSimulationParameter(string modelID, string parameterID, string fileName)
+        {
+            if (m_currentProject == null)
+                return;
+
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(fileName, false, Encoding.ASCII);
+                foreach (EcellObject sysobj in m_currentProject.SystemDic[modelID])
+                {
+                    foreach (EcellObject child in sysobj.Children)
+                    {
+                        foreach (EcellData data in child.Value)
+                        {
+                            if (data.Settable && data.Value.IsDouble)
+                            {
+                                if (!parameterID.Equals(Constants.defaultSimParam) &&
+                                    m_currentProject.InitialCondition[parameterID][modelID].ContainsKey(data.EntityPath))
+                                    writer.WriteLine(data.EntityPath + "," + m_currentProject.InitialCondition[parameterID][modelID][data.EntityPath].ToString());
+                                else
+                                    writer.WriteLine(data.EntityPath + "," + data.Value.Value.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Import the simulation parameter from the file.
+        /// </summary>
+        /// <param name="modelID">the modelID to import the simulation parameter.</param>
+        /// <param name="parameterID">the parameter ID.</param>
+        /// <param name="param">the list of initial parameters.</param>
+        public void ImportSimulationParameter(string modelID, string parameterID,
+            Dictionary<string, double> param)
+        {
+            if (m_currentProject == null || param == null)
+                return;
+
+            Dictionary<string, EcellObject> updateObjs = new Dictionary<string, EcellObject>();
+            if (!m_currentProject.InitialCondition.ContainsKey(parameterID))
+            {
+                CopySimulationParameter(parameterID, Constants.defaultSimParam);
+            }
+
+            foreach (string fullPN in param.Keys)
+            {
+                double value = param[fullPN];
+
+                string type, key, propName;
+                double orgValue;
+                Util.ParseFullPN(fullPN, out type, out key, out propName);
+                EcellObject obj = m_currentProject.GetEcellObject(modelID, type, key, true);
+                if (obj == null)
+                    continue;
+                EcellData d = obj.GetEcellData(propName);
+                if (!d.Settable || !d.Value.IsDouble)
+                    continue;
+                if (!Double.TryParse(d.Value.ToString(), out orgValue))
+                    continue;
+                if (orgValue == value)
+                {
+                    if (!parameterID.Equals(Constants.defaultSimParam) &&
+                        m_currentProject.InitialCondition[parameterID][modelID].ContainsKey(fullPN))
+                        m_currentProject.InitialCondition[parameterID][modelID].Remove(fullPN);
+                    continue;
+                }
+                if (parameterID.Equals(Constants.defaultSimParam))
+                {
+                    d.Value = new EcellValue(value);
+                    updateObjs[key] = obj;
+                }
+                else
+                {
+                    m_currentProject.InitialCondition[parameterID][modelID][fullPN] = value;
+                }
+            }
+            if (updateObjs.Count > 0)
+            {
+                foreach (EcellObject obj in updateObjs.Values)
+                    DataChanged(obj.ModelID, obj.Key, obj.Type, obj, true, false);
+                this.m_env.ActionManager.AddAction(new AnchorAction());
+            }
+        }
+
+
+        /// <summary>
         /// Exports the models to ths designated file.
         /// </summary>
         /// <param name="modelIDList">The list of the model ID</param>

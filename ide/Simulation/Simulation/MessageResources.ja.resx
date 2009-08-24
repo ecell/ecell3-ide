@@ -225,4 +225,16 @@
   <data name="MenuToolTipFoward" xml:space="preserve">
     <value>シミュレーションを１段階進める</value>
   </data>
+  <data name="ErrExportSim" xml:space="preserve">
+    <value>シミュレーションパラメータ [{0}] のエクスポートに失敗しました</value>
+  </data>
+  <data name="ErrImportSim" xml:space="preserve">
+    <value>シミュレーションパラメータ [{0}] のインポートに失敗しました</value>
+  </data>
+  <data name="InfoExportSim" xml:space="preserve">
+    <value>シミュレーションパラメータ [{0}] をエクスポートしました</value>
+  </data>
+  <data name="InfoImportSim" xml:space="preserve">
+    <value>シミュレーションパラメータ [{0}] をインポートしました</value>
+  </data>
 </root>

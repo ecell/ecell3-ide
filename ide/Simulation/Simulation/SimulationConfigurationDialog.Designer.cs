@@ -69,6 +69,10 @@
             this.freqByStepTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.simSettingToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.SSImportButton = new System.Windows.Forms.Button();
+            this.SSExportButton = new System.Windows.Forms.Button();
+            this.SSSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SSOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             perModelSimulationParametersPage = new System.Windows.Forms.TabPage();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -373,12 +377,32 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
+            // SSImportButton
+            // 
+            resources.ApplyResources(this.SSImportButton, "SSImportButton");
+            this.SSImportButton.Name = "SSImportButton";
+            this.SSImportButton.UseVisualStyleBackColor = true;
+            this.SSImportButton.Click += new System.EventHandler(this.ImportSimulationParameterClicked);
+            // 
+            // SSExportButton
+            // 
+            resources.ApplyResources(this.SSExportButton, "SSExportButton");
+            this.SSExportButton.Name = "SSExportButton";
+            this.SSExportButton.UseVisualStyleBackColor = true;
+            this.SSExportButton.Click += new System.EventHandler(this.ExportSimulationParameterClicked);
+            // 
+            // SSOpenFileDialog
+            // 
+            this.SSOpenFileDialog.FileName = "openFileDialog1";
+            // 
             // SimulationConfigurationDialog
             // 
             this.AcceptButton = this.SSApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.SSCloseButton;
+            this.Controls.Add(this.SSExportButton);
+            this.Controls.Add(this.SSImportButton);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.SSApplyButton);
             this.Controls.Add(this.SSCloseButton);
@@ -448,5 +472,9 @@
         private System.Windows.Forms.ToolTip simSettingToolTip;
         private System.Windows.Forms.ContextMenuStrip initialContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.Button SSImportButton;
+        private System.Windows.Forms.Button SSExportButton;
+        private System.Windows.Forms.SaveFileDialog SSSaveFileDialog;
+        private System.Windows.Forms.OpenFileDialog SSOpenFileDialog;
     }
 }

@@ -82,6 +82,68 @@ namespace Ecell
             m_loggerPolicy = loggerPolicy;
             m_id = id;
         }
+
+        /// <summary>
+        /// Convert the data from file.
+        /// </summary>
+        /// <param name="fileName">the simulation parameter file.</param>
+        /// <returns>the dictionary fullPN and value.</returns>
+        public static Dictionary<string, double> ConvertSimulationParameter(string fileName)
+        {
+            Dictionary<string, double> result = new Dictionary<string, double>();
+            StreamReader reader = null;
+            try
+            {
+                reader = new StreamReader(fileName, System.Text.Encoding.ASCII);
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] data = line.Split(',');
+                    string fullPN;
+                    double value = 0.0;
+                    if (data.Length == 2)
+                    { // FullPN, Value
+                        fullPN = data[0];
+                        if (string.IsNullOrEmpty(data[1]) || !double.TryParse(data[1], out value))
+                        {
+                            continue;
+                        }
+                    }
+                    else if (data.Length == 3)
+                    { // FullID, PropertyName, Value 
+                        fullPN = Util.BuildFullPN(data[0], data[1]);
+                        if (string.IsNullOrEmpty(data[2]) || !double.TryParse(data[2], out value))
+                        {
+                            continue;
+                        }
+                    }
+                    else if (data.Length == 4)
+                    { // Type, Path:ID, PropertyName, Value
+                        string systemPath, localID;
+                        Util.ParseKey(data[1], out systemPath, out localID);
+                        fullPN = Util.BuildFullPN(data[0], systemPath, localID, data[2]);
+                        if (string.IsNullOrEmpty(data[3]) || !double.TryParse(data[3], out value))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    result.Add(fullPN, value);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+            return result;
+        }
     }
 
     /// <summary>

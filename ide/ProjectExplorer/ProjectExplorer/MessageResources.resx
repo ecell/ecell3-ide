@@ -204,4 +204,16 @@
   <data name="WarnNoLoad" xml:space="preserve">
     <value>This DM is not loaded.</value>
   </data>
+  <data name="ErrExportSim" xml:space="preserve">
+    <value>Failed to export the simulation parameter [{0}].</value>
+  </data>
+  <data name="ErrImportSim" xml:space="preserve">
+    <value>Failed to import the simulation parameter [{0}].</value>
+  </data>
+  <data name="InfoExportSim" xml:space="preserve">
+    <value>The simulation parameter [{0}] is exported.</value>
+  </data>
+  <data name="InfoImportSim" xml:space="preserve">
+    <value>The simulation parameter [{0}] is imported.</value>
+  </data>
 </root>

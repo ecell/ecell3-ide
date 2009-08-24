@@ -106,11 +106,29 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Failed to export the simulation parameter [{0}]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrExportSim {
+            get {
+                return ResourceManager.GetString("ErrExportSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot import DM. Please delete the same file name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrImportDM {
             get {
                 return ResourceManager.GetString("ErrImportDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to import the simulation parameter [{0}]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrImportSim {
+            get {
+                return ResourceManager.GetString("ErrImportSim", resourceCulture);
             }
         }
         
@@ -156,6 +174,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         internal static string ErrStartupApp {
             get {
                 return ResourceManager.GetString("ErrStartupApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The simulation parameter [{0}] is exported. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoExportSim {
+            get {
+                return ResourceManager.GetString("InfoExportSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The simulation parameter [{0}] is imported. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoImportSim {
+            get {
+                return ResourceManager.GetString("InfoImportSim", resourceCulture);
             }
         }
         

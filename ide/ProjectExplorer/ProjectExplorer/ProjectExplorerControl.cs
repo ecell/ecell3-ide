@@ -1858,6 +1858,65 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             ResetDM();
         }
+
+        /// <summary>
+        /// Import the simulation parameter set.
+        /// </summary>
+        /// <param name="o">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeView_ImportSimulationParameter(object o, EventArgs e)
+        {
+            m_openFileDialog.Filter = Constants.FilterCSVFile;
+            if (m_openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = m_openFileDialog.FileName;
+                string parameterID = Path.GetFileNameWithoutExtension(fileName);
+                try
+                {
+                    string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
+                    Dictionary<string, double> data = SimulationParameter.ConvertSimulationParameter(fileName);
+                    m_owner.DataManager.ImportSimulationParameter(modelID, parameterID, data);
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrImportSim, parameterID));
+                    return;
+                }
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoImportSim, parameterID));
+            }
+        }
+
+        /// <summary>
+        /// Export the simulation parameter set.
+        /// </summary>
+        /// <param name="o">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void TreeView_ExportSimulationParameter(object o, EventArgs e)
+        {
+            if (m_lastSelectedNode == null)
+                return;
+            String parameterID = m_lastSelectedNode.Tag as string;
+            if (String.IsNullOrEmpty(parameterID))
+                return;
+
+            m_saveFileDialog.Filter = Constants.FilterCSVFile;
+            if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
+                    string fileName = m_saveFileDialog.FileName;
+                    m_owner.DataManager.ExportSimulationParameter(modelID, parameterID, fileName);
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExportSim, parameterID));
+                    return;
+                }
+                Util.ShowWarningDialog(String.Format(MessageResources.InfoExportSim, parameterID));
+            }
+        }
+
         #endregion
 
         #region ShortCuts

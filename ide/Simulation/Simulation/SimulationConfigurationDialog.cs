@@ -586,5 +586,78 @@ namespace Ecell.IDE.Plugins.Simulation
                 initialParameters.Refresh();
             }
         }
+
+
+        private void ImportSimulationParameterClicked(object sender, EventArgs e)
+        {
+            if (m_owner.DataManager.CurrentProject == null)
+                return;
+
+            SSOpenFileDialog.Filter = Constants.FilterCSVFile;
+            if (SSOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string parameterID = System.IO.Path.GetFileNameWithoutExtension(SSOpenFileDialog.FileName);
+                try
+                {                    
+                    SimulationParameterSet sps = null;
+                    bool isHit = false;
+                    foreach (SimulationParameterSet s in m_simParamSets)
+                    {
+                        if (s.Name.Equals(parameterID))
+                            isHit = true;
+                    }
+                    if (isHit == false)
+                    {
+                        sps = new SimulationParameterSet(parameterID);
+                        SimulationParameterSet sp = (SimulationParameterSet)m_simParamSets.Current;
+                        for (int i = 0; i < sp.PerModelSimulationParameters.Count; i++)
+                        {
+                            sps.PerModelSimulationParameters.Add(new PerModelSimulationParameter(sp.PerModelSimulationParameters[i]));
+                        }
+                        m_simParamSets.Add(sps);                        
+                    }
+
+                    int index = m_simParamSets.IndexOf(sps);
+                    m_simParamSets.Position = index;
+                                        
+                    foreach (KeyValuePair<string, double> pair in
+                            SimulationParameter.ConvertSimulationParameter(SSOpenFileDialog.FileName))
+                    {
+                        initialConditionsBindingSource.Add(
+                            KeyValuePairConverter<string, double>.Convert(pair));
+                    }                    
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrImportSim, parameterID));
+                    return;
+                }
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoImportSim, parameterID));
+            }
+        }
+
+        private void ExportSimulationParameterClicked(object sender, EventArgs e)
+        {
+            if (m_owner.DataManager.CurrentProject == null)
+                return;
+            SSSaveFileDialog.Filter = Constants.FilterCSVFile;
+
+            if (SSSaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
+                string parameterID = paramCombo.Text; 
+                string fileName = SSSaveFileDialog.FileName;
+                try
+                {
+                    m_owner.DataManager.ExportSimulationParameter(modelID, parameterID, fileName);
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExportSim, parameterID));
+                    return;
+                }
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoExportSim, parameterID));
+            }
+        }
     }
 }

@@ -225,4 +225,16 @@
   <data name="MenuToolTipFoward" xml:space="preserve">
     <value>Foward to one simulation action.</value>
   </data>
+  <data name="ErrExportSim" xml:space="preserve">
+    <value>Failed to export the simulation parameter [{0}].</value>
+  </data>
+  <data name="ErrImportSim" xml:space="preserve">
+    <value>Failed to import the simulation parameter [{0}].</value>
+  </data>
+  <data name="InfoExportSim" xml:space="preserve">
+    <value>The simulation parameter [{0}] is exported.</value>
+  </data>
+  <data name="InfoImportSim" xml:space="preserve">
+    <value>The simulation parameter [{0}] is imported.</value>
+  </data>
 </root>
