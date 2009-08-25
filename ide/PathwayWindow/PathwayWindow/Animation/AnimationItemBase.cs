@@ -230,7 +230,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="fullPN"></param>
         /// <returns></returns>
-        protected double GetFloatValue(string fullPN)
+        protected double GetValue(string fullPN)
         {
             double num = 0.0d;
             try
@@ -270,7 +270,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <returns></returns>
         protected string GetTextValue(string fullPN)
         {
-            double value = GetFloatValue(fullPN);
+            double value = GetValue(fullPN);
             string text = value.ToString(_format);
             return text;
         }

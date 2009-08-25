@@ -230,7 +230,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Set threshold
                 if (!_autoThreshold)
                     continue;
-                double activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
+                double activity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 SetThreshold(activity);
             }
 
@@ -247,7 +247,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
 
                 // Line setting.
-                double activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
+                double activity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 float width = GetEdgeWidth(activity);
                 Brush brush = GetEdgeBrush(activity);
 
@@ -265,7 +265,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
-                double molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                double molerConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                 float width = GetEdgeWidth(molerConc);
                 Brush brush = GetEdgeBrush(molerConc);
 

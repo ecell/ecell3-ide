@@ -49,6 +49,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private System.Windows.Forms.CheckBox checkBoxValue;
         private System.Windows.Forms.CheckBox checkBoxMolarActivity;
         private System.Windows.Forms.CheckBox checkBoxActivity;
+
+        private List<PPathwayGraph> _graphs = new List<PPathwayGraph>();
         #endregion
 
         #region Constructor
@@ -74,7 +76,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyViewAnimationItem));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphAnimationItem));
             this.variableBox = new System.Windows.Forms.GroupBox();
             this.checkBoxNumberConc = new System.Windows.Forms.CheckBox();
             this.checkBoxMolarConc = new System.Windows.Forms.CheckBox();
@@ -88,89 +90,57 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // variableBox
             // 
-            this.variableBox.AccessibleDescription = null;
-            this.variableBox.AccessibleName = null;
             resources.ApplyResources(this.variableBox, "variableBox");
-            this.variableBox.BackgroundImage = null;
             this.variableBox.Controls.Add(this.checkBoxNumberConc);
             this.variableBox.Controls.Add(this.checkBoxMolarConc);
             this.variableBox.Controls.Add(this.checkBoxValue);
-            this.variableBox.Font = null;
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
             // 
             // checkBoxNumberConc
             // 
-            this.checkBoxNumberConc.AccessibleDescription = null;
-            this.checkBoxNumberConc.AccessibleName = null;
             resources.ApplyResources(this.checkBoxNumberConc, "checkBoxNumberConc");
-            this.checkBoxNumberConc.BackgroundImage = null;
-            this.checkBoxNumberConc.Font = null;
             this.checkBoxNumberConc.Name = "checkBoxNumberConc";
             this.checkBoxNumberConc.UseVisualStyleBackColor = true;
             // 
             // checkBoxMolarConc
             // 
-            this.checkBoxMolarConc.AccessibleDescription = null;
-            this.checkBoxMolarConc.AccessibleName = null;
             resources.ApplyResources(this.checkBoxMolarConc, "checkBoxMolarConc");
-            this.checkBoxMolarConc.BackgroundImage = null;
-            this.checkBoxMolarConc.Font = null;
             this.checkBoxMolarConc.Name = "checkBoxMolarConc";
             this.checkBoxMolarConc.UseVisualStyleBackColor = true;
             // 
             // checkBoxValue
             // 
-            this.checkBoxValue.AccessibleDescription = null;
-            this.checkBoxValue.AccessibleName = null;
             resources.ApplyResources(this.checkBoxValue, "checkBoxValue");
-            this.checkBoxValue.BackgroundImage = null;
-            this.checkBoxValue.Font = null;
             this.checkBoxValue.Name = "checkBoxValue";
             this.checkBoxValue.UseVisualStyleBackColor = true;
             // 
             // processBox
             // 
-            this.processBox.AccessibleDescription = null;
-            this.processBox.AccessibleName = null;
             resources.ApplyResources(this.processBox, "processBox");
-            this.processBox.BackgroundImage = null;
             this.processBox.Controls.Add(this.checkBoxMolarActivity);
             this.processBox.Controls.Add(this.checkBoxActivity);
-            this.processBox.Font = null;
             this.processBox.Name = "processBox";
             this.processBox.TabStop = false;
             // 
             // checkBoxMolarActivity
             // 
-            this.checkBoxMolarActivity.AccessibleDescription = null;
-            this.checkBoxMolarActivity.AccessibleName = null;
             resources.ApplyResources(this.checkBoxMolarActivity, "checkBoxMolarActivity");
-            this.checkBoxMolarActivity.BackgroundImage = null;
-            this.checkBoxMolarActivity.Font = null;
             this.checkBoxMolarActivity.Name = "checkBoxMolarActivity";
             this.checkBoxMolarActivity.UseVisualStyleBackColor = true;
             // 
             // checkBoxActivity
             // 
-            this.checkBoxActivity.AccessibleDescription = null;
-            this.checkBoxActivity.AccessibleName = null;
             resources.ApplyResources(this.checkBoxActivity, "checkBoxActivity");
-            this.checkBoxActivity.BackgroundImage = null;
-            this.checkBoxActivity.Font = null;
             this.checkBoxActivity.Name = "checkBoxActivity";
             this.checkBoxActivity.UseVisualStyleBackColor = true;
             // 
-            // PropertyViewAnimationItem
+            // GraphAnimationItem
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.processBox);
             this.Controls.Add(this.variableBox);
-            this.Font = null;
-            this.Name = "PropertyViewAnimationItem";
+            this.Name = "GraphAnimationItem";
+            resources.ApplyResources(this, "$this");
             this.variableBox.ResumeLayout(false);
             this.variableBox.PerformLayout();
             this.processBox.ResumeLayout(false);
@@ -196,40 +166,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void SetAnimation()
         {
+            _graphs.Clear();
             base.SetAnimation();
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
-                variable.Property.Visible = true;
-                // Visibility
-                variable.Property.Properties[0].Visible = checkBoxValue.Checked;
-                variable.Property.Properties[1].Visible = checkBoxMolarConc.Checked;
-                variable.Property.Properties[2].Visible = checkBoxNumberConc.Checked;
-                // SetParam
-                foreach (PPathwayProperty property in variable.Property.Properties)
-                {
-                    string fullPN = variable.EcellObject.FullID + ":" + property.Label;
-                    property.Value = this.GetTextValue(fullPN);
-                }
-                variable.Refresh();
+                PPathwayGraph graph = new PPathwayGraph(variable);
+                variable.Graph = graph;
+                graph.PointF = variable.PointF;
+                _graphs.Add(graph);
             }
-
-            // Process
-            foreach (PPathwayProcess process in _processes)
-            {
-                process.Property.Visible = true;
-                // Visibility
-                process.Property.Properties[0].Visible = checkBoxActivity.Checked;
-                process.Property.Properties[1].Visible = checkBoxMolarActivity.Checked;
-                // SetParam
-                foreach (PPathwayProperty property in process.Property.Properties)
-                {
-                    string fullPN = process.EcellObject.FullID + ":" + property.Label;
-                    property.Value = this.GetTextValue(fullPN);
-                }
-                process.Refresh();
-            }
-
         }
 
         /// <summary>
@@ -238,31 +184,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void UpdateAnimation()
         {
             base.UpdateAnimation();
-            // Variable
-            foreach (PPathwayVariable variable in _variables)
+            // Graph
+            foreach (PPathwayGraph graph in _graphs)
             {
-                if (!variable.Visible)
-                    continue;
-                foreach (PPathwayProperty property in variable.Property.Properties)
-                {
-                    if (!property.Visible)
-                        continue;
-                    string fullPN = variable.EcellObject.FullID + ":" + property.Label;
-                    property.Value = this.GetTextValue(fullPN);
-                }
-            }
-            // Process
-            foreach (PPathwayProcess process in _processes)
-            {
-                if (!process.Visible)
-                    continue;
-                foreach (PPathwayProperty property in process.Property.Properties)
-                {
-                    if (!property.Visible)
-                        continue;
-                    string fullPN = process.EcellObject.FullID + ":" + property.Label;
-                    property.Value = this.GetTextValue(fullPN);
-                }
             }
         }
 
@@ -279,18 +203,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void ResetAnimation()
         {
-            // Variable
-            foreach (PPathwayVariable variable in _variables)
+            // Graph
+            foreach (PPathwayGraph graph in _graphs)
             {
-                variable.Property.Visible = false;
-            }
-            // Process
-            foreach (PPathwayProcess process in _processes)
-            {
-                process.Property.Visible = false;
+                graph.RemoveFromParent();
             }
             base.ResetAnimation();
-
+            _graphs.Clear();
         }
         #endregion
 

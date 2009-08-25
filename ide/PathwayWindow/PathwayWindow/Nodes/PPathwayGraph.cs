@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using UMD.HCIL.Piccolo.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -57,7 +58,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Graph object.
         /// </summary>
-        private PPathwayNode graph = null;
+        private PPathwayNode m_graph = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        private PText m_text = null;
         #endregion
 
         #region Constructors
@@ -66,7 +71,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayGraph()
         {
-            this.Brush = Brushes.White;
+            this.Brush = Brushes.LightBlue;
             this.Pen = new Pen(Brushes.Black);
             this.Width = GRAPH_SIZE;
             this.Height = GRAPH_SIZE;
@@ -74,9 +79,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             path.AddRectangle(new RectangleF(0, 0, GRAPH_SIZE, GRAPH_SIZE));
             this.AddPath(path, false);
 
-            this.graph = new PPathwayNode();
-            this.graph.Pen = new Pen(Brushes.Red);
-            this.AddChild(graph);
+            this.m_graph = new PPathwayNode();
+            this.m_graph.Pickable = false;
+            this.m_graph.Brush = Brushes.White;
+            this.m_graph.Pen = new Pen(Brushes.Black);
+            path = new GraphicsPath();
+            path.AddRectangle(new RectangleF(20, 20, GRAPH_SIZE-30, GRAPH_SIZE-30));
+            this.m_graph.AddPath(path, false);
+
+            this.AddChild(m_graph);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        public PPathwayGraph(PPathwayEntity entity)
+            : this()
+        {
+
         }
 
         #endregion
@@ -125,7 +145,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             GraphicsPath path = new GraphicsPath();
             path.AddBeziers(plots.ToArray());
-            graph.AddPath(path, false);
+            m_graph.AddPath(path, false);
         }
 
         /// <summary>
@@ -134,7 +154,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Reset()
         {
             m_values.Clear();
-            graph.Reset();
+            m_graph.Reset();
         }
         #endregion
 

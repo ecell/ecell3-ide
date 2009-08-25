@@ -124,6 +124,6 @@
     <value>Processのプロパティラベル表示</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>プロパティ表示</value>
+    <value>グラフ表示</value>
   </data>
 </root>

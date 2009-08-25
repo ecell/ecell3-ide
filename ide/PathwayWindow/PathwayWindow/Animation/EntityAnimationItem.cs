@@ -63,11 +63,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private float _maxEdgeWidth = 20f;
         
         /// <summary>
-        /// Edge brush on ViewMode.
-        /// </summary>
-        private Brush _viewEdgeBrush = Brushes.LightGreen;
-
-        /// <summary>
         /// Low threshold edge brush on ViewMode.
         /// </summary>
         private Brush _lowEdgeBrush = Brushes.Gray;
@@ -222,19 +217,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     variable.ViewMode = true;
                 // Line setting.
 
+                // Reset size.
+                PointF pos = variable.CenterPointF;
+                variable.Width = variable.Figure.Width;
+                variable.Height = variable.Figure.Height;
+                variable.CenterPointF = pos;
+                variable.Brush = variable.Setting.CreateBrush(variable.Path);
+
                 // Set threshold
                 if (!_autoThreshold)
                     continue;
-                double molarConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                 SetThreshold(molarConc);
-
-                float size = GetEntitySize(molarConc);
-                Brush brush = GetEntityBrush(molarConc);
-                PointF pos = variable.CenterPointF;
-                variable.Width = size * variable.Figure.Width;
-                variable.Height = size * variable.Figure.Height;
-                variable.Brush = brush;
-                variable.CenterPointF = pos;
             }
 
         }
@@ -249,14 +243,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
-                double molarConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                 float size = GetEntitySize(molarConc);
-                Brush brush = GetEntityBrush(molarConc);
                 PointF pos = variable.CenterPointF;
                 variable.Width = size * variable.Figure.Width;
                 variable.Height = size * variable.Figure.Height;
-                variable.Brush = brush;
                 variable.CenterPointF = pos;
+                variable.Brush = GetEntityBrush(molarConc, variable);
             }
         }
 
@@ -265,7 +258,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void StopAnimation()
         {
-            UpdateAnimation();
+            SetAnimation();
         }
 
         /// <summary>
@@ -328,20 +321,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private float GetEntitySize(double activity)
         {
             if (double.IsNaN(activity))
-                return 0.01f;
+                return 0.1f;
             else if (activity <= _thresholdLow || _thresholdLow == _thresholdHigh)
-                return 0.01f;
+                return 0.1f;
             else if (activity >= _thresholdHigh)
-                return 2.01f;
-            return (float)(2d * (activity - _thresholdLow)/ (_thresholdHigh - _thresholdLow) + 0.01d);
+                return 2.1f;
+            return (float)(2d * (activity - _thresholdLow)/ (_thresholdHigh - _thresholdLow) + 0.1d);
         }
 
         /// <summary>
         /// Get line color
         /// </summary>
         /// <param name="activity"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        private Brush GetEntityBrush(double activity)
+        private Brush GetEntityBrush(double activity, PPathwayVariable variable)
         {
             if (double.IsNaN(activity) || double.IsInfinity(activity))
                 return _ngEdgeBrush;
@@ -349,7 +343,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return _lowEdgeBrush;
             else if (activity >= _thresholdHigh)
                 return _highEdgeBrush;
-            return _viewEdgeBrush;
+            return variable.Setting.CreateBrush(variable.Path);
         }
 
         /// <summary>

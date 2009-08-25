@@ -117,232 +117,232 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;checkBoxActivity.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;processBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;checkBoxValue.Parent" xml:space="preserve">
-    <value>variableBox</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="variableBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="checkBoxValue.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;variableBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="checkBoxMolarActivity.Text" xml:space="preserve">
-    <value>MolarActivity</value>
-  </data>
-  <data name="&gt;&gt;checkBoxNumberConc.Name" xml:space="preserve">
-    <value>checkBoxNumberConc</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="processBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 92</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarConc.Name" xml:space="preserve">
-    <value>checkBoxMolarConc</value>
-  </data>
-  <data name="checkBoxValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 34</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="checkBoxActivity.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 320</value>
-  </data>
-  <data name="processBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="checkBoxNumberConc.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBoxNumberConc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 16</value>
-  </data>
-  <data name="&gt;&gt;checkBoxActivity.Parent" xml:space="preserve">
-    <value>processBox</value>
-  </data>
-  <data name="&gt;&gt;processBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBoxMolarActivity.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Show Property</value>
-  </data>
-  <data name="&gt;&gt;checkBoxNumberConc.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="checkBoxActivity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 16</value>
-  </data>
-  <data name="&gt;&gt;checkBoxNumberConc.Parent" xml:space="preserve">
-    <value>variableBox</value>
-  </data>
-  <data name="&gt;&gt;checkBoxValue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="variableBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarConc.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="processBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 122</value>
-  </data>
-  <data name="&gt;&gt;processBox.Name" xml:space="preserve">
-    <value>processBox</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarConc.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBoxMolarConc.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3192.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="checkBoxMolarConc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 56</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarConc.Parent" xml:space="preserve">
-    <value>variableBox</value>
-  </data>
-  <data name="checkBoxNumberConc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 78</value>
-  </data>
-  <data name="&gt;&gt;variableBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="variableBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 3</value>
-  </data>
-  <data name="checkBoxValue.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarActivity.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBoxValue.Name" xml:space="preserve">
-    <value>checkBoxValue</value>
-  </data>
-  <data name="checkBoxMolarActivity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 53</value>
-  </data>
   <data name="variableBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="checkBoxActivity.AutoSize" type="System.Boolean, mscorlib">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="variableBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="checkBoxMolarConc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarActivity.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;variableBox.Name" xml:space="preserve">
-    <value>variableBox</value>
-  </data>
-  <data name="checkBoxMolarConc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 16</value>
-  </data>
-  <data name="&gt;&gt;processBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="processBox.Text" xml:space="preserve">
-    <value>Show property label of each Process</value>
-  </data>
-  <data name="checkBoxNumberConc.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="checkBoxMolarActivity.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;checkBoxMolarActivity.Parent" xml:space="preserve">
-    <value>processBox</value>
-  </data>
-  <data name="checkBoxActivity.Text" xml:space="preserve">
-    <value>Activity</value>
-  </data>
-  <data name="checkBoxMolarConc.Text" xml:space="preserve">
-    <value>MolarConc</value>
-  </data>
-  <data name="variableBox.Text" xml:space="preserve">
-    <value>Show property label of each Variable</value>
-  </data>
-  <data name="checkBoxMolarConc.AutoSize" type="System.Boolean, mscorlib">
+  <data name="checkBoxNumberConc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="checkBoxNumberConc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="processBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="checkBoxNumberConc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 78</value>
+  </data>
+  <data name="checkBoxNumberConc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 16</value>
+  </data>
+  <data name="checkBoxNumberConc.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="checkBoxNumberConc.Text" xml:space="preserve">
     <value>NumberConc</value>
   </data>
-  <data name="&gt;&gt;checkBoxValue.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;checkBoxNumberConc.Name" xml:space="preserve">
+    <value>checkBoxNumberConc</value>
   </data>
   <data name="&gt;&gt;checkBoxNumberConc.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="checkBoxActivity.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;checkBoxNumberConc.Parent" xml:space="preserve">
+    <value>variableBox</value>
+  </data>
+  <data name="&gt;&gt;checkBoxNumberConc.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkBoxMolarConc.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxMolarConc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBoxMolarConc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 56</value>
+  </data>
+  <data name="checkBoxMolarConc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 16</value>
+  </data>
+  <data name="checkBoxMolarConc.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="checkBoxMolarConc.Text" xml:space="preserve">
+    <value>MolarConc</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarConc.Name" xml:space="preserve">
+    <value>checkBoxMolarConc</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarConc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarConc.Parent" xml:space="preserve">
+    <value>variableBox</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarConc.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkBoxValue.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 34</value>
   </data>
   <data name="checkBoxValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 16</value>
   </data>
-  <data name="checkBoxMolarActivity.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomLeft</value>
-  </data>
-  <data name="checkBoxMolarActivity.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="checkBoxValue.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="checkBoxValue.Text" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="checkBoxMolarActivity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 16</value>
+  <data name="&gt;&gt;checkBoxValue.Name" xml:space="preserve">
+    <value>checkBoxValue</value>
   </data>
-  <data name="&gt;&gt;checkBoxMolarActivity.Name" xml:space="preserve">
-    <value>checkBoxMolarActivity</value>
+  <data name="&gt;&gt;checkBoxValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="processBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="&gt;&gt;checkBoxValue.Parent" xml:space="preserve">
+    <value>variableBox</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PropertyViewAnimationItem</value>
+  <data name="&gt;&gt;checkBoxValue.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="checkBoxActivity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 31</value>
+  <data name="variableBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
   </data>
   <data name="variableBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>409, 113</value>
   </data>
+  <data name="variableBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="variableBox.Text" xml:space="preserve">
+    <value>Show variable graph of each parameter</value>
+  </data>
+  <data name="&gt;&gt;variableBox.Name" xml:space="preserve">
+    <value>variableBox</value>
+  </data>
   <data name="&gt;&gt;variableBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBoxActivity.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;variableBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;variableBox.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="processBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="processBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxMolarActivity.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxMolarActivity.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBoxMolarActivity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 53</value>
+  </data>
+  <data name="checkBoxMolarActivity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 16</value>
+  </data>
+  <data name="checkBoxMolarActivity.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkBoxMolarActivity.Text" xml:space="preserve">
+    <value>MolarActivity</value>
+  </data>
+  <data name="checkBoxMolarActivity.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomLeft</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarActivity.Name" xml:space="preserve">
+    <value>checkBoxMolarActivity</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarActivity.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarActivity.Parent" xml:space="preserve">
+    <value>processBox</value>
+  </data>
+  <data name="&gt;&gt;checkBoxMolarActivity.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkBoxActivity.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxActivity.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBoxActivity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 31</value>
+  </data>
+  <data name="checkBoxActivity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 16</value>
+  </data>
+  <data name="checkBoxActivity.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="checkBoxActivity.Text" xml:space="preserve">
+    <value>Activity</value>
   </data>
   <data name="&gt;&gt;checkBoxActivity.Name" xml:space="preserve">
     <value>checkBoxActivity</value>
   </data>
+  <data name="&gt;&gt;checkBoxActivity.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBoxActivity.Parent" xml:space="preserve">
+    <value>processBox</value>
+  </data>
+  <data name="&gt;&gt;checkBoxActivity.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="processBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 122</value>
+  </data>
+  <data name="processBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>409, 92</value>
+  </data>
+  <data name="processBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="processBox.Text" xml:space="preserve">
+    <value>Show process graph of each Parameter</value>
+  </data>
+  <data name="&gt;&gt;processBox.Name" xml:space="preserve">
+    <value>processBox</value>
+  </data>
+  <data name="&gt;&gt;processBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;processBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;processBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>416, 320</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Show Graph</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>GraphAnimationItem</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3294.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
 </root>
