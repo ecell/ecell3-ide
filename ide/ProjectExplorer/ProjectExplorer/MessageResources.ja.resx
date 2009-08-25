@@ -216,4 +216,7 @@
   <data name="InfoImportSim" xml:space="preserve">
     <value>シミュレーションパラメータ [{0}] をインポートしました</value>
   </data>
+  <data name="ErrAlreadyEntity" xml:space="preserve">
+    <value>エンティティ [{0}] は既に存在します</value>
+  </data>
 </root>

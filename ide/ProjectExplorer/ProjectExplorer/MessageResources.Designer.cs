@@ -70,6 +70,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   The Entity [{0}] already exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAlreadyEntity {
+            get {
+                return ResourceManager.GetString("ErrAlreadyEntity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This simulation set already exist. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAlreadyExist {

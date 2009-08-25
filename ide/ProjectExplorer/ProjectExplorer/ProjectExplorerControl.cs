@@ -1985,8 +1985,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     EcellObject t = m_owner.DataManager.GetEcellObject(tag.ModelID, tag.Key, tag.Type);
                     systemPath = t.ParentSystemID;                
                 }
-            }            
+            }
 
+            Dictionary<EcellObject, EcellObject> updataList = new Dictionary<EcellObject, EcellObject>();
+            List<string> updataIDList = new List<string>();
             foreach (EcellDragEntry ent in dobj.Entries)
             {
                 EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
@@ -1996,7 +1998,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 else
                     cobj.Key = systemPath + "/" + t.LocalID;
                 if (cobj.Key.Equals(t.Key)) continue;
-                m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, cobj);
+                EcellObject ch = m_owner.DataManager.GetEcellObject(cobj.ModelID, cobj.Key, cobj.Type);
+                if (ch != null)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrAlreadyEntity, cobj.LocalID));
+                    return;
+                }
+                if (updataIDList.Contains(cobj.Type + ":" + cobj.LocalID))
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrAlreadyEntity, cobj.LocalID));
+                    return;
+                }
+                updataList.Add(t, cobj);
+                updataIDList.Add(cobj.Type + ":" + cobj.LocalID);
+            }
+
+            foreach (EcellObject src in updataList.Keys)
+            {
+                m_owner.DataManager.DataChanged(src.ModelID, src.Key, src.Type, updataList[src]);
             }
         }
         #endregion

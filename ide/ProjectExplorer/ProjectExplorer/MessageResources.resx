@@ -216,4 +216,7 @@
   <data name="InfoImportSim" xml:space="preserve">
     <value>The simulation parameter [{0}] is imported.</value>
   </data>
+  <data name="ErrAlreadyEntity" xml:space="preserve">
+    <value>The Entity [{0}] already exist.</value>
+  </data>
 </root>
