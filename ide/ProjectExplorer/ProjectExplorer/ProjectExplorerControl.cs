@@ -1992,6 +1992,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             foreach (EcellDragEntry ent in dobj.Entries)
             {
                 EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                if (t.Type.Equals(EcellObject.SYSTEM) && systemPath.StartsWith(t.Key))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrUnderSystem);
+                    return;
+                }
                 EcellObject cobj = t.Clone();
                 if (systemPath.Equals("/"))
                     cobj.Key = "/" + t.LocalID;

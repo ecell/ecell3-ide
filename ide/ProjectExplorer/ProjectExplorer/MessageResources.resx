@@ -219,4 +219,7 @@
   <data name="ErrAlreadyEntity" xml:space="preserve">
     <value>The Entity [{0}] already exist.</value>
   </data>
+  <data name="ErrUnderSystem" xml:space="preserve">
+    <value>Can not move the system to under the current system</value>
+  </data>
 </root>

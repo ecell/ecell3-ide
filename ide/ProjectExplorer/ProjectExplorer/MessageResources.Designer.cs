@@ -187,6 +187,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Can not move the system to under the current system に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrUnderSystem {
+            get {
+                return ResourceManager.GetString("ErrUnderSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The simulation parameter [{0}] is exported. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoExportSim {

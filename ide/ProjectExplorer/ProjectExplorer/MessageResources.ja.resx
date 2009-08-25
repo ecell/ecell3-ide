@@ -219,4 +219,7 @@
   <data name="ErrAlreadyEntity" xml:space="preserve">
     <value>エンティティ [{0}] は既に存在します</value>
   </data>
+  <data name="ErrUnderSystem" xml:space="preserve">
+    <value>システムを移動することができません</value>
+  </data>
 </root>
