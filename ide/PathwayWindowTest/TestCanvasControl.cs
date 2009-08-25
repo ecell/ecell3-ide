@@ -307,8 +307,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestNotifyAddLayer()
         {
-            string name = null;
-            bool isAnchored = false;
             //_unitUnderTest.NotifyAddLayer(name, isAnchored);
             Assert.Fail("Create or modify test(s).");
 
@@ -319,7 +317,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestNotifyRemoveLayer()
         {
-            string name = null;
             //_unitUnderTest.NotifyRemoveLayer(name, isAnchored);
             Assert.Fail("Create or modify test(s).");
 

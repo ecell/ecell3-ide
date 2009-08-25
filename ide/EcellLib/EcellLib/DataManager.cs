@@ -113,10 +113,6 @@ namespace Ecell
         /// </summary>
         private Project m_currentProject = null;
         /// <summary>
-        /// The flag whether stepping is by step.
-        /// </summary>
-        private bool m_isStepStepping = false;
-        /// <summary>
         /// ObservedDatas
         /// </summary>
         private Dictionary<string, EcellObservedData> m_observedList;
@@ -152,10 +148,6 @@ namespace Ecell
         /// The time limit of the simulation
         /// </summary>
         private double m_simulationTimeLimit = -1.0;
-        /// <summary>
-        /// The flag whether stepping is by time.
-        /// </summary>
-        private bool m_isTimeStepping = false;
         /// <summary>
         /// The wait time between steps.
         /// </summary>
@@ -3852,7 +3844,6 @@ namespace Ecell
                 double stoppedTime;
 //                if (!(m_isTimeStepping && m_remainTime > 0.0) || isDirect)
 //                {
-                    m_isTimeStepping = true;
                     m_remainTime = time;
 //                }
                 stoppedTime = cTime + m_remainTime;
@@ -3882,7 +3873,6 @@ namespace Ecell
                     if (m_remainTime == 0.0)
                     {
                         m_currentProject.SimulationStatus = SimulationStatus.Suspended;
-                        m_isTimeStepping = false;
                         break;
                     }
                 }
@@ -3926,7 +3916,6 @@ namespace Ecell
                 double stoppedTime;
 //                if (!(m_isStepStepping && m_remainStep > 0) || isDirect)
 //                {
-                    m_isStepStepping = true;
                     m_remainStep = step;
 //                }
                 stoppedTime = cTime + m_remainTime;
@@ -3955,7 +3944,6 @@ namespace Ecell
                     this.m_env.PluginManager.AdvancedTime(currentTime);
                     if (m_remainStep == 0)
                     {
-                        m_isStepStepping = false;
                         m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                         break;
                     }
@@ -4019,8 +4007,6 @@ namespace Ecell
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoResetSim, "t:"+m_currentProject.Simulator.GetCurrentTime()));
                 m_env.Console.Flush();
 
-                m_isTimeStepping = false;
-                m_isStepStepping = false;
                 m_remainTime = 0.0;
                 m_remainStep = 0;
                 m_steppingData = null;

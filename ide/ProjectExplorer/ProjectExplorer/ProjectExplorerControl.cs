@@ -739,7 +739,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             dobj.LogList = fileList;
 
             // Drag & Drop Event.
-            this.treeView1.IsDrag = true;
             this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
             return;            
         }

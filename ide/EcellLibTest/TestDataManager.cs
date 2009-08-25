@@ -1745,7 +1745,6 @@ namespace Ecell
 
             try
             {
-                string fileName = TestConstant.TestDirectory + TestConstant.SUSPEND_FILE;
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
                 _unitUnderTest.StartStepSimulation(1.0, true);
                 _unitUnderTest.CurrentProject.Info.Name = "Drosophila2";

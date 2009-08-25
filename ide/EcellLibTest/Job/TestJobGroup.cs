@@ -160,6 +160,9 @@ namespace Ecell.Job
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestJobGroupDeleteJob()
         {

@@ -150,7 +150,6 @@
             resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Environment = null;
             this.treeView1.HideSelection = false;
-            this.treeView1.IsDrag = false;
             this.treeView1.Name = "treeView1";
             this.treeView1.TabStop = false;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeDoubleClick);

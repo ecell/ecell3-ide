@@ -63,18 +63,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private List<TreeNode> m_selected = new List<TreeNode>();
         /// <summary>
-        /// The flag whether this component is dragging.
-        /// </summary>
-        private bool m_isDrag = false;
-        /// <summary>
-        /// The flag whether this component is collapsing.
-        /// </summary>
-        private bool m_isCollapse = false;
-        /// <summary>
-        /// The flag whether this component is expanding.
-        /// </summary>
-        private bool m_isExpand = false;
-        /// <summary>
         /// The flag whether this component is executing the key press event.
         /// </summary>
         private bool m_isDownEvent = false;
@@ -110,15 +98,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public List<TreeNode> SelNodes
         {
             get { return m_selected; }
-        }
-
-        /// <summary>
-        /// get / set the flag whether this component is in drag.
-        /// </summary>
-        public bool IsDrag
-        {
-            get { return this.m_isDrag; }
-            set { this.m_isDrag = value; }
         }
         #endregion
 
@@ -395,68 +374,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
                 return;
             }
-            m_isDrag = false;
             tnMouseDown = this.GetNodeAt(e.X, e.Y);
             ptMouseDown = new Point(e.X, e.Y);
-            m_isCollapse = false;
-            m_isExpand = false;
             SelectNode(tnMouseDown, false, false);
             base.OnMouseDown(e);
-        }
-
-
-        /// <summary>
-        /// The event sequence when mouse is up.
-        /// The flag whether this component is collapasing is set false.
-        /// </summary>
-        /// <param name="e">MouseEventArgs</param>
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            m_isExpand = false;
-            m_isCollapse = false;
-            base.OnMouseUp(e);
-        }
-
-        /// <summary>
-        /// The event sequence before the node is collapsed.
-        /// The flag whether this component is collapasing is set false.
-        /// </summary>
-        /// <param name="e">TreeViewCancelEventArgs</param>
-        protected override void OnBeforeCollapse(TreeViewCancelEventArgs e)
-        {
-            m_isCollapse = true; ;
-            base.OnBeforeCollapse(e);
-        }
-
-        /// <summary>
-        /// The event sequence before the node is expanded.
-        /// The flag whether this component is expanding is set false.
-        /// </summary>
-        /// <param name="e">TreeViewCancelEventArgs</param>
-        protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
-        {
-            m_isExpand = true;
-            base.OnBeforeExpand(e);
-        }
-
-        /// <summary>
-        /// The event sequence when mouse is moved.
-        /// </summary>
-        /// <param name="e">MouseEventArgs</param>
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            //if (m_isDrag) return;
-            //bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
-            //TreeNode tn = this.GetNodeAt(e.X, e.Y);
-            //bool bPrev = ptMouseDown.Y - e.Y > 0;
-
-            //if (e.Button == MouseButtons.Left &&
-            //    (bStartPainting || (tn != tnMouseDown && tn != null)))
-            //{
-            //    if (!m_isExpand && !m_isCollapse)
-            //        SelectRange(tn, bPrev);
-            //}
-            base.OnMouseMove(e);
         }
 
         /// <summary>
