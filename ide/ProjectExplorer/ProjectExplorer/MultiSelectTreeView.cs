@@ -288,14 +288,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             if ((Control.ModifierKeys & Keys.Control) != 0)
             {
-                if (IsTreeNodeSelected(tn))
-                {
-                    DeselectNode(tn, true);
-                }
-                else
-                {
-                    SelectNodes(tn, true);
-                }
+                //if (IsTreeNodeSelected(tn))
+                //{
+                //    DeselectNode(tn, true);
+                //}
+                //else
+                //{
+                //    SelectNodes(tn, true);
+                //}
             }
             else if ((Control.ModifierKeys & Keys.Shift) != 0)
             {
@@ -361,7 +361,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         /// <param name="e">MouseEventArgs</param>
         protected override void OnMouseDown(MouseEventArgs e)
-        {            
+        {       
+            if ((Control.ModifierKeys & Keys.Control) != 0)
+            {
+                TreeNode tn = this.GetNodeAt(e.X, e.Y);
+                if (IsTreeNodeSelected(tn))
+                {
+                    DeselectNode(tn, true);
+                }
+                else
+                {
+                    SelectNodes(tn, true);
+                }
+                return;
+            }
             if ((Control.ModifierKeys & Keys.Shift) != 0)
             {
                 bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
