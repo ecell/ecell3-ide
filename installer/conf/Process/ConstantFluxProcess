@@ -31,17 +31,17 @@
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( ConstantFluxProcess, ContinuousProcess )
+LIBECS_DM_CLASS( XXXXX, ContinuousProcess )
 {
 public:
-    LIBECS_DM_OBJECT( ConstantFluxProcess, Process )
+    LIBECS_DM_OBJECT( XXXXX, Process )
     {
         INHERIT_PROPERTIES( ContinuousProcess );
-        CLASS_DESCRIPTION("ConstantFluxProcess");
+        CLASS_DESCRIPTION("XXXXX");
         PROPERTYSLOT_SET_GET( Real, k);
     }
 
-    ConstantFluxProcess()
+    XXXXX()
         : k( 0.0 )
     {
         ; // do nothing
@@ -70,4 +70,4 @@ protected:
     Real k;
 };
 
-LIBECS_DM_INIT( ConstantFluxProcess, Process );
+LIBECS_DM_INIT( XXXXX, Process );

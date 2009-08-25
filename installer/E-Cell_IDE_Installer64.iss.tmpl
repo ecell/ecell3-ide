@@ -40,8 +40,8 @@ UninstallDisplayIcon={app}\bin\ecell-ide.exe
 
 [Components]
 Name: main; Description: "Main"; Types: full compact custom; Flags: fixed
-Name: extension; Description: "Extension"; Types: full compact; Flags: DisableNoUninstallWarning
-Name: sample; Description: "Sample Plugin"; Types: full compact; Flags: DisableNoUninstallWarning
+Name: extension; Description: "Extension"; Types: full custom; Flags: DisableNoUninstallWarning
+Name: sample; Description: "Sample Plugin"; Types: full custom; Flags: DisableNoUninstallWarning
 
 [Languages]
 Name: "en"; MessagesFile: "C:\Program Files\Inno Setup 5\Default.isl"; LicenseFile: License.txt
@@ -398,6 +398,10 @@ external 'IsModuleLoaded@{app}\psvince.dll stdcall uninstallonly' ;
 
 
 function InitializeSetup(): Boolean;
+var
+  FileName : String;
+  BaseString : String;
+  ResultCode : Integer;
 begin
   Result := true;
 
