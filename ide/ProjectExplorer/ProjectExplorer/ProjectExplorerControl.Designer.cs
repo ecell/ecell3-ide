@@ -147,6 +147,7 @@
             // 
             // treeView1
             // 
+            this.treeView1.AllowDrop = true;
             resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Environment = null;
             this.treeView1.HideSelection = false;
@@ -155,6 +156,8 @@
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeDoubleClick);
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeViewBeforeExpand);
             this.treeView1.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeViewBeforeCollapse);
+            this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeViewDragDrop);
+            this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeViewDragEnter);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeViewItemDrag);
             // 

@@ -46,17 +46,21 @@ namespace Ecell.Objects
     public class EcellDragObject
     {
         /// <summary>
-        /// 
+        /// The model ID
         /// </summary>
         private string m_modelID;
         /// <summary>
-        /// 
+        /// The list of Drag object
         /// </summary>
         private List<EcellDragEntry> m_entries;
         /// <summary>
-        /// 
+        /// The list of Drag data.
         /// </summary>
         private List<string> m_loglist;
+        /// <summary>
+        /// The flag whether this drag is enable to change ID.
+        /// </summary>
+        private bool m_isEnableChangeID = false;
 
         /// <summary>
         /// Constructor without initial parameters.
@@ -78,26 +82,34 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get/set model ID.
+        /// get / set model ID.
         /// </summary>
         public string ModelID
         {
             get { return this.m_modelID; }
         }
         /// <summary>
-        /// A list of EcellDragEntry.
+        /// get / set list of EcellDragEntry.
         /// </summary>
         public List<EcellDragEntry> Entries
         {
             get { return this.m_entries; }
         }
         /// <summary>
-        /// A list of Log filenames.
+        /// get / set a list of Log filenames.
         /// </summary>
         public List<string> LogList
         {
             get { return this.m_loglist; }
             set { this.m_loglist = value; }
+        }
+        /// <summary>
+        /// get / set the flag whether this object is enable to change ID.
+        /// </summary>
+        public bool IsEnableChange
+        {
+            get { return this.m_isEnableChangeID; }
+            set { this.m_isEnableChangeID = value; }
         }
     }
 

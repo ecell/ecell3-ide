@@ -54,6 +54,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private bool m_isExpland = false;
         /// <summary>
+        /// The flag whether object is dragging.
+        /// </summary>
+        private bool m_isDragging = false;
+        /// <summary>
         /// Project tree node in TreeView
         /// </summary>
         private ProjectNode m_prjNode = null;
@@ -738,8 +742,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 dobj = new EcellDragObject();
             dobj.LogList = fileList;
 
+            if (dobj.Entries.Count > 0 && dobj.LogList.Count <= 0)
+                dobj.IsEnableChange = true;
+
             // Drag & Drop Event.
             this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+            m_isDragging = true;
             return;            
         }
 
@@ -1916,6 +1924,81 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        /// <summary>
+        /// Enter the drag object.
+        /// </summary>
+        /// <param name="sender">DataGridView</param>
+        /// <param name="e">DragEventArgs</param>
+        private void TreeViewDragEnter(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj == null)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+            EcellDragObject dobj = obj as EcellDragObject;
+            if (!dobj.IsEnableChange)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
+            foreach (EcellDragEntry ent in dobj.Entries)
+            {
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                if (t != null)
+                {
+                    e.Effect = DragDropEffects.Move;
+                    return;
+                }
+            }
+            e.Effect = DragDropEffects.None;
+        }
+
+        /// <summary>
+        /// Drop the EcellObject
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
+        private void TreeViewDragDrop(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
+            if (obj == null) return;
+            EcellDragObject dobj = obj as EcellDragObject;
+            if (!dobj.IsEnableChange)
+            {
+                return;
+            }
+           
+            TreeNode target = treeView1.GetNodeAt(treeView1.PointToClient(new Point(e.X, e.Y)));
+            String systemPath = null;
+            if (target.Tag is TagData)
+            {
+                TagData tag = target.Tag as TagData;
+                if (tag.Type.Equals(EcellObject.SYSTEM))
+                {
+                    systemPath = tag.Key;
+                }
+                else
+                {
+                    EcellObject t = m_owner.DataManager.GetEcellObject(tag.ModelID, tag.Key, tag.Type);
+                    systemPath = t.ParentSystemID;                
+                }
+            }            
+
+            foreach (EcellDragEntry ent in dobj.Entries)
+            {
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                EcellObject cobj = t.Clone();
+                if (systemPath.Equals("/"))
+                    cobj.Key = "/" + t.LocalID;
+                else
+                    cobj.Key = systemPath + "/" + t.LocalID;
+                if (cobj.Key.Equals(t.Key)) continue;
+                m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, cobj);
+            }
+        }
         #endregion
 
         #region ShortCuts
