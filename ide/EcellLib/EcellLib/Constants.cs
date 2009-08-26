@@ -59,6 +59,10 @@ namespace Ecell
         /// Report group name for Loading.
         /// </summary>
         public const string groupLoad = "loading";
+        /// <summary>
+        /// Report group name for Dynamic Debug.
+        /// </summary>
+        public const string groupDynamic = "dynamic";
         #endregion
 
         #region Default Settings

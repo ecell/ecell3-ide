@@ -33,6 +33,8 @@ using System.Collections.Generic;
 using System.Text;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
+using Ecell.Objects;
+using Ecell.Reporting;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -248,7 +250,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
                 // Line setting.
                 double activity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
-                float width = GetEdgeWidth(activity);
+                float width = GetEdgeWidth(process.EcellObject, activity);
                 Brush brush = GetEdgeBrush(activity);
 
                 foreach (PPathwayLine line in process.Relations)
@@ -266,7 +268,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Variable setting.
                 double molerConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                float width = GetEdgeWidth(molerConc);
+                float width = GetEdgeWidth(variable.EcellObject, molerConc);
                 Brush brush = GetEdgeBrush(molerConc);
 
                 // Set Effector.
@@ -345,15 +347,37 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Get line width.
         /// </summary>
         /// <param name="activity"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
-        private float GetEdgeWidth(double activity)
+        private float GetEdgeWidth(EcellObject obj, double activity)
         {
             if (double.IsNaN(activity))
+            {
+                if (_canvas.Control.Session != null)
+                {
+                    _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
+                        MessageResources.WarnExtValue, Constants.groupDynamic, obj));
+                }
                 return 0f;
+            }
             else if (activity <= _thresholdLow || _thresholdLow == _thresholdHigh)
+            {
+                if (_canvas.Control.Session != null)
+                {
+                    _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
+                        MessageResources.WarnExtValue, Constants.groupDynamic, obj));
+                }
                 return 0f;
+            }
             else if (activity >= _thresholdHigh)
+            {
+                if (_canvas.Control.Session != null)
+                {
+                    _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
+                        MessageResources.WarnExtValue, Constants.groupDynamic, obj));
+                }
                 return _maxEdgeWidth;
+            }
             return (float)(_maxEdgeWidth * (activity - _thresholdLow) / (_thresholdHigh - _thresholdLow));
         }
 

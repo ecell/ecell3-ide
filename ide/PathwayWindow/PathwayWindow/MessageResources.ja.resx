@@ -402,4 +402,7 @@
   <data name="WindowComponent" xml:space="preserve">
     <value>コンポーネント設定</value>
   </data>
+  <data name="WarnExtValue" xml:space="preserve">
+    <value>この値は最小値以下か最大値以上になりました</value>
+  </data>
 </root>

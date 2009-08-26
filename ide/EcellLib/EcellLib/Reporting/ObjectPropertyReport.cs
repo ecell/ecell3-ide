@@ -78,5 +78,33 @@ namespace Ecell.Reporting
         {
             m_propName = propertyName;
         }
+
+        /// <summary>
+        /// Override Equal functions.
+        /// </summary>
+        /// <param name="obj">the compared object.</param>
+        /// <returns>if equal, return true.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is ObjectPropertyReport)
+            {
+                ObjectPropertyReport dst = obj as ObjectPropertyReport;
+                if (this.Type == dst.Type &&
+                    this.Message.Equals(dst.Message) &&
+                    this.Group.Equals(dst.Group) &&
+                    this.Location.Equals(dst.Location))
+                    return true;
+            }
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Override get the hash code.
+        /// </summary>
+        /// <returns>the hash code</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

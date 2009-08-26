@@ -100,6 +100,8 @@ namespace Ecell.Reporting
         /// <param name="item"></param>
         public void Add(IReport item)
         {
+            if (m_reports.Contains(item))
+                return;
             m_man.OnReportAdded(item);
             m_reports.Add(item);
         }
@@ -108,7 +110,8 @@ namespace Ecell.Reporting
         /// </summary>
         public void Clear()
         {
-            throw new InvalidOperationException();
+            m_reports.Clear();
+            m_man.OnReportCleared(this.Group);
         }
         /// <summary>
         /// 
@@ -186,7 +189,7 @@ namespace Ecell.Reporting
         /// </summary>
         public void Close()
         {
-            m_man.OnSessionClosed();
+            m_man.OnSessionClosed(this.Group);
         }
 
         string m_group;

@@ -34,6 +34,9 @@ using System.Text;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
 
+using Ecell.Objects;
+using Ecell.Reporting;
+
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
     /// <summary>
@@ -244,7 +247,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Variable setting.
                 double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                float size = GetEntitySize(molarConc);
+                float size = GetEntitySize(variable.EcellObject, molarConc);
                 PointF pos = variable.CenterPointF;
                 variable.Width = size * variable.Figure.Width;
                 variable.Height = size * variable.Figure.Height;
@@ -317,15 +320,37 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Get line width.
         /// </summary>
         /// <param name="activity"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
-        private float GetEntitySize(double activity)
+        private float GetEntitySize(EcellObject obj, double activity)
         {
             if (double.IsNaN(activity))
+            {
+                if (_canvas.Control.Session != null)
+                {
+                    _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
+                        MessageResources.WarnExtValue, Constants.groupDynamic, obj));
+                }
                 return 0.1f;
+            }
             else if (activity <= _thresholdLow || _thresholdLow == _thresholdHigh)
+            {
+                if (_canvas.Control.Session != null)
+                {
+                    _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
+                        MessageResources.WarnExtValue, Constants.groupDynamic, obj));
+                }
                 return 0.1f;
+            }
             else if (activity >= _thresholdHigh)
+            {
+                if (_canvas.Control.Session != null)
+                {
+                    _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
+                        MessageResources.WarnExtValue, Constants.groupDynamic, obj));
+                }
                 return 2.1f;
+            }
             return (float)(2d * (activity - _thresholdLow)/ (_thresholdHigh - _thresholdLow) + 0.1d);
         }
 

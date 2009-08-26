@@ -118,7 +118,7 @@ namespace Ecell.Reporting
         public event ProgressReportEventHandler ProgressValueUpdated;
 
         private ApplicationEnvironment m_env;
-        private ReportingSession m_rep;
+        private Dictionary<string, ReportingSession> m_repList = new Dictionary<string,ReportingSession>();
         /// <summary>
         /// 
         /// </summary>
@@ -135,28 +135,36 @@ namespace Ecell.Reporting
             m_env = env;
         }
 
-        internal void OnSessionClosed()
+        internal void OnSessionClosed(string groupname)
         {
             Trace.WriteLine("ReportingSession closed");
-            if (ReportingSessionClosed != null)
-                ReportingSessionClosed(this, new ReportingSessionEventArgs(m_rep));
+            if (ReportingSessionClosed != null && m_repList.ContainsKey(groupname))
+                ReportingSessionClosed(this, new ReportingSessionEventArgs(m_repList[groupname]));
             lock (this)
             {
-                m_rep = null;
+                if (m_repList.ContainsKey(groupname))
+                    m_repList.Remove(groupname);
             }
         }
 
         internal void OnReportAdded(IReport rep)
-        {
+        {       
             Trace.WriteLine("Report added");
-            if (ReportAdded != null)
-                ReportAdded(m_rep, new ReportEventArgs(rep));
+            if (ReportAdded != null && m_repList.ContainsKey(rep.Group))
+                ReportAdded(m_repList[rep.Group], new ReportEventArgs(rep));
         }
 
         internal void OnReportRemoved(IReport rep)
         {
-            if (ReportRemoved != null)
-                ReportRemoved(m_rep, new ReportEventArgs(rep));
+            if (ReportRemoved != null && m_repList.ContainsKey(rep.Group))
+                ReportRemoved(m_repList[rep.Group], new ReportEventArgs(rep));
+        }
+
+        internal void OnReportCleared(string groupname)
+        {
+            Trace.WriteLine("ReportSesion cleared");
+            if (Cleared != null && m_repList.ContainsKey(groupname))
+                Cleared(m_repList[groupname], new EventArgs());
         }
 
         /// <summary>
@@ -166,13 +174,14 @@ namespace Ecell.Reporting
         {
             lock (this)
             {
-                if (m_rep != null)
+                if (m_repList.Count > 0)
                 {
                     throw new InvalidOperationException();
                 }
             }
             if (Cleared != null)
                 Cleared(this, new EventArgs());
+            m_repList.Clear();
         }
         /// <summary>
         /// 
@@ -183,16 +192,17 @@ namespace Ecell.Reporting
         {
             lock (this)
             {
-                if (m_rep != null)
+                if (m_repList.ContainsKey(group))
                 {
-                    throw new InvalidOperationException();
+                    return this.m_repList[group];
+//                    throw new InvalidOperationException();
                 }
-                m_rep = new ReportingSession(group, this);
+                m_repList[group] = new ReportingSession(group, this);
             }
             Trace.WriteLine("ReportingSession acquired");
             if (ReportingSessionStarted != null)
-                ReportingSessionStarted(this, new ReportingSessionEventArgs(m_rep));
-            return m_rep;
+                ReportingSessionStarted(this, new ReportingSessionEventArgs(m_repList[group]));
+            return m_repList[group];
         }
         /// <summary>
         /// 

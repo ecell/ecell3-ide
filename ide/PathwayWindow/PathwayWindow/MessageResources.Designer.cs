@@ -880,6 +880,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   This value is under the low threshold or over the high threshold. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnExtValue {
+            get {
+                return ResourceManager.GetString("WarnExtValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Component settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WindowComponent {

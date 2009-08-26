@@ -47,6 +47,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.Objects;
 using Ecell.Plugin;
+using Ecell.Reporting;
 using System.Xml;
 using System.Windows.Forms;
 
@@ -147,6 +148,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Unreached flag for DataChange event.
         /// </summary>
         private bool m_unreachedFlag = false;
+
+        /// <summary>
+        /// Report Session.
+        /// </summary>
+        private Ecell.Reporting.ReportingSession m_session = null;
         #endregion
 
         #region Accessors
@@ -242,8 +248,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             {
                 m_status = value;
+                if (m_status == ProjectStatus.Loaded)
+                {
+                    m_session = null;
+                }
+                else if (m_status == ProjectStatus.Running ||
+                    m_status == ProjectStatus.Stepping)
+                {
+                    m_session = m_window.Environment.ReportManager.GetReportingSession(Constants.groupDynamic);
+                    m_session.Clear();
+                }
                 RaiseProjectStatusChange();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Ecell.Reporting.ReportingSession Session
+        {
+            get { return this.m_session; }
         }
         /// <summary>
         /// Accessor for currently active canvas.

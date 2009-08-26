@@ -54,10 +54,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private bool m_isExpland = false;
         /// <summary>
-        /// The flag whether object is dragging.
-        /// </summary>
-        private bool m_isDragging = false;
-        /// <summary>
         /// Project tree node in TreeView
         /// </summary>
         private ProjectNode m_prjNode = null;
@@ -747,7 +743,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             // Drag & Drop Event.
             this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-            m_isDragging = true;
             return;            
         }
 

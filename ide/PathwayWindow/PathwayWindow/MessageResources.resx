@@ -402,4 +402,7 @@
   <data name="WindowComponent" xml:space="preserve">
     <value>Component settings</value>
   </data>
+  <data name="WarnExtValue" xml:space="preserve">
+    <value>This value is under the low threshold or over the high threshold.</value>
+  </data>
 </root>

@@ -84,7 +84,21 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         public override void Initialize()
         {
             m_env.ReportManager.ReportAdded +=new ReportAddedEventHandler(ReportManager_ReportAdded);
+            m_env.ReportManager.Cleared += new ReportClearEventHandler(ReportManager_Cleared);
             m_env.ReportManager.ReportingSessionStarted += new ReportingSessionStartedEventHandler(ReportManager_ReportingSessionStarted);
+        }
+
+        /// <summary>
+        /// The event sequence on clear group.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
+        private void ReportManager_Cleared(object o, EventArgs e)
+        {
+            Ecell.Reporting.ReportingSession s = o as Ecell.Reporting.ReportingSession;
+            if (s == null)
+                return;
+            m_control.Clear(s.Group);
         }
 
         /// <summary>
@@ -92,7 +106,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// </summary>
         /// <param name="obj">ReportManager</param>
         /// <param name="e">ReportingSessionEventArgs</param>
-        public void ReportManager_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
+        private void ReportManager_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
         {
             m_control.Clear(e.ReportingSession.Group);
         }
@@ -102,7 +116,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// </summary>
         /// <param name="obj">ReportManager</param>
         /// <param name="e">ReportEventArgs</param>
-        public void ReportManager_ReportAdded(object obj, ReportEventArgs e)
+        private void ReportManager_ReportAdded(object obj, ReportEventArgs e)
         {
             m_control.AddMessageEntry(e.Report);
         }
