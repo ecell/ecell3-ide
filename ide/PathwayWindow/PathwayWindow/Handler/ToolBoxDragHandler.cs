@@ -94,12 +94,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 SetCurrentStencil((PToolBoxCanvas)e.Canvas);
                 return;
             }
-
+            // Check Position
+            Rectangle recta = m_canvas.PCanvas.Bounds;
+            recta.Location = m_con.PathwayView.GetDesktopLocation();
             Point systemPos = GetSystemPos(e);
+
             m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.RefreshView();
-            m_canvas.ControlLayer.AddChild(m_object);
+            if (recta.Contains(systemPos))
+            {
+                SetCursor(m_stencils.Stencil, Cursors.Arrow);
+                m_canvas.ControlLayer.AddChild(m_object);
+            }
+            else
+            {
+                SetCursor(m_stencils.Stencil);
+                m_object.RemoveFromParent();
+            }
 
+            // operation for System.
             if (!(m_object is PPathwaySystem))
                 return;
             PPathwaySystem system = (PPathwaySystem)m_object;
@@ -155,7 +168,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (!(e.Canvas is PToolBoxCanvas))
                 return;
             SetEventHandler((PToolBoxCanvas)e.Canvas, e);
-            // m_con.Canvas.PCanvas.Cursor = Cursors.Hand;
         }
 
         /// <summary>
@@ -299,6 +311,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 ResetCurrentStencil();
             }
 
+            // Set Cursor
+            SetCursor(canvas);
+
+            // Set Template.
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
             m_canvas = m_con.Canvas;
@@ -306,7 +322,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             Point systemPos = GetSystemPos(e);
             m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.Pickable = false;
-            m_canvas.ControlLayer.AddChild(m_object);
+        }
+
+        private void SetCursor(PToolBoxCanvas canvas)
+        {
+            Bitmap image = (Bitmap)canvas.Setting.Icon;
+            Cursor cursor = new Cursor(image.GetHicon());
+            SetCursor(canvas, cursor);
+        }
+
+        private void SetCursor(PToolBoxCanvas canvas, Cursor cursor)
+        {
+            canvas.Cursor = cursor;
+            m_con.Canvas.PCanvas.Cursor = cursor;
         }
 
         /// <summary>
@@ -314,8 +342,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         private void ResetEventHandler()
         {
+            // Reset object
             if (m_object != null && m_object.Parent != null)
                 m_object.RemoveFromParent();
+            // Reset Cursor
+            if (m_stencils.Stencil != null)
+                m_stencils.Stencil.Cursor = Cursors.Arrow;
+            if(m_canvas != null)
+                m_canvas.PCanvas.Cursor = Cursors.Arrow;
+
+            // Reset pointer.
             m_canvas = null;
             m_object = null;
             m_eventFlag = true;

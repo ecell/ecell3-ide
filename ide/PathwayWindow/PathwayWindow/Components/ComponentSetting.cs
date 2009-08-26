@@ -421,7 +421,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             {
                 try
                 {
-                    icon = new Bitmap(Image, 16, 16);
+                    icon = new Bitmap(Image, 32, 32);
                 }
                 catch (Exception)
                 {
