@@ -260,6 +260,22 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        private static Screen GetScreen(int i)
+        {
+            Screen[] screens = Screen.AllScreens;
+            Screen screen = null;
+            if (i < 0 || screens.Length < i)
+                screen = screens[0];
+            else
+                screen = screens[i];
+            return screen;
+        }
+
+        /// <summary>
         /// Close TracerWindow.
         /// </summary>
         private static void CloseWindows(DockPanel dockPanel)
@@ -378,10 +394,10 @@ namespace Ecell.IDE.MainWindow
                     SetWindowStatus(window, windowState);
 
                 // Set DockPanelLayout
-                dockPanel.DockLeftPortion = dockPanelStruct.DockLeftPortion;
-                dockPanel.DockRightPortion = dockPanelStruct.DockRightPortion;
                 dockPanel.DockTopPortion = dockPanelStruct.DockTopPortion;
                 dockPanel.DockBottomPortion = dockPanelStruct.DockBottomPortion;
+                dockPanel.DockLeftPortion = dockPanelStruct.DockLeftPortion;
+                dockPanel.DockRightPortion = dockPanelStruct.DockRightPortion;
                 
                 // Set DockWindow ZOrders
                 SetDockWindowZOrder(dockPanel, dockWindows);
@@ -722,13 +738,43 @@ namespace Ecell.IDE.MainWindow
         private static void SetWindowStatus(MainWindow window, WindowStateStruct windowState)
         {
             window.WindowState = windowState.WindowState;
+            NormalizeFormScreen(window, windowState.Screen);
             window.Left = windowState.Left;
             window.Top = windowState.Top;
             window.Width = windowState.Width;
             window.Height = windowState.Height;
             CheckWindowSize(window);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="screen"></param>
+        /// <returns></returns>
+        private static void NormalizeFormScreen(Form window, int i)
+        {
+            Screen screen = GetScreen(i);
+            int width = window.Width;
+            int height = window.Height;
 
+            // âÊñ Ç…ì¸ÇÈÇÊÇ§Ç…í≤êÆÇ∑ÇÈ
+            if (window.Right < screen.WorkingArea.Left + width)
+            {
+                window.Left = screen.WorkingArea.Left;
+            }
+            if (window.Left > screen.WorkingArea.Right - width)
+            {
+                window.Left = screen.WorkingArea.Right - window.Width;
+            }
+            if (window.Top > screen.WorkingArea.Bottom - height)
+            {
+                window.Top = screen.WorkingArea.Bottom - window.Height;
+            }
+            if (window.Bottom < screen.WorkingArea.Top + height)
+            {
+                window.Top = screen.WorkingArea.Top;
+            }
+        }
         private static DockContent SetDockContent(DockPanel dockPanel, ContentStruct contentStruct)
         {
             // Get DockContent.
@@ -769,6 +815,7 @@ namespace Ecell.IDE.MainWindow
             windowState.Top = Convert.ToInt32(xmlIn.GetAttribute("Top"), CultureInfo.InvariantCulture);
             windowState.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
             windowState.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
+            windowState.Screen = Convert.ToInt32(xmlIn.GetAttribute("Screen"), CultureInfo.InvariantCulture);
             return windowState;
         }
         /// <summary>
@@ -963,35 +1010,55 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private struct WindowStateStruct
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            private int m_screen;
+            public int Screen
+            {
+                get { return m_screen; }
+                set { m_screen = value; }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
             private FormWindowState m_windowState;
             public FormWindowState WindowState
             {
                 get { return m_windowState; }
                 set { m_windowState = value; }
             }
+            /// <summary>
+            /// 
+            /// </summary>
             private int m_left;
-
             public int Left
             {
                 get { return m_left; }
                 set { m_left = value; }
             }
+            /// <summary>
+            /// 
+            /// </summary>
             private int m_top;
-
             public int Top
             {
                 get { return m_top; }
                 set { m_top = value; }
             }
+            /// <summary>
+            /// 
+            /// </summary>
             private int m_width;
-
             public int Width
             {
                 get { return m_width; }
                 set { m_width = value; }
             }
+            /// <summary>
+            /// 
+            /// </summary>
             private int m_height;
-
             public int Height
             {
                 get { return m_height; }
