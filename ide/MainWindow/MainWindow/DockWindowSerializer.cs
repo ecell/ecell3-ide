@@ -269,7 +269,7 @@ namespace Ecell.IDE.MainWindow
             Screen[] screens = Screen.AllScreens;
             Screen screen = null;
             if (i < 0 || screens.Length < i)
-                screen = screens[0];
+                screen = Screen.PrimaryScreen;
             else
                 screen = screens[i];
             return screen;
@@ -537,7 +537,7 @@ namespace Ecell.IDE.MainWindow
                 content.IsFloat = true;
                 paneList.Add(pane);
                 FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, content.Bounds);
-                CheckWindowSize(fw);
+                NormalizeFormScreen(fw, 0);
             }
         }
         /// <summary>
@@ -585,7 +585,7 @@ namespace Ecell.IDE.MainWindow
                     if (j == 0)
                     {
                         fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
-                        CheckWindowSize(fw);
+                        NormalizeFormScreen(fw, floatWindows[i].Screen);
                     }
                     else
                     {
@@ -719,31 +719,14 @@ namespace Ecell.IDE.MainWindow
             return false;
         }
 
-        private static void CheckWindowSize(Form win)
-        {
-            if (win.Left < 0)
-                win.Left = 0;
-            if (win.Top < 0)
-                win.Top = 0;
-            if (win.Width > Screen.PrimaryScreen.WorkingArea.Width)
-                win.Width = Screen.PrimaryScreen.WorkingArea.Width;
-            if (win.Height > Screen.PrimaryScreen.WorkingArea.Height)
-                win.Height = Screen.PrimaryScreen.WorkingArea.Height;
-            if (win.Width + win.Left > Screen.PrimaryScreen.WorkingArea.Width)
-                win.Left = Screen.PrimaryScreen.WorkingArea.Width - win.Width;
-            if (win.Height + win.Top > Screen.PrimaryScreen.WorkingArea.Height)
-                win.Top = Screen.PrimaryScreen.WorkingArea.Height - win.Height;
-        }
-
         private static void SetWindowStatus(MainWindow window, WindowStateStruct windowState)
         {
             window.WindowState = windowState.WindowState;
-            NormalizeFormScreen(window, windowState.Screen);
             window.Left = windowState.Left;
             window.Top = windowState.Top;
             window.Width = windowState.Width;
             window.Height = windowState.Height;
-            CheckWindowSize(window);
+            NormalizeFormScreen(window, windowState.Screen);
         }
         /// <summary>
         /// 
@@ -757,18 +740,18 @@ namespace Ecell.IDE.MainWindow
             int width = window.Width;
             int height = window.Height;
 
-            // âÊñ Ç…ì¸ÇÈÇÊÇ§Ç…í≤êÆÇ∑ÇÈ
+            // Set Bounds
             if (window.Right < screen.WorkingArea.Left + width)
             {
                 window.Left = screen.WorkingArea.Left;
             }
             if (window.Left > screen.WorkingArea.Right - width)
             {
-                window.Left = screen.WorkingArea.Right - window.Width;
+                window.Left = screen.WorkingArea.Right - width;
             }
             if (window.Top > screen.WorkingArea.Bottom - height)
             {
-                window.Top = screen.WorkingArea.Bottom - window.Height;
+                window.Top = screen.WorkingArea.Bottom - height;
             }
             if (window.Bottom < screen.WorkingArea.Top + height)
             {
@@ -1249,20 +1232,36 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private struct FloatWindowStruct
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            private int m_screen;
+            public int Screen
+            {
+                get { return m_screen; }
+                set { m_screen = value; }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
             private Rectangle m_bounds;
             public Rectangle Bounds
             {
                 get { return m_bounds; }
                 set { m_bounds = value; }
             }
-
+            /// <summary>
+            /// 
+            /// </summary>
             private int m_zOrderIndex;
             public int ZOrderIndex
             {
                 get { return m_zOrderIndex; }
                 set { m_zOrderIndex = value; }
             }
-
+            /// <summary>
+            /// 
+            /// </summary>
             private NestedPane[] m_nestedPanes;
             public NestedPane[] NestedPanes
             {
