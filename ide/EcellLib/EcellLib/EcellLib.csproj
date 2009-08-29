@@ -83,7 +83,7 @@
     </Reference>
     <Reference Include="IronMath" />
     <Reference Include="IronPython" />
-    <Reference Include="libsbmlcsP, Version=3.2.0.0, Culture=neutral" />
+    <Reference Include="libsbmlcsP, Version=3.4.1.0, Culture=neutral" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
