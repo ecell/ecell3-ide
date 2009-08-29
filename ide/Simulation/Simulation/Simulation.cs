@@ -894,13 +894,13 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (m_stepUnitCombo.Text == "Step")
                 {
                     int stepCount = Convert.ToInt32(m_stepText.Text);
-                    if (stepCount < 0)
+                    if (stepCount <= 0)
                         throw new EcellException(MessageResources.ErrInvalidValue);
                 }
                 else
                 {
                     double timeCount = Convert.ToDouble(m_stepText.Text);
-                    if (timeCount < 0)
+                    if (timeCount <= 0)
                         throw new EcellException(MessageResources.ErrInvalidValue);
                 }
             }
