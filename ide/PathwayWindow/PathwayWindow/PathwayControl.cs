@@ -250,13 +250,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_status = value;
                 if (m_status == ProjectStatus.Loaded)
                 {
-                    m_session = null;
+                    if (m_session != null)
+                        m_session.Clear();
                 }
                 else if (m_status == ProjectStatus.Running ||
                     m_status == ProjectStatus.Stepping)
                 {
                     m_session = m_window.Environment.ReportManager.GetReportingSession(Constants.groupDynamic);
-                    m_session.Clear();
                 }
                 RaiseProjectStatusChange();
             }
@@ -740,6 +740,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Canvas = null;
             m_csManager.ClearSettings();
             SetNodeIcons();
+            if (m_session != null)
+            {
+                m_session.Close();
+                m_session = null;
+            }
         }
 
         /// <summary>
