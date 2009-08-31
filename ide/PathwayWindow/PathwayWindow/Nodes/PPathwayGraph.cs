@@ -34,6 +34,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using UMD.HCIL.Piccolo.Nodes;
+using UMD.HCIL.Piccolo.Event;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -56,10 +57,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         private List<double> m_values = new List<double>();
         /// <summary>
-        /// 
-        /// </summary>
-        private PPathwayEntity m_entity = null;
-        /// <summary>
         /// Panel object.
         /// </summary>
         private PPathwayNode m_panel = null;
@@ -81,10 +78,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
+        public string Title
+        {
+            get { return m_pText.Text; }
+            set { m_pText.Text = value; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public string EntityPath
         {
             get { return m_entityPath; }
             set { m_entityPath = value;}
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<double> Plots
+        {
+            get { return m_values; }
         }
         #endregion
 
@@ -94,6 +106,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayGraph()
         {
+            // Allow Drag event.
+            this.AddInputEventListener(new PDragEventHandler());
+
             // Draw Rect
             this.Brush = Brushes.LightBlue;
             this.Pen = new Pen(Brushes.Black);
@@ -122,6 +137,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             // Draw Title
             m_pText = new PText();
             m_pText.Text = "Title";
+            m_pText.Pickable = false;
             this.AddChild(m_pText);
 
             Refresh();
@@ -133,7 +149,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public PPathwayGraph(PPathwayEntity entity)
             : this()
         {
-            m_entity = entity;
             m_pText.Text = entity.EcellObject.LocalID;
             // set parameter.
             if(entity is PPathwayProcess)
@@ -151,6 +166,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="value"></param>
         public void SetValue(double value)
         {
+            if (double.IsNaN(value))
+                value = 0;
             m_values.Add(value);
             if (m_values.Count > MAX_COUNT)
                 m_values.RemoveAt(0);
@@ -179,7 +196,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             // create plots
             int i = 0;
-            float x = (float)(GRAPH_SIZE / m_values.Count);
+            float x = (float)(GRAPH_SIZE / MAX_COUNT);
             List<PointF> plots = new List<PointF>();
             foreach (double val in m_values)
             {

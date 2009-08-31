@@ -61,7 +61,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Properties panel for showing this object's ID.
         /// </summary>
-        protected PPathwayProperties m_pProperty;
+        protected PPathwayProperties m_pProperty = null;
+
+        protected PPathwayGraph m_graph = null;
         /// <summary>
         /// list of relations.
         /// </summary>
@@ -107,6 +109,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             get { return m_pProperty; }
             set { m_pProperty = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual PPathwayGraph Graph
+        {
+            get { return m_graph; }
+            set { m_graph = value; }
         }
 
         #endregion

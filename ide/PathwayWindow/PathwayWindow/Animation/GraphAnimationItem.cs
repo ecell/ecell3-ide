@@ -169,25 +169,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetAnimation()
         {
             LoggerManager manager = _control.Control.Window.Environment.LoggerManager;
-            ResetGraphs();
+            _graphs.Clear();
             base.SetAnimation();
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
+
+                if (variable.Graph != null)
+                {
+                    _graphs.Add(variable.Graph);
+                    _canvas.ControlLayer.AddChild(variable.Graph);
+                    continue;
+                }
+
+                // Create Graph
                 PPathwayGraph graph = new PPathwayGraph(variable);
+                graph.Title = variable.EcellObject.LocalID;
+                graph.EntityPath = variable.EcellObject.FullID + ":MolarConc";
                 _canvas.ControlLayer.AddChild(graph);
                 graph.PointF = variable.PointF;
                 graph.Refresh();
 
                 _graphs.Add(graph);
-
-                //foreach (EcellData data in variable.EcellObject.Value)
-                //{
-                //    if (!data.Logged)
-                //        continue;
-                //    LoggerEntry entry = manager.GetLoggerEntryForFullPN(data.EntityPath);
-                //    entry.
-                //}
+                variable.Graph = graph;
             }
         }
 
@@ -213,6 +217,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Graph
             foreach (PPathwayGraph graph in _graphs)
             {
+                graph.Plots.Clear();
             }
         }
 
