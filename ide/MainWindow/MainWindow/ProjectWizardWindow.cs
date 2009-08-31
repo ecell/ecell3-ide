@@ -135,7 +135,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void SetNextPage()
         {
-            textBox1.Text = MessageResources.ProjectWizardSelectDM;
+            textBox1.Text = MessageResources.ProjectWizardSetting;
             OKButton.Text = MessageResources.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
             OKButton.Click -= GoNext_Click;
@@ -155,7 +155,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void BackButton_Click(object sender, EventArgs e)
         {
-            textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
+            textBox1.Text = MessageResources.ProjectWizardSetting;
             OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
             OKButton.Click += GoNext_Click;

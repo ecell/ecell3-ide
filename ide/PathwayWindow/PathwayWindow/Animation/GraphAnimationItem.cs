@@ -33,6 +33,8 @@ using System.Collections.Generic;
 using System.Text;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
+using Ecell.Objects;
+using Ecell.Logger;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -166,15 +168,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void SetAnimation()
         {
-            _graphs.Clear();
+            LoggerManager manager = _control.Control.Window.Environment.LoggerManager;
+            ResetGraphs();
             base.SetAnimation();
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
                 PPathwayGraph graph = new PPathwayGraph(variable);
-                variable.Graph = graph;
+                _canvas.ControlLayer.AddChild(graph);
                 graph.PointF = variable.PointF;
+                graph.Refresh();
+
                 _graphs.Add(graph);
+
+                //foreach (EcellData data in variable.EcellObject.Value)
+                //{
+                //    if (!data.Logged)
+                //        continue;
+                //    LoggerEntry entry = manager.GetLoggerEntryForFullPN(data.EntityPath);
+                //    entry.
+                //}
             }
         }
 
@@ -187,6 +200,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Graph
             foreach (PPathwayGraph graph in _graphs)
             {
+                double value = GetValue(graph.EntityPath);
+                graph.SetValue(value);
             }
         }
 
@@ -195,7 +210,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void StopAnimation()
         {
-            UpdateAnimation();
+            // Graph
+            foreach (PPathwayGraph graph in _graphs)
+            {
+            }
         }
 
         /// <summary>
@@ -204,11 +222,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ResetAnimation()
         {
             // Graph
+            base.ResetAnimation();
+            ResetGraphs();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ResetGraphs()
+        {
             foreach (PPathwayGraph graph in _graphs)
             {
                 graph.RemoveFromParent();
             }
-            base.ResetAnimation();
             _graphs.Clear();
         }
         #endregion

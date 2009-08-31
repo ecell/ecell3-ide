@@ -547,20 +547,20 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Add extra DM directories. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ProjectWizardSelectDM {
-            get {
-                return ResourceManager.GetString("ProjectWizardSelectDM", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Please select a templete for the new project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardSelectTemplete {
             get {
                 return ResourceManager.GetString("ProjectWizardSelectTemplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Input project settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ProjectWizardSetting {
+            get {
+                return ResourceManager.GetString("ProjectWizardSetting", resourceCulture);
             }
         }
         

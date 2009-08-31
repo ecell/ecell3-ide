@@ -132,8 +132,8 @@
   <data name="NameWorkDir" xml:space="preserve">
     <value>The project root folder</value>
   </data>
-  <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>Add extra DM directories.</value>
+  <data name="ProjectWizardSetting" xml:space="preserve">
+    <value>Input project settings.</value>
   </data>
   <data name="NameConc" xml:space="preserve">
     <value>The concurrency</value>

@@ -63,10 +63,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected PPathwayProperties m_pProperty;
         /// <summary>
-        /// Graph
-        /// </summary>
-        protected PPathwayGraph m_graph;
-        /// <summary>
         /// list of relations.
         /// </summary>
         protected List<PPathwayLine> m_relations = new List<PPathwayLine>();
@@ -111,24 +107,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             get { return m_pProperty; }
             set { m_pProperty = value; }
-        }
-
-        /// <summary>
-        /// Graph
-        /// </summary>
-        public PPathwayGraph Graph
-        {
-            get { return m_graph; }
-            set
-            {
-                // Reset
-                if (m_graph != null)
-                    m_graph.RemoveFromParent();
-                m_graph = value;
-                // Add Graph
-                if (m_graph != null)
-                    this.AddChild(value);
-            }
         }
 
         #endregion

@@ -279,11 +279,11 @@
   <data name="ProjectWizardGoForward" xml:space="preserve">
     <value>進む</value>
   </data>
-  <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>追加のDMディレクトリ</value>
-  </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
     <value>テンプレートとするプロジェクトを選択してください。</value>
+  </data>
+  <data name="ProjectWizardSetting" xml:space="preserve">
+    <value>プロジェクト設定を入力してください。</value>
   </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>

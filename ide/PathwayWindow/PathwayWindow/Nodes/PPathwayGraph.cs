@@ -46,23 +46,46 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Default Graph size.
         /// </summary>
-        public const float GRAPH_SIZE = 150f;
+        public const float GRAPH_SIZE = 120f;
         /// <summary>
         /// Max number of plots.
         /// </summary>
-        public const int MAX_COUNT = 20;
+        public const int MAX_COUNT = 100;
         /// <summary>
         /// List of Values.
         /// </summary>
         private List<double> m_values = new List<double>();
         /// <summary>
-        /// Graph object.
+        /// 
+        /// </summary>
+        private PPathwayEntity m_entity = null;
+        /// <summary>
+        /// Panel object.
+        /// </summary>
+        private PPathwayNode m_panel = null;
+        /// <summary>
+        /// 
         /// </summary>
         private PPathwayNode m_graph = null;
         /// <summary>
         /// 
         /// </summary>
         private PText m_text = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        private string m_entityPath = null;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
+        public string EntityPath
+        {
+            get { return m_entityPath; }
+            set { m_entityPath = value;}
+        }
         #endregion
 
         #region Constructors
@@ -71,23 +94,37 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayGraph()
         {
+            // Draw Rect
             this.Brush = Brushes.LightBlue;
             this.Pen = new Pen(Brushes.Black);
-            this.Width = GRAPH_SIZE;
-            this.Height = GRAPH_SIZE;
+            this.Width = GRAPH_SIZE + 20;
+            this.Height = GRAPH_SIZE + 30;
             GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(new RectangleF(0, 0, GRAPH_SIZE, GRAPH_SIZE));
+            path.AddRectangle(new RectangleF(0, 0, GRAPH_SIZE + 20, GRAPH_SIZE + 30));
             this.AddPath(path, false);
 
+            // Draw Graph Panel
+            this.m_panel = new PPathwayNode();
+            this.m_panel.Pickable = false;
+            this.m_panel.Brush = Brushes.White;
+            this.m_panel.Pen = new Pen(Brushes.Black);
+            path = new GraphicsPath();
+            path.AddRectangle(new RectangleF(20, 10, GRAPH_SIZE, GRAPH_SIZE));
+            this.m_panel.AddPath(path, false);
+            this.AddChild(m_panel);
+
+            // Draw Graph
             this.m_graph = new PPathwayNode();
             this.m_graph.Pickable = false;
-            this.m_graph.Brush = Brushes.White;
-            this.m_graph.Pen = new Pen(Brushes.Black);
-            path = new GraphicsPath();
-            path.AddRectangle(new RectangleF(20, 20, GRAPH_SIZE-30, GRAPH_SIZE-30));
-            this.m_graph.AddPath(path, false);
-
+            this.m_graph.Pen = new Pen(Brushes.Red);
             this.AddChild(m_graph);
+
+            // Draw Title
+            m_pText = new PText();
+            m_pText.Text = "Title";
+            this.AddChild(m_pText);
+
+            Refresh();
         }
         /// <summary>
         /// 
@@ -96,7 +133,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public PPathwayGraph(PPathwayEntity entity)
             : this()
         {
-
+            m_entity = entity;
+            m_pText.Text = entity.EcellObject.LocalID;
+            // set parameter.
+            if(entity is PPathwayProcess)
+                this.EntityPath = entity.EcellObject.FullID + ":MolarActivity";
+            else if(entity is PPathwayVariable)
+                this.EntityPath = entity.EcellObject.FullID + ":MolarConc";
         }
 
         #endregion
@@ -130,22 +173,37 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 if (val < min)
                     min = val;
             }
-            double rate = 150d / (max - min);
+            double rate = GRAPH_SIZE / (max - min);
+            if (max == min)
+                rate = 1;
 
             // create plots
             int i = 0;
-            float x = 7.5f;
+            float x = (float)(GRAPH_SIZE / m_values.Count);
             List<PointF> plots = new List<PointF>();
             foreach (double val in m_values)
             {
                 PointF plot = new PointF();
-                plot.X = 3.75f + x * i;
-                plot.Y = GRAPH_SIZE - (float)((val - min) * rate);
+                plot.X = m_panel.X + x * i;
+                plot.Y = m_panel.Y + GRAPH_SIZE - (float)((val - min) * rate);
                 plots.Add(plot);
+                i++;
             }
+            if (plots.Count < 2)
+                return;
+
             GraphicsPath path = new GraphicsPath();
-            path.AddBeziers(plots.ToArray());
+            path.AddLines(plots.ToArray());
             m_graph.AddPath(path, false);
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            m_panel.X = this.X + 10;
+            m_panel.Y = this.Y + 20;
+            m_pText.X = this.X + 20;
+            m_pText.Y = this.Y;
         }
 
         /// <summary>
@@ -154,7 +212,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Reset()
         {
             m_values.Clear();
-            m_graph.Reset();
+            m_panel.Reset();
         }
         #endregion
 
