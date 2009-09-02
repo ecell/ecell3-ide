@@ -1,0 +1,22 @@
+import sys
+import getopt
+import code
+import os
+from EcellIDE import *
+
+def main():
+    aSession = Session()
+
+    aContext = { 'self': aSession }
+    aKeyList = list ( aSession.__dict__.keys() + aSession.__class__.__dict__.keys() )
+    aDict = {}
+    for aKey in aKeyList:
+        aDict[ aKey ] = getattr (aSession, aKey)
+
+    aContext.update( aDict )
+
+    execfile(sys.argv[1], aContext)
+
+if __name__ == '__main__':
+    main()
+    sys.exit( 0 )

@@ -53,8 +53,6 @@ jp.LanguageName = "<65e5><672c><8a9e>"
 ; ======================================================
 ; common
 ; ======================================================
-Source: "lib\ironpython\*.py"; DestDir: "{app}\bin"; Components: extension; CopyMode: alwaysoverwrite;
-
 Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\Arti_Class1"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\Arti_Class1"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "samples\Arti_Class1\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Arti_Class1\Model"; Components: extension; CopyMode: alwaysoverwrite;
@@ -186,8 +184,11 @@ Source: "common\Win32\ecell-ide.exe.manifest"; DestDir: "{app}\bin"; Components:
 
 Source: "common\ipy.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "common\ipyw.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-Source: "lib\ironpython\EcellIDE.py"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
+Source: "lib\idesession"; DestDir: "{app}\bin"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "lib\EcellIDE.py"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\python.exe"; DestDir: "{app}\bin";  Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\Python.Runtime.dll"; DestDir: "{app}\bin";  Components: main; CopyMode: alwaysoverwrite;
 
 ; ======================================================
 ; bin/*.dll
