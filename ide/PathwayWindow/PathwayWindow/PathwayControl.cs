@@ -879,21 +879,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private List<EcellObject> SetCopyingNodes()
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
+            List<string> sysList = new List<string>();
             //Copy Systems
             foreach (PPathwayObject obj in m_canvas.Systems.Values)
             {
                 if (obj.EcellObject.Key == Constants.delimiterPath)
                     continue;
                 if (m_canvas.SelectedNodes.Contains(obj) || copyNodes.Contains(obj.ParentObject.EcellObject))
+                {
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
+                    sysList.Add(obj.EcellObject.Key);
+                }
             }
             //Copy Variables
             foreach (PPathwayObject obj in m_canvas.Variables.Values)
-                if (m_canvas.SelectedNodes.Contains(obj) && !m_canvas.SelectedNodes.Contains(obj.ParentObject))
+                if ((m_canvas.SelectedNodes.Contains(obj) || sysList.Contains(obj.EcellObject.ParentSystemID)) && 
+                    !m_canvas.SelectedNodes.Contains(obj.ParentObject) &&
+                    !copyNodes.Contains(obj.EcellObject))
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
             //Copy Processes
             foreach (PPathwayObject obj in m_canvas.Processes.Values)
-                if (m_canvas.SelectedNodes.Contains(obj) && !m_canvas.SelectedNodes.Contains(obj.ParentObject))
+                if ((m_canvas.SelectedNodes.Contains(obj) || sysList.Contains(obj.EcellObject.ParentSystemID)) && 
+                    !m_canvas.SelectedNodes.Contains(obj.ParentObject) &&
+                    !copyNodes.Contains(obj.EcellObject))
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
             //Copy Texts
             foreach (PPathwayObject obj in Canvas.Texts.Values)

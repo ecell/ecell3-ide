@@ -878,7 +878,7 @@ namespace Ecell
                     string name = "";
                     string value = "";
                     bool isName = true;
-                    for (int j = 0; j < elements[i].Length; i++)
+                    for (int j = 0; j < elements[i].Length; j++)
                     {
                         if (elements[i][j] == '=')
                         {
