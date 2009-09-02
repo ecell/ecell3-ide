@@ -867,6 +867,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.m_copiedNodes.Clear();
             this.m_copyPos = this.m_mousePos;
             this.m_copiedNodes = this.SetCopyingNodes();
+
+            String clipboardString = Util.GetClipBoardString(m_copiedNodes);
+            Clipboard.SetText(clipboardString);
         }
 
         /// <summary>
@@ -933,6 +936,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void PasteNodes()
         {
+            string ddd = Clipboard.GetText();
+            string modelID = m_window.DataManager.CurrentProject.Model.ModelID;
+            this.m_copiedNodes = Util.GetClipboardObject(m_window.DataManager, modelID, ddd);
             if (this.m_copiedNodes == null || this.m_copiedNodes.Count == 0)
                 return;
 
