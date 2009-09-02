@@ -769,6 +769,180 @@ namespace Ecell
             }
             return sb.ToString();
         }
+
+        public static string GetClipBoardString(List<EcellObject> data)
+        {
+            string result = "";
+
+            foreach (EcellObject obj in data)
+            {
+                result += "Type=" + obj.Type + "\n";
+                result += "Key=" + obj.Key + "\n";
+                result += "Classname=" + obj.Classname + "\n";
+                result += "X=" + obj.Layout.X + "\n";
+                result += "Y=" + obj.Layout.Y + "\n";
+                result += "OffsetX=" + obj.Layout.OffsetX + "\n";
+                result += "OffsetY=" + obj.Layout.OffsetY + "\n";
+                result += "Height=" + obj.Layout.Height + "\n";
+                result += "Width=" + obj.Layout.Width + "\n";
+                result += "Layer=" + obj.Layout.Layer + "\n";
+                result += "Figure=" + obj.Layout.Figure + "\n";
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Name.Equals(Constants.xpathVRL))
+                    {
+                        List<EcellReference> refList = EcellReference.ConvertFromEcellValue(d.Value);
+                        string refString = "(";
+                        int count = 0;
+                        foreach (EcellReference refobj in refList)
+                        {
+                            if (count == 0)
+                                refString = refString + refobj.ToString();
+                            else
+                                refString = refString + "," + refobj.ToString();
+                            count++;
+                        }
+                        refString = refString + ")";
+                        result += d.Name + "=" + refString + "\n";
+                    }
+                    else
+                        result += d.Name + "=" + d.Value.ToString()+ "\n";
+                }
+                result += "//\n";
+            }
+
+            return result;
+        }
+
+        public static List<EcellObject> GetClipboardObject(DataManager dManager, string modelID, string data)
+        {
+            List<EcellObject> result = new List<EcellObject>();
+            string[] lines = data.Split(new char[] { '\n' });
+            string component = "";
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].StartsWith("//"))
+                {
+                    if (!string.IsNullOrEmpty(component))
+                        result.Add(GetObjectFromClipBoard(dManager, modelID, component));
+                    component = "";
+                }
+                else
+                    component = component + lines[i] + "\n";
+            }
+            return result;
+        }
+
+        public static EcellObject GetObjectFromClipBoard(DataManager dManager, string modelID, string data)
+        {
+            string[] elements = data.Split(new char[] { '\n' });
+            string key = null;
+            string type = null;
+            string classname = null;
+            string figure = null;
+            string layer = null;
+            double x = 0.0;
+            double y = 0.0;
+            double offsetX = 0.0; 
+            double offsetY = 0.0;
+            double width = 0.0;
+            double height = 0.0;
+            Dictionary<string, string> tmpValue = new Dictionary<string, string>();
+            List<EcellData> values = new List<EcellData>();
+            for (int i = 0; i < elements.Length; i++)
+            {
+                if (elements[i].StartsWith("Type="))
+                    type = elements[i].Substring(5);                    
+                else if (elements[i].StartsWith("Key="))
+                    key = elements[i].Substring(4);
+                else if (elements[i].StartsWith("Classname="))
+                    classname = elements[i].Substring(10);
+                else if (elements[i].StartsWith("X="))
+                    x = double.Parse(elements[i].Substring(2));
+                else if (elements[i].StartsWith("Y="))
+                    y = double.Parse(elements[i].Substring(2));
+                else if (elements[i].StartsWith("OffsetX="))
+                    offsetX = double.Parse(elements[i].Substring(8));
+                else if (elements[i].StartsWith("OffsetY="))
+                    offsetY = double.Parse(elements[i].Substring(8));
+                else if (elements[i].StartsWith("Height="))
+                    height = double.Parse(elements[i].Substring(7));
+                else if (elements[i].StartsWith("Width="))
+                    width = double.Parse(elements[i].Substring(6));
+                else if (elements[i].StartsWith("Layer="))
+                    layer = elements[i].Substring(6);
+                else if (elements[i].StartsWith("Figure="))
+                    figure = elements[i].Substring(7);
+                else
+                {
+                    string name = "";
+                    string value = "";
+                    bool isName = true;
+                    for (int j = 0; j < elements[i].Length; i++)
+                    {
+                        if (elements[i][j] == '=')
+                        {
+                            isName = false;
+                            continue;
+                        }
+                        if (isName)
+                        {
+                            name = name + elements[i][j];
+                        }
+                        else
+                            value = value + elements[i][j];
+                    }
+                    tmpValue.Add(name, value);
+                }
+            }
+            if (type != null && key != null && classname != null)
+            {
+                
+                Dictionary<string, EcellData> list = new Dictionary<string,EcellData>();
+                if (type.Equals(Constants.xpathProcess))
+                    list = dManager.GetProcessProperty(classname);
+                else if (type.Equals(Constants.xpathStepper))
+                {
+                    List<EcellData> tList = dManager.GetStepperProperty(classname);
+                    foreach (EcellData d in tList)
+                    {
+                        list.Add(d.Name, d);
+                    }
+                }
+                else if (type.Equals(Constants.xpathVariable))
+                    list = dManager.GetVariableProperty();
+                else if (type.Equals(Constants.xpathSystem))
+                    list = dManager.GetSystemProperty();
+                foreach (EcellData d in list.Values)
+                {
+                    if (tmpValue.ContainsKey(d.Name))
+                    {
+                        if (d.Value.IsDouble)
+                            d.Value = new EcellValue(double.Parse(tmpValue[d.Name]));
+                        else if (d.Value.IsInt)
+                            d.Value = new EcellValue(Int32.Parse(tmpValue[d.Name]));
+                        else if (d.Name.Equals(Constants.xpathVRL))
+                            d.Value = EcellValue.ConvertFromListString(tmpValue[d.Name]);
+                        else
+                            d.Value = new EcellValue(tmpValue[d.Name]);
+                    }
+                    values.Add(d);
+                }
+                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, values);
+                obj.Layout.X = (float)x;
+                obj.Layout.Y = (float)y;
+                obj.Layout.OffsetX = (float)offsetX;
+                obj.Layout.OffsetY = (float)offsetY;
+                obj.Layout.Figure = figure;
+                obj.Layout.Layer = layer;
+                obj.Layout.Width = (float)width;
+                obj.Layout.Height = (float)height;
+                return obj;
+            }
+            else
+                return null; 
+
+        }
     }
     /// <summary>
     /// partial class for Util.
