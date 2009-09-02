@@ -130,16 +130,16 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 31</value>
+    <value>8, 6</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 12</value>
+    <value>134, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Select the background color.</value>
+    <value>Animation mode settings:</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -151,7 +151,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -163,16 +163,16 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 57</value>
+    <value>29, 31</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 12</value>
+    <value>150, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Select the edge color.</value>
+    <value>Select the background color.</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -184,7 +184,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -196,16 +196,16 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 86</value>
+    <value>29, 57</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
+    <value>116, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>The width of edge.</value>
+    <value>Select the edge color.</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -217,7 +217,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -229,16 +229,16 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 6</value>
+    <value>29, 86</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 12</value>
+    <value>172, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Edit mode:</value>
+    <value>Max width of edge. on Animation</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -250,79 +250,49 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>1</value>
   </data>
-  <data name="unsharpCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="unsharpCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="unsharpCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>31, 110</value>
-  </data>
-  <data name="unsharpCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 16</value>
-  </data>
-  <data name="unsharpCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="unsharpCheckBox.Text" xml:space="preserve">
-    <value>Set the rendering quality mode.</value>
-  </data>
-  <data name="&gt;&gt;unsharpCheckBox.Name" xml:space="preserve">
-    <value>unsharpCheckBox</value>
-  </data>
-  <data name="&gt;&gt;unsharpCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;unsharpCheckBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;unsharpCheckBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="widthTextBox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="maxWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>241, 83</value>
   </data>
-  <data name="widthTextBox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="maxWidthTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 19</value>
   </data>
-  <data name="widthTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;widthTextBox.Name" xml:space="preserve">
-    <value>widthTextBox</value>
-  </data>
-  <data name="&gt;&gt;widthTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;widthTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;widthTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="arrowColorImageComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>241, 57</value>
-  </data>
-  <data name="arrowColorImageComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 20</value>
-  </data>
-  <data name="arrowColorImageComboBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="maxWidthTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;arrowColorImageComboBox.Name" xml:space="preserve">
-    <value>arrowColorImageComboBox</value>
+  <data name="&gt;&gt;maxWidthTextBox.Name" xml:space="preserve">
+    <value>maxWidthTextBox</value>
   </data>
-  <data name="&gt;&gt;arrowColorImageComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3313.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;maxWidthTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;arrowColorImageComboBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;maxWidthTextBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;arrowColorImageComboBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;maxWidthTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="arrowImageComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>241, 57</value>
+  </data>
+  <data name="arrowImageComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 20</value>
+  </data>
+  <data name="arrowImageComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;arrowImageComboBox.Name" xml:space="preserve">
+    <value>arrowImageComboBox</value>
+  </data>
+  <data name="&gt;&gt;arrowImageComboBox.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3313.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;arrowImageComboBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;arrowImageComboBox.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="backgroundImageComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>241, 31</value>
@@ -331,7 +301,7 @@
     <value>148, 20</value>
   </data>
   <data name="backgroundImageComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;backgroundImageComboBox.Name" xml:space="preserve">
     <value>backgroundImageComboBox</value>
@@ -343,7 +313,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;backgroundImageComboBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -352,10 +322,10 @@
     <value>True</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 154</value>
+    <value>534, 125</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>EditModeSettings</value>
+    <value>ViewModeSettings</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

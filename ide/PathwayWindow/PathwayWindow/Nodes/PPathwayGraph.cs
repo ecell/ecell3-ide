@@ -67,10 +67,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        private PText m_text = null;
-        /// <summary>
-        /// 
-        /// </summary>
         private string m_entityPath = null;
         #endregion
 
@@ -213,7 +209,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             path.AddLines(plots.ToArray());
             m_graph.AddPath(path, false);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Refresh()
         {
             base.Refresh();

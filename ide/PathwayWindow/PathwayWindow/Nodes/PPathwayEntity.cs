@@ -62,7 +62,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Properties panel for showing this object's ID.
         /// </summary>
         protected PPathwayProperties m_pProperty = null;
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected PPathwayGraph m_graph = null;
         /// <summary>
         /// list of relations.

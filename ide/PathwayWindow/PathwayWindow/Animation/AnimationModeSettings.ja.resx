@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="unsharpCheckBox.Text" xml:space="preserve">
-    <value>レンダリングモードを設定します（高品質)。</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>背景色を選択してください。</value>
+    <value>アニメーションモード:</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>エッジの色を選択してください。</value>
+    <value>背景色を選択してください。</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>エッジjの太さ</value>
+    <value>エッジの色を選択してください。</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>編集モード:</value>
+    <value>アニメーション時のエッジの最大の太さです。</value>
   </data>
 </root>

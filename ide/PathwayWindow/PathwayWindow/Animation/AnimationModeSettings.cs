@@ -40,27 +40,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class EditModeSettings : UserControl
+    internal class AnimationModeSettings : UserControl
     {
-        private CheckBox unsharpCheckBox;
         private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox backgroundImageComboBox;
-        private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox arrowColorImageComboBox;
-        private TextBox widthTextBox;
+        private Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox arrowImageComboBox;
+        private TextBox maxWidthTextBox;
+
         private AnimationControl m_control;
 
         public AnimationControl Control
         {
             set
             {
-                m_control = value;
-                backgroundImageComboBox.Brush = m_control.EditBGBrush;
-                arrowColorImageComboBox.Brush = m_control.EditEdgeBrush;
-                widthTextBox.Text = m_control.EdgeWidth.ToString();
-                unsharpCheckBox.Checked = m_control.Control.HighQuality;
+                this.m_control = value;
+                backgroundImageComboBox.Brush = m_control.ViewBGBrush;
+                arrowImageComboBox.Brush = m_control.ViewEdgeBrush;
+                maxWidthTextBox.Text = m_control.MaxEdgeWidth.ToString();
             }
         }
 
-        public EditModeSettings()
+        /// <summary>
+        /// 
+        /// </summary>
+        public AnimationModeSettings()
         {
             InitializeComponent();
         }
@@ -68,31 +70,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="control"></param>
-        public EditModeSettings(AnimationControl control) :
+        public AnimationModeSettings(AnimationControl control) :
             this()
         {
             m_control = control;
 
-            backgroundImageComboBox.Brush = control.EditBGBrush;
-            arrowColorImageComboBox.Brush = control.EditEdgeBrush;
-            widthTextBox.Text = control.EdgeWidth.ToString();
-            unsharpCheckBox.Checked = control.Control.HighQuality;
-
-            //MessageResources.DialogTextBackgroundBrush;
-            //MessageResources.DialogTextEdgeWidth;
-            //MessageResources.DialogTextEdgeBrush;
+            backgroundImageComboBox.Brush = control.ViewBGBrush;
+            arrowImageComboBox.Brush = control.ViewEdgeBrush;
+            maxWidthTextBox.Text = control.MaxEdgeWidth.ToString();
         }
 
         void InitializeComponent()
         {
             System.Windows.Forms.Label label1;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditModeSettings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationModeSettings));
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
-            this.unsharpCheckBox = new System.Windows.Forms.CheckBox();
-            this.widthTextBox = new System.Windows.Forms.TextBox();
-            this.arrowColorImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
+            this.maxWidthTextBox = new System.Windows.Forms.TextBox();
+            this.arrowImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             this.backgroundImageComboBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -120,51 +116,43 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             resources.ApplyResources(label4, "label4");
             label4.Name = "label4";
             // 
-            // unsharpCheckBox
+            // maxWidthTextBox
             // 
-            resources.ApplyResources(this.unsharpCheckBox, "unsharpCheckBox");
-            this.unsharpCheckBox.Name = "unsharpCheckBox";
-            this.unsharpCheckBox.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.maxWidthTextBox, "maxWidthTextBox");
+            this.maxWidthTextBox.Name = "maxWidthTextBox";
             // 
-            // widthTextBox
+            // arrowImageComboBox
             // 
-            resources.ApplyResources(this.widthTextBox, "widthTextBox");
-            this.widthTextBox.Name = "widthTextBox";
-            // 
-            // arrowColorImageComboBox
-            // 
-            resources.ApplyResources(this.arrowColorImageComboBox, "arrowColorImageComboBox");
-            this.arrowColorImageComboBox.Name = "arrowColorImageComboBox";
+            resources.ApplyResources(this.arrowImageComboBox, "arrowImageComboBox");
+            this.arrowImageComboBox.Name = "arrowImageComboBox";
             // 
             // backgroundImageComboBox
             // 
             resources.ApplyResources(this.backgroundImageComboBox, "backgroundImageComboBox");
             this.backgroundImageComboBox.Name = "backgroundImageComboBox";
             // 
-            // EditModeSettings
+            // ViewModeSettings
             // 
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.widthTextBox);
-            this.Controls.Add(this.arrowColorImageComboBox);
-            this.Controls.Add(this.backgroundImageComboBox);
-            this.Controls.Add(this.unsharpCheckBox);
+            this.Controls.Add(this.maxWidthTextBox);
             this.Controls.Add(label4);
+            this.Controls.Add(this.arrowImageComboBox);
             this.Controls.Add(label3);
             this.Controls.Add(label2);
+            this.Controls.Add(this.backgroundImageComboBox);
             this.Controls.Add(label1);
-            this.Name = "EditModeSettings";
+            this.Name = "ViewModeSettings";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        void EdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        void MaxEdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string text = widthTextBox.Text;
+            string text = maxWidthTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, MessageResources.NameArrowWidth));
-                widthTextBox.Text = Convert.ToString(m_control.EdgeWidth);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, MessageResources.NameArrowMaxWidth));
+                maxWidthTextBox.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
             }
@@ -172,8 +160,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowWidth));
-                widthTextBox.Text = Convert.ToString(m_control.EdgeWidth);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowMaxWidth));
+                maxWidthTextBox.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
             }
@@ -181,25 +169,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         public void ApplyChanges()
         {
-            m_control.EditBGBrush = backgroundImageComboBox.Brush;
-            m_control.EditEdgeBrush = arrowColorImageComboBox.Brush;
-            m_control.EdgeWidth = float.Parse(widthTextBox.Text);
-            m_control.Control.HighQuality = unsharpCheckBox.Checked;
-            //m_control.EditBGBrush = this.bgBrushItem.Brush;
-            //m_control.EditEdgeBrush = this.edgeBrushItem.Brush;
-            //m_control.EdgeWidth = float.Parse(this.edgeWidth.Text);
-            //m_control.Control.HighQuality = this.highQualityCheckBox.Checked;
+            m_control.ViewBGBrush = backgroundImageComboBox.Brush;
+            m_control.ViewEdgeBrush = arrowImageComboBox.Brush;
+            m_control.MaxEdgeWidth = float.Parse(maxWidthTextBox.Text);
+            //m_control.ViewBGBrush = bgBrush.Brush;
+            //m_control.MaxEdgeWidth = float.Parse(edgeWidth.Text);
+            //m_control.ViewEdgeBrush = edgeBrush.Brush;
         }
 
         public void ItemClosing()
         {
-            string text = widthTextBox.Text;
+            string text = maxWidthTextBox.Text;
 
             // 0 < EdgeWidth <= 100
             float dummy;
             if (!float.TryParse(text, out dummy) || dummy <= 0 || dummy > 100)
             {
-                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowWidth));
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, MessageResources.NameArrowMaxWidth));
             }
         }
     }

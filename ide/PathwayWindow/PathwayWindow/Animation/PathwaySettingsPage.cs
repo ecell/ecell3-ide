@@ -40,7 +40,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private AnimationControl m_con;
         private System.Windows.Forms.Label label1;
         private EditModeSettings m_editModeItems;
-        private ViewModeSettings m_viewModeItems;
+        private AnimationModeSettings m_viewModeItems;
 
         /// <summary>
         /// 
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingsPage));
             this.label1 = new System.Windows.Forms.Label();
-            this.m_viewModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.ViewModeSettings();
+            this.m_viewModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationModeSettings();
             this.m_editModeItems = new Ecell.IDE.Plugins.PathwayWindow.Animation.EditModeSettings();
             this.SuspendLayout();
             // 
