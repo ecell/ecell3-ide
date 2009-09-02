@@ -45,8 +45,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
-using IronPython.Hosting;
-using IronPython.Runtime;
+using Python.Runtime;
 
 using EcellCoreLib;
 using Ecell.Objects;
@@ -370,26 +369,48 @@ namespace Ecell
         /// <param name="fileName">the source file name.</param>
         public void ExecuteScript(string fileName)
         {
-            PythonEngine m_engine = new PythonEngine();
+            int i = 0;
+            PythonEngine.Initialize();
 
-            m_engine.AddToPath(Directory.GetCurrentDirectory());
-            m_engine.AddToPath(Util.GetAnalysisDir());
             string scriptFile = fileName;
             m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
             m_env.Console.Flush();
+         
+            i = PythonEngine.RunSimpleString("import sys");
+            i = PythonEngine.RunSimpleString("import getopt");
+            i = PythonEngine.RunSimpleString("import code");
+            i = PythonEngine.RunSimpleString("import os");
+            i = PythonEngine.RunSimpleString("from EcellLib import *");
 
-            MemoryStream standardOutput = new MemoryStream();
-            m_engine.SetStandardOutput(standardOutput);
-            m_engine.Execute("from EcellIDE import *");
-            m_engine.Execute("import time");
-            m_engine.Execute("import System.Threading");
-            m_engine.Execute("session=Session()");
-            m_engine.ExecuteFile(scriptFile);            
-            string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+            i = PythonEngine.RunSimpleString("aSession = Session()");
 
-            m_env.Console.WriteLine(stdOut);
-            m_env.Console.Flush();
-            m_engine = null;
+            i = PythonEngine.RunSimpleString("aContext = { 'self': aSession }");
+            i = PythonEngine.RunSimpleString("aKeyList = list ( aSession.__dict__.keys() + aSession.__class__.__dict__.keys() )");
+            i = PythonEngine.RunSimpleString("aDict = {}");
+            string ddd = "for aKey in aKeyList:\n" +
+                            "    aDict[ aKey ] = getattr (aSession, aKey)";
+            i = PythonEngine.RunSimpleString(ddd);
+            i = PythonEngine.RunSimpleString("aContext.update( aDict )");
+            string res = fileName.Replace("\\", "\\\\");
+            i = PythonEngine.RunSimpleString("execfile('" + res + "', aContext)");            
+
+            //PythonEngine m_engine = new PythonEngine();
+
+            //m_engine.AddToPath(Directory.GetCurrentDirectory());
+            //m_engine.AddToPath(Util.GetAnalysisDir());
+
+            //MemoryStream standardOutput = new MemoryStream();
+            //m_engine.SetStandardOutput(standardOutput);
+            //m_engine.Execute("from EcellIDE import *");
+            //m_engine.Execute("import time");
+            //m_engine.Execute("import System.Threading");
+            //m_engine.Execute("session=Session()");
+            //m_engine.ExecuteFile(scriptFile);            
+            //string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+
+            //m_env.Console.WriteLine(stdOut);
+            //m_env.Console.Flush();
+            //m_engine = null;
         }
 
         /// <summary>

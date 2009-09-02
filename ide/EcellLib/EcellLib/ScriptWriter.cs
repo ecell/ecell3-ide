@@ -124,7 +124,7 @@ namespace Ecell
                     WriteComponentProperty(fileName, enc, sysObj);
                 }
             }
-            WriteSimulationForStep(fileName, 1, enc);
+            WriteSimulationForStepUnix(fileName, 1, enc);
         }
 
         /// <summary>
@@ -162,52 +162,14 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Write the postfix information in script file.
-        /// </summary>
-        /// <param name="fileName">script file name.</param>
-        /// <param name="count">step count.</param>
-        /// <param name="enc">encoding(SJIS)</param>
-        public void WriteSimulationForStep(string fileName, int count, Encoding enc)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                File.AppendAllText(fileName, "session.step(" + 1 + ")\n", enc);
-                File.AppendAllText(fileName, "while session.isActive():\n", enc);
-                File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
-            }
-        }
-
-
-        /// <summary>
-        /// Write the postfix information in script file.
-        /// </summary>
-        /// <param name="fileName">script file name.</param>
-        /// <param name="time">simulation time.</param>
-        /// <param name="enc">encoding(SJIS)</param>
-        public void WriteSimulationForTime(string fileName, double time, Encoding enc)
-        {
-            File.AppendAllText(fileName, "session.run(" + time + ")\n", enc);
-            File.AppendAllText(fileName, "while session.isActive():\n", enc);
-            File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
-        }
-
-        /// <summary>
         /// Write the model information in script file.
         /// </summary>
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        public void WriteModelEntry(string fileName, Encoding enc, string modelName, List<EcellObject> stepperList)
+        public void WriteModelEntry(string fileName, Encoding enc, string modelFile)
         {
-            File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
-            File.AppendAllText(fileName, "# Stepper\n", enc);
-            foreach (EcellObject stepObj in stepperList)
-            {
-                File.AppendAllText(fileName, "stepperStub" + m_stepperCount + "=session.createStepperStub(\"" + stepObj.Key + "\")\n", enc);
-                File.AppendAllText(fileName, "stepperStub" + m_stepperCount + ".create(\"" + stepObj.Classname + "\")\n", enc);
-                m_exportStepper.Add(stepObj.Key, m_stepperCount);
-                m_stepperCount++;
-            }
+            File.AppendAllText(fileName, "loadModel(\"" + modelFile + "\")\n", enc); 
         }
 
         /// <summary>
@@ -290,59 +252,6 @@ namespace Ecell
                     continue;
                 File.AppendAllText(fileName,
                     "systemStub" + count + ".setProperty(\"" + d.EntityPath + "\",\"" + d.Value.ToString() + "\")\n", enc);
-            }
-        }
-
-        /// <summary>
-        /// Write the logger property in script file.
-        /// </summary>
-        /// <param name="fileName">script file name.</param>
-        /// <param name="enc">encoding(SJIS)</param>
-        /// <param name="logList">Logger list.</param>
-        public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
-        {
-            string curParam = m_currentProject.Info.SimulationParam;
-            LoggerPolicy l = m_currentProject.LoggerPolicyDic[curParam];
-            File.AppendAllText(fileName, "\n# Logger Policy\n");
-            if (logList == null)
-                return;
-            foreach (string path in logList)
-            {
-                File.AppendAllText(fileName,
-                    "logger" + m_logCount + "=session.createLoggerStub(\"" + path + "\")\n",
-                    enc);
-                File.AppendAllText(fileName,
-                    "logger" + m_logCount + ".create()\n",
-                    enc);
-                File.AppendAllText(fileName,
-                    "logger" + m_logCount + ".setLoggerPolicy(" +
-                    l.ReloadStepCount + "," +
-                    l.ReloadInterval + "," +
-                    (l.DiskFullAction == DiskFullAction.Terminate ? 0 : 1) + "," +
-                    l.MaxDiskSpace + ")\n", enc);
-                m_logCount++;
-            }
-
-        }
-
-        /// <summary>
-        /// Write the logger property to save the log in script file.
-        /// </summary>
-        /// <param name="fileName">script file name.</param>
-        /// <param name="enc">encoding(SJIS)</param>
-        /// <param name="saveList">save property list.</param>
-        public void WriteLoggerSaveEntry(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
-        {
-            File.AppendAllText(fileName, "\n# Save logging\n", enc);
-            if (saveList == null)
-                return;
-            foreach (SaveLoggerProperty s in saveList)
-            {
-                File.AppendAllText(
-                    fileName,
-                    "session.saveLoggerData(\"" + s.FullPath + "\",\"" + s.DirName + "\"," +
-                    s.Start + "," + s.End + ")\n",
-                    enc);
             }
         }
 
@@ -469,8 +378,7 @@ namespace Ecell
         /// <param name="jobid">job id.</param>
         public void WriteModelEntryUnix(string fileName, Encoding enc, int jobid)
         {
-            File.AppendAllText(fileName, "loadModel(\"" + jobid + ".eml\")\n", enc);
-            
+            File.AppendAllText(fileName, "loadModel(\"" + jobid + ".eml\")\n", enc);            
         }
 
         /// <summary>

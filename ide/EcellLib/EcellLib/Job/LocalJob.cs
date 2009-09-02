@@ -83,7 +83,7 @@ namespace Ecell.Job
         {
             try
             {
-                string pArgument = "\"" + Argument + "\"";
+                string pArgument = "\"" + Util.GetAnalysisDir() + "\\idesession\" \""  + Argument + "\"";
                 Process p = new Process();
                 p.StartInfo.FileName = ScriptFile;
                 p.StartInfo.UseShellExecute = false;
@@ -92,11 +92,11 @@ namespace Ecell.Job
                 p.StartInfo.WorkingDirectory = Util.GetAnalysisDir();
                 p.StartInfo.RedirectStandardError = true;
                 p.StartInfo.RedirectStandardOutput = true;
-                if (p.StartInfo.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
-                {
-                    p.StartInfo.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
-                }
-                p.StartInfo.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
+                //if (p.StartInfo.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
+                //{
+                //    p.StartInfo.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
+                //}
+                //p.StartInfo.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
                 this.Status = JobStatus.RUNNING;
                 p.ErrorDataReceived += new DataReceivedEventHandler(p_ErrorDataReceived);
                 p.OutputDataReceived += new DataReceivedEventHandler(p_OutputDataReceived);
@@ -275,7 +275,7 @@ namespace Ecell.Job
         /// <returns>the script file name.</returns>
         static public string GetDefaultScript()
         {
-            return Util.GetAnalysisDir() + "/ipy.exe";
+            return Util.GetAnalysisDir() + "/python.exe";
         }
     }
 }

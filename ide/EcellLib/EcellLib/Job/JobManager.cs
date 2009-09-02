@@ -826,7 +826,10 @@ namespace Ecell.Job
             string fileName = topDir + "/" + jobid + ".ess";
             string modelFileName = topDir + "/" + jobid + ".eml";
 
-            CreateLocalScript(topDir, dirName, fileName, writer,
+            //CreateLocalScript(topDir, dirName, fileName, writer,
+            //    modelName, count, isStep, sysList, stepperList, paramDic.ParamDic);
+
+            CreateLocalScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                 modelName, count, isStep, sysList, stepperList, paramDic.ParamDic);
         }
 
@@ -870,8 +873,10 @@ namespace Ecell.Job
 
                 if (this.Proxy.IsIDE() == true)
                 {
-                    CreateLocalScript(topDir, dirName, fileName, writer,
+                    CreateLocalScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                         modelName, count, isStep, sysList, stepperList, paramDic);
+                    //CreateLocalScript(topDir, dirName, fileName, writer,
+                    //    modelName, count, isStep, sysList, stepperList, paramDic);
                 }
                 else
                 {
@@ -944,8 +949,10 @@ namespace Ecell.Job
                 int jobid = RegisterJob(job, m_proxy.GetDefaultScript(), fileName, extFileList);
                 if (this.Proxy.IsIDE() == true)
                 {
-                    CreateLocalScript(topDir, dirName, fileName, writer,
+                    CreateLocalScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                         modelName, count, isStep, sysList, stepperList, paramDic);
+                    //CreateLocalScript(topDir, dirName, fileName, writer,
+                    //    modelName, count, isStep, sysList, stepperList, paramDic);
                 }
                 else
                 {
@@ -1106,7 +1113,9 @@ namespace Ecell.Job
 
                     if (this.Proxy.IsIDE())
                     {
-                        CreateLocalScript(topDir, dirName, fileName, writer,
+                        //CreateLocalScript(topDir, dirName, fileName, writer,
+                        //    modelName, count, isStep, sysList, stepperList, paramDic);
+                        CreateLocalScript(jobid, topDir, dirName, fileName, modelFileName, writer,
                             modelName, count, isStep, sysList, stepperList, paramDic);
                     }
                     else
@@ -1218,34 +1227,44 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// Create the script for windows.
+        /// Create the script for linux.
         /// </summary>
+        /// <param name="jobID">the job id.</param>
         /// <param name="topDir">the top directory.</param>
         /// <param name="dirName">the execute directory.</param>
         /// <param name="fileName">the script file.</param>
+        /// <param name="modelFile">the model file.</param>
         /// <param name="writer">the file writer.</param>
         /// <param name="modelName">the model name.</param>
         /// <param name="count">the simulation time.</param>
         /// <param name="isStep">the flag whetehr simulation is step.</param>
         /// <param name="sysList">the list of system object.</param>
         /// <param name="paramDic">the dictionary of parameters.</param>
-        private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,
-                string modelName, double count, bool isStep, List<EcellObject> sysList,
-                List<EcellObject> stepperList, Dictionary<string, double> paramDic)
+        private void CreateLocalScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
+            ScriptWriter writer, string modelName, double count, bool isStep, List<EcellObject> sysList,
+            List<EcellObject> stepperList, Dictionary<string, double> paramDic)
         {
-            Encoding enc = Encoding.GetEncoding(932);
+            Encoding enc = Encoding.GetEncoding(51932);
             SetLogTopDirectory(dirName);
             if (!Directory.Exists(dirName))
             {
                 Directory.CreateDirectory(dirName);
             }
 
+            //List<string> modelList = new List<string>();
+            //modelList.Add(modelName);
+            //m_env.DataManager.ExportModel(modelList, modelFile);
+
+            List<EcellObject> storedList = new List<EcellObject>();
+            storedList.AddRange(stepperList);
+            storedList.AddRange(sysList);
+            EmlWriter.Create(modelFile, storedList, false);
+
             writer.ClearScriptInfo();
             File.WriteAllText(fileName, "", enc);
-            writer.WritePrefix(fileName, enc);
-            writer.WriteModelEntry(fileName, enc, modelName, stepperList);
-            writer.WriteModelProperty(fileName, enc, modelName, stepperList);
-            File.AppendAllText(fileName, "\n# System\n", enc);
+
+            string res = modelFile.Replace("\\", "\\\\");
+            writer.WriteModelEntry(fileName, enc, res);
             foreach (EcellObject sysObj in sysList)
             {
                 foreach (string path in paramDic.Keys)
@@ -1256,11 +1275,10 @@ namespace Ecell.Job
                         if (!path.Equals(v.EntityPath))
                             continue;
                         v.Value = new EcellValue(paramDic[path]);
+                        writer.WriteComponentPropertyUnix(fileName, enc, sysObj, v);
                         break;
                     }
                 }
-                writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
             }
             Application.DoEvents();
             foreach (EcellObject sysObj in sysList)
@@ -1276,28 +1294,30 @@ namespace Ecell.Job
                             if (!path.Equals(v.EntityPath))
                                 continue;
                             v.Value = new EcellValue(paramDic[path]);
+                            writer.WriteComponentPropertyUnix(fileName, enc, obj, v);
                             break;
                         }
                         Application.DoEvents();
                     }
                 }
-                writer.WriteComponentEntry(fileName, enc, tmpObj);
-                writer.WriteComponentProperty(fileName, enc, tmpObj);
             }
+
+
             Application.DoEvents();
-            File.AppendAllText(fileName, "session.initialize()\n", enc);
             List<string> sList = new List<string>();
             foreach (SaveLoggerProperty s in m_logList)
             {
                 sList.Add(s.FullPath);
             }
-            writer.WriteLoggerProperty(fileName, enc, sList);
+            writer.WriteLoggerPropertyUnix(fileName, enc, sList);
             if (isStep)
-                writer.WriteSimulationForStep(fileName, (int)(count), enc);
+                writer.WriteSimulationForStepUnix(fileName, (int)(count), enc);
             else
-                writer.WriteSimulationForTime(fileName, count, enc);
-            writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                writer.WriteSimulationForTimeUnix(fileName, count, enc);
+            writer.WriteLoggerSaveEntryUnix(fileName, enc, jobID,
+                m_logList, Proxy.GetData(GlobusJob.TOPDIR_NAME));
         }
+
 
         /// <summary>
         /// Create the job group.

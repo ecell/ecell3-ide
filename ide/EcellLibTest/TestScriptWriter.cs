@@ -166,7 +166,7 @@ namespace Ecell
 
             string fileName = TestConstant.Script_File;
             File.WriteAllText(fileName, "", enc);            
-            writer.WriteModelEntry(fileName, enc, "Drosophila", _unitUnderTest.CurrentProject.StepperDic["Drosophila"]);
+            writer.WriteModelEntry(fileName, enc, TestConstant.Model_Drosophila);
             foreach (EcellObject sysObj in _unitUnderTest.CurrentProject.SystemList)
             {
                 EcellObject tmpObj = sysObj.Clone();
@@ -200,12 +200,12 @@ namespace Ecell
                 sList.Add(s.FullPath);
             }
 
-            writer.WriteLoggerProperty(fileName, enc, sList);
-            writer.WriteLoggerProperty(fileName, enc, null);
-            writer.WriteSimulationForStep(fileName, (int)(count), enc);
-            writer.WriteSimulationForTime(fileName, count, enc);             
-            writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
-            writer.WriteLoggerSaveEntry(fileName, enc, null);
+            writer.WriteLoggerPropertyUnix(fileName, enc, sList);
+            writer.WriteLoggerPropertyUnix(fileName, enc, null);
+            writer.WriteSimulationForStepUnix(fileName, (int)(count), enc);
+            writer.WriteSimulationForTimeUnix(fileName, count, enc);             
+            writer.WriteLoggerSaveEntryUnix(fileName, enc, 1, m_logList, null);
+            writer.WriteLoggerSaveEntryUnix(fileName, enc, 1, null, null);
         }
 
     }

@@ -39,8 +39,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Xml;
-using IronPython.Hosting;
-using IronPython.Runtime;
 using EcellCoreLib;
 using Ecell.Job;
 using Ecell.Objects;
@@ -109,6 +107,78 @@ namespace Ecell
             m_env = env;
             s_instance = this;
         }
+        #endregion
+
+        #region NewPython
+        private string m_modelName = null;
+
+        public void LoadModel(string filePath)
+        {
+            m_env.DataManager.LoadProject(filePath);
+            m_modelName = m_env.DataManager.CurrentProject.Model.ModelID;
+        }
+
+        public void SaveModel()
+        {
+            if (m_modelName != null)
+                m_env.DataManager.SaveModel(m_modelName);
+        }
+
+        /// <summary>
+        /// Runs the simulator.
+        /// </summary>
+        /// <param name="interval">The time limit of the simulator</param>
+        public void Run(double interval)
+        {
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
+            if (interval > 0.0)
+            {
+                double tmp = m_env.DataManager.DefaultTime;
+                m_env.DataManager.DefaultTime = interval;
+                m_env.DataManager.StartStepSimulation(interval, true);
+                m_env.DataManager.DefaultTime = tmp;
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
+            }
+            else
+            {
+                m_env.DataManager.StartSimulation(interval);
+            }
+        }
+
+        /// <summary>
+        /// Stops the simulator.
+        /// </summary>
+        public void Stop()
+        {
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+            m_env.DataManager.SimulationStop();
+        }
+
+        /// <summary>
+        /// Get the current time of simulation.
+        /// </summary>
+        /// <returns>the current time of simulation.</returns>
+        public double GetCurrentTime()
+        {
+            return m_env.DataManager.GetCurrentSimulationTime();
+        }
+
+        /// <summary>
+        /// Creates the stepper stub.
+        /// </summary>
+        /// <param name="ID">the created stepper ID</param>
+        /// <returns>the created stepper stub</returns>
+        public StepperStub CreateStepperStub(string ID)
+        {
+            return new StepperStub(this, ID);
+        }
+
+        public void SetMessage(string message)
+        {
+            m_env.Console.WriteLine(message);
+            m_env.Console.Flush();
+        }
+
         #endregion
 
         /// <summary>
@@ -294,15 +364,7 @@ namespace Ecell
             return new SimulationParameterStub(this, parameterID);
         }
 
-        /// <summary>
-        /// Creates the stepper stub.
-        /// </summary>
-        /// <param name="ID">the created stepper ID</param>
-        /// <returns>the created stepper stub</returns>
-        public StepperStub CreateStepperStub(string ID)
-        {
-            return new StepperStub(this, ID);
-        }
+
 
         /// <summary>
         /// Creates the stepper stub.
@@ -756,6 +818,19 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Returns the selected log data.
+        /// </summary>
+        /// <param name="startTime">The start time of the logger</param>
+        /// <param name="endTime">The end time of the logger</param>
+        /// <param name="fullPN">The logged full PN</param>
+        /// <returns>the list of LogValue.</returns>
+        public List<LogValue> GetLogData(string fullPN, double startTime, double endTime, double interval)
+        {
+            return m_env.DataManager
+                    .GetLogData(startTime, endTime, interval, fullPN).logValueList;
+        }
+
+        /// <summary>
         /// Returns the logger policy.
         /// </summary>
         /// <returns>the logger policy</returns>
@@ -801,55 +876,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Activates the "IronPythonConsole.exe".
-        /// </summary>
-        public void Interact()
-        {
-            Process process = new Process();
-            process.StartInfo.FileName = Directory.GetCurrentDirectory() + "\\" + s_consoleExe;
-            process.Start();
-        }
-
-        /// <summary>
-        /// Loads the model.
-        /// </summary>
-        /// <param name="fileName">The "EML" file name</param>
-        public void LoadModel(string fileName)
-        {
-            m_env.DataManager.LoadProject(fileName);
-        }
-
-        /// <summary>
         /// Close project.
         /// </summary>
         public void Refresh()
         {
             m_env.DataManager.CloseProject();            
-        }
-
-        /// <summary>
-        /// Runs the simulator.
-        /// </summary>
-        /// <param name="interval">The time limit of the simulator</param>
-        public void Run(double interval)
-        {
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            double tmp = m_env.DataManager.DefaultTime;
-            m_env.DataManager.DefaultTime = interval;
-//            m_env.DataManager.SimulationStartKeepSetting(interval);
-            m_env.DataManager.StartStepSimulation(interval, true);
-            m_env.DataManager.DefaultTime = tmp;
-        }
-
-        /// <summary>
-        /// Runs the simulator.
-        /// </summary>
-        /// <param name="interval">The time limit of the simulator</param>
-        public void RunNotSuspend(double interval)
-        {
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-//            m_env.DataManager.SimulationStart(interval, 0);
-            m_env.DataManager.StartSimulation(interval);
         }
 
         /// <summary>
@@ -908,14 +939,7 @@ namespace Ecell
             m_env.DataManager.StartStepSimulation(count, true);
         }
 
-        /// <summary>
-        /// Stops the simulator.
-        /// </summary>
-        public void Stop()
-        {
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-            m_env.DataManager.SimulationStop();
-        }
+
 
         /// <summary>
         /// Suspends the simulator.

@@ -81,8 +81,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="IronMath" />
-    <Reference Include="IronPython" />
+    <Reference Include="Python.Runtime" />
     <Reference Include="libsbmlcsP, Version=3.4.1.0, Culture=neutral" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
