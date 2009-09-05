@@ -384,6 +384,6 @@
     <value>GridLayoutPanel</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.LayoutPanel, EcellUILib, Version=1.1.3190.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.LayoutPanel, EcellUILib, Version=1.1.3265.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

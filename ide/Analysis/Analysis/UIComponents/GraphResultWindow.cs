@@ -49,10 +49,6 @@ namespace Ecell.IDE.Plugins.Analysis
     {
         #region Fields
         /// <summary>
-        /// Graph control to display the matrix of analysis result.
-        /// </summary>
-        private ZedGraphControl m_zCnt = null;
-        /// <summary>
         /// The line information of dot plot.
         /// </summary>
         private LineItem m_line;
@@ -101,8 +97,6 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             InitializeComponent();
 
-            m_zCnt = new ZedGraphControl();
-            m_zCnt.Dock = DockStyle.Fill;
             m_zCnt.GraphPane.Title.Text = "";
             m_zCnt.GraphPane.XAxis.Title.Text = "X";
             m_zCnt.GraphPane.YAxis.Title.Text = "Y";
@@ -112,7 +106,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_zCnt.GraphPane.YAxis.Scale.Max = 100;
             m_zCnt.GraphPane.YAxis.Scale.Min = 0;
             m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
-            RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 1);
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
 

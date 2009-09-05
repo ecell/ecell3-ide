@@ -79,90 +79,55 @@ namespace Ecell.IDE.Plugins.CBGridLayout
             // 
             // krTextBox
             // 
-            this.krTextBox.AccessibleDescription = null;
-            this.krTextBox.AccessibleName = null;
             resources.ApplyResources(this.krTextBox, "krTextBox");
-            this.krTextBox.BackgroundImage = null;
-            this.krTextBox.Font = null;
             this.krTextBox.Name = "krTextBox";
             this.krTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Kr_Validating);
             // 
             // label1
             // 
-            this.label1.AccessibleDescription = null;
-            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
-            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // label2
             // 
-            this.label2.AccessibleDescription = null;
-            this.label2.AccessibleName = null;
             resources.ApplyResources(this.label2, "label2");
-            this.label2.Font = null;
             this.label2.Name = "label2";
             // 
             // label3
             // 
-            this.label3.AccessibleDescription = null;
-            this.label3.AccessibleName = null;
             resources.ApplyResources(this.label3, "label3");
-            this.label3.Font = null;
             this.label3.Name = "label3";
             // 
             // kaTextBox
             // 
-            this.kaTextBox.AccessibleDescription = null;
-            this.kaTextBox.AccessibleName = null;
             resources.ApplyResources(this.kaTextBox, "kaTextBox");
-            this.kaTextBox.BackgroundImage = null;
-            this.kaTextBox.Font = null;
             this.kaTextBox.Name = "kaTextBox";
             this.kaTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Ka_Validating);
             // 
             // iterationTextBox
             // 
-            this.iterationTextBox.AccessibleDescription = null;
-            this.iterationTextBox.AccessibleName = null;
             resources.ApplyResources(this.iterationTextBox, "iterationTextBox");
-            this.iterationTextBox.BackgroundImage = null;
-            this.iterationTextBox.Font = null;
             this.iterationTextBox.Name = "iterationTextBox";
             this.iterationTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Iteration_Validating);
             // 
             // label4
             // 
-            this.label4.AccessibleDescription = null;
-            this.label4.AccessibleName = null;
             resources.ApplyResources(this.label4, "label4");
-            this.label4.Font = null;
             this.label4.Name = "label4";
             // 
             // label5
             // 
-            this.label5.AccessibleDescription = null;
-            this.label5.AccessibleName = null;
             resources.ApplyResources(this.label5, "label5");
-            this.label5.Font = null;
             this.label5.Name = "label5";
             // 
             // marginTextBox
             // 
-            this.marginTextBox.AccessibleDescription = null;
-            this.marginTextBox.AccessibleName = null;
             resources.ApplyResources(this.marginTextBox, "marginTextBox");
-            this.marginTextBox.BackgroundImage = null;
-            this.marginTextBox.Font = null;
             this.marginTextBox.Name = "marginTextBox";
             this.marginTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.marginTextBox_Validating);
             // 
             // CBGridLayoutPanel
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.label5);
             this.Controls.Add(this.marginTextBox);
             this.Controls.Add(this.label4);
@@ -172,8 +137,8 @@ namespace Ecell.IDE.Plugins.CBGridLayout
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.krTextBox);
-            this.Font = null;
             this.Name = "CBGridLayoutPanel";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 

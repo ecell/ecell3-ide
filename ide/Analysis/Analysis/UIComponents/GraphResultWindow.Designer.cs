@@ -28,33 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphResultWindow));
-            this.RAAnalysisTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.RAYComboBox = new System.Windows.Forms.ComboBox();
             this.RAXComboBox = new System.Windows.Forms.ComboBox();
             this.groupNameLabel = new System.Windows.Forms.Label();
-            this.RAAnalysisTableLayout.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
+            this.m_zCnt = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
-            // 
-            // RAAnalysisTableLayout
-            // 
-            resources.ApplyResources(this.RAAnalysisTableLayout, "RAAnalysisTableLayout");
-            this.RAAnalysisTableLayout.Controls.Add(this.tableLayoutPanel5, 0, 2);
-            this.RAAnalysisTableLayout.Controls.Add(this.groupNameLabel, 0, 0);
-            this.RAAnalysisTableLayout.Name = "RAAnalysisTableLayout";
-            // 
-            // tableLayoutPanel5
-            // 
-            resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
-            this.tableLayoutPanel5.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.label3, 2, 0);
-            this.tableLayoutPanel5.Controls.Add(this.RAYComboBox, 3, 0);
-            this.tableLayoutPanel5.Controls.Add(this.RAXComboBox, 1, 0);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             // 
             // label2
             // 
@@ -87,28 +69,41 @@
             resources.ApplyResources(this.groupNameLabel, "groupNameLabel");
             this.groupNameLabel.Name = "groupNameLabel";
             // 
+            // m_zCnt
+            // 
+            resources.ApplyResources(this.m_zCnt, "m_zCnt");
+            this.m_zCnt.Name = "m_zCnt";
+            this.m_zCnt.ScrollGrace = 0;
+            this.m_zCnt.ScrollMaxX = 0;
+            this.m_zCnt.ScrollMaxY = 0;
+            this.m_zCnt.ScrollMaxY2 = 0;
+            this.m_zCnt.ScrollMinX = 0;
+            this.m_zCnt.ScrollMinY = 0;
+            this.m_zCnt.ScrollMinY2 = 0;
+            // 
             // GraphResultWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.RAAnalysisTableLayout);
+            this.Controls.Add(this.m_zCnt);
+            this.Controls.Add(this.RAXComboBox);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.RAYComboBox);
+            this.Controls.Add(this.groupNameLabel);
+            this.Controls.Add(this.label2);
             this.Name = "GraphResultWindow";
-            this.RAAnalysisTableLayout.ResumeLayout(false);
-            this.RAAnalysisTableLayout.PerformLayout();
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel RAAnalysisTableLayout;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox RAXComboBox;
         private System.Windows.Forms.ComboBox RAYComboBox;
         private System.Windows.Forms.Label groupNameLabel;
+        public ZedGraph.ZedGraphControl m_zCnt;
     }
 }
