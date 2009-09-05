@@ -190,7 +190,9 @@ namespace Ecell.IDE.MainWindow
         public MainWindow()
         {
             m_dockWindowDic = new Dictionary<string, EcellDockContent>();
+            InitializeComponent();
         }
+
         #endregion
 
         private string tmpPath;
@@ -203,20 +205,22 @@ namespace Ecell.IDE.MainWindow
         {
             setFilePath();
             CheckDefaultWindowSetting();
-            InitializeComponent();
-
+            
+            // Load plugins
+            LoadPlugins();
+            SetRecentProject();
+            // Create Windows
             m_statusDialog = new GridJobStatusDialog(m_env.JobManager);
             SetDockContent(m_statusDialog);
             m_scriptEditor = new ScriptEditor(m_env);
             m_scriptEditor.Text = MessageResources.NameScriptEditor;
             m_scriptEditor.Name = MessageResources.NameScriptEditor;
             SetDockContent(m_scriptEditor);
-            // Load plugins
-            LoadPlugins();
-            //Load default window settings.
-            SetRecentProject();
-            SetStartUpWindow();
+            // Load default window settings.
             LoadDefaultWindowSetting();
+            LoadDefaultWindowSetting();
+
+            SetStartUpWindow();
             m_browser.Activate();
             m_title = this.Text;
             m_env.ReportManager.StatusUpdated += new StatusUpdatedEventHandler(ReportManager_StatusUpdated);
@@ -637,7 +641,6 @@ namespace Ecell.IDE.MainWindow
             SetDockContent(content);
             m_browser = content;
         }
-
         /// <summary>
         /// set DockContent
         /// </summary>
