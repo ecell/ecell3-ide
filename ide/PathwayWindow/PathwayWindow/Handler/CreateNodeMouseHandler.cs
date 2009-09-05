@@ -36,6 +36,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using System.Drawing;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -86,7 +87,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseMove(object sender, PInputEventArgs e)
         {
             base.OnMouseMove(sender, e);
-            SetTemplate(e);
+            SetTemplate(e.Position);
         }
         /// <summary>
         /// 
@@ -177,22 +178,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             m_template.RemoveFromParent();
         }
+
         #endregion
 
         #region Private Methods
         /// <summary>
         /// Set object template.
         /// </summary>
-        private void SetTemplate(PInputEventArgs e)
+        private void SetTemplate(PointF point)
         {
             CanvasControl canvas = m_con.Canvas;
             if (canvas == null)
                 return;
-            canvas.ControlLayer.AddChild(m_template);
-            m_template.CenterPointF = e.Position;
-            m_template.Pickable = false;
-            m_template.RefreshView();
-            m_template.Visible = true;
+
+            if (canvas.PCanvas.Camera.ViewBounds.Contains(point))
+            {
+                canvas.ControlLayer.AddChild(m_template);
+                m_template.CenterPointF = point;
+                m_template.Pickable = false;
+                m_template.RefreshView();
+                m_template.Visible = true;
+            }
+            else if (m_template != null)
+            {
+                m_template.RemoveFromParent();
+            }
         }
         #endregion
     }
