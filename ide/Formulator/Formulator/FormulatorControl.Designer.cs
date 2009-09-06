@@ -51,10 +51,10 @@
             this.stringBox = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.TemplateApplyButton = new System.Windows.Forms.Button();
             this.templateComboBox = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -203,14 +203,6 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
-            // tableLayoutPanel6
-            // 
-            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
-            this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.TemplateApplyButton, 2, 0);
-            this.tableLayoutPanel6.Controls.Add(this.templateComboBox, 1, 0);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
@@ -229,6 +221,14 @@
             this.templateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.templateComboBox.FormattingEnabled = true;
             this.templateComboBox.Name = "templateComboBox";
+            // 
+            // tableLayoutPanel6
+            // 
+            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
+            this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.TemplateApplyButton, 2, 0);
+            this.tableLayoutPanel6.Controls.Add(this.templateComboBox, 1, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             // 
             // FormulatorControl
             // 
@@ -311,9 +311,9 @@
         /// </summary>
         public System.Windows.Forms.Button AddFunctionButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button TemplateApplyButton;
         private System.Windows.Forms.ComboBox templateComboBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
     }
 }

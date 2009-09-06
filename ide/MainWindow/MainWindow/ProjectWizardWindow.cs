@@ -155,7 +155,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void BackButton_Click(object sender, EventArgs e)
         {
-            textBox1.Text = MessageResources.ProjectWizardSetting;
+            textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
             OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
             OKButton.Click += GoNext_Click;

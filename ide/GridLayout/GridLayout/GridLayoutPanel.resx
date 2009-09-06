@@ -351,7 +351,7 @@
     <value>True</value>
   </data>
   <data name="scratchCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 162</value>
+    <value>20, 157</value>
   </data>
   <data name="scratchCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 16</value>

@@ -30,32 +30,24 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.ButtonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.ProjectPanel = new Ecell.IDE.MainWindow.UIComponents.PWProjectPanel();
             this.DMPanel = new Ecell.IDE.MainWindow.UIComponents.PWDMPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.MainLayoutPanel.SuspendLayout();
-            this.ButtonLayoutPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainLayoutPanel
             // 
             resources.ApplyResources(this.MainLayoutPanel, "MainLayoutPanel");
-            this.MainLayoutPanel.Controls.Add(this.ButtonLayoutPanel, 0, 2);
             this.MainLayoutPanel.Controls.Add(this.textBox1, 0, 0);
             this.MainLayoutPanel.Controls.Add(this.ProjectPanel, 0, 1);
+            this.MainLayoutPanel.Controls.Add(this.panel1, 0, 2);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
-            // 
-            // ButtonLayoutPanel
-            // 
-            resources.ApplyResources(this.ButtonLayoutPanel, "ButtonLayoutPanel");
-            this.ButtonLayoutPanel.Controls.Add(this.CloseButton, 4, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.BackButton, 2, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.OKButton, 3, 0);
-            this.ButtonLayoutPanel.Name = "ButtonLayoutPanel";
             // 
             // CloseButton
             // 
@@ -78,14 +70,6 @@
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.GoNext_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
-            this.textBox1.TabStop = false;
-            // 
             // ProjectPanel
             // 
             resources.ApplyResources(this.ProjectPanel, "ProjectPanel");
@@ -97,6 +81,22 @@
             // 
             resources.ApplyResources(this.DMPanel, "DMPanel");
             this.DMPanel.Name = "DMPanel";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            this.textBox1.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.CloseButton);
+            this.panel1.Controls.Add(this.BackButton);
+            this.panel1.Controls.Add(this.OKButton);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
             // 
             // ProjectWizardWindow
             // 
@@ -112,7 +112,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProjectWizardWindow_FormClosing);
             this.MainLayoutPanel.ResumeLayout(false);
             this.MainLayoutPanel.PerformLayout();
-            this.ButtonLayoutPanel.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -120,13 +120,13 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel MainLayoutPanel;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TableLayoutPanel ButtonLayoutPanel;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button OKButton;
         private Ecell.IDE.MainWindow.UIComponents.PWProjectPanel ProjectPanel;
         private Ecell.IDE.MainWindow.UIComponents.PWDMPanel DMPanel;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Panel panel1;
 
     }
 }

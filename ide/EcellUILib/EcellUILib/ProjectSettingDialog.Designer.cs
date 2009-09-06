@@ -78,158 +78,98 @@ namespace Ecell.IDE
             // 
             // labelName
             // 
-            this.labelName.AccessibleDescription = null;
-            this.labelName.AccessibleName = null;
             resources.ApplyResources(this.labelName, "labelName");
-            this.labelName.Font = null;
             this.labelName.Name = "labelName";
             // 
             // labelComment
             // 
-            this.labelComment.AccessibleDescription = null;
-            this.labelComment.AccessibleName = null;
             resources.ApplyResources(this.labelComment, "labelComment");
-            this.labelComment.Font = null;
             this.labelComment.Name = "labelComment";
             // 
             // textName
             // 
-            this.textName.AccessibleDescription = null;
-            this.textName.AccessibleName = null;
             resources.ApplyResources(this.textName, "textName");
-            this.textName.BackgroundImage = null;
-            this.textName.Font = null;
             this.textName.Name = "textName";
             // 
             // textComment
             // 
             this.textComment.AcceptsReturn = true;
-            this.textComment.AccessibleDescription = null;
-            this.textComment.AccessibleName = null;
             resources.ApplyResources(this.textComment, "textComment");
-            this.textComment.BackgroundImage = null;
-            this.textComment.Font = null;
             this.textComment.Name = "textComment";
             // 
             // CPCreateButton
             // 
-            this.CPCreateButton.AccessibleDescription = null;
-            this.CPCreateButton.AccessibleName = null;
             resources.ApplyResources(this.CPCreateButton, "CPCreateButton");
-            this.CPCreateButton.BackgroundImage = null;
             this.CPCreateButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.CPCreateButton.Font = null;
             this.CPCreateButton.Name = "CPCreateButton";
             this.CPCreateButton.UseVisualStyleBackColor = true;
             // 
             // CPCancelButton
             // 
-            this.CPCancelButton.AccessibleDescription = null;
-            this.CPCancelButton.AccessibleName = null;
             resources.ApplyResources(this.CPCancelButton, "CPCancelButton");
-            this.CPCancelButton.BackgroundImage = null;
             this.CPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CPCancelButton.Font = null;
             this.CPCancelButton.Name = "CPCancelButton";
             this.CPCancelButton.UseVisualStyleBackColor = true;
             // 
             // labelCreator
             // 
-            this.labelCreator.AccessibleDescription = null;
-            this.labelCreator.AccessibleName = null;
             resources.ApplyResources(this.labelCreator, "labelCreator");
-            this.labelCreator.Font = null;
             this.labelCreator.Name = "labelCreator";
             // 
             // textCreator
             // 
-            this.textCreator.AccessibleDescription = null;
-            this.textCreator.AccessibleName = null;
             resources.ApplyResources(this.textCreator, "textCreator");
-            this.textCreator.BackgroundImage = null;
-            this.textCreator.Font = null;
             this.textCreator.Name = "textCreator";
             // 
             // labelCreated
             // 
-            this.labelCreated.AccessibleDescription = null;
-            this.labelCreated.AccessibleName = null;
             resources.ApplyResources(this.labelCreated, "labelCreated");
-            this.labelCreated.Font = null;
             this.labelCreated.Name = "labelCreated";
             // 
             // textCreated
             // 
-            this.textCreated.AccessibleDescription = null;
-            this.textCreated.AccessibleName = null;
             resources.ApplyResources(this.textCreated, "textCreated");
-            this.textCreated.BackgroundImage = null;
-            this.textCreated.Font = null;
             this.textCreated.Name = "textCreated";
             this.textCreated.ReadOnly = true;
             // 
             // labelUpdate
             // 
-            this.labelUpdate.AccessibleDescription = null;
-            this.labelUpdate.AccessibleName = null;
             resources.ApplyResources(this.labelUpdate, "labelUpdate");
-            this.labelUpdate.Font = null;
             this.labelUpdate.Name = "labelUpdate";
             // 
             // textLastUpdate
             // 
-            this.textLastUpdate.AccessibleDescription = null;
-            this.textLastUpdate.AccessibleName = null;
             resources.ApplyResources(this.textLastUpdate, "textLastUpdate");
-            this.textLastUpdate.BackgroundImage = null;
-            this.textLastUpdate.Font = null;
             this.textLastUpdate.Name = "textLastUpdate";
             this.textLastUpdate.ReadOnly = true;
             // 
             // labelEditCount
             // 
-            this.labelEditCount.AccessibleDescription = null;
-            this.labelEditCount.AccessibleName = null;
             resources.ApplyResources(this.labelEditCount, "labelEditCount");
-            this.labelEditCount.Font = null;
             this.labelEditCount.Name = "labelEditCount";
             // 
             // textEditCount
             // 
-            this.textEditCount.AccessibleDescription = null;
-            this.textEditCount.AccessibleName = null;
             resources.ApplyResources(this.textEditCount, "textEditCount");
-            this.textEditCount.BackgroundImage = null;
-            this.textEditCount.Font = null;
             this.textEditCount.Name = "textEditCount";
             this.textEditCount.ReadOnly = true;
             // 
             // labelDefaultParameter
             // 
-            this.labelDefaultParameter.AccessibleDescription = null;
-            this.labelDefaultParameter.AccessibleName = null;
             resources.ApplyResources(this.labelDefaultParameter, "labelDefaultParameter");
-            this.labelDefaultParameter.Font = null;
             this.labelDefaultParameter.Name = "labelDefaultParameter";
             // 
             // textDefaultParameter
             // 
-            this.textDefaultParameter.AccessibleDescription = null;
-            this.textDefaultParameter.AccessibleName = null;
             resources.ApplyResources(this.textDefaultParameter, "textDefaultParameter");
-            this.textDefaultParameter.BackgroundImage = null;
-            this.textDefaultParameter.Font = null;
             this.textDefaultParameter.Name = "textDefaultParameter";
             this.textDefaultParameter.ReadOnly = true;
             // 
             // ProjectSettingDialog
             // 
             this.AcceptButton = this.CPCreateButton;
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.CancelButton = this.CPCancelButton;
             this.Controls.Add(this.labelDefaultParameter);
             this.Controls.Add(this.textDefaultParameter);
@@ -247,7 +187,6 @@ namespace Ecell.IDE
             this.Controls.Add(this.textComment);
             this.Controls.Add(this.labelComment);
             this.Controls.Add(this.textName);
-            this.Font = null;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectSettingDialog";
