@@ -852,7 +852,7 @@ namespace Ecell
             for (int i = 0; i < elements.Length; i++)
             {
                 if (elements[i].StartsWith("Type="))
-                    type = elements[i].Substring(5);                    
+                    type = elements[i].Substring(5);
                 else if (elements[i].StartsWith("Key="))
                     key = elements[i].Substring(4);
                 else if (elements[i].StartsWith("Classname="))
@@ -873,6 +873,8 @@ namespace Ecell
                     layer = elements[i].Substring(6);
                 else if (elements[i].StartsWith("Figure="))
                     figure = elements[i].Substring(7);
+                else if (string.IsNullOrEmpty(elements[i]))
+                    continue;
                 else
                 {
                     string name = "";
@@ -925,9 +927,19 @@ namespace Ecell
                             d.Value = EcellValue.ConvertFromListString(tmpValue[d.Name]);
                         else
                             d.Value = new EcellValue(tmpValue[d.Name]);
+                        tmpValue.Remove(d.Name);
                     }
                     values.Add(d);
                 }
+                foreach (string name in tmpValue.Keys)
+                {
+                    string fullID = type + ":" + key;
+                    string entityPath = Util.BuildFullPN(fullID, name);
+                    EcellValue v = new EcellValue(double.Parse(tmpValue[name]));
+                    EcellData d = new EcellData(name, v, entityPath);
+                    values.Add(d);
+                }
+
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, values);
                 obj.Layout.X = (float)x;
                 obj.Layout.Y = (float)y;
