@@ -105,6 +105,14 @@ namespace Ecell.IDE.Plugins.Analysis
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
             m_zCnt.GraphPane.YAxis.Scale.Max = 100;
             m_zCnt.GraphPane.YAxis.Scale.Min = 0;
+            m_zCnt.GraphPane.XAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.XAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.Chart.Border.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MajorGrid.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.Fill = new Fill(Color.White, Color.LightGray, 90.0f);
+
             m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
             m_zCnt.AxisChange();
             m_zCnt.Refresh();

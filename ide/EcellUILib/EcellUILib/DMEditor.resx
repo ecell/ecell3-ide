@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="DMEComileButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 427</value>
+    <value>9, 427</value>
   </data>
   <data name="DMEComileButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -154,7 +154,7 @@
     <value>False</value>
   </data>
   <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 427</value>
+    <value>283, 427</value>
   </data>
   <data name="DMESaveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -181,7 +181,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="DMELoadButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 427</value>
+    <value>203, 427</value>
   </data>
   <data name="DMELoadButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 26</value>
@@ -214,7 +214,7 @@
     <value>False</value>
   </data>
   <data name="DMESaveAsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 427</value>
+    <value>363, 427</value>
   </data>
   <data name="DMESaveAsButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 26</value>
@@ -250,10 +250,13 @@
     <value>Off</value>
   </data>
   <data name="codeEditorControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 31</value>
+    <value>9, 31</value>
+  </data>
+  <data name="codeEditorControl.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 3</value>
   </data>
   <data name="codeEditorControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>423, 390</value>
+    <value>429, 390</value>
   </data>
   <data name="codeEditorControl.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -265,7 +268,7 @@
     <value>codeEditorControl</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.Type" xml:space="preserve">
-    <value>Ecell.IDE.EcellCodeEditor, EcellUILib, Version=1.1.3204.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.EcellCodeEditor, EcellUILib, Version=1.1.3326.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.Parent" xml:space="preserve">
     <value>$this</value>
@@ -413,6 +416,6 @@
     <value>DMEditor</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3207.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3321.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

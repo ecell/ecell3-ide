@@ -104,6 +104,9 @@
         private System.Windows.Forms.ComboBox RAXComboBox;
         private System.Windows.Forms.ComboBox RAYComboBox;
         private System.Windows.Forms.Label groupNameLabel;
+        /// <summary>
+        /// Graph control object.
+        /// </summary>
         public ZedGraph.ZedGraphControl m_zCnt;
     }
 }

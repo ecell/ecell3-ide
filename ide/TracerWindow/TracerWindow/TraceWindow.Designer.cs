@@ -46,6 +46,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TraceWindow";
+            this.TabText = "Tracer";
             this.ResumeLayout(false);
 
         }
