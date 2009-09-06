@@ -37,12 +37,31 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.MainWindow
 {
+    /// <summary>
+    /// Job message dialog
+    /// </summary>
     public partial class JobMessageDialog : Form
     {
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="message">message</param>
         public JobMessageDialog(string message)
         {
             InitializeComponent();
             MRichTextBox.Text = message;
         }
+
+        #region Evetns
+        /// <summary>
+        /// Show this form.
+        /// </summary>
+        /// <param name="sender">JobMessageDialog</param>
+        /// <param name="e">EventArgs</param>
+        private void JobMessageDialog_Shown(object sender, EventArgs e)
+        {
+            MOKButton.Focus();
+        }
+        #endregion
     }
 }

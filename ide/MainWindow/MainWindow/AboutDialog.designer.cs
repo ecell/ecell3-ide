@@ -107,6 +107,7 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.CancelButton = this.CloseButton;
             this.Controls.Add(this.creditButton);
             this.Controls.Add(assemblyLabel);
             this.Controls.Add(this.CloseButton);
@@ -122,6 +123,7 @@ namespace Ecell.IDE.MainWindow
             this.Name = "AboutDialog";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Shown += new System.EventHandler(this.AboutDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

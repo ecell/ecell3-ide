@@ -38,6 +38,9 @@ using System.Threading;
 
 namespace Ecell.IDE.MainWindow
 {
+    /// <summary>
+    /// About Dialog.
+    /// </summary>
     public partial class AboutDialog : Form
     {
         /// <summary>
@@ -55,6 +58,12 @@ namespace Ecell.IDE.MainWindow
             this.copyLabel.Text = "Copyright\r\n" + copyrightText;
         }
 
+        #region Events
+        /// <summary>
+        /// Clibk the link label.
+        /// </summary>
+        /// <param name="sender">LinkLabel</param>
+        /// <param name="e">LinkLabelLinkClickedEventArgs</param>
         private void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             // Display the appropriate link based on the value of the 
@@ -63,6 +72,11 @@ namespace Ecell.IDE.MainWindow
             System.Diagnostics.Process.Start(target);
         }
 
+        /// <summary>
+        /// Click the credit button.
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void creditButton_Click(object sender, EventArgs e)
         {
             CreditDialog cdlg = new CreditDialog();
@@ -72,5 +86,16 @@ namespace Ecell.IDE.MainWindow
             }
 
         }
+
+        /// <summary>
+        /// Focus close button when this form is shown.
+        /// </summary>
+        /// <param name="sender">AboutDialog</param>
+        /// <param name="e">EventArgs</param>
+        private void AboutDialog_Shown(object sender, EventArgs e)
+        {
+            CloseButton.Focus();
+        }
+        #endregion
     }
 }

@@ -59,10 +59,12 @@
             this.AcceptButton = this.MOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.MOKButton;
             this.Controls.Add(label1);
             this.Controls.Add(this.MRichTextBox);
             this.Controls.Add(this.MOKButton);
             this.Name = "JobMessageDialog";
+            this.Shown += new System.EventHandler(this.JobMessageDialog_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -77,6 +77,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.VSCloseButton;
             this.Controls.Add(this.VSProductButton);
             this.Controls.Add(this.selectTree);
             this.Controls.Add(this.VSSourceButton);

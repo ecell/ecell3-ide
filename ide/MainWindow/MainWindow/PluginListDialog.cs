@@ -65,5 +65,15 @@ namespace Ecell.IDE.MainWindow
                 versionListView.Rows.Add(new object[] { n, list[n] });
             }
         }
+
+        /// <summary>
+        /// Show this form
+        /// </summary>
+        /// <param name="sender">PluginListDialog</param>
+        /// <param name="e">EventArgs</param>
+        private void PluginListDialog_Shown(object sender, EventArgs e)
+        {
+            okButton.Focus();
+        }
     }
 }
