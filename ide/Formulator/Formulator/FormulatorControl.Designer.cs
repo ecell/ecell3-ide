@@ -33,20 +33,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormulatorControl));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.reserveBox = new System.Windows.Forms.ComboBox();
             this.AddButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.PlusButton = new System.Windows.Forms.Button();
             this.MinusButton = new System.Windows.Forms.Button();
             this.MultiplyButton = new System.Windows.Forms.Button();
             this.SplitButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.ParentButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.FunctionBox = new System.Windows.Forms.ComboBox();
             this.AddFunctionButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.StringButton = new System.Windows.Forms.Button();
             this.stringBox = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -54,40 +50,28 @@
             this.label1 = new System.Windows.Forms.Label();
             this.TemplateApplyButton = new System.Windows.Forms.Button();
             this.templateComboBox = new System.Windows.Forms.ComboBox();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.tableLayoutPanel6.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel5
-            // 
-            resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
-            this.tableLayoutPanel5.Controls.Add(this.reserveBox, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.AddButton, 1, 0);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             // 
             // reserveBox
             // 
-            resources.ApplyResources(this.reserveBox, "reserveBox");
             this.reserveBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.reserveBox.FormattingEnabled = true;
+            resources.ApplyResources(this.reserveBox, "reserveBox");
             this.reserveBox.Name = "reserveBox";
             // 
             // AddButton
@@ -96,15 +80,6 @@
             this.AddButton.Name = "AddButton";
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.PlusButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.MinusButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.MultiplyButton, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.SplitButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // PlusButton
             // 
@@ -134,15 +109,6 @@
             this.SplitButton.UseVisualStyleBackColor = true;
             this.SplitButton.Click += new System.EventHandler(this.SplitButton_Click);
             // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.ParentButton, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.DeleteButton, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.FunctionBox, 2, 0);
-            this.tableLayoutPanel3.Controls.Add(this.AddFunctionButton, 3, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
             // ParentButton
             // 
             resources.ApplyResources(this.ParentButton, "ParentButton");
@@ -159,9 +125,9 @@
             // 
             // FunctionBox
             // 
-            resources.ApplyResources(this.FunctionBox, "FunctionBox");
             this.FunctionBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.FunctionBox.FormattingEnabled = true;
+            resources.ApplyResources(this.FunctionBox, "FunctionBox");
             this.FunctionBox.Name = "FunctionBox";
             // 
             // AddFunctionButton
@@ -170,13 +136,6 @@
             this.AddFunctionButton.Name = "AddFunctionButton";
             this.AddFunctionButton.UseVisualStyleBackColor = true;
             this.AddFunctionButton.Click += new System.EventHandler(this.AddFunctionButton_Click);
-            // 
-            // tableLayoutPanel4
-            // 
-            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Controls.Add(this.StringButton, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.stringBox, 0, 0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             // 
             // StringButton
             // 
@@ -222,13 +181,30 @@
             this.templateComboBox.FormattingEnabled = true;
             this.templateComboBox.Name = "templateComboBox";
             // 
-            // tableLayoutPanel6
+            // panel2
             // 
-            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
-            this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.TemplateApplyButton, 2, 0);
-            this.tableLayoutPanel6.Controls.Add(this.templateComboBox, 1, 0);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.templateComboBox);
+            this.panel2.Controls.Add(this.TemplateApplyButton);
+            resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Name = "panel2";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.AddButton);
+            this.panel3.Controls.Add(this.reserveBox);
+            this.panel3.Controls.Add(this.PlusButton);
+            this.panel3.Controls.Add(this.StringButton);
+            this.panel3.Controls.Add(this.AddFunctionButton);
+            this.panel3.Controls.Add(this.MinusButton);
+            this.panel3.Controls.Add(this.FunctionBox);
+            this.panel3.Controls.Add(this.MultiplyButton);
+            this.panel3.Controls.Add(this.ParentButton);
+            this.panel3.Controls.Add(this.stringBox);
+            this.panel3.Controls.Add(this.SplitButton);
+            this.panel3.Controls.Add(this.DeleteButton);
+            resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Name = "panel3";
             // 
             // FormulatorControl
             // 
@@ -237,16 +213,13 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FormulatorControl";
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel6.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -254,9 +227,6 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         /// <summary>
         /// Button to add the "+" to selected position.
         /// </summary>
@@ -310,10 +280,10 @@
         /// Button to add the function to selected position.
         /// </summary>
         public System.Windows.Forms.Button AddFunctionButton;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button TemplateApplyButton;
         private System.Windows.Forms.ComboBox templateComboBox;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
     }
 }
