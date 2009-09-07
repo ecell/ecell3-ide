@@ -57,6 +57,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         private VideoStream _stream = null;
+        private bool m_isNoLimit = true;
+        private System.Windows.Forms.TextBox maxSizeTextBox;
+        private System.Windows.Forms.RadioButton maxSizeRadio;
+        private System.Windows.Forms.RadioButton noLimitRadio;
+        private double m_MaxSize = 300000;
         #endregion
 
         #region Constructor
@@ -83,20 +88,58 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieAnimationItem));
             this.outputBox = new System.Windows.Forms.GroupBox();
+            this.maxSizeTextBox = new System.Windows.Forms.TextBox();
+            this.maxSizeRadio = new System.Windows.Forms.RadioButton();
+            this.noLimitRadio = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem();
+            label2 = new System.Windows.Forms.Label();
             this.outputBox.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // outputBox
             // 
             resources.ApplyResources(this.outputBox, "outputBox");
+            this.outputBox.Controls.Add(label2);
+            this.outputBox.Controls.Add(this.maxSizeTextBox);
+            this.outputBox.Controls.Add(this.maxSizeRadio);
+            this.outputBox.Controls.Add(this.noLimitRadio);
             this.outputBox.Controls.Add(this.label1);
             this.outputBox.Controls.Add(this.aviFileName);
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
+            // 
+            // maxSizeTextBox
+            // 
+            resources.ApplyResources(this.maxSizeTextBox, "maxSizeTextBox");
+            this.maxSizeTextBox.Name = "maxSizeTextBox";
+            this.maxSizeTextBox.Enabled = false;
+            this.maxSizeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.maxSizeTextBox_Validating);
+            // 
+            // maxSizeRadio
+            // 
+            resources.ApplyResources(this.maxSizeRadio, "maxSizeRadio");
+            this.maxSizeRadio.Name = "maxSizeRadio";
+            this.maxSizeRadio.TabStop = true;
+            this.maxSizeRadio.Checked = false;
+            this.maxSizeRadio.UseVisualStyleBackColor = true;
+            // 
+            // noLimitRadio
+            // 
+            resources.ApplyResources(this.noLimitRadio, "noLimitRadio");
+            this.noLimitRadio.Name = "noLimitRadio";
+            this.noLimitRadio.TabStop = true;
+            this.noLimitRadio.Checked = true;
+            this.noLimitRadio.UseVisualStyleBackColor = true;
+            this.noLimitRadio.CheckedChanged += new System.EventHandler(this.noLimitRadio_CheckedChanged);
             // 
             // label1
             // 
@@ -178,6 +221,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     _stream.Width,
                     _stream.Height);
                 _stream.AddFrame(bmp);
+                if (!m_isNoLimit)
+                {
+                    System.IO.FileInfo f = new FileInfo(this.aviFileName.FileName);
+                    if (f.Length > m_MaxSize * 1000)
+                    {
+                        Util.ShowErrorDialog(MessageResources.ErrMaxSize);
+                    }
+                }
             }
         }
 
@@ -205,8 +256,41 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 _aviManager.Close();
                 _aviManager = null;
             }
-        }
+        }       
         #endregion
+
+        private void noLimitRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            m_isNoLimit = noLimitRadio.Checked;
+            if (m_isNoLimit)
+            {
+                maxSizeTextBox.Enabled = false;
+            }
+            else
+            {
+                maxSizeTextBox.Enabled = true;
+            }
+        }
+
+        private void maxSizeTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            string text = maxSizeTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, maxSizeRadio.Text));
+                maxSizeTextBox.Text = Convert.ToString(m_MaxSize);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!double.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, maxSizeRadio.Text));
+                maxSizeTextBox.Text = Convert.ToString(m_MaxSize);
+                e.Cancel = true;
+                return;
+            }
+        }
 
     }
 }

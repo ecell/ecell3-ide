@@ -405,4 +405,7 @@
   <data name="WarnExtValue" xml:space="preserve">
     <value>この値は最小値以下か最大値以上になりました</value>
   </data>
+  <data name="ErrMaxSize" xml:space="preserve">
+    <value>アニメーションファイルが最大サイズを超えました。</value>
+  </data>
 </root>

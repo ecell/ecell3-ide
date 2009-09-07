@@ -405,4 +405,7 @@
   <data name="WarnExtValue" xml:space="preserve">
     <value>This value is under the low threshold or over the high threshold.</value>
   </data>
+  <data name="ErrMaxSize" xml:space="preserve">
+    <value>Animation file is over the max file size.</value>
+  </data>
 </root>

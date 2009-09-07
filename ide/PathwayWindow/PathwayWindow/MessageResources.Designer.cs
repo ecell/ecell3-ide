@@ -520,6 +520,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Animation file is over the max file size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrMaxSize {
+            get {
+                return ResourceManager.GetString("ErrMaxSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoInput {
