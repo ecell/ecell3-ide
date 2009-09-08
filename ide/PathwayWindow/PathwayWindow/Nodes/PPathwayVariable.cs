@@ -117,7 +117,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Dispose()
         {
             // Clear Lines
-            foreach (PPathwayLine line in m_relations)
+            foreach (PPathwayEdge line in m_relations)
             {
                 line.RemoveFromParent();
                 line.Dispose();

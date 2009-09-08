@@ -174,7 +174,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
                     PPathwayVariable var = base.m_canvas.Variables[er.Key];
                     EdgeInfo edge = new EdgeInfo(process.Key, list, er);
-                    PPathwayLine line = new PPathwayLine(m_canvas, edge, this, var);
+                    PPathwayEdge line = new PPathwayEdge(m_canvas, edge, this, var);
                     m_layer.AddChild(line);
                     line.EdgeWidth = width;
                     line.Selected = this.Selected || var.Selected;
@@ -193,7 +193,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         private void DeleteEdges()
         {
-            foreach (PPathwayLine line in m_relations)
+            foreach (PPathwayEdge line in m_relations)
             {
                 line.RemoveFromParent();
                 line.Dispose();

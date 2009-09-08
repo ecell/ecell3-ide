@@ -73,7 +73,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// Normal edge width.
         /// </summary>
-        private float _normalEdgeWidth = PPathwayLine.LINE_WIDTH;
+        private float _normalEdgeWidth = PPathwayEdge.LINE_WIDTH;
         /// <summary>
         /// Max edge width on edge animation.
         /// </summary>
@@ -362,9 +362,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void SetAnimationStatus()
         {
             if (_con.IsAnimation)
+            {
                 SetAnimation();
+                if (_items.Count > 0 &&
+                    (_con.ProjectStatus == ProjectStatus.Running ||
+                    _con.ProjectStatus == ProjectStatus.Stepping ||
+                    _con.ProjectStatus == ProjectStatus.Suspended))
+                    TimerStart();
+            }
             else
+            {
                 ResetAnimation();
+            }
+
         }
 
         /// <summary>

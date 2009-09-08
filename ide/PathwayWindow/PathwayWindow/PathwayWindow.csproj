@@ -205,7 +205,7 @@
     <Compile Include="Exceptions\NoSuchComponentClassException.cs" />
     <Compile Include="Exceptions\NoSuchComponentKindException.cs" />
     <Compile Include="Exceptions\PathwayException.cs" />
-    <Compile Include="Nodes\PPathwayLine.cs" />
+    <Compile Include="Nodes\PPathwayEdge.cs" />
     <Compile Include="Graphics\GraphicsExporter.cs" />
     <Compile Include="Graphics\SVGUtil.cs" />
     <Compile Include="PathUtil.cs" />

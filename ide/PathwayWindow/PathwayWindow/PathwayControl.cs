@@ -1110,7 +1110,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             // Delete Selected Line
             bool delete = false;
-            PPathwayLine line = m_canvas.LineHandler.SelectedLine;
+            PPathwayEdge line = m_canvas.LineHandler.SelectedLine;
             if (line != null)
             {
                 NotifyVariableReferenceChanged(

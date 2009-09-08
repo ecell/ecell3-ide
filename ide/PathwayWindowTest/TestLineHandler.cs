@@ -46,7 +46,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         [Test()]
         public void TestAddSelectedLine()
         {
-            Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayLine line = null;
+            Ecell.IDE.Plugins.PathwayWindow.Nodes.PPathwayEdge line = null;
             _unitUnderTest.AddSelectedLine(line);
             Assert.Fail("Create or modify test(s).");
 

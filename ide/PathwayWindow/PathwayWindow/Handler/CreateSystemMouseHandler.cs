@@ -145,7 +145,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (e.Button != MouseButtons.Left)
                 return;
             // if PickedNode 
-            if (e.PickedNode is PPathwayObject || e.PickedNode is PPathwayLine)
+            if (e.PickedNode is PPathwayObject || e.PickedNode is PPathwayEdge)
                 return;
 
             m_canvas = m_con.Canvas;

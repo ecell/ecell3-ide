@@ -163,7 +163,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             // Set Line
             CanvasControl canvas = m_con.Canvas;
-            PPathwayLine line = canvas.LineHandler.Line4Reconnect;
+            PPathwayEdge line = canvas.LineHandler.Line4Reconnect;
             line.Info.LineType = type;
             line.Info.Direction = direction;
             canvas.LineHandler.VarPoint = e.Position;

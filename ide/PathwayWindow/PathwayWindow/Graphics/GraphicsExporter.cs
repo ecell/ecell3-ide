@@ -96,7 +96,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             if (obj is PPathwayProcess)
             {
                 PPathwayProcess process = (PPathwayProcess)obj;
-                foreach (PPathwayLine line in process.Relations)
+                foreach (PPathwayEdge line in process.Relations)
                     if (line.Visible)
                         svgObj += CreateSVGLine(line);
                 if (process.ViewMode)
@@ -150,7 +150,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             return svgObj;
         }
 
-        private static string CreateSVGLine(PPathwayLine line)
+        private static string CreateSVGLine(PPathwayEdge line)
         {
             string obj = "";
             string brush = BrushManager.ParseBrushToString(line.Brush);
@@ -170,14 +170,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             switch (line.Info.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
-                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(varPoint, proPoint), brush, width);
+                    obj += SVGUtil.Polygon(PPathwayEdge.GetArrowPoints(proPoint, varPoint), brush, width);
+                    obj += SVGUtil.Polygon(PPathwayEdge.GetArrowPoints(varPoint, proPoint), brush, width);
                     break;
                 case EdgeDirection.Inward:
-                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
+                    obj += SVGUtil.Polygon(PPathwayEdge.GetArrowPoints(proPoint, varPoint), brush, width);
                     break;
                 case EdgeDirection.Outward:
-                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(varPoint, proPoint), brush, width);
+                    obj += SVGUtil.Polygon(PPathwayEdge.GetArrowPoints(varPoint, proPoint), brush, width);
                     break;
                 case EdgeDirection.None:
                     break;

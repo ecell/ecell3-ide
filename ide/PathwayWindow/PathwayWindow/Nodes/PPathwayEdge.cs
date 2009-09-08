@@ -41,7 +41,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// <summary>
     /// Line
     /// </summary>
-    public class PPathwayLine : PPathwayNode
+    public class PPathwayEdge : PPathwayNode
     {
         #region Constants
         /// <summary>
@@ -209,7 +209,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
-        public PPathwayLine(CanvasControl canvas)
+        public PPathwayEdge(CanvasControl canvas)
             : this(canvas, new EdgeInfo())
         {
         }
@@ -218,7 +218,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         /// <param name="canvas"></param>
         /// <param name="edgeInfo"></param>
-        public PPathwayLine(CanvasControl canvas, EdgeInfo edgeInfo)
+        public PPathwayEdge(CanvasControl canvas, EdgeInfo edgeInfo)
         {
             m_canvas = canvas;
             m_edgeInfo = edgeInfo;
@@ -233,7 +233,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="edgeInfo"></param>
         /// <param name="process"></param>
         /// <param name="variable"></param>
-        public PPathwayLine(CanvasControl canvas, EdgeInfo edgeInfo, PPathwayProcess process, PPathwayVariable variable)
+        public PPathwayEdge(CanvasControl canvas, EdgeInfo edgeInfo, PPathwayProcess process, PPathwayVariable variable)
             : this(canvas, edgeInfo)
         {
             m_variable = variable;

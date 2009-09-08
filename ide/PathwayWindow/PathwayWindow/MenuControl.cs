@@ -218,7 +218,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         void OnProjectStatusChange(object sender, EventArgs e)
         {
             bool menuFlag = m_con.ProjectStatus == ProjectStatus.Loaded;
-
+            bool unloaded = m_con.ProjectStatus == ProjectStatus.Uninitialized;
             // Set availability
             toolMenuExport.Enabled = menuFlag;
 
@@ -227,8 +227,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolMenuPaste.Enabled = menuFlag;
             toolMenuDelete.Enabled = menuFlag;
 
-            toolButtonAnimation.Enabled = menuFlag;
-            toolMenuAnimation.Enabled = menuFlag;
+            toolButtonAnimation.Visible = !unloaded;
+            toolButtonAnimation.Enabled = !unloaded; // menuFlag;
+            toolMenuAnimation.Enabled = !unloaded; //  menuFlag;
 
             // Set visibility.
             toolButtonSeparator2.Visible = menuFlag;
@@ -968,7 +969,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PNode node = m_con.Canvas.FocusNode;
             if (obj == node)
                 node = obj;
-            else if(!(node is PPathwayLine))
+            else if(!(node is PPathwayEdge))
                 node = null;
 
             bool isNull = (node == null);
@@ -979,18 +980,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isSystem = (node is PPathwaySystem);
             bool isText = (node is PPathwayText);
             bool isRoot = false;
-            bool isLine = (node is PPathwayLine);
+            bool isEdge = (node is PPathwayEdge);
             bool isOneway = true;
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
             bool isInsideRoot = m_con.Canvas.IsInsideRoot(m_con.MousePosition);
-            bool isMenuOn = m_con.ProjectStatus == ProjectStatus.Loaded;
+            bool isEditMode = m_con.ProjectStatus == ProjectStatus.Loaded;
             bool isSimulation = m_con.ProjectStatus == ProjectStatus.Running
                  || m_con.ProjectStatus == ProjectStatus.Suspended
                  ||  m_con.ProjectStatus == ProjectStatus.Stepping;
 
             // Set Popup menu visibility.
-            if (isNull || (!isNull && node.Offset == PointF.Empty))
+            if ((isObject && node.Offset == PointF.Empty) || isEdge || isNull)
             {
                 m_con.Canvas.PCanvas.ContextMenuStrip = this.PopupMenu;
             }
@@ -1009,9 +1010,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (eo.Key.Equals(Constants.delimiterPath))
                     isRoot = true;
             }
-            if (isLine)
+            if (isEdge)
             {
-                PPathwayLine line = (PPathwayLine)node;
+                PPathwayEdge line = (PPathwayEdge)node;
                 SetLineMenu(line);
                 isOneway = line.Info.Coefficient != 0;
                 isEffector = line.Info.Direction == EdgeDirection.None;
@@ -1029,29 +1030,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripIdShow.Visible = isObject;
             toolStripSeparator1.Visible = isObject;
             // Show Line menus.
-            toolStripOneWayArrow.Visible = isLine && !isOneway && isMenuOn;
-            toolStripAnotherArrow.Visible = isLine && isOneway && isMenuOn;
-            toolStripBidirArrow.Visible = isLine && (isOneway || isEffector) && isMenuOn;
-            toolStripConstant.Visible = isLine && !isEffector && isMenuOn;
-            toolStripDeleteArrow.Visible = isLine && isMenuOn;
+            toolStripOneWayArrow.Visible = isEdge && !isOneway && isEditMode;
+            toolStripAnotherArrow.Visible = isEdge && isOneway && isEditMode;
+            toolStripBidirArrow.Visible = isEdge && (isOneway || isEffector) && isEditMode;
+            toolStripConstant.Visible = isEdge && !isEffector && isEditMode;
+            toolStripDeleteArrow.Visible = isEdge && isEditMode;
             // Show Node / System edit menus.
-            toolStripCut.Visible = isObject && !isRoot && isMenuOn;
-            toolStripCopy.Visible = isObject && !isRoot && isMenuOn;
-            toolStripPaste.Visible = isCopiedObject && isInsideRoot && isMenuOn;
-            toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isMenuOn;
-            toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isMenuOn;
+            toolStripCut.Visible = isObject && !isRoot && isEditMode;
+            toolStripCopy.Visible = isObject && !isRoot && isEditMode;
+            toolStripPaste.Visible = isCopiedObject && isInsideRoot && isEditMode;
+            toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isEditMode;
+            toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isEditMode;
             // Set Alias
-            toolStripAlias.Visible = isVariable && isMenuOn;
-            toolStripDeleteAlias.Visible = isAlias && isMenuOn;
+            toolStripAlias.Visible = isVariable && isEditMode;
+            toolStripDeleteAlias.Visible = isAlias && isEditMode;
             // Set Text menu.
-            toolStripTextAlign.Visible = isText && isMenuOn;
+            toolStripTextAlign.Visible = isText && isEditMode;
             // Show Layer menu.
-            toolStripChangeLayer.Visible = isObject && !isRoot && isMenuOn;
+            toolStripChangeLayer.Visible = isObject && !isRoot && isEditMode;
             toolStripSetZOrder.Visible = isObject && !isRoot;
-            toolStripFigureSetting.Visible = isObject && isMenuOn;
-            toolStripShowID.Visible = isNull && isMenuOn;
-            toolStripSetHandIcon.Visible = isNull && isMenuOn;
-            toolStripAnimationSetting.Visible = isNull && (isMenuOn || isSimulation);
+            toolStripFigureSetting.Visible = isObject && isEditMode;
+            toolStripShowID.Visible = isNull && isEditMode;
+            toolStripSetHandIcon.Visible = isNull && isEditMode;
+            toolStripAnimationSetting.Visible = isNull;
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
@@ -1101,7 +1102,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Set line menu.
         /// </summary>
         /// <param name="line"></param>
-        private void SetLineMenu(PPathwayLine line)
+        private void SetLineMenu(PPathwayEdge line)
         {
             EdgeDirection direction = line.Info.Direction;
 
@@ -1284,7 +1285,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (canvas == null)
                 return;
             // Selected Line
-            PPathwayLine line = canvas.LineHandler.SelectedLine;
+            PPathwayEdge line = canvas.LineHandler.SelectedLine;
             if (line == null)
                 return;
             canvas.ResetSelectedLine();

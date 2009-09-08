@@ -74,7 +74,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// selected line
         /// </summary>
-        PPathwayLine m_selectedLine = null;
+        PPathwayEdge m_selectedLine = null;
 
         /// <summary>
         /// Line handle on the end for a variable
@@ -89,7 +89,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Line for reconnecting.
         /// </summary>
-        PPathwayLine m_line4reconnect = null;
+        PPathwayEdge m_line4reconnect = null;
 
         /// <summary>
         /// Stack for nodes under the mouse.
@@ -102,7 +102,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
-        public PPathwayLine SelectedLine
+        public PPathwayEdge SelectedLine
         {
             get { return m_selectedLine; }
         }
@@ -110,7 +110,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Accessor for m_line4reconnect.
         /// </summary>
-        public PPathwayLine Line4Reconnect
+        public PPathwayEdge Line4Reconnect
         {
             get { return m_line4reconnect; }
         }
@@ -161,7 +161,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
-            m_line4reconnect = new PPathwayLine(m_canvas);
+            m_line4reconnect = new PPathwayEdge(m_canvas);
             m_line4reconnect.SetEdge(LINE_BRUSH, 2);
             m_line4reconnect.Pickable = false;
         }
@@ -173,7 +173,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// Select this line on this canvas.
         /// </summary>
         /// <param name="line"></param>
-        public void AddSelectedLine(PPathwayLine line)
+        public void AddSelectedLine(PPathwayEdge line)
         {
             if (line == null)
                 return;
