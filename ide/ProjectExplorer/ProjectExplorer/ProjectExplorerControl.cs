@@ -1995,9 +1995,19 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
                 EcellObject cobj = t.Clone();
                 if (systemPath.Equals("/"))
-                    cobj.Key = "/" + t.LocalID;
+                {
+                    if (t.Type.Equals(Constants.xpathSystem))
+                        cobj.Key = "/" + t.LocalID;
+                    else
+                        cobj.Key = "/:" + t.LocalID;
+                }
                 else
-                    cobj.Key = systemPath + "/" + t.LocalID;
+                {
+                    if (t.Type.Equals(Constants.xpathSystem))
+                        cobj.Key = systemPath + "/" + t.LocalID;
+                    else
+                        cobj.Key = systemPath + ":" + t.LocalID;
+                }
                 if (cobj.Key.Equals(t.Key)) continue;
                 EcellObject ch = m_owner.DataManager.GetEcellObject(cobj.ModelID, cobj.Key, cobj.Type);
                 if (ch != null)
