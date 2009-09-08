@@ -34,7 +34,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-using IronPython.Hosting;
+using Python.Runtime;
 
 using Ecell;
 using Ecell.Plugin;

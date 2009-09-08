@@ -370,7 +370,7 @@ namespace Ecell
         public void ExecuteScript(string fileName)
         {
             int i = 0;
-            PythonEngine.Initialize();
+            PythonEngine.InitExt();
 
             string scriptFile = fileName;
             m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
@@ -380,7 +380,7 @@ namespace Ecell
             i = PythonEngine.RunSimpleString("import getopt");
             i = PythonEngine.RunSimpleString("import code");
             i = PythonEngine.RunSimpleString("import os");
-            i = PythonEngine.RunSimpleString("from EcellLib import *");
+            i = PythonEngine.RunSimpleString("from EcellIDE import *");
 
             i = PythonEngine.RunSimpleString("aSession = Session()");
 
@@ -391,7 +391,8 @@ namespace Ecell
                             "    aDict[ aKey ] = getattr (aSession, aKey)";
             i = PythonEngine.RunSimpleString(ddd);
             i = PythonEngine.RunSimpleString("aContext.update( aDict )");
-            string res = fileName.Replace("\\", "\\\\");
+            string res = fileName;
+            res = res.Replace("\\", "\\\\");
             i = PythonEngine.RunSimpleString("execfile('" + res + "', aContext)");            
 
             //PythonEngine m_engine = new PythonEngine();

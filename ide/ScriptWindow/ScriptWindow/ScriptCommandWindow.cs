@@ -43,7 +43,7 @@ using System.Windows.Forms;
 using Ecell;
 using Ecell.Logging;
 
-using IronPython.Hosting;
+using Python.Runtime;
 using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.ScriptWindow
@@ -63,10 +63,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// Event when auto command is reset.
             /// </summary>
             private AutoResetEvent m_event;
-            /// <summary>
-            /// Python engine.
-            /// </summary>
-            private PythonEngine m_engine;
             /// <summary>
             /// command string.
             /// </summary>
@@ -125,10 +121,28 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// Constructors.
             /// </summary>
             /// <param name="engine">Python engine.</param>
-            public ScriptRunner(PythonEngine engine)
+            public ScriptRunner()
             {
+                int i;
                 m_event = new AutoResetEvent(false);
-                m_engine = engine;
+                PythonEngine.InitExt();
+
+                i = PythonEngine.RunSimpleString("import sys");
+                i = PythonEngine.RunSimpleString("import getopt");
+                i = PythonEngine.RunSimpleString("import code");
+                i = PythonEngine.RunSimpleString("import os");
+                i = PythonEngine.RunSimpleString("from EcellIDE import *");
+
+                i = PythonEngine.RunSimpleString("aSession = Session()");
+
+                i = PythonEngine.RunSimpleString("aContext = { 'self': aSession }");
+                i = PythonEngine.RunSimpleString("aKeyList = list ( aSession.__dict__.keys() + aSession.__class__.__dict__.keys() )");
+                i = PythonEngine.RunSimpleString("aDict = {}");
+                string ddd = "for aKey in aKeyList:\n" +
+                                "    aDict[ aKey ] = getattr (aSession, aKey)";
+                i = PythonEngine.RunSimpleString(ddd);
+                i = PythonEngine.RunSimpleString("aContext.update( aDict )");
+
             }
 
             /// <summary>
@@ -138,11 +152,11 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             public void Execute(string cmd)
             {
                 Debug.Assert(cmd != null);
-                lock (this)
-                {
-                    m_command = cmd;
-                    m_event.Set();
-                }
+                //lock (this)
+                //{
+                    File.WriteAllText("tmp.cmd", cmd);
+                    PythonEngine.RunSimpleString("execfile('tmp.cmd', aContext)");
+                //}
             }
 
             /// <summary>
@@ -171,7 +185,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                     ScriptExecutionStarted(this, new EventArgs());
                     try
                     {
-                        m_engine.ExecuteToConsole(m_command);
+//                        PythonEngine.RunSimpleString(m_command);
+                        File.WriteAllText("tmp.cmd", m_command);
+                        PythonEngine.RunSimpleString("execfile('tmp.cmd', aContext)");
                     }
                     catch (Exception e)
                     {
@@ -269,7 +285,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// <summary>
         /// Thread object.
         /// </summary>
-        private Thread m_scriptRunnerThread;
+//        private Thread m_scriptRunnerThread;
         #endregion
 
         #region Constructor
@@ -299,13 +315,13 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             m_interactionContinued = false;
             m_currentPromptCharCount = 0;
             {
-                EngineOptions options = new EngineOptions();
-                options.ShowClrExceptions = false;
-                options.ClrDebuggingEnabled = false;
-                options.ExceptionDetail = false;
-                m_engine = new PythonEngine(options);
+                //EngineOptions options = new EngineOptions();
+                //options.ShowClrExceptions = false;
+                //options.ClrDebuggingEnabled = false;
+                //options.ExceptionDetail = false;
+                //m_engine = new PythonEngine(options);
             }
-            m_scriptRunner = new ScriptRunner(m_engine);
+            m_scriptRunner = new ScriptRunner();
             m_scriptRunner.ScriptExecutionStarted +=
                 delegate(object obj, EventArgs e)
                 {
@@ -332,21 +348,21 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                         }
                      ));
                 };
-            m_engine.Sys.DefaultEncoding = Encoding.UTF8;
-            m_engine.SetStandardOutput(m_consoleOutput);
-            m_engine.SetStandardError(m_consoleOutput);
-            m_engine.AddToPath(Util.GetBinDir());
+            //m_engine.Sys.DefaultEncoding = Encoding.UTF8;
+            //m_engine.SetStandardOutput(m_consoleOutput);
+            //m_engine.SetStandardError(m_consoleOutput);
+            //m_engine.AddToPath(Util.GetBinDir());
             ResetCommandLineControl();
             //m_engine.Execute("from EcellIDE import *;");
             Flush();
-            m_scriptRunnerThread = new Thread(new ThreadStart(m_scriptRunner.Run));
+//            m_scriptRunnerThread = new Thread(new ThreadStart(m_scriptRunner.Run));
             Disposed +=
                 delegate(object o, EventArgs e)
                 {
                     m_scriptRunner.Stop();
-                    m_scriptRunnerThread.Join();
+                    //m_scriptRunnerThread.Join();
                 };
-            m_scriptRunnerThread.Start();
+//            m_scriptRunnerThread.Start();
             WriteHeader();
         }
         #endregion
@@ -506,7 +522,8 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// <param name="file">the loaded file.</param>
         public void ExecuteFile(string file)
         {
-            m_engine.ExecuteFile(file);
+            //m_engine.ExecuteFile(file);
+            PythonEngine.RunSimpleString("execfile(\"" + file + "\", aContent"); 
             Flush();
         }
 
@@ -527,7 +544,8 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         private void ReportException(Exception e)
         {
             SetTextStyle(null, Color.DarkSalmon);
-            WriteToConsole(m_engine.FormatException(e));
+            //WriteToConsole(m_engine.FormatException(e));
+            WriteToConsole(e.Message);
             SetTextStyle(null, Color.Empty);
             SWMessageText.ScrollToCaret();
         }
@@ -573,8 +591,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// <returns></returns>
         private string GetCurrentPrompt()
         {
-            return (string)(m_interactionContinued ?
-                    m_engine.Sys.ps2 : m_engine.Sys.ps1);
+            return ">>>";
+            //return (string)(m_interactionContinued ?
+            //        m_engine.Sys.ps2 : m_engine.Sys.ps1);
         }
 
         /// <summary>
@@ -592,11 +611,11 @@ namespace Ecell.IDE.Plugins.ScriptWindow
 
             try
             {
-                if (!m_engine.ParseInteractiveInput(cmd, false))
-                {
-                    m_interactionContinued = true;
-                    return;
-                }
+                //if (!m_engine.ParseInteractiveInput(cmd, false))
+                //{
+                //    m_interactionContinued = true;
+                //    return;
+                //}
                 m_scriptRunner.Execute(m_statementBuffer.ToString());
             }
             catch (Exception e)

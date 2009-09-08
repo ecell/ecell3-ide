@@ -424,6 +424,32 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Write the save logger entry for Unix script.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="saveList">the list of saved object.</param>
+        /// <param name="topdir">the top directory.</param>
+        public void WriteLoggerSaveEntryLocal(string fileName, Encoding enc, int jobID,
+            List<SaveLoggerProperty> saveList, string topdir)
+        {
+            File.AppendAllText(fileName, "\n# Save logging\n", enc);
+            if (saveList == null)
+                return;
+            foreach (SaveLoggerProperty s in saveList)
+            {
+                if (topdir == null)
+                    topdir = s.DirName;
+                string dir = topdir + "/";
+                File.AppendAllText(
+                    fileName,
+                    "saveLoggerData(\"" + s.FullPath + "\",\"" + dir + "\"," +
+                    s.Start + "," + s.End + ")\n",
+                    enc);
+            }
+        }
+
+        /// <summary>
         /// Write componentn property for Unix script.
         /// </summary>
         /// <param name="fileName">script file name.</param>

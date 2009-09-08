@@ -1314,7 +1314,7 @@ namespace Ecell.Job
                 writer.WriteSimulationForStepUnix(fileName, (int)(count), enc);
             else
                 writer.WriteSimulationForTimeUnix(fileName, count, enc);
-            writer.WriteLoggerSaveEntryUnix(fileName, enc, jobID,
+            writer.WriteLoggerSaveEntryLocal(fileName, enc, jobID,
                 m_logList, Proxy.GetData(GlobusJob.TOPDIR_NAME));
         }
 
