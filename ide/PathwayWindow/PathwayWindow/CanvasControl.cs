@@ -744,7 +744,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="system"></param>
         /// <param name="obj"></param>
         /// <param name="isDataChanged"></param>
-        private void MakeSpace(PPathwaySystem system, PPathwayObject obj, bool isDataChanged)
+        internal void MakeSpace(PPathwaySystem system, PPathwayObject obj, bool isDataChanged)
         {
             // Offset position of given object.
             PointF offset = PointF.Empty;

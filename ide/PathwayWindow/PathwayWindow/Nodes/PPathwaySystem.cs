@@ -38,6 +38,7 @@ using System.Drawing;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.Objects;
 using UMD.HCIL.Piccolo;
+using System.Collections.Generic;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -284,22 +285,59 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             else
                 return false;
         }
+
         /// <summary>
-        /// Check if this PSystem's region overlaps given rectangle
+        /// 
         /// </summary>
-        /// <param name="rect">RectangleF to be checked</param>
-        /// <returns>True if each rectangle overlaps other rectangle
-        /// (doesn't contain whole rectangle)</returns>
-        public virtual bool Contains(RectangleF rect)
+        /// <param name="e"></param>
+        public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-            if (this.Rect.Contains(rect) && rect.Contains(this.Rect))
-                return true;
-            else if (this.Rect.IntersectsWith(rect))
-                return true;
-            else if (this.Rect.Contains(rect) || rect.Contains(this.Rect))
-                return true;
-            else
-                return false;
+            base.OnDoubleClick(e);
+            if(m_canvas == null || m_ecellObj == null)
+                return;
+
+            List<PPathwayObject> list = m_canvas.GetAllObjectUnder(m_ecellObj.Key);
+            if (list.Count <= 0)
+                return;
+
+            // Get smallest rect.
+            float minX = list[0].Left;
+            float minY = list[0].Top;
+            float maxX = list[0].Right;
+            float maxY = list[0].Bottom;
+            foreach (PPathwayObject obj in list)
+            {
+                if (obj.Left < minX)
+                    minX = obj.Left;
+                if (obj.Top < minY)
+                    minY = obj.Top;
+                if (obj.Right > maxX)
+                    maxX = obj.Right;
+                if (obj.Bottom > maxY)
+                    maxY = obj.Bottom;
+            }
+
+            // return when no change.
+            float margin = SYSTEM_MARGIN / 2f + 1; // + 1 to avoid calculation error
+            if (this.Left >= minX - margin &&
+                this.Top >= minY - margin &&
+                this.Right <= maxX + margin &&
+                this.Bottom <= maxY + margin)
+                return;
+
+            // set new size. 
+            margin = SYSTEM_MARGIN / 2f;
+            if (this.Left < minX - margin)
+                this.X = minX - margin;
+            if (this.Top < minY - margin)
+                this.Y = minY - margin;
+            if (this.Right > maxX + margin)
+                this.Width = maxX + margin - this.X;
+            if (this.Bottom > maxY + margin)
+                this.Height = maxY + margin - this.Y;
+
+            // DataChange
+            m_canvas.Control.NotifyDataChanged(this, true);
         }
         #endregion
     }    
