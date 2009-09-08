@@ -619,6 +619,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Complete to save {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoExportFile {
+            get {
+                return ResourceManager.GetString("InfoExportFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Model {0} was loaded. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoLoadModel {

@@ -35,6 +35,7 @@ using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
 using Ecell.Exceptions;
+using System.Threading;
 
 namespace Ecell.IDE
 {
@@ -52,15 +53,28 @@ namespace Ecell.IDE
         /// <param name="filePath"></param>
         public void ZipFile(string zipname, string filePath)
         {
+            output = zipname;
+            input = filePath;
 
+            Thread thread = new Thread(new ThreadStart(ZipFile));
+            thread.Start();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ZipFile()
+        {
             try
             {
                 FastZip fz = new FastZip();
-                fz.CreateZip(zipname, filePath, false, "");
+                fz.CreateZip(output, input, false, "");
+
+                Util.ShowNoticeDialog(string.Format(MessageResources.InfoExportFile, output));
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new EcellException(string.Format(MessageResources.ErrSaveZip, zipname), e);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrSaveZip, output));
             }
 
         }
@@ -72,14 +86,28 @@ namespace Ecell.IDE
         /// <param name="folderPath"></param>
         public void ZipFolder(string zipname, string folderPath)
         {
+            output = zipname;
+            input = folderPath;
+
+            Thread thread = new Thread(new ThreadStart(ZipFolder));
+            thread.Start();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ZipFolder()
+        {
             try
             {
                 FastZip fz = new FastZip();
-                fz.CreateZip(zipname, folderPath, true, "", "");
+                fz.CreateZip(output, input, true, "", "");
+
+                Util.ShowNoticeDialog(string.Format(MessageResources.InfoExportFile, output));
             }
             catch (Exception e)
             {
-                throw new EcellException(string.Format(MessageResources.ErrSaveZip, zipname), e);
+                throw new EcellException(string.Format(MessageResources.ErrSaveZip, output), e);
             }
 
         }

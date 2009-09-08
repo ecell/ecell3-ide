@@ -389,4 +389,7 @@ New revision {0}:{1} was created.</value>
   <data name="ErrCreRevision" xml:space="preserve">
     <value>Cannot create the revision ({0}).</value>
   </data>
+  <data name="InfoExportFile" xml:space="preserve">
+    <value>Complete to save {0}.</value>
+  </data>
 </root>

@@ -387,4 +387,7 @@
   <data name="ErrCreRevision" xml:space="preserve">
     <value>リビジョン {0} を作成できません。</value>
   </data>
+  <data name="InfoExportFile" xml:space="preserve">
+    <value>{0}の保存を完了しました。</value>
+  </data>
 </root>
