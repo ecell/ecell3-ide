@@ -403,9 +403,12 @@
     <value>コンポーネント設定</value>
   </data>
   <data name="WarnExtValue" xml:space="preserve">
-    <value>この値は最小値以下か最大値以上になりました</value>
+    <value>この値は最小値以下か最大値以上になりました。</value>
   </data>
   <data name="ErrMaxSize" xml:space="preserve">
     <value>アニメーションファイルが最大サイズを超えました。</value>
+  </data>
+  <data name="ErrMaxThreshold" xml:space="preserve">
+    <value>上限値は下限値よりも大きい必要があります。</value>
   </data>
 </root>
