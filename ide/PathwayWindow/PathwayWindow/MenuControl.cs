@@ -985,6 +985,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
             bool isInsideRoot = m_con.Canvas.IsInsideRoot(m_con.MousePosition);
             bool isMenuOn = m_con.ProjectStatus == ProjectStatus.Loaded;
+            bool isSimulation = m_con.ProjectStatus == ProjectStatus.Running
+                 || m_con.ProjectStatus == ProjectStatus.Suspended
+                 ||  m_con.ProjectStatus == ProjectStatus.Stepping;
 
             // Set Popup menu visibility.
             if (isNull || (!isNull && node.Offset == PointF.Empty))
@@ -995,7 +998,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 m_con.Canvas.PCanvas.ContextMenuStrip = null;
             }
-
 
             // Set popup menu text.
             if (isObject)
@@ -1049,7 +1051,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripFigureSetting.Visible = isObject && isMenuOn;
             toolStripShowID.Visible = isNull && isMenuOn;
             toolStripSetHandIcon.Visible = isNull && isMenuOn;
-            toolStripAnimationSetting.Visible = isNull && isMenuOn;
+            toolStripAnimationSetting.Visible = isNull && (isMenuOn || isSimulation);
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;

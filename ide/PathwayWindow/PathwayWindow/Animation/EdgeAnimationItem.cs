@@ -428,6 +428,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 e.Cancel = true;
                 return;
             }
+            if (dummy < _thresholdLow)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrMaxThreshold);
+                thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
+                e.Cancel = true;
+                return;
+            }
         }
 
         void LowThresholdValidating(object sender, System.ComponentModel.CancelEventArgs e)

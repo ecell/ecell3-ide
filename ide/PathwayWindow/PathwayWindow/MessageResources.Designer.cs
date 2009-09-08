@@ -529,6 +529,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   High threshold must be larger than Low Threshold. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrMaxThreshold {
+            get {
+                return ResourceManager.GetString("ErrMaxThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoInput {

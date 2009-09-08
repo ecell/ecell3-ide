@@ -227,6 +227,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     if (f.Length > m_MaxSize * 1000)
                     {
                         Util.ShowErrorDialog(MessageResources.ErrMaxSize);
+                        CloseMovie();
                     }
                 }
             }

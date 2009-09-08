@@ -408,4 +408,7 @@
   <data name="ErrMaxSize" xml:space="preserve">
     <value>Animation file is over the max file size.</value>
   </data>
+  <data name="ErrMaxThreshold" xml:space="preserve">
+    <value>High threshold must be larger than Low Threshold.</value>
+  </data>
 </root>
