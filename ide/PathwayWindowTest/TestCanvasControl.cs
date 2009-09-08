@@ -633,8 +633,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestUpdateOverviewAfterTime()
         {
-            int miliSec = 0;
-            _unitUnderTest.UpdateOverviewAfterTime(miliSec);
+            _unitUnderTest.UpdateOverviewAfterTime();
             Assert.Fail("Create or modify test(s).");
 
         }

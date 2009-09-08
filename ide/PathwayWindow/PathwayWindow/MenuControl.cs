@@ -967,9 +967,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set popup menu visibility flags.
             PPathwayObject obj = m_con.Canvas.GetPickedObject(m_con.MousePosition);
             PNode node = m_con.Canvas.FocusNode;
-            if (obj == node)
-                node = obj;
-            else if(!(node is PPathwayEdge))
+            if((obj != node) && !(node is PPathwayEdge))
                 node = null;
 
             bool isNull = (node == null);
@@ -993,11 +991,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set Popup menu visibility.
             if ((isObject && node.Offset == PointF.Empty) || isEdge || isNull)
             {
-                m_con.Canvas.PCanvas.ContextMenuStrip = this.PopupMenu;
+                m_con.Canvas.PCanvas.ContextMenuStrip.Enabled = true;
             }
             else
             {
-                m_con.Canvas.PCanvas.ContextMenuStrip = null;
+                m_con.Canvas.PCanvas.ContextMenuStrip.Enabled = false;
             }
 
             // Set popup menu text.
@@ -1052,7 +1050,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripFigureSetting.Visible = isObject && isEditMode;
             toolStripShowID.Visible = isNull && isEditMode;
             toolStripSetHandIcon.Visible = isNull && isEditMode;
-            toolStripAnimationSetting.Visible = isNull;
+            toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;

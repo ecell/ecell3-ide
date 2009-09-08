@@ -1531,7 +1531,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 filename = m_saveFileDialog.FileName;
-                ZipUtil.ZipFolder(filename, dir);
+                ZipUtil zip = new ZipUtil();
+                zip.ZipFolder(filename, dir);
             }
         }
 
@@ -2073,6 +2074,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void contextMenuStripRevision_Opening(object sender, CancelEventArgs e)
+        {
+            ContextMenuStrip node = (ContextMenuStrip)sender;
+            exportRevisionZipMenuItem.Enabled = !Constants.xpathCurrent.Equals((string)m_lastSelectedNode.Tag);
+        }
 
     }
 

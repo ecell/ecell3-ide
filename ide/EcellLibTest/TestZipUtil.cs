@@ -72,7 +72,7 @@ namespace Ecell
             filePath = null;
             try
             {
-                ZipUtil.ZipFile(zipname, filePath);
+                _unitUnderTest.ZipFile(zipname, filePath);
                 Assert.Fail("Failed to catch invalid file error.");
             }
             catch (EcellException e)
@@ -84,7 +84,7 @@ namespace Ecell
             filePath = "";
             try
             {
-                ZipUtil.ZipFile(zipname, filePath);
+                _unitUnderTest.ZipFile(zipname, filePath);
                 Assert.Fail("Failed to catch invalid file error.");
             }
             catch (EcellException e)
@@ -94,11 +94,11 @@ namespace Ecell
 
             zipname = TestConstant.TestDirectory + "rbc.zip";
             filePath = TestConstant.Model_RBC;
-            ZipUtil.ZipFile(zipname, filePath);
+            _unitUnderTest.ZipFile(zipname, filePath);
 
             zipname = TestConstant.TestDirectory + "test.zip";
             filePath = "";
-            ZipUtil.ZipFile(zipname, filePath);
+            _unitUnderTest.ZipFile(zipname, filePath);
         }
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace Ecell
         {
             string zipname = TestConstant.TestDirectory + "Drosophila.zip";
             string folderPath = TestConstant.TestDirectory + "Drosophila";
-            ZipUtil.ZipFolder(zipname, folderPath);
+            _unitUnderTest.ZipFolder(zipname, folderPath);
 
             try
             {
                 zipname = "";
-                ZipUtil.ZipFolder(zipname, folderPath);
+                _unitUnderTest.ZipFolder(zipname, folderPath);
             }
             catch(Exception)
             {

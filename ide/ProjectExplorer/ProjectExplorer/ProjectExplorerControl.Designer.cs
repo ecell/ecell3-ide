@@ -396,6 +396,7 @@
             this.exportRevisionZipMenuItem});
             this.contextMenuStripRevision.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripRevision, "contextMenuStripRevision");
+            this.contextMenuStripRevision.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripRevision_Opening);
             // 
             // loadRevisionMenuItem
             // 

@@ -43,13 +43,16 @@ namespace Ecell.IDE
     /// </summary>
     public class ZipUtil
     {
+        private string output = null;
+        private string input = null;
         /// <summary>
         /// Save Zipped File.
         /// </summary>
         /// <param name="zipname"></param>
         /// <param name="filePath"></param>
-        public static void ZipFile(string zipname, string filePath)
+        public void ZipFile(string zipname, string filePath)
         {
+
             try
             {
                 FastZip fz = new FastZip();
@@ -67,7 +70,7 @@ namespace Ecell.IDE
         /// </summary>
         /// <param name="zipname"></param>
         /// <param name="folderPath"></param>
-        public static void ZipFolder(string zipname, string folderPath)
+        public void ZipFolder(string zipname, string folderPath)
         {
             try
             {

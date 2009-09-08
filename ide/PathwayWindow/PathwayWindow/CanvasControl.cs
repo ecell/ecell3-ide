@@ -67,7 +67,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Duration for camera centering animation when a node is selected.
         /// this will be used for the argument of PCamera.AnimateViewToCenterBounds()
         /// </summary>
-        private const int CAMERA_ANIM_DURATION = 700;
+        private const int CAMERA_ANIM_DURATION = 50;
 
         /// <summary>
         /// Minimum scale.
@@ -1678,27 +1678,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Move camera view.
-            if (m_focusMode && obj.Visible)
-            {
-                RectangleF centerBounds = PathUtil.GetFocusBound(obj.Rect, m_pCanvas.Camera.ViewBounds);
-                m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
-                                                 true,
-                                                 CAMERA_ANIM_DURATION);
-                //UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
-            }
+            if (!m_focusMode || !obj.Visible)
+                return;
+            viewRect = obj.Rect;
+            UpdateOverviewAfterTime();
 
         }
         #endregion
 
+        private RectangleF viewRect;
+        private int count = 0;
         /// <summary>
         /// Call the UpdateOverview() method after a certain time passed
         /// </summary>
         /// <param name="miliSec">Called after this time passed</param>
-        public void UpdateOverviewAfterTime(int miliSec)
+        public void UpdateOverviewAfterTime()
         {
+            RectangleF centerBounds = PathUtil.GetFocusBound(viewRect, m_pCanvas.Camera.ViewBounds);
+            m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
+                                             true,
+                                             CAMERA_ANIM_DURATION);
+
             Timer timer = new Timer();
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = miliSec;
+            timer.Interval = CAMERA_ANIM_DURATION;
             timer.Start();
         }
 
@@ -1711,6 +1714,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             Timer timer = ((Timer)sender);
             m_con.Menu.Zoom(1f);
+            count++;
+            
+            if (count < 20)
+                return;
+
             timer.Stop();
             timer.Dispose();
         }
