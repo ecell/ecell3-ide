@@ -120,7 +120,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// <summary>
             /// Constructors.
             /// </summary>
-            /// <param name="engine">Python engine.</param>
             public ScriptRunner()
             {
                 int i;
@@ -151,12 +150,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// <param name="cmd">the script command.</param>
             public void Execute(string cmd)
             {
-                Debug.Assert(cmd != null);
-                //lock (this)
-                //{
-                    File.WriteAllText("tmp.cmd", cmd);
-                    PythonEngine.RunSimpleString("execfile('tmp.cmd', aContext)");
-                //}
+                string name = Util.GetTmpDir() + "/tmp.cmd";
+                File.WriteAllText(name, cmd);                
+                PythonEngine.RunSimpleString("execfile('" + name + "', aContext)");
             }
 
             /// <summary>
@@ -168,32 +164,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 {
                     m_command = null;
                     m_event.Set();
-                }
-            }
-
-            /// <summary>
-            /// Run the script commnad.
-            /// </summary>
-            public void Run()
-            {
-                for (;;)
-                {
-                    Exception stopReason = null;
-                    m_event.WaitOne();
-                    if (m_command == null)
-                        break;
-                    ScriptExecutionStarted(this, new EventArgs());
-                    try
-                    {
-//                        PythonEngine.RunSimpleString(m_command);
-                        File.WriteAllText("tmp.cmd", m_command);
-                        PythonEngine.RunSimpleString("execfile('tmp.cmd', aContext)");
-                    }
-                    catch (Exception e)
-                    {
-                        stopReason = e;
-                    }
-                    ScriptExecutionStopped(this, new StopEventArgs(stopReason));
                 }
             }
         }
@@ -243,10 +213,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
 
         #region Fields
         /// <summary>
-        /// Python egine.
-        /// </summary>
-        private PythonEngine m_engine;
-        /// <summary>
         /// Stream the console output.
         /// </summary>
         private NotifyingMemoryStream m_consoleOutput;
@@ -275,17 +241,9 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// </summary>
         private int m_currentPromptCharCount;
         /// <summary>
-        ///  The flag whether interaction is continued.
-        /// </summary>
-        private bool m_interactionContinued;
-        /// <summary>
         /// Script execute object.
         /// </summary>
         private ScriptRunner m_scriptRunner;
-        /// <summary>
-        /// Thread object.
-        /// </summary>
-//        private Thread m_scriptRunnerThread;
         #endregion
 
         #region Constructor
@@ -312,15 +270,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                     SWCommandText.Invoke(new MethodInvoker(Flush));
                 };
             m_statementBuffer = new StringBuilder();
-            m_interactionContinued = false;
             m_currentPromptCharCount = 0;
-            {
-                //EngineOptions options = new EngineOptions();
-                //options.ShowClrExceptions = false;
-                //options.ClrDebuggingEnabled = false;
-                //options.ExceptionDetail = false;
-                //m_engine = new PythonEngine(options);
-            }
             m_scriptRunner = new ScriptRunner();
             m_scriptRunner.ScriptExecutionStarted +=
                 delegate(object obj, EventArgs e)
@@ -348,21 +298,13 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                         }
                      ));
                 };
-            //m_engine.Sys.DefaultEncoding = Encoding.UTF8;
-            //m_engine.SetStandardOutput(m_consoleOutput);
-            //m_engine.SetStandardError(m_consoleOutput);
-            //m_engine.AddToPath(Util.GetBinDir());
             ResetCommandLineControl();
-            //m_engine.Execute("from EcellIDE import *;");
             Flush();
-//            m_scriptRunnerThread = new Thread(new ThreadStart(m_scriptRunner.Run));
             Disposed +=
                 delegate(object o, EventArgs e)
                 {
                     m_scriptRunner.Stop();
-                    //m_scriptRunnerThread.Join();
                 };
-//            m_scriptRunnerThread.Start();
             WriteHeader();
         }
         #endregion
@@ -522,7 +464,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// <param name="file">the loaded file.</param>
         public void ExecuteFile(string file)
         {
-            //m_engine.ExecuteFile(file);
             PythonEngine.RunSimpleString("execfile(\"" + file + "\", aContent"); 
             Flush();
         }
@@ -544,7 +485,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         private void ReportException(Exception e)
         {
             SetTextStyle(null, Color.DarkSalmon);
-            //WriteToConsole(m_engine.FormatException(e));
             WriteToConsole(e.Message);
             SetTextStyle(null, Color.Empty);
             SWMessageText.ScrollToCaret();
@@ -592,8 +532,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         private string GetCurrentPrompt()
         {
             return ">>>";
-            //return (string)(m_interactionContinued ?
-            //        m_engine.Sys.ps2 : m_engine.Sys.ps1);
         }
 
         /// <summary>
@@ -611,18 +549,12 @@ namespace Ecell.IDE.Plugins.ScriptWindow
 
             try
             {
-                //if (!m_engine.ParseInteractiveInput(cmd, false))
-                //{
-                //    m_interactionContinued = true;
-                //    return;
-                //}
                 m_scriptRunner.Execute(m_statementBuffer.ToString());
             }
             catch (Exception e)
             {
                 ReportException(e);
             }
-            m_interactionContinued = false;
             m_statementBuffer.Length = 0;
         }
     }

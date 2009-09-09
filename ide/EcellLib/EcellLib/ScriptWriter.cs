@@ -48,10 +48,6 @@ namespace Ecell
     public class ScriptWriter
     {
         /// <summary>
-        /// The number of Stepper.
-        /// </summary>
-        private int m_stepperCount = 0;
-        /// <summary>
         /// The number of System.
         /// </summary>
         private int m_sysCount = 0;
@@ -132,7 +128,6 @@ namespace Ecell
         /// </summary>
         public void ClearScriptInfo()
         {
-            m_stepperCount = 0;
             m_sysCount = 0;
             m_varCount = 0;
             m_proCount = 0;
@@ -166,7 +161,7 @@ namespace Ecell
         /// </summary>
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        /// <param name="modelName">model name.</param>
+        /// <param name="modelFile">model name.</param>
         public void WriteModelEntry(string fileName, Encoding enc, string modelFile)
         {
             File.AppendAllText(fileName, "loadModel(\"" + modelFile + "\")\n", enc); 
