@@ -53,7 +53,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        public const float TEXT_MARGIN = 10;
+        public const float MARGIN = 3;
         #endregion
 
         #region Fields
@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             base.m_pText.Text = "Text";
             base.m_pText.ConstrainWidthToTextWidth = false;
-            base.Height = m_pText.Height + TEXT_MARGIN;
+            base.Height = m_pText.Height + 2 * MARGIN;
         }
         #endregion
 
@@ -101,11 +101,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 base.X = text.X;
                 base.Y = text.Y;
                 base.Width = Math.Max(text.Width, MIN_WIDTH);
-                base.Height = m_pText.Height + TEXT_MARGIN;
+                base.Height = text.Height;
+                if (this.Height < m_pText.Height + MARGIN * 2)
+                    this.Height = m_pText.Height + MARGIN * 2;
                 this.m_resizeHandler.MinWidth = Math.Min(base.Width, MIN_WIDTH);
                 this.m_resizeHandler.MinHeight = Math.Min(base.Height, MIN_HEIGHT);
 
-                base.EcellObject = text;
+                this.m_ecellObj = value;
+                base.OffsetX = m_ecellObj.OffsetX;
+                base.OffsetY = m_ecellObj.OffsetY;
+                MemorizePosition();
+                //base.EcellObject = text;
                 RefreshView();
             }
         }
@@ -179,10 +185,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             if (this.m_ecellObj != null)
                 this.m_pText.Text = ((EcellText)m_ecellObj).Comment;
-            this.m_pText.X = base.X;
-            this.m_pText.Y = base.Y;
-            this.m_pText.Width = base.Width;
-            this.m_pText.Height = base.Height;
+            this.m_pText.X = base.X + MARGIN;
+            this.m_pText.Y = base.Y + MARGIN;
+            this.m_pText.Width = base.Width - 2* MARGIN;
+            this.m_pText.Height = base.Height - 2 * MARGIN;
             this.m_pText.MoveToFront();
         }
 
@@ -207,6 +213,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_canvas.PCanvas.Controls.Add(m_tbox);
             float viewScale = m_canvas.PCanvas.Camera.ViewScale;
             m_tbox.Text = base.m_pText.Text;
+            m_tbox.Font = m_pText.Font;
             m_tbox.Location = m_canvas.CanvasPosToSystemPos(pos);
             m_tbox.Width = (int)(base.Width * viewScale + 5);
             m_tbox.Height = (int)(base.Height * viewScale + 5);
@@ -243,6 +250,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             else if (!m_tbox.Text.Equals(((EcellText)m_ecellObj).Comment))
             {
                 m_pText.Text = m_tbox.Text;
+                if (this.Height < m_pText.Height + 2 * MARGIN)
+                    this.Height = m_pText.Height + 2 * MARGIN;
                 NotifyDataChanged();
             }
         }
@@ -256,8 +265,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             text.Comment = m_pText.Text;
             text.Alignment = m_pText.TextAlignment;
-            base.Width = m_pText.Width;
-            base.Height = m_pText.Height + TEXT_MARGIN;
+            base.Width = m_pText.Width + 2 * MARGIN;
+            base.Height = m_pText.Height + 2 * MARGIN;
 
             text.Layer = this.Layer.Name;
             text.X = this.X + this.OffsetX;
