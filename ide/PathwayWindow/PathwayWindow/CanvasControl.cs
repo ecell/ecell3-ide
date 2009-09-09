@@ -1747,6 +1747,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Zoom in/out this canvas.
         /// </summary>
         /// <param name="rate"></param>
+        public void ZoomAbsRate(float rate)
+        {
+            if (rate < MIN_SCALE || MAX_SCALE < rate)
+                rate = 1f;
+            else
+                rate = rate / m_pCanvas.Camera.ViewScale;
+
+            float zoomX = this.PCanvas.Camera.ViewBounds.X + (this.PCanvas.Camera.ViewBounds.Width / 2);
+            float zoomY = this.PCanvas.Camera.ViewBounds.Y + (this.PCanvas.Camera.ViewBounds.Height / 2);
+            this.PCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
+        }
+
+        /// <summary>
+        /// Zoom in/out this canvas.
+        /// </summary>
+        /// <param name="rate"></param>
         public void Zoom(float rate)
         {
             float newScale = m_pCanvas.Camera.ViewScale * rate;

@@ -213,7 +213,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_canvas.PCanvas.Controls.Add(m_tbox);
             float viewScale = m_canvas.PCanvas.Camera.ViewScale;
             m_tbox.Text = base.m_pText.Text;
-            m_tbox.Font = m_pText.Font;
+            // set font
+            Font font = m_pText.Font;
+            m_tbox.Font = new Font(font.FontFamily, font.Size * m_canvas.PCanvas.Camera.ViewScale, font.Style);
             m_tbox.Location = m_canvas.CanvasPosToSystemPos(pos);
             m_tbox.Width = (int)(base.Width * viewScale + 5);
             m_tbox.Height = (int)(base.Height * viewScale + 5);
