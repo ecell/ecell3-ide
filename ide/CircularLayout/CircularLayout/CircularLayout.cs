@@ -380,19 +380,6 @@ namespace Ecell.IDE.Plugins.CircularLayout
         }
 
         /// <summary>
-        /// Get distance between two points
-        /// </summary>
-        /// <param name="point1">point 1</param>
-        /// <param name="point2">point 2</param>
-        /// <returns>Distance between point 1 and point 2</returns>
-        public static float GetDistance(PointF point1, PointF point2)
-        {
-            double x = point2.X - point1.X;
-            double y = point2.Y - point1.Y;
-            return (float)Math.Sqrt(x * x + y * y);
-        }
-
-        /// <summary>
         /// Get relation matrix between the nodes.
         /// return[m,n] means whether connection exists between m'th node and n'th node of relatedNodes
         /// </summary>

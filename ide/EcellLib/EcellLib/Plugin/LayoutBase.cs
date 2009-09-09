@@ -222,16 +222,15 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get distance between two points
         /// </summary>
-        /// <param name="point1"></param>
-        /// <param name="point2"></param>
-        /// <returns></returns>
+        /// <param name="point1">point 1</param>
+        /// <param name="point2">point 2</param>
+        /// <returns>Distance between point 1 and point 2</returns>
         public float GetDistance(PointF point1, PointF point2)
         {
             float dist = (float)Math.Sqrt(Math.Pow((double)(point1.X - point2.X), 2d) + Math.Pow((double)(point1.Y - point2.Y), 2d));
             return dist;
-
         }
 
         /// <summary>

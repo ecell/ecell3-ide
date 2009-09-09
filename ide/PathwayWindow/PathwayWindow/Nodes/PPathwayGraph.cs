@@ -138,20 +138,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             Refresh();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="entity"></param>
-        public PPathwayGraph(PPathwayEntity entity)
-            : this()
-        {
-            m_pText.Text = entity.EcellObject.LocalID;
-            // set parameter.
-            if(entity is PPathwayProcess)
-                this.EntityPath = entity.EcellObject.FullID + ":MolarActivity";
-            else if(entity is PPathwayVariable)
-                this.EntityPath = entity.EcellObject.FullID + ":MolarConc";
-        }
 
         #endregion
 

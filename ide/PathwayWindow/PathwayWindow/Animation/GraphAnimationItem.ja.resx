@@ -118,12 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="variableBox.Text" xml:space="preserve">
-    <value>Variableのプロパティラベル表示</value>
+    <value>Variableのグラフ設定</value>
   </data>
   <data name="processBox.Text" xml:space="preserve">
-    <value>Processのプロパティラベル表示</value>
+    <value>Processのグラフ設定</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>簡易グラフ表示</value>
+  </data>
+  <data name="checkBoxVariable.Text" xml:space="preserve">
+    <value>Variableのグラフを表示する。</value>
+  </data>
+  <data name="checkBoxProcess.Text" xml:space="preserve">
+    <value>Processのグラフを表示する。</value>
   </data>
 </root>

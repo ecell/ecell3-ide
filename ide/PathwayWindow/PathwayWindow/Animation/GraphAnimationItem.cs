@@ -46,11 +46,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #region Fields
         private System.Windows.Forms.GroupBox variableBox;
         private System.Windows.Forms.GroupBox processBox;
-        private System.Windows.Forms.CheckBox checkBoxNumberConc;
-        private System.Windows.Forms.CheckBox checkBoxMolarConc;
-        private System.Windows.Forms.CheckBox checkBoxValue;
-        private System.Windows.Forms.CheckBox checkBoxMolarActivity;
-        private System.Windows.Forms.CheckBox checkBoxActivity;
+        private System.Windows.Forms.RadioButton radioButtonNumberConc;
+        private System.Windows.Forms.RadioButton radioButtonMolarConc;
+        private System.Windows.Forms.RadioButton radioButtonValue;
+        private System.Windows.Forms.RadioButton radioButtonMolarActivity;
+        private System.Windows.Forms.RadioButton radioButtonActivity;
+        private System.Windows.Forms.CheckBox checkBoxVariable;
+        private System.Windows.Forms.CheckBox checkBoxProcess;
 
         private List<PPathwayGraph> _graphs = new List<PPathwayGraph>();
         #endregion
@@ -80,12 +82,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphAnimationItem));
             this.variableBox = new System.Windows.Forms.GroupBox();
-            this.checkBoxNumberConc = new System.Windows.Forms.CheckBox();
-            this.checkBoxMolarConc = new System.Windows.Forms.CheckBox();
-            this.checkBoxValue = new System.Windows.Forms.CheckBox();
+            this.checkBoxVariable = new System.Windows.Forms.CheckBox();
+            this.radioButtonNumberConc = new System.Windows.Forms.RadioButton();
+            this.radioButtonMolarConc = new System.Windows.Forms.RadioButton();
+            this.radioButtonValue = new System.Windows.Forms.RadioButton();
             this.processBox = new System.Windows.Forms.GroupBox();
-            this.checkBoxMolarActivity = new System.Windows.Forms.CheckBox();
-            this.checkBoxActivity = new System.Windows.Forms.CheckBox();
+            this.checkBoxProcess = new System.Windows.Forms.CheckBox();
+            this.radioButtonMolarActivity = new System.Windows.Forms.RadioButton();
+            this.radioButtonActivity = new System.Windows.Forms.RadioButton();
             this.variableBox.SuspendLayout();
             this.processBox.SuspendLayout();
             this.SuspendLayout();
@@ -93,49 +97,67 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // variableBox
             // 
             resources.ApplyResources(this.variableBox, "variableBox");
-            this.variableBox.Controls.Add(this.checkBoxNumberConc);
-            this.variableBox.Controls.Add(this.checkBoxMolarConc);
-            this.variableBox.Controls.Add(this.checkBoxValue);
+            this.variableBox.Controls.Add(this.checkBoxVariable);
+            this.variableBox.Controls.Add(this.radioButtonNumberConc);
+            this.variableBox.Controls.Add(this.radioButtonMolarConc);
+            this.variableBox.Controls.Add(this.radioButtonValue);
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
             // 
-            // checkBoxNumberConc
+            // checkBoxVariable
             // 
-            resources.ApplyResources(this.checkBoxNumberConc, "checkBoxNumberConc");
-            this.checkBoxNumberConc.Name = "checkBoxNumberConc";
-            this.checkBoxNumberConc.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.checkBoxVariable, "checkBoxVariable");
+            this.checkBoxVariable.Name = "checkBoxVariable";
+            this.checkBoxVariable.UseVisualStyleBackColor = true;
             // 
-            // checkBoxMolarConc
+            // radioButtonNumberConc
             // 
-            resources.ApplyResources(this.checkBoxMolarConc, "checkBoxMolarConc");
-            this.checkBoxMolarConc.Name = "checkBoxMolarConc";
-            this.checkBoxMolarConc.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.radioButtonNumberConc, "radioButtonNumberConc");
+            this.radioButtonNumberConc.Name = "radioButtonNumberConc";
+            this.radioButtonNumberConc.UseVisualStyleBackColor = true;
             // 
-            // checkBoxValue
+            // radioButtonMolarConc
             // 
-            resources.ApplyResources(this.checkBoxValue, "checkBoxValue");
-            this.checkBoxValue.Name = "checkBoxValue";
-            this.checkBoxValue.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.radioButtonMolarConc, "radioButtonMolarConc");
+            this.radioButtonMolarConc.Name = "radioButtonMolarConc";
+            this.radioButtonMolarConc.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonValue
+            // 
+            resources.ApplyResources(this.radioButtonValue, "radioButtonValue");
+            this.radioButtonValue.Checked = true;
+            this.radioButtonValue.Name = "radioButtonValue";
+            this.radioButtonValue.TabStop = true;
+            this.radioButtonValue.UseVisualStyleBackColor = true;
             // 
             // processBox
             // 
             resources.ApplyResources(this.processBox, "processBox");
-            this.processBox.Controls.Add(this.checkBoxMolarActivity);
-            this.processBox.Controls.Add(this.checkBoxActivity);
+            this.processBox.Controls.Add(this.checkBoxProcess);
+            this.processBox.Controls.Add(this.radioButtonMolarActivity);
+            this.processBox.Controls.Add(this.radioButtonActivity);
             this.processBox.Name = "processBox";
             this.processBox.TabStop = false;
             // 
-            // checkBoxMolarActivity
+            // checkBoxProcess
             // 
-            resources.ApplyResources(this.checkBoxMolarActivity, "checkBoxMolarActivity");
-            this.checkBoxMolarActivity.Name = "checkBoxMolarActivity";
-            this.checkBoxMolarActivity.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.checkBoxProcess, "checkBoxProcess");
+            this.checkBoxProcess.Name = "checkBoxProcess";
+            this.checkBoxProcess.UseVisualStyleBackColor = true;
             // 
-            // checkBoxActivity
+            // radioButtonMolarActivity
             // 
-            resources.ApplyResources(this.checkBoxActivity, "checkBoxActivity");
-            this.checkBoxActivity.Name = "checkBoxActivity";
-            this.checkBoxActivity.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.radioButtonMolarActivity, "radioButtonMolarActivity");
+            this.radioButtonMolarActivity.Name = "radioButtonMolarActivity";
+            this.radioButtonMolarActivity.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonActivity
+            // 
+            resources.ApplyResources(this.radioButtonActivity, "radioButtonActivity");
+            this.radioButtonActivity.Checked = true;
+            this.radioButtonActivity.Name = "radioButtonActivity";
+            this.radioButtonActivity.TabStop = true;
+            this.radioButtonActivity.UseVisualStyleBackColor = true;
             // 
             // GraphAnimationItem
             // 
@@ -174,7 +196,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
-
+                if (!checkBoxVariable.Checked)
+                    continue;
                 if (variable.Graph != null)
                 {
                     _graphs.Add(variable.Graph);
@@ -183,9 +206,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 }
 
                 // Create Graph
-                PPathwayGraph graph = new PPathwayGraph(variable);
+                PPathwayGraph graph = new PPathwayGraph();
                 graph.Title = variable.EcellObject.LocalID;
-                graph.EntityPath = variable.EcellObject.FullID + ":MolarConc";
+                graph.EntityPath = variable.EcellObject.FullID + ":" + GetVariableParam();
                 _canvas.ControlLayer.AddChild(graph);
                 graph.PointF = variable.PointF;
                 graph.Refresh();
@@ -193,6 +216,59 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 _graphs.Add(graph);
                 variable.Graph = graph;
             }
+            // Process
+            foreach (PPathwayProcess process in _processes)
+            {
+                if (!checkBoxProcess.Checked)
+                    continue;
+                if (process.Graph != null)
+                {
+                    _graphs.Add(process.Graph);
+                    _canvas.ControlLayer.AddChild(process.Graph);
+                    continue;
+                }
+
+                // Create Graph
+                PPathwayGraph graph = new PPathwayGraph();
+                graph.Title = process.EcellObject.LocalID;
+                graph.EntityPath = process.EcellObject.FullID + ":" + GetProcessParam();
+                _canvas.ControlLayer.AddChild(graph);
+                graph.PointF = process.PointF;
+                graph.Refresh();
+
+                _graphs.Add(graph);
+                process.Graph = graph;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private string GetVariableParam()
+        {
+            string param = null;
+            if (radioButtonValue.Checked)
+                param = Constants.xpathValue;
+            else if (radioButtonMolarConc.Checked)
+                param = Constants.xpathMolarConc;
+            else if (radioButtonNumberConc.Checked)
+                param = Constants.xpathNumberConc;
+            return param;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private string GetProcessParam()
+        {
+            string param = null;
+            if (radioButtonActivity.Checked)
+                param = Constants.xpathActivity;
+            else if (radioButtonMolarActivity.Checked)
+                param = Constants.xpathMolarActivity;
+            return param;
         }
 
         /// <summary>
