@@ -1429,6 +1429,33 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
+        /// Import Zipped project.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void importZipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Filter = Constants.FilterZipFile;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Unzip project
+                    string filename = openFileDialog.FileName;
+                    ZipUtil zip = new ZipUtil();
+                    string projectPath = zip.UnzipProject(filename);
+
+                    // load project
+                    m_env.DataManager.LoadProject(projectPath);
+                }
+                catch (Exception ex)
+                {
+                    Util.ShowErrorDialog(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
         /// Export Zipped project.
         /// </summary>
         /// <param name="sender"></param>

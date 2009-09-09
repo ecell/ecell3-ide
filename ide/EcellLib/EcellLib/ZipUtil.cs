@@ -111,5 +111,40 @@ namespace Ecell.IDE
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns>temporary project file name.</returns>
+        public string UnzipProject(string filename)
+        {
+            output = null;
+            // Check File
+            if (!File.Exists(filename))
+                throw new EcellException(string.Format(MessageResources.ErrLoadPrj, filename));
+
+            // Extract zip
+            string dir = Path.Combine(Util.GetTmpDir(), Path.GetRandomFileName());
+            FastZip fz = new FastZip();
+            fz.ExtractZip(filename, dir, null);
+
+            // Check Project File.
+            string project = Path.Combine(dir,Constants.fileProjectXML);
+            string info = Path.Combine(dir,Constants.fileProjectInfo);
+            if(File.Exists(project))
+                output = project;
+            else if(File.Exists(info))
+                output = info;
+
+            if (output == null)
+            {
+                Directory.Delete(dir);
+                throw new EcellException(string.Format(MessageResources.ErrLoadPrj, filename));
+            }
+
+            // Return project path.
+            return output;
+        }
     }
 }

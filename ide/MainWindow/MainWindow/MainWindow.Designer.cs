@@ -74,9 +74,11 @@ namespace Ecell.IDE.MainWindow
             this.importModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importEMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importZipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportEMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportZipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -108,7 +110,6 @@ namespace Ecell.IDE.MainWindow
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.exportZipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -372,7 +373,8 @@ namespace Ecell.IDE.MainWindow
             // 
             this.importModelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importEMLToolStripMenuItem,
-            this.importSBMLMenuItem});
+            this.importSBMLMenuItem,
+            this.importZipToolStripMenuItem});
             this.importModelToolStripMenuItem.MergeIndex = 4;
             this.importModelToolStripMenuItem.Name = "importModelToolStripMenuItem";
             resources.ApplyResources(this.importModelToolStripMenuItem, "importModelToolStripMenuItem");
@@ -389,6 +391,12 @@ namespace Ecell.IDE.MainWindow
             this.importSBMLMenuItem.Name = "importSBMLMenuItem";
             resources.ApplyResources(this.importSBMLMenuItem, "importSBMLMenuItem");
             this.importSBMLMenuItem.Click += new System.EventHandler(this.ImportSBMLMenuItem_Click);
+            // 
+            // importZipToolStripMenuItem
+            // 
+            this.importZipToolStripMenuItem.Name = "importZipToolStripMenuItem";
+            resources.ApplyResources(this.importZipToolStripMenuItem, "importZipToolStripMenuItem");
+            this.importZipToolStripMenuItem.Click += new System.EventHandler(this.importZipToolStripMenuItem_Click);
             // 
             // exportModelToolStripMenuItem
             // 
@@ -412,6 +420,12 @@ namespace Ecell.IDE.MainWindow
             this.exportSBMLMenuItem.Name = "exportSBMLMenuItem";
             resources.ApplyResources(this.exportSBMLMenuItem, "exportSBMLMenuItem");
             this.exportSBMLMenuItem.Click += new System.EventHandler(this.exportSBMLMenuItem_Click);
+            // 
+            // exportZipToolStripMenuItem
+            // 
+            this.exportZipToolStripMenuItem.Name = "exportZipToolStripMenuItem";
+            resources.ApplyResources(this.exportZipToolStripMenuItem, "exportZipToolStripMenuItem");
+            this.exportZipToolStripMenuItem.Click += new System.EventHandler(this.exportZipToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -602,12 +616,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
-            // exportZipToolStripMenuItem
-            // 
-            this.exportZipToolStripMenuItem.Name = "exportZipToolStripMenuItem";
-            resources.ApplyResources(this.exportZipToolStripMenuItem, "exportZipToolStripMenuItem");
-            this.exportZipToolStripMenuItem.Click += new System.EventHandler(this.exportZipToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -732,6 +740,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem exportEMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportZipToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importZipToolStripMenuItem;
     }
 }
 
