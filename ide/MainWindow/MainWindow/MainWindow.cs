@@ -914,23 +914,32 @@ namespace Ecell.IDE.MainWindow
         {
             bool unInitialized = status == ProjectStatus.Uninitialized;
             bool loaded = status == ProjectStatus.Loaded;
-            bool suspend = status == ProjectStatus.Suspended;
-            bool revision = false;
+            bool suspended = status == ProjectStatus.Suspended;
+            bool isRevision = false;
             if (m_env.DataManager.CurrentProject != null)
-                revision = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
+                isRevision = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
+            bool isProject = false;
+            if (m_env.DataManager.CurrentProject != null)
+                isProject = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
 
             // file menu.
             newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             openProjectToolStripMenuItem.Enabled = unInitialized || loaded;
-            saveProjectToolStripMenuItem.Enabled = (suspend || loaded) && !revision;
-            saveAsToolStripMenuItem.Enabled = (suspend || loaded);
+            saveProjectToolStripMenuItem.Enabled = (suspended || loaded) && !isRevision;
+            saveAsToolStripMenuItem.Enabled = (suspended || loaded);
             recentProejctToolStripMenuItem.Enabled = unInitialized || loaded;
             projectWizardMenuItem.Enabled = unInitialized || loaded;
             closeProjectToolStripMenuItem.Enabled = loaded;
-            exportModelToolStripMenuItem.Enabled = (suspend || loaded);
-            exportSBMLMenuItem.Enabled = (suspend || loaded);
+            // export
+            exportModelToolStripMenuItem.Enabled = (suspended || loaded);
+            exportSBMLMenuItem.Enabled = (suspended || loaded);
+            exportEMLToolStripMenuItem.Enabled = (suspended || loaded);
+            exportZipToolStripMenuItem.Enabled = (suspended || loaded) && isProject;
+            // import
             importModelToolStripMenuItem.Enabled = unInitialized || loaded;
+            importEMLToolStripMenuItem.Enabled = unInitialized || loaded;
             importScriptToolStripMenuItem.Enabled = loaded;
+            // 
             saveScriptToolStripMenuItem.Enabled = loaded;
             printToolStripMenuItem.Enabled = !unInitialized;
             exitToolStripMenuItem.Enabled = true;
@@ -940,8 +949,8 @@ namespace Ecell.IDE.MainWindow
 
             // Button.
             toolStripOpenProjectButton.Enabled = unInitialized || loaded;
-            toolStripSaveProjectButton.Enabled = (suspend || loaded) && !revision;
-            toolStripSaveAsButton.Enabled = (suspend || loaded);
+            toolStripSaveProjectButton.Enabled = (suspended || loaded) && !isRevision;
+            toolStripSaveAsButton.Enabled = (suspended || loaded);
 
             m_scriptEditor.ChangeStatus(status);            
 
@@ -1394,6 +1403,11 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// Export SBML model.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exportSBMLMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1412,6 +1426,26 @@ namespace Ecell.IDE.MainWindow
                 Util.ShowErrorDialog(ex.Message);
             }
             
+        }
+
+        /// <summary>
+        /// Export Zipped project.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exportZipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Project project = m_env.DataManager.CurrentProject;
+            string dir = project.Info.ProjectPath;
+
+            saveFileDialog.Filter = Constants.FilterZipFile;
+            saveFileDialog.FileName = project.Info.Name + Constants.FileExtZip;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filename = saveFileDialog.FileName;
+                ZipUtil zip = new ZipUtil();
+                zip.ZipFolder(filename, dir);
+            }
         }
 
         /// <summary>
@@ -1864,5 +1898,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         #endregion
+
     }
 }

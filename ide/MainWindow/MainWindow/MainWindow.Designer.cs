@@ -72,8 +72,10 @@ namespace Ecell.IDE.MainWindow
             this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.importModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importEMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportEMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +95,8 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analysisGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,8 +108,7 @@ namespace Ecell.IDE.MainWindow
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.analysisGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportZipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.TopToolStripPanel.SuspendLayout();
@@ -296,8 +299,6 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator1,
             this.importModelToolStripMenuItem,
             this.exportModelToolStripMenuItem,
-            this.importSBMLMenuItem,
-            this.exportSBMLMenuItem,
             this.toolStripSeparator2,
             this.saveScriptToolStripMenuItem,
             this.toolStripSeparator5,
@@ -369,25 +370,42 @@ namespace Ecell.IDE.MainWindow
             // 
             // importModelToolStripMenuItem
             // 
+            this.importModelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importEMLToolStripMenuItem,
+            this.importSBMLMenuItem});
             this.importModelToolStripMenuItem.MergeIndex = 4;
             this.importModelToolStripMenuItem.Name = "importModelToolStripMenuItem";
             resources.ApplyResources(this.importModelToolStripMenuItem, "importModelToolStripMenuItem");
             this.importModelToolStripMenuItem.Tag = "11";
-            this.importModelToolStripMenuItem.Click += new System.EventHandler(this.ImportModelMenuClick);
             // 
-            // exportModelToolStripMenuItem
+            // importEMLToolStripMenuItem
             // 
-            this.exportModelToolStripMenuItem.MergeIndex = 5;
-            this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
-            resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
-            this.exportModelToolStripMenuItem.Tag = "12";
-            this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.ExportModelMenuClick);
+            this.importEMLToolStripMenuItem.Name = "importEMLToolStripMenuItem";
+            resources.ApplyResources(this.importEMLToolStripMenuItem, "importEMLToolStripMenuItem");
+            this.importEMLToolStripMenuItem.Click += new System.EventHandler(this.ImportModelMenuClick);
             // 
             // importSBMLMenuItem
             // 
             this.importSBMLMenuItem.Name = "importSBMLMenuItem";
             resources.ApplyResources(this.importSBMLMenuItem, "importSBMLMenuItem");
             this.importSBMLMenuItem.Click += new System.EventHandler(this.ImportSBMLMenuItem_Click);
+            // 
+            // exportModelToolStripMenuItem
+            // 
+            this.exportModelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportEMLToolStripMenuItem,
+            this.exportSBMLMenuItem,
+            this.exportZipToolStripMenuItem});
+            this.exportModelToolStripMenuItem.MergeIndex = 5;
+            this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
+            resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
+            this.exportModelToolStripMenuItem.Tag = "12";
+            // 
+            // exportEMLToolStripMenuItem
+            // 
+            this.exportEMLToolStripMenuItem.Name = "exportEMLToolStripMenuItem";
+            resources.ApplyResources(this.exportEMLToolStripMenuItem, "exportEMLToolStripMenuItem");
+            this.exportEMLToolStripMenuItem.Click += new System.EventHandler(this.ExportModelMenuClick);
             // 
             // exportSBMLMenuItem
             // 
@@ -515,6 +533,16 @@ namespace Ecell.IDE.MainWindow
             this.showWindowToolStripMenuItem.Name = "showWindowToolStripMenuItem";
             resources.ApplyResources(this.showWindowToolStripMenuItem, "showWindowToolStripMenuItem");
             // 
+            // analysisGroupToolStripMenuItem
+            // 
+            this.analysisGroupToolStripMenuItem.Name = "analysisGroupToolStripMenuItem";
+            resources.ApplyResources(this.analysisGroupToolStripMenuItem, "analysisGroupToolStripMenuItem");
+            // 
+            // graphGroupToolStripMenuItem
+            // 
+            this.graphGroupToolStripMenuItem.Name = "graphGroupToolStripMenuItem";
+            resources.ApplyResources(this.graphGroupToolStripMenuItem, "graphGroupToolStripMenuItem");
+            // 
             // MenuItemRun
             // 
             this.MenuItemRun.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -574,15 +602,11 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
-            // analysisGroupToolStripMenuItem
+            // exportZipToolStripMenuItem
             // 
-            this.analysisGroupToolStripMenuItem.Name = "analysisGroupToolStripMenuItem";
-            resources.ApplyResources(this.analysisGroupToolStripMenuItem, "analysisGroupToolStripMenuItem");
-            // 
-            // graphGroupToolStripMenuItem
-            // 
-            this.graphGroupToolStripMenuItem.Name = "graphGroupToolStripMenuItem";
-            resources.ApplyResources(this.graphGroupToolStripMenuItem, "graphGroupToolStripMenuItem");
+            this.exportZipToolStripMenuItem.Name = "exportZipToolStripMenuItem";
+            resources.ApplyResources(this.exportZipToolStripMenuItem, "exportZipToolStripMenuItem");
+            this.exportZipToolStripMenuItem.Click += new System.EventHandler(this.exportZipToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -688,7 +712,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripProgressBar genericProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel quickInspectorText;
         private System.Windows.Forms.ToolStripMenuItem aboutIDEToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recentProejctToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
@@ -702,9 +725,13 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton toolStripUndoButton;
         private System.Windows.Forms.ToolStripButton toolStripRedoButton;
-        private System.Windows.Forms.ToolStripMenuItem exportSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem analysisGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem graphGroupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importEMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importSBMLMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportEMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSBMLMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportZipToolStripMenuItem;
     }
 }
 

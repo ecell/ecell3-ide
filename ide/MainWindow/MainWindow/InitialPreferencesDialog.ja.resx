@@ -140,7 +140,7 @@
     <value>キャンセル</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>ウィンドウのレイアウト(&amp;W)</value>
+    <value>ウィンドウレイアウト(&amp;W)</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 12</value>

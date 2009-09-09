@@ -193,6 +193,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             LoggerManager manager = _control.Control.Window.Environment.LoggerManager;
             _graphs.Clear();
             base.SetAnimation();
+
             // Variable
             foreach (PPathwayVariable variable in _variables)
             {
@@ -216,6 +217,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 _graphs.Add(graph);
                 variable.Graph = graph;
             }
+
             // Process
             foreach (PPathwayProcess process in _processes)
             {

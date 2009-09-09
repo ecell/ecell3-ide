@@ -170,7 +170,7 @@
     <value>122, 22</value>
   </data>
   <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>EML出力...</value>
+    <value>EML形式で出力...</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 6</value>
@@ -257,7 +257,7 @@
     <value>151, 22</value>
   </data>
   <data name="zipToolStripMenuItem.Text" xml:space="preserve">
-    <value>Zip圧縮...</value>
+    <value>Zip形式で出力...</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 6</value>
@@ -290,13 +290,13 @@
     <value>134, 22</value>
   </data>
   <data name="exportRevisionEMLMenuItem.Text" xml:space="preserve">
-    <value>EML出力...</value>
+    <value>EML形式で出力...</value>
   </data>
   <data name="exportRevisionZipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
   </data>
   <data name="exportRevisionZipMenuItem.Text" xml:space="preserve">
-    <value>Zip圧縮...</value>
+    <value>Zip形式で出力...</value>
   </data>
   <data name="contextMenuStripStepper.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 26</value>
@@ -336,10 +336,10 @@
 </value>
   </data>
   <data name="exportModelSBMLToolStripMenuItem.Text" xml:space="preserve">
-    <value>SBML出力...</value>
+    <value>SBML形式で出力...</value>
   </data>
   <data name="exportRevisionSBMLToolStripMenuItem.Text" xml:space="preserve">
-    <value>SBML出力...</value>
+    <value>SBML形式で出力...</value>
   </data>
   <data name="deleteDMToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>

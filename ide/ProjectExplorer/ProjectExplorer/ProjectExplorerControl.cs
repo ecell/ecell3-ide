@@ -1516,15 +1516,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             Project project = m_owner.Environment.DataManager.CurrentProject;
             string dir = project.Info.ProjectPath;
             string filename = project.Info.Name + Constants.FileExtZip;
-            CompressZip(dir, filename);
+            CompressZip(filename, dir);
         }
 
         /// <summary>
         /// Compress to zip file.
         /// </summary>
-        /// <param name="dir">the source directory.</param>
         /// <param name="filename">the destination file name.</param>
-        private void CompressZip(string dir, string filename)
+        /// <param name="dir">the source directory.</param>
+        private void CompressZip(string filename, string dir)
         {           
             m_saveFileDialog.Filter = Constants.FilterZipFile;
             m_saveFileDialog.FileName = filename;
@@ -1653,7 +1653,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             string dir = project.Info.ProjectPath;
             string revision = Path.Combine(dir, m_lastSelectedNode.Text);
             string filename = project.Info.Name + "_" + m_lastSelectedNode.Text + Constants.FileExtZip;
-            CompressZip(revision, filename);
+            CompressZip(filename, revision);
         }
 
         /// <summary>
