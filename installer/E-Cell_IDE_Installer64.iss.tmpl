@@ -156,7 +156,7 @@ Source: "conf\Templates\Oscillation\*"; DestDir: "{app}\conf\Templates\Oscillati
 Source: "conf\Templates\Oscillation\Model\*"; DestDir: "{app}\conf\Templates\Oscillation\Model"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "conf\Templates\Simple\*"; DestDir: "{app}\conf\Templates\Simple"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "conf\Templates\Simple\Model\*"; DestDir: "{app}\conf\Templates\Simple\Model"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main; CopyMode: alwaysoverwrite;
+;Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main; CopyMode: alwaysoverwrite;
 Source: "common\startup.html"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
 Source: "common\startup.ja.html"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
 Source: "common\default.css"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
@@ -195,7 +195,7 @@ Source: "x64\bin\ecs.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alw
 Source: "x64\bin\emc.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\Formulator.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+;Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
@@ -330,14 +330,14 @@ Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main; Flags: uninsdeletekey;
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+;Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.2\dms";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+;Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE"; ValueData: "true";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE BaseDir"; ValueData: "{app}";Components: main; Flags: uninsdeletekey;
 
@@ -386,6 +386,8 @@ en.IDE_DotNet=This application needs Microsoft .NET Framework version 2.0. %nPle
 jp.IDE_DotNet=Microsft .NET Frameworkがインストールされていません。%nダウンロード及びインストール手順の確認は以下のURLにアクセスしてください。%n%n(http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=ja)
 en.IDE_Installed=E-Cell IDE is already installed, please unistall E-Cell IDE.
 jp.IDE_Installed=E-Cell IDEがインストールされています。E-Cell IDEをアンインストールしてください。
+en.Python_Installed=Python(version 2.5) is not installed. This application need Python 2.5.
+jp.Python_Installed=Pyton(version2.5)がインストールされていません。E-Cell IDEはPython2.5が必要です。
 
 [Tasks]
 Name: "desktopiconen"; Description: "Create a desktop shortcut";  Languages: en;
@@ -451,6 +453,16 @@ begin
       end;      
     end;
   end;
+  
+  if (Result = true) then
+  begin
+    if (RegKeyExists(HKLM, 'Software\Python\PythonCore\2.5')) then
+    else
+    begin
+      MsgBox(CustomMessage('Python_Installed'), mbInformation, MB_OK);
+      Result := false
+    end;
+  end;  
   
   if (Result = true) then
   begin
