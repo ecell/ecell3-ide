@@ -63,18 +63,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// Event when auto command is reset.
             /// </summary>
             private AutoResetEvent m_event;
-            /// <summary>
-            /// command string.
-            /// </summary>
-            private string m_command;
-            /// <summary>
-            /// Event hanadler to start the script execution.
-            /// </summary>
-            public event EventHandler ScriptExecutionStarted;
-            /// <summary>
-            /// Event handller to stop the script execution.
-            /// </summary>
-            public event EventHandler<StopEventArgs> ScriptExecutionStopped;
             #endregion
 
             /// <summary>
@@ -151,7 +139,8 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             public void Execute(string cmd)
             {
                 string name = Util.GetTmpDir() + "/tmp.cmd";
-                File.WriteAllText(name, cmd);                
+                File.WriteAllText(name, cmd);
+                name = name.Replace("\\", "\\\\");
                 PythonEngine.RunSimpleString("execfile('" + name + "', aContext)");
             }
 
@@ -162,7 +151,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             {
                 lock (this)
                 {
-                    m_command = null;
                     m_event.Set();
                 }
             }
@@ -272,32 +260,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             m_statementBuffer = new StringBuilder();
             m_currentPromptCharCount = 0;
             m_scriptRunner = new ScriptRunner();
-            m_scriptRunner.ScriptExecutionStarted +=
-                delegate(object obj, EventArgs e)
-                {
-                    SWCommandText.Invoke(new MethodInvoker(
-                        delegate()
-                        {
-                            SWCommandText.Enabled = false;
-                        }
-                    ));
-                };
-            m_scriptRunner.ScriptExecutionStopped +=
-                delegate(object obj, ScriptRunner.StopEventArgs e)
-                {
-                    SWCommandText.Invoke(new MethodInvoker(
-                        delegate()
-                        {
-                            if (e.Reason != null)
-                            {
-                                ReportException(e.Reason);
-                            }
-                            SWCommandText.Enabled = true;
-                            SWCommandText.Focus();
-                            Flush();
-                        }
-                     ));
-                };
             ResetCommandLineControl();
             Flush();
             Disposed +=

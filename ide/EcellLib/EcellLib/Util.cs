@@ -770,6 +770,11 @@ namespace Ecell
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Convert from object to clibboard text.
+        /// </summary>
+        /// <param name="data">the list of object.</param>
+        /// <returns>the clipboard text.</returns>
         public static string GetClipBoardString(List<EcellObject> data)
         {
             string result = "";
@@ -808,12 +813,19 @@ namespace Ecell
                     else
                         result += d.Name + "=" + d.Value.ToString()+ "\n";
                 }
-                result += "//\n";
+                result += "//\n"; // object separator.
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Convert from the clipboard text to the list of object.
+        /// </summary>
+        /// <param name="dManager">DataManager</param>
+        /// <param name="modelID">the model ID</param>
+        /// <param name="data">the clipboard object</param>
+        /// <returns>the list of object.</returns>
         public static List<EcellObject> GetClipboardObject(DataManager dManager, string modelID, string data)
         {
             List<EcellObject> result = new List<EcellObject>();
@@ -833,6 +845,13 @@ namespace Ecell
             return result;
         }
 
+        /// <summary>
+        /// Get the object from the clipboard text.
+        /// </summary>
+        /// <param name="dManager">DataManager</param>
+        /// <param name="modelID">the model ID</param>
+        /// <param name="data">the clipboard object</param>
+        /// <returns>the object.</returns>
         public static EcellObject GetObjectFromClipBoard(DataManager dManager, string modelID, string data)
         {
             string[] elements = data.Split(new char[] { '\n' });
