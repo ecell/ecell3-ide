@@ -65,11 +65,11 @@ namespace Ecell
         #endregion
 
         /// <summary>
-        /// 
+        /// Get DMDescriptor from type and name of DM.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="type">the type of DM.</param>
+        /// <param name="name">the name of DM.</param>
+        /// <returns>the DMDescriptor.</returns>
         public DMDescriptor GetDMDescriptor(string type, string name)
         {
             DMDescriptor desc = null;
@@ -78,11 +78,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Check whether this DMDescriptor is exist.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="type">the type of DM.</param>
+        /// <param name="name">the name of DM.</param>
+        /// <returns>Return true if DM is exist.</returns>
         public bool ContainsDescriptor(string type, string name)
         {
             DMDescriptor desc = GetDMDescriptor(type, name);
@@ -90,19 +90,19 @@ namespace Ecell
         }
         
         /// <summary>
-        /// 
+        /// Get the list of DMDescriptor from type.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">the type of DM.</param>
+        /// <returns>the list of DMDescriptor.</returns>
         public ICollection<DMDescriptor> GetDMDescriptors(string type)
         {
             return m_descs[type].Values;
         }
+
         /// <summary>
         /// Load DMDescriptions.
         /// </summary>
-        /// <param name="dmPaths"></param>
-        /// <returns></returns>
+        /// <param name="dmPaths">DM path.</param>
         public void Load(string[] dmPaths)
         {
             m_dmPaths = dmPaths;
@@ -237,10 +237,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Get the module type from the module name.
         /// </summary>
-        /// <param name="moduleName"></param>
-        /// <returns></returns>
+        /// <param name="moduleName">the module name.</param>
+        /// <returns>the module type.</returns>
         private static string GetModuleType(string moduleName)
         {
             string moduleType = null;
@@ -257,11 +257,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Load the stepper DM.
         /// </summary>
-        /// <param name="sim"></param>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        /// <param name="sim">the loaded simulator.</param>
+        /// <param name="info">DM information.</param>
+        /// <returns>DMDescriptor.</returns>
         private static DMDescriptor LoadStepperDM(WrappedSimulator sim, DMModuleInfo info)
         {
             DMDescriptor desc = null;
@@ -289,12 +289,12 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Load the entity DM.
         /// </summary>
-        /// <param name="sim"></param>
-        /// <param name="info"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="sim">the loaded simulator.</param>
+        /// <param name="info">the DM information/</param>
+        /// <param name="type">the type of DM.</param>
+        /// <returns>DMDescriptor</returns>
         private static DMDescriptor LoadEntityDM(WrappedSimulator sim, DMModuleInfo info, string type)
         {
             DMDescriptor desc = null;
@@ -451,15 +451,15 @@ namespace Ecell
     {
         #region Fields
         /// <summary>
-        /// 
+        /// the module path.
         /// </summary>
         private string m_path;
         /// <summary>
-        /// 
+        /// the module name.
         /// </summary>
         private string m_moduleName;
         /// <summary>
-        /// 
+        /// the module description.
         /// </summary>
         private string m_description;
         #endregion

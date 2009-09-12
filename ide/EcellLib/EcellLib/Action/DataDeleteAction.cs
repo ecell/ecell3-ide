@@ -61,11 +61,12 @@ namespace Ecell.Action
         /// <summary>
         /// Convert this action to string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>object string.</returns>
         public override string ToString()
         {
             return "DataDeleteAction:" + m_obj.ToString();
         }
+
         /// <summary>
         /// Execute to delete the object using the information.
         /// </summary>
@@ -73,6 +74,7 @@ namespace Ecell.Action
         {
             m_env.DataManager.DataDelete(m_obj, false, false);
         }
+
         /// <summary>
         /// Unexecute this action.
         /// An object will be deleted.

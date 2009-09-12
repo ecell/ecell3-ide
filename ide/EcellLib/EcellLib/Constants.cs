@@ -833,16 +833,16 @@ namespace Ecell
     }
 
     /// <summary>
-    /// 
+    /// Message type to display at the status bar.
     /// </summary>
     public enum StatusBarMessageKind
     {
         /// <summary>
-        /// 
+        /// Message type for generic.
         /// </summary>
         Generic,
         /// <summary>
-        /// 
+        /// Message type for inspector.
         /// </summary>
         QuickInspector,
         /// <summary>
@@ -850,47 +850,48 @@ namespace Ecell
         /// </summary>
         Status
     }
+
     /// <summary>
-    /// 
+    /// Menu type.
     /// </summary>
     public class MenuConstants
     {
         /// <summary>
-        /// 
+        /// Mene type for File.
         /// </summary>
         public const string MenuItemFile = "MenuItemFile";
         /// <summary>
-        /// 
+        /// Menu type for Edit.
         /// </summary>
         public const string MenuItemEdit = "MenuItemEdit";
         /// <summary>
-        /// 
+        /// Menu type for Layout.
         /// </summary>
         public const string MenuItemLayout = "MenuItemLayout";
         /// <summary>
-        /// 
+        /// Menu type for View.
         /// </summary>
         public const string MenuItemView = "MenuItemView";
         /// <summary>
-        /// 
+        /// Menu type for Run.
         /// </summary>
         public const string MenuItemRun = "MenuItemRun";
         /// <summary>
-        /// 
+        /// Menu type for Setup.
         /// </summary>
         public const string MenuItemSetup = "MenuItemSetup";
         /// <summary>
-        /// 
+        /// Menu type for tools.
         /// </summary>
         public const string MenuItemTools = "MenuItemTools";
         /// <summary>
-        /// 
+        /// Menu type for help.
         /// </summary>
         public const string MenuItemHelp = "MenuItemHelp";
     }
 
     /// <summary>
-    /// 
+    /// format type to display the value.
     /// </summary>
     public enum ValueDataFormat
     {

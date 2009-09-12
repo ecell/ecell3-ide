@@ -451,9 +451,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Export the current model to the file.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">the SBML file.</param>
         public void ExportSBML(string filename)
         {
             EcellModel model = m_currentProject.Model;
@@ -465,9 +465,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Import DM from the set directory.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">the loading directory.</param>
         public void ImportDM(string path)
         {
             // Copy DMs.
@@ -594,8 +594,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Load the analysis directory.
         /// </summary>
+        /// <param name="project">the project object.</param>
         private void LoadAnalysisDirectory(Project project)
         {
             string path = project.GetAnalysisDirectory();
@@ -4064,13 +4065,13 @@ namespace Ecell
 
         #region Method for SimulationLog
         /// <summary>
-        /// 
+        /// Get log data from the current simulator.
         /// </summary>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="interval"></param>
-        /// <param name="fullID"></param>
-        /// <returns></returns>
+        /// <param name="startTime">The start time of log file.</param>
+        /// <param name="endTime">The end time of log file.</param>
+        /// <param name="interval">The interval of log file.</param>
+        /// <param name="fullID">The FullID fo log data.</param>
+        /// <returns>The list of log data.</returns>
         public LogData GetLogData(double startTime, double endTime, double interval, string fullID)
         {
             try
@@ -4127,13 +4128,13 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Get the uniqueue log data from the current simulator.
         /// </summary>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="interval"></param>
-        /// <param name="fullID"></param>
-        /// <returns></returns>
+        /// <param name="startTime">The start time of log file.</param>
+        /// <param name="endTime">The endt time of log file.</param>
+        /// <param name="interval">The interval of log file.</param>
+        /// <param name="fullID">The FullID of log data.</param>
+        /// <returns>The list of log data.</returns>
         private LogData GetUniqueLogData(
                 double startTime,
                 double endTime,
@@ -5276,11 +5277,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Update the initial conditions.
         /// </summary>
-        /// <param name="parameterID"></param>
-        /// <param name="modelID"></param>
-        /// <param name="initialList"></param>
+        /// <param name="parameterID">the parameter ID.</param>
+        /// <param name="modelID">the model ID.</param>
+        /// <param name="initialList">the list of initial data.</param>
         public void UpdateInitialCondition(
                 string parameterID, string modelID, Dictionary<string, double> initialList)
         {
@@ -5426,11 +5427,11 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Set the stepper property to the current simulator.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="key">the key of property.</param>
+        /// <param name="name">the name of property.</param>
+        /// <param name="value">the set data.</param>
         public void SetStepperProperty(string key, string name, string value)
         {
             if (m_currentProject.Simulator == null
@@ -5612,7 +5613,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Unload the current simulator.
         /// </summary>
         public void UnloadSimulator()
         {
@@ -5621,7 +5622,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Reload the current simulator.
         /// </summary>
         public void ReloadSimulator()
         {

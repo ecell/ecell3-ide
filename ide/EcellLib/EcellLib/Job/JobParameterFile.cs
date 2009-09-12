@@ -52,7 +52,7 @@ namespace Ecell.Job
         /// </summary>
         private string m_path;
         /// <summary>
-        /// 
+        /// the writer object.
         /// </summary>
         protected XmlTextWriter m_writer;
         #endregion

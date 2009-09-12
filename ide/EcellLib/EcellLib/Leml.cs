@@ -282,10 +282,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Set the plugin settings.
         /// </summary>
-        /// <param name="env"></param>
-        /// <param name="settings"></param>
+        /// <param name="env">the application environment.</param>
+        /// <param name="settings">XMLNode.</param>
         private static void SetPluginSettings(ApplicationEnvironment env, XmlNode settings)
         {
             if (settings == null)
@@ -435,10 +435,10 @@ namespace Ecell
             xmlOut.WriteEndElement();
         }
         /// <summary>
-        /// 
+        /// Write the logge elements.
         /// </summary>
-        /// <param name="xmlOut"></param>
-        /// <param name="entry"></param>
+        /// <param name="xmlOut">Xml writer object.</param>
+        /// <param name="entry">The logger entry.</param>
         private static void WriteLoggerElement(XmlTextWriter xmlOut, LoggerEntry entry)
         {
             xmlOut.WriteStartElement(LemlConstants.xPathLogger);
@@ -465,130 +465,152 @@ namespace Ecell
         }
     }
 
+    /// <summary>
+    /// LEML Constants class.
+    /// </summary>
     internal class LemlConstants
     {
         /// <summary>
-        /// 
+        /// Reserved string for Application.
         /// </summary>
         public const string xPathApplication = "Application";
         /// <summary>
-        /// 
+        /// Reserved string for Version
         /// </summary>
         public const string xPathApplicationVersion = "Version";
         /// <summary>
-        /// 
+        /// Reserved string for Layout configuration file.
         /// </summary>
         public const string xPathFileHeader1 = "Layout configuration file.";
         /// <summary>
-        /// 
+        /// Reserved string for Automatically generated file. DO NOT modify!
         /// </summary>
         public const string xPathFileHeader2 = "Automatically generated file. DO NOT modify!";
         /// <summary>
-        /// 
+        /// Reserved string for ConfigFileVersion
         /// </summary>
         public const string xPathConfigFileVersion = "ConfigFileVersion";
         /// <summary>
-        /// 
+        /// Reserved string for CommentList
         /// </summary>
         public const string xPathCommentList = "CommentList";
         /// <summary>
-        /// 
+        /// Reserved string for Comment
         /// </summary>
         public const string xPathComment = "Comment";
         /// <summary>
-        /// 
+        /// Reserved string for LayerList
         /// </summary>
         public const string xPathLayerList = "LayerList";
         /// <summary>
-        /// 
+        /// Reserved string for Layer
         /// </summary>
         public const string xPathLayer = "Layer";
         /// <summary>
-        /// 
+        /// Reserved string for Figure
         /// </summary>
         public const string xPathFigure = "Figure";
         /// <summary>
-        /// 
+        /// Reserved string for AliasList
         /// </summary>
         public const string xPathAliasList = "AliasList";
         /// <summary>
-        /// 
+        /// Reserved string for Alias
         /// </summary>
         public const string xPathAlias = "Alias";
         /// <summary>
-        /// 
+        /// Reserved string for PluginSettings
         /// </summary>
         public const string xPathPluginSettings = "PluginSettings";
         /// <summary>
-        /// 
+        /// Reserved string for Visible
         /// </summary>
         public const string xPathVisible = "Visible";
         /// <summary>
-        /// 
+        /// Reserved string for EcellObjectList
         /// </summary>
         public const string xPathEcellObjectList = "EcellObjectList";
         /// <summary>
-        /// 
+        /// Reserved string for LoggerList
         /// </summary>
         public const string xPathLoggerList = "LoggerList";
         /// <summary>
-        /// 
+        /// Reserved string for EcellObject
         /// </summary>
         public const string xPathEcellObject = "EcellObject";
         /// <summary>
-        /// 
+        /// Reserved string for Logger
         /// </summary>
         public const string xPathLogger = "Logger";
         /// <summary>
-        /// 
+        /// Reserved string for Name
         /// </summary>
         public const string xPathName = "Name";
         /// <summary>
-        /// 
+        /// Reserved string for Type
         /// </summary>
         public const string xPathType = "Type";
         /// <summary>
-        /// 
+        /// Reserved string for Class
         /// </summary>
         public const string xPathClass = "Class";
         /// <summary>
-        /// 
+        /// Reserved string for ModelID
         /// </summary>
         public const string xPathModelID = "ModelID";
         /// <summary>
-        /// 
+        /// Reserved string for Key
         /// </summary>
         public const string xPathKey = "Key";
         /// <summary>
-        /// 
-        /// </summary>
+        /// Reserved string for X
+        /// </summary> 
         public const string xPathX = "X";
         /// <summary>
-        /// 
+        /// Reserved string for Y
         /// </summary>
         public const string xPathY = "Y";
         /// <summary>
-        /// 
+        /// Reserved string for OffsetX
         /// </summary>
         public const string xPathOffsetX = "OffsetX";
         /// <summary>
-        /// 
+        /// Reserved string for OffsetY
         /// </summary>
         public const string xPathOffsetY = "OffsetY";
         /// <summary>
-        /// 
+        /// Reserved string for Width
         /// </summary>
         public const string xPathWidth = "Width";
         /// <summary>
-        /// 
+        /// Reserved string for Height
         /// </summary>
         public const string xPathHeight = "Height";
+
         #region Logger
+        /// <summary>
+        /// Reserved string for FullPN
+        /// </summary>
         public const string xpathFullPN = "FullPN";
+        /// <summary>
+        /// Reserved string for Color
+        /// </summary>
         public const string xpathColor = "Color";
+        /// <summary>
+        /// Reserved string for LineStyle
+        /// </summary>
         public const string xpathLineStyle = "LineStyle";
+        /// <summary>
+        /// Reserved string for LineWidth
+        /// </summary>
         public const string xpathLineWidth = "LineWidth";
+        /// <summary>
+        /// Reserved string for IsShown
+        /// </summary>
         public const string xpathIsShown = "IsShown";
+        /// <summary>
+        /// Reserved string for IsY2
+        /// </summary>
         public const string xpathIsY2 = "IsY2";
         #endregion
     }

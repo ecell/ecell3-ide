@@ -62,7 +62,7 @@ namespace Ecell.Job
         #endregion
 
         /// <summary>
-        /// 
+        /// get the application environment.
         /// </summary>
         public ApplicationEnvironment Environment
         {
@@ -434,8 +434,9 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Execute the event to update the jobs.
         /// </summary>
+        /// <param name="type">the type of job update.</param>
         private void OnJobUpdate(JobUpdateType type)
         {
             if (JobUpdateEvent != null)

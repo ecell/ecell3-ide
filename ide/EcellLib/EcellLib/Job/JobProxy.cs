@@ -128,10 +128,10 @@ namespace Ecell.Job
         public abstract string GetDefaultScript();
 
         /// <summary>
-        /// 
+        /// Get the property data.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">the property name.</param>
+        /// <returns>the property data.</returns>
         public abstract string GetData(string name);
     }
 }

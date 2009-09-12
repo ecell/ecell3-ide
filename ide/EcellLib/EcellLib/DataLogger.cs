@@ -189,7 +189,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// get / set the log file name.
         /// </summary>
         public string FileName
         {
@@ -199,16 +199,16 @@ namespace Ecell
     }
 
     /// <summary>
-    /// 
+    /// The disk full action type.
     /// </summary>
     public enum DiskFullAction
     {
         /// <summary>
-        /// 
+        /// Terminate when the disk is full.
         /// </summary>
         Terminate = 0,
         /// <summary>
-        /// 
+        /// Override the the disk is full.
         /// </summary>
         Overwrite = 1
     }
@@ -218,6 +218,7 @@ namespace Ecell
     /// </summary>
     public class LoggerPolicy: ICloneable
     {
+        #region Fields
         /// <summary>
         /// The action when the HDD is full
         /// </summary>
@@ -234,47 +235,56 @@ namespace Ecell
         /// The reload step count
         /// </summary>
         private int m_reloadStepCount = 1;
+        #endregion
+
+        #region Accessors
         /// <summary>
-        /// 
+        /// get / set the disk full action.
         /// </summary>
         public DiskFullAction DiskFullAction
         {
             get { return m_diskFullAction; }
             set { m_diskFullAction = value; }
         }
+
         /// <summary>
-        /// 
+        /// get / set the max disk space.
         /// </summary>
         public int MaxDiskSpace
         {
             get { return m_maxDiskSpace; }
             set { m_maxDiskSpace = value; }
         }
+
         /// <summary>
-        /// 
+        /// get /set the interval to reaload.
         /// </summary>
         public double ReloadInterval
         {
             get { return m_reloadInterval; }
             set { m_reloadInterval = value; }
         }
+
         /// <summary>
-        /// 
+        /// get / set the step count to reaload.
         /// </summary>
         public int ReloadStepCount
         {
             get { return m_reloadStepCount; }
             set { m_reloadStepCount = value; }
         }
+        #endregion
+
         /// <summary>
-        /// 
+        /// Clone.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the clone object.</returns>
         public object Clone()
         {
             return new LoggerPolicy(this);
         }
 
+        #region constructors
         /// <summary>
         /// Creates the new "LoggerPolicy" instance with some parameters.
         /// </summary>
@@ -299,10 +309,11 @@ namespace Ecell
             this.m_diskFullAction = diskFullAction;
             this.m_maxDiskSpace = maxDiskSpace;
         }
+
         /// <summary>
-        /// 
+        /// Constructor to copy.
         /// </summary>
-        /// <param name="rhs"></param>
+        /// <param name="rhs">the src object.</param>
         public LoggerPolicy(LoggerPolicy rhs)
         {
             this.m_reloadStepCount = rhs.m_reloadStepCount;
@@ -311,9 +322,10 @@ namespace Ecell
             this.m_maxDiskSpace = rhs.m_maxDiskSpace;
         }
         /// <summary>
-        /// 
+        /// Constructors with no initial parameters.
         /// </summary>
         public LoggerPolicy() { }
+        #endregion
     }
 
     /// <summary>
@@ -373,7 +385,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// get/set m_time
+        /// get m_time
         /// </summary>
         public double time
         {
@@ -382,7 +394,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// get/set Value
+        /// get Value
         /// </summary>
         public double value
         {
@@ -391,7 +403,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// get/set m_avg
+        /// get m_avg
         /// </summary>
         public double avg
         {
@@ -400,7 +412,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// get/set m_min
+        /// get m_min
         /// </summary>
         public double min
         {
@@ -409,7 +421,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// get/set m_max
+        /// get m_max
         /// </summary>
         public double max
         {
@@ -423,22 +435,44 @@ namespace Ecell
     /// </summary>
     internal class Ecd
     {
+        #region Fields
+        /// <summary>
+        /// the previous time.
+        /// </summary>
         private double m_oldTime;
+        /// <summary>
+        /// the writer object for the log file.
+        /// </summary>
         private StreamWriter m_writer = null;
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Creates a new "Ecd" instance with no argument.
         /// </summary>
         public Ecd()
         {
-            m_oldTime = -1.0;            
+            m_oldTime = -1.0;
         }
+        #endregion
 
+        /// <summary>
+        /// Close the writer object.
+        /// </summary>
         public void Close()
         {
             if (m_writer != null)
                 m_writer.Close();
         }
 
+        /// <summary>
+        /// Append the log data to the writer object.
+        /// </summary>
+        /// <param name="savedDirName">the save directory.</param>
+        /// <param name="logData">the list of log data.</param>
+        /// <param name="saveType">the save type.</param>
+        /// <param name="startTime">the start time to save the log.</param>
+        /// <param name="endTime">the end time to save the log.</param>
         public void Append(string savedDirName, LogData logData, SaveType saveType,
             double startTime, double endTime)
         {
@@ -538,8 +572,8 @@ namespace Ecell
         /// <param name="savedDirName">The saved directory name.</param>
         /// <param name="logData">The list of the "LogData"</param>
         /// <param name="saveType">The type of saved file.</param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
+        /// <param name="startTime">The start time to save the log.</param>
+        /// <param name="endTime">The end time to save the log.</param>
         public void Create(string savedDirName, LogData logData, SaveType saveType,
             double startTime, double endTime)
         {
@@ -706,6 +740,11 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Load the log data from the log file.
+        /// </summary>
+        /// <param name="fileName">the log file.</param>
+        /// <returns>the list of log data.</returns>
         static public LogData LoadSavedLogData(string fileName)
         {
             string type  = "";
@@ -752,17 +791,18 @@ namespace Ecell
             return d;
         }
     }
+
     /// <summary>
-    /// 
+    /// File type for the log file.
     /// </summary>
     public enum SaveType
     {
         /// <summary>
-        /// 
+        /// ECD type
         /// </summary>
         ECD = 0,
         /// <summary>
-        /// 
+        /// CSV type.
         /// </summary>
         CSV = 1
     }

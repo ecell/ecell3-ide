@@ -9,30 +9,31 @@ using System.Collections;
 namespace Ecell
 {
     /// <summary>
-    /// 
+    /// Exception class to read the xml.
     /// </summary>
     public class EcellXmlReaderException : EcellException
     {
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">the error message.</param>
         public EcellXmlReaderException(string msg)
             : base(msg)
         {
         }
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="innerExc"></param>
+        /// <param name="msg">the error message.</param>
+        /// <param name="innerExc">the inner exception.</param>
         public EcellXmlReaderException(string msg, Exception innerExc)
             : base(msg, innerExc)
         {
         }
     }
+
     /// <summary>
-    /// 
+    /// Writer for Ecell XML.
     /// </summary>
     public class EcellXmlWriter
     {

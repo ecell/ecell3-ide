@@ -185,10 +185,10 @@ namespace Ecell.Job
         }
 
         /// <summary>
-        /// 
+        /// Get the property data.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">the entity name.</param>
+        /// <returns>the property data.</returns>
         public override string GetData(string name)
         {
             Dictionary<string, object> data = GetProperty();

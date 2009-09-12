@@ -66,9 +66,9 @@ namespace Ecell
     public class EmlWriter : EcellXmlWriter
     {
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
-        /// <param name="tx"></param>
+        /// <param name="tx">Text writer object.</param>
         public EmlWriter(XmlTextWriter tx)
             : base(tx)
         {
@@ -657,10 +657,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Initialize the model
         /// </summary>
-        /// <param name="modelObject"></param>
-        /// <param name="simulator"></param>
+        /// <param name="modelObject">the model object.</param>
+        /// <param name="simulator">the loaded simulator.</param>
         public static void InitializeModel(EcellModel modelObject, WrappedSimulator simulator)
         {
             bool isWarn = false;

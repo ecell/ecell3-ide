@@ -163,7 +163,7 @@ namespace Ecell
         }
 
         /// <summary>
-        // get DMDescriptor.
+        /// get DMDescriptor.
         /// </summary>
         public DMDescriptorKeeper DMDescriptorKeeper
         {

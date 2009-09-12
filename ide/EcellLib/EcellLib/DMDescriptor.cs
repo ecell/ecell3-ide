@@ -78,7 +78,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// File path.
+        /// get File path.
         /// </summary>
         public string Path
         {
@@ -89,7 +89,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// get the type of DM.
         /// </summary>
         public string Type
         {
@@ -132,6 +132,9 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// get the dictionary of properties.
+        /// </summary>
         public Dictionary<string, PropertyDescriptor> Property
         {
             get { return m_props; }
@@ -181,7 +184,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Get enumerator of the property list.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<PropertyDescriptor> GetEnumerator()
@@ -190,7 +193,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Get enumerator of the property list.
         /// </summary>
         /// <returns></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -199,10 +202,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Equal override function.
         /// </summary>
-        /// <param name="that"></param>
-        /// <returns></returns>
+        /// <param name="that">the src object.</param>
+        /// <returns>Return true, if this object is equal.</returns>
         public override bool Equals(object that)
         {
             if (!(that is DMDescriptor))
@@ -226,9 +229,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// GetHashCode override of function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the hash code.</returns>
         public override int GetHashCode()
         {
             return (m_name.GetHashCode() ^ m_path.GetHashCode() ^ m_type.GetHashCode()) << (m_canHaveDynamicProperties ? 1 : 0);
