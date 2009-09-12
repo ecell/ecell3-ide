@@ -294,6 +294,15 @@
   <data name="StartUpWindow" xml:space="preserve">
     <value>ウェブブラウザ</value>
   </data>
+  <data name="StatusEdit" xml:space="preserve">
+    <value>編集モード</value>
+  </data>
+  <data name="StatusLoading" xml:space="preserve">
+    <value>読み込み中...</value>
+  </data>
+  <data name="StatusSimulation" xml:space="preserve">
+    <value>シミュレーションモード</value>
+  </data>
   <data name="TitleInitialSet" xml:space="preserve">
     <value>E-Cell IDEの初期設定を選択してください。</value>
   </data>

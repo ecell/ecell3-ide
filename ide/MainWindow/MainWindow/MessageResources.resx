@@ -297,4 +297,13 @@
   <data name="MenuDockManual" xml:space="preserve">
     <value>Manual for Docking Window.</value>
   </data>
+  <data name="StatusEdit" xml:space="preserve">
+    <value>Edit Mode</value>
+  </data>
+  <data name="StatusLoading" xml:space="preserve">
+    <value>Now Loading...</value>
+  </data>
+  <data name="StatusSimulation" xml:space="preserve">
+    <value>Simulation Mode</value>
+  </data>
 </root>

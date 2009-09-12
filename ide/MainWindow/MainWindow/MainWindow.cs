@@ -983,6 +983,29 @@ namespace Ecell.IDE.MainWindow
                 LoadWindowSetting(m_userWindowSettingPath);
             }
 
+            // Show status
+            switch (status)
+            {
+                case ProjectStatus.Loading:
+                    toolStripStatusLabel.Text = MessageResources.StatusLoading;
+                    toolStripStatusLabel.BackColor = Color.LightGray;
+                    break;
+                case ProjectStatus.Loaded:
+                    toolStripStatusLabel.Text = MessageResources.StatusEdit;
+                    toolStripStatusLabel.BackColor = Color.LightGray;
+                    break;
+                case ProjectStatus.Running:
+                case ProjectStatus.Stepping:
+                case ProjectStatus.Suspended:
+                    toolStripStatusLabel.Text = MessageResources.StatusSimulation;
+                    toolStripStatusLabel.BackColor = Color.Yellow;
+                    break;
+                case ProjectStatus.Uninitialized:
+                    toolStripStatusLabel.Text = "";
+                    toolStripStatusLabel.BackColor = Color.LightGray;
+                    break;
+            }
+
             // Set Status.
             m_status = status;
             ChangeUndoStatus(m_env.ActionManager.UndoStatus);

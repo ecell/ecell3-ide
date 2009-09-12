@@ -592,6 +592,33 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Edit Mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StatusEdit {
+            get {
+                return ResourceManager.GetString("StatusEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Now Loading... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StatusLoading {
+            get {
+                return ResourceManager.GetString("StatusLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Simulation Mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StatusSimulation {
+            get {
+                return ResourceManager.GetString("StatusSimulation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please select the initial setting. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TitleInitialSet {
