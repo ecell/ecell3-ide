@@ -74,8 +74,9 @@ namespace Ecell.Action
         {
             get { return m_isUndoable; }
         }
+
         /// <summary>
-        /// 
+        /// get / set the Environment.
         /// </summary>
         public ApplicationEnvironment Environment
         {

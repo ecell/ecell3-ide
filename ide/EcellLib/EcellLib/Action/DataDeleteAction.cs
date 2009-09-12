@@ -59,7 +59,7 @@ namespace Ecell.Action
         }
 
         /// <summary>
-        /// 
+        /// Convert this action to string.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

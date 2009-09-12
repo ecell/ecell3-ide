@@ -41,28 +41,31 @@ namespace Ecell.Action
     public class AnchorAction : UserAction
     {
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
         public AnchorAction()
         {
             m_isAnchor = true;
         }
+
         /// <summary>
-        /// 
+        /// Convert this object to string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>object string</returns>
         public override string ToString()
         {
             return "AnchorAction: True";
         }
+
         /// <summary>
-        /// 
+        /// Execute this action.
         /// </summary>
         public override void Execute()
         {
         }
+
         /// <summary>
-        /// 
+        /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {

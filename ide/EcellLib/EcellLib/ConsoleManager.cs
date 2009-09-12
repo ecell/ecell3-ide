@@ -41,83 +41,118 @@ namespace Ecell
     /// </summary>
     public class ConsoleDataAvailableEventArgs: EventArgs
     {
-        private string m_str;
+        #region Fields
         /// <summary>
-        /// 
+        /// string to output to console
+        /// </summary>
+        private string m_str;
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// get string to output to console.
         /// </summary>
         public string Data
         {
             get { return m_str; }
         }
+        #endregion
+
+        #region Constructors
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="str">string to output to console.</param>
         public ConsoleDataAvailableEventArgs(string str)
         {
             m_str = str;
         }
+        #endregion
     }
+
     /// <summary>
-    /// 
+    /// Delegate to output the console.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">object.</param>
+    /// <param name="e">ConsoleDataAvailableEventArgs</param>
     public delegate void ConsoleDataAvailableEventHandler(object o, ConsoleDataAvailableEventArgs e);
+
     /// <summary>
-    /// 
+    /// Console manager class.
     /// </summary>
     public class ConsoleManager: TextWriter
     {
+        #region Fields
+        /// <summary>
+        /// Application environment class.
+        /// </summary>
         private ApplicationEnvironment m_env;
+        /// <summary>
+        /// String buffer.
+        /// </summary>
         private StringBuilder m_buf;
+        /// <summary>
+        /// status of console
+        /// </summary>
         private int m_state;
         /// <summary>
-        /// 
+        /// EventHandler for ConsoleDataAvailableEventHandler
         /// </summary>
-        public event ConsoleDataAvailableEventHandler ConsoleDataAvailable; 
+        public event ConsoleDataAvailableEventHandler ConsoleDataAvailable;
+        #endregion
+
+        #region Accessors
         /// <summary>
-        /// 
+        /// get Encoding.
         /// </summary>
         public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
         }
         /// <summary>
-        /// 
+        /// get Application environment.
         /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
         }
+        #endregion
+
+        #region Constructors
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
-        /// <param name="env"></param>
+        /// <param name="env">application environment.</param>
         public ConsoleManager(ApplicationEnvironment env)
         {
             m_env = env;
             m_buf = new StringBuilder();
             m_state = 0;
         }
+        #endregion
+
         /// <summary>
-        /// 
+        /// Flush the buffer string to the console.
         /// </summary>
         public override void Flush()
         {
             lock (this) { _Flush(); }
         }
 
+        /// <summary>
+        /// Flush the buffer string to the console.
+        /// </summary>
         private void _Flush()
         {
             if (ConsoleDataAvailable != null)
                 ConsoleDataAvailable(this, new ConsoleDataAvailableEventArgs(m_buf.ToString()));
             m_buf.Length = 0;
         }
+
         /// <summary>
-        /// 
+        /// Write a character to the console.
         /// </summary>
-        /// <param name="c"></param>
+        /// <param name="c">the output character.</param>
         public override void Write(char c)
         {
             lock (this)
@@ -137,12 +172,13 @@ namespace Ecell
                 m_buf.Append(c);
             }
         }
+
         /// <summary>
-        /// 
+        /// Write the characters to the console
         /// </summary>
-        /// <param name="buf"></param>
-        /// <param name="index"></param>
-        /// <param name="count"></param>
+        /// <param name="buf">the characters.</param>
+        /// <param name="index">the start index.</param>
+        /// <param name="count">the character count.</param>
         public override void Write(char[] buf, int index, int count)
         {
             int e = index + count;

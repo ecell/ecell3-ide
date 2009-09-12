@@ -36,15 +36,17 @@ using System.Text;
 namespace Ecell.Action
 {
     /// <summary>
-    /// 
+    /// EventArgs class to undo the status.
     /// </summary>
     public class UndoStatusChangedEventArgs : EventArgs
     {
-
+        /// <summary>
+        /// Status.
+        /// </summary>
         private UndoStatus m_unduStatus;
 
         /// <summary>
-        /// 
+        /// get status.
         /// </summary>
         public UndoStatus Status
         {
@@ -52,7 +54,7 @@ namespace Ecell.Action
         }
 
         /// <summary>
-        /// 
+        /// Constructors.
         /// </summary>
         /// <param name="status"></param>
         public UndoStatusChangedEventArgs(UndoStatus status)
@@ -62,9 +64,9 @@ namespace Ecell.Action
     }
 
     /// <summary>
-    /// 
+    /// Delegate to undo the status.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">object</param>
+    /// <param name="e">UndoStatusEventArgs.</param>
     public delegate void UndoStatusChangedEvent(object sender, UndoStatusChangedEventArgs e);
 }

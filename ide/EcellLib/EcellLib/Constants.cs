@@ -182,11 +182,11 @@ namespace Ecell
         /// </summary>
         public const string FilterCSVFile = "CSV File (*.csv)|*.csv|all(*.*)|*.*";
         /// <summary>
-        /// 
+        /// File Filter for the log file.
         /// </summary>
         public const string FilterECDFile = "Log File(*.ecd)|*.ecd|all(*.*)|*.*";
         /// <summary>
-        /// 
+        /// File Fileter for the log file.
         /// </summary>
         public const string FilterLogFile = "Log File(*.ecd)|*.ecd|CSV File (*.csv)|*.csv|all(*.*)|*.*";
         /// <summary>
@@ -522,7 +522,7 @@ namespace Ecell
         /// </summary>
         public const string xpathVRL = "VariableReferenceList";
         /// <summary>
-        /// 
+        /// Reserved XML path name for Current.
         /// </summary>
         public const string xpathCurrent = "Current";
         #endregion
@@ -815,19 +815,19 @@ namespace Ecell
     public enum MessageType
     {
         /// <summary>
-        /// 
+        /// Message type for debug.
         /// </summary>
         Debug = 0,
         /// <summary>
-        /// 
+        /// Message type for information.
         /// </summary>
         Information = 1,
         /// <summary>
-        /// 
+        /// Message type for warning.
         /// </summary>
         Warning = 2,
         /// <summary>
-        /// 
+        /// Message type for error.
         /// </summary>
         Error = 3
     }

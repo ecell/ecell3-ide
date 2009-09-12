@@ -66,9 +66,9 @@ namespace Ecell.Action
         }
 
         /// <summary>
-        /// 
+        /// Convert this object to string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>object string.</returns>
         public override string ToString()
         {
             return "SetSimParamAction:" + m_isAnchor.ToString() + ", " + m_oldParamID + ", " + m_newParamID;

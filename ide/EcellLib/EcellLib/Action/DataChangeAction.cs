@@ -71,9 +71,9 @@ namespace Ecell.Action
         }
 
         /// <summary>
-        /// 
+        /// Convert this action to string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>object string</returns>
         public override string ToString()
         {
             return "DataChangeAction:" + m_isAnchor.ToString() + ", " + m_oldObj.ToString() + ", " + m_newObj.ToString();
