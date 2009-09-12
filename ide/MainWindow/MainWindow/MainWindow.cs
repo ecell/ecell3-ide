@@ -988,11 +988,11 @@ namespace Ecell.IDE.MainWindow
             {
                 case ProjectStatus.Loading:
                     toolStripStatusLabel.Text = MessageResources.StatusLoading;
-                    toolStripStatusLabel.BackColor = Color.LightGray;
+                    toolStripStatusLabel.BackColor = SystemColors.Control;
                     break;
                 case ProjectStatus.Loaded:
                     toolStripStatusLabel.Text = MessageResources.StatusEdit;
-                    toolStripStatusLabel.BackColor = Color.LightGray;
+                    toolStripStatusLabel.BackColor = SystemColors.Control;
                     break;
                 case ProjectStatus.Running:
                 case ProjectStatus.Stepping:
@@ -1002,7 +1002,7 @@ namespace Ecell.IDE.MainWindow
                     break;
                 case ProjectStatus.Uninitialized:
                     toolStripStatusLabel.Text = "";
-                    toolStripStatusLabel.BackColor = Color.LightGray;
+                    toolStripStatusLabel.BackColor = SystemColors.Control;
                     break;
             }
 

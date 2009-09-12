@@ -147,7 +147,6 @@ namespace Ecell.IDE.MainWindow
             this.quickInspectorText,
             this.genericProgressBar});
             this.MWstatusStrip.Name = "MWstatusStrip";
-            this.MWstatusStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             // 
             // genericStatusText
             // 
@@ -157,12 +156,16 @@ namespace Ecell.IDE.MainWindow
             // 
             // toolStripStatusLabel
             // 
+            this.toolStripStatusLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StatusBar;
+            this.toolStripStatusLabel.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.toolStripStatusLabel, "toolStripStatusLabel");
             this.toolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.toolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
+            this.toolStripStatusLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.toolStripStatusLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            resources.ApplyResources(this.toolStripStatusLabel, "toolStripStatusLabel");
             // 
             // quickInspectorText
             // 
