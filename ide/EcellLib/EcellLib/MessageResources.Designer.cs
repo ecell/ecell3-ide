@@ -592,6 +592,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Drawing {0} plugin. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoDataAdd {
+            get {
+                return ResourceManager.GetString("InfoDataAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is deleted ({1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoDel {

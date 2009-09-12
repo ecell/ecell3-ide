@@ -532,9 +532,6 @@ namespace Ecell
                 List<EcellData> ecellDataList = new List<EcellData>();
                 ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
-                // Send Message.
-                m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
-                m_env.Console.Flush();
 
                 // Load DMs.
                 m_env.DMDescriptorKeeper.Load(project.GetDMDirs());
@@ -587,6 +584,11 @@ namespace Ecell
 
                     m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.ProjectFile));
                     m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+
+                    // Send Message.
+                    m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
+                    m_env.Console.Flush();
+
                 }
             }
         }

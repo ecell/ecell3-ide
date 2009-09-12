@@ -390,4 +390,7 @@
   <data name="InfoExportFile" xml:space="preserve">
     <value>{0}の保存を完了しました。</value>
   </data>
+  <data name="InfoDataAdd" xml:space="preserve">
+    <value>{0}の描画中です。</value>
+  </data>
 </root>

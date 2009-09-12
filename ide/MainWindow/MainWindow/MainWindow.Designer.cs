@@ -51,6 +51,7 @@ namespace Ecell.IDE.MainWindow
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.MWstatusStrip = new System.Windows.Forms.StatusStrip();
             this.genericStatusText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.quickInspectorText = new System.Windows.Forms.ToolStripStatusLabel();
             this.genericProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
@@ -142,6 +143,7 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.MWstatusStrip, "MWstatusStrip");
             this.MWstatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.genericStatusText,
+            this.toolStripStatusLabel1,
             this.quickInspectorText,
             this.genericProgressBar});
             this.MWstatusStrip.Name = "MWstatusStrip";
@@ -152,6 +154,15 @@ namespace Ecell.IDE.MainWindow
             this.genericStatusText.Name = "genericStatusText";
             resources.ApplyResources(this.genericStatusText, "genericStatusText");
             this.genericStatusText.Spring = true;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             // 
             // quickInspectorText
             // 
@@ -741,6 +752,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem exportSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportZipToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importZipToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

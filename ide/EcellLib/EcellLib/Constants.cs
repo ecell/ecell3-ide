@@ -844,7 +844,11 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        QuickInspector
+        QuickInspector,
+        /// <summary>
+        /// Show SimulationStatus Changed.
+        /// </summary>
+        Status
     }
     /// <summary>
     /// 

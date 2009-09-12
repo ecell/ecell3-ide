@@ -298,8 +298,25 @@ namespace Ecell.Plugin
         {
             foreach (IDataHandler p in m_dataHandlerList)
             {
+                // Show statusbar message.
+                if (m_status == ProjectStatus.Loading)
+                {
+                    m_env.ReportManager.SetStatus(
+                        StatusBarMessageKind.Generic,
+                        string.Format(MessageResources.InfoDataAdd,((IEcellPlugin)p).GetPluginName()) );
+
+                }
                 p.DataAdd(data);
             }
+            // Reset 
+            if (m_status == ProjectStatus.Loading)
+            {
+                m_env.ReportManager.SetStatus(
+                    StatusBarMessageKind.Generic,
+                    "");
+
+            }
+
         }
 
         /// <summary>

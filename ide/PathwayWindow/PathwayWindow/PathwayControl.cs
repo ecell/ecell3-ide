@@ -440,7 +440,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (isFirst)
                 {
                     Progress(mes, 100, 100);
-                    Window.Environment.ReportManager.SetStatus(StatusBarMessageKind.Generic, "");
                     m_canvas.RefreshEdges();
                 }
             }
@@ -541,10 +540,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="val">the value of progress.</param>
         public void Progress(string msg, int max, int val)
         {
-            Window.Environment.ReportManager.SetStatus(
-                StatusBarMessageKind.Generic,
-                msg
-            );
             Window.Environment.ReportManager.SetProgress(100 * val / max);
         }
 
