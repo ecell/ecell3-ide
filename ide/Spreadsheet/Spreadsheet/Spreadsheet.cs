@@ -1422,7 +1422,10 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 m_isSelected = false;
             }
             m_dragObject = r.Tag as EcellObject;
+            m_shiftIndex = -1;
         }
+
+        private int m_shiftIndex = -1;
 
         /// <summary>
         /// Event when mouse is moved on DataGridView.
@@ -1523,6 +1526,126 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 SetClipBoardText();
                 return true;
             }
+            else if ((int)keyData == (int)Keys.Up + (int)Keys.Shift)
+            {
+                if (m_gridView.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = m_gridView.CurrentCell.RowIndex;
+                    if (m_shiftIndex > 0)
+                    {
+                        if (m_shiftIndex <= rindex)
+                        {
+                            EcellObject obj = m_gridView.Rows[m_shiftIndex - 1].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                m_gridView.Rows[m_shiftIndex - 1].Selected = true;
+                                m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        else if (m_shiftIndex > rindex)
+                        {
+                            EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                m_gridView.Rows[m_shiftIndex].Selected = false;
+                                m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        m_shiftIndex = m_shiftIndex - 1;
+                    }
+                    else if (m_shiftIndex == -1)
+                    {
+                        m_shiftIndex = rindex - 1;
+                        EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            m_gridView.Rows[m_shiftIndex].Selected = true;
+                            m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                        }
+                    }
+                }
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Down + (int)Keys.Shift)
+            {
+                if (m_gridView.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = m_gridView.CurrentCell.RowIndex;
+                    if (m_shiftIndex + 1 < m_gridView.Rows.Count)
+                    {
+                        if (m_shiftIndex >= rindex)
+                        {
+                            EcellObject obj = m_gridView.Rows[m_shiftIndex + 1].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                m_gridView.Rows[m_shiftIndex + 1].Selected = true;
+                                m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        else if (m_shiftIndex < rindex)
+                        {
+                            EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                m_gridView.Rows[m_shiftIndex].Selected = false;
+                                m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        m_shiftIndex = m_shiftIndex + 1;
+                    }
+                    else if (m_shiftIndex == -1)
+                    {
+                        m_shiftIndex = rindex + 1;
+                        EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            m_gridView.Rows[m_shiftIndex].Selected = true;
+                            m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                        }
+                    }
+                }
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Up)
+            {
+                if (m_gridView.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = m_gridView.CurrentCell.RowIndex;
+                    int cindex = m_gridView.CurrentCell.ColumnIndex;
+                    if (rindex > 0)
+                    {
+                        m_isSelected = true;
+                        EcellObject obj = m_gridView.Rows[rindex - 1].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            m_env.PluginManager.SelectChanged(obj);
+                        }
+                        m_isSelected = false;
+                        m_gridView.CurrentCell = m_gridView[cindex, rindex - 1];
+                    }
+                }
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Down)
+            {
+                if (m_gridView.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = m_gridView.CurrentCell.RowIndex;
+                    int cindex = m_gridView.CurrentCell.ColumnIndex;
+                    if (rindex + 1 < m_gridView.Rows.Count)
+                    {
+                        m_isSelected = true;
+                        EcellObject obj = m_gridView.Rows[rindex + 1].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            m_env.PluginManager.SelectChanged(obj);
+                        }
+                        m_isSelected = false;
+                        m_gridView.CurrentCell = m_gridView[cindex, rindex + 1];
+                    }
+                }
+                return true;
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1565,8 +1688,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 Color.Red;
 
             m_prevCell = m_gridView.CurrentCell;
-        }
-
+        }               
         #endregion
 
         /// <summary>

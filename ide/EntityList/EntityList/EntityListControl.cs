@@ -557,6 +557,7 @@ namespace Ecell.IDE.Plugins.EntityList
             }
         }
 
+        private int m_shiftIndex = -1;
         /// <summary>
         /// Press key on DataGridView.
         /// </summary>
@@ -569,6 +570,126 @@ namespace Ecell.IDE.Plugins.EntityList
                 (int)keyData == (int)Keys.Delete)
             {
                 DeletedSelectionRow();
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Up + (int)Keys.Shift)
+            {
+                if (objectListDataGrid.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = objectListDataGrid.CurrentCell.RowIndex;
+                    if (m_shiftIndex > 0)
+                    {
+                        if (m_shiftIndex <= rindex)
+                        {
+                            EcellObject obj = objectListDataGrid.Rows[m_shiftIndex - 1].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                objectListDataGrid.Rows[m_shiftIndex - 1].Selected = true;
+                                m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        else if (m_shiftIndex > rindex)
+                        {
+                            EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                objectListDataGrid.Rows[m_shiftIndex].Selected = false;
+                                m_owner.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        m_shiftIndex = m_shiftIndex -1;
+                    }
+                    else if (m_shiftIndex == -1)
+                    {
+                        m_shiftIndex = rindex - 1;
+                        EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            objectListDataGrid.Rows[m_shiftIndex].Selected = true;
+                            m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                        }
+                    }
+                }
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Down + (int)Keys.Shift)
+            {
+                if (objectListDataGrid.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = objectListDataGrid.CurrentCell.RowIndex;
+                    if (m_shiftIndex + 1 < objectListDataGrid.Rows.Count)
+                    {
+                        if (m_shiftIndex >= rindex)
+                        {
+                            EcellObject obj = objectListDataGrid.Rows[m_shiftIndex + 1].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                objectListDataGrid.Rows[m_shiftIndex + 1].Selected = true;
+                                m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        else if (m_shiftIndex < rindex)
+                        {
+                            EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                objectListDataGrid.Rows[m_shiftIndex].Selected = false;
+                                m_owner.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        m_shiftIndex = m_shiftIndex + 1;
+                    }
+                    else if (m_shiftIndex == -1)
+                    {
+                        m_shiftIndex = rindex + 1;
+                        EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            objectListDataGrid.Rows[m_shiftIndex].Selected = true;
+                            m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                        }
+                    }
+                }
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Up)
+            {
+                if (objectListDataGrid.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = objectListDataGrid.CurrentCell.RowIndex;
+                    int cindex = objectListDataGrid.CurrentCell.ColumnIndex;
+                    if (rindex > 0)
+                    {
+                        m_isSelected = true;
+                        EcellObject obj = objectListDataGrid.Rows[rindex - 1].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            m_owner.PluginManager.SelectChanged(obj);
+                        }
+                        m_isSelected = false;
+                        objectListDataGrid.CurrentCell = objectListDataGrid[cindex, rindex - 1];
+                    }
+                }
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Down)
+            {
+                if (objectListDataGrid.CurrentRow != null && !m_isSelected)
+                {
+                    int rindex = objectListDataGrid.CurrentCell.RowIndex;
+                    int cindex = objectListDataGrid.CurrentCell.ColumnIndex;
+                    if (rindex + 1 < objectListDataGrid.Rows.Count)
+                    {
+                        m_isSelected = true;
+                        EcellObject obj = objectListDataGrid.Rows[rindex + 1].Tag as EcellObject;
+                        if (obj != null)
+                        {
+                            m_owner.PluginManager.SelectChanged(obj);
+                        }
+                        m_isSelected = false;
+                        objectListDataGrid.CurrentCell = objectListDataGrid[cindex, rindex + 1];
+                    }
+                }
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -766,6 +887,7 @@ namespace Ecell.IDE.Plugins.EntityList
                     }
                 }
                 m_dragObject = r.Tag as EcellObject;
+                m_shiftIndex = -1;
             }
             else if (e.Button == MouseButtons.Right)
             {
