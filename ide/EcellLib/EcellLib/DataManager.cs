@@ -583,12 +583,12 @@ namespace Ecell
                     }
 
                     m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.ProjectFile));
-                    m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
 
                     // Send Message.
                     m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
                     m_env.Console.Flush();
 
+                    m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 }
             }
         }
