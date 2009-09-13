@@ -157,8 +157,8 @@ namespace Ecell.Job
         /// <summary>
         /// GetNodeByKey
         /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="key"></param>
+        /// <param name="xml">XML node.</param>
+        /// <param name="key">the key string.</param>
         /// <returns>Selected XmlNode</returns>
         private XmlNode GetNodeByKey(XmlNode xml, string key)
         {
@@ -171,6 +171,12 @@ namespace Ecell.Job
             return selected;
         }
 
+        /// <summary>
+        /// Get element string.
+        /// </summary>
+        /// <param name="node">XML node.</param>
+        /// <param name="name">the key name.</param>
+        /// <returns>the element string.</returns>
         private string GetElementString(XmlNode node, string name)
         {
             foreach (XmlNode n in node.ChildNodes)

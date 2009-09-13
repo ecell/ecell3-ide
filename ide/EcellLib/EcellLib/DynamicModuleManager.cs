@@ -510,13 +510,13 @@ namespace Ecell
         /// <summary>
         /// AddProperty
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="isSettable"></param>
-        /// <param name="isGettable"></param>
-        /// <param name="isLoadable"></param>
-        /// <param name="isSavable"></param>
-        /// <param name="defaultobj"></param>
-        /// <param name="typedata"></param>
+        /// <param name="name">the property name.</param>
+        /// <param name="isSettable">whether this proerty is settable.</param>
+        /// <param name="isGettable">whether this proerty is gettable.</param>
+        /// <param name="isLoadable">whether this proerty is loadable.</param>
+        /// <param name="isSavable">whether this proerty is savable</param>
+        /// <param name="defaultobj">the default object.</param>
+        /// <param name="typedata">type</param>
         public void AddProperty(string name, bool isSettable, bool isGettable,
             bool isLoadable, bool isSavable, object defaultobj, Type typedata)
         {
@@ -542,13 +542,13 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="isSettable"></param>
-        /// <param name="isGettable"></param>
-        /// <param name="isLoadable"></param>
-        /// <param name="isSavable"></param>
-        /// <param name="defaultobj"></param>
-        /// <param name="typedata"></param>
+        /// <param name="name">the property name.</param>
+        /// <param name="isSettable">whether this proerty is settable.</param>
+        /// <param name="isGettable">whether this proerty is gettable.</param>
+        /// <param name="isLoadable">whether this proerty is loadable.</param>
+        /// <param name="isSavable">whether this proerty is savable</param>
+        /// <param name="defaultobj">the default object.</param>
+        /// <param name="typedata">type</param>
         public DynamicModuleProperty(string name, bool isSettable, bool isGettable,
             bool isLoadable, bool isSavable, object defaultobj, Type typedata)
         {

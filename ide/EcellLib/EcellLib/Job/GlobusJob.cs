@@ -303,8 +303,8 @@ namespace Ecell.Job
         /// <summary>
         /// Get log data from server node.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">the entity path.</param>
+        /// <returns>the list of log data.</returns>
         public override Dictionary<double, double> GetLogData(string key)
         {
             Dictionary<double, double> result = new Dictionary<double, double>();

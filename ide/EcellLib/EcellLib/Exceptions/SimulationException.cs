@@ -18,8 +18,8 @@ namespace Ecell.Exceptions
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="e"></param>
+        /// <param name="message">the exception message</param>
+        /// <param name="e">the inner Exception.</param>
         public SimulationException(string message, WrappedException e):
             base(message, e)
         {

@@ -42,7 +42,7 @@ namespace Ecell.Exceptions
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="mes">exception message.</param>
+        /// <param name="mes">the exception message.</param>
         public IgnoreException(string mes)
             :base(mes)
         {
@@ -52,8 +52,8 @@ namespace Ecell.Exceptions
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="e"></param>
+        /// <param name="message">the exception message</param>
+        /// <param name="e">the inner Exception</param>
         public IgnoreException(string message, Exception e)
             : base(message, e)
         {

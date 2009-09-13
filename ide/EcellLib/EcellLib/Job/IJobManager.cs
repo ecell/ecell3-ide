@@ -8,8 +8,8 @@ namespace Ecell.Job
     /// <summary>
     /// EventHandler when job status is updated.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">JobManager</param>
+    /// <param name="e">JobUpdateEventArgs</param>
     public delegate void JobUpdateEventHandler(object o, JobUpdateEventArgs e);
 
     /// <summary>
@@ -191,7 +191,7 @@ namespace Ecell.Job
         /// <summary>
         /// Regist the session of e-cell.
         /// </summary>
-        /// <param name="groupName"></param>
+        /// <param name="groupName">the analysis group name.</param>
         /// <param name="arg">the argument of script.</param>
         /// <param name="extFile">the list of extension file.</param>
         /// <param name="script">the script file.</param>
@@ -200,7 +200,7 @@ namespace Ecell.Job
         /// <summary>
         /// Regist the jobs.
         /// </summary>
-        /// <param name="job"></param>
+        /// <param name="job">the job object.</param>
         /// <param name="script">Script file name.</param>
         /// <param name="arg">Argument of script file.</param>
         /// <param name="extFile">Extra file list of script file.</param>

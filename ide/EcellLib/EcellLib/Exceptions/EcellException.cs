@@ -47,10 +47,11 @@ namespace Ecell.Exceptions
             : base()
         {
         }
+
         /// <summary>
         /// Constructor with message.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">the exception message.</param>
         public EcellException(string message)
             : base(message)
         {
@@ -58,8 +59,8 @@ namespace Ecell.Exceptions
         /// <summary>
         /// Constructor with message and inner exception.s
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="e"></param>
+        /// <param name="message">the exception message.</param>
+        /// <param name="e">the inner exception</param>
         public EcellException(string message, Exception e)
             : base(message, e)
         {

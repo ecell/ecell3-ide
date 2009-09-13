@@ -95,7 +95,7 @@ namespace Ecell
         /// <summary>
         /// Write EML
         /// </summary>
-        /// <param name="storedList"></param>
+        /// <param name="storedList">the list of object to write EML.</param>
         public void Write(List<EcellObject> storedList)
         {
             foreach (EcellObject ecellObject in storedList)
@@ -116,7 +116,7 @@ namespace Ecell
         /// </summary>
         /// <param name="fileName">The eml formatted file name</param>
         /// <param name="storedList">The list of the stored "EcellObject"</param>
-        /// <param name="isProjectSave"></param>
+        /// <param name="isProjectSave">whether project is saved.</param>
         public static void Create(string fileName, List<EcellObject> storedList, bool isProjectSave)
         {
             //
@@ -168,7 +168,7 @@ namespace Ecell
         /// <summary>
         /// BackUpModel
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the model file name.</param>
         private static void BackUpModel(string fileName)
         {
             string date
@@ -265,7 +265,7 @@ namespace Ecell
         /// <summary>
         /// Creates the "EcellData" elements.
         /// </summary>
-        /// <param name="ecellObject"></param>
+        /// <param name="ecellObject">the wrote object.</param>
         private void WriteDataElement(EcellObject ecellObject)
         {
             foreach (EcellData ecellData in ecellObject.Value)
@@ -290,14 +290,20 @@ namespace Ecell
     /// </summary>
     public class EmlReader : EcellXmlReader
     {
+        /// <summary>
+        /// Documant object for EML.
+        /// </summary>
         private XmlDocument m_doc;
+        /// <summary>
+        /// Model ID.
+        /// </summary>
         private string m_modelID;
 
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
         /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="sim"></param>
+        /// <param name="filename">the EML file name.</param>
+        /// <param name="sim">The current simulator.</param>
         public EmlReader(string filename, WrappedSimulator sim)
         {
             m_doc = new XmlDocument();
@@ -608,7 +614,7 @@ namespace Ecell
         /// <summary>
         /// Normalize VariableReferences
         /// </summary>
-        /// <param name="eo"></param>
+        /// <param name="eo">The normalized object.</param>
         private static void NormalizeVariableReferences(EcellObject eo)
         {
             EcellProcess process = (EcellProcess)eo;
@@ -619,6 +625,10 @@ namespace Ecell
             process.ReferenceList = list;
         }
 
+        /// <summary>
+        /// Parse the file to the model.
+        /// </summary>
+        /// <returns>the model object.</returns>
         public EcellModel Parse()
         {
             EcellModel modelObject = (EcellModel)EcellObject.CreateObject(

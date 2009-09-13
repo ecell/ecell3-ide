@@ -45,7 +45,7 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="tx"></param>
+        /// <param name="tx">Writer object.</param>
         public EcellXmlWriter(XmlTextWriter tx)
         {
             m_tx = tx;

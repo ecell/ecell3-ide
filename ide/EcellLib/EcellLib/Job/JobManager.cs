@@ -496,8 +496,8 @@ namespace Ecell.Job
         /// <summary>
         /// Get the list of jobs with JobStatus.
         /// </summary>
-        /// <param name="status"></param>
-        /// <returns></returns>
+        /// <param name="status">The status of job.</param>
+        /// <returns>The list of jobs.</returns>
         private List<Job> GetJobListWithStatus(JobStatus status)
         {
             List<Job> tmpList = new List<Job>();
@@ -558,8 +558,8 @@ namespace Ecell.Job
         /// <summary>
         /// Preapre to execute the process.
         /// Ex. script file, extra file, job directory and so on.
-        /// <param name="groupName"></param>
-        /// <param name="isForce"></param>
+        /// <param name="groupName">the analysis group name.</param>
+        /// <param name="isForce">whether this job is initialize forcely.</param>
         /// </summary>
         private void PrepareProcessRun(string groupName, bool isForce)
         {

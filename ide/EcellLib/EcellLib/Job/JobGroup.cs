@@ -371,7 +371,7 @@ namespace Ecell.Job
         /// <summary>
         /// Delete the selected job in this job group.
         /// </summary>
-        /// <param name="jobid"></param>
+        /// <param name="jobid">the deleted job id.</param>
         public void DeleteJob(int jobid)
         {
             foreach (Job m in m_jobs)

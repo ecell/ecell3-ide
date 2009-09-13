@@ -95,11 +95,11 @@ namespace Ecell.Job
         /// <summary>
         /// Create the proxy of session with initial parameters.
         /// </summary>
-        /// <param name="script"></param>
-        /// <param name="arg"></param>
-        /// <param name="extFile"></param>
-        /// <param name="tmpDir"></param>
-        /// <returns></returns>
+        /// <param name="script">the script file name.</param>
+        /// <param name="arg">the argument of job.</param>
+        /// <param name="extFile">the list of extract files.</param>
+        /// <param name="tmpDir">the tmporary directory.</param>
+        /// <returns>The created job.</returns>
         public override Job CreateJob(string script, string arg, List<string> extFile, string tmpDir)
         {
             GlobusJob job = new GlobusJob();

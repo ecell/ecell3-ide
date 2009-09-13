@@ -1,4 +1,34 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2009 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Ecell.Objects;
@@ -14,7 +44,7 @@ using Ecell.Logger;
 namespace Ecell
 {
     /// <summary>
-    /// 
+    /// LEML class.
     /// </summary>
     public class Leml
     {
@@ -26,8 +56,8 @@ namespace Ecell
         /// <summary>
         /// LoadLEML
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="filename"></param>
+        /// <param name="model">the model ID.</param>
+        /// <param name="filename">the filename.</param>
         public static void LoadLEML(ApplicationEnvironment env, EcellModel model,string filename)
         {
             if (!File.Exists(filename))
@@ -69,8 +99,8 @@ namespace Ecell
         /// <summary>
         /// GetNodeByKey
         /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="key"></param>
+        /// <param name="xml">XmlNode</param>
+        /// <param name="key">the string key.</param>
         /// <returns>Selected XmlNode</returns>
         public static XmlNode GetNodeByKey(XmlNode xml, string key)
         {
@@ -84,10 +114,10 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Set Layers.
+        /// Set the Layers to XML node.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="layers"></param>
+        /// <param name="model">the model object.</param>
+        /// <param name="layers">Layer XML node.</param>
         private static void SetLayers(EcellModel model, XmlNode layers)
         {
             if (layers == null || layers.ChildNodes.Count <= 0)
@@ -105,6 +135,12 @@ namespace Ecell
             model.Layers = elList;
         }
 
+        /// <summary>
+        /// Set the logger to XML node.
+        /// </summary>
+        /// <param name="env">ApplicationEnvironment</param>
+        /// <param name="model">the model object.</param>
+        /// <param name="loggers">Logger XML node.</param>
         private static void SetLogger(ApplicationEnvironment env, EcellModel model, XmlNode loggers)
         {
             if (loggers == null || loggers.ChildNodes.Count <= 0)
@@ -141,6 +177,11 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Set the alias to XML node.
+        /// </summary>
+        /// <param name="model">the model object.</param>
+        /// <param name="aliases">Alias XML node.</param>
         private static void SetAliases(EcellModel model, XmlNode aliases)
         {
             if (aliases == null || aliases.ChildNodes.Count <= 0)
@@ -171,8 +212,8 @@ namespace Ecell
         /// <summary>
         /// Set EcellObjects.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="ecellObjects"></param>
+        /// <param name="model">the model object.</param>
+        /// <param name="ecellObjects">object XML node.</param>
         private static void SetEcellObjects(EcellModel model, XmlNode ecellObjects)
         {
             if (ecellObjects == null || ecellObjects.ChildNodes.Count <= 0)
@@ -207,10 +248,10 @@ namespace Ecell
         /// <summary>
         /// GetEcellObject
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="type"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="model">The model object.</param>
+        /// <param name="type">The type of object.</param>
+        /// <param name="key">The key of object.</param>
+        /// <returns>The object from XML node.</returns>
         private static EcellObject GetEcellObject(EcellModel model, string type, string key)
         {
             EcellObject eo = null;
@@ -241,9 +282,9 @@ namespace Ecell
         /// <summary>
         /// GetStringAttribute
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="node">XML node.</param>
+        /// <param name="key">The attribute string.</param>
+        /// <returns>The attribute value string.</returns>
         public static string GetStringAttribute(XmlNode node, string key)
         {
             try
@@ -264,9 +305,9 @@ namespace Ecell
         /// <summary>
         /// GetXMLAttributeFloat
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="node">The xml node.</param>
+        /// <param name="key">The attribute key.</param>
+        /// <returns>the attribute value.</returns>
         public static float GetFloatAttribute(XmlNode node, string key)
         {
             string value = GetStringAttribute(node, key);
@@ -299,8 +340,9 @@ namespace Ecell
         /// <summary>
         /// Save EcellObjects in LEML format.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="filename"></param>
+        /// <param name="env">ApplicationEnvironment</param>
+        /// <param name="model">The model object.</param>
+        /// <param name="filename">the file name.</param>
         public static void SaveLEML(ApplicationEnvironment env, EcellModel model, string filename)
         {
             CheckFilePath(filename);
@@ -395,6 +437,11 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Write the alias information.
+        /// </summary>
+        /// <param name="xmlOut">Writer object.</param>
+        /// <param name="eo">The alias object.</param>
         private static void WriteAliases(XmlTextWriter xmlOut, EcellObject eo)
         {
             EcellVariable var = (EcellVariable)eo;
@@ -415,8 +462,8 @@ namespace Ecell
         /// <summary>
         /// WriteEcellObject
         /// </summary>
-        /// <param name="xmlOut"></param>
-        /// <param name="eo"></param>
+        /// <param name="xmlOut">Write object.</param>
+        /// <param name="eo">the wrote object.</param>
         private static void WriteObjectElement(XmlTextWriter xmlOut, EcellObject eo)
         {
             xmlOut.WriteStartElement(LemlConstants.xPathEcellObject);

@@ -78,7 +78,7 @@ namespace Ecell.Job
         /// <summary>
         /// Set the property of analysis.
         /// </summary>
-        /// <param name="paramDic"></param>
+        /// <param name="paramDic">the dictionary of parameters.</param>
         void SetAnalysisProperty(Dictionary<string, string> paramDic);
         /// <summary>
         /// Get the property of analysis.
@@ -92,7 +92,7 @@ namespace Ecell.Job
         /// <summary>
         /// Create the analysis instance.
         /// </summary>
-        /// <param name="group"></param>
+        /// <param name="group">the analysis group name.</param>
         /// <returns></returns>
         IAnalysisModule CreateNewInstance(JobGroup group);
         /// <summary>

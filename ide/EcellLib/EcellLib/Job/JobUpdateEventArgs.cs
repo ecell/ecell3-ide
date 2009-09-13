@@ -55,7 +55,7 @@ namespace Ecell.Job
         /// <summary>
         /// Constructors.
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">job update type.</param>
         public JobUpdateEventArgs(JobUpdateType args)
         {
             m_type = args;
