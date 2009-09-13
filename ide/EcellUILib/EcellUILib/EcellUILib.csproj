@@ -132,6 +132,12 @@
     <Compile Include="VariableSelectDialog.designer.cs">
       <DependentUpon>VariableSelectDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="VariableCountDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VariableCountDialog.designer.cs">
+      <DependentUpon>VariableCountDialog.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\EcellLib\EcellLib\EcellLib.csproj">
@@ -254,6 +260,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VariableSelectDialog.resx">
       <DependentUpon>VariableSelectDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VariableCountDialog.ja.resx">
+      <DependentUpon>VariableCountDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VariableCountDialog.resx">
+      <DependentUpon>VariableCountDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

@@ -53,7 +53,7 @@ namespace Ecell.IDE
         /// <summary>
         /// the parent windows form.
         /// </summary>
-        private VariableReferenceEditDialog m_win;
+        private IVariableDialog m_win;
         #endregion
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Ecell.IDE
         /// Set the windows form to the parent window.
         /// </summary>
         /// <param name="w">windows form</param>
-        public void SetParentWindow(VariableReferenceEditDialog w)
+        public void SetParentWindow(IVariableDialog w)
         {
             m_win = w;
         }
@@ -175,5 +175,18 @@ namespace Ecell.IDE
             m_win.AddReference(key, "P");
         }
         #endregion
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IVariableDialog
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="?"></param>
+        /// <param name="?"></param>
+        void AddReference(string key, string prefix);
     }
 }

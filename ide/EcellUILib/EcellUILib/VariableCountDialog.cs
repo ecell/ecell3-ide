@@ -43,7 +43,7 @@ using Ecell.Plugin;
 
 namespace Ecell.IDE
 {
-    public partial class VariableReferenceEditDialog : Form, IVariableDialog
+    public partial class VariableCountDialog : Form, IVariableDialog
     {
         #region Fields
         /// <summary>
@@ -74,7 +74,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor for VariableRefWindow.
         /// </summary>
-        public VariableReferenceEditDialog(DataManager dManager, PluginManager pManager, List<EcellReference> list)
+        public VariableCountDialog(DataManager dManager, PluginManager pManager, List<EcellReference> list)
         {
             m_dManager = dManager;
             m_pManager = pManager;
@@ -216,17 +216,9 @@ namespace Ecell.IDE
         /// <param name="prefix">prefix string</param>
         public void AddReference(string key, string prefix)
         {
-            int j = 0;
-            int p = 0;
-            if (prefix.Equals("P"))
-                p = 1;
-            else if (prefix.Equals("S"))
-                p = -1;
-
             for (int i = 0; i < dgv.RowCount; i++)
             {
-                if (((string)dgv[1, i].Value).EndsWith(key) &&
-                    (int)dgv[2, i].Value == p)
+                if (((string)dgv[0, i].Value).EndsWith(key))
                 {
                     Util.ShowWarningDialog(
                         string.Format(MessageResources.ErrExistVariableRef,
@@ -235,36 +227,16 @@ namespace Ecell.IDE
                 }
             }
 
-            string id;
-            while (true)
-            {
-                id = prefix + j;
-                bool isHit = false;
-                for (int i = 0; i < dgv.RowCount; i++)
-                {
-                    if (id == (string)dgv[0, i].Value)
-                    {
-                        isHit = true;
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    break;
-                }
-                j++;
-            }
-
-            dgv.Rows.Add(new object[] { id, key, p});
+            dgv.Rows.Add(new object[] { key, 1});
         }
 
         /// <summary>
         /// Add new EcennReference.
         /// </summary>
         /// <param name="er">Reference object.</param>
-        public void AddReference(EcellReference er)
+        private void AddReference(EcellReference er)
         {
-            dgv.Rows.Add(new object[] { er.Name, er.FullID, er.Coefficient });
+            dgv.Rows.Add(new object[] { er.FullID, er.Name });
         }
 
         #region Event
@@ -325,7 +297,7 @@ namespace Ecell.IDE
         /// <param name="e">DataGridViewCellValidatingEventArgs</param>
         private void DataCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == 0)
             {
                 string key;
                 string fullID = (string)e.FormattedValue;
@@ -339,11 +311,11 @@ namespace Ecell.IDE
                     key = fullID;
                 }
             }
-            else if (e.ColumnIndex == 2)
+            else if (e.ColumnIndex == 1)
             {
                 DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
-                int dummy;
-                if (!Int32.TryParse((string)e.FormattedValue, out dummy))
+                float dummy;
+                if (!float.TryParse((string)e.FormattedValue, out dummy))
                 {
                     e.Cancel = true;
                     dgv.CancelEdit();
@@ -358,11 +330,11 @@ namespace Ecell.IDE
         /// <param name="e">DataGridViewCellEventArgs</param>
         private void DataCellValidated(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == 1)
             {
                 DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
-                int dummy;
-                if (Int32.TryParse(c.Value.ToString(), out dummy))
+                float dummy;
+                if (float.TryParse(c.Value.ToString(), out dummy))
                 {
                     c.Value = dummy;
                 }
@@ -392,31 +364,18 @@ namespace Ecell.IDE
             List<EcellReference> refList = new List<EcellReference>();
             for (int i = 0; i < this.dgv.RowCount; i++)
             {
-                // Check Name.
-                string name = (string)this.dgv[0, i].Value;
-                if (string.IsNullOrEmpty(name))
-                {
-                    throw new EcellException(MessageResources.ErrInvalidID);
-                }
-                if (nameList.Contains(name))
-                {
-                    throw new EcellException(string.Format(MessageResources.ErrExistVariableRef,
-                        new object[] { name }));
-                }
-                nameList.Add(name);
-
                 // Check FullID
-                string fullID = (string)this.dgv[1, i].Value;
+                string fullID = (string)this.dgv[0, i].Value;
                 if (string.IsNullOrEmpty(fullID))
                 {
                     throw new EcellException(MessageResources.ErrInvalidID);
                 }
 
-                // Check Coefficient.
-                int coef;
+                // Check Molar weight.
+                float coef;
                 try
                 {
-                    coef = Convert.ToInt32(this.dgv[2, i].Value);
+                    coef = (float)Convert.ToDouble(this.dgv[1, i].Value);
                 }
                 catch (Exception ex)
                 {
@@ -425,9 +384,9 @@ namespace Ecell.IDE
 
                 // Create EcellReference.
                 EcellReference er = new EcellReference();
-                er.Name = name;
+                er.Name = coef.ToString();
                 er.FullID = fullID;
-                er.Coefficient = coef;
+                er.Coefficient = 0;
                 refList.Add(er);
             }
             // Set new list.
