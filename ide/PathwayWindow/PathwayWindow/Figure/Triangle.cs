@@ -65,7 +65,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             Initialize(x, y, width, height, TYPE);
         }
+        #endregion
 
+        #region Inherited
+        /// <summary>
+        /// 
+        /// </summary>
+        public override PointF[] ContactPoints
+        {
+            get
+            {
+                PointF[] points = 
+                {
+                    new PointF(this.X + this.Width /2f, this.Y),
+                    new PointF(this.X + this.Width /4f, this.Y + this.Height /2f),
+                    new PointF(this.X + this.Width *3f/4f, this.Y + this.Height /2f),
+                    new PointF(this.X, this.Y + this.Height),
+                    new PointF(this.X + this.Width /2f, this.Y + this.Height),
+                    new PointF(this.X + this.Width, this.Y + this.Height)
+                };
+                return points;
+            }
+        }
         /// <summary>
         /// Create GraphicsPath
         /// </summary>
@@ -91,6 +112,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             return GetPoints(rect.X, rect.Y, rect.Width, rect.Height);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -107,46 +129,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             PointF point3 = new PointF(x + width, y + height);
             PointF[] points = { point1, point2, point3 };
             return points;
-        }
-        #endregion
-
-        #region Inherited
-        /// <summary>
-        /// Get contact point for this figure.
-        /// </summary>
-        /// <param name="outerPoint"></param>
-        /// <param name="innerPoint"></param>
-        /// <returns></returns>
-        public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
-        {
-            // Transform the coordinate system as the center of this ellipse is the original point
-            // and this ellipse's radius is 1.
-            float dx = outerPoint.X - innerPoint.X;
-            float dy = outerPoint.Y - innerPoint.Y;
-            float x = 0;
-            float y = 0;
-
-            if (dx == 0)
-            {
-                x = innerPoint.X;
-                float y1 = innerPoint.Y - m_height / 2f;
-                float y2 = innerPoint.Y + m_height / 2f;
-                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
-            }
-            else if ((dy / Math.Abs(dx)) > m_height / m_width)
-            {
-                y = innerPoint.Y + m_height / 2f;
-                x = innerPoint.X + Math.Sign(dx) * Math.Abs(m_height / 2f * dx / dy);
-            }
-            else
-            {
-                float xx = Math.Sign(dx) * (m_height / 2f) / (2 * m_height / m_width - dy / Math.Abs(dx));
-                float yy = dy / dx * xx;
-                x = innerPoint.X + xx;
-                y = innerPoint.Y + yy;
-            }
-            return new PointF(x, y);
-
         }
 
         /// <summary>

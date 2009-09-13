@@ -278,5 +278,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             return isEndNode;
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="variableKey"></param>
+        /// <param name="coefficient"></param>
+        /// <returns></returns>
+        internal PPathwayEdge GetRelation(string variableKey, int coefficient)
+        {
+            PPathwayEdge value = null;
+            foreach (PPathwayEdge edge in m_relations)
+            {
+                if (edge.Info.VariableKey == variableKey && edge.Info.Coefficient == coefficient)
+                    value = edge;
+            }
+            return value;
+        }
     }
 }

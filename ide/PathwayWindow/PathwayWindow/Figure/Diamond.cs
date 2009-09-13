@@ -65,6 +65,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             Initialize(x, y, width, height, TYPE);
         }
+        #endregion
+
+        #region Inherited
+        /// <summary>
+        /// 
+        /// </summary>
+        public override PointF[] ContactPoints
+        {
+            get
+            {
+                PointF[] points = 
+                {
+                    new PointF(this.X + this.Width /2f, this.Y),
+                    new PointF(this.X , this.Y + this.Height /2f),
+                    new PointF(this.X + this.Width , this.Y + this.Height /2f),
+                    new PointF(this.X + this.Width /2f, this.Y + this.Height)
+                };
+                return points;
+            }
+        }
 
         /// <summary>
         /// Create GraphicsPath
@@ -110,55 +130,53 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             PointF[] points = { point1, point2, point3, point4 };
             return points;
         }
-        #endregion
 
-        #region Inherited
         /// <summary>
         /// Get contact point for this figure.
         /// </summary>
         /// <param name="outerPoint"></param>
         /// <param name="innerPoint"></param>
         /// <returns></returns>
-        public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
-        {
-            // Transform the coordinate system as the center of this ellipse is the original point
-            // and this ellipse's radius is 1.
-            float dx = outerPoint.X - innerPoint.X;
-            float dy = outerPoint.Y - innerPoint.Y;
-            float a = m_width / 2;
-            float b = m_height / 2;
-            float x = 0;
-            float y = 0;
+        //public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
+        //{
+        //    // Transform the coordinate system as the center of this ellipse is the original point
+        //    // and this ellipse's radius is 1.
+        //    float dx = outerPoint.X - innerPoint.X;
+        //    float dy = outerPoint.Y - innerPoint.Y;
+        //    float a = m_width / 2;
+        //    float b = m_height / 2;
+        //    float x = 0;
+        //    float y = 0;
 
-            if (dx == 0)
-            {
-                x = innerPoint.X;
-                float y1 = innerPoint.Y - b;
-                float y2 = innerPoint.Y + b;
-                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
-            }
-            else if (dy == 0)
-            {
-                y = innerPoint.Y;
-                float x1 = innerPoint.X - a;
-                float x2 = innerPoint.X + a;
-                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
-            }
-            else if (Math.Abs(dx) < b / (b / a + Math.Abs(dy / dx)))
-            {
-                x = innerPoint.X;
-                y = innerPoint.Y;
-            }
-            else
-            {
-                float xx = Math.Sign(dx) * b / (b / a + Math.Abs(dy / dx));
-                float yy = Math.Sign(dy) * Math.Abs(dy / dx * xx);
-                x = innerPoint.X + xx;
-                y = innerPoint.Y + yy;
-            }
-            return new PointF(x, y);
+        //    if (dx == 0)
+        //    {
+        //        x = innerPoint.X;
+        //        float y1 = innerPoint.Y - b;
+        //        float y2 = innerPoint.Y + b;
+        //        y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
+        //    }
+        //    else if (dy == 0)
+        //    {
+        //        y = innerPoint.Y;
+        //        float x1 = innerPoint.X - a;
+        //        float x2 = innerPoint.X + a;
+        //        x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
+        //    }
+        //    else if (Math.Abs(dx) < b / (b / a + Math.Abs(dy / dx)))
+        //    {
+        //        x = innerPoint.X;
+        //        y = innerPoint.Y;
+        //    }
+        //    else
+        //    {
+        //        float xx = Math.Sign(dx) * b / (b / a + Math.Abs(dy / dx));
+        //        float yy = Math.Sign(dy) * Math.Abs(dy / dx * xx);
+        //        x = innerPoint.X + xx;
+        //        y = innerPoint.Y + yy;
+        //    }
+        //    return new PointF(x, y);
 
-        }
+        //}
 
         /// <summary>
         /// Create SVG object.

@@ -161,7 +161,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Line handle on the end for a variable
         /// </summary>
-        private LineHandler m_lineHandler = null;
+        private EdgeHandler m_lineHandler = null;
 
         /// <summary>
         /// Clicked PathwayObject.
@@ -332,7 +332,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public LineHandler LineHandler
+        public EdgeHandler LineHandler
         {
             get { return m_lineHandler; }
         }
@@ -370,7 +370,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
             // Preparing system ResizeHandlers
-            m_lineHandler = new LineHandler(this);
+            m_lineHandler = new EdgeHandler(this);
 
             // Set ViewMode
             m_showingId = m_con.ShowingID;

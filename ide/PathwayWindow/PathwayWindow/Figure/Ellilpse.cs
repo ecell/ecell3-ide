@@ -69,6 +69,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public override PointF[] ContactPoints
+        {
+            get
+            {
+                float diffX = this.Width / 4f;
+                float diffY = this.Height / 4f * (float)Math.Sqrt(3);
+                PointF[] points = 
+                {
+                    new PointF(this.X + this.Width /2f, this.Y),
+                    new PointF(this.X + this.Width /2f - diffX, this.Y + this.Height /2f - diffY),
+                    new PointF(this.X + this.Width /2f - diffX, this.Y + this.Height /2f + diffY),
+                    new PointF(this.X , this.Y + this.Height /2f),
+                    new PointF(this.X + this.Width , this.Y + this.Height /2f),
+                    new PointF(this.X + this.Width /2f + diffX, this.Y + this.Height /2f - diffY),
+                    new PointF(this.X + this.Width /2f + diffX, this.Y + this.Height /2f + diffY),
+                    new PointF(this.X + this.Width /2f, this.Y + this.Height)
+                };
+                return points;
+            }
+        }
+
+        /// <summary>
         /// Create GraphicsPath
         /// </summary>
         /// <param name="x"></param>
@@ -91,51 +115,51 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// <param name="outerPoint"></param>
         /// <param name="innerPoint"></param>
         /// <returns></returns>
-        public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
-        {
-            // Transform the coordinate system as the center of this ellipse is the original point
-            // and this ellipse's radius is 1.
-            float dx = innerPoint.X - outerPoint.X;
-            float dy = innerPoint.Y - outerPoint.Y;
-            float a = m_width / 2;
-            float b = m_height / 2;
-            float x = 0;
-            float y = 0;
+        //public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
+        //{
+        //    // Transform the coordinate system as the center of this ellipse is the original point
+        //    // and this ellipse's radius is 1.
+        //    float dx = innerPoint.X - outerPoint.X;
+        //    float dy = innerPoint.Y - outerPoint.Y;
+        //    float a = m_width / 2;
+        //    float b = m_height / 2;
+        //    float x = 0;
+        //    float y = 0;
 
-            if (dx == 0)
-            {
-                x = innerPoint.X;
-                float y1 = innerPoint.Y - b;
-                float y2 = innerPoint.Y + b;
-                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
-            }
-            else if (dy == 0)
-            {
-                y = innerPoint.Y;
-                float x1 = innerPoint.X - a;
-                float x2 = innerPoint.X + a;
-                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
-            }
-            else if (Math.Pow((dx / a), 2) + Math.Pow((dy / b), 2) < 1)
-            {
-                x = innerPoint.X;
-                y = innerPoint.Y;
-            }
-            else
-            {
-                float delta = dy / dx;
-                float xx = b * b / ((delta * delta) + (b * b) / (a * a));
-                float x1 = innerPoint.X - (float)Math.Sqrt(xx);
-                float x2 = innerPoint.X + (float)Math.Sqrt(xx);
-                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
-                float yy = b * b / (1 + (b * b) / (a * a) * (dx * dx) / (dy * dy));
-                float y1 = innerPoint.Y - (float)Math.Sqrt(yy);
-                float y2 = innerPoint.Y + (float)Math.Sqrt(yy);
-                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
-            }
-            return new PointF(x, y);
+        //    if (dx == 0)
+        //    {
+        //        x = innerPoint.X;
+        //        float y1 = innerPoint.Y - b;
+        //        float y2 = innerPoint.Y + b;
+        //        y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
+        //    }
+        //    else if (dy == 0)
+        //    {
+        //        y = innerPoint.Y;
+        //        float x1 = innerPoint.X - a;
+        //        float x2 = innerPoint.X + a;
+        //        x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
+        //    }
+        //    else if (Math.Pow((dx / a), 2) + Math.Pow((dy / b), 2) < 1)
+        //    {
+        //        x = innerPoint.X;
+        //        y = innerPoint.Y;
+        //    }
+        //    else
+        //    {
+        //        float delta = dy / dx;
+        //        float xx = b * b / ((delta * delta) + (b * b) / (a * a));
+        //        float x1 = innerPoint.X - (float)Math.Sqrt(xx);
+        //        float x2 = innerPoint.X + (float)Math.Sqrt(xx);
+        //        x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
+        //        float yy = b * b / (1 + (b * b) / (a * a) * (dx * dx) / (dy * dy));
+        //        float y1 = innerPoint.Y - (float)Math.Sqrt(yy);
+        //        float y2 = innerPoint.Y + (float)Math.Sqrt(yy);
+        //        y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
+        //    }
+        //    return new PointF(x, y);
 
-        }
+        //}
 
         /// <summary>
         /// Create SVG object.

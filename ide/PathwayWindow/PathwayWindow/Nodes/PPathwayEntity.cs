@@ -38,6 +38,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using System;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {

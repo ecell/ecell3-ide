@@ -10,7 +10,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
     public class TestLineHandler
     {
 
-        private LineHandler _unitUnderTest;
+        private EdgeHandler _unitUnderTest;
         /// <summary>
         /// 
         /// </summary>
@@ -18,7 +18,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public void SetUp()
         {
             Ecell.IDE.Plugins.PathwayWindow.CanvasControl canvas = null;
-            _unitUnderTest = new LineHandler(canvas);
+            _unitUnderTest = new EdgeHandler(canvas);
         }
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public void TestConstructorLineHandler()
         {
             Ecell.IDE.Plugins.PathwayWindow.CanvasControl canvas = null;
-            LineHandler testLineHandler = new LineHandler(canvas);
+            EdgeHandler testLineHandler = new EdgeHandler(canvas);
             Assert.IsNotNull(testLineHandler, "Constructor of type, LineHandler failed to create instance.");
             Assert.Fail("Create or modify test(s).");
 

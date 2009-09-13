@@ -46,7 +46,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// X coordinate of this figure.
         /// </summary>
         float X { get; set; }
-
         /// <summary>
         /// Y coordinate of this figure.
         /// </summary>
@@ -75,6 +74,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         /// Create new GraphicsPath for the icon image.
         /// </summary>
         GraphicsPath IconPath { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        PointF[] ContactPoints { get; }
         /// <summary>
         /// Create new GraphicsPath
         /// </summary>

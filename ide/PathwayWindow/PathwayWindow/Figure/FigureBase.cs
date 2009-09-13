@@ -125,6 +125,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         }
 
         /// <summary>
+        /// Contact points of edge. 
+        /// </summary>
+        public virtual PointF[] ContactPoints
+        {
+            get
+            {
+                PointF[] points =
+                {
+                    new PointF(this.X, this.Y),
+                    new PointF(this.X, this.Y + this.Height /2f),
+                    new PointF(this.X, this.Y + this.Height),
+                    new PointF(this.X + this.Width /2f, this.Y),
+                    new PointF(this.X + this.Width /2f, this.Y + this.Height),
+                    new PointF(this.X + this.Width, this.Y),
+                    new PointF(this.X + this.Width, this.Y + this.Height /2f),
+                    new PointF(this.X + this.Width, this.Y + this.Height)
+                };
+                return points;
+            }
+        }
+
+        /// <summary>
         /// Coordinates string.
         /// </summary>
         public string Coordinates
@@ -241,46 +263,90 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             return CreatePath(rect.X, rect.Y, rect.Width, rect.Height);
         }
+
         /// <summary>
         /// Return a contact point between an outer point and an inner point.
         /// </summary>
         /// <param name="outerPoint"></param>
         /// <param name="innerPoint"></param>
         /// <returns></returns>
+        //public virtual PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
+        //{
+        //    // Transform the coordinate system as the center of this rectangle is the original point
+        //    // and this recntangle's width is 2.
+        //    float a = m_width / 2;
+        //    float b = m_height / 2;
+
+        //    float x1 = innerPoint.X - a;
+        //    float x2 = innerPoint.X + a;
+        //    float y1 = innerPoint.Y - b;
+        //    float y2 = innerPoint.Y + b;
+
+        //    float x = 0;
+        //    float y = 0;
+
+        //    if (outerPoint.X <= x1)
+        //        x = x1;
+        //    else if (outerPoint.X >= x2)
+        //        x = x2;
+        //    else
+        //        x = outerPoint.X;
+
+        //    if (outerPoint.Y <= y1)
+        //        y = y1;
+        //    else if (outerPoint.Y >= y2)
+        //        y = y2;
+        //    else
+        //        y = outerPoint.Y;
+
+        //    // if outerPoint is inside of this rect.
+        //    if (x == outerPoint.X && y == outerPoint.Y)
+        //        return innerPoint;
+
+        //    return new PointF(x, y);
+        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="outerPoint"></param>
+        /// <param name="innerPoint"></param>
+        /// <returns></returns>
         public virtual PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
         {
-            // Transform the coordinate system as the center of this rectangle is the original point
-            // and this recntangle's width is 2.
-            float a = m_width / 2;
-            float b = m_height / 2;
+            PointF relationalPosition = new PointF(outerPoint.X - innerPoint.X + this.Width / 2f, outerPoint.Y - innerPoint.Y + this.Height / 2f);
+            PointF relationalContact = GetNearestPoint(relationalPosition, ContactPoints);
+            PointF contact = new PointF(relationalContact.X + innerPoint.X - this.Width / 2f, relationalContact.Y + innerPoint.Y - this.Height / 2f);
+            return contact;
+        }
 
-            float x1 = innerPoint.X - a;
-            float x2 = innerPoint.X + a;
-            float y1 = innerPoint.Y - b;
-            float y2 = innerPoint.Y + b;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public PointF GetNearestPoint(PointF pos, PointF[] points)
+        {
+            PointF ans = points[0];
+            foreach (PointF point in points)
+            {
+                if (GetDistance(point, pos) < GetDistance(ans, pos))
+                    ans = point;
+            }
+            return ans;
+        }
 
-            float x = 0;
-            float y = 0;
-
-            if (outerPoint.X <= x1)
-                x = x1;
-            else if (outerPoint.X >= x2)
-                x = x2;
-            else
-                x = outerPoint.X;
-
-            if (outerPoint.Y <= y1)
-                y = y1;
-            else if (outerPoint.Y >= y2)
-                y = y2;
-            else
-                y = outerPoint.Y;
-
-            // if outerPoint is inside of this rect.
-            if (x == outerPoint.X && y == outerPoint.Y)
-                return innerPoint;
-
-            return new PointF(x, y);
+        /// <summary>
+        /// Get distance between two points
+        /// </summary>
+        /// <param name="point1">point 1</param>
+        /// <param name="point2">point 2</param>
+        /// <returns>Distance between point 1 and point 2</returns>
+        public static float GetDistance(PointF point1, PointF point2)
+        {
+            float dist = (float)Math.Sqrt(Math.Pow((double)(point1.X - point2.X), 2d) + Math.Pow((double)(point1.Y - point2.Y), 2d));
+            return dist;
         }
 
         /// <summary>
@@ -296,6 +362,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             obj += SVGUtil.Rectangle(rect, lineBrush, fillBrush);
             return obj;
         }
+
+
         #endregion
 
 

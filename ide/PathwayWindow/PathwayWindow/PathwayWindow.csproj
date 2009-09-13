@@ -179,7 +179,7 @@
     <Compile Include="Figure\FigureBase.cs" />
     <Compile Include="Figure\Rectangle.cs" />
     <Compile Include="Handler\IPathwayEventHandler.cs" />
-    <Compile Include="Handler\LineHandler.cs" />
+    <Compile Include="Handler\EdgeHandler.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\NodeDragHandler.cs" />
     <Compile Include="Handle.cs" />

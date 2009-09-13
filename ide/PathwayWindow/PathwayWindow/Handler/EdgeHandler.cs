@@ -39,13 +39,14 @@ using Ecell.Objects;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// LineHandler
     /// </summary>
-    public class LineHandler
+    public class EdgeHandler
     {
         #region Static readonly fields
         /// <summary>
@@ -79,17 +80,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Line handle on the end for a variable
         /// </summary>
-        LineHandle m_lineHandle4V = null;
+        EdgeHandle m_lineHandle4V = null;
 
         /// <summary>
         /// Line handle on the end for a process
         /// </summary>
-        LineHandle m_lineHandle4P = null;
+        EdgeHandle m_lineHandle4P = null;
 
         /// <summary>
         /// Line for reconnecting.
         /// </summary>
-        PPathwayEdge m_line4reconnect = null;
+        PPathwayEdge m_edge4reconnect = null;
 
         /// <summary>
         /// Stack for nodes under the mouse.
@@ -112,18 +113,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         public PPathwayEdge Line4Reconnect
         {
-            get { return m_line4reconnect; }
+            get { return m_edge4reconnect; }
         }
         /// <summary>
         /// Set ProPoint of reconnectLine.
         /// </summary>
         public PointF ProPoint
         {
-            get { return m_line4reconnect.ProPoint; }
+            get { return m_edge4reconnect.ProPoint; }
             set
             {
                 m_lineHandle4P.Offset = value;
-                m_line4reconnect.ProPoint = value;
+                m_edge4reconnect.ProPoint = value;
             }
         }
         /// <summary>
@@ -131,11 +132,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         public PointF VarPoint
         {
-            get { return m_line4reconnect.VarPoint; }
+            get { return m_edge4reconnect.VarPoint; }
             set
             {
                 m_lineHandle4V.Offset = value;
-                m_line4reconnect.VarPoint = value;
+                m_edge4reconnect.VarPoint = value;
             }
         }
         #endregion
@@ -145,25 +146,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// Constructor
         /// </summary>
         /// <param name="canvas"></param>
-        public LineHandler(CanvasControl canvas)
+        public EdgeHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;
             this.m_con = canvas.Control;
 
             // Prepare line handles
-            m_lineHandle4V = new LineHandle();
+            m_lineHandle4V = new EdgeHandle();
             m_lineHandle4V.ComponentType = EcellObject.VARIABLE;
             m_lineHandle4V.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4V.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
-            m_lineHandle4P = new LineHandle();
+            m_lineHandle4P = new EdgeHandle();
             m_lineHandle4P.ComponentType = EcellObject.PROCESS;
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
-            m_line4reconnect = new PPathwayEdge(m_canvas);
-            m_line4reconnect.SetEdge(LINE_BRUSH, 2);
-            m_line4reconnect.Pickable = false;
+            m_edge4reconnect = new PPathwayEdge(m_canvas);
+            m_edge4reconnect.SetEdge(LINE_BRUSH, 2);
+            m_edge4reconnect.Pickable = false;
         }
         #endregion
 
@@ -190,12 +191,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_lineHandle4P.OffsetY = m_selectedLine.ProPoint.Y;
 
             // Create Reconnect line
-            m_line4reconnect.SetEdge(LINE_BRUSH, m_line4reconnect.EdgeWidth);
-            m_line4reconnect.Info.Direction = m_selectedLine.Info.Direction;
-            m_line4reconnect.Info.LineType = m_selectedLine.Info.LineType;
-            m_line4reconnect.VarPoint = m_selectedLine.VarPoint;
-            m_line4reconnect.ProPoint = m_selectedLine.ProPoint;
-            m_line4reconnect.DrawLine();
+            m_edge4reconnect.SetEdge(LINE_BRUSH, m_edge4reconnect.EdgeWidth);
+            m_edge4reconnect.Info.Direction = m_selectedLine.Info.Direction;
+            m_edge4reconnect.Info.LineType = m_selectedLine.Info.LineType;
+            m_edge4reconnect.VarPoint = m_selectedLine.VarPoint;
+            m_edge4reconnect.ProPoint = m_selectedLine.ProPoint;
+            m_edge4reconnect.DrawLine();
 
             SetLineVisibility(true);
         }
@@ -215,9 +216,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public void ResetLinePosition()
         {
             // Create line
-            m_line4reconnect.VarPoint = m_lineHandle4V.Offset;
-            m_line4reconnect.ProPoint = m_lineHandle4P.Offset;
-            m_line4reconnect.DrawLine();
+            m_edge4reconnect.VarPoint = m_lineHandle4V.Offset;
+            m_edge4reconnect.ProPoint = m_lineHandle4P.Offset;
+            m_edge4reconnect.DrawLine();
             //m_canvas.Processes[m_selectedLine.Info.ProcessKey].Refresh();
         }
 
@@ -229,24 +230,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             if (visible)
             {
-                m_canvas.ControlLayer.AddChild(m_line4reconnect);
+                m_canvas.ControlLayer.AddChild(m_edge4reconnect);
                 m_canvas.ControlLayer.AddChild(m_lineHandle4V);
                 m_canvas.ControlLayer.AddChild(m_lineHandle4P);
             }
-            else if(m_line4reconnect.Parent != null)
+            else if(m_edge4reconnect.Parent != null)
             {
-                m_line4reconnect.Parent.RemoveChild(m_line4reconnect);
+                m_edge4reconnect.Parent.RemoveChild(m_edge4reconnect);
                 m_lineHandle4V.Parent.RemoveChild(m_lineHandle4V);
                 m_lineHandle4P.Parent.RemoveChild(m_lineHandle4P);
+                foreach (EdgeHandle handle in m_handles)
+                {
+                    handle.RemoveFromParent();
+                }
+                m_handles.Clear();
             }
 
             if (!visible)
-                m_line4reconnect.Reset();
+                m_edge4reconnect.Reset();
         }
 
         #endregion
 
         #region EventHandlers
+        List<EdgeHandle> m_handles = new List<EdgeHandle>();
         /// <summary>
         /// Called when m_lineHandle is being dragged.
         /// reconnecting line is redrawn
@@ -255,13 +262,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         void m_lineHandle_MouseDrag(object sender, PInputEventArgs e)
         {
-            if (m_line4reconnect == null)
+            if (m_edge4reconnect == null)
                 return;
-
-            m_line4reconnect.Reset();
-            m_line4reconnect.ProPoint = m_lineHandle4P.Offset;
-            m_line4reconnect.VarPoint = m_lineHandle4V.Offset;
-            m_line4reconnect.DrawLine();
+            // Reset edge pointers
+            foreach (EdgeHandle handle in m_handles)
+            {
+                handle.RemoveFromParent();
+            }
+            m_handles.Clear();
+            // Show edge pointers.
+            PPathwayEntity entity = m_canvas.GetPickedEntity(e.Position);
+            if (entity != null)
+            {
+                foreach (PointF point in entity.Figure.ContactPoints)
+                {
+                    EdgeHandler.EdgeHandle handle = new EdgeHandler.EdgeHandle();
+                    handle.CenterPointF = new PointF(point.X + entity.X, point.Y + entity.Y);
+                    m_canvas.ControlLayer.AddChild(handle);
+                    m_handles.Add(handle);
+                }
+            }
+            // Reset edge
+            m_edge4reconnect.Reset();
+            m_edge4reconnect.ProPoint = m_lineHandle4P.Offset;
+            m_edge4reconnect.VarPoint = m_lineHandle4V.Offset;
+            m_edge4reconnect.DrawLine();
         }
 
         /// <summary>
@@ -290,7 +315,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
 
                 // Get new EdgeInfo.
-                LineHandle handle = (LineHandle)sender;
+                EdgeHandle handle = (EdgeHandle)sender;
                 if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS)
                 {
                     processKey = obj.EcellObject.Key;
@@ -314,6 +339,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_con.NotifyVariableReferenceChanged(info.ProcessKey, info.VariableKey, RefChangeType.Delete, 0, false);
                 // Add new edge.
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
+
+                // Set Edge Position
+                PPathwayProcess process = m_canvas.Processes[processKey];
+                PPathwayEdge edge = process.GetRelation(variableKey, coefficient);
+                EdgeHandle edgePointer = null;
+                foreach(EdgeHandle pointer in m_handles )
+                {
+                    if(pointer.Rect.Contains(e.Position))
+                        edgePointer = pointer;
+                }
+                if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
+                {
+                    edge.ProPoint = edgePointer.CenterPointF;
+                    edge.DrawLine();
+                }
+                else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
+                {
+                    edge.VarPoint = edgePointer.CenterPointF;
+                    edge.DrawLine();
+                }
             }
             catch (Exception)
             {
@@ -329,7 +374,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// LineHandle to control reconnect line.
         /// private class for Linehandler
         /// </summary>
-        class LineHandle : PPath
+        public class EdgeHandle : PPathwayNode
         {
             /// <summary>
             /// ComponentType
@@ -346,16 +391,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// <summary>
             /// Constructor
             /// </summary>
-            public LineHandle()
+            public EdgeHandle()
             {
                 base.AddInputEventListener(new PDragEventHandler());
                 base.Brush = new SolidBrush(Color.FromArgb(125, Color.Orange));
                 base.Pen = new Pen(Brushes.DarkCyan, 1);
-                base.AddEllipse(
+                GraphicsPath path = new GraphicsPath();
+                path.AddEllipse(
                     -LINE_HANDLE_RADIUS,
                     -LINE_HANDLE_RADIUS,
                     2 * LINE_HANDLE_RADIUS,
                     2 * LINE_HANDLE_RADIUS);
+                base.AddPath(path, false);
             }
         }
         #endregion
