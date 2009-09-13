@@ -346,7 +346,7 @@ namespace Ecell
         /// <summary>
         /// Saves the script.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the script file name.</param>
         public void SaveScript(string fileName)
         {
             try
@@ -417,7 +417,7 @@ namespace Ecell
         /// <summary>
         /// LoadSBML
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">the SBML file name.</param>
         public void LoadSBML(string filename)
         {
             WrappedSimulator sim = null;
@@ -506,7 +506,7 @@ namespace Ecell
         /// <summary>
         /// LoadProject
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="info">the load project information.</param>
         public void LoadProject(ProjectInfo info)
         {
             List<EcellObject> passList = new List<EcellObject>();
@@ -647,7 +647,7 @@ namespace Ecell
         /// <summary>
         /// Loads the simulation parameters.
         /// </summary>
-        /// <param name="project"></param>
+        /// <param name="project">the project object.</param>
         private void LoadSimulationParameters(Project project)
         {
             // Check directory.
@@ -683,8 +683,8 @@ namespace Ecell
         /// <summary>
         /// Creates the new "Project" object.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="comment"></param>
+        /// <param name="projectID">the new project ID</param>
+        /// <param name="comment">the new project comment.</param>
         public void CreateNewProject(string projectID, string comment)
         {
             CreateNewProject(projectID, comment, new List<string>());
@@ -693,9 +693,9 @@ namespace Ecell
         /// <summary>
         /// Creates the new "Project" object.
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="comment"></param>
-        /// <param name="setDirList"></param>
+        /// <param name="projectID">the new project ID.</param>
+        /// <param name="comment">the new project comment.</param>
+        /// <param name="setDirList">the dm directory.</param>
         public void CreateNewProject(string projectID, string comment, List<string> setDirList)
         {
             try
@@ -810,7 +810,7 @@ namespace Ecell
         /// <summary>
         /// Load Revision.
         /// </summary>
-        /// <param name="revision"></param>
+        /// <param name="revision">the revision string.</param>
         public void LoadRevision(string revision)
         {
             if (m_currentProject == null || m_currentProject.Info.ProjectPath == null)
@@ -947,7 +947,7 @@ namespace Ecell
         /// </summary>
         /// <param name="modelID">the model ID</param>
         /// <param name="modelFileName">the model FileName</param>
-        /// <param name="isProjectSave"></param>
+        /// <param name="isProjectSave">the flag whether project is saved.</param>
         private void SaveEmlFile(string modelID, string modelFileName, bool isProjectSave)
         {
             List<EcellObject> storedList = new List<EcellObject>();
@@ -1341,7 +1341,7 @@ namespace Ecell
         /// <summary>
         /// Adds the "EcellObject".
         /// </summary>
-        /// <param name="ecellObject"></param>
+        /// <param name="ecellObject">the added object.</param>
         public void DataAdd(EcellObject ecellObject)
         {
             DataAdd(ecellObject, true, true);
@@ -1802,12 +1802,12 @@ namespace Ecell
         /// <summary>
         /// Changes the "Model".
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="ecellObject"></param>
-        /// <param name="isRecorded"></param>
-        /// <param name="isAnchor"></param>
+        /// <param name="modelID">the model ID of original object.</param>
+        /// <param name="key">the key of original object.</param>
+        /// <param name="type">the type of original object.</param>
+        /// <param name="ecellObject">the changed object.</param>
+        /// <param name="isRecorded">the flag whether this action is recorded.</param>
+        /// <param name="isAnchor">the flag whether this action is anchor.</param>
         private void DataChanged4Model(string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
             if (!modelID.Equals(ecellObject.ModelID))
@@ -2005,7 +2005,7 @@ namespace Ecell
         /// <summary>
         /// SetPosition
         /// </summary>
-        /// <param name="eo"></param>
+        /// <param name="eo">ths position changed object.</param>
         public void SetPosition(EcellObject eo)
         {
             EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key, false);
@@ -2021,7 +2021,7 @@ namespace Ecell
         /// <summary>
         /// Deletes the "EcellObject".
         /// </summary>
-        /// <param name="eo"></param>
+        /// <param name="eo">the deleted object.</param>
         public void DataDelete(EcellObject eo)
         {
             DataDelete(eo.ModelID, eo.Key, eo.Type, true, true);
@@ -2030,7 +2030,7 @@ namespace Ecell
         /// <summary>
         /// Deletes the "EcellObject".
         /// </summary>
-        /// <param name="eo"></param>
+        /// <param name="eo">the deleted object.</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public void DataDelete(EcellObject eo, bool isRecorded, bool isAnchor)
@@ -2633,8 +2633,8 @@ namespace Ecell
         /// <summary>
         /// Get Process list to update VariableReference.
         /// </summary>
-        /// <param name="oldKey"></param>
-        /// <param name="newKey"></param>
+        /// <param name="oldKey">the old key of object.</param>
+        /// <param name="newKey">the new key of object.</param>
         /// <returns></returns>
         private List<EcellObject> CheckVariableReferenceChanges(string oldKey, string newKey)
         {
@@ -2672,8 +2672,8 @@ namespace Ecell
         /// <summary>
         /// CheckVariableReferenceChanges.
         /// </summary>
-        /// <param name="variableDic"></param>
-        /// <param name="processList"></param>
+        /// <param name="variableDic">the list of Variable.</param>
+        /// <param name="processList">the list of Process.</param>
         /// <returns></returns>
         private static List<EcellObject> CheckVariableReferenceChanges(Dictionary<string, string> variableDic, List<EcellProcess> processList)
         {
@@ -2712,8 +2712,8 @@ namespace Ecell
         /// <summary>
         /// ConfirmReset
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="type"></param>
+        /// <param name="action">the action string.</param>
+        /// <param name="type">the changed type.</param>
         public void ConfirmReset(string action, string type)
         {
             if (m_currentProject == null)
@@ -2755,8 +2755,8 @@ namespace Ecell
         /// <summary>
         /// Check parameters.
         /// </summary>
-        /// <param name="oldObj"></param>
-        /// <param name="newkey"></param>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newkey">the changed new object.</param>
         private void CheckParameterObservedData(EcellObject oldObj, string newkey)
         {
             foreach (EcellData data in oldObj.Value)
@@ -3783,7 +3783,7 @@ namespace Ecell
         /// <summary>
         /// Start simulation.
         /// </summary>
-        /// <param name="time"></param>
+        /// <param name="time">the simulation time.</param>
         public void StartSimulation(double time)
         {
             m_steppingData = null;
@@ -4393,7 +4393,7 @@ namespace Ecell
         /// <summary>
         /// Load SimulationResult
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the simulation result file name.</param>
         /// <returns></returns>
         public LogData LoadSimulationResult(string fileName)
         {
@@ -4597,7 +4597,7 @@ namespace Ecell
         /// </summary>
         /// <param name="simulator">The simulator</param>
         /// <param name="stepperList">The list of the "Stepper"</param>
-        /// <param name="setStepperDic"></param>
+        /// <param name="setStepperDic">The list of stepper.</param>
         private static void LoadStepper(
             WrappedSimulator simulator,
             List<EcellObject> stepperList,
@@ -4765,7 +4765,7 @@ namespace Ecell
         /// <param name="loggerList">The list of the "Logger"</param>
         /// <param name="processPropertyDic">The dictionary of the process property</param>
         /// <param name="initialCondition">The dictionary of the initial condition</param>
-        /// <param name="setPropertyDic"></param>
+        /// <param name="setPropertyDic">The dictionary of property.</param>
         private static void LoadEntity(
             WrappedSimulator simulator,
             List<EcellObject> entityList,
@@ -5052,7 +5052,7 @@ namespace Ecell
         /// <summary>
         /// Deletes the parameter.
         /// </summary>
-        /// <param name="parameterID"></param>
+        /// <param name="parameterID">the deleted simulation parameter ID.</param>
         public void DeleteSimulationParameter(string parameterID)
         {
             DeleteSimulationParameter(parameterID, true, true);
@@ -5061,7 +5061,7 @@ namespace Ecell
         /// <summary>
         /// Deletes the parameter.
         /// </summary>
-        /// <param name="parameterID"></param>
+        /// <param name="parameterID">the deleted simulation parameter ID.</param>
         /// <param name="isRecorded">Whether this action is recorded or not</param>
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public void DeleteSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
@@ -5143,8 +5143,8 @@ namespace Ecell
         /// <summary>
         /// Copy SimulationParameter.
         /// </summary>
-        /// <param name="newParameterID"></param>
-        /// <param name="srcParameterID"></param>
+        /// <param name="newParameterID">the dst simulation parameter ID.</param>
+        /// <param name="srcParameterID">the src simulation parameter ID.</param>
         public void CopySimulationParameter(string newParameterID, string srcParameterID)
         {
             try
@@ -5369,7 +5369,7 @@ namespace Ecell
         /// <summary>
         /// Get the EcellValue from fullPath.
         /// </summary>
-        /// <param name="fullPN"></param>
+        /// <param name="fullPN">the FullID to get the property.</param>
         /// <returns></returns>
         public EcellValue GetEntityProperty(string fullPN)
         {
@@ -5466,7 +5466,7 @@ namespace Ecell
         /// Get the current value with fullPath.
         /// This method is used to get numerical value of parameter while simulating.
         /// </summary>
-        /// <param name="fullPN"></param>
+        /// <param name="fullPN">the FullPN to get proerty.</param>
         /// <returns></returns>
         public double GetPropertyValue(string fullPN)
         {
@@ -5523,10 +5523,10 @@ namespace Ecell
         /// <summary>
         /// CreateLogger
         /// </summary>
-        /// <param name="fullPathID"></param>
-        /// <param name="isInitalize"></param>
-        /// <param name="sim"></param>
-        /// <param name="loggerPolicy"></param>
+        /// <param name="fullPathID">The FullPathID to set the logger.</param>
+        /// <param name="isInitalize">The flag whether this logger is initialized.</param>
+        /// <param name="sim">The current simulator.</param>
+        /// <param name="loggerPolicy">The current logger policy.</param>
         private void CreateLogger(string fullPathID, bool isInitalize, WrappedSimulator sim, LoggerPolicy loggerPolicy)
         {
             if (m_loggerEntry.Contains(fullPathID))
@@ -5717,8 +5717,8 @@ namespace Ecell
         /// <summary>
         /// Message on CreateEntity
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="message"></param>
+        /// <param name="type">the object type.</param>
+        /// <param name="message">the create message.</param>
         public void MessageCreateEntity(string type, string message)
         {
             Trace.WriteLine("Create " + type + ": " + message);
@@ -5726,8 +5726,8 @@ namespace Ecell
         /// <summary>
         /// Message on DeleteEntity
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="message"></param>
+        /// <param name="type">the object type.</param>
+        /// <param name="message">the delete message.</param>
         public void MessageDeleteEntity(string type, string message)
         {
             Trace.WriteLine("Delete " + type + ": " + message);
@@ -5735,10 +5735,10 @@ namespace Ecell
         /// <summary>
         /// Message on UpdateData
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="message"></param>
-        /// <param name="src"></param>
-        /// <param name="dest"></param>
+        /// <param name="type">the object type.</param>
+        /// <param name="message">the message string.</param>
+        /// <param name="src">the src object.</param>
+        /// <param name="dest">the dst object.</param>
         public void MessageUpdateData(string type, string message, string src, string dest)
         {
             Trace.WriteLine(

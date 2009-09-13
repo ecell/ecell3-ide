@@ -57,7 +57,7 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="dmPaths"></param>
+        /// <param name="dmPaths">the list of dm directories.</param>
         public DMDescriptorKeeper(string[] dmPaths)
         {
             Load(dmPaths);
@@ -324,8 +324,8 @@ namespace Ecell
         /// <summary>
         /// Get PropertyDescriptors
         /// </summary>
-        /// <param name="sim"></param>
-        /// <param name="stepper"></param>
+        /// <param name="sim">the curremt simulator.</param>
+        /// <param name="stepper">the stepper name.</param>
         /// <returns></returns>
         private static Dictionary<string, PropertyDescriptor> GetStepperPropertyDescriptors(WrappedSimulator sim, string stepper)
         {
@@ -364,8 +364,8 @@ namespace Ecell
         /// <summary>
         /// Get PropertyDescriptors
         /// </summary>
-        /// <param name="sim"></param>
-        /// <param name="fullID"></param>
+        /// <param name="sim">the current simulator.</param>
+        /// <param name="fullID">the entity fullID.</param>
         /// <returns></returns>
         private static Dictionary<string, PropertyDescriptor> GetEntityPropertyDescriptors(WrappedSimulator sim, string fullID)
         {
@@ -408,9 +408,9 @@ namespace Ecell
         /// <summary>
         /// Check DynamicProperty
         /// </summary>
-        /// <param name="sim"></param>
-        /// <param name="id"></param>
-        /// <param name="pdescs"></param>
+        /// <param name="sim">The current simulator.</param>
+        /// <param name="id">The proerty name.</param>
+        /// <param name="pdescs">the list of proerty.</param>
         /// <returns></returns>
         private static bool CheckDynamicProperty(WrappedSimulator sim, string id, Dictionary<string, PropertyDescriptor> pdescs)
         {
@@ -493,8 +493,8 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="info"></param>
+        /// <param name="path">DM path.</param>
+        /// <param name="info">DM information.</param>
         public DMModuleInfo(string path, DMInfo info)
             : this(path, info.ModuleName, info.Description)
         {
@@ -503,9 +503,9 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="moduleName"></param>
-        /// <param name="description"></param>
+        /// <param name="path">DM path.</param>
+        /// <param name="moduleName">The DM name,</param>
+        /// <param name="description">The DM description.</param>
         public DMModuleInfo(string path, string moduleName, string description)
         {
             m_path = path;

@@ -52,7 +52,7 @@ namespace Ecell.Action
         /// <summary>
         /// The constructor for DataAddAction with initial parameters.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">the added object</param>
         /// <param name="isUndoable">The flag the action is undoable.</param>
         public DataAddAction(EcellObject obj, bool isUndoable)
         {

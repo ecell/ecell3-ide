@@ -209,9 +209,9 @@ namespace Ecell
         /// <summary>
         /// GetValueFromDMM
         /// </summary>
-        /// <param name="dmm"></param>
-        /// <param name="className"></param>
-        /// <param name="name"></param>
+        /// <param name="dmm">DMDescriptorKeeper</param>
+        /// <param name="className">the class name,</param>
+        /// <param name="name">the property name.</param>
         /// <returns></returns>
         private static EcellValue GetValueFromDMM(DMDescriptorKeeper dmm, string type, string className, string name)
         {
@@ -481,9 +481,9 @@ namespace Ecell
         /// <summary>
         /// GetVariableValue
         /// </summary>
-        /// <param name="simulator"></param>
-        /// <param name="name"></param>
-        /// <param name="entityPath"></param>
+        /// <param name="simulator">the current simulator.</param>
+        /// <param name="name">the variable name</param>
+        /// <param name="entityPath">the entity name.</param>
         /// <returns></returns>
         private static EcellValue GetVariableValue(WrappedSimulator simulator, string name, string entityPath)
         {
@@ -511,10 +511,10 @@ namespace Ecell
         /// <summary>
         /// Create new EcellData.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="entityPath"></param>
-        /// <param name="flags"></param>
+        /// <param name="name">the entity name.</param>
+        /// <param name="value">the entity value.</param>
+        /// <param name="entityPath">the entity path.</param>
+        /// <param name="flags">property attribute object.</param>
         /// <returns></returns>
         private static EcellData CreateEcellData(string name, EcellValue value, string entityPath, PropertyAttributes flags)
         {

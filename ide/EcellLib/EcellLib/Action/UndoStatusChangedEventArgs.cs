@@ -56,7 +56,7 @@ namespace Ecell.Action
         /// <summary>
         /// Constructors.
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">the changed status.</param>
         public UndoStatusChangedEventArgs(UndoStatus status)
         {
             m_unduStatus = status;

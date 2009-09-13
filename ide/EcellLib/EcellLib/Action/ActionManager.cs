@@ -160,12 +160,15 @@ namespace Ecell.Action
         /// <summary>
         /// Event on UndoStatus change.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">UndoStatusChangedEventArgs</param>
         protected virtual void OnUndoStatusChanged(UndoStatusChangedEventArgs e)
         {
             if (m_onUndoStatusChanged != null)
                 m_onUndoStatusChanged(this, e);
         }
+        /// <summary>
+        /// Raise the UndoStatusChangedEvent.
+        /// </summary>
         private void RaiseUndoStatusChanged()
         {
             UndoStatusChangedEventArgs e = new UndoStatusChangedEventArgs(UndoStatus);

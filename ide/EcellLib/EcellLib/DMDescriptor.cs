@@ -122,8 +122,8 @@ namespace Ecell
         /// <summary>
         /// Get PropertyDescriptor with name.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">the property name</param>
+        /// <returns>PropertyDescriptor of the property name.</returns>
         public PropertyDescriptor this[string name]
         {
             get
@@ -145,11 +145,11 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="path"></param>
-        /// <param name="type"></param>
-        /// <param name="canHaveDynamicProperties"></param>
-        /// <param name="props"></param>
+        /// <param name="name">DM name.</param>
+        /// <param name="path">DM path.</param>
+        /// <param name="type">DM type.</param>
+        /// <param name="canHaveDynamicProperties">The flag whether this DM is able to add or delete the property dynamically.</param>
+        /// <param name="props">the list of properties.</param>
         public DMDescriptor(string name, string path, string type, bool canHaveDynamicProperties, Dictionary<string, PropertyDescriptor> props)
         {
             m_name = name;
@@ -161,9 +161,9 @@ namespace Ecell
         #endregion
 
         /// <summary>
-        /// ContainsProperty
+        /// Check whether this property is contained.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the property name.</param>
         /// <returns></returns>
         public bool ContainsProperty(string name)
         {
@@ -174,7 +174,7 @@ namespace Ecell
         /// <summary>
         /// Get PropertyDescriptor with name.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the property name.</param>
         /// <returns></returns>
         public PropertyDescriptor GetProperty(string name)
         {
