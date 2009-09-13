@@ -401,8 +401,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Event on RecentProject_Click
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         void LoadRecentProjectMenuClick(object sender, EventArgs e)
         {
             if (CloseConfirm() == ConfirmState.Canceled)
@@ -422,8 +422,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// GetNodeByKey
         /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="key"></param>
+        /// <param name="xml">Xml node object.</param>
+        /// <param name="key">the node key.</param>
         /// <returns>Selected XmlNode</returns>
         private static XmlNode GetNodeByKey(XmlNode xml, string key)
         {
@@ -439,8 +439,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// GetNodeByKey
         /// </summary>
-        /// <param name="xml"></param>
-        /// <param name="key"></param>
+        /// <param name="xml">Xml node object.</param>
+        /// <param name="key">the node key.</param>
         /// <returns>Selected XmlNode</returns>
         private static string GetStringChild(XmlNode xml, string key)
         {
@@ -456,9 +456,9 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// GetStringAttribute
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="node">Xml node object.</param>
+        /// <param name="key">the node key.</param>
+        /// <returns>the attribute string</returns>
         private static string GetStringAttribute(XmlNode node, string key)
         {
             try
@@ -772,7 +772,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">the logger entry.</param>
         public void LoggerAdd(LoggerEntry entry)
         {
             m_editCount++;
@@ -1385,8 +1385,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Export SBML model.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem.</param>
+        /// <param name="e">EventArgs</param>
         private void exportSBMLMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1403,15 +1403,14 @@ namespace Ecell.IDE.MainWindow
             {
                 Trace.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);
-            }
-            
+            }            
         }
 
         /// <summary>
         /// Import Zipped project.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void importZipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog.Filter = Constants.FilterZipFile;
@@ -1437,8 +1436,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Export Zipped project.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ToolStripMenuItem</param>
+        /// <param name="e">EventArgs</param>
         private void exportZipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Project project = m_env.DataManager.CurrentProject;
@@ -1530,8 +1529,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// The action of disposing MainWindow.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">MainWindow</param>
+        /// <param name="e">EventArgs</param>
         void MainWindowDisposed(object sender, System.EventArgs e)
         {
             Application.Exit();
@@ -1748,8 +1747,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Closing the dock content.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DockContent</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void DockContent_Closing(object sender, FormClosingEventArgs e)
         {
             m_env.LogManager.Append(new ApplicationLogEntry(
@@ -1772,8 +1771,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Closing the graph contents
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Graph object</param>
+        /// <param name="e">FormClosingEventArgs</param>
         private void Graph_Closing(object sender, FormClosingEventArgs e)
         {
             DockContent cont = sender as DockContent;

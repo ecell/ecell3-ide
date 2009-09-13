@@ -50,7 +50,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="propertyPages"></param>
+        /// <param name="propertyPages">the list of property items,</param>
         public PropertyDialog(List<IPropertyItem> propertyPages)
         {
             InitializeComponent();

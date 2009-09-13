@@ -122,8 +122,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Clicked the button, folder browser dialog is shown.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void button_Click(object sender, EventArgs e)
         {
             folderBrowserDialog.SelectedPath = textBox.Text;

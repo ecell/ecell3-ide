@@ -58,8 +58,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Event on DockContent VisibleChanged.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DockContent</param>
+        /// <param name="e">EventArgs</param>
         void DockContent_DockStateChanged(object sender, EventArgs e)
         {
             this.Checked = !(m_content.DockState == DockState.Hidden || m_content.DockState == DockState.Unknown);

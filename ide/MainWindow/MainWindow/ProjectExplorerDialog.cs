@@ -304,7 +304,7 @@ namespace Ecell.IDE.MainWindow
             /// <summary>
             /// Constructor
             /// </summary>
-            /// <param name="filepath"></param>
+            /// <param name="filepath">the project file path.</param>
             public ProjectTreeNode(string filepath)
             {
                 this.m_filePath = filepath;
@@ -329,8 +329,8 @@ namespace Ecell.IDE.MainWindow
             /// <summary>
             /// Get NodeType
             /// </summary>
-            /// <param name="filepath"></param>
-            /// <returns></returns>
+            /// <param name="filepath">the node file path.</param>
+            /// <returns>File type.</returns>
             private FileType GetNodeType(string filepath)
             {
                 string ext = Path.GetExtension(filepath);

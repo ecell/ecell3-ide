@@ -54,8 +54,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Click the add button.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void DMAddButon_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog win = new FolderBrowserDialog();
@@ -75,8 +75,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Click the remove button.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void DMRemoveButton_Click(object sender, EventArgs e)
         {
             while (DMListBox.SelectedIndex > -1)

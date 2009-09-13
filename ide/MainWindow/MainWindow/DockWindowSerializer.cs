@@ -65,9 +65,9 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Save ECell window settings.
         /// </summary>
-        /// <param name="window"></param>
-        /// <param name="filename"></param>
-        /// <param name="isClosing"></param>
+        /// <param name="window">MainWindow object.</param>
+        /// <param name="filename">the file name.</param>
+        /// <param name="isClosing">whether this file is closed.</param>
         public static void SaveAsXML(MainWindow window, string filename, bool isClosing)
         {
             DockPanel dockPanel = window.DockPanel;
@@ -236,8 +236,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Get Screen number.
         /// </summary>
-        /// <param name="window"></param>
-        /// <returns></returns>
+        /// <param name="window">the windows object.</param>
+        /// <returns>the screen number.</returns>
         private static string GetScreenNum(Form window)
         {
             int i = 0;
@@ -260,10 +260,10 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Get screen by using index.
         /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
+        /// <param name="i">index.</param>
+        /// <returns>Screen object.</returns>
         private static Screen GetScreen(int i)
         {
             Screen[] screens = Screen.AllScreens;
@@ -319,8 +319,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Check this window is able to save.
         /// </summary>
-        /// <param name="dockPanel"></param>
-        /// <param name="isClosing"></param>
+        /// <param name="dockPanel">Dock panel object.</param>
+        /// <param name="isClosing">whether this file is cloded.</param>
         private static void CheckUnsavableWindows(DockPanel dockPanel, bool isClosing)
         {
             string list = "";
@@ -353,9 +353,9 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Load ECell window settings.
         /// </summary>
-        /// <param name="window"></param>
-        /// <param name="filename"></param>
-        /// <param name="initializeWindow"></param>
+        /// <param name="window">MainWindow.</param>
+        /// <param name="filename">the file path.</param>
+        /// <param name="initializeWindow">whether this window is the initial window.</param>
         public static void LoadFromXML(MainWindow window, string filename, bool initializeWindow)
         {
             DockPanel dockPanel = window.DockPanel;
@@ -468,10 +468,10 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Sort content.
         /// </summary>
-        /// <param name="dockPanel"></param>
-        /// <param name="contents"></param>
-        /// <param name="panes"></param>
-        /// <returns></returns>
+        /// <param name="dockPanel">The dock panel.</param>
+        /// <param name="contents">The list of content.</param>
+        /// <param name="panes">The list of Pane.</param>
+        /// <returns>The list of screen number.</returns>
         private static int[] SortContents(DockPanel dockPanel, ContentStruct[] contents, PaneStruct[] panes)
         {
             int[] sortedContents = null;
@@ -503,9 +503,9 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Create the float window.
         /// </summary>
-        /// <param name="dockPanel"></param>
-        /// <param name="contentList"></param>
-        /// <param name="paneList"></param>
+        /// <param name="dockPanel">The dock panel.</param>
+        /// <param name="contentList">The list of content.</param>
+        /// <param name="paneList">The lis of Pane.</param>
         private static void CreateFloatWindowForUnrecordedContents(DockPanel dockPanel, List<DockContent> contentList, List<DockPane> paneList)
         {
             foreach (DockContent content in dockPanel.Contents)
@@ -544,10 +544,10 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Assign panes,
         /// </summary>
-        /// <param name="dockPanel"></param>
-        /// <param name="panes"></param>
-        /// <param name="dockWindows"></param>
-        /// <param name="paneList"></param>
+        /// <param name="dockPanel">The dock panel.</param>
+        /// <param name="panes">The list of pane struct.</param>
+        /// <param name="dockWindows">The list of DockWindow.</param>
+        /// <param name="paneList">The list of pane.</param>
         private static void AssignPanes(DockPanel dockPanel, PaneStruct[] panes, DockWindowStruct[] dockWindows, List<DockPane> paneList)
         {
             for (int i = 0; i < dockWindows.Length; i++)
@@ -570,7 +570,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// create the float windows.
         /// </summary>
-        /// <param name="dockPanel"></param>
+        /// <param name="dockPanel">The DockPanel obect.</param>
         /// <param name="panes"></param>
         /// <param name="floatWindows"></param>
         /// <param name="paneList"></param>

@@ -46,8 +46,9 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="versionText"></param>
-        /// <param name="copyrightText"></param>
+        /// <param name="versionText">the version string.</param>
+        /// <param name="copyrightText">the copyright string</param>
+        /// <param name="informationText">the information string.</param>
         public AboutDialog(string versionText, string copyrightText, string informationText)
         {
             InitializeComponent();

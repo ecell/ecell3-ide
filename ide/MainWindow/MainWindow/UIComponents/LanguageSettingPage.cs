@@ -154,8 +154,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// The check of Auto RadioButton is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">RadioButton</param>
+        /// <param name="e">EventArgs</param>
         private void SIAutoRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             m_lang = CultureInfo.InvariantCulture;
@@ -164,8 +164,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// The check of japanese RadioButton is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">RadioButton</param>
+        /// <param name="e">EventArgs</param>
         private void SIJapaneseRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             m_lang = CultureInfo.GetCultureInfo("ja");
@@ -174,8 +174,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// The check of english RadioButton is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">RadioButton</param>
+        /// <param name="e">EventArgs</param>
         private void SIEnglishRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             m_lang = CultureInfo.GetCultureInfo("en-us");

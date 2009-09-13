@@ -91,8 +91,8 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <summary>
         /// The event sequence on clear group.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        /// <param name="o">ReportManager</param>
+        /// <param name="e">EventArgs</param>
         private void ReportManager_Cleared(object o, EventArgs e)
         {
             Ecell.Reporting.ReportingSession s = o as Ecell.Reporting.ReportingSession;

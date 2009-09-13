@@ -29,7 +29,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">the node string.</param>
         public PropertyNode(string text)
         {
             this.Text = text;
@@ -38,7 +38,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="page"></param>
+        /// <param name="page">the property page.</param>
         public PropertyNode(PropertyDialogPage page)
         {
             m_page = page;

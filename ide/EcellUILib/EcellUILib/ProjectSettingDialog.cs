@@ -63,7 +63,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="info">the project information object.</param>
         public ProjectSettingDialog(ProjectInfo info)
         {
             InitializeComponent();
@@ -106,7 +106,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Set the project information.
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="info">the project information object.</param>
         private void SetPorjectInfo(ProjectInfo info)
         {
             textName.Text = info.Name;

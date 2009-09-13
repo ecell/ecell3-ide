@@ -187,8 +187,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// The selection changed of project list.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ListBox</param>
+        /// <param name="e">EventArgs</param>
         private void ProjectListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = ProjectListBox.SelectedIndex;
@@ -203,7 +203,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Set the project.
         /// </summary>
-        /// <param name="project"></param>
+        /// <param name="project">the project information object.</param>
         private void SetProject(ProjectInfo project)
         {
             m_project = project;
@@ -238,7 +238,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Event on canvas change.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">EventArgs</param>
         protected virtual void OnProjectChange(EventArgs e)
         {
             if (m_onProjectChange != null)

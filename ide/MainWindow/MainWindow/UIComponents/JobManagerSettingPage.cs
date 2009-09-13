@@ -61,7 +61,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="manager"></param>
+        /// <param name="manager">JobManager</param>
         public JobManagerSettingPage(IJobManager manager)
         {
             InitializeComponent();
@@ -248,8 +248,8 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <summary>
         /// The selection of Environment ComboBox is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ComboBox</param>
+        /// <param name="e">EventArgs</param>
         private void envComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string name = envComboBox.Text;

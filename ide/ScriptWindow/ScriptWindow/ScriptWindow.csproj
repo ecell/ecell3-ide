@@ -61,10 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
-    <Reference Include="IronMath">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(IRONPYTHONHOME)\IronMath.dll</HintPath>
-    </Reference>
     <Reference Include="Python.Runtime" />
     <Reference Include="System" />
     <Reference Include="System.Data" />

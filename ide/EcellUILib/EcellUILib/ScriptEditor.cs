@@ -47,7 +47,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="env"></param>
+        /// <param name="env">ApplicationEnvironment</param>
         public ScriptEditor(ApplicationEnvironment env)
         {
             m_env = env;
@@ -78,7 +78,7 @@ namespace Ecell.IDE
         /// <summary>
         /// Change the status of project.
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">the project status.</param>
         public override void ChangeStatus(ProjectStatus status)
         {
             base.ChangeStatus(status);
