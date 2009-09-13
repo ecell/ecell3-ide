@@ -383,6 +383,9 @@ namespace Ecell
             m_simulator = CreateSimulatorInstance();
         }
 
+        /// <summary>
+        /// Unload the current simulator.
+        /// </summary>
         public void UnloadSimulator()
         {
             if (m_simulator != null)
@@ -392,6 +395,9 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Reload the current simulator.
+        /// </summary>
         public void ReloadSimulator()
         {
             m_simulator = CreateSimulatorInstance();
@@ -1019,9 +1025,9 @@ namespace Ecell
         /// <summary>
         /// GetTemporaryID
         /// </summary>
-        /// <param name="list"></param>
-        /// <param name="pref"></param>
-        /// <returns></returns>
+        /// <param name="list">the list of object.</param>
+        /// <param name="pref">the preference string.</param>
+        /// <returns>temporary ID.</returns>
         private static string GetTemporaryID(List<EcellObject> list, string pref)
         {
             int i = 0, max = 0;
@@ -1042,11 +1048,11 @@ namespace Ecell
         /// <summary>
         /// Get EcellObject of this project.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="type"></param>
-        /// <param name="key"></param>
-        /// <param name="isDefault"></param>
-        /// <returns></returns>
+        /// <param name="model">the model ID.</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="key">the object key.</param>
+        /// <param name="isDefault">whether this object use default value.</param>
+        /// <returns>Object of Ecell.</returns>
         public EcellObject GetEcellObject(string model, string type, string key, bool isDefault)
         {
             if (string.IsNullOrEmpty(model) || string.IsNullOrEmpty(type))
@@ -1061,6 +1067,14 @@ namespace Ecell
                 return GetEntity(model, key, type, isDefault);
         }
 
+        /// <summary>
+        /// Get EcellObject of this project.
+        /// </summary>
+        /// <param name="model">the model ID.</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="key">the object key.</param>
+        /// <param name="simParam">the simulation parameter.</param>
+        /// <returns>Object of Ecell.</returns>
         public EcellObject GetEcellObject(string model, string type, string key, string simParam)
         {
             EcellObject obj = GetEcellObject(model, type, key, true);
@@ -1078,9 +1092,10 @@ namespace Ecell
         /// <summary>
         /// Get System.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="model">the model ID.</param>
+        /// <param name="key">the object key.</param>
+        /// <param name="isDefault">whether this object use default value.</param>
+        /// <returns>System object.</returns>
         private EcellObject GetSystem(string model, string key, bool isDefault)
         {
             // Check systemList
@@ -1115,10 +1130,11 @@ namespace Ecell
         /// <summary>
         /// Get Entity.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="model">the model ID.</param>
+        /// <param name="key">the object key.</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="isDefault">whether this entity use the default value.</param>
+        /// <returns>Entity object.</returns>
         private EcellObject GetEntity(string model, string key, string type, bool isDefault)
         {
             EcellObject system = GetSystem(model, Util.GetSuperSystemPath(key),isDefault);
@@ -1152,9 +1168,10 @@ namespace Ecell
         /// <summary>
         /// Get Stepper.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="model">the model ID</param>
+        /// <param name="key">the object key.</param>
+        /// <param name="isDefault">whether this entity use the default value.</param>
+        /// <returns>Stepper object.</returns>
         private EcellObject GetStepper(string model, string key, bool isDefault)
         {
             EcellObject stepper = null;
@@ -1182,7 +1199,7 @@ namespace Ecell
         /// <summary>
         /// Get a list of Revisions
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of revision.</returns>
         public List<string> GetRevisions()
         {
             List<string> list = new List<string>();
@@ -1294,7 +1311,10 @@ namespace Ecell
         #endregion
 
         #region InitialCondition
-
+        /// <summary>
+        /// Set initial condition of new object.
+        /// </summary>
+        /// <param name="newobj">the new object.</param>
         public void SetInitialCondition(EcellObject newobj)
         {
             EcellObject defaultObj = GetEcellObject(newobj.ModelID,
@@ -1326,6 +1346,11 @@ namespace Ecell
             defaultObj.Layout = newobj.Layout.Clone();
         }
 
+        /// <summary>
+        /// Update the initial condition of new object.
+        /// </summary>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newObj">the new object.</param>
         public void UpdateInitialCondition(EcellObject oldObj, EcellObject newObj)
         {
             string modelID = oldObj.ModelID;
@@ -1348,6 +1373,10 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Delete the initial condition of object.
+        /// </summary>
+        /// <param name="obj">the deleted object.</param>
         public void DeleteInitialCondition(EcellObject obj)
         {
             string modelID = obj.ModelID;
@@ -1361,6 +1390,11 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Delete the initial condition value.
+        /// </summary>
+        /// <param name="simParam">the simulation parameter.</param>
+        /// <param name="entityPath">the entity path.</param>
         public void DeleteInitialCondition(string simParam, String entityPath)
         {
             string modelID = Model.ModelID;
@@ -1368,6 +1402,12 @@ namespace Ecell
                 InitialCondition[simParam][modelID].Remove(entityPath);
         }
 
+        /// <summary>
+        /// Set the initial condition value.
+        /// </summary>
+        /// <param name="simParam">the simulation parameter.</param>
+        /// <param name="entityPath">the entity path.</param>
+        /// <param name="data">the initial value.</param>
         public void SetInitialCondition(string simParam, string entityPath, double data)
         {
             string modelID = Model.ModelID;

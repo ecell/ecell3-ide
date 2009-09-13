@@ -131,6 +131,9 @@ namespace Ecell
         }
     }
 
+    /// <summary>
+    /// Reader class for Ecell XML.
+    /// </summary>
     public class EcellXmlReader
     {
         /// <summary>

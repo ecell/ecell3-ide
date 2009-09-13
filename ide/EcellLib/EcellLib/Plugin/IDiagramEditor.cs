@@ -37,6 +37,9 @@ using Ecell.Objects;
 
 namespace Ecell.Plugin
 {
+    /// <summary>
+    /// Plugin interface provide the Diagram.
+    /// </summary>
     public interface IDiagramEditor
     {
         /// <summary>

@@ -33,6 +33,9 @@ using System.Text;
 
 namespace Ecell.Plugin
 {
+    /// <summary>
+    /// Plugin interface provide the dock content.
+    /// </summary>
     public interface IDockContentProvider
     {
         /// <summary>

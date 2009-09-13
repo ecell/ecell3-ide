@@ -173,6 +173,7 @@ namespace Ecell
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
+        /// <param name="stepperList">the list of stepper.</param>
         public void WriteModelProperty(string fileName, Encoding enc, string modelName, List<EcellObject> stepperList)
         {
             File.AppendAllText(fileName, "\n# Stepper\n", enc);
@@ -399,6 +400,7 @@ namespace Ecell
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="saveList">the list of saved object.</param>
         /// <param name="topdir">the top directory.</param>
+        /// <param name="jobID">Job ID.</param>
         public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, int jobID,
             List<SaveLoggerProperty> saveList, string topdir)
         {
@@ -425,6 +427,7 @@ namespace Ecell
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="saveList">the list of saved object.</param>
         /// <param name="topdir">the top directory.</param>
+        /// <param name="jobID">Job ID.</param>
         public void WriteLoggerSaveEntryLocal(string fileName, Encoding enc, int jobID,
             List<SaveLoggerProperty> saveList, string topdir)
         {

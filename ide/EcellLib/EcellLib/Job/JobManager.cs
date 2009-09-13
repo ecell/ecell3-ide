@@ -45,19 +45,61 @@ namespace Ecell.Job
     public class JobManager: IJobManager
     {
         #region Fields
+        /// <summary>
+        /// EventHandler to update the job.
+        /// </summary>
         public event JobUpdateEventHandler JobUpdateEvent;
+        /// <summary>
+        /// ApplicationEnvironment.
+        /// </summary>
         private ApplicationEnvironment m_env;
+        /// <summary>
+        /// Whether the tmporary directory is removable.
+        /// </summary>
         private bool m_tmpDirRemovable = false;
+        /// <summary>
+        /// Temporary root directory.
+        /// </summary>
         private string m_tmpRootDir = null;
+        /// <summary>
+        /// Temporary directory.
+        /// </summary>
         private string m_tmpDir = null;
+        /// <summary>
+        /// Concurency.
+        /// </summary>
         private int m_conc = -1;
+        /// <summary>
+        /// The retry limit.
+        /// </summary>
         private int m_limitRetry = 5;
+        /// <summary>
+        /// The interval time to update the status of jobs.
+        /// </summary>
         private int m_updateInterval = 5000;
+        /// <summary>
+        /// The global timeout.
+        /// </summary>
         private int m_globalTimeOut = 0;
+        /// <summary>
+        /// Jog proxy object.
+        /// </summary>
         private JobProxy m_proxy;
+        /// <summary>
+        /// The list of proxy object.
+        /// </summary>
         private Dictionary<string, JobProxy> m_proxyList = new Dictionary<string, JobProxy>();
+        /// <summary>
+        /// The list of job group.
+        /// </summary>
         private Dictionary<string, JobGroup> m_groupDic = new Dictionary<string, JobGroup>();
+        /// <summary>
+        /// The list of analysis module.
+        /// </summary>
         private Dictionary<string, IAnalysisModule> m_analysisDic = new Dictionary<string, IAnalysisModule>();
+        /// <summary>
+        /// Timer object.
+        /// </summary>
         private Timer m_timer;
         #endregion
 
@@ -290,6 +332,7 @@ namespace Ecell.Job
         /// <summary>
         /// Regist the jobs.
         /// </summary>
+        /// <param name="job">job object.</param>
         /// <param name="script">Script file name.</param>
         /// <param name="arg">Argument of script file.</param>
         /// <param name="extFile">Extra file list of script file.</param>
@@ -559,7 +602,7 @@ namespace Ecell.Job
         /// Preapre to execute the process.
         /// Ex. script file, extra file, job directory and so on.
         /// <param name="groupName">the analysis group name.</param>
-        /// <param name="isForce">whether this job is initialize forcely.</param>
+        /// <param name="isForce">whether this job is initialize forcibly.</param>
         /// </summary>
         private void PrepareProcessRun(string groupName, bool isForce)
         {
@@ -1148,6 +1191,7 @@ namespace Ecell.Job
         /// <param name="modelName">the model name.</param>
         /// <param name="count">the simulation time.</param>
         /// <param name="isStep">the flag whetehr simulation is step.</param>
+        /// <param name="stepperList">the list of stepper.</param>
         /// <param name="sysList">the list of system object.</param>
         /// <param name="paramDic">the dictionary of parameters.</param>
         private void CreateUnixScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
@@ -1240,6 +1284,7 @@ namespace Ecell.Job
         /// <param name="count">the simulation time.</param>
         /// <param name="isStep">the flag whetehr simulation is step.</param>
         /// <param name="sysList">the list of system object.</param>
+        /// <param name="stepperList">the list of stepper.</param>
         /// <param name="paramDic">the dictionary of parameters.</param>
         private void CreateLocalScript(int jobID, string topDir, string dirName, string fileName, string modelFile,
             ScriptWriter writer, string modelName, double count, bool isStep, List<EcellObject> sysList,

@@ -44,13 +44,25 @@ using Ecell.Exceptions;
 namespace Ecell.Objects
 {
     /// <summary>
-    /// 
+    /// Value type.
     /// </summary>
     public enum EcellValueType
     {
+        /// <summary>
+        /// Integer type.
+        /// </summary>
         Integer = 1,
+        /// <summary>
+        /// Double type.
+        /// </summary>
         Double = 2,
+        /// <summary>
+        /// String type.
+        /// </summary>
         String = 3,
+        /// <summary>
+        /// List type.
+        /// </summary>
         List = 4
     }
 

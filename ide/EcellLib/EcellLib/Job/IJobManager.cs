@@ -17,6 +17,9 @@ namespace Ecell.Job
     /// </summary>
     public interface IJobManager
     {
+        /// <summary>
+        /// EventHandler to update the jobs.
+        /// </summary>
         event JobUpdateEventHandler JobUpdateEvent;
 
         #region Accessors
@@ -209,6 +212,7 @@ namespace Ecell.Job
         /// <summary>
         /// Run the jobs.
         /// <param name="groupName">the executed group name.</param>
+        ///<param name="isForce">whether this group is run forcibly.</param>
         /// </summary>
         void Run(string groupName, bool isForce);
         /// <summary>

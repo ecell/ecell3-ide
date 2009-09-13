@@ -39,9 +39,11 @@ using Ecell.Logger;
 
 namespace Ecell.Plugin
 {
+    /// <summary>
+    /// Plugin interface provide the DataHandle.
+    /// </summary>
     public interface IDataHandler
     {
-
         /// <summary>
         /// The event sequence to add the object at other plugin.
         /// </summary>

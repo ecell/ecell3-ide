@@ -173,24 +173,69 @@ namespace Ecell.SBML
     }
 
     /// <summary>
-    /// 
+    /// Process convert constants.
     /// </summary>
     public class ProcessConstants
     {
+        /// <summary>
+        /// Reserved string ConstantFluxProcess.
+        /// </summary>
         public const string ConstantFluxProcess = "ConstantFluxProcess";
+        /// <summary>
+        /// Reserved string DecayFluxProcess.
+        /// </summary>
         public const string DecayFluxProcess = "DecayFluxProcess";
+        /// <summary>
+        /// Reserved string ExpressionAlgebraicProcess.
+        /// </summary>
         public const string ExpressionAlgebraicProcess = "ExpressionAlgebraicProcess";
+        /// <summary>
+        /// Reserved string ExpressionAssignmentProcess.
+        /// </summary>
         public const string ExpressionAssignmentProcess = "ExpressionAssignmentProcess";
+        /// <summary>
+        /// Reserved string ExpressionFluxProcess.
+        /// </summary>
         public const string ExpressionFluxProcess = "ExpressionFluxProcess";
+        /// <summary>
+        /// Reserved string GillespieProcess.
+        /// </summary>
         public const string GillespieProcess = "GillespieProcess";
+        /// <summary>
+        /// Reserved string GMAProcess.
+        /// </summary>
         public const string GMAProcess = "GMAProcess";
+        /// <summary>
+        /// Reserved string MassActionFluxProcess.
+        /// </summary>
         public const string MassActionFluxProcess = "MassActionFluxProcess";
+        /// <summary>
+        /// Reserved string MichaelisUniUniFluxProcess.
+        /// </summary>
         public const string MichaelisUniUniFluxProcess = "MichaelisUniUniFluxProcess";
+        /// <summary>
+        /// Reserved string PingPongBiBiFluxProcess.
+        /// </summary>
         public const string PingPongBiBiFluxProcess = "PingPongBiBiFluxProcess";
+        /// <summary>
+        /// Reserved string PythonFluxProcess.
+        /// </summary>
         public const string PythonFluxProcess = "PythonFluxProcess";
+        /// <summary>
+        /// Reserved string PythonProcess.
+        /// </summary>
         public const string PythonProcess = "PythonProcess";
+        /// <summary>
+        /// Reserved string QuasiDynamicFluxProcess.
+        /// </summary>
         public const string QuasiDynamicFluxProcess = "QuasiDynamicFluxProcess";
+        /// <summary>
+        /// Reserved string SSystemProcess.
+        /// </summary>
         public const string SSystemProcess = "SSystemProcess";
+        /// <summary>
+        /// Reserved string TauLeapProcess.
+        /// </summary>
         public const string TauLeapProcess = "TauLeapProcess";
     }
 }

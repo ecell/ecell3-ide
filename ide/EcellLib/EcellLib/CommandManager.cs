@@ -65,6 +65,10 @@ namespace Ecell
         /// ApplicationEnvironment
         /// </summary>
         private ApplicationEnvironment m_env;
+        /// <summary>
+        /// Model name string
+        /// </summary>
+        private string m_modelName = null;
         #endregion
 
         #region Accessors
@@ -110,14 +114,19 @@ namespace Ecell
         #endregion
 
         #region NewPython
-        private string m_modelName = null;
-
+        /// <summary>
+        /// Load the model from the file.
+        /// </summary>
+        /// <param name="filePath">the model file name.</param>
         public void LoadModel(string filePath)
         {
             m_env.DataManager.LoadProject(filePath);
             m_modelName = m_env.DataManager.CurrentProject.Model.ModelID;
         }
 
+        /// <summary>
+        /// Save the model to the file.
+        /// </summary>
         public void SaveModel()
         {
             if (m_modelName != null)
@@ -173,6 +182,10 @@ namespace Ecell
             return new StepperStub(this, ID);
         }
 
+        /// <summary>
+        /// Output the message to the console.
+        /// </summary>
+        /// <param name="message">the error message.</param>
         public void SetMessage(string message)
         {
             m_env.Console.WriteLine(message);
@@ -823,6 +836,7 @@ namespace Ecell
         /// <param name="startTime">The start time of the logger</param>
         /// <param name="endTime">The end time of the logger</param>
         /// <param name="fullPN">The logged full PN</param>
+        /// <param name="interval">The log interval</param>
         /// <returns>the list of LogValue.</returns>
         public List<LogValue> GetLogData(string fullPN, double startTime, double endTime, double interval)
         {
@@ -1011,6 +1025,7 @@ namespace Ecell
         /// <summary>
         /// Run the session for parameter range.
         /// </summary>
+        /// <param name="groupName">the job group name,</param>
         /// <param name="topDir">the top direcotry.</param>
         /// <param name="modelName">the model name.</param>
         /// <param name="num">the number of session.</param>
@@ -1040,6 +1055,7 @@ namespace Ecell
         /// <summary>
         /// Run the session for parameter matrix.
         /// </summary>
+        /// <param name="groupName">the job group name,</param>
         /// <param name="topDir">the top direcotry.</param>
         /// <param name="modelName">the model name.</param>
         /// <param name="count">the step count.</param>
@@ -1789,6 +1805,10 @@ namespace Ecell
                 return this.m_loggerPolicy;
             }
 
+            /// <summary>
+            /// Get the initial condition.
+            /// </summary>
+            /// <returns>the list of initial condition</returns>
             public Dictionary<string, double> GetInitialCondition()
             {
                 return this.m_initialCondition;
@@ -1873,6 +1893,7 @@ namespace Ecell
             /// Constructor with the initial parameters.
             /// </summary>
             /// <param name="manager">CommandManager</param>
+            /// <param name="groupName">the group name.</param>
             /// <param name="id">the job id.</param>
             public JobStub(CommandManager manager, string groupName, int id)
             {

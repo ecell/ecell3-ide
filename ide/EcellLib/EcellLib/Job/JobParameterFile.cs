@@ -220,6 +220,11 @@ namespace Ecell.Job
         /// </summary>
         public const string xStatus = "Status";
 
+        /// <summary>
+        /// Convert JobStatus to Int.
+        /// </summary>
+        /// <param name="status">the job status.</param>
+        /// <returns>job status integer.</returns>
         public static int TypeConvert(JobStatus status)
         {
             switch (status)
@@ -238,6 +243,11 @@ namespace Ecell.Job
             return -1;
         }
 
+        /// <summary>
+        /// Convert int to JobStatus.
+        /// </summary>
+        /// <param name="id">the job status integer.</param>
+        /// <returns>JobStatus</returns>
         public static JobStatus IntConvert(int id)
         {
             switch (id)

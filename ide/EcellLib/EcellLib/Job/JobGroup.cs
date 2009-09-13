@@ -486,6 +486,10 @@ namespace Ecell.Job
             }                       
         }
 
+        /// <summary>
+        /// Load the job entry from job directory.
+        /// </summary>
+        /// <param name="topdir">the job directory.</param>
         public void LoadJobEntry(string topdir)
         {
             string[] dirs = Directory.GetDirectories(topdir);

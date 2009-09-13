@@ -42,12 +42,32 @@ namespace Ecell.Job
     /// </summary>
     public class GlobusJob : Job
     {
+        #region Static
+        /// <summary>
+        /// Server name string.
+        /// </summary>
         public static string SERVER_NAME = MessageResources.NameJobServerName;
+        /// <summary>
+        /// Provider name string.
+        /// </summary>
         public static string PROVIDER_NAME = MessageResources.NameJobProvider;
+        /// <summary>
+        /// Script name string.
+        /// </summary>
         public static string SCRIPT_NAME = MessageResources.NameJobScriptName;
+        /// <summary>
+        /// Top directory name string.
+        /// </summary>
         public static string TOPDIR_NAME = MessageResources.NameJobTopDir;
+        /// <summary>
+        /// Password string.
+        /// </summary>
         public static string PASSWORD = MessageResources.NameJobPassword;
+        #endregion
 
+        /// <summary>
+        /// Process object.
+        /// </summary>
         private Process m_process = null;
 
         #region Constructors
@@ -178,6 +198,9 @@ namespace Ecell.Job
             }            
         }
 
+        /// <summary>
+        /// Update the status of job.
+        /// </summary>
         public override void Update()
         {
         }

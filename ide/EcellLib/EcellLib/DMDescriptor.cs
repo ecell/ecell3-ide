@@ -36,6 +36,9 @@ using EcellCoreLib;
 
 namespace Ecell
 {
+    /// <summary>
+    /// DM descrption class.
+    /// </summary>
     public class DMDescriptor: IEnumerable<PropertyDescriptor>
     {
         #region Fields

@@ -34,6 +34,9 @@ using System.Text;
 
 namespace Ecell.Job
 {
+    /// <summary>
+    /// EventArgs to update the job.
+    /// </summary>
     public class JobUpdateEventArgs : EventArgs
     {
         #region Fields

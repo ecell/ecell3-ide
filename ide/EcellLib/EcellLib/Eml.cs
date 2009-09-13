@@ -49,11 +49,20 @@ namespace Ecell
     /// </summary>
     public class EmlParseException : EcellXmlReaderException
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="msg">the error message.</param>
         public EmlParseException(string msg)
             : base(msg)
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="msg">the error message.</param>
+        /// <param name="innerExc">the inner exception.</param>
         public EmlParseException(string msg, Exception innerExc)
             : base(msg, innerExc)
         {

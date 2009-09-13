@@ -127,7 +127,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// get/set main form of application.
+        /// get main form of application.
         /// </summary>
         public DockPanel DockPanel
         {
@@ -140,11 +140,17 @@ namespace Ecell.Plugin
             }
         }
 
+        /// <summary>
+        /// get the plugin provide the root menu.
+        /// </summary>
         public IRootMenuProvider RootMenuProvider
         {
             get { return m_rootMenuProvider; }
         }
 
+        /// <summary>
+        /// get the plugin provide the diagram.
+        /// </summary>
         public IDiagramEditor DiagramEditor
         {
             get { return m_diagramEditor; }

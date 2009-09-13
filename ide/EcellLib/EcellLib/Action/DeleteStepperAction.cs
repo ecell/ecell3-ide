@@ -44,10 +44,6 @@ namespace Ecell.Action
     {
         #region Fields
         /// <summary>
-        /// The parameter ID deleted the stepper.
-        /// </summary>
-        private string m_paramID;
-        /// <summary>
         /// The deleted stepper.
         /// </summary>
         private EcellObject m_stepper;
@@ -69,7 +65,7 @@ namespace Ecell.Action
         /// <returns>object string.</returns>
         public override string ToString()
         {
-            return "DeleteStepperAction:" + m_paramID;
+            return "DeleteStepperAction:" + m_stepper.Key;
         }
         /// <summary>
         /// Execute to delete the stepper using the information.

@@ -234,8 +234,9 @@ namespace Ecell.Plugin
         /// <summary>
         /// Create LayoutGrid with
         /// </summary>
-        /// <param name="systemList"></param>
-        /// <returns></returns>
+        /// <param name="systemList">the list of system</param>
+        /// <param name="margin">margin size</param>
+        /// <returns>the list of point of object</returns>
         public static Dictionary<string, List<PointF>> GetLayoutGrid(List<EcellObject> systemList, float margin)
         {
             if (margin < 10f)
@@ -281,11 +282,11 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the intersection point.
         /// </summary>
-        /// <param name="pointA"></param>
-        /// <param name="pointB"></param>
-        /// <param name="pointC"></param>
-        /// <param name="pointD"></param>
-        /// <returns></returns>
+        /// <param name="pointA">Point of line1.</param>
+        /// <param name="pointB">Point of line1.</param>
+        /// <param name="pointC">Point of line2.</param>
+        /// <param name="pointD">Point of line2.</param>
+        /// <returns>the intersection point.</returns>
         public static PointF GetIntersectingPoint(PointF pointA, PointF pointB, PointF pointC, PointF pointD)
         {
             PointF point;

@@ -210,6 +210,7 @@ namespace Ecell
         /// GetValueFromDMM
         /// </summary>
         /// <param name="dmm">DMDescriptorKeeper</param>
+        /// <param name="type">DM type.</param>
         /// <param name="className">the class name,</param>
         /// <param name="name">the property name.</param>
         /// <returns></returns>

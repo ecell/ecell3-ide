@@ -78,6 +78,11 @@ namespace Ecell
     /// <param name="o">DataManager</param>
     /// <param name="e">SteppingModelEventArgs</param>
     public delegate void ApplySteppingModelEnvetHandler(object o, SteppingModelEventArgs e);
+    /// <summary>
+    /// EventHandler when the simulator is reloaded.
+    /// </summary>
+    /// <param name="o">DataManager</param>
+    /// <param name="e">EventArgs</param>
     public delegate void ReloadSimulatorEventHandler(object o, EventArgs e);
 
     /// <summary>
@@ -2997,6 +3002,11 @@ namespace Ecell
             return dic;
         }
 
+        /// <summary>
+        /// Update the property when DataChanged is executed,
+        /// </summary>
+        /// <param name="variable">the variable object.</param>
+        /// <param name="updateData">the update data.</param>
         public void UpdatePropertyForDataChanged(EcellObject variable, EcellData updateData)
         {
             if (variable.Key.EndsWith(EcellSystem.SIZE)) return;

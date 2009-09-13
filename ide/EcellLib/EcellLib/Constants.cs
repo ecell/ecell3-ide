@@ -528,10 +528,25 @@ namespace Ecell
         #endregion
 
         #region Delegate
+        /// <summary>
+        /// Delegate to add the DM.
+        /// </summary>
         public const string delegateAddDM = "AddDynamicModule";
+        /// <summary>
+        /// Delegate to save the simulation result.
+        /// </summary>
         public const string delegateSaveSimulationResult = "SaveSimulationResult";
+        /// <summary>
+        /// Delegate to set the dock contents.
+        /// </summary>
         public const string delegateSetDockContents = "SetDockContents";
+        /// <summary>
+        /// Delegate to show the grid dialog.
+        /// </summary>
         public const string delegateShowGridDialog = "ShowJobStatusDialog";
+        /// <summary>
+        /// Delegate to show the property.
+        /// </summary>
         public const string delegateShowPropertyWindow = "ShowPropertyWindow";
         #endregion
 

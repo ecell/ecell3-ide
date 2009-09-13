@@ -1691,7 +1691,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Call the UpdateOverview() method after a certain time passed
         /// </summary>
-        /// <param name="miliSec">Called after this time passed</param>
         public void UpdateOverviewAfterTime()
         {
             RectangleF centerBounds = PathUtil.GetFocusBound(viewRect, m_pCanvas.Camera.ViewBounds);

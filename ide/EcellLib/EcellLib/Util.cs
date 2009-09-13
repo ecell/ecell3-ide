@@ -1497,7 +1497,8 @@ namespace Ecell
         /// Convert the file name that decide in E-Cell Core from entity key.
         /// </summary>
         /// <param name="key">key.</param>
-        /// <returns>the log file.</returns>
+        /// <param name="isUnix">whether this file is ouput on unix.</param>
+        /// <returns>the log file.</returns>        
         public static string GetOutputFileName(string key, bool isUnix)
         {
             string fileName = key.Replace("/", "_");
