@@ -246,7 +246,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
 
         #region Events
         /// <summary>
-        /// 
+        /// The selection of Environment ComboBox is changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -37,7 +37,7 @@ using Ecell.Exceptions;
 namespace Ecell.SBML
 {
     /// <summary>
-    /// 
+    /// Process converter class.
     /// </summary>
     public class ProcessConverter
     {

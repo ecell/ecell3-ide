@@ -39,18 +39,28 @@ using Ecell.Exceptions;
 namespace Ecell.IDE.MainWindow.UIComponents
 {
     /// <summary>
-    /// 
+    /// Page to set the root folder.
     /// </summary>
     public class RootFolderSettingPage : PropertyDialogPage
     {
+        #region Fields
+        /// <summary>
+        /// TextBox to input the root folder.
+        /// </summary>
         private System.Windows.Forms.TextBox textBox;
+        /// <summary>
+        /// Button to open the folder browser.
+        /// </summary>
         private System.Windows.Forms.Button button;
+        /// <summary>
+        /// FolderBrowser.
+        /// </summary>
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-
+        #endregion
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         public RootFolderSettingPage()
         {
@@ -59,7 +69,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// InitializeComponent
         /// </summary>
         private void InitializeComponent()
         {
@@ -110,7 +120,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
 
         #endregion
         /// <summary>
-        /// 
+        /// Clicked the button, folder browser dialog is shown.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -127,7 +137,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// Apply the property.
         /// </summary>
         public override void ApplyChange()
         {
@@ -136,14 +146,15 @@ namespace Ecell.IDE.MainWindow.UIComponents
             Util.SetBaseDir(textBox.Text);
         }
 
+        /// <summary>
+        /// Closing thie page, check the property.
+        /// </summary>
         public override void PropertyDialogClosing()
         {
             base.PropertyDialogClosing();
             string path = textBox.Text;
             if (string.IsNullOrEmpty(path))
-                throw new EcellException(string.Format(MessageResources.ErrNoSet, "WorkSpace" ));
-
-            
+                throw new EcellException(string.Format(MessageResources.ErrNoSet, "WorkSpace" ));            
         }
     }
 }

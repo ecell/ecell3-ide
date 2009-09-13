@@ -317,7 +317,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Check this window is able to save.
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="isClosing"></param>
@@ -466,7 +466,7 @@ namespace Ecell.IDE.MainWindow
             }
         }
         /// <summary>
-        /// 
+        /// Sort content.
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="contents"></param>
@@ -501,7 +501,7 @@ namespace Ecell.IDE.MainWindow
             return sortedContents;
         }
         /// <summary>
-        /// 
+        /// Create the float window.
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="contentList"></param>
@@ -540,8 +540,9 @@ namespace Ecell.IDE.MainWindow
                 NormalizeFormScreen(fw, 0);
             }
         }
+
         /// <summary>
-        /// 
+        /// Assign panes,
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="panes"></param>
@@ -567,7 +568,7 @@ namespace Ecell.IDE.MainWindow
             }
         }
         /// <summary>
-        /// 
+        /// create the float windows.
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="panes"></param>
@@ -602,7 +603,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// create the panes.
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="panes"></param>
@@ -630,7 +631,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// create the contents.
         /// </summary>
         /// <param name="dockPanel"></param>
         /// <param name="contents"></param>
@@ -719,6 +720,11 @@ namespace Ecell.IDE.MainWindow
             return false;
         }
 
+        /// <summary>
+        /// Set the status of window.
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="windowState"></param>
         private static void SetWindowStatus(MainWindow window, WindowStateStruct windowState)
         {
             window.WindowState = windowState.WindowState;
@@ -728,8 +734,9 @@ namespace Ecell.IDE.MainWindow
             window.Height = windowState.Height;
             NormalizeFormScreen(window, windowState.Screen);
         }
+
         /// <summary>
-        /// 
+        /// Normalize the window of screen.
         /// </summary>
         /// <param name="window"></param>
         /// <param name="screen"></param>

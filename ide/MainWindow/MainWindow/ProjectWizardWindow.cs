@@ -55,7 +55,7 @@ namespace Ecell.IDE.MainWindow
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get the selected project.
         /// </summary>
         public ProjectInfo SelectedProject
         {
@@ -107,7 +107,7 @@ namespace Ecell.IDE.MainWindow
 
         #region private Method
         /// <summary>
-        /// 
+        /// Event the selected project is changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -118,7 +118,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Event Button of Next is clicked.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -131,7 +131,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Set the next page.
         /// </summary>
         private void SetNextPage()
         {
@@ -149,7 +149,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Event Back button is clicked.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -174,15 +174,16 @@ namespace Ecell.IDE.MainWindow
         {
             private ProjectInfo m_project;
             /// <summary>
-            /// 
+            /// get / set the project information.
             /// </summary>
             public ProjectInfo Project
             {
                 get { return m_project; }
                 set { m_project = value; }
             }
+
             /// <summary>
-            /// 
+            /// Constructor.
             /// </summary>
             /// <param name="project"></param>
             public ProjectLabel(ProjectInfo project)
@@ -194,8 +195,9 @@ namespace Ecell.IDE.MainWindow
                 this.MouseHover += new EventHandler(label_MouseHover);
                 this.MouseLeave += new EventHandler(label_MouseLeave);
             }
+
             /// <summary>
-            /// 
+            /// Event mouse reave on this label.
             /// </summary>
             /// <param name="sender"></param>
             /// <param name="e"></param>
@@ -204,8 +206,9 @@ namespace Ecell.IDE.MainWindow
                 Label label = (Label)sender;
                 label.Font = new Font(label.Font, FontStyle.Regular);
             }
+
             /// <summary>
-            /// 
+            /// Event mouse enter on this label.
             /// </summary>
             /// <param name="sender"></param>
             /// <param name="e"></param>
@@ -217,6 +220,11 @@ namespace Ecell.IDE.MainWindow
 
         }
 
+        /// <summary>
+        /// Closing the ProjectWizard.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ProjectWizardWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel)

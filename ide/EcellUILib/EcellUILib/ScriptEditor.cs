@@ -76,7 +76,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// Change the status of project.
         /// </summary>
         /// <param name="status"></param>
         public override void ChangeStatus(ProjectStatus status)

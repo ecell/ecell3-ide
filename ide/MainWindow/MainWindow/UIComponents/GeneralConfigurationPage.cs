@@ -46,8 +46,17 @@ namespace Ecell.IDE.MainWindow.UIComponents
     /// </summary>
     public partial class GeneralConfigurationPage : PropertyDialogPage
     {
+        #region Fields
+        /// <summary>
+        /// ComboBox of value format.
+        /// </summary>
         private ComboBox valueFormatComboBox;
+        /// <summary>
+        /// DataManager.
+        /// </summary>
         private DataManager m_manager;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Constructor
@@ -129,7 +138,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         #endregion
 
         /// <summary>
-        /// 
+        /// Apply the current settings.
         /// </summary>
         public override void ApplyChange()
         {

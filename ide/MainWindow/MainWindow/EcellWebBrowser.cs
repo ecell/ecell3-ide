@@ -594,7 +594,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Confirm the simulation stop.
             /// </summary>
             /// <returns></returns>
             private bool SimulationConfirm()
@@ -630,7 +630,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Get the list of recent file.
             /// </summary>
             /// <returns></returns>
             public MyIEnumerator GetRecentFiles()
@@ -639,7 +639,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Get the recent project label.
             /// </summary>
             /// <returns></returns>
             public string GetLabelForRecentProjects()
@@ -648,7 +648,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Get the tutorial label.
             /// </summary>
             /// <returns></returns>
             public string GetLabelForTutorial()
@@ -657,7 +657,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Get the manual label.
             /// </summary>
             /// <returns></returns>
             public string GetLabelForManual()
@@ -666,7 +666,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Get the dock manual label.
             /// </summary>
             /// <returns></returns>
             public string GetLabelForDockManual()
@@ -675,7 +675,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             /// <summary>
-            /// 
+            /// Get manual.
             /// </summary>
             /// <returns></returns>
             public string GetManual()

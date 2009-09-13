@@ -77,8 +77,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_menu = menu;
         }
         #endregion
+
         /// <summary>
-        /// 
+        /// get the file path.
         /// </summary>
         public string FilePath
         {

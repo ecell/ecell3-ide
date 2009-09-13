@@ -160,7 +160,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
 
         /// <summary>
-        /// 
+        /// Get the delegate function of plugin.
         /// </summary>
         /// <returns></returns>
         public override Dictionary<string, Delegate> GetPublicDelegate()

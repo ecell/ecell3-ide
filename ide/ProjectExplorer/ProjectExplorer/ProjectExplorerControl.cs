@@ -2029,6 +2029,18 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.DataManager.DataChanged(src.ModelID, src.Key, src.Type, updataList[src]);
             }
         }
+
+
+        /// <summary>
+        /// Opening the revision context menu.
+        /// </summary>
+        /// <param name="sender">ContexMenuStrip.</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void contextMenuStripRevision_Opening(object sender, CancelEventArgs e)
+        {
+            ContextMenuStrip node = (ContextMenuStrip)sender;
+            exportRevisionZipMenuItem.Enabled = !Constants.xpathCurrent.Equals((string)m_lastSelectedNode.Tag);
+        }
         #endregion
 
         #region ShortCuts
@@ -2084,18 +2096,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void contextMenuStripRevision_Opening(object sender, CancelEventArgs e)
-        {
-            ContextMenuStrip node = (ContextMenuStrip)sender;
-            exportRevisionZipMenuItem.Enabled = !Constants.xpathCurrent.Equals((string)m_lastSelectedNode.Tag);
-        }
-
     }
 
     #region Node classes

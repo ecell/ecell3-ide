@@ -54,7 +54,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         public LanguageSettingPage()
         {
@@ -77,7 +77,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// Initialize component.
         /// </summary>
         private void InitializeComponent()
         {
@@ -152,7 +152,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// The check of Auto RadioButton is changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -162,7 +162,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// The check of japanese RadioButton is changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -172,7 +172,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// The check of english RadioButton is changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -183,7 +183,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         #endregion
 
         /// <summary>
-        /// 
+        /// Apply this property.
         /// </summary>
         public override void ApplyChange()
         {

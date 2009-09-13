@@ -1191,35 +1191,4 @@ namespace Ecell.IDE.Plugins.TracerWindow
             return false;
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public enum ValueDataFormat
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        Normal = 0,
-        /// <summary>
-        /// 
-        /// </summary>
-        Exponential1 = 1,
-        /// <summary>
-        /// 
-        /// </summary>
-        Exponential2 = 2,
-        /// <summary>
-        /// 
-        /// </summary>
-        Exponential3 = 3,
-        /// <summary>
-        /// 
-        /// </summary>
-        Exponential4 = 4,
-        /// <summary>
-        /// 
-        /// </summary>
-        Exponential5 = 5
-    }
 }

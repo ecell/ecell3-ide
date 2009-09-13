@@ -13,7 +13,7 @@ namespace Ecell.IDE
     {
         PropertyDialogPage m_page;
         /// <summary>
-        /// 
+        /// get the PAge.
         /// </summary>
         internal PropertyDialogPage Page
         {
@@ -27,7 +27,7 @@ namespace Ecell.IDE
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="text"></param>
         public PropertyNode(string text)
@@ -36,7 +36,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="page"></param>
         public PropertyNode(PropertyDialogPage page)
@@ -48,7 +48,7 @@ namespace Ecell.IDE
 
         #region IPropertyItem メンバ
         /// <summary>
-        /// 
+        /// Initialize
         /// </summary>
         public void Initialize()
         {
@@ -63,7 +63,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// Apply the property.
         /// </summary>
         public void ApplyChange()
         {
@@ -79,7 +79,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// Closing the this page.
         /// </summary>
         public void PropertyDialogClosing()
         {
@@ -93,7 +93,6 @@ namespace Ecell.IDE
             }
 
         }
-
         #endregion
     }
 }

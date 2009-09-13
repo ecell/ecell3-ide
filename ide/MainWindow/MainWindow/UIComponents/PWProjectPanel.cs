@@ -41,10 +41,11 @@ using System.Drawing;
 namespace Ecell.IDE.MainWindow.UIComponents
 {
     /// <summary>
-    /// 
+    /// Project wizard panel class.
     /// </summary>
     public class PWProjectPanel : UserControl
     {
+        #region Fields
         public ListBox ProjectListBox;
         private PictureBox PictureBox;
         private GroupBox ProjectBox;
@@ -53,9 +54,10 @@ namespace Ecell.IDE.MainWindow.UIComponents
         public TextBox CommentTextBox;
         private Label ProjectListLabel;
         private ProjectInfo m_project;
+        #endregion
 
         /// <summary>
-        /// 
+        /// get / set the project wizard.
         /// </summary>
         public ProjectInfo Project
         {
@@ -63,6 +65,9 @@ namespace Ecell.IDE.MainWindow.UIComponents
             set { m_project = value; }
         }
     
+        /// <summary>
+        /// InitializeComponent
+        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PWProjectPanel));
@@ -149,7 +154,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         public PWProjectPanel()
         {
@@ -179,6 +184,11 @@ namespace Ecell.IDE.MainWindow.UIComponents
             }
         }
 
+        /// <summary>
+        /// The selection changed of project list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ProjectListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = ProjectListBox.SelectedIndex;
@@ -190,6 +200,10 @@ namespace Ecell.IDE.MainWindow.UIComponents
 
         }
 
+        /// <summary>
+        /// Set the project.
+        /// </summary>
+        /// <param name="project"></param>
         private void SetProject(ProjectInfo project)
         {
             m_project = project;
@@ -230,6 +244,9 @@ namespace Ecell.IDE.MainWindow.UIComponents
             if (m_onProjectChange != null)
                 m_onProjectChange(this, e);
         }
+        /// <summary>
+        /// Raise the event on canvas change.
+        /// </summary>
         private void RaiseProjectChange()
         {
             EventArgs e = new EventArgs();

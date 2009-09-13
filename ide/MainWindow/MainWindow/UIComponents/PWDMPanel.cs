@@ -24,9 +24,6 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
-//
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
@@ -42,12 +39,12 @@ using System.Windows.Forms;
 namespace Ecell.IDE.MainWindow.UIComponents
 {
     /// <summary>
-    /// 
+    /// Project wizard panel class.
     /// </summary>
     public partial class PWDMPanel : UserControl
     {
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         public PWDMPanel()
         {
@@ -55,7 +52,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// Click the add button.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -76,7 +73,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         }
 
         /// <summary>
-        /// 
+        /// Click the remove button.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

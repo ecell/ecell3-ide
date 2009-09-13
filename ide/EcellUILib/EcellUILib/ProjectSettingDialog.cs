@@ -90,7 +90,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// Apply the property.
         /// </summary>
         private void ApplyChange()
         {
@@ -104,7 +104,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// Set the project information.
         /// </summary>
         /// <param name="info"></param>
         private void SetPorjectInfo(ProjectInfo info)

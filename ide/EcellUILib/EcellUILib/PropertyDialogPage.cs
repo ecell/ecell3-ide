@@ -44,7 +44,7 @@ namespace Ecell.IDE
     {
         #region Properties
         /// <summary>
-        /// 
+        /// get / set the name text.
         /// </summary>
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -67,7 +67,7 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// 
+        /// InitializeComponent
         /// </summary>
         private void InitializeComponent()
         {

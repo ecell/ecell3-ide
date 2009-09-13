@@ -92,7 +92,7 @@ namespace Ecell.UI.Components
         /// </summary>
         private Rectangle m_rect = new Rectangle(0, 0, 0, 0);
         /// <summary>
-        /// 
+        /// Formulator template.
         /// </summary>
         private FormulatorTemplate m_template = new FormulatorTemplate();
         #endregion
@@ -697,10 +697,10 @@ namespace Ecell.UI.Components
         }
 
         /// <summary>
-        /// 
+        /// Clicked the template apply.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button</param>
+        /// <param name="e">EventArgs</param>
         private void TemplateApplyButton_Click(object sender, EventArgs e)
         {
             string name = templateComboBox.Text;

@@ -436,7 +436,7 @@ namespace Ecell.IDE.Plugins.EntityList
         }
 
         /// <summary>
-        /// 
+        /// Enter the drag mode.
         /// </summary>
         private void EnterDragMode()
         {

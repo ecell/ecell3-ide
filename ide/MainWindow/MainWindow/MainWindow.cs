@@ -116,19 +116,19 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private List<KeyValuePair<string, string>> m_recentProjects = new List<KeyValuePair<string, string>>();
         /// <summary>
-        /// 
+        /// Job status dialog.
         /// </summary>
         private GridJobStatusDialog m_statusDialog;
         /// <summary>
-        /// 
+        /// MainWindow title.
         /// </summary>
         private string m_title;
         /// <summary>
-        /// 
+        /// Ecell browser object.
         /// </summary>
         private EcellWebBrowser m_browser;
         /// <summary>
-        /// 
+        /// Script editor object.
         /// </summary>
         private ScriptEditor m_scriptEditor;
         /// <summary>
@@ -199,7 +199,7 @@ namespace Ecell.IDE.MainWindow
 
         #region Initializer
         /// <summary>
-        /// 
+        /// Initialize plugin.
         /// </summary>
         public void Initialize()
         {
@@ -633,7 +633,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// 
+        /// Set the startup window.
         /// </summary>
         internal void SetStartUpWindow()
         {
@@ -641,6 +641,7 @@ namespace Ecell.IDE.MainWindow
             SetDockContent(content);
             m_browser = content;
         }
+
         /// <summary>
         /// set DockContent
         /// </summary>
@@ -696,52 +697,6 @@ namespace Ecell.IDE.MainWindow
             EcellDockContent retval = null;
             m_dockWindowDic.TryGetValue(name, out retval);
             return retval;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DockContent_Closing(object sender, FormClosingEventArgs e)
-        {
-            m_env.LogManager.Append(new ApplicationLogEntry(
-                MessageType.Debug,
-                string.Format(MessageResources.DockClosing, ((DockContent)sender).Name),
-                this
-            ));
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                // hide dock window
-                ((DockContent)sender).Hide();
-                e.Cancel = true;
-            }
-            else
-            {
-                ((Form)sender).Controls.Clear();
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Graph_Closing(object sender, FormClosingEventArgs e)
-        {
-            DockContent cont = sender as DockContent;
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                ToolStripItem[] items = graphGroupToolStripMenuItem.DropDownItems.Find(cont.Name, true);
-                for (int i = 0; i < items.Length; i++)
-                {
-                    graphGroupToolStripMenuItem.DropDownItems.Remove(items[i]);
-                }
-            }
-            else
-            {
-                ((Form)sender).Controls.Clear();
-            }
         }
 
         #region PluginBase
@@ -1347,6 +1302,7 @@ namespace Ecell.IDE.MainWindow
                 m_env.DataManager.SaveProject();
             }
         }
+
         /// <summary>
         /// The action of [close projct] menu click.
         /// Show confirm dialog. if you select yes, system show SaveProjectDialog.
@@ -1787,6 +1743,52 @@ namespace Ecell.IDE.MainWindow
             m_browser.EcellWebBrowserClear();
 
             base.OnClosing(e);
+        }
+
+        /// <summary>
+        /// Closing the dock content.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DockContent_Closing(object sender, FormClosingEventArgs e)
+        {
+            m_env.LogManager.Append(new ApplicationLogEntry(
+                MessageType.Debug,
+                string.Format(MessageResources.DockClosing, ((DockContent)sender).Name),
+                this
+            ));
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // hide dock window
+                ((DockContent)sender).Hide();
+                e.Cancel = true;
+            }
+            else
+            {
+                ((Form)sender).Controls.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Closing the graph contents
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Graph_Closing(object sender, FormClosingEventArgs e)
+        {
+            DockContent cont = sender as DockContent;
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                ToolStripItem[] items = graphGroupToolStripMenuItem.DropDownItems.Find(cont.Name, true);
+                for (int i = 0; i < items.Length; i++)
+                {
+                    graphGroupToolStripMenuItem.DropDownItems.Remove(items[i]);
+                }
+            }
+            else
+            {
+                ((Form)sender).Controls.Clear();
+            }
         }
         #endregion
 

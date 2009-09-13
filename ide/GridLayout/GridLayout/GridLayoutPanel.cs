@@ -56,7 +56,7 @@ namespace Ecell.IDE.Plugins.GridLayout
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="algorithm"></param>
         public GridLayoutPanel(ILayoutAlgorithm algorithm)
