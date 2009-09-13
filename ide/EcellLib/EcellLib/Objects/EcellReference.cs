@@ -337,8 +337,8 @@ namespace Ecell.Objects
         /// <summary>
         /// Compare to another EcellReference.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">the compared object</param>
+        /// <returns>Return true, object is equal.</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is EcellReference))
@@ -360,7 +360,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Get Hash code.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>hash code.</returns>
         public override int GetHashCode()
         {
             return m_name.GetHashCode() ^ m_fullID.GetHashCode() ^ m_coeff.GetHashCode() ^ m_accessor.GetHashCode();
@@ -369,7 +369,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Get string of object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the object string.</returns>
         public override string ToString()
         {
             string str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";

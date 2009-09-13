@@ -38,20 +38,20 @@ namespace Ecell.Logger
     /// <summary>
     /// EventHandler when object is added.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">LoggerManager</param>
+    /// <param name="e">LoggerEventArgs</param>
     public delegate void LoggerAddEventHandler(object o, LoggerEventArgs e);
     /// <summary>
     /// EventHandler when object is deleted.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">LoggerManager</param>
+    /// <param name="e">LoggerEventArgs</param>
     public delegate void LoggerDeleteEventHandler(object o, LoggerEventArgs e);
     /// <summary>
     /// EventHandler when object is changed.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">LoggerManager</param>
+    /// <param name="e">LoggerEventArgs</param>
     public delegate void LoggerChangedEventHandler(object o, LoggerEventArgs e);
 
     /// <summary>
@@ -99,10 +99,10 @@ namespace Ecell.Logger
         /// <summary>
         /// Add the logger entry.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="Key"></param>
-        /// <param name="Type"></param>
-        /// <param name="fullPN"></param>
+        /// <param name="modelID">the model ID.</param>
+        /// <param name="Key">the object key.</param>
+        /// <param name="Type">the object type.</param>
+        /// <param name="fullPN">the FullPN.</param>
         public void AddLoggerEntry(string modelID, string Key, string Type, string fullPN)
         {
             LoggerEntry entry = new LoggerEntry(modelID, Key, Type, fullPN);
@@ -115,7 +115,7 @@ namespace Ecell.Logger
         /// <summary>
         /// Add the logger entry.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">the logger entry.</param>
         public void AddLoggerEntry(LoggerEntry entry)
         {
             if (entry == null) return;
@@ -133,7 +133,7 @@ namespace Ecell.Logger
         /// <summary>
         /// Get the list of logger entry name.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of logger entry.</returns>
         public List<string> GetLoggerList()
         {
             List<string> list = new List<string>();
@@ -159,8 +159,8 @@ namespace Ecell.Logger
         /// <summary>
         /// Chage the logger entry.
         /// </summary>
-        /// <param name="orgFullPN"></param>
-        /// <param name="entry"></param>
+        /// <param name="orgFullPN">the original FullPN.</param>
+        /// <param name="entry">the logger entry.</param>
         public void LoggerChanged(string orgFullPN, LoggerEntry entry)
         {
             LoggerEntry m = GetLoggerEntryForFullPN(orgFullPN);
@@ -179,7 +179,7 @@ namespace Ecell.Logger
         /// <summary>
         /// Remove the EcellObject.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">the removed object.</param>
         public void NodeRemoved(EcellObject obj)
         {
             List<LoggerEntry> delList = GetLoggerEntryForObject(obj.Key, obj.Type);
@@ -192,7 +192,7 @@ namespace Ecell.Logger
         /// <summary>
         /// Remove the System object.
         /// </summary>
-        /// <param name="sys"></param>
+        /// <param name="sys">the removed system object.</param>
         public void SystemRemoved(EcellObject sys)
         {
             List<LoggerEntry> delList = new List<LoggerEntry>();
@@ -213,7 +213,7 @@ namespace Ecell.Logger
         /// <summary>
         /// Remove the logger entry.
         /// </summary>
-        /// <param name="entry"></param>
+        /// <param name="entry">the removed logger entry.</param>
         public void LoggerRemoved(LoggerEntry entry)
         {
             if (entry == null) return;
@@ -231,9 +231,9 @@ namespace Ecell.Logger
         /// <summary>
         /// Get the logger entry from Ecellobject.
         /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="ID">the object key.</param>
+        /// <param name="type">the object type.</param>
+        /// <returns>the list of logger entry.</returns>
         public List<LoggerEntry> GetLoggerEntryForObject(string ID, string type)
         {
             List<LoggerEntry> result = new List<LoggerEntry>();
@@ -249,8 +249,8 @@ namespace Ecell.Logger
         /// <summary>
         /// Get the logger entry from FullPN.
         /// </summary>
-        /// <param name="fullPN"></param>
-        /// <returns></returns>
+        /// <param name="fullPN">the FullPN.</param>
+        /// <returns>the logger entry.</returns>
         public LoggerEntry GetLoggerEntryForFullPN(string fullPN)
         {
             foreach (LoggerEntry m in m_loggerList)

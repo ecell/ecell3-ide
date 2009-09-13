@@ -127,8 +127,8 @@ namespace Ecell.Logging
         /// <summary>
         /// Equals override function.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">the compared object.</param>
+        /// <returns>Return true when object is equal.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is LogEntry))
@@ -141,7 +141,7 @@ namespace Ecell.Logging
         /// <summary>
         /// GetHashCode override function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             return m_type.GetHashCode() ^ m_time.GetHashCode() ^ m_message.GetHashCode();

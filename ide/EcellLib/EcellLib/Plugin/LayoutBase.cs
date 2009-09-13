@@ -143,11 +143,11 @@ namespace Ecell.Plugin
         /// <summary>
         /// Check whether this point is able to intersect.
         /// </summary>
-        /// <param name="pointA"></param>
-        /// <param name="pointB"></param>
-        /// <param name="pointC"></param>
-        /// <param name="pointD"></param>
-        /// <returns></returns>
+        /// <param name="pointA">the point of line1.</param>
+        /// <param name="pointB">the point of line1.</param>
+        /// <param name="pointC">the point of line2.</param>
+        /// <param name="pointD">the point of line2.</param>
+        /// <returns>Return true when line1 and line2 is cross.</returns>
         public static bool DoesIntersect(PointF pointA, PointF pointB, PointF pointC, PointF pointD)
         {
             PointF point;
@@ -157,12 +157,12 @@ namespace Ecell.Plugin
         /// <summary>
         /// Check whether this point is able to intersect.
         /// </summary>
-        /// <param name="pointA"></param>
-        /// <param name="pointB"></param>
-        /// <param name="pointC"></param>
-        /// <param name="pointD"></param>
-        /// <param name="pointIntersection"></param>
-        /// <returns></returns>
+        /// <param name="pointA">the point of line1.</param>
+        /// <param name="pointB">the point of line1.</param>
+        /// <param name="pointC">the point of line2.</param>
+        /// <param name="pointD">the point of line2.</param>
+        /// <param name="pointIntersection">the point.</param>
+        /// <returns>Return true when intersection point is on the set point.</returns>
         public static bool DoesIntersect(PointF pointA, PointF pointB, PointF pointC, PointF pointD, out PointF pointIntersection)
         {
             pointIntersection = new PointF();
@@ -192,8 +192,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set Grid position.
         /// </summary>
-        /// <param name="nodeList"></param>
-        /// <param name="systemList"></param>
+        /// <param name="nodeList">the list of node.</param>
+        /// <param name="systemList">the list of system.</param>
         /// <param name="margin">distance between</param>
         public void SetGrid(List<EcellObject> nodeList, List<EcellObject> systemList, float margin)
         {
@@ -319,7 +319,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Change the status of project.
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">the project status.</param>
         public virtual void ChangeStatus(ProjectStatus status)
         {
         }
@@ -327,7 +327,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the delegate function of plugin.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of public delegate.</returns>
         public virtual Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
@@ -336,7 +336,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the property setting.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the property setting</returns>
         public virtual List<IPropertyItem> GetPropertySettings()
         {
             return null;
@@ -345,7 +345,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the status of plugin.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the status of plugin</returns>
         public virtual XmlNode GetPluginStatus()
         {
             return null;
@@ -354,7 +354,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set the status of plugin.
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="status">the status of plugin.</param>
         public virtual void SetPluginStatus(XmlNode status)
         {
         }

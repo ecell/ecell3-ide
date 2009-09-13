@@ -36,8 +36,13 @@ namespace Ecell.Reporting
     /// </summary>
     public class StatusUpdateEventArgs: EventArgs
     {
+        /// <summary>
+        /// message string
+        /// </summary>
         private string m_text;
-
+        /// <summary>
+        /// message type.
+        /// </summary>
         private StatusBarMessageKind m_type;
         /// <summary>
         /// Type
@@ -56,8 +61,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="text"></param>
+        /// <param name="type">the message type.</param>
+        /// <param name="text">the message string.</param>
         public StatusUpdateEventArgs(StatusBarMessageKind type, string text)
         {
             m_type = type;

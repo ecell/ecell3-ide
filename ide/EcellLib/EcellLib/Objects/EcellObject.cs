@@ -527,8 +527,8 @@ namespace Ecell.Objects
         /// <summary>
         /// Set EcellValue
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the property name.</param>
+        /// <param name="value">Value object.</param>
         public void SetEcellValue(string name, EcellValue value)
         {
             foreach (EcellData d in Value)
@@ -547,7 +547,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Remove EcellData.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">the property name</param>
         public void RemoveEcellValue(string name)
         {
             foreach (EcellData data in m_ecellDatas)

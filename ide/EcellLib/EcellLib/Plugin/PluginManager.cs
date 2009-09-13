@@ -517,8 +517,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the delegate function from the delegate name.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">the delegate name.</param>
+        /// <returns>Delegate object.</returns>
         public Delegate GetDelegate(string name)
         {
             if (m_delegateDic.ContainsKey(name))
@@ -769,8 +769,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set the status of plugin.
         /// </summary>
-        /// <param name="pluginName"></param>
-        /// <param name="status"></param>
+        /// <param name="pluginName">the plugin name.</param>
+        /// <param name="status">the plugin status of XML node.</param>
         public void SetPluginStatus(string pluginName, XmlNode status)
         {
             IEcellPlugin plugin = GetPlugin(pluginName);
@@ -780,7 +780,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the property setting.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the property setting</returns>
         public List<IPropertyItem> GetPropertySettings()
         {
             List<IPropertyItem> propertyNodes = new List<IPropertyItem>();
@@ -835,7 +835,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Event on NodeImageList change.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">EventArgs</param>
         protected virtual void OnNodeImageListChange(EventArgs e)
         {
             if (m_onNodeImageListChange != null)
@@ -864,7 +864,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Event on NodeImageList change.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">EventArgs</param>
         protected virtual void OnRefresh(EventArgs e)
         {
             if (m_onRefresh != null)
@@ -884,13 +884,13 @@ namespace Ecell.Plugin
     /// <summary>
     /// Delegate function to save the simulation result.
     /// </summary>
-    /// <param name="list"></param>
+    /// <param name="list">the list of simulation result.</param>
     public delegate void SaveSimulationResultDelegate(List<string> list);
     /// <summary>
     /// Delegate function to show the graph.
     /// </summary>
-    /// <param name="file"></param>
-    /// <param name="isNewWin"></param>
+    /// <param name="file">the log file.</param>
+    /// <param name="isNewWin">whether new window is shown.</param>
     public delegate void ShowGraphDelegate(string file, bool isNewWin);
     /// <summary>
     /// Delegate function to show the property.
@@ -899,12 +899,12 @@ namespace Ecell.Plugin
     /// <summary>
     /// Delegate function to set the dock contents.
     /// </summary>
-    /// <param name="s"></param>
+    /// <param name="s">DockContent object.</param>
     public delegate void SetDockContentDelegate(EcellDockContent s);
     /// <summary>
     /// Delegate function to add the DM.
     /// </summary>
-    /// <param name="dm"></param>
-    /// <param name="path"></param>
+    /// <param name="dm">DM name.</param>
+    /// <param name="path">the file of DM.</param>
     public delegate void AddDMDelegate(string dm, string path);
 }

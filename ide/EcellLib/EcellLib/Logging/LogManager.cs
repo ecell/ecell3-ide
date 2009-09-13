@@ -37,8 +37,8 @@ namespace Ecell.Logging
         /// <summary>
         /// get the error message by using the index.
         /// </summary>
-        /// <param name="idx"></param>
-        /// <returns></returns>
+        /// <param name="idx">the index</param>
+        /// <returns>the log entry.</returns>
         public ILogEntry this[int idx]
         {
             get { return m_entries[idx]; }

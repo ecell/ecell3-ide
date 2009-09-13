@@ -156,11 +156,11 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="path"></param>
-        /// <param name="isSettable"></param>
-        /// <param name="isLogable"></param>
+        /// <param name="key">the object key.</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="path">the log file paht.</param>
+        /// <param name="isSettable">whether this log is settable.</param>
+        /// <param name="isLogable">whether this log is logable.</param>
         public EcellDragEntry(string key, string type,
             string path, bool isSettable, bool isLogable)
         {

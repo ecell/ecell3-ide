@@ -82,7 +82,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates a new "EcellValue" instance with EcellValue.
         /// </summary>
-        /// <param name="that"></param>
+        /// <param name="that">the original value object.</param>
         public EcellValue(EcellValue that)
             : this(that.m_value)
         {
@@ -91,7 +91,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates a new "EcellValue" instance with an object.
         /// </summary>
-        /// <param name="o"></param>
+        /// <param name="o">the original value object.</param>
         public EcellValue(object o)
         {
             m_value = Normalize(o);
@@ -100,7 +100,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates a new "EcellValue" instance with an EcellReference.
         /// </summary>
-        /// <param name="er"></param>
+        /// <param name="er">The reference object.</param>
         public EcellValue(EcellReference er)
         {
             List<object> list = new List<object>();
@@ -192,8 +192,8 @@ namespace Ecell.Objects
         /// <summary>
         /// Normalize the target object.
         /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
+        /// <param name="o">the original object.</param>
+        /// <returns>the normalized object.</returns>
         private static object Normalize(object o)
         {
             if ((o is int) || (o is double) || (o is string))
@@ -219,8 +219,8 @@ namespace Ecell.Objects
         /// <summary>
         /// To int
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="val">the value object.</param>
+        /// <returns>int data of value object.</returns>
         public static implicit operator int(EcellValue val)
         {
             if (val.m_value is double)
@@ -240,11 +240,12 @@ namespace Ecell.Objects
             }
             throw new InvalidCastException("Specified value is not a numeric type");
         }
+
         /// <summary>
         /// To double.
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="val">the value object.</param>
+        /// <returns>double data of value object.</returns>
         public static implicit operator double(EcellValue val)
         {
             if (val.m_value is double)
@@ -267,8 +268,8 @@ namespace Ecell.Objects
         /// <summary>
         /// To string.
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="val">the value object.</param>
+        /// <returns>string data of value object.</returns>
         public static implicit operator string(EcellValue val)
         {
             if (val.Value is string)
@@ -316,8 +317,8 @@ namespace Ecell.Objects
         /// <summary>
         /// Compare to another EcellValue.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">the compared object.</param>
+        /// <returns>Return true when object is equal.</returns>
         public override bool Equals(object obj)
         {
             bool isEquals = false;
@@ -338,6 +339,12 @@ namespace Ecell.Objects
             return isEquals;
         }
 
+        /// <summary>
+        /// Compare the list.
+        /// </summary>
+        /// <param name="list1">the compared list.</param>
+        /// <param name="list2">the compared list.</param>
+        /// <returns>Return true, when the list is equal.</returns>
         private static bool CompareList(List<object> list1, List<object> list2)
         {
             if (list1.Count != list2.Count)

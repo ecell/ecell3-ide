@@ -174,7 +174,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Add the entity.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">the added object.</param>
         public void AddEntity(EcellObject entity)
         {
             EcellObject system = GetSystem(entity.ParentSystemID);
@@ -184,8 +184,8 @@ namespace Ecell.Objects
         /// <summary>
         /// Get System.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">the system key.</param>
+        /// <returns>System object.</returns>
         public EcellObject GetSystem(string key)
         {
             // Check systemList

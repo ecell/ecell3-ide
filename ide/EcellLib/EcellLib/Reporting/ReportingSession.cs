@@ -41,8 +41,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// get / set the index of report.
         /// </summary>
-        /// <param name="idx"></param>
-        /// <returns></returns>
+        /// <param name="idx">index</param>
+        /// <returns>Report object.</returns>
         public IReport this[int idx]
         {
             get { return m_reports[idx]; }
@@ -72,8 +72,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="group"></param>
-        /// <param name="rm"></param>
+        /// <param name="group">the group name.</param>
+        /// <param name="rm">ReportManager</param>
         public ReportingSession(string group, ReportManager rm)
         {
             m_group = group;
@@ -100,7 +100,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Add the report object.
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="item">Report object.</param>
         public void Add(IReport item)
         {
             if (m_reports.Contains(item))
@@ -121,8 +121,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Check whether this report contain the report list.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item">Report object.</param>
+        /// <returns>Return true, when this report is exist.</returns>
         public bool Contains(IReport item)
         {
             return m_reports.Contains(item);
@@ -131,7 +131,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Get Enumerator of the report list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of report object.</returns>
         public IEnumerator<IReport> GetEnumerator()
         {
             return m_reports.GetEnumerator();
@@ -140,7 +140,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Get Enumerator of the report list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of report object.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return m_reports.GetEnumerator();
@@ -149,8 +149,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Get the index of this report.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item">the report object.</param>
+        /// <returns>Index.</returns>
         public int IndexOf(IReport item)
         {
             return m_reports.IndexOf(item);
@@ -159,8 +159,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Insert the report object.
         /// </summary>
-        /// <param name="idx"></param>
-        /// <param name="item"></param>
+        /// <param name="idx">index</param>
+        /// <param name="item">the report object.</param>
         public void Insert(int idx, IReport item)
         {
             m_reports.Insert(idx, item);
@@ -170,7 +170,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Remove the report by using index,
         /// </summary>
-        /// <param name="idx"></param>
+        /// <param name="idx">index of removed report object.</param>
         public void RemoveAt(int idx)
         {
             IReport item = m_reports[idx];
@@ -181,8 +181,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Remove the report by using the report object.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item">the removed report object.</param>
+        /// <returns>Return true when the report object is removed.</returns>
         public bool Remove(IReport item)
         {
             bool retval = m_reports.Remove(item);
@@ -193,8 +193,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Copy the report object.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="idx"></param>
+        /// <param name="a">the list of report object</param>
+        /// <param name="idx">the copy index.</param>
         public void CopyTo(IReport[] a, int idx)
         {
             m_reports.CopyTo(a, idx);

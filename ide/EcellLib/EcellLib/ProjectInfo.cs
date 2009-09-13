@@ -120,8 +120,8 @@ namespace Ecell
         /// Set Project parameters.
         /// </summary>
         /// <param name="prjName">The project name. Not null.</param>
-        /// <param name="comment"></param>
-        /// <param name="time"></param>
+        /// <param name="comment">the project comment.</param>
+        /// <param name="time">the create time.</param>
         /// <param name="simParam">The name of Simulation parameter. Not null.</param>
         private void SetParams(string prjName, string comment, string time, string simParam)
         {
@@ -284,7 +284,7 @@ namespace Ecell
         /// <summary>
         /// Save project.
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="filePath">the save file path.</param>
         public void Save(string filePath)
         {
             ProjectInfoSaver.Save(this, filePath);
@@ -369,8 +369,8 @@ namespace Ecell
         /// <summary>
         /// Get Project from XML file.
         /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
+        /// <param name="filepath">the xml file path.</param>
+        /// <returns>the project information object.</returns>
         private static ProjectInfo LoadProjectFromXML(string filepath)
         {
             ProjectInfo project = null;
@@ -453,8 +453,8 @@ namespace Ecell
         /// <summary>
         /// Get Project from Info file.
         /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
+        /// <param name="filepath">the project information file path.</param>
+        /// <returns>the project information object.</returns>
         private static ProjectInfo LoadProjectFromInfo(string filepath)
         {
             ProjectInfo project = null;
@@ -510,8 +510,8 @@ namespace Ecell
         /// <summary>
         /// Get Project from Eml file.
         /// </summary>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
+        /// <param name="filepath">the eml file path.</param>
+        /// <returns>the project information object.</returns>
         private static ProjectInfo LoadProjectFromEml(string filepath)
         {
             ProjectInfo project = null;
@@ -523,24 +523,6 @@ namespace Ecell
             project.ProjectType = ProjectType.Model;
             return project;
         }
-
-        ///// <summary>
-        ///// Get Project from SBML file.
-        ///// </summary>
-        ///// <param name="filepath"></param>
-        ///// <returns></returns>
-        //private static ProjectInfo LoadProjectFromSbml(string filepath)
-        //{
-        //    ProjectInfo project = null;
-        //    string name = Path.GetFileNameWithoutExtension(filepath);
-        //    string comment = "";
-        //    string time = File.GetLastWriteTime(filepath).ToString();
-        //    project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
-        //    project.Models.Add(filepath);
-        //    project.ProjectType = ProjectType.SBML;
-        //    return project;
-        //}
-
     }
 
     /// <summary>
@@ -552,7 +534,7 @@ namespace Ecell
         /// Save the project information.
         /// </summary>
         /// <param name="project">target project</param>
-        /// <param name="filepath"></param>
+        /// <param name="filepath">the project information file path.</param>
         public static void Save(ProjectInfo project, string filepath)
         {
             try
@@ -573,9 +555,9 @@ namespace Ecell
         /// <summary>
         /// GetSaveDir
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
+        /// <param name="info">project information object.</param>
+        /// <param name="filepath">the project information file path.</param>
+        /// <returns>the save directory.</returns>
         private static string GetSaveDir( ProjectInfo info, string filepath)
         {
             // If filepath is empty, create new path.
@@ -597,8 +579,8 @@ namespace Ecell
         /// <summary>
         /// SaveProjectXML
         /// </summary>
-        /// <param name="project"></param>
-        /// <param name="saveDir"></param>
+        /// <param name="project">the project information object.</param>
+        /// <param name="saveDir">the save directory.</param>
         public static void SaveProjectXML(ProjectInfo project, string saveDir)
         {
             XmlTextWriter xmlOut = null;

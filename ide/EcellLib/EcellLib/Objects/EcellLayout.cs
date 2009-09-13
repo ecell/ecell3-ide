@@ -72,7 +72,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with RectangleF.
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="rect">Rectangle object.</param>
         public EcellLayout(RectangleF rect)
         {
             m_rect = rect;
@@ -84,10 +84,10 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with x, y, width, and height.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="x">X of layout region</param>
+        /// <param name="y">Y of layout region</param>
+        /// <param name="width">width of layout region</param>
+        /// <param name="height">height of layout region</param>
         public EcellLayout(float x, float y, float width, float height)
             : this(new RectangleF(x, y, width, height))
         {
@@ -96,7 +96,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with PointF.
         /// </summary>
-        /// <param name="location"></param>
+        /// <param name="location">the location.</param>
         public EcellLayout(PointF location)
             : this(RectangleF.Empty)
         {

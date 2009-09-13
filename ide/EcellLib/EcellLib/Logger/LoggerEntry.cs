@@ -58,10 +58,10 @@ namespace Ecell.Logger
         /// <summary>
         /// Constructor without the flag whether this property is logging.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
-        /// <param name="fullPN"></param>
+        /// <param name="modelID">the model ID</param>
+        /// <param name="id">the object key.</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="fullPN">the FullPN.</param>
         public LoggerEntry(string modelID, string id, string type, string fullPN)
         {
             this.m_modelID = modelID;
@@ -257,8 +257,8 @@ namespace Ecell.Logger
         /// <summary>
         /// override the equal method on LoggerEntry.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">the compared object.</param>
+        /// <returns>Return true when the object is equal.</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is LoggerEntry))

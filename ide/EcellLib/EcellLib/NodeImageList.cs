@@ -23,7 +23,7 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="container">Container object.</param>
         public NodeImageComponent(IContainer container)
         {
             container.Add(this);

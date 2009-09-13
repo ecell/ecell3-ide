@@ -64,8 +64,8 @@ namespace Ecell.Logger
         /// <summary>
         /// Constructors
         /// </summary>
-        /// <param name="orgFullPN"></param>
-        /// <param name="entry"></param>
+        /// <param name="orgFullPN">the original FullPN</param>
+        /// <param name="entry">the logger entry.</param>
         public LoggerEventArgs(string orgFullPN, LoggerEntry entry)
         {
             m_orgFullPN = orgFullPN;

@@ -48,12 +48,15 @@ namespace Ecell.Reporting
         /// <summary>
         /// ReportingSessionEventArgs
         /// </summary>
-        /// <param name="session"></param>
+        /// <param name="session">Report session object.</param>
         public ReportingSessionEventArgs(ReportingSession session)
         {
             m_session = session;
         }
 
+        /// <summary>
+        /// Report session object
+        /// </summary>
         ReportingSession m_session;
     }
 }

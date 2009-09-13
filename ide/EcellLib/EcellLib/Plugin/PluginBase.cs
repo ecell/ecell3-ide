@@ -385,8 +385,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set the message on the status bar.
         /// </summary>
-        /// <param name="kind"></param>
-        /// <param name="msg"></param>
+        /// <param name="kind">message type.</param>
+        /// <param name="msg">message.</param>
         public virtual void SetStatusBarMessage(StatusBarMessageKind kind, string msg)
         {
             // do nothing
@@ -395,7 +395,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set the value on the progress bar.
         /// </summary>
-        /// <param name="percent"></param>
+        /// <param name="percent">percentage value.</param>
         public virtual void SetProgressBarValue(int percent)
         {
             // do nothing
@@ -475,10 +475,10 @@ namespace Ecell.Plugin
         /// <summary>
         /// Inform the adding of logger in plugin to PluginManager.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="entityPath"></param>
+        /// <param name="modelID">the model ID.</param>
+        /// <param name="key">the object key</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="entityPath">the entity path</param>
         public void NotifyLoggerAdd(string modelID, string key, string type, string entityPath)
         {
             m_dManager.Environment.LoggerManager.AddLoggerEntry(
@@ -504,7 +504,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Notify to set the position.
         /// </summary>
-        /// <param name="eo"></param>
+        /// <param name="eo">Object changed the position.</param>
         public void NotifySetPosition(EcellObject eo)
         {
             m_dManager.SetPosition(eo);
@@ -513,10 +513,10 @@ namespace Ecell.Plugin
         /// <summary>
         /// Inform the deleting of EcellObject in plugin to DataManager.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="isAnchor"></param>
+        /// <param name="modelID">the model ID.</param>
+        /// <param name="key">the object key.</param>
+        /// <param name="type">the object type.</param>
+        /// <param name="isAnchor">whether this action is anchor.</param>
         public void NotifyDataDelete(string modelID, string key, string type, bool isAnchor)
         {
             m_dManager.DataDelete(modelID, key, type, true, isAnchor);
@@ -525,8 +525,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Inform the deleting of EcellObject in plugin to DataManager.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
+        /// <param name="modelID">the model ID.</param>
+        /// <param name="key">the object key.</param>
         public void NotifyDataMerge(string modelID, string key)
         {
             try

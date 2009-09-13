@@ -358,8 +358,8 @@ namespace Ecell
         /// <summary>
         /// Creates the new "Project" instance with ProjectInfo.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="env"></param>
+        /// <param name="info">the project information object.</param>
+        /// <param name="env">ApplicationEnvironment</param>
         public Project(ProjectInfo info, ApplicationEnvironment env)
         {
             if (info == null)
@@ -500,7 +500,7 @@ namespace Ecell
         /// <summary>
         /// InitializeModel
         /// </summary>
-        /// <param name="ecellObject"></param>
+        /// <param name="ecellObject">The model object.</param>
         private void InitializeModel(EcellObject ecellObject)
         {
             // Sets the "EcellObject".
@@ -1221,7 +1221,7 @@ namespace Ecell
         /// <summary>
         /// Add System to this project.
         /// </summary>
-        /// <param name="system"></param>
+        /// <param name="system">the system object.</param>
         public void AddSystem(EcellObject system)
         {
             m_systemDic[system.ModelID].Add(system);
@@ -1230,7 +1230,7 @@ namespace Ecell
         /// <summary>
         /// Add Entity to this project.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">the entity object.</param>
         public void AddEntity(EcellObject entity)
         {
             EcellObject system = GetSystem(entity.ModelID, entity.ParentSystemID, true);
@@ -1242,7 +1242,7 @@ namespace Ecell
         /// <summary>
         /// Delete System.
         /// </summary>
-        /// <param name="system"></param>
+        /// <param name="system">the system object.</param>
         public void DeleteSystem(EcellObject system)
         {
             string type, ekey, param;
@@ -1271,7 +1271,7 @@ namespace Ecell
         /// <summary>
         /// Delete Entity.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">the entity object.</param>
         public void DeleteEntity(EcellObject entity)
         {
             // set param

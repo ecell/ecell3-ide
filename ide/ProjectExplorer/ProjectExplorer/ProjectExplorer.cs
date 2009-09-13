@@ -295,7 +295,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Delete DM source file.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">the dm file path.</param>
         public void DeleteDM(string fileName)
         {
             if (fileName.Equals(m_editor.path))

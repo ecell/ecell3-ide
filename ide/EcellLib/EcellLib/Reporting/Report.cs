@@ -89,9 +89,9 @@ namespace Ecell.Reporting
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="message"></param>
-        /// <param name="group"></param>
+        /// <param name="type">message type.</param>
+        /// <param name="message">the message string.</param>
+        /// <param name="group">the group name.</param>
         public Report(MessageType type, string message, string group)
         {
             m_type = type;
@@ -111,8 +111,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Equals override function.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">the compared object.</param>
+        /// <returns>Return true, object is equal.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is Report))
@@ -121,10 +121,11 @@ namespace Ecell.Reporting
             return ent.m_type == this.m_type &&
                 ent.m_message == this.m_message;
         }
+
         /// <summary>
         /// GetHashCode override function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             return m_type.GetHashCode() ^ m_message.GetHashCode();

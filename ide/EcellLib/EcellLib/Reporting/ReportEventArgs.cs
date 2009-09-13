@@ -39,7 +39,7 @@ namespace Ecell.Reporting
     public class ReportEventArgs: EventArgs
     {
         /// <summary>
-        /// Report
+        /// get Report object.
         /// </summary>
         public IReport Report
         {
@@ -48,12 +48,15 @@ namespace Ecell.Reporting
         /// <summary>
         /// ReportEventArgs
         /// </summary>
-        /// <param name="report"></param>
+        /// <param name="report">report object.</param>
         public ReportEventArgs(IReport report)
         {
             m_report = report;
         }
 
+        /// <summary>
+        /// Report object.
+        /// </summary>
         IReport m_report;
     }
 }

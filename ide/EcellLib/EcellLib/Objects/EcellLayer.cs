@@ -226,8 +226,8 @@ namespace Ecell.Objects
         /// <summary>
         /// Compare to another EcellReference.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">the compared object.</param>
+        /// <returns>Return true, when object is equal.</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is EcellLayer))
@@ -244,7 +244,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Get Hash code.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             int hash = m_visible.GetHashCode();
@@ -256,7 +256,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Get string of object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the object string.</returns>
         public override string ToString()
         {
             string str = "(\"" + m_name + "\", " + m_visible.ToString() + ")";

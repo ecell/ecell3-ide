@@ -103,8 +103,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Get the location on desktop of control.
         /// </summary>
-        /// <param name="control"></param>
-        /// <returns></returns>
+        /// <param name="control">Control object.</param>
+        /// <returns>The position of control.</returns>
         public Point GetDesktopLocation(Control control)
         {
             Point pos = control.Location;

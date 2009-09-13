@@ -148,14 +148,14 @@ namespace Ecell
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="settable"></param>
-        /// <param name="gettable"></param>
-        /// <param name="loadable"></param>
-        /// <param name="saveable"></param>
-        /// <param name="dynamic"></param>
-        /// <param name="logable"></param>
-        /// <param name="defaultValue"></param>
+        /// <param name="name">the property name.</param>
+        /// <param name="settable">whether this property is settable.</param>
+        /// <param name="gettable">whether this property is gettable</param>
+        /// <param name="loadable">whether this property is loadable</param>
+        /// <param name="saveable">whether this property is saveable</param>
+        /// <param name="dynamic">whether this property is able to add or delete dynamically.</param>
+        /// <param name="logable">whether this property is logable</param>
+        /// <param name="defaultValue">the default value.</param>
         public PropertyDescriptor(string name, bool settable, bool gettable,
                 bool loadable, bool saveable, bool dynamic, bool logable,
                 EcellValue defaultValue)
@@ -174,8 +174,8 @@ namespace Ecell
         /// <summary>
         /// Equals override function.
         /// </summary>
-        /// <param name="that"></param>
-        /// <returns></returns>
+        /// <param name="that">the compared object.</param>
+        /// <returns>Return true, object is equal.</returns>
         public override bool Equals(object that)
         {
             if (!(that is PropertyDescriptor))

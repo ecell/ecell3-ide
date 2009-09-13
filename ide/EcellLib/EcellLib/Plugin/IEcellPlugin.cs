@@ -80,7 +80,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set the status of plugin.
         /// </summary>
-        /// <param name="nstatus"></param>
+        /// <param name="nstatus">the status node.</param>
         void SetPluginStatus(XmlNode nstatus);
 
         /// <summary>

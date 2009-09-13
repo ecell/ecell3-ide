@@ -51,7 +51,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="perc"></param>
+        /// <param name="perc">the percentage value.</param>
         public ProgressReportEventArgs(int perc)
         {
             m_perc = perc;

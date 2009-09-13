@@ -37,50 +37,50 @@ namespace Ecell.Reporting
     /// <summary>
     /// Delegate to start the report session.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">ReportingSessionEventArgs</param>
     public delegate void ReportingSessionStartedEventHandler(object o, ReportingSessionEventArgs e);
     
     /// <summary>
     /// Delegate to close the report session.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">ReportingSessionEventArgs</param>
     public delegate void ReportingSessionClosedEventHandler(object o, ReportingSessionEventArgs e);
 
     /// <summary>
     /// Delegate to add the report.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">ReportEventArgs</param>
     public delegate void ReportAddedEventHandler(object o, ReportEventArgs e);
 
     /// <summary>
     /// Delegate to remove the report.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">ReportEventArgs</param>
     public delegate void ReportRemovedEventHandler(object o, ReportEventArgs e);
 
     /// <summary>
     /// Delegate to clear the report session.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">EventArgs</param>
     public delegate void ReportClearEventHandler(object o, EventArgs e);
 
     /// <summary>
     /// Delegate to update the status.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">StatusUpdateEventArgs</param>
     public delegate void StatusUpdatedEventHandler(object o, StatusUpdateEventArgs e);
 
     /// <summary>
     /// Delegate to progress the report.
     /// </summary>
-    /// <param name="o"></param>
-    /// <param name="e"></param>
+    /// <param name="o">ReportManager</param>
+    /// <param name="e">ProgressReportEventArgs</param>
     public delegate void ProgressReportEventHandler(object o, ProgressReportEventArgs e);
 
     /// <summary>
@@ -138,7 +138,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="env"></param>
+        /// <param name="env">ApplicationEnvironment</param>
         public ReportManager(ApplicationEnvironment env)
         {
             m_env = env;
@@ -147,7 +147,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Event when the report session is closed.
         /// </summary>
-        /// <param name="groupname"></param>
+        /// <param name="groupname">the group name.</param>
         internal void OnSessionClosed(string groupname)
         {
             Trace.WriteLine("ReportingSession closed");
@@ -163,7 +163,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Event when the report is added.
         /// </summary>
-        /// <param name="rep"></param>
+        /// <param name="rep">the report object.</param>
         internal void OnReportAdded(IReport rep)
         {       
             Trace.WriteLine("Report added");
@@ -174,7 +174,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Event when the report is removed.
         /// </summary>
-        /// <param name="rep"></param>
+        /// <param name="rep">the report object.</param>
         internal void OnReportRemoved(IReport rep)
         {
             if (ReportRemoved != null && m_repList.ContainsKey(rep.Group))
@@ -184,7 +184,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Event when the report is cleared.
         /// </summary>
-        /// <param name="groupname"></param>
+        /// <param name="groupname">the group name.</param>
         internal void OnReportCleared(string groupname)
         {
             Trace.WriteLine("ReportSesion cleared");
@@ -212,8 +212,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Get the report session by usin the group name.
         /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
+        /// <param name="group">the group stirng.</param>
+        /// <returns>the report settion.</returns>
         public ReportingSession GetReportingSession(string group)
         {
             lock (this)
@@ -234,8 +234,8 @@ namespace Ecell.Reporting
         /// <summary>
         /// Set the status of report.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="text"></param>
+        /// <param name="type">message type.</param>
+        /// <param name="text">message string.</param>
         public void SetStatus(StatusBarMessageKind type, string text)
         {
             if (StatusUpdated != null)
@@ -245,7 +245,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// Set the progress of value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">the percentage value.</param>
         public void SetProgress(int value)
         {
             if (ProgressValueUpdated != null)

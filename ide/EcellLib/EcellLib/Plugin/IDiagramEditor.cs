@@ -45,8 +45,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// Set layout.
         /// </summary>
-        /// <param name="algo"></param>
-        /// <param name="subIdx"></param>
+        /// <param name="algo">Layout algorithm object.</param>
+        /// <param name="subIdx">index.</param>
         void InitiateLayout(ILayoutAlgorithm algo, int subIdx);
 
         /// <summary>
