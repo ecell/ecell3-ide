@@ -45,7 +45,7 @@ namespace Ecell
     {
         #region Field
         /// <summary>
-        /// 
+        /// Project type.
         /// </summary>
         private ProjectType m_type;
         /// <summary>
@@ -62,7 +62,7 @@ namespace Ecell
         /// </summary>
         private string m_prjName;
         /// <summary>
-        /// 
+        /// The create time.
         /// </summary>
         private string m_createTime;
         /// <summary>
@@ -316,7 +316,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Get project name.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -549,7 +549,7 @@ namespace Ecell
     public class ProjectInfoSaver
     {
         /// <summary>
-        /// 
+        /// Save the project information.
         /// </summary>
         /// <param name="project">target project</param>
         /// <param name="filepath"></param>
@@ -645,32 +645,32 @@ namespace Ecell
     }
 
     /// <summary>
-    /// 
+    /// Project type.
     /// </summary>
     public enum ProjectType
     {
         /// <summary>
-        /// 
+        /// Project.
         /// </summary>
         Project = 0,
         /// <summary>
-        /// 
+        /// Project from the model file.
         /// </summary>
         Model = 1,
         /// <summary>
-        /// 
+        /// Project from the template file.
         /// </summary>
         Template = 2,
         /// <summary>
-        /// 
+        /// The new project.
         /// </summary>
         NewProject = 3,
         /// <summary>
-        /// 
+        /// Project from the SBML file.
         /// </summary>
         SBML = 4,
         /// <summary>
-        /// 
+        /// Project from the revision.
         /// </summary>
         Revision = 5
     }

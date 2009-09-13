@@ -45,22 +45,22 @@ namespace Ecell.Plugin
     public abstract class LayoutBase : IEcellPlugin, ILayoutAlgorithm, IMenuStripProvider
     {
         /// <summary>
-        /// 
+        /// The application environment.
         /// </summary>
         protected ApplicationEnvironment m_env;
 
         /// <summary>
-        /// 
+        /// The layout panel
         /// </summary>
         protected ILayoutPanel m_panel = null;
 
         /// <summary>
-        /// 
+        /// The index.
         /// </summary>
         protected int m_subIndex = 0;
 
         /// <summary>
-        /// 
+        /// get / set the application environment.
         /// </summary>
         public ApplicationEnvironment Environment
         {
@@ -69,18 +69,16 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// get the layout panel.
         /// </summary>
-        /// <returns></returns>
         public ILayoutPanel Panel
         {
             get { return m_panel; }
         }
 
         /// <summary>
-        /// 
+        /// get / set the index.
         /// </summary>
-        /// <returns></returns>
         public int SubIndex
         {
             get { return m_subIndex; }
@@ -143,7 +141,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Check whether this point is able to intersect.
         /// </summary>
         /// <param name="pointA"></param>
         /// <param name="pointB"></param>
@@ -157,7 +155,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Check whether this point is able to intersect.
         /// </summary>
         /// <param name="pointA"></param>
         /// <param name="pointB"></param>
@@ -281,7 +279,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the intersection point.
         /// </summary>
         /// <param name="pointA"></param>
         /// <param name="pointB"></param>
@@ -299,26 +297,26 @@ namespace Ecell.Plugin
 
 
         /// <summary>
-        /// 
+        /// Initialize.
         /// </summary>
         public virtual void Initialize()
         {
         }
 
         /// <summary>
-        /// 
+        /// Get the plugin name.
         /// </summary>
         /// <returns></returns>
         public abstract string GetPluginName();
 
         /// <summary>
-        /// 
+        /// Get the version string.
         /// </summary>
         /// <returns></returns>
         public abstract string GetVersionString();
 
         /// <summary>
-        /// 
+        /// Change the status of project.
         /// </summary>
         /// <param name="status"></param>
         public virtual void ChangeStatus(ProjectStatus status)
@@ -326,7 +324,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the delegate function of plugin.
         /// </summary>
         /// <returns></returns>
         public virtual Dictionary<string, Delegate> GetPublicDelegate()
@@ -335,7 +333,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the property setting.
         /// </summary>
         /// <returns></returns>
         public virtual List<IPropertyItem> GetPropertySettings()
@@ -344,7 +342,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the status of plugin.
         /// </summary>
         /// <returns></returns>
         public virtual XmlNode GetPluginStatus()
@@ -353,7 +351,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Set the status of plugin.
         /// </summary>
         /// <param name="status"></param>
         public virtual void SetPluginStatus(XmlNode status)
@@ -361,7 +359,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Execute the layout by using the current setting.
         /// </summary>
         /// <param name="subCommandNum"></param>
         /// <param name="layoutSystem"></param>
@@ -372,20 +370,21 @@ namespace Ecell.Plugin
                       bool layoutSystem,
                       List<EcellObject> systemList,
                       List<EcellObject> nodeList);
+
         /// <summary>
-        /// 
+        /// Get the layout type.
         /// </summary>
         /// <returns></returns>
         public abstract LayoutType GetLayoutType();
 
         /// <summary>
-        /// 
+        /// Get the layout name.
         /// </summary>
         /// <returns></returns>
         public abstract string GetLayoutName();
 
         /// <summary>
-        /// 
+        /// Get the menu of this plugin.
         /// </summary>
         /// <returns></returns>
         public abstract IEnumerable<ToolStripMenuItem> GetMenuStripItems();

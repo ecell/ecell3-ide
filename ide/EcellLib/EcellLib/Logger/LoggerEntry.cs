@@ -134,7 +134,7 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// get / set the line style integer.
         /// </summary>
         public int LineStyleInt
         {
@@ -185,7 +185,7 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// get / set the flag whether this logger is showm.
         /// </summary>
         public int IsShowInt
         {
@@ -215,7 +215,7 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// get / set the flag whetehr this logger is shown at Y2 axis.
         /// </summary>
         public int IsY2AxisInt
         {
@@ -277,9 +277,9 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// GetHashCode override function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the hash code.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();

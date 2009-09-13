@@ -101,7 +101,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the location on desktop of control.
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>

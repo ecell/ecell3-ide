@@ -126,14 +126,14 @@ namespace Ecell
             get { return m_isSettable; }
         }
         /// <summary>
-        /// 
+        /// get / set whether DM is able to add or delete the property.
         /// </summary>
         public bool Dynamic
         {
             get { return m_dynamic; }
         }
         /// <summary>
-        /// 
+        /// get the default value.
         /// </summary>
         public EcellValue DefaultValue
         {
@@ -172,7 +172,7 @@ namespace Ecell
         #endregion
 
         /// <summary>
-        /// 
+        /// Equals override function.
         /// </summary>
         /// <param name="that"></param>
         /// <returns></returns>
@@ -191,7 +191,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// GetHashCode override function.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

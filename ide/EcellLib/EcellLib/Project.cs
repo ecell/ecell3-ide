@@ -208,8 +208,9 @@ namespace Ecell
         {
             get { return m_systemDic; }
         }
+
         /// <summary>
-        /// 
+        /// Get the dictionary of System.
         /// </summary>
         public List<EcellObject> SystemList
         {
@@ -218,8 +219,9 @@ namespace Ecell
                 return m_systemDic[m_modelList[0].ModelID]; 
             }
         }
+
         /// <summary>
-        /// 
+        /// Get the dictionary of Process.
         /// </summary>
         public List<EcellObject> ProcessList
         {
@@ -238,8 +240,9 @@ namespace Ecell
                 return list;
             }
         }
+
         /// <summary>
-        /// 
+        /// Get the dictionary of Variable.
         /// </summary>
         public List<EcellObject> VariableList
         {
@@ -260,8 +263,9 @@ namespace Ecell
                 return list;
             }
         }
+
         /// <summary>
-        /// 
+        /// Get the dictionary of Text.
         /// </summary>
         public List<EcellObject> TextList
         {
@@ -533,7 +537,7 @@ namespace Ecell
 
         #region Methods for DM
         /// <summary>
-        /// 
+        /// Get DM directories.
         /// </summary>
         /// <returns></returns>
         public string[] GetDMDirs()
@@ -701,7 +705,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Close this project.
         /// </summary>
         public void Close()
         {
@@ -780,7 +784,7 @@ namespace Ecell
 
         #region Methods for Save
         /// <summary>
-        /// 
+        /// Save this project.
         /// </summary>
         public void Save()
         {
@@ -1198,7 +1202,7 @@ namespace Ecell
 
         #region Add Object
         /// <summary>
-        /// 
+        /// Add System to this project.
         /// </summary>
         /// <param name="system"></param>
         public void AddSystem(EcellObject system)
@@ -1207,7 +1211,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
+        /// Add Entity to this project.
         /// </summary>
         /// <param name="entity"></param>
         public void AddEntity(EcellObject entity)

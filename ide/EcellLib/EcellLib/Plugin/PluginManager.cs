@@ -99,10 +99,12 @@ namespace Ecell.Plugin
         /// </summary>
         private ProjectStatus m_status;
         /// <summary>
-        /// 
+        /// The dictionary of delegate function.
         /// </summary>
         private Dictionary<string, Delegate> m_delegateDic = new Dictionary<string, Delegate>();
-
+        /// <summary>
+        /// Stop watch object.
+        /// </summary>
         private Stopwatch stopWatch = new Stopwatch();
         #endregion
 
@@ -156,8 +158,9 @@ namespace Ecell.Plugin
             get { return this.m_version; }
             set { this.m_version = value; }
         }
+
         /// <summary>
-        /// 
+        /// get the list of plugins.
         /// </summary>
         public IEnumerable<IEcellPlugin> Plugins
         {
@@ -170,25 +173,33 @@ namespace Ecell.Plugin
             }
         }
 
+        /// <summary>
+        /// get the list of rasterizable plugins.
+        /// </summary>
         public IEnumerable<IRasterizable> Rasterizables
         {
             get { return m_rasterizableList; }
         }
 
+        /// <summary>
+        /// get the list of DataHandler.
+        /// </summary>
         public IEnumerable<IDataHandler> DataHandlers
         {
             get { return m_dataHandlerList; }
         }
 
+        /// <summary>
+        /// get the list of algorithm.
+        /// </summary>
         public IEnumerable<ILayoutAlgorithm> LayoutAlgorithms
         {
             get { return m_layoutAlgorithmList; }
         }
     
         /// <summary>
-        /// get /set ImageList
+        /// get ImageList
         /// </summary>
-        /// <returns></returns>
         public ImageList NodeImageList
         {
             get { return m_imageList; }
@@ -497,6 +508,11 @@ namespace Ecell.Plugin
             }
         }
 
+        /// <summary>
+        /// Get the delegate function from the delegate name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Delegate GetDelegate(string name)
         {
             if (m_delegateDic.ContainsKey(name))
@@ -587,7 +603,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get image index from object.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -729,7 +745,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the status of plugin.
         /// </summary>
         /// <returns></returns>
         public List<XmlNode> GetPluginStatus()
@@ -745,7 +761,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Set the status of plugin.
         /// </summary>
         /// <param name="pluginName"></param>
         /// <param name="status"></param>
@@ -756,7 +772,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the property setting.
         /// </summary>
         /// <returns></returns>
         public List<IPropertyItem> GetPropertySettings()
@@ -773,7 +789,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Get the layout panel.
         /// </summary>
         /// <returns></returns>
         public List<ILayoutPanel> GetLayoutPanels()
@@ -858,28 +874,29 @@ namespace Ecell.Plugin
         }
         #endregion
     }
+
     /// <summary>
-    /// 
+    /// Delegate function to save the simulation result.
     /// </summary>
     /// <param name="list"></param>
     public delegate void SaveSimulationResultDelegate(List<string> list);
     /// <summary>
-    /// 
+    /// Delegate function to show the graph.
     /// </summary>
     /// <param name="file"></param>
     /// <param name="isNewWin"></param>
     public delegate void ShowGraphDelegate(string file, bool isNewWin);
     /// <summary>
-    /// 
+    /// Delegate function to show the property.
     /// </summary>
     public delegate void ShowDialogDelegate();
     /// <summary>
-    /// 
+    /// Delegate function to set the dock contents.
     /// </summary>
     /// <param name="s"></param>
     public delegate void SetDockContentDelegate(EcellDockContent s);
     /// <summary>
-    /// 
+    /// Delegate function to add the DM.
     /// </summary>
     /// <param name="dm"></param>
     /// <param name="path"></param>

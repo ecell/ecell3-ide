@@ -34,12 +34,12 @@ using System.Text;
 namespace Ecell.Reporting
 {
     /// <summary>
-    /// 
+    /// Reporting session object.
     /// </summary>
     public class ReportingSession: IList<IReport>, IDisposable
     {
         /// <summary>
-        /// 
+        /// get / set the index of report.
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
@@ -49,28 +49,28 @@ namespace Ecell.Reporting
             set { throw new InvalidOperationException(); }
         }
         /// <summary>
-        /// 
+        /// get the count of report.
         /// </summary>
         public int Count
         {
             get { return m_reports.Count; }
         }
         /// <summary>
-        /// 
+        /// get the group string.
         /// </summary>
         public string Group
         {
             get { return m_group; }
         }
         /// <summary>
-        /// 
+        /// get the flag whether this report is read only.
         /// </summary>
         public bool IsReadOnly
         {
             get { return false; }
         }
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="group"></param>
         /// <param name="rm"></param>
@@ -80,22 +80,25 @@ namespace Ecell.Reporting
             m_man = rm;
             m_reports = new List<IReport>();
         }
+
         /// <summary>
-        /// 
+        /// Destructor
         /// </summary>
         ~ReportingSession()
         {
             Dispose();
         }
+
         /// <summary>
-        /// 
+        /// Dispose.
         /// </summary>
         public void Dispose()
         {
             Close();
         }
+
         /// <summary>
-        /// 
+        /// Add the report object.
         /// </summary>
         /// <param name="item"></param>
         public void Add(IReport item)
@@ -105,16 +108,18 @@ namespace Ecell.Reporting
             m_man.OnReportAdded(item);
             m_reports.Add(item);
         }
+
         /// <summary>
-        /// 
+        /// Clear the all reports.
         /// </summary>
         public void Clear()
         {
             m_reports.Clear();
             m_man.OnReportCleared(this.Group);
         }
+
         /// <summary>
-        /// 
+        /// Check whether this report contain the report list.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -122,8 +127,9 @@ namespace Ecell.Reporting
         {
             return m_reports.Contains(item);
         }
+
         /// <summary>
-        /// 
+        /// Get Enumerator of the report list.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<IReport> GetEnumerator()
@@ -131,12 +137,17 @@ namespace Ecell.Reporting
             return m_reports.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get Enumerator of the report list.
+        /// </summary>
+        /// <returns></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return m_reports.GetEnumerator();
         }
+
         /// <summary>
-        /// 
+        /// Get the index of this report.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -144,8 +155,9 @@ namespace Ecell.Reporting
         {
             return m_reports.IndexOf(item);
         }
+
         /// <summary>
-        /// 
+        /// Insert the report object.
         /// </summary>
         /// <param name="idx"></param>
         /// <param name="item"></param>
@@ -154,8 +166,9 @@ namespace Ecell.Reporting
             m_reports.Insert(idx, item);
             m_man.OnReportAdded(item);
         }
+
         /// <summary>
-        /// 
+        /// Remove the report by using index,
         /// </summary>
         /// <param name="idx"></param>
         public void RemoveAt(int idx)
@@ -164,8 +177,9 @@ namespace Ecell.Reporting
             m_reports.RemoveAt(idx);
             m_man.OnReportRemoved(item);
         }
+
         /// <summary>
-        /// 
+        /// Remove the report by using the report object.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -175,8 +189,9 @@ namespace Ecell.Reporting
             m_man.OnReportRemoved(item);
             return retval;
         }
+
         /// <summary>
-        /// 
+        /// Copy the report object.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="idx"></param>
@@ -184,16 +199,28 @@ namespace Ecell.Reporting
         {
             m_reports.CopyTo(a, idx);
         }
+
         /// <summary>
-        /// 
+        /// Close the this report session.
         /// </summary>
         public void Close()
         {
             m_man.OnSessionClosed(this.Group);
         }
 
+        #region Fields
+        /// <summary>
+        /// the group name.
+        /// </summary>
         string m_group;
+        /// <summary>
+        /// ReportManager.
+        /// </summary>
         ReportManager m_man;
+        /// <summary>
+        /// The list of reports.
+        /// </summary>
         List<IReport> m_reports;
+        #endregion
     }
 }

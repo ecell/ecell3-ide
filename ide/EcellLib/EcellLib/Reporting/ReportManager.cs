@@ -35,99 +35,108 @@ using System.Diagnostics;
 namespace Ecell.Reporting
 {
     /// <summary>
-    /// 
+    /// Delegate to start the report session.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void ReportingSessionStartedEventHandler(object o, ReportingSessionEventArgs e);
     
     /// <summary>
-    /// 
+    /// Delegate to close the report session.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void ReportingSessionClosedEventHandler(object o, ReportingSessionEventArgs e);
 
     /// <summary>
-    /// 
+    /// Delegate to add the report.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void ReportAddedEventHandler(object o, ReportEventArgs e);
 
     /// <summary>
-    /// 
+    /// Delegate to remove the report.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void ReportRemovedEventHandler(object o, ReportEventArgs e);
 
     /// <summary>
-    /// 
+    /// Delegate to clear the report session.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void ReportClearEventHandler(object o, EventArgs e);
 
     /// <summary>
-    /// 
+    /// Delegate to update the status.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void StatusUpdatedEventHandler(object o, StatusUpdateEventArgs e);
 
     /// <summary>
-    /// 
+    /// Delegate to progress the report.
     /// </summary>
     /// <param name="o"></param>
     /// <param name="e"></param>
     public delegate void ProgressReportEventHandler(object o, ProgressReportEventArgs e);
 
     /// <summary>
-    /// 
+    /// Report Manage class 
     /// </summary>
     public class ReportManager
     {
+        #region Fields
         /// <summary>
-        /// 
+        /// EventHandler to start the report session.
         /// </summary>
         public event ReportingSessionStartedEventHandler ReportingSessionStarted;
         /// <summary>
-        /// 
+        /// EventHandler to close the report session.
         /// </summary>
         public event ReportingSessionClosedEventHandler ReportingSessionClosed;
         /// <summary>
-        /// 
+        /// EventHandler to add the report.
         /// </summary>
         public event ReportAddedEventHandler ReportAdded;
         /// <summary>
-        /// 
+        /// EventHandler to remove the report.
         /// </summary>
         public event ReportRemovedEventHandler ReportRemoved;
         /// <summary>
-        /// 
+        /// EventHandler to clear the report session.
         /// </summary>
         public event ReportClearEventHandler Cleared;
         /// <summary>
-        /// 
+        ///  EventHandler to update the status.
         /// </summary>
         public event StatusUpdatedEventHandler StatusUpdated;
         /// <summary>
-        /// 
+        /// EventHandler to progress the report.
         /// </summary>
         public event ProgressReportEventHandler ProgressValueUpdated;
-
-        private ApplicationEnvironment m_env;
-        private Dictionary<string, ReportingSession> m_repList = new Dictionary<string,ReportingSession>();
         /// <summary>
-        /// 
+        /// The application environment
+        /// </summary>
+        private ApplicationEnvironment m_env;
+        /// <summary>
+        /// The list of ReportSession
+        /// </summary>
+        private Dictionary<string, ReportingSession> m_repList = new Dictionary<string,ReportingSession>();
+        #endregion
+
+        /// <summary>
+        /// get the application environment.
         /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
         }
+
         /// <summary>
-        /// 
+        /// constructor
         /// </summary>
         /// <param name="env"></param>
         public ReportManager(ApplicationEnvironment env)
@@ -135,6 +144,10 @@ namespace Ecell.Reporting
             m_env = env;
         }
 
+        /// <summary>
+        /// Event when the report session is closed.
+        /// </summary>
+        /// <param name="groupname"></param>
         internal void OnSessionClosed(string groupname)
         {
             Trace.WriteLine("ReportingSession closed");
@@ -147,6 +160,10 @@ namespace Ecell.Reporting
             }
         }
 
+        /// <summary>
+        /// Event when the report is added.
+        /// </summary>
+        /// <param name="rep"></param>
         internal void OnReportAdded(IReport rep)
         {       
             Trace.WriteLine("Report added");
@@ -154,12 +171,20 @@ namespace Ecell.Reporting
                 ReportAdded(m_repList[rep.Group], new ReportEventArgs(rep));
         }
 
+        /// <summary>
+        /// Event when the report is removed.
+        /// </summary>
+        /// <param name="rep"></param>
         internal void OnReportRemoved(IReport rep)
         {
             if (ReportRemoved != null && m_repList.ContainsKey(rep.Group))
                 ReportRemoved(m_repList[rep.Group], new ReportEventArgs(rep));
         }
 
+        /// <summary>
+        /// Event when the report is cleared.
+        /// </summary>
+        /// <param name="groupname"></param>
         internal void OnReportCleared(string groupname)
         {
             Trace.WriteLine("ReportSesion cleared");
@@ -183,8 +208,9 @@ namespace Ecell.Reporting
                 Cleared(this, new EventArgs());
             m_repList.Clear();
         }
+
         /// <summary>
-        /// 
+        /// Get the report session by usin the group name.
         /// </summary>
         /// <param name="group"></param>
         /// <returns></returns>
@@ -204,8 +230,9 @@ namespace Ecell.Reporting
                 ReportingSessionStarted(this, new ReportingSessionEventArgs(m_repList[group]));
             return m_repList[group];
         }
+
         /// <summary>
-        /// 
+        /// Set the status of report.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="text"></param>
@@ -214,8 +241,9 @@ namespace Ecell.Reporting
             if (StatusUpdated != null)
                 StatusUpdated(this, new StatusUpdateEventArgs(type, text));
         }
+
         /// <summary>
-        /// 
+        /// Set the progress of value.
         /// </summary>
         /// <param name="value"></param>
         public void SetProgress(int value)

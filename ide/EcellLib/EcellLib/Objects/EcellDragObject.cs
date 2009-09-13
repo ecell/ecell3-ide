@@ -118,13 +118,31 @@ namespace Ecell.Objects
     /// </summary>
     public class EcellDragEntry
     {
-        string m_key;
-        string m_type;
-        string m_path;
-        bool m_isSettable;
-        bool m_isLogable;
+        #region Fields
         /// <summary>
-        /// 
+        /// The key of drag object.
+        /// </summary>
+        string m_key;
+        /// <summary>
+        /// The type of drag object.
+        /// </summary>
+        string m_type;
+        /// <summary>
+        /// The path of drag object.
+        /// </summary>        
+        string m_path;
+        /// <summary>
+        /// The flag whether this drag object is settable.
+        /// </summary>
+        bool m_isSettable;
+        /// <summary>
+        /// The flag whether this drag object is logable.
+        /// </summary>
+        bool m_isLogable;
+        #endregion
+
+        /// <summary>
+        /// Constructor.
         /// </summary>
         public EcellDragEntry()
         {
@@ -134,8 +152,9 @@ namespace Ecell.Objects
             m_isSettable = false;
             m_isLogable = false;
         }
+
         /// <summary>
-        /// 
+        /// Constructor with the initial parameters.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="type"></param>

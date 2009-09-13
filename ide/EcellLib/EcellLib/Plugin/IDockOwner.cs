@@ -36,12 +36,12 @@ using WeifenLuo.WinFormsUI.Docking;
 namespace Ecell.Plugin
 {
     /// <summary>
-    /// 
+    /// Interface DockOwner.
     /// </summary>
     public interface IDockOwner
     {
         /// <summary>
-        /// 
+        /// get the dock panel.
         /// </summary>
         DockPanel DockPanel { get; }
     }

@@ -35,17 +35,17 @@ using System.Text;
 namespace Ecell.Plugin
 {
     /// <summary>
-    /// 
+    /// Interface layout panel
     /// </summary>
     public interface ILayoutPanel
     {
         /// <summary>
-        /// 
+        /// get the layout algorithm object.
         /// </summary>
         ILayoutAlgorithm Algorithm { get; }
 
         /// <summary>
-        /// 
+        /// Apply the setting of the layout algorithm
         /// </summary>
         void ApplyChange();
     }

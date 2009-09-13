@@ -596,7 +596,7 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// 
+        /// GetHashCode override function.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

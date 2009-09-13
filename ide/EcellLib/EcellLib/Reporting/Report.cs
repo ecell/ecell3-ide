@@ -77,7 +77,7 @@ namespace Ecell.Reporting
         }
 
         /// <summary>
-        /// 
+        /// The report location
         /// </summary>
         public abstract string Location
         {
@@ -87,7 +87,7 @@ namespace Ecell.Reporting
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="message"></param>
@@ -109,7 +109,7 @@ namespace Ecell.Reporting
             return  Type + ": " + Message + "(location: " + Location + ")";
         }
         /// <summary>
-        /// 
+        /// Equals override function.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -122,7 +122,7 @@ namespace Ecell.Reporting
                 ent.m_message == this.m_message;
         }
         /// <summary>
-        /// 
+        /// GetHashCode override function.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

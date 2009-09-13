@@ -56,28 +56,28 @@ namespace Ecell.Logging
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get the message type.
         /// </summary>
         public MessageType Type
         {
             get { return m_type; }
         }
         /// <summary>
-        /// 
+        /// get the message string.
         /// </summary>
         public string Message
         {
             get { return m_message; }
         }
         /// <summary>
-        /// 
+        /// get the time of message.
         /// </summary>
         public DateTime Timestamp
         {
             get { return m_time; }
         }
         /// <summary>
-        /// 
+        /// get the location of message.
         /// </summary>
         public abstract string Location
         {
@@ -123,8 +123,9 @@ namespace Ecell.Logging
         {
             return "[" + Timestamp + "] " + Type + ": " + Message + "(location: " + Location + ")";
         }
+
         /// <summary>
-        /// 
+        /// Equals override function.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -138,7 +139,7 @@ namespace Ecell.Logging
                 ent.m_message == this.m_message;
         }
         /// <summary>
-        /// 
+        /// GetHashCode override function.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

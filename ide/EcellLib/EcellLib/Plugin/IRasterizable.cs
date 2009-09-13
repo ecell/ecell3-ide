@@ -39,7 +39,7 @@ using System.Drawing;
 namespace Ecell.Plugin
 {
     /// <summary>
-    /// 
+    /// Interface Rasterizable
     /// </summary>
     public interface IRasterizable
     {
@@ -54,8 +54,9 @@ namespace Ecell.Plugin
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>   
         Bitmap Print(string name);
+
         /// <summary>
-        /// 
+        /// Get the flag whether this plugin is able to print directly.
         /// </summary>
         /// <returns></returns>
         bool IsDirect();

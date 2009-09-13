@@ -60,7 +60,7 @@ namespace Ecell.Objects
         /// </summary>
         private Dictionary<string, List<EcellObject>> m_stepperDic;
         /// <summary>
-        /// 
+        /// The error message.
         /// </summary>
         private string m_err = "";
         #endregion
@@ -103,7 +103,7 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// 
+        /// get / set the error message.
         /// </summary>
         public string ErrMsg
         {
@@ -157,9 +157,9 @@ namespace Ecell.Objects
         #endregion
 
         /// <summary>
-        /// 
+        /// Change the model ID of object.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">the changed object.</param>
         private void ChangeModelIDforChildren(EcellObject obj)
         {
             if (obj.Children == null || obj.Children.Count <= 0)
@@ -172,7 +172,7 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// 
+        /// Add the entity.
         /// </summary>
         /// <param name="entity"></param>
         public void AddEntity(EcellObject entity)

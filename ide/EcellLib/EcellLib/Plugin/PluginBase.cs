@@ -125,7 +125,7 @@ namespace Ecell.Plugin
         #region Inherited methods from IEcellPlugin.
         #region Methods involved in the object lifecycle
         /// <summary>
-        /// 
+        /// Initialize this object.
         /// </summary>
         public virtual void Initialize()
         {
@@ -383,7 +383,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Set the message on the status bar.
         /// </summary>
         /// <param name="kind"></param>
         /// <param name="msg"></param>
@@ -393,7 +393,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Set the value on the progress bar.
         /// </summary>
         /// <param name="percent"></param>
         public virtual void SetProgressBarValue(int percent)
@@ -500,8 +500,9 @@ namespace Ecell.Plugin
         {
             m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, isRecorded, isAnchor);
         }
+
         /// <summary>
-        /// 
+        /// Notify to set the position.
         /// </summary>
         /// <param name="eo"></param>
         public void NotifySetPosition(EcellObject eo)

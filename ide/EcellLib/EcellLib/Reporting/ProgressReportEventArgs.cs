@@ -32,20 +32,24 @@ using System;
 namespace Ecell.Reporting
 {
     /// <summary>
-    /// 
+    /// ProgressReportEventArgs class.
     /// </summary>
     public class ProgressReportEventArgs: EventArgs
     {
+        /// <summary>
+        /// The percentage
+        /// </summary>
         private int m_perc;
         /// <summary>
-        /// 
+        /// Get the percentage value.
         /// </summary>
         public int Value
         {
             get { return m_perc; }
         }
+
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         /// <param name="perc"></param>
         public ProgressReportEventArgs(int perc)

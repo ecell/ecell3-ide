@@ -49,7 +49,7 @@ namespace Ecell.Plugin
     public interface IEcellPlugin
     {
         /// <summary>
-        /// 
+        /// get / set the application environment.
         /// </summary>
         ApplicationEnvironment Environment { get; set; }
 
@@ -72,13 +72,13 @@ namespace Ecell.Plugin
         List<IPropertyItem> GetPropertySettings();
 
         /// <summary>
-        /// 
+        /// Get the status of plugin.
         /// </summary>
         /// <returns></returns>
         XmlNode GetPluginStatus();
 
         /// <summary>
-        /// 
+        /// Set the status of plugin.
         /// </summary>
         /// <param name="nstatus"></param>
         void SetPluginStatus(XmlNode nstatus);
@@ -95,7 +95,7 @@ namespace Ecell.Plugin
         void ChangeStatus(ProjectStatus type); // 0:initial 1:load 2:run 3:suspend
 
         /// <summary>
-        /// 
+        /// Get the public deleagte function of plugin.
         /// </summary>
         /// <returns></returns>
         Dictionary<string, Delegate> GetPublicDelegate();

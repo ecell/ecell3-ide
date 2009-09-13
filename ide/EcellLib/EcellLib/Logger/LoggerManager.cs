@@ -59,24 +59,45 @@ namespace Ecell.Logger
     /// </summary>
     public class LoggerManager
     {
+        #region Fields
+        /// <summary>
+        /// EventHandler to add the logger.
+        /// </summary>
         public event LoggerAddEventHandler LoggerAddEvent;
+        /// <summary>
+        /// EventHandler to delete the logger.
+        /// </summary>
         public event LoggerDeleteEventHandler LoggerDeleteEvent;
+        /// <summary>
+        /// EventHandler to changet the logger.
+        /// </summary>
         public event LoggerChangedEventHandler LoggerChangedEvent;
+        /// <summary>
+        /// the logger count.
+        /// </summary>
         private int m_count = 0;
+        /// <summary>
+        /// The Application environment.
+        /// </summary>
         private ApplicationEnvironment m_env;
+        /// <summary>
+        /// The list of logger entry.
+        /// </summary>
         private List<LoggerEntry> m_loggerList = new List<LoggerEntry>();
+        #endregion
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="env"></param>
+        /// <param name="env">the application environment.</param>
         public LoggerManager(ApplicationEnvironment env)
         {
             m_env = env;
             m_count = 0;
         }
+
         /// <summary>
-        /// 
+        /// Add the logger entry.
         /// </summary>
         /// <param name="modelID"></param>
         /// <param name="Key"></param>
@@ -90,8 +111,9 @@ namespace Ecell.Logger
             m_count++;
             AddLoggerEntry(entry);
         }
+
         /// <summary>
-        /// 
+        /// Add the logger entry.
         /// </summary>
         /// <param name="entry"></param>
         public void AddLoggerEntry(LoggerEntry entry)
@@ -107,8 +129,9 @@ namespace Ecell.Logger
                 LoggerAddEvent(this, new LoggerEventArgs(entry.FullPN, entry));
             }
         }
+
         /// <summary>
-        /// 
+        /// Get the list of logger entry name.
         /// </summary>
         /// <returns></returns>
         public List<string> GetLoggerList()
@@ -125,15 +148,16 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// Clear the list of logger entry.
         /// </summary>
         public void Clear()
         {
             m_loggerList.Clear();
             m_count = 0;
         }
+
         /// <summary>
-        /// 
+        /// Chage the logger entry.
         /// </summary>
         /// <param name="orgFullPN"></param>
         /// <param name="entry"></param>
@@ -152,6 +176,10 @@ namespace Ecell.Logger
             }
         }
 
+        /// <summary>
+        /// Remove the EcellObject.
+        /// </summary>
+        /// <param name="obj"></param>
         public void NodeRemoved(EcellObject obj)
         {
             List<LoggerEntry> delList = GetLoggerEntryForObject(obj.Key, obj.Type);
@@ -160,8 +188,9 @@ namespace Ecell.Logger
                 LoggerRemoved(m);
             }
         }
+
         /// <summary>
-        /// 
+        /// Remove the System object.
         /// </summary>
         /// <param name="sys"></param>
         public void SystemRemoved(EcellObject sys)
@@ -182,7 +211,7 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// Remove the logger entry.
         /// </summary>
         /// <param name="entry"></param>
         public void LoggerRemoved(LoggerEntry entry)
@@ -200,7 +229,7 @@ namespace Ecell.Logger
             }
         }
         /// <summary>
-        /// 
+        /// Get the logger entry from Ecellobject.
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="type"></param>
@@ -218,7 +247,7 @@ namespace Ecell.Logger
             return result;
         }
         /// <summary>
-        /// 
+        /// Get the logger entry from FullPN.
         /// </summary>
         /// <param name="fullPN"></param>
         /// <returns></returns>

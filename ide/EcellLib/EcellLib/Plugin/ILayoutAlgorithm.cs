@@ -78,19 +78,19 @@ namespace Ecell.Plugin
         LayoutType GetLayoutType();
 
         /// <summary>
-        /// 
+        /// Get the layout name.
         /// </summary>
         /// <returns></returns>
         string GetLayoutName();
 
         /// <summary>
-        /// 
+        /// Get the layout panel.
         /// </summary>
         /// <returns></returns>
         ILayoutPanel Panel { get; }
 
         /// <summary>
-        /// 
+        /// get / set the index.
         /// </summary>
         /// <returns></returns>
         int SubIndex { get; set; }

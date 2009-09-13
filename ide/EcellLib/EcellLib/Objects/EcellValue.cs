@@ -176,8 +176,9 @@ namespace Ecell.Objects
             List<EcellReference> refList = EcellReference.ConvertFromString(str);
             return EcellReference.ConvertToEcellValue(refList);
         }
+
         /// <summary>
-        /// 
+        /// Normalize the target object.
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
@@ -359,7 +360,7 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// 
+        /// Convert to the serialized form.
         /// </summary>
         /// <returns></returns>
         private static string ToSerializedForm(object value)

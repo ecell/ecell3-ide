@@ -67,7 +67,7 @@ namespace Ecell.Objects
 
         #region Accessors
         /// <summary>
-        /// 
+        /// get the list of alias.
         /// </summary>
         public List<EcellLayout> Aliases
         {
@@ -79,7 +79,7 @@ namespace Ecell.Objects
         #endregion
 
         /// <summary>
-        /// 
+        /// Clone this object.
         /// </summary>
         /// <returns></returns>
         public override EcellObject Clone()

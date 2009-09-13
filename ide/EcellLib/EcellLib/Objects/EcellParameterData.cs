@@ -138,8 +138,9 @@ namespace Ecell.Objects
         {
             return base.GetHashCode();
         }
+
         /// <summary>
-        /// 
+        /// Copy this object.
         /// </summary>
         /// <returns></returns>
         public EcellParameterData Copy()

@@ -10,13 +10,20 @@ namespace Ecell.Logging
     /// </summary>
     public class LogManager
     {
+        #region Fields
+        /// <summary>
+        /// The application environment.
+        /// </summary>
         private ApplicationEnvironment m_env;
-
+        /// <summary>
+        /// The list of log entry.
+        /// </summary>
         private List<ILogEntry> m_entries;
         /// <summary>
-        /// 
+        /// EventHandler to add the log entry.
         /// </summary>
         public event LogEntryAppendedEventHandler LogEntryAppended;
+        #endregion
 
         #region Accessors
         /// <summary>

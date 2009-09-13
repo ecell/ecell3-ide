@@ -56,7 +56,7 @@ namespace Ecell.Objects
         /// </summary>
         private string m_layer;
         /// <summary>
-        /// 
+        /// Figure string.
         /// </summary>
         private string m_figure;
 	    #endregion
@@ -297,19 +297,19 @@ namespace Ecell.Objects
 
         #region Method
         /// <summary>
-        /// 
+        /// Check whether this point contains this object.
         /// </summary>
-        /// <param name="pt"></param>
-        /// <returns></returns>
+        /// <param name="pt">the target point.</param>
+        /// <returns>Return true if this point contains this object.</returns>
         public bool Contains(PointF pt)
         {
             return m_rect.Contains(pt);
         }
         /// <summary>
-        /// 
+        /// Check whether this rectangle contains this object
         /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
+        /// <param name="rect">the target rectangle</param>
+        /// <returns>Return true if this rectangle contains this object.</returns>
         public bool Contains(RectangleF rect)
         {
             return m_rect.Contains(rect);
@@ -318,9 +318,9 @@ namespace Ecell.Objects
 
         #region Inherited Method
         /// <summary>
-        /// 
+        /// Equals override function.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">the src object.</param>
         /// <returns></returns>
         public override bool Equals(object obj)
         { 
@@ -330,7 +330,7 @@ namespace Ecell.Objects
             return (layout.Rect == m_rect) && (layout.Offset == m_offset) && (layout.Layer == m_layer);
         }
         /// <summary>
-        /// GetHashCode
+        /// GetHashCode override function.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()

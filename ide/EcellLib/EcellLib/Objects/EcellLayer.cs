@@ -49,10 +49,10 @@ namespace Ecell.Objects
             m_visible = 0;
         }
         /// <summary>
-        /// 
+        /// Constructor with the initla parameters.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="visible"></param>
+        /// <param name="name">the layer name.</param>
+        /// <param name="visible">the flag whether this layer is visible.</param>
         public EcellLayer(string name, bool visible)
         {
             this.m_name = name;
