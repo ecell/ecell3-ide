@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.ComponentModel;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -80,7 +81,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         private string _format = "";
-
+        /// <summary>
+        /// 
+        /// </summary>
+        protected string _stepper = "";
         #endregion
 
         #region Properties
@@ -169,7 +173,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _variables.AddRange(_canvas.Variables.Values);
 
             _format = _dManager.DisplayStringFormat;
-
+            _stepper = _steppers[0].EcellObject.Key;
         }
 
         /// <summary>
@@ -224,6 +228,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             return this.Text;
         }
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected double GetTime()
+        {
+            double time = 0.0d;
+            try
+            {
+                if (_dManager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
+                        _dManager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
+                {
+                    time = _dManager.GetPropertyValue4Stepper(_stepper, "CurrentTime");
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+            return time;
+        }
 
         /// <summary>
         /// 

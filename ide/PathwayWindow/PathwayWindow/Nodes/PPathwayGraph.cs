@@ -55,7 +55,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// List of Values.
         /// </summary>
-        private List<double> m_values = new List<double>();
+        private List<Plot> m_values = new List<Plot>();
         /// <summary>
         /// Panel object.
         /// </summary>
@@ -90,7 +90,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        public List<double> Plots
+        public List<Plot> Plots
         {
             get { return m_values; }
         }
@@ -146,11 +146,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         /// <param name="value"></param>
-        public void SetValue(double value)
+        /// <param name="time"></param>
+        public void SetValue(double value, double time)
         {
+            if (m_values.Count > 0 && time == m_values[m_values.Count - 1].X)
+                return;
             if (double.IsNaN(value))
                 value = 0;
-            m_values.Add(value);
+            m_values.Add(new Plot(time,value));
             if (m_values.Count > MAX_COUNT)
                 m_values.RemoveAt(0);
 
@@ -162,29 +165,42 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public void DrawGraph()
         {
-            // Set max and min
-            double max = m_values[0];
-            double min = m_values[0];
-            foreach (double val in m_values)
+            // Set max and min X
+            double maxX = m_values[0].X;
+            double minX = m_values[0].X;
+            // Set max and min Y
+            double maxY = m_values[0].Y;
+            double minY = m_values[0].Y;
+            foreach (Plot plot in m_values)
             {
-                if (val > max)
-                    max = val;
-                if (val < min)
-                    min = val;
+                if (plot.X > maxX)
+                    maxX = plot.X;
+                else if (plot.X < minX)
+                    minX = plot.X;
+                if (plot.Y > maxY)
+                    maxY = plot.Y;
+                else if (plot.Y < minY)
+                    minY = plot.Y;
             }
-            double rate = GRAPH_SIZE / (max - min);
-            if (max == min)
-                rate = 1;
+            // set rate
+            double rateX = GRAPH_SIZE / (maxX - minX) * m_values.Count / MAX_COUNT;
+            if (maxX == minX)
+                rateX = 1;
+            double rateY = GRAPH_SIZE / (maxY - minY);
+            if (maxY == minY)
+                rateY = 1;
 
             // create plots
             int i = 0;
             float x = (float)(GRAPH_SIZE / MAX_COUNT);
             List<PointF> plots = new List<PointF>();
-            foreach (double val in m_values)
+            foreach (Plot val in m_values)
             {
                 PointF plot = new PointF();
-                plot.X = m_panel.X + x * i;
-                plot.Y = m_panel.Y + GRAPH_SIZE - (float)((val - min) * rate);
+                // X
+                plot.X = m_panel.X + (float)((val.X - minX) * rateX);
+                // Y 
+                plot.Y = m_panel.Y + GRAPH_SIZE - (float)((val.Y - minY) * rateY);
                 plots.Add(plot);
                 i++;
             }
@@ -217,5 +233,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
         #endregion
 
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public struct Plot
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public double X;
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Y;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public Plot(double x, double y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
     }
 }

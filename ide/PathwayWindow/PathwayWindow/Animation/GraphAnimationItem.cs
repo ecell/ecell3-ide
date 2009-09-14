@@ -279,11 +279,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void UpdateAnimation()
         {
             base.UpdateAnimation();
+            double time = GetTime();
             // Graph
             foreach (PPathwayGraph graph in _graphs)
             {
                 double value = GetValue(graph.EntityPath);
-                graph.SetValue(value);
+                graph.SetValue(value, time);
             }
         }
 
