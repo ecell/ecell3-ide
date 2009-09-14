@@ -550,7 +550,8 @@ namespace Ecell.IDE.MainWindow
             string name = jnode.GroupName;
 
             string path = m_manager.Environment.DataManager.CurrentProject.Info.ProjectPath;
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path) || 
+                m_manager.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
             {
                 Util.ShowWarningDialog(MessageResources.ErrProjectUnsaved);
                 return;

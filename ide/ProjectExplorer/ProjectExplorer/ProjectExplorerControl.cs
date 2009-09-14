@@ -987,6 +987,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             createNewRevisionMenuItem.Enabled = !simulation && saved;
             createNewRevisionOnProjectToolStripMenuItem.Enabled = !simulation && saved;
 
+            deleteDMToolStripMenuItem.Enabled = !revision;
+            compileToolStripMenuItem.Enabled = !revision;
+
             // exportRevisionEMLMenuItem.Enabled = !current;
             exportRevisionZipMenuItem.Enabled = !current && saved;
 
@@ -1028,7 +1031,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             // Get DM dir.
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
-            if (dmDir == null)
+            if (dmDir == null || 
+                m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsaved);
                 return;
