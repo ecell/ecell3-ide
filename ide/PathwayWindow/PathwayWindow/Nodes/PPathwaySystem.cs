@@ -296,6 +296,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if(m_canvas == null || m_ecellObj == null)
                 return;
 
+            Minimize();
+        }
+
+        /// <summary>
+        /// Minimize this System.
+        /// </summary>
+        public void Minimize()
+        {
             List<PPathwayObject> list = m_canvas.GetAllObjectUnder(m_ecellObj.Key);
             if (list.Count <= 0)
                 return;
@@ -307,6 +315,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             float maxY = list[0].Bottom;
             foreach (PPathwayObject obj in list)
             {
+                if (obj is PPathwayText)
+                    continue;
                 if (obj.Left < minX)
                     minX = obj.Left;
                 if (obj.Top < minY)

@@ -310,6 +310,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 ResetEventHandler();
                 ResetCurrentStencil();
             }
+            m_con.Menu.ResetEventHandler();
 
             // Set Cursor
             SetCursor(canvas);
