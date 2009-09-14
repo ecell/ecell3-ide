@@ -915,6 +915,9 @@
   <metadata name="simSettingToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 91</value>
   </metadata>
+  <data name="SSImportButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="SSImportButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 392</value>
   </data>
@@ -938,6 +941,9 @@
   </data>
   <data name="&gt;&gt;SSImportButton.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="SSExportButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="SSExportButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>93, 392</value>
