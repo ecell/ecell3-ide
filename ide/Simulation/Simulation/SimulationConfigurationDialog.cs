@@ -212,6 +212,12 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void DeleteButtonClick(object sender, EventArgs e)
         {
+            string simParam = paramCombo.Text;
+            if (simParam.Equals(Constants.defaultSimParam))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrDelDefault);
+                return;
+            }
             if (m_simParamSets.Count <= 1)
             {
                 Util.ShowErrorDialog(MessageResources.ErrDelParam);
@@ -690,6 +696,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 return;
 
             SSOpenFileDialog.Filter = Constants.FilterCSVFile;
+            SSOpenFileDialog.FileName = "";
             if (SSOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string parameterID = System.IO.Path.GetFileNameWithoutExtension(SSOpenFileDialog.FileName);
@@ -715,13 +722,30 @@ namespace Ecell.IDE.Plugins.Simulation
 
                     int index = m_simParamSets.IndexOf(sps);
                     m_simParamSets.Position = index;
-                                        
+
                     foreach (KeyValuePair<string, double> pair in
                             SimulationParameter.ConvertSimulationParameter(SSOpenFileDialog.FileName))
                     {
-                        initialConditionsBindingSource.Add(
-                            KeyValuePairConverter<string, double>.Convert(pair));
-                    }                    
+                        PerModelSimulationParameter p = ((SimulationParameterSet)m_simParamSets.Current).PerModelSimulationParameters[0];
+                        bool isHitParam = false;
+                        foreach (MutableKeyValuePair<string, double> delData in p.InitialConditions)
+                        {
+                            if (delData.Key.Equals(pair.Key))
+                            {
+                                if (delData.Value == pair.Value)
+                                    isHitParam = true;
+                                else
+                                    p.InitialConditions.Remove(delData);
+                                break;
+                            }
+                        }
+                        if (!isHitParam)
+                        {
+                            initialConditionsBindingSource.Add(
+                                KeyValuePairConverter<string, double>.Convert(pair));
+                        }
+                    }
+                    initialParameters.Refresh();
                 }
                 catch (Exception)
                 {
@@ -742,6 +766,7 @@ namespace Ecell.IDE.Plugins.Simulation
             if (m_owner.DataManager.CurrentProject == null)
                 return;
             SSSaveFileDialog.Filter = Constants.FilterCSVFile;
+            SSSaveFileDialog.FileName = "";
 
             if (SSSaveFileDialog.ShowDialog() == DialogResult.OK)
             {

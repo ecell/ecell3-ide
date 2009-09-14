@@ -917,8 +917,7 @@ namespace Ecell
                 }
             }
             if (type != null && key != null && classname != null)
-            {
-                
+            {                
                 Dictionary<string, EcellData> list = new Dictionary<string,EcellData>();
                 if (type.Equals(Constants.xpathProcess))
                     list = dManager.GetProcessProperty(classname);

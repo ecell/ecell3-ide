@@ -237,4 +237,7 @@
   <data name="InfoImportSim" xml:space="preserve">
     <value>The simulation parameter [{0}] is imported.</value>
   </data>
+  <data name="ErrDelDefault" xml:space="preserve">
+    <value>Can not delete DefaultSets.</value>
+  </data>
 </root>

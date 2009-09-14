@@ -237,4 +237,7 @@
   <data name="InfoImportSim" xml:space="preserve">
     <value>シミュレーションパラメータ [{0}] をインポートしました</value>
   </data>
+  <data name="ErrDelDefault" xml:space="preserve">
+    <value>DefaultSetsは削除できません</value>
+  </data>
 </root>

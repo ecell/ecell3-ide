@@ -115,6 +115,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Can not delete DefaultSets. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrDelDefault {
+            get {
+                return ResourceManager.GetString("ErrDelDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   At least one parameter set is required in the project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelParam {

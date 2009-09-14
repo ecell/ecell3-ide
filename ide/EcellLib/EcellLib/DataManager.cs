@@ -1133,7 +1133,7 @@ namespace Ecell
             StreamWriter writer = null;
             try
             {
-                writer = new StreamWriter(fileName, false, Encoding.ASCII);
+                writer = new StreamWriter(fileName, false, Encoding.Unicode);
                 foreach (EcellObject sysobj in m_currentProject.SystemDic[modelID])
                 {
                     foreach (EcellObject child in sysobj.Children)

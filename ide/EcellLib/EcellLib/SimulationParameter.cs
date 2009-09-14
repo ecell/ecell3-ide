@@ -94,7 +94,7 @@ namespace Ecell
             StreamReader reader = null;
             try
             {
-                reader = new StreamReader(fileName, System.Text.Encoding.ASCII);
+                reader = new StreamReader(fileName, System.Text.Encoding.Unicode);
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -131,7 +131,11 @@ namespace Ecell
                     {
                         continue;
                     }
-                    result.Add(fullPN, value);
+                    byte[] byte_data = System.Text.Encoding.GetEncoding(932).GetBytes(fullPN);
+                    if (byte_data.Length == fullPN.Length)
+                    {
+                        result.Add(fullPN, value);
+                    }
                 }
             }
             catch (Exception)
