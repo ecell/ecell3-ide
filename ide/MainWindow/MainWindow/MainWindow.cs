@@ -216,12 +216,6 @@ namespace Ecell.IDE.MainWindow
             m_scriptEditor.Text = MessageResources.NameScriptEditor;
             m_scriptEditor.Name = MessageResources.NameScriptEditor;
             SetDockContent(m_scriptEditor);
-            // Load default window settings.
-            LoadDefaultWindowSetting();
-            LoadDefaultWindowSetting();
-
-            SetStartUpWindow();
-            m_browser.Activate();
             m_title = this.Text;
             m_env.ReportManager.StatusUpdated += new StatusUpdatedEventHandler(ReportManager_StatusUpdated);
             m_env.ReportManager.ProgressValueUpdated += new ProgressReportEventHandler(ReportManager_ProgressValueUpdated);
@@ -640,6 +634,7 @@ namespace Ecell.IDE.MainWindow
             EcellWebBrowser content = new EcellWebBrowser(m_env, m_recentProjects);
             SetDockContent(content);
             m_browser = content;
+            m_browser.Activate();
         }
 
         /// <summary>

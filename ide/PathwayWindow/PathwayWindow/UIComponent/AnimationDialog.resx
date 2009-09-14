@@ -147,6 +147,9 @@
   <data name="&gt;&gt;listBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="buttonAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="buttonAdd.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 420</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="&gt;&gt;buttonAdd.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="buttonDelete.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="buttonDelete.Location" type="System.Drawing.Point, System.Drawing">
     <value>93, 420</value>
@@ -328,13 +334,13 @@
     <value>191, 22</value>
   </data>
   <data name="addEntityGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add Graph</value>
+    <value>Add Graph View</value>
   </data>
   <data name="outputMovieToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>191, 22</value>
   </data>
   <data name="outputMovieToolStripMenuItem.Text" xml:space="preserve">
-    <value>Output Movie</value>
+    <value>Add Output Movie</value>
   </data>
   <data name="contextMenuAddItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 114</value>

@@ -199,6 +199,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             AnimationItemBase obj = (AnimationItemBase)item;
             obj.SetViewItem();
+            obj.Dock = DockStyle.Fill;
             this.listBox.Items.Add(obj);
             this.panel.Controls.Clear();
             this.panel.Controls.Add(obj);

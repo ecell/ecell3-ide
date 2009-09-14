@@ -169,7 +169,7 @@
     <value>edgeHighBrush</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -196,7 +196,7 @@
     <value>edgeLowBrush</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -223,7 +223,7 @@
     <value>autoThresholdCheckBox</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -250,7 +250,7 @@
     <value>thresholdHigh</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -277,7 +277,7 @@
     <value>thresholdLow</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -304,7 +304,7 @@
     <value>edgeNGBrush</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -313,13 +313,13 @@
     <value>6</value>
   </data>
   <data name="edgeBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+    <value>Top</value>
   </data>
   <data name="edgeBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="edgeBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 219</value>
+    <value>496, 212</value>
   </data>
   <data name="edgeBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -343,7 +343,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 219</value>
+    <value>496, 219</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Animation oｆ Variable</value>
@@ -352,6 +352,6 @@
     <value>EntityAnimationItem</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3286.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

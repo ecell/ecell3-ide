@@ -136,6 +136,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             string svgObj = "";
             float margin = 2f;
             PPathwayProperties properties = entity.Property;
+            if (!properties.Visible)
+                return svgObj;
+
             foreach (PPathwayProperty property in entity.Property.Properties)
             {
                 if (!property.Visible)
@@ -144,8 +147,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
                 string fill = BrushManager.ParseBrushToString(property.Brush);
                 svgObj += SVGUtil.Rectangle(property.Rect, pen, fill);
                 svgObj += SVGUtil.Line(new PointF(property.value.X, property.value.Y), new PointF(property.value.X, property.value.Y + property.Height), pen, "1");
-                svgObj += SVGUtil.Text(new PointF(property.label.X + margin, property.label.Y + SVGUtil.SVG_FONT_SIZE + margin), property.Label, pen);
-                svgObj += SVGUtil.Text(new PointF(property.value.X + margin, property.value.Y + SVGUtil.SVG_FONT_SIZE + margin), property.Value, pen);
+                svgObj += SVGUtil.Text(new PointF(property.label.X + margin, property.label.Y + SVGUtil.SVG_FONT_SIZE + margin), property.Label, pen, "", SVGUtil.SVG_FONT_SIZE);
+                svgObj += SVGUtil.Text(new PointF(property.value.X + margin, property.value.Y + SVGUtil.SVG_FONT_SIZE + margin), property.Value, pen, "", SVGUtil.SVG_FONT_SIZE);
             }
             return svgObj;
         }

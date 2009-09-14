@@ -606,21 +606,22 @@ namespace Ecell.IDE.MainWindow
         /// create the panes.
         /// </summary>
         /// <param name="dockPanel"></param>
-        /// <param name="panes"></param>
+        /// <param name="paneStructs"></param>
         /// <param name="contentList"></param>
         /// <returns></returns>
-        private static List<DockPane> CreatePanes(DockPanel dockPanel, PaneStruct[] panes, List<DockContent> contentList)
+        private static List<DockPane> CreatePanes(DockPanel dockPanel, PaneStruct[] paneStructs, List<DockContent> contentList)
         {
             List<DockPane> paneList = new List<DockPane>();
-            for (int i = 0; i < panes.Length; i++)
+            foreach (PaneStruct pStruct in paneStructs)
             {
                 DockPane pane = null;
-                for (int j = 0; j < panes[i].IndexContents.Length; j++)
+                int index = pStruct.IndexContents.Length;
+                for (int j = 0; j < index; j++)
                 {
-                    IDockContent content = contentList[panes[i].IndexContents[j]];
+                    IDockContent content = contentList[pStruct.IndexContents[j]];
                     if (j == 0)
-                        pane = dockPanel.DockPaneFactory.CreateDockPane(content, panes[i].DockState, false);
-                    else if (panes[i].DockState == DockState.Float)
+                        pane = dockPanel.DockPaneFactory.CreateDockPane(content, pStruct.DockState, false);
+                    else if (pStruct.DockState == DockState.Float)
                         content.DockHandler.FloatPane = pane;
                     else
                         content.DockHandler.PanelPane = pane;

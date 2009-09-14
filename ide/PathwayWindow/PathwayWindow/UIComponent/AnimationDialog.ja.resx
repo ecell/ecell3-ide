@@ -133,9 +133,6 @@
   <data name="buttonCancel.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="contextMenuAddItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 114</value>
-  </data>
   <data name="addEdgeAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>207, 22</value>
   </data>
@@ -158,13 +155,16 @@
     <value>207, 22</value>
   </data>
   <data name="addEntityGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>グラフの追加</value>
+    <value>簡易グラフ表示の追加</value>
   </data>
   <data name="outputMovieToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>207, 22</value>
   </data>
   <data name="outputMovieToolStripMenuItem.Text" xml:space="preserve">
-    <value>動画出力</value>
+    <value>動画出力の追加</value>
+  </data>
+  <data name="contextMenuAddItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 114</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -82,6 +82,10 @@ namespace Ecell.IDE
                 env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 ((Form)mainWnd).Show();
 
+                // Load default window settings.
+                window.LoadDefaultWindowSetting();
+                window.SetStartUpWindow();
+
                 if (!s_noSplash)
                     frmSplash.Close();
 

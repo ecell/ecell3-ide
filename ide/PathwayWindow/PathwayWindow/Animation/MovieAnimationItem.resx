@@ -149,12 +149,11 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="outputBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
   <data name="outputBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="maxSizeTextBox.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="maxSizeTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>145, 107</value>
@@ -234,6 +233,7 @@
   <data name="&gt;&gt;noLimitRadio.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -280,7 +280,7 @@
     <value>aviFileName</value>
   </data>
   <data name="&gt;&gt;aviFileName.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3326.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;aviFileName.Parent" xml:space="preserve">
     <value>outputBox</value>
@@ -288,11 +288,14 @@
   <data name="&gt;&gt;aviFileName.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="outputBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <data name="outputBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>0, 0</value>
   </data>
   <data name="outputBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 169</value>
+    <value>403, 144</value>
   </data>
   <data name="outputBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -325,6 +328,6 @@
     <value>MovieAnimationItem</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3326.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3364.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

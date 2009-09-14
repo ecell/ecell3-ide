@@ -121,7 +121,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             resources.ApplyResources(this.maxSizeTextBox, "maxSizeTextBox");
             this.maxSizeTextBox.Name = "maxSizeTextBox";
-            this.maxSizeTextBox.Enabled = false;
             this.maxSizeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.maxSizeTextBox_Validating);
             // 
             // maxSizeRadio
@@ -129,15 +128,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             resources.ApplyResources(this.maxSizeRadio, "maxSizeRadio");
             this.maxSizeRadio.Name = "maxSizeRadio";
             this.maxSizeRadio.TabStop = true;
-            this.maxSizeRadio.Checked = false;
             this.maxSizeRadio.UseVisualStyleBackColor = true;
             // 
             // noLimitRadio
             // 
             resources.ApplyResources(this.noLimitRadio, "noLimitRadio");
+            this.noLimitRadio.Checked = true;
             this.noLimitRadio.Name = "noLimitRadio";
             this.noLimitRadio.TabStop = true;
-            this.noLimitRadio.Checked = true;
             this.noLimitRadio.UseVisualStyleBackColor = true;
             this.noLimitRadio.CheckedChanged += new System.EventHandler(this.noLimitRadio_CheckedChanged);
             // 

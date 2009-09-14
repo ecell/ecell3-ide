@@ -139,9 +139,9 @@
     <value>エラー色</value>
   </data>
   <data name="edgeBox.Text" xml:space="preserve">
-    <value>エッジのアニメーション</value>
+    <value>エッジアニメーション</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>エッジのアニメーション</value>
+    <value>エッジアニメーション</value>
   </data>
 </root>

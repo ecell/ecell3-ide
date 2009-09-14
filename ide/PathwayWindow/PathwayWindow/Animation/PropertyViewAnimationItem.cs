@@ -94,89 +94,57 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // variableBox
             // 
-            this.variableBox.AccessibleDescription = null;
-            this.variableBox.AccessibleName = null;
             resources.ApplyResources(this.variableBox, "variableBox");
-            this.variableBox.BackgroundImage = null;
             this.variableBox.Controls.Add(this.checkBoxNumberConc);
             this.variableBox.Controls.Add(this.checkBoxMolarConc);
             this.variableBox.Controls.Add(this.checkBoxValue);
-            this.variableBox.Font = null;
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
             // 
             // checkBoxNumberConc
             // 
-            this.checkBoxNumberConc.AccessibleDescription = null;
-            this.checkBoxNumberConc.AccessibleName = null;
             resources.ApplyResources(this.checkBoxNumberConc, "checkBoxNumberConc");
-            this.checkBoxNumberConc.BackgroundImage = null;
-            this.checkBoxNumberConc.Font = null;
             this.checkBoxNumberConc.Name = "checkBoxNumberConc";
             this.checkBoxNumberConc.UseVisualStyleBackColor = true;
             // 
             // checkBoxMolarConc
             // 
-            this.checkBoxMolarConc.AccessibleDescription = null;
-            this.checkBoxMolarConc.AccessibleName = null;
             resources.ApplyResources(this.checkBoxMolarConc, "checkBoxMolarConc");
-            this.checkBoxMolarConc.BackgroundImage = null;
-            this.checkBoxMolarConc.Font = null;
             this.checkBoxMolarConc.Name = "checkBoxMolarConc";
             this.checkBoxMolarConc.UseVisualStyleBackColor = true;
             // 
             // checkBoxValue
             // 
-            this.checkBoxValue.AccessibleDescription = null;
-            this.checkBoxValue.AccessibleName = null;
             resources.ApplyResources(this.checkBoxValue, "checkBoxValue");
-            this.checkBoxValue.BackgroundImage = null;
-            this.checkBoxValue.Font = null;
             this.checkBoxValue.Name = "checkBoxValue";
             this.checkBoxValue.UseVisualStyleBackColor = true;
             // 
             // processBox
             // 
-            this.processBox.AccessibleDescription = null;
-            this.processBox.AccessibleName = null;
             resources.ApplyResources(this.processBox, "processBox");
-            this.processBox.BackgroundImage = null;
             this.processBox.Controls.Add(this.checkBoxMolarActivity);
             this.processBox.Controls.Add(this.checkBoxActivity);
-            this.processBox.Font = null;
             this.processBox.Name = "processBox";
             this.processBox.TabStop = false;
             // 
             // checkBoxMolarActivity
             // 
-            this.checkBoxMolarActivity.AccessibleDescription = null;
-            this.checkBoxMolarActivity.AccessibleName = null;
             resources.ApplyResources(this.checkBoxMolarActivity, "checkBoxMolarActivity");
-            this.checkBoxMolarActivity.BackgroundImage = null;
-            this.checkBoxMolarActivity.Font = null;
             this.checkBoxMolarActivity.Name = "checkBoxMolarActivity";
             this.checkBoxMolarActivity.UseVisualStyleBackColor = true;
             // 
             // checkBoxActivity
             // 
-            this.checkBoxActivity.AccessibleDescription = null;
-            this.checkBoxActivity.AccessibleName = null;
             resources.ApplyResources(this.checkBoxActivity, "checkBoxActivity");
-            this.checkBoxActivity.BackgroundImage = null;
-            this.checkBoxActivity.Font = null;
             this.checkBoxActivity.Name = "checkBoxActivity";
             this.checkBoxActivity.UseVisualStyleBackColor = true;
             // 
             // PropertyViewAnimationItem
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.processBox);
             this.Controls.Add(this.variableBox);
-            this.Font = null;
             this.Name = "PropertyViewAnimationItem";
+            resources.ApplyResources(this, "$this");
             this.variableBox.ResumeLayout(false);
             this.variableBox.PerformLayout();
             this.processBox.ResumeLayout(false);
