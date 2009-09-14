@@ -863,6 +863,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.m_copyPos = this.m_mousePos;
             this.m_copiedNodes = this.SetCopyingNodes();
 
+            if (m_copiedNodes == null || m_copiedNodes.Count == 0)
+                return;
             String clipboardString = Util.GetClipBoardString(m_copiedNodes);
             Clipboard.SetText(clipboardString);
         }

@@ -934,6 +934,14 @@ namespace Ecell
                     list = dManager.GetVariableProperty();
                 else if (type.Equals(Constants.xpathSystem))
                     list = dManager.GetSystemProperty();
+                else if (type.Equals(Constants.xpathText))
+                {
+                    string fullID = type + ":" + key;
+                    string entityPath = Util.BuildFullPN(fullID, EcellText.COMMENT);
+                    list.Add(EcellText.COMMENT, new EcellData(EcellText.COMMENT, new EcellValue(""), entityPath));
+                    entityPath = Util.BuildFullPN(fullID, EcellText.ALIGN);
+                    list.Add(EcellText.ALIGN, new EcellData(EcellText.ALIGN, new EcellValue(0), entityPath));
+                }
                 foreach (EcellData d in list.Values)
                 {
                     if (tmpValue.ContainsKey(d.Name))
