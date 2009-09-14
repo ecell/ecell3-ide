@@ -572,6 +572,9 @@ namespace Ecell.IDE.Plugins.Simulation
             bool isStepping = type == ProjectStatus.Stepping;
             bool isSuspended = type == ProjectStatus.Suspended;
 
+            // Show toolbar when the model is loaded.
+            this.ButtonList.Visible = !isUninitialized;
+
             // Set Menu Enabled.
             menuRunSim.Enabled = isLoaded || isSuspended;
             menuStopSim.Enabled = isRunning || isStepping;

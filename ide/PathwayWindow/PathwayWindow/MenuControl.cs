@@ -218,7 +218,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         void OnProjectStatusChange(object sender, EventArgs e)
         {
             bool menuFlag = m_con.ProjectStatus == ProjectStatus.Loaded;
-            bool unloaded = m_con.ProjectStatus == ProjectStatus.Uninitialized;
+            bool unInitialized = m_con.ProjectStatus == ProjectStatus.Uninitialized;
+
             // Set availability
             toolMenuExport.Enabled = menuFlag;
 
@@ -227,9 +228,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolMenuPaste.Enabled = menuFlag;
             toolMenuDelete.Enabled = menuFlag;
 
-            toolButtonAnimation.Visible = !unloaded;
-            toolButtonAnimation.Enabled = !unloaded; // menuFlag;
-            toolMenuAnimation.Enabled = !unloaded; //  menuFlag;
+            toolButtonAnimation.Visible = !unInitialized;
+            toolButtonAnimation.Enabled = !unInitialized; // menuFlag;
+            toolMenuAnimation.Enabled = !unInitialized; //  menuFlag;
+
+            toolButtonArrow.Enabled = menuFlag;
+            toolButtonHand.Enabled = menuFlag;
+            toolButtonZoomin.Enabled = menuFlag;
+            toolButtonZoomout.Enabled = menuFlag;
+            toolButtonZoomRate.Enabled = menuFlag;
 
             // Set visibility.
             toolButtonSeparator2.Visible = menuFlag;
@@ -689,7 +696,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonZoomRate.MaxLength = 5;
             this.toolButtonZoomRate.Name = "toolButtonZoomRate";
             this.toolButtonZoomRate.Size = new System.Drawing.Size(75, 20);
-            this.toolButtonZoomRate.Text = "70%";
+            this.toolButtonZoomRate.Text = "100%";
             this.toolButtonZoomRate.SelectedIndexChanged += new System.EventHandler(this.ZoomRate_SelectedIndexChanged);
             this.toolButtonZoomRate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ZoomRate_KeyDown);
             // 

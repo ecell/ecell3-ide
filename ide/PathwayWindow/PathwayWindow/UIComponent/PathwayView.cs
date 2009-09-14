@@ -34,6 +34,7 @@ using Ecell.Plugin;
 using Ecell.Reporting;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.PiccoloX.Components;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -61,8 +62,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             this.m_con = control;
             this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
+            this.DockStateChanged += new EventHandler(PathwayView_DockStateChanged);
 
             InitializeComponent();
+        }
+
+        void PathwayView_DockStateChanged(object sender, EventArgs e)
+        {
+            m_con.Menu.ToolButtons.Visible = !(this.DockState == DockState.Hidden);
         }
         #endregion
 

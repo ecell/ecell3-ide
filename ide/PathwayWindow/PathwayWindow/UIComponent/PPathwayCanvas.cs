@@ -95,7 +95,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.RemoveInputEventListener(ZoomEventHandler);
             this.Dock = DockStyle.Fill;
             this.Name = canvas.ModelID;
-            this.Camera.ScaleViewBy(0.7f);
+            this.Camera.ScaleViewBy(1.0f);
         }
 
         /// <summary>
