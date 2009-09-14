@@ -84,14 +84,6 @@
     <DocumentationFile>bin\x86_64\Release\Formulator.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IronMath">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(IRONPYTHONHOME)\IronMath.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
-    </Reference>
     <Reference Include="EcellLib" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />

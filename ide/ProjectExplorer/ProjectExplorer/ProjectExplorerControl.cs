@@ -1991,10 +1991,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             List<string> updataIDList = new List<string>();
             foreach (EcellDragEntry ent in dobj.Entries)
             {
-                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);                
                 if (t.Type.Equals(EcellObject.SYSTEM) && systemPath.StartsWith(t.Key))
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrUnderSystem);
+                    if (!systemPath.Equals(t.Key))
+                        Util.ShowErrorDialog(MessageResources.ErrUnderSystem);
                     return;
                 }
                 EcellObject cobj = t.Clone();

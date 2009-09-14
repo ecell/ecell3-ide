@@ -61,8 +61,6 @@ using Ecell.Reporting;
 
 using WeifenLuo.WinFormsUI.Docking;
 
-using IronPython.Hosting;
-using IronPython.Runtime;
 using Ecell.IDE.MainWindow.UIComponents;
 using Ecell.Exceptions;
 using Ecell.Action;
