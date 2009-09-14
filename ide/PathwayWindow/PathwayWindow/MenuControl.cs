@@ -996,7 +996,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                  ||  m_con.ProjectStatus == ProjectStatus.Stepping;
 
             // Set Popup menu visibility.
-            if ((isObject && node.Offset == PointF.Empty) || isEdge || isNull)
+            if ((isObject && node.Offset == PointF.Empty) || isEdge || isNull || isAlias)
             {
                 m_con.Canvas.PCanvas.ContextMenuStrip.Enabled = true;
             }
