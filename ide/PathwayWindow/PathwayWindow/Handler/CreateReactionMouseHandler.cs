@@ -100,6 +100,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             }
 
+            // Create edge.
+            // hide EdgeHandle
+            canvas.LineHandler.SetLineVisibility(false);
+
             // Set object.
             int coef = 0;
             PPathwayProcess process;
@@ -116,8 +120,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 variable = (PPathwayVariable)newNode;
                 coef = 1;
             }
-            Mode mode = m_con.Menu.Handle.Mode;
+
             // Create Edge.
+            Mode mode = m_con.Menu.Handle.Mode;
             if (mode == Mode.CreateConstant)
             {
                 this.CreateEdge(process, variable, RefChangeType.SingleDir, 0);
@@ -131,7 +136,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 this.CreateEdge(process, variable, RefChangeType.BiDir, 0);
             }
             ResetStartNode();
-            canvas.LineHandler.SetLineVisibility(false);
         }
         /// <summary>
         /// Called when the mouse is moving on the canvas

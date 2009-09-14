@@ -849,6 +849,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             this.toolMenuDelete.Name = "toolMenuDelete";
             this.toolMenuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+//            this.toolMenuDelete.ShortcutKeys = (System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V));
             this.toolMenuDelete.Size = new System.Drawing.Size(137, 22);
             this.toolMenuDelete.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDelete;
             this.toolMenuDelete.Click += new System.EventHandler(this.DeleteClick);
@@ -1842,18 +1843,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return ImageFormat.Gif;
             else
                 return ImageFormat.Bmp;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        internal void Canvas_OnKeyPress(object sender, KeyPressEventArgs e)
-        {
-            string key = "OnKeyPress = " + e.KeyChar + "\n" + (Control.ModifierKeys == Keys.ControlKey);
-
-            MessageBox.Show(key);
         }
 
         /// <summary>

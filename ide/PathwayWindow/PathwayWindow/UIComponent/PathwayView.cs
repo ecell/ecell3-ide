@@ -182,7 +182,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if ((int)this.DockState != 1)
+            if ((int)this.DockState != 1 || (int)keyData == (int)Keys.Control + (int)Keys.D)
                 return base.ProcessCmdKey(ref msg, keyData);
 
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
@@ -208,8 +208,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             {
                 m_con.CutNodes();
             }
-            else if ((int)keyData == (int)Keys.Delete ||
-                      (int)keyData == (int)Keys.Control + (int)Keys.D)
+            else if ((int)keyData == (int)Keys.Delete || (int)keyData == (int)Keys.Control + (int)Keys.D)
             {
                 m_con.DeteleNodes();
             }

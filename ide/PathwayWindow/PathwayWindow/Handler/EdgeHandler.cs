@@ -234,11 +234,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_canvas.ControlLayer.AddChild(m_lineHandle4V);
                 m_canvas.ControlLayer.AddChild(m_lineHandle4P);
             }
-            else if(m_edge4reconnect.Parent != null)
+            else
             {
-                m_edge4reconnect.Parent.RemoveChild(m_edge4reconnect);
-                m_lineHandle4V.Parent.RemoveChild(m_lineHandle4V);
-                m_lineHandle4P.Parent.RemoveChild(m_lineHandle4P);
+                if (m_edge4reconnect.Parent != null)
+                {
+                    m_edge4reconnect.RemoveFromParent();
+                    m_lineHandle4V.RemoveFromParent();
+                    m_lineHandle4P.RemoveFromParent();
+                }
                 foreach (EdgeHandle handle in m_handles)
                 {
                     handle.RemoveFromParent();
