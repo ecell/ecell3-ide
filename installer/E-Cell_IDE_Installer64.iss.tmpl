@@ -322,6 +322,10 @@ Source: "SamplePluginProject\SamplePlugin\Properties\*"; DestDir: "{commondocs}\
 ; ======================================================
 Source: "doc\usermanual.pdf"; DestDir: "{app}\docs"; Components: main; CopyMode: alwaysoverwrite;
 
+; ======================================================
+; python
+; ======================================================
+Source: "python-2.5.2.amd64.msi" ; Flags: dontcopy
 
 [Registry]
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
@@ -388,6 +392,8 @@ en.IDE_Installed=E-Cell IDE is already installed, please unistall E-Cell IDE.
 jp.IDE_Installed=E-Cell IDEがインストールされています。E-Cell IDEをアンインストールしてください。
 en.Python_Installed=Python(version 2.5) is not installed. This application need Python 2.5.
 jp.Python_Installed=Pyton(version2.5)がインストールされていません。E-Cell IDEはPython2.5が必要です。
+en.Python_NotInstalled=Can not install Python(version 2.5).
+jp.Python_NotInstalled=Pyton(version2.5)がインストールできませんでした。
 
 [Tasks]
 Name: "desktopiconen"; Description: "Create a desktop shortcut";  Languages: en;
@@ -452,17 +458,7 @@ begin
         end;
       end;      
     end;
-  end;
-  
-  if (Result = true) then
-  begin
-    if (RegKeyExists(HKLM, 'Software\Python\PythonCore\2.5')) then
-    else
-    begin
-      MsgBox(CustomMessage('Python_Installed'), mbInformation, MB_OK);
-      Result := false
-    end;
-  end;  
+  end; 
   
   if (Result = true) then
   begin
@@ -471,6 +467,26 @@ begin
       MsgBox(CustomMessage('IDE_Installed'), mbInformation, MB_OK);
       Result := false
     end;  
+  end;  
+  
+  if (Result = true) then
+  begin
+    if (RegKeyExists(HKLM, 'Software\Python\PythonCore\2.5\PythonPath')) then
+    else
+    begin
+      MsgBox(CustomMessage('Python_Installed'), mbInformation, MB_OK);
+      ExtractTemporaryFile( 'python-2.5.2.amd64.msi' );
+      if (Exec('MSIEXEC.EXE',ExpandConstant('/i {tmp}\python-2.5.2.amd64.msi') , '', SW_SHOW, ewWaitUntilTerminated, ResultCode)) then
+      begin
+        Result := false
+      end;
+      if (RegKeyExists(HKLM, 'Software\Python\PythonCore\2.5\PythonPath')) then
+      else
+      begin
+        MsgBox(CustomMessage('Python_NotInstalled'), mbInformation, MB_OK);
+        Result := false
+      end;
+    end;
   end;      
 end;
 
