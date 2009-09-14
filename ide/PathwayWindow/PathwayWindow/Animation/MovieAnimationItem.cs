@@ -48,20 +48,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem aviFileName;
 
         #region Fields
+        /// <summary>
+        /// default filename.
+        /// </summary>
         private const string MovieFile = "ecell.avi";
         /// <summary>
-        /// 
+        /// AVI output manager.
         /// </summary>
         private AviManager _aviManager = null;
         /// <summary>
-        /// 
+        /// movie stream
         /// </summary>
         private VideoStream _stream = null;
-        private bool m_isNoLimit = true;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool _isNoLimit = true;
+        /// <summary>
+        /// Max size of output movie file.
+        /// </summary>
+        private double _maxSize = 300000;
         private System.Windows.Forms.TextBox maxSizeTextBox;
         private System.Windows.Forms.RadioButton maxSizeRadio;
         private System.Windows.Forms.RadioButton noLimitRadio;
-        private double m_MaxSize = 300000;
         #endregion
 
         #region Constructor
@@ -102,38 +111,57 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label2
             // 
+            label2.AccessibleDescription = null;
+            label2.AccessibleName = null;
             resources.ApplyResources(label2, "label2");
+            label2.Font = null;
             label2.Name = "label2";
             // 
             // outputBox
             // 
+            this.outputBox.AccessibleDescription = null;
+            this.outputBox.AccessibleName = null;
             resources.ApplyResources(this.outputBox, "outputBox");
+            this.outputBox.BackgroundImage = null;
             this.outputBox.Controls.Add(label2);
             this.outputBox.Controls.Add(this.maxSizeTextBox);
             this.outputBox.Controls.Add(this.maxSizeRadio);
             this.outputBox.Controls.Add(this.noLimitRadio);
             this.outputBox.Controls.Add(this.label1);
             this.outputBox.Controls.Add(this.aviFileName);
+            this.outputBox.Font = null;
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
             // 
             // maxSizeTextBox
             // 
+            this.maxSizeTextBox.AccessibleDescription = null;
+            this.maxSizeTextBox.AccessibleName = null;
             resources.ApplyResources(this.maxSizeTextBox, "maxSizeTextBox");
+            this.maxSizeTextBox.BackgroundImage = null;
+            this.maxSizeTextBox.Font = null;
             this.maxSizeTextBox.Name = "maxSizeTextBox";
             this.maxSizeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.maxSizeTextBox_Validating);
             // 
             // maxSizeRadio
             // 
+            this.maxSizeRadio.AccessibleDescription = null;
+            this.maxSizeRadio.AccessibleName = null;
             resources.ApplyResources(this.maxSizeRadio, "maxSizeRadio");
+            this.maxSizeRadio.BackgroundImage = null;
+            this.maxSizeRadio.Font = null;
             this.maxSizeRadio.Name = "maxSizeRadio";
             this.maxSizeRadio.TabStop = true;
             this.maxSizeRadio.UseVisualStyleBackColor = true;
             // 
             // noLimitRadio
             // 
+            this.noLimitRadio.AccessibleDescription = null;
+            this.noLimitRadio.AccessibleName = null;
             resources.ApplyResources(this.noLimitRadio, "noLimitRadio");
+            this.noLimitRadio.BackgroundImage = null;
             this.noLimitRadio.Checked = true;
+            this.noLimitRadio.Font = null;
             this.noLimitRadio.Name = "noLimitRadio";
             this.noLimitRadio.TabStop = true;
             this.noLimitRadio.UseVisualStyleBackColor = true;
@@ -141,22 +169,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label1
             // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
+            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // aviFileName
             // 
+            this.aviFileName.AccessibleDescription = null;
+            this.aviFileName.AccessibleName = null;
             resources.ApplyResources(this.aviFileName, "aviFileName");
+            this.aviFileName.BackgroundImage = null;
             this.aviFileName.FileName = "ecell.avi";
             this.aviFileName.Filter = null;
             this.aviFileName.FilterIndex = 0;
+            this.aviFileName.Font = null;
             this.aviFileName.Name = "aviFileName";
             // 
             // MovieAnimationItem
             // 
-            this.Controls.Add(this.outputBox);
-            this.Name = "MovieAnimationItem";
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
+            this.Controls.Add(this.outputBox);
+            this.Font = null;
+            this.Name = "MovieAnimationItem";
             this.outputBox.ResumeLayout(false);
             this.outputBox.PerformLayout();
             this.ResumeLayout(false);
@@ -173,6 +212,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ApplyChange()
         {
             base.ApplyChange();
+            // SizeLimit
+            _isNoLimit = noLimitRadio.Checked;
+            // Size
+            int maxSize;
+            if(int.TryParse(maxSizeTextBox.Text, out maxSize))
+                _maxSize = maxSize;
         }
 
         /// <summary>
@@ -219,10 +264,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     _stream.Width,
                     _stream.Height);
                 _stream.AddFrame(bmp);
-                if (!m_isNoLimit)
+                if (!_isNoLimit)
                 {
                     System.IO.FileInfo f = new FileInfo(this.aviFileName.FileName);
-                    if (f.Length > m_MaxSize * 1000)
+                    if (f.Length > _maxSize * 1000)
                     {
                         Util.ShowErrorDialog(MessageResources.ErrMaxSize);
                         CloseMovie();
@@ -260,8 +305,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         private void noLimitRadio_CheckedChanged(object sender, EventArgs e)
         {
-            m_isNoLimit = noLimitRadio.Checked;
-            if (m_isNoLimit)
+            _isNoLimit = noLimitRadio.Checked;
+            if (_isNoLimit)
             {
                 maxSizeTextBox.Enabled = false;
             }
@@ -277,7 +322,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, maxSizeRadio.Text));
-                maxSizeTextBox.Text = Convert.ToString(m_MaxSize);
+                maxSizeTextBox.Text = Convert.ToString(_maxSize);
                 e.Cancel = true;
                 return;
             }
@@ -285,7 +330,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (!double.TryParse(text, out dummy) || dummy <= 0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, maxSizeRadio.Text));
-                maxSizeTextBox.Text = Convert.ToString(m_MaxSize);
+                maxSizeTextBox.Text = Convert.ToString(_maxSize);
                 e.Cancel = true;
                 return;
             }
