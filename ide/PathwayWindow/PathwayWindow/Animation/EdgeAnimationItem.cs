@@ -35,6 +35,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
 using Ecell.Objects;
 using Ecell.Reporting;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -341,6 +342,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 UpdateAnimation();
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void CheckParameters()
+        {
+            float high = float.Parse(thresholdHigh.Text);
+            float low = float.Parse(thresholdLow.Text);
+
+            if (high < low)
+            {
+                thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
+                throw new PathwayException(this.Text + ":" + MessageResources.ErrMaxThreshold);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -424,13 +440,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (!float.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
-                thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
-                e.Cancel = true;
-                return;
-            }
-            if (dummy < _thresholdLow)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrMaxThreshold);
                 thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
                 e.Cancel = true;
                 return;

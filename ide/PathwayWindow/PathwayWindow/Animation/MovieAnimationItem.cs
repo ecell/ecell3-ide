@@ -35,6 +35,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
 using AviFile;
 using System.IO;
+using System.Security.AccessControl;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -218,6 +219,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             int maxSize;
             if(int.TryParse(maxSizeTextBox.Text, out maxSize))
                 _maxSize = maxSize;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void CheckParameters()
+        {
+            base.CheckParameters();
         }
 
         /// <summary>

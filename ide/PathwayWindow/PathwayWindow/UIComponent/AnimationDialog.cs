@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Animation;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -207,7 +208,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void AnimationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel)
+                return;
+            try
+            {
+                foreach (IAnimationItem page in Items)
+                    page.CheckParameters();
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+                e.Cancel = true;
+                return;
+            }
             this.panel.Controls.Clear();
+
         }
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)

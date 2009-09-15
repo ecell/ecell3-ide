@@ -68,5 +68,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Apply changes.
         /// </summary>
         void ApplyChange();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void CheckParameters();
     }
 }

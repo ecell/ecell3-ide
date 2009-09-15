@@ -46,50 +46,50 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     {
         #region Fields
         /// <summary>
-        /// 
+        /// Canva manager
         /// </summary>
         protected CanvasControl _canvas;
         /// <summary>
-        /// 
+        /// Animation manager
         /// </summary>
         protected AnimationControl _control;
         /// <summary>
-        /// 
+        /// data manager
         /// </summary>
         protected DataManager _dManager;
         /// <summary>
-        /// 
+        /// ToolStripmenuItem to add animation setting.
         /// </summary>
         protected ToolStripMenuItem _menuItem;
         /// <summary>
-        /// 
+        /// list of current systems.
         /// </summary>
         protected List<PPathwaySystem> _systems = new List<PPathwaySystem>();
         /// <summary>
-        /// 
+        /// list of current steppers.
         /// </summary>
         protected List<PPathwayStepper> _steppers = new List<PPathwayStepper>();
         /// <summary>
-        /// 
+        /// list of current processes.
         /// </summary>
         protected List<PPathwayProcess> _processes = new List<PPathwayProcess>();
         /// <summary>
-        /// 
+        /// list of current variables.
         /// </summary>
         protected List<PPathwayVariable> _variables = new List<PPathwayVariable>();
         /// <summary>
-        /// 
+        /// format of displayed number.
         /// </summary>
         private string _format = "";
         /// <summary>
-        /// 
+        /// name of current stepper.
         /// </summary>
         protected string _stepper = "";
         #endregion
 
         #region Properties
         /// <summary>
-        /// 
+        /// ToolStripmenuItem to add animation setting.
         /// </summary>
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -100,7 +100,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// 
+        /// Title of this animation setting.
         /// </summary>
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -157,7 +157,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         #region IAnimationItem メンバ
         /// <summary>
-        /// 
+        /// Set up animation.
         /// </summary>
         public virtual void SetAnimation()
         {
@@ -177,26 +177,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// 
+        /// Update animation status.
         /// </summary>
         public virtual void UpdateAnimation()
         {
         }
         /// <summary>
-        /// 
+        /// Stop animation.
         /// </summary>
         public virtual void StopAnimation()
         {
         }
 
         /// <summary>
-        /// 
+        /// Reset animation status.
         /// </summary>
         public virtual void ResetAnimation()
         {
             ResetDic();
         }
 
+        /// <summary>
+        /// reset current objects.
+        /// </summary>
         private void ResetDic()
         {
             _systems.Clear();
@@ -206,21 +209,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// 
+        /// setup GUI of animation settings.
         /// </summary>
         public virtual void SetViewItem()
         {
         }
 
         /// <summary>
-        /// 
+        /// reflect new parameters.
         /// </summary>
         public virtual void ApplyChange()
         {
         }
 
         /// <summary>
-        /// 
+        /// check parameters.
+        /// </summary>
+        public virtual void CheckParameters()
+        {
+        }
+
+        /// <summary>
+        /// ToString()
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -228,8 +238,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             return this.Text;
         }
         #endregion
+
+        #region Getter
         /// <summary>
-        /// 
+        /// Get current time on simulation.
         /// </summary>
         /// <returns></returns>
         protected double GetTime()
@@ -251,7 +263,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// 
+        /// Get current value of selected parameter.
         /// </summary>
         /// <param name="fullPN"></param>
         /// <returns></returns>
@@ -289,7 +301,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// 
+        /// Get current value of selected parameter.
         /// </summary>
         /// <param name="fullPN"></param>
         /// <returns></returns>
@@ -299,5 +311,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             string text = value.ToString(_format);
             return text;
         }
+
+        #endregion
+
     }
 }
