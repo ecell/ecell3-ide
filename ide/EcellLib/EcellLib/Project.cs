@@ -828,6 +828,7 @@ namespace Ecell
             }
 
             // Save ProjectInfo
+            m_info.ProjectType = ProjectType.Project;
             m_info.Save();
 
             // Copy DMs.

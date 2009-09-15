@@ -131,7 +131,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public string DataFormat
         {
-            set { this.m_zCnt.PointValueFormat = value; }
+            set { 
+                m_zCnt.PointValueFormat = value;
+                m_zCnt.GraphPane.YAxis.Scale.Format = value;
+                m_zCnt.GraphPane.Y2Axis.Scale.Format = value;
+                m_zCnt.Refresh();
+            }
         }
         #endregion
 
@@ -148,7 +153,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Dock = DockStyle.Fill;
             m_zCnt.GraphPane.Title.Text = "";
             m_zCnt.GraphPane.XAxis.Title.Text = "Time(sec)";
-            m_zCnt.GraphPane.YAxis.Scale.Format = "G";
+            m_zCnt.GraphPane.YAxis.Scale.Format = m_owner.DataManager.DisplayStringFormat;
+            m_zCnt.GraphPane.Y2Axis.Scale.Format = m_owner.DataManager.DisplayStringFormat;
             m_zCnt.GraphPane.YAxis.Title.Text = "";
             m_zCnt.GraphPane.Legend.IsVisible = false;
             m_zCnt.GraphPane.XAxis.Scale.Max = 10;
@@ -511,10 +517,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (isAxis && !m_zCnt.GraphPane.IsZoomed)
             {
                 m_zCnt.AxisChange();
-                if (m_zCnt.GraphPane.YAxis.Scale.Max > 1000)
-                    m_zCnt.GraphPane.YAxis.Scale.Format = "e1";
-                else
-                    m_zCnt.GraphPane.YAxis.Scale.Format = "g";
                 m_zCnt.Refresh();
             }
             else

@@ -178,7 +178,7 @@ namespace Ecell.IDE.MainWindow.UIComponents
         /// <param name="e">EventArgs</param>
         private void SIEnglishRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            m_lang = CultureInfo.GetCultureInfo("en-us");
+            m_lang = CultureInfo.GetCultureInfo("en-US");
         }
         #endregion
 
