@@ -111,10 +111,10 @@ namespace Ecell.IDE.Plugins.DistributeLayout
                     switch (dir)
                     {
                         case Direction.Horizontally:
-                            node.X = rect.X + increment * count;
+                            node.CenterPointF = new PointF(rect.X + increment * count, node.CenterPointF.Y);
                             break;
                         case Direction.Vertically:
-                            node.Y = rect.Y + increment * count;
+                            node.CenterPointF = new PointF(node.CenterPointF.X, rect.Y + increment * count);
                             break;
                     }
                     count = count + 1;

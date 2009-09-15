@@ -123,11 +123,11 @@ namespace Ecell.IDE.Plugins.AlignLayout
                 {
                     case Alignment.Left:
                     case Alignment.Right:
-                        node.X = alignValue;
+                        node.CenterPointF = new PointF(alignValue, node.CenterPointF.Y);
                         break;
                     case Alignment.Upper:
                     case Alignment.Lower:
-                        node.Y = alignValue;
+                        node.CenterPointF = new PointF(node.CenterPointF.X, alignValue);
                         break;
                 }
             }

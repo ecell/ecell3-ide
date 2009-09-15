@@ -519,8 +519,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
             {
                 PointF coords = circlePoints[positions[count]];
 
-                node.X = coords.X;
-                node.Y = coords.Y;
+                node.CenterPointF = coords;
 
                 count++;
                 if (count >= positions.Length)
