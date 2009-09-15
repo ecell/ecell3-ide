@@ -247,6 +247,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Delete File.
                 if (File.Exists(filename))
                     File.Delete(filename);
+                // Create dir.
+                if (!Directory.Exists(Path.GetDirectoryName(filename)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(filename));
                 // Create Movie.
                 _aviManager = new AviManager(filename, false);
                 Bitmap bmp = new Bitmap(_canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush));

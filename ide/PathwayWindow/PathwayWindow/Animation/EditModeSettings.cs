@@ -102,48 +102,79 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label1
             // 
+            label1.AccessibleDescription = null;
+            label1.AccessibleName = null;
             resources.ApplyResources(label1, "label1");
+            label1.Font = null;
             label1.Name = "label1";
             // 
             // label2
             // 
+            label2.AccessibleDescription = null;
+            label2.AccessibleName = null;
             resources.ApplyResources(label2, "label2");
+            label2.Font = null;
             label2.Name = "label2";
             // 
             // label3
             // 
+            label3.AccessibleDescription = null;
+            label3.AccessibleName = null;
             resources.ApplyResources(label3, "label3");
+            label3.Font = null;
             label3.Name = "label3";
             // 
             // label4
             // 
+            label4.AccessibleDescription = null;
+            label4.AccessibleName = null;
             resources.ApplyResources(label4, "label4");
+            label4.Font = null;
             label4.Name = "label4";
             // 
             // unsharpCheckBox
             // 
+            this.unsharpCheckBox.AccessibleDescription = null;
+            this.unsharpCheckBox.AccessibleName = null;
             resources.ApplyResources(this.unsharpCheckBox, "unsharpCheckBox");
+            this.unsharpCheckBox.BackgroundImage = null;
+            this.unsharpCheckBox.Font = null;
             this.unsharpCheckBox.Name = "unsharpCheckBox";
             this.unsharpCheckBox.UseVisualStyleBackColor = true;
             // 
             // widthTextBox
             // 
+            this.widthTextBox.AccessibleDescription = null;
+            this.widthTextBox.AccessibleName = null;
             resources.ApplyResources(this.widthTextBox, "widthTextBox");
+            this.widthTextBox.BackgroundImage = null;
+            this.widthTextBox.Font = null;
             this.widthTextBox.Name = "widthTextBox";
             // 
             // arrowColorImageComboBox
             // 
+            this.arrowColorImageComboBox.AccessibleDescription = null;
+            this.arrowColorImageComboBox.AccessibleName = null;
             resources.ApplyResources(this.arrowColorImageComboBox, "arrowColorImageComboBox");
+            this.arrowColorImageComboBox.BackgroundImage = null;
+            this.arrowColorImageComboBox.Font = null;
             this.arrowColorImageComboBox.Name = "arrowColorImageComboBox";
             // 
             // backgroundImageComboBox
             // 
+            this.backgroundImageComboBox.AccessibleDescription = null;
+            this.backgroundImageComboBox.AccessibleName = null;
             resources.ApplyResources(this.backgroundImageComboBox, "backgroundImageComboBox");
+            this.backgroundImageComboBox.BackgroundImage = null;
+            this.backgroundImageComboBox.Font = null;
             this.backgroundImageComboBox.Name = "backgroundImageComboBox";
             // 
             // EditModeSettings
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
             this.Controls.Add(this.widthTextBox);
             this.Controls.Add(this.arrowColorImageComboBox);
             this.Controls.Add(this.backgroundImageComboBox);
@@ -152,6 +183,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.Controls.Add(label3);
             this.Controls.Add(label2);
             this.Controls.Add(label1);
+            this.Font = null;
             this.Name = "EditModeSettings";
             this.ResumeLayout(false);
             this.PerformLayout();

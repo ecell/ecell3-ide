@@ -34,6 +34,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Graphics;
+using System.IO;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -567,7 +568,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             {
                 fileDialog.Filter = m_filter;
                 fileDialog.FilterIndex = m_filterIndex;
-                fileDialog.FileName = m_textBox.Text;
+                fileDialog.InitialDirectory = Path.GetDirectoryName(m_textBox.Text);
                 fileDialog.OverwritePrompt = true;
                 DialogResult result = fileDialog.ShowDialog();
                 if (result != DialogResult.OK)

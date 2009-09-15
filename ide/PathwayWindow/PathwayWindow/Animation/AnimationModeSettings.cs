@@ -98,42 +98,69 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label1
             // 
+            label1.AccessibleDescription = null;
+            label1.AccessibleName = null;
             resources.ApplyResources(label1, "label1");
+            label1.Font = null;
             label1.Name = "label1";
             // 
             // label2
             // 
+            label2.AccessibleDescription = null;
+            label2.AccessibleName = null;
             resources.ApplyResources(label2, "label2");
+            label2.Font = null;
             label2.Name = "label2";
             // 
             // label3
             // 
+            label3.AccessibleDescription = null;
+            label3.AccessibleName = null;
             resources.ApplyResources(label3, "label3");
+            label3.Font = null;
             label3.Name = "label3";
             // 
             // label4
             // 
+            label4.AccessibleDescription = null;
+            label4.AccessibleName = null;
             resources.ApplyResources(label4, "label4");
+            label4.Font = null;
             label4.Name = "label4";
             // 
             // maxWidthTextBox
             // 
+            this.maxWidthTextBox.AccessibleDescription = null;
+            this.maxWidthTextBox.AccessibleName = null;
             resources.ApplyResources(this.maxWidthTextBox, "maxWidthTextBox");
+            this.maxWidthTextBox.BackgroundImage = null;
+            this.maxWidthTextBox.Font = null;
             this.maxWidthTextBox.Name = "maxWidthTextBox";
             // 
             // arrowImageComboBox
             // 
+            this.arrowImageComboBox.AccessibleDescription = null;
+            this.arrowImageComboBox.AccessibleName = null;
             resources.ApplyResources(this.arrowImageComboBox, "arrowImageComboBox");
+            this.arrowImageComboBox.BackgroundImage = null;
+            this.arrowImageComboBox.Font = null;
             this.arrowImageComboBox.Name = "arrowImageComboBox";
             // 
             // backgroundImageComboBox
             // 
+            this.backgroundImageComboBox.AccessibleDescription = null;
+            this.backgroundImageComboBox.AccessibleName = null;
             resources.ApplyResources(this.backgroundImageComboBox, "backgroundImageComboBox");
+            this.backgroundImageComboBox.BackgroundImage = null;
+            this.backgroundImageComboBox.Font = null;
             this.backgroundImageComboBox.Name = "backgroundImageComboBox";
             // 
-            // ViewModeSettings
+            // AnimationModeSettings
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
             this.Controls.Add(this.maxWidthTextBox);
             this.Controls.Add(label4);
             this.Controls.Add(this.arrowImageComboBox);
@@ -141,7 +168,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.Controls.Add(label2);
             this.Controls.Add(this.backgroundImageComboBox);
             this.Controls.Add(label1);
-            this.Name = "ViewModeSettings";
+            this.Font = null;
+            this.Name = "AnimationModeSettings";
             this.ResumeLayout(false);
             this.PerformLayout();
 
