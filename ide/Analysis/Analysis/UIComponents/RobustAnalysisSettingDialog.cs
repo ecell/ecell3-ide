@@ -810,7 +810,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
                 foreach (EcellData d in t.Value)
                 {
-                    if (d.EntityPath.Equals(ent.Path) && d.Settable && d.Value.IsDouble)
+                    if (d.EntityPath.Equals(ent.Path) &&
+                        ((d.Settable && d.Value.IsDouble) || d.Name.Equals(Constants.xpathSize)))
                     {
                         e.Effect = DragDropEffects.Move;
                         return;
@@ -837,13 +838,24 @@ namespace Ecell.IDE.Plugins.Analysis
                 EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
                 foreach (EcellData d in t.Value)
                 {
-                    if (d.EntityPath.Equals(ent.Path) && d.Settable && d.Value.IsDouble)
+                    if (d.EntityPath.Equals(ent.Path))
                     {
-                        EcellParameterData data =
-                            new EcellParameterData(d.EntityPath, Double.Parse(d.Value.ToString()));
-                        m_owner.Environment.DataManager.SetParameterData(data);
+                        if (d.Name.Equals(Constants.xpathSize))
+                        {
+                            EcellSystem sys = t as EcellSystem;
+                            string fullID = Constants.xpathVariable + ":" + ent.Key + ":SIZE:Value";
+                            EcellParameterData data =
+                                new EcellParameterData(fullID, sys.SizeInVolume);
+                            m_owner.Environment.DataManager.SetParameterData(data);
+                        }
+                        else if (d.Settable && d.Value.IsDouble)
+                        {
+                            EcellParameterData data =
+                                new EcellParameterData(d.EntityPath, Double.Parse(d.Value.ToString()));
+                            m_owner.Environment.DataManager.SetParameterData(data);
+                        }
                         break;
-                    }
+                    } 
                 }
             }
         }
