@@ -1322,15 +1322,16 @@ namespace Ecell
 
             foreach (EcellData newData in newobj.Value)
             {
+                EcellData defaultData = defaultObj.GetEcellData(newData.Name);
+                if (defaultData == null)
+                    continue;
+                defaultData.Logged = newData.Logged;                
                 if (!newData.Settable || (newData.Value == null || (!newData.Value.IsDouble && !newData.Value.IsInt)))
                 {
                     defaultObj.RemoveEcellValue(newData.Name);
                     defaultObj.Value.Add(newData);
                     continue;
                 }
-                EcellData defaultData = defaultObj.GetEcellData(newData.Name);
-                if (defaultData == null)
-                    continue;
                 double newProp = Convert.ToDouble(newData.Value.Value.ToString());
                 double defaultProp = Convert.ToDouble(defaultData.Value.Value.ToString());
                 if (newProp != defaultProp)

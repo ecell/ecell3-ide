@@ -306,4 +306,7 @@
   <data name="StatusSimulation" xml:space="preserve">
     <value>Simulation Mode</value>
   </data>
+  <data name="NameStatusAnalysisError" xml:space="preserve">
+    <value>No Result</value>
+  </data>
 </root>

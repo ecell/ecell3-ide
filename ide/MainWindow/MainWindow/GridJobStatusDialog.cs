@@ -728,6 +728,8 @@ namespace Ecell.IDE.MainWindow
                     return MessageResources.NameStatusStopped;
                 case AnalysisStatus.Error:
                     return MessageResources.NameStatusError;
+                case AnalysisStatus.WarnFinished:
+                    return MessageResources.NameStatusAnalysisError;
             }
             return MessageResources.NameStatusNone;
         }
@@ -823,6 +825,13 @@ namespace Ecell.IDE.MainWindow
                     {
                         node.ImageIndex = 10;
                         node.SelectedImageIndex = 10;
+                    }
+                    return;
+                case AnalysisStatus.WarnFinished:
+                    if (node.ImageIndex != 11)
+                    {
+                        node.ImageIndex = 11;
+                        node.SelectedImageIndex = 11;
                     }
                     return;
             }

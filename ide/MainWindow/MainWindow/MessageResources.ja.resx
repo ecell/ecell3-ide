@@ -252,6 +252,9 @@
   <data name="NameSimResult" xml:space="preserve">
     <value>シミュレーション結果</value>
   </data>
+  <data name="NameStatusAnalysisError" xml:space="preserve">
+    <value>結果なし</value>
+  </data>
   <data name="NameStatusError" xml:space="preserve">
     <value>エラー</value>
   </data>

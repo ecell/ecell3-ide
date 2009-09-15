@@ -316,8 +316,9 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (m_group.Status != AnalysisStatus.Stopped)
                 {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                    Util.ShowWarningDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
                     m_group.IsGroupError = true;
+                    m_group.Status = AnalysisStatus.WarnFinished;
                 }
                 return;
             }

@@ -466,6 +466,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   No Result に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStatusAnalysisError {
+            get {
+                return ResourceManager.GetString("NameStatusAnalysisError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Error に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameStatusError {

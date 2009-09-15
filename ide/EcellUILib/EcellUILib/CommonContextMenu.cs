@@ -174,7 +174,7 @@ namespace Ecell.IDE
         {
             List<ToolStripItem> retval = new List<ToolStripItem>();
             foreach (EcellData d in obj.Value)
-            {
+            {                
                 if (d.Logable)
                 {
                     ToolStripMenuItem item = new ToolStripMenuItem(d.Name);

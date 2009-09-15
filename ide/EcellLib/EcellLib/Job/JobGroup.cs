@@ -313,8 +313,6 @@ namespace Ecell.Job
                     status = AnalysisStatus.Error;
                 }
             }
-            if (m_isGroupError)
-                status = AnalysisStatus.Error;
 
             if (count != m_jobs.Count)
             {
@@ -326,6 +324,10 @@ namespace Ecell.Job
                 if (m_analysis != null && m_isAllRun)
                     m_analysis.NotifyAnalysisFinished();
             }
+
+            if (m_isGroupError)
+                status = AnalysisStatus.WarnFinished;
+
             m_status = status;
         }
 

@@ -725,7 +725,11 @@ namespace Ecell
         /// <summary>
         /// Analysis status (this status is that at least one job is error).
         /// </summary>
-        Error = 4
+        Error = 4,
+        /// <summary>
+        /// Analysis status (this status is that all job is finished but analysis is error).
+        /// </summary>
+        WarnFinished = 5
     }
 
     /// <summary>

@@ -546,6 +546,30 @@ namespace Ecell.IDE.MainWindow
                     Uri uri = new Uri(url);
                     if (!uri.IsFile)
                         return false;
+
+                    List<string> runGroupList = new List<string>();
+                    foreach (string name in m_browser.Environment.JobManager.GroupDic.Keys)
+                    {
+                        if (m_browser.Environment.JobManager.GroupDic[name].Status == AnalysisStatus.Running ||
+                            m_browser.Environment.JobManager.GroupDic[name].Status == AnalysisStatus.Waiting)
+                            runGroupList.Add(name);
+                    }
+                    if (runGroupList.Count > 0)
+                    {
+                        string mes = "\n" + runGroupList[0];
+                        for (int i = 1; i < runGroupList.Count; i++)
+                            mes = mes + "\n" + runGroupList[i];
+                        if (!Util.ShowYesNoDialog(string.Format(MessageResources.ConfirmAnalysisStop, mes)))
+                        {
+                            return false;
+                        }
+                        foreach (string name in runGroupList)
+                        {
+                            if (m_browser.Environment.JobManager.GroupDic.ContainsKey(name))
+                                m_browser.Environment.JobManager.Stop(name, 0);
+                        }
+                    }
+
                     if (SimulationConfirm())
                         return false;
                     if (!SaveConfirm())
@@ -562,7 +586,6 @@ namespace Ecell.IDE.MainWindow
                     return false;
                 }
                 return true;
-
             }
 
             /// <summary>

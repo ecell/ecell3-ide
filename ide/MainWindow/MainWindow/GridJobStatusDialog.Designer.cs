@@ -93,6 +93,7 @@
             this.jobStatusImageList.Images.SetKeyName(8, "check.png");
             this.jobStatusImageList.Images.SetKeyName(9, "stop.png");
             this.jobStatusImageList.Images.SetKeyName(10, "error.png");
+            this.jobStatusImageList.Images.SetKeyName(11, "information.png");
             // 
             // parameterDataGridView
             // 
