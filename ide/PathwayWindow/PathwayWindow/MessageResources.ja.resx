@@ -394,10 +394,10 @@
     <value>順序</value>
   </data>
   <data name="NameArrowMaxWidth" xml:space="preserve">
-    <value>矢印の最大の太さ</value>
+    <value>アニメーション時のエッジの最大の太さ</value>
   </data>
   <data name="NameArrowWidth" xml:space="preserve">
-    <value>矢印の太さ</value>
+    <value>エッジの太さ</value>
   </data>
   <data name="WindowComponent" xml:space="preserve">
     <value>コンポーネント設定</value>

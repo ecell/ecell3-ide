@@ -439,6 +439,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Project name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameProjectName {
+            get {
+                return ResourceManager.GetString("NameProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Script Editor に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameScriptEditor {

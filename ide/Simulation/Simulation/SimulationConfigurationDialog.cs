@@ -707,7 +707,10 @@ namespace Ecell.IDE.Plugins.Simulation
                     foreach (SimulationParameterSet s in m_simParamSets)
                     {
                         if (s.Name.Equals(parameterID))
+                        {
+                            sps = s;
                             isHit = true;
+                        }
                     }
                     if (isHit == false)
                     {

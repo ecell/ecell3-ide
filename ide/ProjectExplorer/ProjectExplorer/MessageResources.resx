@@ -222,4 +222,10 @@
   <data name="ErrUnderSystem" xml:space="preserve">
     <value>Can not move the system to under the current system</value>
   </data>
+  <data name="ErrProjectUnsavedCompile" xml:space="preserve">
+    <value>Save this project before DM is compiled.</value>
+  </data>
+  <data name="ErrProjectUnsavedDelete" xml:space="preserve">
+    <value>Save this project before DM is deleted.</value>
+  </data>
 </root>

@@ -169,6 +169,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Save this project before DM is compiled. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrProjectUnsavedCompile {
+            get {
+                return ResourceManager.GetString("ErrProjectUnsavedCompile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save this project before DM is deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrProjectUnsavedDelete {
+            get {
+                return ResourceManager.GetString("ErrProjectUnsavedDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save this project before DM is imported. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrProjectUnsavedImport {

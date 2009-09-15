@@ -309,4 +309,7 @@
   <data name="NameStatusAnalysisError" xml:space="preserve">
     <value>No Result</value>
   </data>
+  <data name="NameProjectName" xml:space="preserve">
+    <value>Project name</value>
+  </data>
 </root>

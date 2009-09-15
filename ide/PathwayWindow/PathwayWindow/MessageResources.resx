@@ -394,10 +394,10 @@
     <value>Set ZOrder</value>
   </data>
   <data name="NameArrowMaxWidth" xml:space="preserve">
-    <value>the max width of arrow</value>
+    <value>Max width of edge on Animation</value>
   </data>
   <data name="NameArrowWidth" xml:space="preserve">
-    <value>the arrow width</value>
+    <value>The width of edge</value>
   </data>
   <data name="WindowComponent" xml:space="preserve">
     <value>Component settings</value>

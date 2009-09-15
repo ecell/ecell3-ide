@@ -601,12 +601,15 @@ namespace Ecell.IDE.Plugins.EntityList
                     }
                     else if (m_shiftIndex == -1)
                     {
-                        m_shiftIndex = rindex - 1;
-                        EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
-                        if (obj != null)
+                        if (rindex > 0)
                         {
-                            objectListDataGrid.Rows[m_shiftIndex].Selected = true;
-                            m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            m_shiftIndex = rindex - 1;
+                            EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                objectListDataGrid.Rows[m_shiftIndex].Selected = true;
+                                m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
                         }
                     }
                 }
@@ -617,7 +620,7 @@ namespace Ecell.IDE.Plugins.EntityList
                 if (objectListDataGrid.CurrentRow != null && !m_isSelected)
                 {
                     int rindex = objectListDataGrid.CurrentCell.RowIndex;
-                    if (m_shiftIndex + 1 < objectListDataGrid.Rows.Count)
+                    if (m_shiftIndex != -1 && m_shiftIndex + 1 < objectListDataGrid.Rows.Count)
                     {
                         if (m_shiftIndex >= rindex)
                         {
@@ -641,12 +644,15 @@ namespace Ecell.IDE.Plugins.EntityList
                     }
                     else if (m_shiftIndex == -1)
                     {
-                        m_shiftIndex = rindex + 1;
-                        EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
-                        if (obj != null)
+                        if (rindex < objectListDataGrid.Rows.Count - 1)
                         {
-                            objectListDataGrid.Rows[m_shiftIndex].Selected = true;
-                            m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            m_shiftIndex = rindex + 1;
+                            EcellObject obj = objectListDataGrid.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                objectListDataGrid.Rows[m_shiftIndex].Selected = true;
+                                m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
                         }
                     }
                 }

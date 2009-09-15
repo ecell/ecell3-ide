@@ -243,6 +243,9 @@
   <data name="NameModel" xml:space="preserve">
     <value>モデル</value>
   </data>
+  <data name="NameProjectName" xml:space="preserve">
+    <value>プロジェクト名</value>
+  </data>
   <data name="NameScriptEditor" xml:space="preserve">
     <value>スクリプトエディタ</value>
   </data>

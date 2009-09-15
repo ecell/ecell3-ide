@@ -1992,6 +1992,7 @@ namespace Ecell
                     CheckEntityPath(copy);
                     m_currentProject.AddEntity(copy);
                     CheckParameterObservedData(child, copy.Key);
+                    CheckLogger(child, copy.Key);
 
                     oldKeyDic.Add(copy.Key, child.Key);
                     if (copy.Type.Equals(Constants.xpathVariable))
@@ -2779,6 +2780,20 @@ namespace Ecell
                     RemoveObservedData(new EcellObservedData(data.EntityPath, 0.0));
                     SetObservedData(new EcellObservedData(data.EntityPath.Replace(oldObj.Key, newkey),
                         observed.Max, observed.Min, observed.Differ, observed.Rate));
+                }
+            }
+        }
+
+        private void CheckLogger(EcellObject oldObj, string newkey)
+        {
+            foreach (EcellData data in oldObj.Value)
+            {
+                if (data.Logged)
+                {
+                    LoggerEntry ent = m_env.LoggerManager.GetLoggerEntryForFullPN(data.EntityPath);                    
+                    ent.FullPN = data.EntityPath.Replace(oldObj.Key, newkey);
+                    ent.ID = newkey;
+                    m_env.LoggerManager.LoggerChanged(data.EntityPath, ent);
                 }
             }
         }

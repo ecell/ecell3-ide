@@ -235,7 +235,7 @@ namespace Ecell.IDE.MainWindow
 
             if (Util.IsNGforIDonWindows(projectName) || projectName.Length > 64)
             {
-                Util.ShowWarningDialog(string.Format(MessageResources.ErrIDNG, "Project ID"));
+                Util.ShowWarningDialog(string.Format(MessageResources.ErrIDNG, MessageResources.NameProjectName));
                 e.Cancel = true;
             }
             else if (Util.IsExistProject(projectName) && !Util.ShowOKCancelDialog(msg))

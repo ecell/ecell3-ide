@@ -1014,6 +1014,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs.</param>
         private void TreeViewCompile(object sender, EventArgs e)
         {
+            string dmDir = m_owner.Environment.DataManager.GetDMDir();
+            if (dmDir == null ||
+                m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedCompile);
+                return;
+            }
             string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
             if (path == null) return;
             DMCompiler.Compile(path, m_owner.Environment);
@@ -1592,7 +1599,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             // Get DM dir.
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
-            if (dmDir == null)
+            if (dmDir == null || m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedImport);
                 return;
@@ -1796,6 +1803,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs</param>
         private void TreeView_DeleteDM(object sender, EventArgs e)
         {
+            string dmDir = m_owner.Environment.DataManager.GetDMDir();
+            if (dmDir == null ||
+                m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedDelete);
+                return;
+            }
+
             if (m_lastSelectedNode is DMNode)
             {
                 DMNode node = m_lastSelectedNode as DMNode;

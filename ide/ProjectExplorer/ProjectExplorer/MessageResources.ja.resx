@@ -163,7 +163,7 @@
     <value>モデル</value>
   </data>
   <data name="NameName" xml:space="preserve">
-    <value>名前</value>
+    <value>名称</value>
   </data>
   <data name="NameNewStepper" xml:space="preserve">
     <value>新規Stepper</value>
@@ -221,5 +221,11 @@
   </data>
   <data name="ErrUnderSystem" xml:space="preserve">
     <value>システムを移動することができません</value>
+  </data>
+  <data name="ErrProjectUnsavedCompile" xml:space="preserve">
+    <value>ダイナミックモジュールをコンパイルする前にプロジェクトを保存してください。</value>
+  </data>
+  <data name="ErrProjectUnsavedDelete" xml:space="preserve">
+    <value>ダイナミックモジュールを削除する前にプロジェクトを保存してください。</value>
   </data>
 </root>
