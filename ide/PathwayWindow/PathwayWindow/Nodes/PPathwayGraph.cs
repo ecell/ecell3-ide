@@ -192,7 +192,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             // create plots
             int i = 0;
-            float x = (float)(GRAPH_SIZE / MAX_COUNT);
             List<PointF> plots = new List<PointF>();
             foreach (Plot val in m_values)
             {

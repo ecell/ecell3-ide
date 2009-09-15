@@ -208,8 +208,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         private void AnimationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // On Cancel
             if (this.DialogResult == DialogResult.Cancel)
+            {
+                this.panel.Controls.Clear();
                 return;
+            }
+
             try
             {
                 foreach (IAnimationItem page in Items)

@@ -304,19 +304,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public void Minimize()
         {
+            // Get objects.
             List<PPathwayObject> list = m_canvas.GetAllObjectUnder(m_ecellObj.Key);
-            if (list.Count <= 0)
-                return;
+            // Remove Text.
+            List<PPathwayObject> texts = new List<PPathwayObject>();
+            foreach (PPathwayObject obj in list)
+            {
+                if (obj is PPathwayText)
+                    texts.Add(obj);
+            }
+            foreach (PPathwayObject text in texts)
+            {
+                list.Remove(text);
+            }
 
             // Get smallest rect.
+            if (list.Count <= 0)
+                return;
             float minX = list[0].Left;
             float minY = list[0].Top;
             float maxX = list[0].Right;
             float maxY = list[0].Bottom;
             foreach (PPathwayObject obj in list)
             {
-                if (obj is PPathwayText)
-                    continue;
                 if (obj.Left < minX)
                     minX = obj.Left;
                 if (obj.Top < minY)

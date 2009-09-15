@@ -351,7 +351,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float high = float.Parse(thresholdHigh.Text);
             float low = float.Parse(thresholdLow.Text);
 
-            if (high < low)
+            if (high <= low)
             {
                 thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
                 throw new PathwayException(this.Text + ":" + MessageResources.ErrMaxThreshold);
