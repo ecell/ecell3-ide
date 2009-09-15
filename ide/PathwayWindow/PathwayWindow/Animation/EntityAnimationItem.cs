@@ -223,10 +223,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
                 // Reset size.
                 PointF pos = variable.CenterPointF;
-                variable.Width = variable.Figure.Width;
-                variable.Height = variable.Figure.Height;
-                variable.CenterPointF = pos;
-                variable.Brush = variable.Setting.CreateBrush(variable.Path);
+                if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
+                {
+                    double activity = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                    float size = GetEntitySize(variable.EcellObject, activity);
+                    variable.Width = size * variable.Figure.Width;
+                    variable.Height = size * variable.Figure.Height;
+                    variable.CenterPointF = pos;
+                    variable.Brush = GetEntityBrush(activity, variable);
+                }
+                else
+                {
+                    variable.Width = variable.Figure.Width;
+                    variable.Height = variable.Figure.Height;
+                    variable.CenterPointF = pos;
+                    variable.Brush = variable.Setting.CreateBrush(variable.Path);
+                }
 
                 // Set threshold
                 if (!_autoThreshold)
@@ -315,7 +327,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 UpdateAnimation();
 
         }
-
 
         /// <summary>
         /// 
