@@ -120,102 +120,35 @@
   <data name="valueDataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>値</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="initialParameters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>421, 263</value>
-  </data>
-  <data name="initialParametersPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 275</value>
-  </data>
   <data name="initialParametersPage.Text" xml:space="preserve">
     <value>初期パラメータ</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 12</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Stepper:</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 12</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>クラス名(&amp;L):</value>
-  </data>
-  <data name="dgv.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 80</value>
-  </data>
-  <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 162</value>
-  </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 56</value>
-  </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 12</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>プロパティ(&amp;P):</value>
   </data>
-  <data name="stepCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
-  </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>171, 10</value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 256</value>
-  </data>
-  <data name="stepperListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 232</value>
-  </data>
-  <data name="stepperDefinitionsPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 275</value>
-  </data>
   <data name="stepperDefinitionsPage.Text" xml:space="preserve">
     <value>Stepper定義</value>
-  </data>
-  <data name="tabControl2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>441, 300</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>モデル名(&amp;M):</value>
   </data>
-  <data name="perModelSimulationParametersPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 341</value>
-  </data>
   <data name="perModelSimulationParametersPage.Text" xml:space="preserve">
     <value>初期パラメータ</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 12</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>キロバイト</value>
   </data>
-  <data name="SSApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>321, 413</value>
-  </data>
-  <data name="SSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 413</value>
-  </data>
-  <data name="configurationLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 12</value>
-  </data>
   <data name="configurationLabel.Text" xml:space="preserve">
     <value>パラメータ名(&amp;S):</value>
   </data>
-  <data name="overrideRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 16</value>
-  </data>
   <data name="overrideRadio.Text" xml:space="preserve">
     <value>先頭のデータから上書き(&amp;O)</value>
-  </data>
-  <data name="exceptionRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 16</value>
   </data>
   <data name="exceptionRadio.Text" xml:space="preserve">
     <value>シミュレーションを中断(&amp;T)</value>
@@ -223,14 +156,8 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>ディスク領域が不足したときの処理</value>
   </data>
-  <data name="noLimitRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 16</value>
-  </data>
   <data name="noLimitRadio.Text" xml:space="preserve">
     <value>無制限(&amp;N)</value>
-  </data>
-  <data name="maxSizeRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
   </data>
   <data name="maxSizeRadio.Text" xml:space="preserve">
     <value>サイズを指定(&amp;X):</value>
@@ -238,14 +165,8 @@
   <data name="groupBox3.Text" xml:space="preserve">
     <value>ログファイルの保存領域</value>
   </data>
-  <data name="freqBySecRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 16</value>
-  </data>
   <data name="freqBySecRadio.Text" xml:space="preserve">
     <value>時間で(&amp;M):</value>
-  </data>
-  <data name="freqByStepRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 16</value>
   </data>
   <data name="freqByStepRadio.Text" xml:space="preserve">
     <value>ステップ数で(&amp;P):</value>
@@ -253,18 +174,10 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>ログ間隔</value>
   </data>
-  <data name="loggingPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 341</value>
-  </data>
   <data name="loggingPage.Text" xml:space="preserve">
     <value>ロガー</value>
   </data>
-  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 366</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>487, 448</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAMDAAAAEAIACoJQAAFgAAACgAAAAwAAAAYAAAAAEAIAAAAAAAgCUAAAAAAAAAAAAAAAAAAAAA
