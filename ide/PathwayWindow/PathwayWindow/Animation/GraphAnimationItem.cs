@@ -294,10 +294,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void StopAnimation()
         {
             // Graph
+            double time = GetTime();
             foreach (PPathwayGraph graph in _graphs)
             {
                 graph.Plots.Clear();
             }
+            base.StopAnimation();
         }
 
         /// <summary>

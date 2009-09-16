@@ -75,8 +75,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         {
             get
             {
-                float diffX = this.Width / 4f;
-                float diffY = this.Height / 4f * (float)Math.Sqrt(3);
+                float diffX = this.Width / 4f * (float)Math.Sqrt(3);
+                float diffY = this.Height / 4f;
                 PointF[] points = 
                 {
                     new PointF(this.X + this.Width /2f, this.Y),

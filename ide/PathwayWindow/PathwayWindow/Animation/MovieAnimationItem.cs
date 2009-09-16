@@ -112,57 +112,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label2
             // 
-            label2.AccessibleDescription = null;
-            label2.AccessibleName = null;
             resources.ApplyResources(label2, "label2");
-            label2.Font = null;
             label2.Name = "label2";
             // 
             // outputBox
             // 
-            this.outputBox.AccessibleDescription = null;
-            this.outputBox.AccessibleName = null;
             resources.ApplyResources(this.outputBox, "outputBox");
-            this.outputBox.BackgroundImage = null;
             this.outputBox.Controls.Add(label2);
             this.outputBox.Controls.Add(this.maxSizeTextBox);
             this.outputBox.Controls.Add(this.maxSizeRadio);
             this.outputBox.Controls.Add(this.noLimitRadio);
             this.outputBox.Controls.Add(this.label1);
             this.outputBox.Controls.Add(this.aviFileName);
-            this.outputBox.Font = null;
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
             // 
             // maxSizeTextBox
             // 
-            this.maxSizeTextBox.AccessibleDescription = null;
-            this.maxSizeTextBox.AccessibleName = null;
             resources.ApplyResources(this.maxSizeTextBox, "maxSizeTextBox");
-            this.maxSizeTextBox.BackgroundImage = null;
-            this.maxSizeTextBox.Font = null;
             this.maxSizeTextBox.Name = "maxSizeTextBox";
             this.maxSizeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.maxSizeTextBox_Validating);
             // 
             // maxSizeRadio
             // 
-            this.maxSizeRadio.AccessibleDescription = null;
-            this.maxSizeRadio.AccessibleName = null;
             resources.ApplyResources(this.maxSizeRadio, "maxSizeRadio");
-            this.maxSizeRadio.BackgroundImage = null;
-            this.maxSizeRadio.Font = null;
             this.maxSizeRadio.Name = "maxSizeRadio";
             this.maxSizeRadio.TabStop = true;
             this.maxSizeRadio.UseVisualStyleBackColor = true;
             // 
             // noLimitRadio
             // 
-            this.noLimitRadio.AccessibleDescription = null;
-            this.noLimitRadio.AccessibleName = null;
             resources.ApplyResources(this.noLimitRadio, "noLimitRadio");
-            this.noLimitRadio.BackgroundImage = null;
             this.noLimitRadio.Checked = true;
-            this.noLimitRadio.Font = null;
             this.noLimitRadio.Name = "noLimitRadio";
             this.noLimitRadio.TabStop = true;
             this.noLimitRadio.UseVisualStyleBackColor = true;
@@ -170,33 +151,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label1
             // 
-            this.label1.AccessibleDescription = null;
-            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
-            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // aviFileName
             // 
-            this.aviFileName.AccessibleDescription = null;
-            this.aviFileName.AccessibleName = null;
             resources.ApplyResources(this.aviFileName, "aviFileName");
-            this.aviFileName.BackgroundImage = null;
             this.aviFileName.FileName = "ecell.avi";
             this.aviFileName.Filter = null;
             this.aviFileName.FilterIndex = 0;
-            this.aviFileName.Font = null;
             this.aviFileName.Name = "aviFileName";
             // 
             // MovieAnimationItem
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.outputBox);
-            this.Font = null;
             this.Name = "MovieAnimationItem";
+            resources.ApplyResources(this, "$this");
             this.outputBox.ResumeLayout(false);
             this.outputBox.PerformLayout();
             this.ResumeLayout(false);

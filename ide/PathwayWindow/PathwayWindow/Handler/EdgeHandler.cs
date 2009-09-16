@@ -242,11 +242,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     m_lineHandle4V.RemoveFromParent();
                     m_lineHandle4P.RemoveFromParent();
                 }
-                foreach (EdgeHandle handle in m_handles)
+                foreach (EdgeHandle connector in m_connectors)
                 {
-                    handle.RemoveFromParent();
+                    connector.RemoveFromParent();
                 }
-                m_handles.Clear();
+                m_connectors.Clear();
             }
 
             if (!visible)
@@ -256,7 +256,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         #endregion
 
         #region EventHandlers
-        List<EdgeHandle> m_handles = new List<EdgeHandle>();
+        List<EdgeHandle> m_connectors = new List<EdgeHandle>();
         /// <summary>
         /// Called when m_lineHandle is being dragged.
         /// reconnecting line is redrawn
@@ -268,21 +268,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (m_edge4reconnect == null)
                 return;
             // Reset edge pointers
-            foreach (EdgeHandle handle in m_handles)
+            foreach (EdgeHandle connector in m_connectors)
             {
-                handle.RemoveFromParent();
+                connector.RemoveFromParent();
             }
-            m_handles.Clear();
+            m_connectors.Clear();
             // Show edge pointers.
+            EdgeHandle handle = (EdgeHandle)sender; 
             PPathwayEntity entity = m_canvas.GetPickedEntity(e.Position);
-            if (entity != null)
+            if (entity != null && ((entity is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS) || (true)))
             {
                 foreach (PointF point in entity.Figure.ContactPoints)
                 {
-                    EdgeHandler.EdgeHandle handle = new EdgeHandler.EdgeHandle();
-                    handle.CenterPointF = new PointF(point.X + entity.X, point.Y + entity.Y);
-                    m_canvas.ControlLayer.AddChild(handle);
-                    m_handles.Add(handle);
+                    EdgeHandler.EdgeHandle connector = new EdgeHandler.EdgeHandle();
+                    connector.CenterPointF = new PointF(point.X + entity.X, point.Y + entity.Y);
+                    m_canvas.ControlLayer.AddChild(connector);
+                    m_connectors.Add(connector);
                 }
             }
             // Reset edge
@@ -347,10 +348,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 PPathwayProcess process = m_canvas.Processes[processKey];
                 PPathwayEdge edge = process.GetRelation(variableKey, coefficient);
                 EdgeHandle edgePointer = null;
-                foreach(EdgeHandle pointer in m_handles )
+                foreach (EdgeHandle connector in m_connectors)
                 {
-                    if(pointer.Rect.Contains(e.Position))
-                        edgePointer = pointer;
+                    if (connector.Rect.Contains(e.Position))
+                        edgePointer = connector;
                 }
                 if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
                 {

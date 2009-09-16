@@ -140,7 +140,7 @@
     <value>無制限</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>出力する動画ファイル名を設定してください。</value>
+    <value>出力する動画ファイル名とファイルサイズの上限を設定してください。</value>
   </data>
   <data name="aviFileName.LabelText" xml:space="preserve">
     <value>AVIファイル名</value>

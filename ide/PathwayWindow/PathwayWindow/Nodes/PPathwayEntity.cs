@@ -134,7 +134,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.Width = DEFAULT_WIDTH;
             this.Height = DEFAULT_HEIGHT;
             this.VisibleChanged += new PPropertyEventHandler(PPathwayNode_VisibleChanged);
-            m_tempFigure = new EllipseFigure(-5, -5, 10, 10);
+            m_tempFigure = new EllipseFigure(0, 0, 10, 10);
             // PropertyText
             m_pProperty = new PPathwayProperties(this);
             m_pProperty.Pickable = false;
