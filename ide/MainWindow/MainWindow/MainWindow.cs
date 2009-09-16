@@ -633,6 +633,7 @@ namespace Ecell.IDE.MainWindow
             SetDockContent(content);
             m_browser = content;
             m_browser.Activate();
+            m_browser.SetStartPage();
         }
 
         /// <summary>

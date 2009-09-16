@@ -672,6 +672,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Delete object.
             m_canvas.DataDelete(key, type);
+
+            // Update Animation.
+            if (m_animCon.DoesAnimationOnGoing)
+                m_animCon.SetAnimation();
         }
 
         /// <summary>

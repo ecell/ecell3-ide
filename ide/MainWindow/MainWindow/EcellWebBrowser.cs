@@ -101,7 +101,6 @@ namespace Ecell.IDE.MainWindow
             webBrowser.ObjectForScripting = new AutomationStub(this);
             m_recentFiles = recentFiles;
             m_startupPage = FindStartPage();
-            SetStartPage();
         }
 
         public void EcellWebBrowserClear()
@@ -340,7 +339,10 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
-        private void SetStartPage()
+        /// <summary>
+        /// Set start page.
+        /// </summary>
+        public void SetStartPage()
         {
             Url = m_startupPage;
         }

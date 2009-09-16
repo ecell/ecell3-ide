@@ -186,60 +186,75 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
-        /// 
+        /// Set up graph animation.
         /// </summary>
         public override void SetAnimation()
         {
             LoggerManager manager = _control.Control.Window.Environment.LoggerManager;
-            _graphs.Clear();
+            ResetGraphs();
             base.SetAnimation();
 
             // Variable
-            foreach (PPathwayVariable variable in _variables)
-            {
-                if (!checkBoxVariable.Checked)
-                    continue;
-                if (variable.Graph != null)
-                {
-                    _graphs.Add(variable.Graph);
-                    _canvas.ControlLayer.AddChild(variable.Graph);
-                    continue;
-                }
-
-                // Create Graph
-                PPathwayGraph graph = new PPathwayGraph();
-                graph.Title = variable.EcellObject.LocalID;
-                graph.EntityPath = variable.EcellObject.FullID + ":" + GetVariableParam();
-                _canvas.ControlLayer.AddChild(graph);
-                graph.PointF = variable.PointF;
-                graph.Refresh();
-
-                _graphs.Add(graph);
-                variable.Graph = graph;
-            }
+            SetVariableGraphs();
 
             // Process
+            SetProcessGraphs();
+        }
+
+        /// <summary>
+        /// SetProcessGraphs
+        /// </summary>
+        private void SetProcessGraphs()
+        {
+            if (!checkBoxProcess.Checked)
+                return;
+
             foreach (PPathwayProcess process in _processes)
             {
-                if (!checkBoxProcess.Checked)
-                    continue;
-                if (process.Graph != null)
+                if (process.Graph == null)
                 {
-                    _graphs.Add(process.Graph);
-                    _canvas.ControlLayer.AddChild(process.Graph);
-                    continue;
+                    PPathwayGraph graph = new PPathwayGraph();
+                    graph.PointF = process.PointF;
+                    graph.Refresh();
+                    process.Graph = graph;
                 }
 
                 // Create Graph
-                PPathwayGraph graph = new PPathwayGraph();
-                graph.Title = process.EcellObject.LocalID;
-                graph.EntityPath = process.EcellObject.FullID + ":" + GetProcessParam();
-                _canvas.ControlLayer.AddChild(graph);
-                graph.PointF = process.PointF;
-                graph.Refresh();
+                string param = ":" + GetProcessParam();
+                process.Graph.Title = process.EcellObject.LocalID + param;
+                process.Graph.EntityPath = process.EcellObject.FullID + param;
+                _canvas.ControlLayer.AddChild(process.Graph);
 
-                _graphs.Add(graph);
-                process.Graph = graph;
+                _graphs.Add(process.Graph);
+            }
+        }
+
+        /// <summary>
+        /// SetVariableGraphs
+        /// </summary>
+        private void SetVariableGraphs()
+        {
+            if (!checkBoxVariable.Checked)
+                return;
+
+            foreach (PPathwayVariable variable in _variables)
+            {
+                // Create Graph
+                if (variable.Graph == null)
+                {
+                    PPathwayGraph graph = new PPathwayGraph();
+                    graph.PointF = variable.PointF;
+                    graph.Refresh();
+                    variable.Graph = graph;
+                }
+
+                // Update params.
+                string param = ":" + GetVariableParam();
+                variable.Graph.Title = variable.EcellObject.LocalID + param;
+                variable.Graph.EntityPath = variable.EcellObject.FullID + param;
+
+                _graphs.Add(variable.Graph);
+                _canvas.ControlLayer.AddChild(variable.Graph);
             }
         }
 
