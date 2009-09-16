@@ -84,7 +84,8 @@ namespace Ecell.SBML
         public static void SaveSBML(EcellModel anEml, string filename)
         {
             SBMLDocument aSBMLDocument = convertToSBMLModel(anEml, anEml.ModelID, 2, 3);
-            libsbml.libsbml.writeSBML(aSBMLDocument, filename);
+            string sbml = libsbml.libsbml.writeSBMLToString(aSBMLDocument);
+            File.WriteAllText(filename, sbml);
         }
 
         /// <summary>
