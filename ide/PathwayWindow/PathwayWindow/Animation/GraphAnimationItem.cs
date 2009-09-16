@@ -211,6 +211,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             foreach (PPathwayProcess process in _processes)
             {
+                // Create Graph
                 if (process.Graph == null)
                 {
                     PPathwayGraph graph = new PPathwayGraph();
@@ -219,13 +220,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     process.Graph = graph;
                 }
 
-                // Create Graph
+                // Update params.
                 string param = ":" + GetProcessParam();
                 process.Graph.Title = process.EcellObject.LocalID + param;
                 process.Graph.EntityPath = process.EcellObject.FullID + param;
-                _canvas.ControlLayer.AddChild(process.Graph);
+                process.Graph.Visible = process.Visible;
+                process.Graph.Pickable = process.Visible;
 
                 _graphs.Add(process.Graph);
+                _canvas.ControlLayer.AddChild(process.Graph);
             }
         }
 
@@ -252,6 +255,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 string param = ":" + GetVariableParam();
                 variable.Graph.Title = variable.EcellObject.LocalID + param;
                 variable.Graph.EntityPath = variable.EcellObject.FullID + param;
+                variable.Graph.Visible = variable.Visible;
+                variable.Graph.Pickable = variable.Visible;
 
                 _graphs.Add(variable.Graph);
                 _canvas.ControlLayer.AddChild(variable.Graph);

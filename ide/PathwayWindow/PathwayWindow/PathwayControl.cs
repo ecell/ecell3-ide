@@ -637,13 +637,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Select changed object.
             obj = m_canvas.GetObject(oldKey, type);
-            if (obj == null)
-                return;
-            // Change data.
-            obj.EcellObject = eo;
-            if (!obj.Setting.Name.Equals(eo.Layout.Figure))
-                obj.Setting = m_csManager.GetSetting(eo.Type, eo.Layout.Figure);
-            m_canvas.DataChanged(oldKey, eo.Key, obj);
+            if (obj != null)
+            {
+                // Change data.
+                obj.EcellObject = eo;
+                if (!obj.Setting.Name.Equals(eo.Layout.Figure))
+                    obj.Setting = m_csManager.GetSetting(eo.Type, eo.Layout.Figure);
+                m_canvas.DataChanged(oldKey, eo.Key, obj);
+            }
 
             // Update Animation.
             if (m_animCon.DoesAnimationOnGoing)
