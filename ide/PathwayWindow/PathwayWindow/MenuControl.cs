@@ -229,14 +229,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolMenuDelete.Enabled = menuFlag;
 
             toolButtonAnimation.Visible = !unInitialized;
-            toolButtonAnimation.Enabled = !unInitialized; // menuFlag;
-            toolMenuAnimation.Enabled = !unInitialized; //  menuFlag;
+            toolButtonAnimation.Enabled = !unInitialized;
+            toolMenuAnimation.Enabled = !unInitialized;
 
-            toolButtonArrow.Enabled = menuFlag;
-            toolButtonHand.Enabled = menuFlag;
-            toolButtonZoomin.Enabled = menuFlag;
-            toolButtonZoomout.Enabled = menuFlag;
-            toolButtonZoomRate.Enabled = menuFlag;
+            toolButtonArrow.Enabled = !unInitialized;
+            toolButtonHand.Enabled = !unInitialized;
+            toolButtonZoomin.Enabled = !unInitialized;
+            toolButtonZoomout.Enabled = !unInitialized;
+            toolButtonZoomRate.Enabled = !unInitialized;
 
             // Set visibility.
             toolButtonSeparator2.Visible = menuFlag;
