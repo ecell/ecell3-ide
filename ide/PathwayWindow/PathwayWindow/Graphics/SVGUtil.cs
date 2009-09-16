@@ -269,6 +269,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             + "\" stroke-width=\"" + width + "\"/>\n";
             return obj;
         }
+
+        /// <summary>
+        /// Create Poligon object.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="brush"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public static string Polyline(PointF[] points, string brush, string width)
+        {
+            string obj = "<polyline stroke=\"" + brush
+            + "\" stroke-width=\"" + width
+            + "\" fill=\"" + "transparent"
+            + "\" points=\"";
+            for (int i = 0; i < points.Length; i++)
+            {
+                PointF point = points[i];
+                obj += point.X.ToString() + " " + point.Y.ToString();
+                if (i != points.Length - 1)
+                    obj += ",";
+            }
+            obj += "\"/>\n";
+            return obj;
+        }
+
         /// <summary>
         /// Create Poligon object.
         /// </summary>
@@ -278,7 +303,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
         /// <returns></returns>
         public static string Polygon(PointF[] points, string brush, string width)
         {
-            string obj = "<polygon stroke=\"" + brush
+            return Polygon(points, brush, brush, width);
+        }
+        /// <summary>
+        /// Create Poligon object.
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="brush"></param>
+        /// <param name="pen"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public static string Polygon(PointF[] points, string brush, string pen, string width)
+        {
+            string obj = "<polygon stroke=\"" + pen
             + "\" stroke-width=\"" + width
             + "\" fill=\"" + brush
             + "\" points=\"";

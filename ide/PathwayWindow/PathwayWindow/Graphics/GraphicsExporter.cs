@@ -67,6 +67,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
                 foreach (PPathwayObject obj in layer.GetNodes())
                     writer.WriteLine(CreateSVGObject(obj));
             }
+            // Create Graph
+            foreach (PNode node in canvas.ControlLayer.ChildrenReference)
+            {
+                if (!(node is PPathwayGraph))
+                    continue;
+                writer.WriteLine(CreateSVGGraph((PPathwayGraph)node));
+            }
             // Close SVG file.
             writer.WriteLine(SVG_FOOTER);
             writer.Flush();
@@ -76,10 +83,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
         private static string CreateSVGObject(PPathwayObject obj)
         {
             // Set key
-            string key;
+            string key = "";
             if (obj is PPathwayAlias)
                 key = ((PPathwayAlias)obj).Variable.EcellObject.Key;
-            else
+            else if(obj.EcellObject !=null)
                 key = obj.EcellObject.Key;
 
             string svgObj = "<!--" + key + "-->\n";
@@ -92,10 +99,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             string lineBrush = BrushManager.ParseBrushToString(obj.Setting.LineBrush);
             string fillBrush = "url(#" + obj.Setting.Name + ")";
 
-            // Create Edges
+            // Creat obj
+            svgObj += obj.Figure.CreateSVGObject(obj.Rect, lineBrush, fillBrush);
+            
             if (obj is PPathwayProcess)
             {
                 PPathwayProcess process = (PPathwayProcess)obj;
+                // Create Edges
                 foreach (PPathwayEdge line in process.Relations)
                     if (line.Visible)
                         svgObj += CreateSVGLine(line);
@@ -104,12 +114,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
                     svgObj += SVGUtil.Ellipse(process.Rect, lineBrush, fillBrush);
                     return svgObj;
                 }
+                else
+                {
+                    svgObj += CreateSVGObject(process.Stepper);
+                }
             }
-
-            svgObj += obj.Figure.CreateSVGObject(obj.Rect, lineBrush, fillBrush);
             
             // Create NodeText
-            if (obj.ShowingID)
+            if (obj.ShowingID && !string.IsNullOrEmpty(obj.PText.Text))
             {
                 PText text = obj.PText;
                 PointF textPos = new PointF(text.X, text.Y + SVGUtil.SVG_FONT_SIZE);
@@ -123,27 +135,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             if (obj is PPathwayEntity)
             {
                 svgObj += CreateSVGProperties((PPathwayEntity)obj);
-                svgObj += CreateSVGGraph((PPathwayEntity)obj);
             }
             return svgObj;
         }
 
-        private static string CreateSVGGraph(PPathwayEntity entity)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="graph"></param>
+        /// <returns></returns>
+        private static string CreateSVGGraph(PPathwayGraph graph)
         {
             string svgObj = "";
-            PPathwayGraph graph = entity.Graph;
-            if (graph == null || !graph.Visible)
+            if (graph == null || graph.Parent == null)
                 return svgObj;
-            string pen = BrushManager.ParseBrushToString(graph.Pen.Brush);
+            // 
+            string pen = "Black";
             string fill = BrushManager.ParseBrushToString(graph.Brush);
             svgObj += SVGUtil.Rectangle(graph.Rect, pen, fill);
-            //
+            // panel
             fill = BrushManager.ParseBrushToString(graph.Panel.Brush);
             svgObj += SVGUtil.Rectangle(graph.Panel.Rect, pen, fill);
-            //
-            pen = BrushManager.ParseBrushToString(graph.Graph.Brush);
-            svgObj += SVGUtil.Polygon(graph.Graph.Path.PathPoints, pen, "1");
-
+            // graph
+            pen = "Red";
+            if(graph.Graph.Width > 0)
+                svgObj += SVGUtil.Polyline(graph.Graph.Path.PathPoints, pen, "1");
+            // title
+            float margin = 2f;
+            svgObj += SVGUtil.Text(new PointF(graph.PText.X + margin, graph.PText.Y + SVGUtil.SVG_FONT_SIZE + margin), graph.PText.Text, "Black");
             return svgObj;
         }
 
