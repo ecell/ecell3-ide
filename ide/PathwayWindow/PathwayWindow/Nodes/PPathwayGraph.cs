@@ -74,6 +74,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
+        public PText PText
+        {
+            get { return m_pText; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title
         {
             get { return m_pText.Text; }
@@ -93,6 +100,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public List<Plot> Plots
         {
             get { return m_values; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        internal PPathwayNode Panel
+        {
+            get { return m_panel; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        internal PPathwayNode Graph
+        {
+            get { return m_graph; }
         }
         #endregion
 

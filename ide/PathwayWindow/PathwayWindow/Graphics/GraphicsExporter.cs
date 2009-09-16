@@ -123,9 +123,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             if (obj is PPathwayEntity)
             {
                 svgObj += CreateSVGProperties((PPathwayEntity)obj);
+                svgObj += CreateSVGGraph((PPathwayEntity)obj);
             }
             return svgObj;
         }
+
+        private static string CreateSVGGraph(PPathwayEntity entity)
+        {
+            string svgObj = "";
+            PPathwayGraph graph = entity.Graph;
+            if (graph == null || !graph.Visible)
+                return svgObj;
+            string pen = BrushManager.ParseBrushToString(graph.Pen.Brush);
+            string fill = BrushManager.ParseBrushToString(graph.Brush);
+            svgObj += SVGUtil.Rectangle(graph.Rect, pen, fill);
+            //
+            fill = BrushManager.ParseBrushToString(graph.Panel.Brush);
+            svgObj += SVGUtil.Rectangle(graph.Panel.Rect, pen, fill);
+            //
+            pen = BrushManager.ParseBrushToString(graph.Graph.Brush);
+            svgObj += SVGUtil.Polygon(graph.Graph.Path.PathPoints, pen, "1");
+
+            return svgObj;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
