@@ -136,7 +136,7 @@
     <value>6</value>
   </data>
   <data name="edgeLabel.Text" xml:space="preserve">
-    <value>Set upper and lower threshold of MassCalculationProcess. The MassCalculationProcess whose MolarActivity exceeds the threshold is discolored. </value>
+    <value>Set upper and lower threshold of mass conservation check. The mass conversation check whose value exceeds the threshold is discolored. </value>
   </data>
   <data name="&gt;&gt;edgeLabel.Name" xml:space="preserve">
     <value>edgeLabel</value>
@@ -169,7 +169,7 @@
     <value>edgeHighBrush</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -196,7 +196,7 @@
     <value>edgeLowBrush</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -223,7 +223,7 @@
     <value>autoThresholdCheckBox</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -250,7 +250,7 @@
     <value>thresholdHigh</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -277,7 +277,7 @@
     <value>thresholdLow</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -304,7 +304,7 @@
     <value>edgeNGBrush</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -325,7 +325,7 @@
     <value>1</value>
   </data>
   <data name="edgeBox.Text" xml:space="preserve">
-    <value>Animation of MassCalculationProcess</value>
+    <value>Animation of mass conservation check</value>
   </data>
   <data name="&gt;&gt;edgeBox.Name" xml:space="preserve">
     <value>edgeBox</value>
@@ -339,9 +339,9 @@
   <data name="&gt;&gt;edgeBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>496, 219</value>
   </data>
@@ -352,6 +352,6 @@
     <value>MassCalculationAnimationItem</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3401.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
