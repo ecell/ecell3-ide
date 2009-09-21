@@ -385,7 +385,10 @@ namespace Ecell.IDE
         {
             try
             {
-                m_env.DataManager.DataMerge(m_object.ModelID, m_object.Key);
+                if (Util.ShowYesNoDialog(MessageResources.ConfirmMerge))
+                {
+                    m_env.DataManager.DataMerge(m_object.ModelID, m_object.Key);
+                }
             }
             catch (Exception ex)
             {

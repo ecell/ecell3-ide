@@ -79,6 +79,15 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Are you sure you want to merge the components to the supersystem? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmMerge {
+            get {
+                return ResourceManager.GetString("ConfirmMerge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create the Variable References. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogToolTipAddVar {

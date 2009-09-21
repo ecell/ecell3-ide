@@ -123,6 +123,9 @@
   <data name="ButtonDeleteProperty" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="ConfirmMerge" xml:space="preserve">
+    <value>Systemの内容を上位Systemにマージしますか？</value>
+  </data>
   <data name="DialogToolTipAddVar" xml:space="preserve">
     <value>Variable Referencesの追加</value>
   </data>

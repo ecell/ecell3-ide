@@ -123,6 +123,9 @@
   <data name="ButtonDeleteProperty" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="ConfirmMerge" xml:space="preserve">
+    <value>Are you sure you want to merge the components to the supersystem?</value>
+  </data>
   <data name="DialogToolTipAddVar" xml:space="preserve">
     <value>Create the Variable References.</value>
   </data>
