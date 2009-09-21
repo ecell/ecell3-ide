@@ -80,7 +80,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyViewAnimationItem));
+            System.Windows.Forms.Label label2;
             this.variableBox = new System.Windows.Forms.GroupBox();
             this.checkBoxNumberConc = new System.Windows.Forms.CheckBox();
             this.checkBoxMolarConc = new System.Windows.Forms.CheckBox();
@@ -88,13 +90,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.processBox = new System.Windows.Forms.GroupBox();
             this.checkBoxMolarActivity = new System.Windows.Forms.CheckBox();
             this.checkBoxActivity = new System.Windows.Forms.CheckBox();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             this.variableBox.SuspendLayout();
             this.processBox.SuspendLayout();
             this.SuspendLayout();
             // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
             // variableBox
             // 
             resources.ApplyResources(this.variableBox, "variableBox");
+            this.variableBox.Controls.Add(label1);
             this.variableBox.Controls.Add(this.checkBoxNumberConc);
             this.variableBox.Controls.Add(this.checkBoxMolarConc);
             this.variableBox.Controls.Add(this.checkBoxValue);
@@ -122,6 +137,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // processBox
             // 
             resources.ApplyResources(this.processBox, "processBox");
+            this.processBox.Controls.Add(label2);
             this.processBox.Controls.Add(this.checkBoxMolarActivity);
             this.processBox.Controls.Add(this.checkBoxActivity);
             this.processBox.Name = "processBox";
@@ -150,7 +166,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.processBox.ResumeLayout(false);
             this.processBox.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

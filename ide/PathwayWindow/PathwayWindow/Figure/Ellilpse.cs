@@ -109,12 +109,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
         #endregion
 
         #region Inherited
-        /// <summary>
-        /// Get contact point for this figure.
-        /// </summary>
-        /// <param name="outerPoint"></param>
-        /// <param name="innerPoint"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// Get contact point for this figure.
+        ///// </summary>
+        ///// <param name="outerPoint"></param>
+        ///// <param name="innerPoint"></param>
+        ///// <returns></returns>
         //public override PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
         //{
         //    // Transform the coordinate system as the center of this ellipse is the original point

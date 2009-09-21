@@ -80,7 +80,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphAnimationItem));
+            System.Windows.Forms.Label label2;
             this.variableBox = new System.Windows.Forms.GroupBox();
             this.checkBoxVariable = new System.Windows.Forms.CheckBox();
             this.radioButtonNumberConc = new System.Windows.Forms.RadioButton();
@@ -90,13 +92,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.checkBoxProcess = new System.Windows.Forms.CheckBox();
             this.radioButtonMolarActivity = new System.Windows.Forms.RadioButton();
             this.radioButtonActivity = new System.Windows.Forms.RadioButton();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             this.variableBox.SuspendLayout();
             this.processBox.SuspendLayout();
             this.SuspendLayout();
             // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
             // variableBox
             // 
             resources.ApplyResources(this.variableBox, "variableBox");
+            this.variableBox.Controls.Add(label1);
             this.variableBox.Controls.Add(this.checkBoxVariable);
             this.variableBox.Controls.Add(this.radioButtonNumberConc);
             this.variableBox.Controls.Add(this.radioButtonMolarConc);
@@ -133,6 +148,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // processBox
             // 
             resources.ApplyResources(this.processBox, "processBox");
+            this.processBox.Controls.Add(label2);
             this.processBox.Controls.Add(this.checkBoxProcess);
             this.processBox.Controls.Add(this.radioButtonMolarActivity);
             this.processBox.Controls.Add(this.radioButtonActivity);
@@ -170,7 +186,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.processBox.ResumeLayout(false);
             this.processBox.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

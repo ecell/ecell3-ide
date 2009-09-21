@@ -126,4 +126,10 @@
   <data name="$this.Text" xml:space="preserve">
     <value>プロパティ表示</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Variableの値をラベルで表示します</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Processの値をラベルで表示します</value>
+  </data>
 </root>

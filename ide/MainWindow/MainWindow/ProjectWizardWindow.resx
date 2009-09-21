@@ -169,7 +169,7 @@
     <value>ProjectPanel</value>
   </data>
   <data name="&gt;&gt;ProjectPanel.Type" xml:space="preserve">
-    <value>Ecell.IDE.MainWindow.UIComponents.PWProjectPanel, ecell-ide, Version=1.1.3312.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.MainWindow.UIComponents.PWProjectPanel, ecell-ide, Version=1.1.3394.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ProjectPanel.Parent" xml:space="preserve">
     <value>MainLayoutPanel</value>
@@ -178,7 +178,7 @@
     <value>1</value>
   </data>
   <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="CloseButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -208,7 +208,7 @@
     <value>0</value>
   </data>
   <data name="BackButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="BackButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -239,6 +239,9 @@
   </data>
   <data name="&gt;&gt;BackButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="OKButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="OKButton.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -340,7 +343,7 @@
     <value>DMPanel</value>
   </data>
   <data name="&gt;&gt;DMPanel.Type" xml:space="preserve">
-    <value>Ecell.IDE.MainWindow.UIComponents.PWDMPanel, ecell-ide, Version=1.1.3312.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.MainWindow.UIComponents.PWDMPanel, ecell-ide, Version=1.1.3394.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

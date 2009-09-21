@@ -74,6 +74,7 @@ namespace Ecell.IDE.MainWindow
             this.dateLabel = new System.Windows.Forms.Label();
             this.openButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.condLabel = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -172,12 +173,18 @@ namespace Ecell.IDE.MainWindow
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
+            // condLabel
+            // 
+            resources.ApplyResources(this.condLabel, "condLabel");
+            this.condLabel.Name = "condLabel";
+            // 
             // ProjectExplorerDialog
             // 
             this.AcceptButton = this.openButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
+            this.Controls.Add(this.condLabel);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.openButton);
@@ -189,6 +196,7 @@ namespace Ecell.IDE.MainWindow
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -215,5 +223,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.TreeView PrjTreeView;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label condLabel;
     }
 }

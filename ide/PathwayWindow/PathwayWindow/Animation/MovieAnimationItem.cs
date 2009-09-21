@@ -71,6 +71,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private double _maxSize = 300000;
         private System.Windows.Forms.TextBox maxSizeTextBox;
         private System.Windows.Forms.RadioButton maxSizeRadio;
+        private System.Windows.Forms.Label sizeDetailLabel;
         private System.Windows.Forms.RadioButton noLimitRadio;
         #endregion
 
@@ -101,6 +102,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             System.Windows.Forms.Label label2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieAnimationItem));
             this.outputBox = new System.Windows.Forms.GroupBox();
+            this.sizeDetailLabel = new System.Windows.Forms.Label();
             this.maxSizeTextBox = new System.Windows.Forms.TextBox();
             this.maxSizeRadio = new System.Windows.Forms.RadioButton();
             this.noLimitRadio = new System.Windows.Forms.RadioButton();
@@ -118,6 +120,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // outputBox
             // 
             resources.ApplyResources(this.outputBox, "outputBox");
+            this.outputBox.Controls.Add(this.sizeDetailLabel);
             this.outputBox.Controls.Add(label2);
             this.outputBox.Controls.Add(this.maxSizeTextBox);
             this.outputBox.Controls.Add(this.maxSizeRadio);
@@ -126,6 +129,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.outputBox.Controls.Add(this.aviFileName);
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
+            // 
+            // sizeDetailLabel
+            // 
+            resources.ApplyResources(this.sizeDetailLabel, "sizeDetailLabel");
+            this.sizeDetailLabel.Name = "sizeDetailLabel";
             // 
             // maxSizeTextBox
             // 

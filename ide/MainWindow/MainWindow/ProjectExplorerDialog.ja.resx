@@ -302,4 +302,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>プロジェクトを開く</value>
   </data>
+  <data name="condLabel.Text" xml:space="preserve">
+    <value>開くプロジェクトを選択してください</value>
+  </data>
 </root>

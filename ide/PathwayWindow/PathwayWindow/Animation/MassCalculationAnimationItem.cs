@@ -377,7 +377,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Get line color
         /// </summary>
         /// <param name="activity"></param>
-        /// <param name="variable"></param>
+        /// <param name="process"></param>
         /// <returns></returns>
         private Brush GetEntityBrush(double activity, PPathwayObject process)
         {

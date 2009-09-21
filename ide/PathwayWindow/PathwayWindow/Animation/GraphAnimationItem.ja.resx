@@ -132,4 +132,10 @@
   <data name="checkBoxProcess.Text" xml:space="preserve">
     <value>Processのグラフを表示する。</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Variableの値をグラフで表示します。</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Processの値をグラフで表示します。</value>
+  </data>
 </root>

@@ -264,12 +264,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
             return CreatePath(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        /// <summary>
-        /// Return a contact point between an outer point and an inner point.
-        /// </summary>
-        /// <param name="outerPoint"></param>
-        /// <param name="innerPoint"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// Return a contact point between an outer point and an inner point.
+        ///// </summary>
+        ///// <param name="outerPoint"></param>
+        ///// <param name="innerPoint"></param>
+        ///// <returns></returns>
         //public virtual PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
         //{
         //    // Transform the coordinate system as the center of this rectangle is the original point

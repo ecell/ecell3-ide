@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ProjectPanel = new Ecell.IDE.MainWindow.UIComponents.PWProjectPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
-            this.ProjectPanel = new Ecell.IDE.MainWindow.UIComponents.PWProjectPanel();
             this.DMPanel = new Ecell.IDE.MainWindow.UIComponents.PWDMPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.MainLayoutPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -48,6 +48,29 @@
             this.MainLayoutPanel.Controls.Add(this.ProjectPanel, 0, 1);
             this.MainLayoutPanel.Controls.Add(this.panel1, 0, 2);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.textBox1, "textBox1");
+            this.textBox1.Name = "textBox1";
+            this.textBox1.TabStop = false;
+            // 
+            // ProjectPanel
+            // 
+            resources.ApplyResources(this.ProjectPanel, "ProjectPanel");
+            this.ProjectPanel.Name = "ProjectPanel";
+            this.ProjectPanel.Project = null;
+            this.ProjectPanel.ProjectChange += new System.EventHandler(this.ProjectPanel_ProjectChange);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.CloseButton);
+            this.panel1.Controls.Add(this.BackButton);
+            this.panel1.Controls.Add(this.OKButton);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
             // 
             // CloseButton
             // 
@@ -70,33 +93,10 @@
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.GoNext_Click);
             // 
-            // ProjectPanel
-            // 
-            resources.ApplyResources(this.ProjectPanel, "ProjectPanel");
-            this.ProjectPanel.Name = "ProjectPanel";
-            this.ProjectPanel.Project = null;
-            this.ProjectPanel.ProjectChange += new System.EventHandler(this.ProjectPanel_ProjectChange);
-            // 
             // DMPanel
             // 
             resources.ApplyResources(this.DMPanel, "DMPanel");
             this.DMPanel.Name = "DMPanel";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
-            this.textBox1.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.CloseButton);
-            this.panel1.Controls.Add(this.BackButton);
-            this.panel1.Controls.Add(this.OKButton);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
             // 
             // ProjectWizardWindow
             // 
