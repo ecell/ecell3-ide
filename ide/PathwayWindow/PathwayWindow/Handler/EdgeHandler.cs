@@ -276,7 +276,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // Show edge pointers.
             EdgeHandle handle = (EdgeHandle)sender; 
             PPathwayEntity entity = m_canvas.GetPickedEntity(e.Position);
-            if (entity != null && ((entity is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS) || (true)))
+            if (entity != null && !entity.ViewMode && ((entity is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS) || (true)))
             {
                 foreach (PointF point in entity.Figure.ContactPoints)
                 {
@@ -347,21 +347,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // Set Edge Position
                 PPathwayProcess process = m_canvas.Processes[processKey];
                 PPathwayEdge edge = process.GetRelation(variableKey, coefficient);
-                EdgeHandle edgePointer = null;
-                foreach (EdgeHandle connector in m_connectors)
+                if (edge != null)
                 {
-                    if (connector.Rect.Contains(e.Position))
-                        edgePointer = connector;
-                }
-                if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
-                {
-                    edge.ProPoint = edgePointer.CenterPointF;
-                    edge.DrawLine();
-                }
-                else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
-                {
-                    edge.VarPoint = edgePointer.CenterPointF;
-                    edge.DrawLine();
+                    EdgeHandle edgePointer = null;
+                    foreach (EdgeHandle connector in m_connectors)
+                    {
+                        if (connector.Rect.Contains(e.Position))
+                            edgePointer = connector;
+                    }
+                    if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
+                    {
+                        edge.ProPoint = edgePointer.CenterPointF;
+                        edge.DrawLine();
+                    }
+                    else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
+                    {
+                        edge.VarPoint = edgePointer.CenterPointF;
+                        edge.DrawLine();
+                    }
                 }
             }
             catch (Exception)

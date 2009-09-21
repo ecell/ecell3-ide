@@ -286,7 +286,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void StopAnimation()
         {
-            UpdateAnimation();
+            if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
+                UpdateAnimation();
+            else
+                SetAnimation();
         }
 
         /// <summary>

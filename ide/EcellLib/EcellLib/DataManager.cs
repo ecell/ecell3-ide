@@ -5691,6 +5691,17 @@ namespace Ecell
                 if (!resultList.Contains(name))
                     resultList.Add(name);
             }
+            // Get Extra DMs
+            foreach (string dmdir in m_currentProject.Info.DMDirList)
+            {
+                string[] extraDMs = Directory.GetFiles(dmdir, "*" + Constants.FileExtDM);
+                for (int i = 0; i < extraDMs.Length; i++)
+                {
+                    string name = Path.GetFileNameWithoutExtension(extraDMs[i]);
+                    if (!resultList.Contains(name))
+                        resultList.Add(name);
+                }
+            }
             return resultList;
         }
 

@@ -441,6 +441,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void StartSimulation()
         {
+            //
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            {
+                if (!process.Visible)
+                    continue;
+                if (!process.ViewMode)
+                    process.ViewMode = true;
+                // Line setting.
+                foreach (PPathwayEdge line in process.Relations)
+                {
+                    line.EdgeBrush = _viewEdgeBrush;
+                }
+            }
+
+            //
             SetAnimation();
 
             TimerStart();
@@ -497,6 +512,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _canvas = _con.Canvas;
             _canvas.BackGroundBrush = _viewBGBrush;
             _format = _con.Window.DataManager.DisplayStringFormat;
+            //
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            {
+                if (!process.Visible)
+                    continue;
+                // Line setting.
+                foreach (PPathwayEdge line in process.Relations)
+                {
+                    line.EdgeBrush = _viewEdgeBrush;
+                }
+            }
+
             // SetAnimation
             foreach (IAnimationItem item in _items)
             {
@@ -549,6 +576,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
             // Set Canvas
             _canvas.BackGroundBrush = _editBGBrush;
+
+            //
+            foreach (PPathwayProcess process in _canvas.Processes.Values)
+            {
+                if (!process.Visible)
+                    continue;
+                // Line setting.
+                foreach (PPathwayEdge line in process.Relations)
+                {
+                    line.EdgeBrush = _editEdgeBrush;
+                }
+            }
 
             // Reset
             foreach (IAnimationItem item in _items)
