@@ -127,6 +127,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             return false;
         }
 
+        private void addMassCalculationAnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (IAnimationItem item in this.listBox.Items)
+            {
+                if (!(item is MassCalculationAnimationItem))
+                    continue;
+                this.panel.Controls.Clear();
+                this.panel.Controls.Add((AnimationItemBase)item);
+                return;
+            }
+
+            MassCalculationAnimationItem newItem = new MassCalculationAnimationItem(_control);
+            AddItem(newItem);
+
+        }
+
         private void addNodeAnimationToolStripMenuItem_Click(object sender, EventArgs e)
         {
 

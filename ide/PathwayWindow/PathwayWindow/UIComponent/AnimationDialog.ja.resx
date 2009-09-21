@@ -134,37 +134,43 @@
     <value>キャンセル</value>
   </data>
   <data name="addEdgeAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 22</value>
+    <value>224, 22</value>
   </data>
   <data name="addEdgeAnimationToolStripMenuItem.Text" xml:space="preserve">
     <value>エッジアニメーションの追加</value>
   </data>
   <data name="addVariableAnimationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 22</value>
+    <value>224, 22</value>
   </data>
   <data name="addVariableAnimationToolStripMenuItem.Text" xml:space="preserve">
     <value>Variableアニメーションの追加</value>
   </data>
   <data name="addPropertyViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 22</value>
+    <value>224, 22</value>
   </data>
   <data name="addPropertyViewToolStripMenuItem.Text" xml:space="preserve">
     <value>プロパティ表示の追加</value>
   </data>
   <data name="addEntityGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 22</value>
+    <value>224, 22</value>
   </data>
   <data name="addEntityGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>簡易グラフ表示の追加</value>
   </data>
   <data name="outputMovieToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 22</value>
+    <value>224, 22</value>
   </data>
   <data name="outputMovieToolStripMenuItem.Text" xml:space="preserve">
     <value>動画出力の追加</value>
   </data>
+  <data name="addMassCalculationAnToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 22</value>
+  </data>
+  <data name="addMassCalculationAnToolStripMenuItem.Text" xml:space="preserve">
+    <value>質量保存則動的デバッグの追加</value>
+  </data>
   <data name="contextMenuAddItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 114</value>
+    <value>225, 158</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
