@@ -137,6 +137,9 @@
   <data name="arrowImageComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>241, 57</value>
   </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
@@ -146,11 +149,14 @@
   <data name="&gt;&gt;maxWidthTextBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>534, 125</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -158,8 +164,11 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Animation mode settings:</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Max width of edge. on Animation</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 6</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -168,8 +177,8 @@
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 12</value>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -189,8 +198,8 @@
   <data name="backgroundImageComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="backgroundImageComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>241, 31</value>
@@ -201,26 +210,23 @@
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="arrowImageComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 20</value>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;backgroundImageComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3382.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 31</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="&gt;&gt;maxWidthTextBox.Name" xml:space="preserve">
+    <value>maxWidthTextBox</value>
   </data>
   <data name="&gt;&gt;maxWidthTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
-  </data>
-  <data name="arrowImageComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 86</value>
@@ -234,11 +240,8 @@
   <data name="&gt;&gt;backgroundImageComboBox.Name" xml:space="preserve">
     <value>backgroundImageComboBox</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 6</value>
-  </data>
-  <data name="&gt;&gt;maxWidthTextBox.Name" xml:space="preserve">
-    <value>maxWidthTextBox</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 12</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 12</value>
@@ -246,14 +249,14 @@
   <data name="backgroundImageComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 20</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Max width of edge. on Animation</value>
+  <data name="arrowImageComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="arrowImageComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 20</value>
   </data>
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -261,11 +264,8 @@
   <data name="maxWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>241, 83</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>534, 125</value>
+  <data name="&gt;&gt;backgroundImageComboBox.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -273,11 +273,11 @@
   <data name="&gt;&gt;maxWidthTextBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="maxWidthTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -285,26 +285,26 @@
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;backgroundImageComboBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;arrowImageComboBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3382.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3404.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 12</value>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AnimationModeSettings</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 12</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -329,8 +329,5 @@
   </metadata>
   <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Japanese</value>
   </metadata>
 </root>
