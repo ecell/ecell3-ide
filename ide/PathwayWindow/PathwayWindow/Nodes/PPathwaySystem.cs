@@ -338,7 +338,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
 
             // return when no change.
-            float margin = SYSTEM_MARGIN / 2f + 1; // + 1 to avoid calculation error
+            float margin = SYSTEM_MARGIN + 1; // + 1 to avoid calculation error
             if (this.Left >= minX - margin &&
                 this.Top >= minY - margin &&
                 this.Right <= maxX + margin &&
@@ -346,7 +346,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
 
             // set new size. 
-            margin = SYSTEM_MARGIN / 2f;
+            margin = SYSTEM_MARGIN;
             if (this.Left < minX - margin)
                 this.X = minX - margin;
             if (this.Top < minY - margin)

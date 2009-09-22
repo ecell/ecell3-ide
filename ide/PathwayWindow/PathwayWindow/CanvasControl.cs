@@ -1549,13 +1549,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Set Object Position.
                 if (!system.Rect.Contains(obj.Rect))
                 {
-                    obj.OffsetX = system.Right - obj.X;
+                    // Set offset of this sistem.
+                    obj.OffsetX = system.Left + PPathwaySystem.SYSTEM_MARGIN - obj.X;
                     obj.OffsetY = system.Top + PPathwaySystem.SYSTEM_MARGIN - obj.Y;
-                    foreach (PPathwayObject child in GetAllObjectUnder(newkey))
+                    List<PPathwayObject> list = GetAllObjectUnder(newkey);
+                    foreach (PPathwayObject child in list)
+                    {
+                        if (child is PPathwayText)
+                            continue;
+                        if (obj.X + obj.OffsetX < child.Right + PPathwaySystem.SYSTEM_MARGIN)
+                            obj.OffsetX = child.Right + PPathwaySystem.SYSTEM_MARGIN - obj.X;
+                    }
+
+                    // move childs
+                    foreach (PPathwayObject child in list)
                     {
                         child.OffsetX = obj.OffsetX;
                         child.OffsetY = obj.OffsetY;
                     }
+                    // make space and move object.
                     MakeSpace(system, obj, true);
                     NotifyMoveSystem(obj);
                 }

@@ -417,11 +417,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             // Create Icon from file.
             Image icon = null;
-            if (m_imageStream != null)
+            Image image = this.Image;
+            if (image != null)
             {
                 try
                 {
-                    icon = new Bitmap(Image, 32, 32);
+                    icon = new Bitmap(image, 16, 16);
                 }
                 catch (Exception)
                 {
