@@ -1556,11 +1556,14 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     else if (m_shiftIndex == -1)
                     {
                         m_shiftIndex = rindex - 1;
-                        EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
-                        if (obj != null)
+                        if (rindex != 0)
                         {
-                            m_gridView.Rows[m_shiftIndex].Selected = true;
-                            m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                m_gridView.Rows[m_shiftIndex].Selected = true;
+                                m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
                         }
                     }
                 }
@@ -1571,7 +1574,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 if (m_gridView.CurrentRow != null && !m_isSelected)
                 {
                     int rindex = m_gridView.CurrentCell.RowIndex;
-                    if (m_shiftIndex + 1 < m_gridView.Rows.Count)
+                    if (m_shiftIndex != -1 && m_shiftIndex + 1 < m_gridView.Rows.Count)
                     {
                         if (m_shiftIndex >= rindex)
                         {
@@ -1595,12 +1598,15 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     }
                     else if (m_shiftIndex == -1)
                     {
-                        m_shiftIndex = rindex + 1;
-                        EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
-                        if (obj != null)
+                        if (rindex + 1 < m_gridView.Rows.Count)
                         {
-                            m_gridView.Rows[m_shiftIndex].Selected = true;
-                            m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            m_shiftIndex = rindex + 1;
+                            EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
+                            if (obj != null)
+                            {
+                                m_gridView.Rows[m_shiftIndex].Selected = true;
+                                m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
                         }
                     }
                 }
