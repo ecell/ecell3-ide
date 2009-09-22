@@ -1252,9 +1252,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 foreach (PPathwayObject obj in layer.GetNodes())
                 {
-                    if (!obj.Visible || !obj.Rect.Contains(pointF))
+                    if (!obj.Visible || !obj.Path.IsVisible(pointF))
                         continue;
-                    pickedObj = (PPathwayObject)obj;
+                    pickedObj = obj;
                 }
             }
             return pickedObj;
