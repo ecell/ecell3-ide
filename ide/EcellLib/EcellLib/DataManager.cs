@@ -2753,7 +2753,8 @@ namespace Ecell
                 }
                 else
                 {
-                    m_env.LoggerManager.LoggerRemoved(new LoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath));
+                    if (od != null)
+                        m_env.LoggerManager.LoggerRemoved(new LoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath));
                 }
             }
         }
