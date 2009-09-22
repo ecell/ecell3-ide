@@ -1551,14 +1551,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     obj.OffsetX = system.Right - obj.X;
                     obj.OffsetY = system.Top + PPathwaySystem.SYSTEM_MARGIN - obj.Y;
-                    foreach(PPathwayObject child in GetAllObjectUnder(newkey))
+                    foreach (PPathwayObject child in GetAllObjectUnder(newkey))
                     {
                         child.OffsetX = obj.OffsetX;
                         child.OffsetY = obj.OffsetY;
                     }
+                    MakeSpace(system, obj, true);
                     NotifyMoveSystem(obj);
                 }
-                MakeSpace(system, obj, true);
+                else
+                {
+                    MakeSpace(system, obj, true);
+                }
             }
         }
 
