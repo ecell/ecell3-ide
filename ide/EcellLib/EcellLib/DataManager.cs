@@ -5670,27 +5670,30 @@ namespace Ecell
             string path = null;
             if (m_currentProject.Info.ProjectPath != null)
                 path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
-            if (!Directory.Exists(path))
-                return resultList;
 
-            // Add DMs in DM directory.
-            string[] files = Directory.GetFiles(path, "*" + Constants.FileExtDM);
-            for (int i = 0; i < files.Length; i++)
+            // Get project DMs
+            if (Directory.Exists(path))
             {
-                string name = Path.GetFileNameWithoutExtension(files[i]);
-                if (!resultList.Contains(name))
-                    resultList.Add(name);
+                // Add DMs in DM directory.
+                string[] files = Directory.GetFiles(path, "*" + Constants.FileExtDM);
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string name = Path.GetFileNameWithoutExtension(files[i]);
+                    if (!resultList.Contains(name))
+                        resultList.Add(name);
+                }
+
+                // 
+                // Get DM sources.
+                files = Directory.GetFiles(path, "*" + Constants.FileExtSource);
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string name = Path.GetFileNameWithoutExtension(files[i]);
+                    if (!resultList.Contains(name))
+                        resultList.Add(name);
+                }
             }
 
-            // 
-            // Get DM sources.
-            files = Directory.GetFiles(path, "*" + Constants.FileExtSource);
-            for (int i = 0; i < files.Length; i++)
-            {
-                string name = Path.GetFileNameWithoutExtension(files[i]);
-                if (!resultList.Contains(name))
-                    resultList.Add(name);
-            }
             // Get Extra DMs
             foreach (string dmdir in m_currentProject.Info.DMDirList)
             {
