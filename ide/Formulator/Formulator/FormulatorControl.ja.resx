@@ -120,7 +120,7 @@
   <data name="AddButton.Text" xml:space="preserve">
     <value>適用</value>
   </data>
-  <data name="AddFunctionButton.Tex" xml:space="preserve">
+  <data name="AddFunctionButton.Text" xml:space="preserve">
     <value>適用</value>
   </data>
   <data name="DeleteButton.Text" xml:space="preserve">

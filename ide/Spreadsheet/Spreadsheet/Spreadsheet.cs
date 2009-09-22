@@ -1582,7 +1582,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                                 m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
                             }
                         }
-                        else if (m_shiftIndex < rindex)
+                        else if (m_shiftIndex >= 0 && m_shiftIndex < rindex)
                         {
                             EcellObject obj = m_gridView.Rows[m_shiftIndex].Tag as EcellObject;
                             if (obj != null)

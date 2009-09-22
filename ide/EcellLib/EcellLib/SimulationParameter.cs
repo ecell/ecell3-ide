@@ -98,6 +98,8 @@ namespace Ecell
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
+                    // remove double quotation in string.
+                    line = line.Replace("\"", "");
                     string[] data = line.Split(',');
                     string fullPN;
                     double value = 0.0;
