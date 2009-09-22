@@ -333,6 +333,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void CheckParameters()
         {
+            if (this.autoThresholdCheckBox.Checked)
+                return;
+
             float high = float.Parse(thresholdHigh.Text);
             float low = float.Parse(thresholdLow.Text);
 

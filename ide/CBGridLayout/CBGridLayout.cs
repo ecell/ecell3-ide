@@ -161,7 +161,7 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                     if (variable == null)
                         continue;
 
-                    LayoutReference lr = new LayoutReference(process, variable);
+                    LayoutReference lr = new LayoutReference(process, variable, er.Coefficient);
                     references.Add(lr);
                 }
             }
@@ -188,6 +188,7 @@ namespace Ecell.IDE.Plugins.CBGridLayout
                     // calculate attractive force
                     foreach (LayoutReference lr in references)
                     {
+                        //double f = ()
                         PointF delta = lr.Delta;
                         double r = Math.Sqrt(Math.Pow(delta.X, 2) + Math.Pow(delta.Y, 2));
                         lr.Process.OffsetX -= delta.X * m_ka;
@@ -299,6 +300,15 @@ namespace Ecell.IDE.Plugins.CBGridLayout
             {
                 get { return _variable; }
             }
+
+            private int _coefficient;
+            /// <summary>
+            /// 
+            /// </summary>
+            public int Coefficient
+            {
+                get { return _coefficient; }
+            }
             /// <summary>
             /// 
             /// </summary>
@@ -328,10 +338,12 @@ namespace Ecell.IDE.Plugins.CBGridLayout
             /// </summary>
             /// <param name="process"></param>
             /// <param name="variable"></param>
-            public LayoutReference(EcellProcess process, EcellVariable variable)
+            /// <param name="coefficient"></param>
+            public LayoutReference(EcellProcess process, EcellVariable variable, int coefficient)
             {
                 _process = process;
                 _variable = variable;
+                _coefficient = coefficient;
             }
         }
     }
