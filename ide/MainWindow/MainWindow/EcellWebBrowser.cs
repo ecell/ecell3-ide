@@ -101,13 +101,16 @@ namespace Ecell.IDE.MainWindow
             webBrowser.ObjectForScripting = new AutomationStub(this);
             m_recentFiles = recentFiles;
             m_startupPage = FindStartPage();
-        }
+        }        
 
         public void EcellWebBrowserClear()
         {
-            webBrowser.Navigate("about:blank");
-            Application.DoEvents();
-            CoFreeUnusedLibraries();
+            if (webBrowser.CanGoBack)
+            {
+                webBrowser.Navigate("about:blank");
+                Application.DoEvents();
+                CoFreeUnusedLibraries();        
+            }
         }
 
         [DllImport("ole32.dll")]
