@@ -260,6 +260,7 @@ namespace Ecell.IDE
         public void AddVarButtonClick(object sender, EventArgs e)
         {
             m_selectWindow = new VariableSelectDialog(m_dManager, m_pManager);
+            m_selectWindow.MassCalculation = true;
             CopyTreeView();
             m_selectWindow.SetParentWindow(this);
 

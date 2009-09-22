@@ -971,26 +971,55 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             DataGridViewCell c = o as DataGridViewCell;
             List<EcellReference> list = EcellReference.ConvertFromEcellValue(((EcellData)c.Tag).Value);
-            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_env.DataManager, m_env.PluginManager, list);
-            using (win)
+
+            if (m_current.Classname == "MassCalculationProcess")
             {
-                if (win.ShowDialog() != DialogResult.OK)
-                    return;
-                EcellObject eo = m_current.Clone();
-                EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
-                nd.Value = EcellReference.ConvertToEcellValue(win.ReferenceList);
-                try
+                VariableCountDialog win = new VariableCountDialog(m_env.DataManager, m_env.PluginManager, list);
+                using (win)
                 {
-                    if (NotifyDataChanged(eo.ModelID, eo.Key, eo))
+                    if (win.ShowDialog() != DialogResult.OK)
+                        return;
+                    EcellObject eo = m_current.Clone();
+                    EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
+                    nd.Value = EcellReference.ConvertToEcellValue(win.ReferenceList);
+                    try
                     {
-                        c.Tag = nd;
+                        if (NotifyDataChanged(eo.ModelID, eo.Key, eo))
+                        {
+                            c.Tag = nd;
+                        }
+                        //                    m_current = eo;
                     }
-//                    m_current = eo;
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex);
+                        Util.ShowErrorDialog(ex.Message);
+                    }
                 }
-                catch (Exception ex)
+            }
+            else
+            {
+                VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_env.DataManager, m_env.PluginManager, list);
+                using (win)
                 {
-                    Trace.WriteLine(ex);
-                    Util.ShowErrorDialog(ex.Message);
+                    if (win.ShowDialog() != DialogResult.OK)
+                        return;
+                    EcellObject eo = m_current.Clone();
+                    EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
+                    nd.Value = EcellReference.ConvertToEcellValue(win.ReferenceList);
+                    try
+                    {
+                        if (NotifyDataChanged(eo.ModelID, eo.Key, eo))
+                        {
+                            c.Tag = nd;
+                        }
+                        //                    m_current = eo;
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex);
+                        Util.ShowErrorDialog(ex.Message);
+                    }
                 }
             }
         }

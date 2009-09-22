@@ -54,7 +54,26 @@ namespace Ecell.IDE
         /// the parent windows form.
         /// </summary>
         private IVariableDialog m_win;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_massCalc = false;
         #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool MassCalculation
+        {
+            get { return m_massCalc; }
+            set
+            {
+                m_massCalc = value;
+                this.VSProductButton.Visible = !value;
+                this.VSSourceButton.Visible = !value;
+                if(value)
+                    this.VSConstantButton.Location = this.VSProductButton.Location;
+            }
+        }
 
         /// <summary>
         /// Constructor for VariableSelectWindow.
