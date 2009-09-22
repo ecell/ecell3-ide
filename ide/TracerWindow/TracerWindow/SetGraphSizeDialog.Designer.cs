@@ -60,6 +60,21 @@
             cancelButton.Name = "cancelButton";
             cancelButton.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
             // okButton
             // 
             resources.ApplyResources(this.okButton, "okButton");
@@ -148,21 +163,6 @@
             this.y2MaxAutoCheckBox.UseVisualStyleBackColor = true;
             this.y2MaxAutoCheckBox.CheckedChanged += new System.EventHandler(this.MaxAuto2CheckChanged);
             // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
-            // 
             // SetGraphSizeDialog
             // 
             this.AcceptButton = this.okButton;
@@ -175,6 +175,7 @@
             this.Controls.Add(this.defaultCheckBox);
             this.Controls.Add(cancelButton);
             this.Controls.Add(this.okButton);
+            this.HelpButton = true;
             this.Name = "SetGraphSizeDialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GraphSizeDialogClosing);
             this.groupBox1.ResumeLayout(false);

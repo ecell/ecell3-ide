@@ -107,6 +107,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (webBrowser.CanGoBack)
             {
+                // for Acrobat reader on WebBrowser
                 webBrowser.Navigate("about:blank");
                 Application.DoEvents();
                 CoFreeUnusedLibraries();        
