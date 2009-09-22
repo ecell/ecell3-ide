@@ -556,7 +556,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Next に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Next&gt; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardGoForward {
             get {

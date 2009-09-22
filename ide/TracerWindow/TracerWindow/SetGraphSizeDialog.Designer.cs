@@ -30,6 +30,9 @@
         {
             System.Windows.Forms.Button cancelButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetGraphSizeDialog));
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
             this.okButton = new System.Windows.Forms.Button();
             this.yMaxTextBox = new System.Windows.Forms.TextBox();
             this.yMinTextBox = new System.Windows.Forms.TextBox();
@@ -43,21 +46,24 @@
             this.y2MinAutoCheckBox = new System.Windows.Forms.CheckBox();
             this.y2MaxAutoCheckBox = new System.Windows.Forms.CheckBox();
             cancelButton = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // cancelButton
             // 
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(cancelButton, "cancelButton");
+            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             cancelButton.Name = "cancelButton";
             cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
             // 
@@ -96,21 +102,23 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(label2);
             this.groupBox1.Controls.Add(this.yMaxAutoCheckBox);
             this.groupBox1.Controls.Add(this.yMinAutoCheckBox);
             this.groupBox1.Controls.Add(this.yMinTextBox);
             this.groupBox1.Controls.Add(this.yMaxTextBox);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(label3);
             this.groupBox2.Controls.Add(this.y2MinTextBox);
             this.groupBox2.Controls.Add(this.y2MaxTextBox);
             this.groupBox2.Controls.Add(this.y2MinAutoCheckBox);
             this.groupBox2.Controls.Add(this.y2MaxAutoCheckBox);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -140,12 +148,28 @@
             this.y2MaxAutoCheckBox.UseVisualStyleBackColor = true;
             this.y2MaxAutoCheckBox.CheckedChanged += new System.EventHandler(this.MaxAuto2CheckChanged);
             // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
             // SetGraphSizeDialog
             // 
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = cancelButton;
+            this.Controls.Add(label1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.defaultCheckBox);

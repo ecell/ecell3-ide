@@ -158,7 +158,7 @@ namespace Ecell.IDE.MainWindow
             textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
             OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
-            OKButton.Click += GoNext_Click;
+            OKButton.Click += GoNext_Click;                        
             MainLayoutPanel.Controls.Remove(DMPanel);
             MainLayoutPanel.Controls.Add(ProjectPanel, 0, 1);
             BackButton.Enabled = false;

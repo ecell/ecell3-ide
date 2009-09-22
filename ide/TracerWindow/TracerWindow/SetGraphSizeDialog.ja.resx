@@ -150,4 +150,13 @@
   <data name="yMinAutoCheckBox.Text" xml:space="preserve">
     <value>最小</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Y軸の設定を行います。デフォルトは自動サイズになります。</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Y軸の最大、最小を設定します</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Y2軸の最大、最小を設定します</value>
+  </data>
 </root>

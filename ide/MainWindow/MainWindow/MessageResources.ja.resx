@@ -283,7 +283,7 @@
     <value>作成</value>
   </data>
   <data name="ProjectWizardGoForward" xml:space="preserve">
-    <value>進む</value>
+    <value>次へ(&amp;N) &gt;</value>
   </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
     <value>テンプレートとするプロジェクトを選択してください。</value>
