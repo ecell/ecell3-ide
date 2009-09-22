@@ -182,7 +182,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if ((int)this.DockState != 1 || (int)keyData == (int)Keys.Control + (int)Keys.D)
+            if ((int)this.DockState != 1 || (int)keyData != (int)Keys.Control + (int)Keys.D)
                 return base.ProcessCmdKey(ref msg, keyData);
 
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)

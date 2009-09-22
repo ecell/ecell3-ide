@@ -237,10 +237,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Refresh()
         {
             base.Refresh();
-            m_panel.X = this.X + 10;
-            m_panel.Y = this.Y + 20;
-            m_pText.X = this.X + 20;
-            m_pText.Y = this.Y;
+            m_panel.X = this.X + this.OffsetX + 10;
+            m_panel.Y = this.Y + this.OffsetY + 20;
+            m_pText.X = this.X + this.OffsetX + 20;
+            m_pText.Y = this.Y + this.OffsetY;
+            m_graph.X = m_graph.X + this.OffsetX;
+            m_graph.Y = m_graph.Y + this.OffsetY;
+            this.X = this.X + this.OffsetX;
+            this.Y = this.Y + this.OffsetY;
+            // Reset Offset.
+            this.OffsetX = 0;
+            this.OffsetY = 0;
+            m_panel.OffsetX = 0;
+            m_panel.OffsetY = 0;
+            m_pText.OffsetX = 0;
+            m_pText.OffsetY = 0;
+            m_graph.OffsetX = 0;
+            m_graph.OffsetY = 0;
+
         }
 
         /// <summary>
@@ -249,7 +263,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Reset()
         {
             m_values.Clear();
-            m_panel.Reset();
+            m_graph.Reset();
         }
         #endregion
 

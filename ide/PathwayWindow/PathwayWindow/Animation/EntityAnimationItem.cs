@@ -338,7 +338,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             if (high <= low)
             {
-                thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
+                thresholdHigh.Text = Convert.ToString(_thresholdHigh);
+                thresholdLow.Text = Convert.ToString(_thresholdLow);
                 throw new PathwayException(this.Text + ":" + MessageResources.ErrMaxThreshold);
             }
         }

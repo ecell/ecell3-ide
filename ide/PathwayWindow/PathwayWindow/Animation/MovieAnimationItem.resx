@@ -149,10 +149,6 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="outputBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
   <data name="outputBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -264,6 +260,7 @@
   <data name="&gt;&gt;noLimitRadio.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -310,13 +307,16 @@
     <value>aviFileName</value>
   </data>
   <data name="&gt;&gt;aviFileName.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3402.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3406.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;aviFileName.Parent" xml:space="preserve">
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;aviFileName.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="outputBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="outputBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -355,6 +355,6 @@
     <value>MovieAnimationItem</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3402.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3406.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

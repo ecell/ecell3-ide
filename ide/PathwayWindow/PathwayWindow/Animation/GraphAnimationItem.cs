@@ -110,12 +110,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // variableBox
             // 
-            resources.ApplyResources(this.variableBox, "variableBox");
             this.variableBox.Controls.Add(label1);
             this.variableBox.Controls.Add(this.checkBoxVariable);
             this.variableBox.Controls.Add(this.radioButtonNumberConc);
             this.variableBox.Controls.Add(this.radioButtonMolarConc);
             this.variableBox.Controls.Add(this.radioButtonValue);
+            resources.ApplyResources(this.variableBox, "variableBox");
             this.variableBox.Name = "variableBox";
             this.variableBox.TabStop = false;
             // 
@@ -147,11 +147,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // processBox
             // 
-            resources.ApplyResources(this.processBox, "processBox");
             this.processBox.Controls.Add(label2);
             this.processBox.Controls.Add(this.checkBoxProcess);
             this.processBox.Controls.Add(this.radioButtonMolarActivity);
             this.processBox.Controls.Add(this.radioButtonActivity);
+            resources.ApplyResources(this.processBox, "processBox");
             this.processBox.Name = "processBox";
             this.processBox.TabStop = false;
             // 

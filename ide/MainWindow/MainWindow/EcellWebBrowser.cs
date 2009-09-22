@@ -443,7 +443,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
-            if (e.MaximumProgress == 0.0) return;
+            if (e.MaximumProgress == 0.0)
+                return;
             m_env.ReportManager.SetStatus(
                 StatusBarMessageKind.Generic,
                 MessageResources.MessageWebBrowse

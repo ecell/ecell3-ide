@@ -149,6 +149,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             string svgObj = "";
             if (graph == null || graph.Parent == null)
                 return svgObj;
+            graph.Refresh();
             // 
             string pen = "Black";
             string fill = BrushManager.ParseBrushToString(graph.Brush);
