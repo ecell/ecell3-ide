@@ -224,7 +224,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if(!process.ViewMode)
                     process.ViewMode = true;
                 // Line setting.
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = _viewEdgeBrush;
                     line.EdgeWidth = _control.EdgeWidth;
@@ -254,7 +254,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 float width = GetEdgeWidth(process.EcellObject, activity);
                 Brush brush = GetEdgeBrush(activity);
 
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                 {
                     if (line.Info.LineType != LineType.Dashed)
                         line.SetEdge(brush, width);
@@ -273,7 +273,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 Brush brush = GetEdgeBrush(molerConc);
 
                 // Set Effector.
-                foreach (PPathwayEdge line in variable.Relations)
+                foreach (PPathwayEdge line in variable.Edges)
                 {
                     if (line.Info.LineType == LineType.Dashed)
                         line.SetEdge(brush, width);
@@ -306,7 +306,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Line setting.
                 if(process.ViewMode)
                     process.ViewMode = false;
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = editEdgeBrush;
                     line.EdgeWidth = normalEdgeWidth;

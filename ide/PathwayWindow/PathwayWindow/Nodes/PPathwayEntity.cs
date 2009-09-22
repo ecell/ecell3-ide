@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// list of relations.
         /// </summary>
-        protected List<PPathwayEdge> m_relations = new List<PPathwayEdge>();
+        protected List<PPathwayEdge> m_edges = new List<PPathwayEdge>();
 
         /// <summary>
         /// Figure List
@@ -90,9 +90,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             set
             {
-                foreach (PPathwayEdge line in m_relations)
+                foreach (PPathwayEdge edge in m_edges)
                 {
-                    line.Selected = value;
+                    edge.Selected = value;
                 }
                 base.Selected = value;
             }
@@ -100,9 +100,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// RelatedProcesses
         /// </summary>
-        public List<PPathwayEdge> Relations
+        public List<PPathwayEdge> Edges
         {
-            get { return m_relations; }
+            get { return m_edges; }
         }
 
         /// <summary>
@@ -210,8 +210,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public override void Refresh()
         {
-            foreach (PPathwayEdge line in m_relations)
-                line.Refresh();
+            foreach (PPathwayEdge edge in m_edges)
+                edge.Refresh();
             base.Refresh();
             m_pProperty.X = this.X + this.Width;
             m_pProperty.Y = this.Y;

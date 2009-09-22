@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             {
                 PPathwayProcess process = (PPathwayProcess)obj;
                 // Create Edges
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                     if (line.Visible)
                         svgObj += CreateSVGLine(line);
                 if (process.ViewMode)

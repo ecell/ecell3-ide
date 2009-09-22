@@ -86,7 +86,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public override void Refresh()
         {
-            foreach (PPathwayEdge line in m_variable.Relations)
+            foreach (PPathwayEdge line in m_variable.Edges)
                 line.Refresh();
             base.Refresh();
         }

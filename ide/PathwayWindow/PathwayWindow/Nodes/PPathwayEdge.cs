@@ -238,8 +238,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             m_variable = variable;
             m_process = process;
-            m_variable.Relations.Add(this);
-            m_process.Relations.Add(this);
+            m_variable.Edges.Add(this);
+            m_process.Edges.Add(this);
 
             SetEdge(m_brush, LINE_WIDTH);
             base.Pickable = (variable.Visible && process.Visible);

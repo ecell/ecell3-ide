@@ -447,7 +447,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = _viewEdgeBrush;
                 }
@@ -516,7 +516,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = _viewEdgeBrush;
                 }
@@ -581,7 +581,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                foreach (PPathwayEdge line in process.Relations)
+                foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = _editEdgeBrush;
                 }

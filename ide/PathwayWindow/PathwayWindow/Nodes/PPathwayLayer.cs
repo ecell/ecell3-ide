@@ -100,7 +100,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     continue;
 
                 PPathwayEntity node = (PPathwayEntity)obj;
-                foreach (PPathwayEdge line in node.Relations)
+                foreach (PPathwayEdge line in node.Edges)
                 {
                     line.VisibleChange();
                 }

@@ -51,6 +51,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         private PPathwayObject _stepper = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool _showEdge = true;
         #endregion
 
         #region Accessors
@@ -63,6 +67,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
+                _showEdge = (m_ecellObj.Classname != "MassCalculationProcess");
+
                 ResetEdges();
                 RefreshStepperIcon();
             }
@@ -93,6 +99,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set { _stepper = value; }
         }
 
+        /// <summary>
+        /// ShowEdge
+        /// </summary>
+        public bool ShowEdge
+        {
+            get { return _showEdge; }
+            set
+            {
+                _showEdge = value;
+                ResetEdges();
+            }
+        }
         #endregion
 
         #region Constructor
@@ -159,7 +177,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             // Error Check
             EcellProcess process = (EcellProcess)m_ecellObj;
-            if (process == null || process.ReferenceList == null)
+            if (process == null || process.ReferenceList == null || !_showEdge)
                 return;
             List<EcellReference> list = process.ReferenceList;
             // Check if this node is tarminal node or not.
@@ -193,12 +211,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         private void DeleteEdges()
         {
-            foreach (PPathwayEdge line in m_relations)
+            foreach (PPathwayEdge edge in m_edges)
             {
-                line.RemoveFromParent();
-                line.Dispose();
+                edge.RemoveFromParent();
+                edge.Dispose();
             }
-            m_relations.Clear();
+            m_edges.Clear();
         }
 
         /// <summary>
@@ -248,7 +266,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <returns></returns>
         public override PointF GetContactPoint(PointF refPoint)
         {
-            if (m_isViewMode && this is PPathwayProcess)
+            if (m_isViewMode)
                 return m_tempFigure.GetContactPoint(refPoint, CenterPointF);
             else
                 return base.GetContactPoint(refPoint);
@@ -288,7 +306,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         internal PPathwayEdge GetRelation(string variableKey, int coefficient)
         {
             PPathwayEdge value = null;
-            foreach (PPathwayEdge edge in m_relations)
+            foreach (PPathwayEdge edge in m_edges)
             {
                 if (edge.Info.VariableKey == variableKey && edge.Info.Coefficient == coefficient)
                     value = edge;
