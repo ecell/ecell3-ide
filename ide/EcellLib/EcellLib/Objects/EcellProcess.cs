@@ -74,6 +74,10 @@ namespace Ecell.Objects
         /// StepperID. The reserved name.
         /// </summary>
         public const string STEPPERID = "StepperID";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string MASSCALCULATIONPROCESS = "MassCalculationProcess";
         #endregion
 
         #region Fields

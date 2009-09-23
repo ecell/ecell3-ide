@@ -972,7 +972,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             DataGridViewCell c = o as DataGridViewCell;
             List<EcellReference> list = EcellReference.ConvertFromEcellValue(((EcellData)c.Tag).Value);
 
-            if (m_current.Classname == "MassCalculationProcess")
+            if (m_current.Classname == EcellProcess.MASSCALCULATIONPROCESS)
             {
                 VariableCountDialog win = new VariableCountDialog(m_env.DataManager, m_env.PluginManager, list);
                 using (win)

@@ -1450,6 +1450,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         break;
                 }
             }
+            // Check MassCalc
+            if (process.Classname == EcellProcess.MASSCALCULATIONPROCESS)
+            {
+                foreach (EcellReference er in newList)
+                {
+                    er.Coefficient = 0;
+                }
+            }
             process.ReferenceList = newList;
             try
             {

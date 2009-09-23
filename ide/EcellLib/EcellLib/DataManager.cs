@@ -1846,7 +1846,8 @@ namespace Ecell
             if (Constants.defaultSimParam.Equals(paramId))
                 paramId = null;
 
-            this.CheckDifferences(oldNode, ecellObject, paramId);
+            CheckMassCalc(ecellObject);
+            CheckDifferences(oldNode, ecellObject, paramId);
             if (key.Equals(ecellObject.Key))
             {
                 if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam) ||
@@ -1879,6 +1880,19 @@ namespace Ecell
             // Deletes the old object.
             DataDelete4Node(modelID, key, type, false, true, false);
             return;
+        }
+
+        private void CheckMassCalc(EcellObject ecellObject)
+        {
+            if(ecellObject.Classname != EcellProcess.MASSCALCULATIONPROCESS)
+                return;
+            EcellProcess process = (EcellProcess)ecellObject;
+            List<EcellReference> list = process.ReferenceList;
+            foreach (EcellReference er in list)
+            {
+                er.Coefficient = 0;
+            }
+            process.ReferenceList = list;
         }
 
         private void DataChanged4Stepper(

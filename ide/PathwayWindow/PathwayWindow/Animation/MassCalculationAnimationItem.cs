@@ -216,7 +216,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             List<PPathwayProcess> list = new List<PPathwayProcess>();
             foreach (PPathwayProcess process in _processes)
             {
-                if (!process.Visible || process.EcellObject.Classname != "MassCalculationProcess")
+                if (!process.Visible || process.EcellObject.Classname != EcellProcess.MASSCALCULATIONPROCESS)
                     continue;
                 list.Add(process);
                 process.ViewMode = false;
@@ -230,7 +230,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (list.Count == 0)
             {
                 EcellObject eo = _canvas.Control.CreateDefaultObject(_canvas.ModelID, "/", EcellObject.PROCESS);
-                eo.Classname = "MassCalculationProcess";
+                eo.Classname = EcellProcess.MASSCALCULATIONPROCESS;
                 eo.Key = "/:MassCalculation";
                 _canvas.Control.NotifyDataAdd(eo, true);
                 PPathwayProcess process = _canvas.Processes[eo.Key];
@@ -246,7 +246,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             foreach (PPathwayProcess process in _processes)
             {
-                if (!process.Visible || process.EcellObject.Classname != "MassCalculationProcess")
+                if (!process.Visible || process.EcellObject.Classname != EcellProcess.MASSCALCULATIONPROCESS)
                     continue;
 
                 // Variable setting.
