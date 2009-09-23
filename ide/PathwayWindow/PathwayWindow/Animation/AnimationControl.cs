@@ -484,7 +484,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void TimerStart()
         {
-            _isPausing = false;
+            _isPausing = true;
             _timer.Enabled = true;
             _timer.Start();
         }

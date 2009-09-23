@@ -358,11 +358,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
                     {
                         edge.ProPoint = edgePointer.CenterPointF;
+                        edge.PIndex = process.GetConnectorIndex(edgePointer.CenterPointF);
                         edge.DrawLine();
                     }
                     else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
                         edge.VarPoint = edgePointer.CenterPointF;
+                        PPathwayVariable variable = m_canvas.Variables[variableKey];
+                        edge.VIndex = variable.GetConnectorIndex(edgePointer.CenterPointF);
                         edge.DrawLine();
                     }
                 }

@@ -171,6 +171,7 @@
             this.deleteDMToolStripMenuItem});
             this.contextMenuStripDM.Name = "contextMenuStripDM";
             resources.ApplyResources(this.contextMenuStripDM, "contextMenuStripDM");
+            this.contextMenuStripDM.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripDM_Opening);
             // 
             // toolStripSeparator5
             // 

@@ -196,6 +196,56 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public virtual PointF GetContactPoint(int index)
+        {
+            PointF point = m_figure.ContactPoints[index];
+            point = new PointF(point.X + this.X + this.OffsetX, point.Y + this.Y + this.OffsetY);
+            return point;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public virtual int GetConnectorIndex(PointF point)
+        {
+            int index = 0;
+            point = new PointF(point.X - this.X - this.OffsetX, point.Y - this.Y - this.OffsetY);
+
+            PointF[] points = m_figure.ContactPoints;
+            int i = 0;
+            float length = GetDistance(point, points[0]);
+            foreach (PointF pos in points)
+            {
+                float temp = GetDistance(pos, point);
+                if (temp < length)
+                {
+                    length = temp;
+                    index = i;
+                }
+                i++;
+            }
+            return index;
+        }
+
+        /// <summary>
+        /// Get distance between two points
+        /// </summary>
+        /// <param name="point1">point 1</param>
+        /// <param name="point2">point 2</param>
+        /// <returns>Distance between point 1 and point 2</returns>
+        public float GetDistance(PointF point1, PointF point2)
+        {
+            float dist = (float)Math.Sqrt(Math.Pow((double)(point1.X - point2.X), 2d) + Math.Pow((double)(point1.Y - point2.Y), 2d));
+            return dist;
+        }
+
+        /// <summary>
         /// String expression of this object.
         /// </summary>
         /// <returns></returns>

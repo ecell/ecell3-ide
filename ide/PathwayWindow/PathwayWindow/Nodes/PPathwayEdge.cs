@@ -126,6 +126,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         private float m_width = LINE_WIDTH;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_pIndex = -1;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_vIndex = -1;
         #endregion
 
         #region Accessors
@@ -156,6 +164,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set { this.m_proPoint = value; }
         }
 
+        /// <summary>
+        /// Accessor for m_varPoint.
+        /// </summary>
+        public int VIndex
+        {
+            get { return m_vIndex; }
+            set { this.m_vIndex = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_proPoint.
+        /// </summary>
+        public int PIndex
+        {
+            get { return m_pIndex; }
+            set { this.m_pIndex = value; }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -259,8 +284,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.Refresh();
             if (m_variable == null || m_process == null)
                 return;
-            m_varPoint = m_variable.GetContactPoint(m_process.CenterPointF);
-            m_proPoint = m_process.GetContactPoint(m_varPoint);
+            //
+            if (m_vIndex == -1)
+                m_varPoint = m_variable.GetContactPoint(m_process.CenterPointF);
+            else
+                m_varPoint = m_variable.GetContactPoint(m_vIndex);
+            //
+            if (m_pIndex == -1)
+                m_proPoint = m_process.GetContactPoint(m_variable.CenterPointF);
+            else
+                m_proPoint = m_process.GetContactPoint(m_pIndex);
+            
             DrawLine();
             this.Visible = m_process.Visible && m_variable.Visible;
             this.Pickable = this.Visible;

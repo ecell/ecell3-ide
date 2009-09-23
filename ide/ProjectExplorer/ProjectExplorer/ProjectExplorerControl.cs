@@ -2061,6 +2061,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             ContextMenuStrip node = (ContextMenuStrip)sender;
             exportRevisionZipMenuItem.Enabled = !Constants.xpathCurrent.Equals((string)m_lastSelectedNode.Tag);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void contextMenuStripDM_Opening(object sender, CancelEventArgs e)
+        {
+        }
         #endregion
 
         #region ShortCuts
@@ -2116,6 +2125,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
     }
 
     #region Node classes

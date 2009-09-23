@@ -281,7 +281,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
         {
             string obj = "<polyline stroke=\"" + brush
             + "\" stroke-width=\"" + width
-            + "\" fill=\"" + "transparent"
+            + "\" fill=\"" + "none"
             + "\" points=\"";
             for (int i = 0; i < points.Length; i++)
             {

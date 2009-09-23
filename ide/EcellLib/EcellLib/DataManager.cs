@@ -5766,6 +5766,8 @@ namespace Ecell
         /// <returns>the source file path.</returns>
         public string GetDMSourceFileName(string indexName)
         {
+            if (m_currentProject.Info.ProjectPath == null)
+                return null;
             string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
             path = Path.Combine(path, indexName + Constants.FileExtSource);
             if (!File.Exists(path))
@@ -5780,6 +5782,8 @@ namespace Ecell
         /// <returns>the DLL file path.</returns>
         public string GetDMDLLFileName(string indexName)
         {
+            if (m_currentProject.Info.ProjectPath == null)
+                return null;
             string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
             path = Path.Combine(path, indexName + Constants.FileExtDM);
             if (!File.Exists(path))

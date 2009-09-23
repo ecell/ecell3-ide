@@ -190,13 +190,13 @@
     <value>11</value>
   </data>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="editToolStripMenuItem.Text" xml:space="preserve">
     <value>Edit...</value>
   </data>
   <data name="compileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="compileToolStripMenuItem.Text" xml:space="preserve">
     <value>Compile DM</value>
@@ -220,7 +220,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.3387.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.3417.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -232,22 +232,22 @@
     <value>528, 91</value>
   </metadata>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="propertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
     <value>Property</value>
   </data>
   <data name="deleteDMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="deleteDMToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="contextMenuStripDM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 98</value>
+    <value>153, 120</value>
   </data>
   <data name="&gt;&gt;contextMenuStripDM.Name" xml:space="preserve">
     <value>contextMenuStripDM</value>
@@ -809,6 +809,6 @@
     <value>ProjectExplorerControl</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3408.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3423.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
