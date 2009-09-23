@@ -172,6 +172,10 @@ namespace Ecell
         /// The dictionary of the loading stepping data.
         /// </summary>
         private Dictionary<string, EcellValue> m_steppingData = null;
+        /// <summary>
+        /// The list of deleted parameter IDs.
+        /// </summary>
+        private List<string> m_deleteParameterList = new List<string>();
         #endregion
 
         #region Constructor
@@ -1090,6 +1094,23 @@ namespace Ecell
                 {
                     SaveSimulationParameter(name);
                 }
+                foreach (string name in m_deleteParameterList)
+                {
+                    string simulationDirName
+                        = Path.Combine(Path.Combine(m_defaultDir, m_currentProject.Info.Name), Constants.xpathParameters);
+                    if (Directory.Exists(simulationDirName))
+                    {
+                        string pattern = "_????_??_??_??_??_??_" + name + Constants.FileExtXML;
+                        foreach (string fileName in Directory.GetFiles(simulationDirName, pattern))
+                        {                            
+                            File.Delete(fileName);
+                        }
+                        string simulationFileName
+                                = Path.Combine(simulationDirName, name + Constants.FileExtXML);
+                        if (File.Exists(simulationFileName))
+                            File.Delete(simulationFileName);
+                    }
+                }
 
                 SaveSimulationResult();
                 SaveSimulationResultDelegate dlg = 
@@ -1314,6 +1335,7 @@ namespace Ecell
 
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 this.ClearSteppingModel();
+                m_deleteParameterList.Clear();
             }
             catch (Exception ex)
             {
@@ -5152,19 +5174,6 @@ namespace Ecell
                 this.SetDefaultDir();
                 //m_currentProject.StepperDic.Remove(parameterID);
 
-                string simulationDirName
-                        = Path.Combine(Path.Combine(m_defaultDir, m_currentProject.Info.Name), Constants.xpathParameters);
-                if (Directory.Exists(simulationDirName))
-                {
-                    string pattern = "_????_??_??_??_??_??_" + parameterID + Constants.FileExtXML;
-                    foreach (string fileName in Directory.GetFiles(simulationDirName, pattern))
-                    {
-                        File.Delete(fileName);
-                    }
-                    string simulationFileName
-                            = Path.Combine(simulationDirName, parameterID + Constants.FileExtXML);
-                    File.Delete(simulationFileName);
-                }
                 m_currentProject.LoggerPolicyDic.Remove(parameterID);
                 m_currentProject.InitialCondition.Remove(parameterID);
                 Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
@@ -5181,6 +5190,7 @@ namespace Ecell
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoRemoveSim, parameterID));
                 m_env.Console.Flush();
                 MessageDeleteEntity("Simulation Parameter", message);
+                m_deleteParameterList.Add(parameterID);
 
                 //if (isRecorded)
                 //    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
