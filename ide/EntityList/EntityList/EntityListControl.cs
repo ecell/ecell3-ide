@@ -165,6 +165,7 @@ namespace Ecell.IDE.Plugins.EntityList
             {
                 objectListDataGrid.FirstDisplayedScrollingRowIndex = row.Index;
             }
+            m_shiftIndex = -1;
         }
 
         /// <summary>
@@ -674,6 +675,8 @@ namespace Ecell.IDE.Plugins.EntityList
                         }
                         m_isSelected = false;
                         objectListDataGrid.CurrentCell = objectListDataGrid[cindex, rindex - 1];
+                        m_selectedRow = null;
+                        m_shiftIndex = -1;
                     }
                 }
                 return true;
@@ -694,6 +697,8 @@ namespace Ecell.IDE.Plugins.EntityList
                         }
                         m_isSelected = false;
                         objectListDataGrid.CurrentCell = objectListDataGrid[cindex, rindex + 1];
+                        m_selectedRow = null;
+                        m_shiftIndex = -1;
                     }
                 }
                 return true;
@@ -721,7 +726,10 @@ namespace Ecell.IDE.Plugins.EntityList
             if (objectListDataGrid.Rows[ind].Selected)
             {
                 if (objectListDataGrid.SelectedRows.Count <= 1)
+                {
                     m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+                    m_shiftIndex = -1;
+                }
                 else
                 {
                     m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);

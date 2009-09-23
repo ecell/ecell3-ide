@@ -338,6 +338,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 m_gridView.FirstDisplayedScrollingRowIndex = row.Index;
             }
+            m_shiftIndex = -1;
         }
 
         /// <summary>
@@ -1488,6 +1489,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 if (m_gridView.SelectedRows.Count <= 1)
                 {
                     m_env.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+                    m_shiftIndex = -1;
                 }
                 else
                 {
@@ -1628,6 +1630,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                         }
                         m_isSelected = false;
                         m_gridView.CurrentCell = m_gridView[cindex, rindex - 1];
+                        m_selectedRow = null;
+                        m_shiftIndex = -1;
                     }
                 }
                 return true;
@@ -1648,6 +1652,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                         }
                         m_isSelected = false;
                         m_gridView.CurrentCell = m_gridView[cindex, rindex + 1];
+                        m_selectedRow = null;
+                        m_shiftIndex = -1;
                     }
                 }
                 return true;
