@@ -1890,6 +1890,7 @@ namespace Ecell
             List<EcellReference> list = process.ReferenceList;
             foreach (EcellReference er in list)
             {
+                er.Name = "1";
                 er.Coefficient = 0;
             }
             process.ReferenceList = list;

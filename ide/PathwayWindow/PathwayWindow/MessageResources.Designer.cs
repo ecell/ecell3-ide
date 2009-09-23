@@ -385,6 +385,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Show Edge に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuShowEdge {
+            get {
+                return ResourceManager.GetString("CanvasMenuShowEdge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Alignment に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuTextAlign {

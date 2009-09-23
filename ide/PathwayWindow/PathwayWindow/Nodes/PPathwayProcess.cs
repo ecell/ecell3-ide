@@ -66,8 +66,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return base.m_ecellObj; }
             set
             {
+                // Show edge
+                if (m_ecellObj == null && value.Classname == EcellProcess.MASSCALCULATIONPROCESS)
+                    _showEdge = false;
+                else if (m_ecellObj != null && m_ecellObj.Classname != value.Classname)
+                    _showEdge = (value.Classname != EcellProcess.MASSCALCULATIONPROCESS);
+
                 base.EcellObject = value;
-                _showEdge = (m_ecellObj.Classname != EcellProcess.MASSCALCULATIONPROCESS);
+                
 
                 ResetEdges();
                 RefreshStepperIcon();

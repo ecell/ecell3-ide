@@ -116,6 +116,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripPaste;
         private ToolStripMenuItem toolStripDelete;
         private ToolStripMenuItem toolStripAlias;
+        private ToolStripMenuItem toolStripShowEdge;
         private ToolStripMenuItem toolStripDeleteAlias;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem toolStripChangeLayer;
@@ -267,6 +268,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAlias = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripShowEdge = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDeleteAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripChangeLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -331,6 +333,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripDelete,
             this.commonMenu.mergeSystemToolStripMenuItem,
             this.toolStripAlias,
+            this.toolStripShowEdge,
             this.toolStripDeleteAlias,
             this.toolStripSeparator2,
             this.toolStripTextAlign,
@@ -453,6 +456,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripDeleteAlias.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDeleteAlias;
             this.toolStripDeleteAlias.Visible = false;
             this.toolStripDeleteAlias.Click += new System.EventHandler(this.DeleteAliasClick);
+            //
+            // toolStripShowEdge
+            //
+            this.toolStripShowEdge.Name = "toolStripShowEdge";
+            this.toolStripShowEdge.Size = new System.Drawing.Size(271, 22);
+            this.toolStripShowEdge.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuShowEdge;
+            this.toolStripShowEdge.Visible = false;
+            this.toolStripShowEdge.CheckOnClick = true;
+            this.toolStripShowEdge.Click += new System.EventHandler(this.ShowEdgeClick);
             // 
             // toolStripSeparator2
             // 
@@ -987,6 +999,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isText = (node is PPathwayText);
             bool isRoot = false;
             bool isEdge = (node is PPathwayEdge);
+            bool isMassCalc = false;
             bool isOneway = true;
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
@@ -1015,6 +1028,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 SetLayerManu(eo);
                 if (eo.Key.Equals(Constants.delimiterPath))
                     isRoot = true;
+                // MassCalc
+                isMassCalc = (eo.Classname == EcellProcess.MASSCALCULATIONPROCESS);
+                if (isMassCalc)
+                    toolStripShowEdge.Checked = ((PPathwayProcess)node).ShowEdge;
             }
             if (isEdge)
             {
@@ -1049,6 +1066,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isEditMode;
             // Set Alias
             toolStripAlias.Visible = isVariable && isEditMode;
+            toolStripShowEdge.Visible = isMassCalc && isEditMode;
             toolStripDeleteAlias.Visible = isAlias && isEditMode;
             // Set Text menu.
             toolStripTextAlign.Visible = isText && isEditMode;
@@ -1260,6 +1278,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             m_con.DeteleNodes();
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowEdgeClick(object sender, EventArgs e)
+        {
+            PPathwayProcess process = (PPathwayProcess)m_con.Canvas.FocusNode;
+            process.ShowEdge = this.toolStripShowEdge.Checked;
         }
 
         /// <summary>
