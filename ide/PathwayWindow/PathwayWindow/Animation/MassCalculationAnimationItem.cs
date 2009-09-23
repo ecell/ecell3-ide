@@ -226,16 +226,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 double molarActivity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 SetThreshold(molarActivity);
             }
-            // Create process.
-            if (list.Count == 0)
-            {
-                EcellObject eo = _canvas.Control.CreateDefaultObject(_canvas.ModelID, "/", EcellObject.PROCESS);
-                eo.Classname = EcellProcess.MASSCALCULATIONPROCESS;
-                eo.Key = "/:MassCalculation";
-                _canvas.Control.NotifyDataAdd(eo, true);
-                PPathwayProcess process = _canvas.Processes[eo.Key];
-                list.Add(process);
-            }
             _processes = list;
         }
 
