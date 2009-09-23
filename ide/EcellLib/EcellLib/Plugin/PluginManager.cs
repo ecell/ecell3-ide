@@ -713,11 +713,11 @@ namespace Ecell.Plugin
         /// <param name="type">system type</param>
         public void ChangeStatus(ProjectStatus type)
         {
+            m_status = type;
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ChangeStatus(type);
             }
-            m_status = type;
         }
 
         /// <summary>

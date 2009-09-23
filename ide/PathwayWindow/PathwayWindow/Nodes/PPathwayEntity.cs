@@ -268,6 +268,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if(m_pProperty.Visible)
                 m_pProperty.Refresh();
         }
+
+        /// <summary>
+        /// Event on Dispose
+        /// </summary>
+        public override void Dispose()
+        {
+            // Clear Lines
+            foreach (PPathwayEdge edge in m_edges)
+            {
+                edge.RemoveFromParent();
+                edge.Dispose();
+            }
+            m_edges.Clear();
+            base.Dispose();
+        }
         #endregion
     }
 }

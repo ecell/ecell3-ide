@@ -3898,7 +3898,7 @@ namespace Ecell
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();
                     this.m_env.PluginManager.AdvancedTime(currentTime);
-                    if (m_waitTime > 0)
+                    if (m_waitTime > 0 && m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
                         for (int i = 0; i < m_waitTime; i++)
                         {

@@ -183,7 +183,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             // Error Check
             EcellProcess process = (EcellProcess)m_ecellObj;
-            if (process == null || process.ReferenceList == null || !_showEdge)
+            if (process.ReferenceList == null || !_showEdge)
                 return;
             List<EcellReference> list = process.ReferenceList;
             // Check if this node is tarminal node or not.
@@ -197,13 +197,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                         continue;
 
                     PPathwayVariable var = base.m_canvas.Variables[er.Key];
-                    EdgeInfo edge = new EdgeInfo(process.Key, list, er);
-                    PPathwayEdge line = new PPathwayEdge(m_canvas, edge, this, var);
-                    m_layer.AddChild(line);
-                    line.EdgeWidth = width;
-                    line.Selected = this.Selected || var.Selected;
-                    line.Visible = this.Visible && var.Visible;
-                    line.Pickable = line.Visible;
+                    EdgeInfo info = new EdgeInfo(process.Key, list, er);
+                    PPathwayEdge edge = new PPathwayEdge(m_canvas, info, this, var);
+                    m_layer.AddChild(edge);
+                    edge.EdgeWidth = width;
+                    edge.Selected = this.Selected || var.Selected;
+                    edge.Visible = this.Visible && var.Visible;
+                    edge.Pickable = edge.Visible;
                 }
             }
             catch (Exception e)
@@ -254,15 +254,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             _stepper.Y = this.Bottom - 10;
             _stepper.Setting = stepper.Setting;
             _stepper.MoveToFront();
-        }
-
-        /// <summary>
-        /// Event on Dispose
-        /// </summary>
-        public override void Dispose()
-        {
-            DeleteEdges();
-            base.Dispose();
         }
 
         /// <summary>

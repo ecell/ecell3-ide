@@ -116,13 +116,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public override void Dispose()
         {
-            // Clear Lines
-            foreach (PPathwayEdge edge in m_edges)
-            {
-                edge.RemoveFromParent();
-                edge.Dispose();
-            }
-            m_edges.Clear();
             // Clear Aliases
             foreach (PPathwayAlias alias in m_aliases)
             {
