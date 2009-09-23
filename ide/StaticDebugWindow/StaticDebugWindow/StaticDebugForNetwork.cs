@@ -96,7 +96,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
 
             foreach (EcellObject obj in l_data)
             {
-                if (obj.Type == Constants.xpathProcess)
+                if (obj.Type == Constants.xpathProcess && !obj.Classname.Equals("MassCalculationProcess"))
                     m_existProcessList.Add(Constants.xpathProcess + 
                         Constants.delimiterColon + obj.Key, obj);
                 if (obj.Type == Constants.xpathVariable)
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 if (obj.Children == null) continue;
                 foreach (EcellObject cobj in obj.Children)
                 {
-                    if (cobj.Type == Constants.xpathProcess)
+                    if (cobj.Type == Constants.xpathProcess && !cobj.Classname.Equals("MassCalculationProcess"))
                         m_existProcessList.Add(Constants.xpathProcess +
                             Constants.delimiterColon + cobj.Key, cobj);
                     if (cobj.Type == Constants.xpathVariable)
@@ -190,6 +190,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             foreach (EcellObject obj in m_existProcessList.Values)
             {
                 EcellProcess process = (EcellProcess)obj;
+                if (process.Classname.Equals("MassCalculationProcess"))
+                    continue;
                 List<EcellReference> refList = process.ReferenceList;
                 if (refList.Count <= 0)
                 {
