@@ -1846,7 +1846,6 @@ namespace Ecell
             if (Constants.defaultSimParam.Equals(paramId))
                 paramId = null;
 
-            CheckMassCalc(ecellObject);
             CheckDifferences(oldNode, ecellObject, paramId);
             if (key.Equals(ecellObject.Key))
             {
@@ -1882,16 +1881,27 @@ namespace Ecell
             return;
         }
 
-        private void CheckMassCalc(EcellObject ecellObject)
+        private void CheckMassCalc(EcellObject src, EcellObject dest)
         {
-            if(ecellObject.Classname != EcellProcess.MASSCALCULATIONPROCESS)
-                return;
-            EcellProcess process = (EcellProcess)ecellObject;
+            EcellProcess process = (EcellProcess)dest;
             List<EcellReference> list = process.ReferenceList;
-            foreach (EcellReference er in list)
+            if (dest.Classname == EcellProcess.MASSCALCULATIONPROCESS)
             {
-                er.Name = "1";
-                er.Coefficient = 0;
+                foreach (EcellReference er in list)
+                {
+                    er.Name = "1";
+                    er.Coefficient = 0;
+                }
+            }
+            else if (src.Classname == EcellProcess.MASSCALCULATIONPROCESS)
+            {
+                int i = 0;
+                foreach (EcellReference er in list)
+                {
+                    er.Name = "C" + i.ToString();
+                    i++;
+                }
+
             }
             process.ReferenceList = list;
         }
@@ -2437,6 +2447,7 @@ namespace Ecell
             {
                 updated = true;
                 MessageUpdateData(Constants.xpathClassName, message, src.Classname, dest.Classname);
+                CheckMassCalc(src, dest);
             }
             // Check Key change.
             if (!src.Key.Equals(dest.Key))
