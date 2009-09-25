@@ -291,6 +291,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private void textBrush_BrushChange(object sender, EventArgs e)
         {
             this.pCanvas.Object.PText.TextBrush = textBrush.Brush;
+            RaiseItemChange();
         }
         /// <summary>
         /// Event on ChangeLineBrush
@@ -300,6 +301,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private void lineBrush_BrushChange(object sender, EventArgs e)
         {
             this.pCanvas.Object.LineBrush = lineBrush.Brush;
+            RaiseItemChange();
         }
 
         /// <summary>
@@ -322,6 +324,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 iconFile.FileName = null;
             }
             this.pCanvas.Object.Image = image;
+            RaiseItemChange();
         }
 
         /// <summary>
@@ -335,6 +338,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             if (brushBox.Brush == null)
                 return;
             ChangeFillBrush();
+            RaiseItemChange();
         }
         /// <summary>
         /// Event on ChangeIsGradation
@@ -345,6 +349,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             centerBrush.Enabled = isGradation.Checked;
             ChangeFillBrush();
+            RaiseItemChange();
         }
         /// <summary>
         /// ChangeFillBrush
@@ -378,6 +383,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             IFigure figure = FigureManager.CreateFigure(type, args);
             this.pCanvas.Object.Figure = figure;
             ChangeFillBrush();
+            RaiseItemChange();
         }
 
         /// <summary>
@@ -388,8 +394,40 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private void resetButton_Click(object sender, EventArgs e)
         {
             SetItem(pCanvas.Setting);
+            RaiseItemChange();
         }
 
         #endregion
+
+
+        #region EventHandler for ItemChange
+        private EventHandler m_onItemChange;
+        /// <summary>
+        /// Event on item change.
+        /// </summary>
+        public event EventHandler ItemChange
+        {
+            add { m_onItemChange += value; }
+            remove { m_onItemChange -= value; }
+        }
+        /// <summary>
+        /// Event on item change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnItemChange(EventArgs e)
+        {
+            if (m_onItemChange != null)
+                m_onItemChange(this, e);
+        }
+        /// <summary>
+        /// Raise ItemChange event.
+        /// </summary>
+        private void RaiseItemChange()
+        {
+            EventArgs e = new EventArgs();
+            OnItemChange(e);
+        }
+        #endregion
+
     }
 }

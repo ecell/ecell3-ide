@@ -276,7 +276,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // Show edge pointers.
             EdgeHandle handle = (EdgeHandle)sender; 
             PPathwayEntity entity = m_canvas.GetPickedEntity(e.Position);
-            if (entity != null && !entity.ViewMode && ((entity is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS) || (true)))
+            if (entity != null && !entity.ViewMode &&
+                ((entity is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS) || (entity is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE) || (entity is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE)))
             {
                 foreach (PointF point in entity.Figure.ContactPoints)
                 {
@@ -328,6 +329,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 {
                     variableKey = obj.EcellObject.Key;
                 }
+                else if (obj is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE)
+                {
+                    variableKey = ((PPathwayAlias)obj).Variable.EcellObject.Key;
+                }
                 else
                 {
                     m_canvas.ResetSelectedLine();
@@ -362,6 +367,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                         edge.DrawLine();
                     }
                     else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
+                    {
+                        edge.VarPoint = edgePointer.CenterPointF;
+                        PPathwayVariable variable = m_canvas.Variables[variableKey];
+                        edge.VIndex = variable.GetConnectorIndex(edgePointer.CenterPointF);
+                        edge.DrawLine();
+                    }
+                    else if (obj is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
                         edge.VarPoint = edgePointer.CenterPointF;
                         PPathwayVariable variable = m_canvas.Variables[variableKey];

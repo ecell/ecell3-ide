@@ -385,7 +385,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ResetSelectedLine();
             foreach (PPathwayProcess process in m_processes.Values)
             {
-                process.SetEdges();
+                process.ResetEdges();
             }
         }
 

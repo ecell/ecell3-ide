@@ -70,6 +70,7 @@
             resources.ApplyResources(this.componentItem, "componentItem");
             this.componentItem.ContextMenuStrip = this.contextMenuStrip;
             this.componentItem.Name = "componentItem";
+            this.componentItem.ItemChange += new System.EventHandler(componentItem_ItemChange);
             // 
             // registerCheckBox
             // 

@@ -646,6 +646,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 System.Drawing.Graphics g = paintContext.Graphics;
 
                 g.DrawImage((Image)image.Clone(), b);
+                if (this is PPathwaySystem)
+                    base.Paint(paintContext);
             }
             else
             {

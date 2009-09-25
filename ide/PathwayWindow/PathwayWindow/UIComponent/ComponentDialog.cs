@@ -116,6 +116,16 @@ namespace Ecell.IDE
         {
             m_csManager = csManager;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void componentItem_ItemChange(object sender, System.EventArgs e)
+        {
+            this.buttonOK.Enabled = componentItem.Changed || m_isExistSetting;
+        }
         #endregion
 
         /// <summary>

@@ -282,8 +282,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Dispose()
         {
             base.Dispose();
-            if (m_process != null)
-                m_process.Edges.Remove(this);
             if (m_variable != null)
                 m_variable.Edges.Remove(this);
         }

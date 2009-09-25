@@ -38,7 +38,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// <summary>
     /// Alias object for Variable
     /// </summary>
-    public class PPathwayAlias : PPathwayObject
+    public class PPathwayAlias : PPathwayEntity
     {
         /// <summary>
         /// 

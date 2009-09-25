@@ -94,7 +94,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             }
             if ((m_start is PPathwayVariable && newNode is PPathwayVariable)
-                || (m_start is PPathwayProcess && newNode is PPathwayProcess))
+                || (m_start is PPathwayProcess && newNode is PPathwayProcess)
+                || m_start is PPathwayVariable && newNode is PPathwayAlias
+                || m_start is PPathwayAlias && newNode is PPathwayAlias
+                || m_start is PPathwayAlias && newNode is PPathwayVariable)
             {
                 SetStartNode(newNode);
                 return;
@@ -216,7 +219,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="obj">node which is to be connected</param>
         public void SetStartNode(PPathwayEntity obj)
         {
-            m_start = obj;
+            if (obj is PPathwayAlias)
+                m_start = ((PPathwayAlias)obj).Variable;
+            else
+                m_start = obj;
         }
 
         /// <summary>

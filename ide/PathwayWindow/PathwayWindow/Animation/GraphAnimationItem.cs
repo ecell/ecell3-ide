@@ -73,6 +73,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             : base(control)
         {
             InitializeComponent();
+            foreach (PPathwayEntity entity in _control.Canvas.GetNodeList())
+            {
+                if (entity.Graph != null)
+                    entity.Graph.Dispose();
+                entity.Graph = null;
+            }
         }
 
         /// <summary>
