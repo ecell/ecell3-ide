@@ -73,9 +73,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     _showEdge = (value.Classname != EcellProcess.MASSCALCULATIONPROCESS);
 
                 base.EcellObject = value;
-                
 
-                ResetEdges();
+
+                SetEdges();
                 RefreshStepperIcon();
             }
         }
@@ -114,7 +114,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 _showEdge = value;
-                ResetEdges();
+                SetEdges();
             }
         }
         #endregion
@@ -166,39 +166,60 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// check whethet exist invalid process in list.
-        /// </summary>
-        public void ResetEdges()
-        {
-            if (base.m_canvas == null || m_ecellObj == null || m_layer == null)
-                return;
-            DeleteEdges();
-            CreateEdges();
-        }
-
-        /// <summary>
         /// create edge by using the information of element.
         /// </summary>
-        private void CreateEdges()
+        public void SetEdges()
         {
             // Error Check
+            if (base.m_canvas == null || m_ecellObj == null || m_layer == null)
+                return;
             EcellProcess process = (EcellProcess)m_ecellObj;
             if (process.ReferenceList == null || !_showEdge)
                 return;
-            List<EcellReference> list = process.ReferenceList;
-            // Check if this node is tarminal node or not.
 
             try
             {
+                List<EcellReference> list = process.ReferenceList;
                 float width = m_canvas.Control.Animation.EdgeWidth;
                 Brush brush = m_canvas.Control.Animation.EdgeBrush;
-                foreach (EcellReference er in list)
-                {
-                    if (!base.m_canvas.Variables.ContainsKey(er.Key))
-                        continue;
+                // Create EdgeInfo
+                List<EdgeInfo> infos = CreateEdgeInfos(process.Key, list);
 
-                    PPathwayVariable var = base.m_canvas.Variables[er.Key];
-                    EdgeInfo info = new EdgeInfo(process.Key, list, er);
+                // Delete edges.
+                List<PPathwayEdge> edges = new List<PPathwayEdge>();
+                foreach (PPathwayEdge edge in m_edges)
+                {
+                    // Check existing edge.
+                    bool exist = false;
+                    EdgeInfo temp = null;
+                    foreach (EdgeInfo info in infos)
+                    {
+                        if (edge.Info.VariableKey != info.VariableKey)
+                            continue;
+                        
+                        exist = true;
+                        temp = info;
+                        edge.Info.Direction = info.Direction;
+                        edge.Info.LineType = info.LineType;
+                        edge.DrawLine();
+                        edges.Add(edge);
+                        break;
+                    }
+                    if (exist)
+                    {
+                        infos.Remove(temp);
+                        continue;
+                    }
+                    edge.RemoveFromParent();
+                    edge.Dispose();
+                }
+                m_edges.Clear();
+                m_edges = edges;
+
+                // Create edge.
+                foreach (EdgeInfo info in infos)
+                {
+                    PPathwayVariable var = base.m_canvas.Variables[info.VariableKey];
                     PPathwayEdge edge = new PPathwayEdge(m_canvas, info, this, var);
                     edge.EdgeWidth = width;
                     edge.EdgeBrush = brush;
@@ -215,16 +236,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// delete all related process from list.
+        /// 
         /// </summary>
-        private void DeleteEdges()
+        /// <param name="process"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        private List<EdgeInfo> CreateEdgeInfos(string process, List<EcellReference> list)
         {
-            foreach (PPathwayEdge edge in m_edges)
+            Dictionary<string, EdgeInfo> dic = new Dictionary<string, EdgeInfo>();
+            List<EdgeInfo> infos = new List<EdgeInfo>();
+            foreach (EcellReference er in list)
             {
-                edge.RemoveFromParent();
-                edge.Dispose();
+                if (!base.m_canvas.Variables.ContainsKey(er.Key))
+                    continue;
+                // register
+                if (!dic.ContainsKey(er.Key))
+                {
+                    EdgeInfo info = new EdgeInfo(process, list, er);
+                    dic.Add(er.Key, info);
+                    continue;
+                }
+
+                // set edge type.
+                if (dic[er.Key].Direction == EdgeDirection.None)
+                {
+                    EdgeInfo tmp = new EdgeInfo(process, list, er);
+                    dic[er.Key].Direction = tmp.Direction;
+                    dic[er.Key].LineType = tmp.LineType;
+                }
             }
-            m_edges.Clear();
+
+            infos.AddRange(dic.Values);
+            return infos;
         }
 
         /// <summary>

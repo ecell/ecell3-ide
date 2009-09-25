@@ -531,8 +531,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Key of a variable with which a process has an edge.
         /// </summary>
         protected string m_varKey;
-
-        private List<EcellReference> m_refList = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_isEndNode = false;
 
         /// <summary>
         /// Direction of this edge.
@@ -560,7 +562,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="er"></param>
         public EdgeInfo(string processKey, List<EcellReference> list, EcellReference er)
         {
-            m_refList = list;
+            m_isEndNode = CheckEndNode(list);
             bool bidir = CheckBidir(list, er);
 
             m_proKey = processKey;
@@ -723,7 +725,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             get
             {
-                return CheckEndNode(m_refList);
+                return m_isEndNode;
             }
         }
         #endregion
@@ -756,6 +758,5 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             return isEndNode;
         }
-
     }
 }

@@ -214,7 +214,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <returns></returns>
         public virtual int GetConnectorIndex(PointF point)
         {
-            int index = 0;
+            int index = -1;
             point = new PointF(point.X - this.X - this.OffsetX, point.Y - this.Y - this.OffsetY);
 
             PointF[] points = m_figure.ContactPoints;

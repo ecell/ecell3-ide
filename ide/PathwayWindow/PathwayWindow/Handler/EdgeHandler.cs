@@ -354,26 +354,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 PPathwayEdge edge = process.GetRelation(variableKey, coefficient);
                 if (edge != null)
                 {
+                    // get pointer.
                     EdgeHandle edgePointer = null;
                     foreach (EdgeHandle connector in m_connectors)
                     {
                         if (connector.Rect.Contains(e.Position))
                             edgePointer = connector;
                     }
+                    // set pointer.
                     if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
                     {
                         edge.ProPoint = edgePointer.CenterPointF;
                         edge.PIndex = process.GetConnectorIndex(edgePointer.CenterPointF);
                         edge.DrawLine();
                     }
-                    else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
-                    {
-                        edge.VarPoint = edgePointer.CenterPointF;
-                        PPathwayVariable variable = m_canvas.Variables[variableKey];
-                        edge.VIndex = variable.GetConnectorIndex(edgePointer.CenterPointF);
-                        edge.DrawLine();
-                    }
-                    else if (obj is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
+                    else if ((obj is PPathwayVariable || obj is PPathwayAlias) && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
                         edge.VarPoint = edgePointer.CenterPointF;
                         PPathwayVariable variable = m_canvas.Variables[variableKey];
