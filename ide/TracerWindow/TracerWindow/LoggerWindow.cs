@@ -216,6 +216,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 windowToolStripMenuItem.Enabled = false;
                 lineStyleToolStripMenuItem.Enabled = false;
                 colorToolStripMenuItem.Enabled = false;
+                yAxisToolStripMenuItem.Enabled = false;
                 return;
             }
 
@@ -226,6 +227,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 windowToolStripMenuItem.Enabled = true;
                 lineStyleToolStripMenuItem.Enabled = true;
                 colorToolStripMenuItem.Enabled = true;
+                yAxisToolStripMenuItem.Enabled = true;
 
                 LoggerEntry entry = loggerDataGrid.CurrentRow.Tag as LoggerEntry;
                 if (entry == null) return;

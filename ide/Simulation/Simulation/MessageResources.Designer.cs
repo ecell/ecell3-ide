@@ -61,6 +61,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Are you sure to override the simulation parameter sets[ {0} ]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmOverride {
+            get {
+                return ResourceManager.GetString("ConfirmOverride", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Are you sure you want to reset the simulation? The edited paramters is reset while the simulation is executed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmReset {

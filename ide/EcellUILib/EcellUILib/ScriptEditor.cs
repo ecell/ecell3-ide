@@ -81,7 +81,10 @@ namespace Ecell.IDE
         /// <param name="status">the project status.</param>
         public override void ChangeStatus(ProjectStatus status)
         {
-            base.ChangeStatus(status);
+            if (status == ProjectStatus.Uninitialized)
+            {
+                DMEComileButton.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -155,6 +158,7 @@ namespace Ecell.IDE
                 //writer = new StreamWriter(path, false, Encoding.UTF8);
                 //writer.Write(codeEditorControl.Text);
                 m_path = path;
+                fileNameLabel.Text = m_path;
             }
             finally
             {

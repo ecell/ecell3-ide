@@ -68,6 +68,7 @@ namespace Ecell.IDE
         {
             InitializeComponent();
             m_path = null;
+            DMEComileButton.Enabled = false;
             CodeEditorSyntaxLoader.SetSyntax(codeEditorControl, SyntaxLanguage.CPP);
         }
         #endregion
@@ -131,11 +132,6 @@ namespace Ecell.IDE
             if (status == ProjectStatus.Uninitialized)
             {
                 DMEComileButton.Enabled = false;
-            }
-            else
-            {
-                DMEComileButton.Enabled = true;
-
             }
         }
 

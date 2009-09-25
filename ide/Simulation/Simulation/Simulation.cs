@@ -843,7 +843,7 @@ namespace Ecell.IDE.Plugins.Simulation
 //                m_dManager.SimulationStart(0.0, 0);
                 m_dManager.StartSimulation(0.0);
             }
-            catch (SimulationException ex)
+            catch (Exception ex)
             {
                 m_env.Console.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);

@@ -240,4 +240,7 @@
   <data name="ErrDelDefault" xml:space="preserve">
     <value>Can not delete DefaultSets.</value>
   </data>
+  <data name="ConfirmOverride" xml:space="preserve">
+    <value>Are you sure to override the simulation parameter sets[ {0} ].</value>
+  </data>
 </root>

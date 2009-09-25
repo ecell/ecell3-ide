@@ -240,4 +240,7 @@
   <data name="ErrDelDefault" xml:space="preserve">
     <value>DefaultSetsは削除できません</value>
   </data>
+  <data name="ConfirmOverride" xml:space="preserve">
+    <value>シミュレーションパラメータ [ {0} ] を上書きしますか？</value>
+  </data>
 </root>

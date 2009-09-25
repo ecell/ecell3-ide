@@ -29,25 +29,25 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoggerWindow));
             this.loggerDataGrid = new System.Windows.Forms.DataGridView();
+            this.IsShownColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.FullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColorColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.LineColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.IsY2Column = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.m_colorDialog = new System.Windows.Forms.ColorDialog();
             this.gridContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lineStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.yAxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.IsShownColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.FullPNColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColorColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.LineColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.IsY2Column = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).BeginInit();
             this.gridContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -59,14 +59,14 @@
             this.loggerDataGrid.AllowUserToDeleteRows = false;
             this.loggerDataGrid.AllowUserToResizeRows = false;
             this.loggerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("MS UI Gothic", 9F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.loggerDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.loggerDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.loggerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.loggerDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IsShownColumn,
@@ -84,64 +84,6 @@
             this.loggerDataGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.loggerDataGrid_DragEnter);
             this.loggerDataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.loggerDataGrid_CurrentCellDirtyStateChanged);
             this.loggerDataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.loggerDataGrid_DragDrop);
-            // 
-            // gridContextMenuStrip
-            // 
-            this.gridContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.windowToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.colorToolStripMenuItem,
-            this.lineStyleToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.deleteToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.importLogToolStripMenuItem});
-            this.gridContextMenuStrip.Name = "gridContextMenuStrip";
-            resources.ApplyResources(this.gridContextMenuStrip, "gridContextMenuStrip");
-            this.gridContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.gridContextMenuStrip_Opening);
-            // 
-            // windowToolStripMenuItem
-            // 
-            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            resources.ApplyResources(this.windowToolStripMenuItem, "windowToolStripMenuItem");
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            // 
-            // colorToolStripMenuItem
-            // 
-            this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
-            resources.ApplyResources(this.colorToolStripMenuItem, "colorToolStripMenuItem");
-            this.colorToolStripMenuItem.Click += new System.EventHandler(this.colorToolStripMenuItem_Click);
-            // 
-            // lineStyleToolStripMenuItem
-            // 
-            this.lineStyleToolStripMenuItem.Name = "lineStyleToolStripMenuItem";
-            resources.ApplyResources(this.lineStyleToolStripMenuItem, "lineStyleToolStripMenuItem");
-            this.lineStyleToolStripMenuItem.Click += new System.EventHandler(this.lineStyleToolStripMenuItem_Click);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
-            // 
-            // importLogToolStripMenuItem
-            // 
-            this.importLogToolStripMenuItem.Name = "importLogToolStripMenuItem";
-            resources.ApplyResources(this.importLogToolStripMenuItem, "importLogToolStripMenuItem");
-            this.importLogToolStripMenuItem.Click += new System.EventHandler(this.importLogToolStripMenuItem_Click);
-            // 
-            // m_openFileDialog
-            // 
-            this.m_openFileDialog.FileName = "m_openFileDialog";
             // 
             // IsShownColumn
             // 
@@ -178,11 +120,69 @@
             resources.ApplyResources(this.IsY2Column, "IsY2Column");
             this.IsY2Column.Name = "IsY2Column";
             // 
-            // toolStripMenuItem1
+            // gridContextMenuStrip
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.changeYAxisClick);
+            this.gridContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.windowToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.colorToolStripMenuItem,
+            this.lineStyleToolStripMenuItem,
+            this.yAxisToolStripMenuItem,
+            this.deleteToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.importLogToolStripMenuItem});
+            this.gridContextMenuStrip.Name = "gridContextMenuStrip";
+            resources.ApplyResources(this.gridContextMenuStrip, "gridContextMenuStrip");
+            this.gridContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.gridContextMenuStrip_Opening);
+            // 
+            // windowToolStripMenuItem
+            // 
+            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+            resources.ApplyResources(this.windowToolStripMenuItem, "windowToolStripMenuItem");
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // colorToolStripMenuItem
+            // 
+            this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
+            resources.ApplyResources(this.colorToolStripMenuItem, "colorToolStripMenuItem");
+            this.colorToolStripMenuItem.Click += new System.EventHandler(this.colorToolStripMenuItem_Click);
+            // 
+            // lineStyleToolStripMenuItem
+            // 
+            this.lineStyleToolStripMenuItem.Name = "lineStyleToolStripMenuItem";
+            resources.ApplyResources(this.lineStyleToolStripMenuItem, "lineStyleToolStripMenuItem");
+            this.lineStyleToolStripMenuItem.Click += new System.EventHandler(this.lineStyleToolStripMenuItem_Click);
+            // 
+            // yAxisToolStripMenuItem
+            // 
+            this.yAxisToolStripMenuItem.Name = "yAxisToolStripMenuItem";
+            resources.ApplyResources(this.yAxisToolStripMenuItem, "yAxisToolStripMenuItem");
+            this.yAxisToolStripMenuItem.Click += new System.EventHandler(this.changeYAxisClick);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // importLogToolStripMenuItem
+            // 
+            this.importLogToolStripMenuItem.Name = "importLogToolStripMenuItem";
+            resources.ApplyResources(this.importLogToolStripMenuItem, "importLogToolStripMenuItem");
+            this.importLogToolStripMenuItem.Click += new System.EventHandler(this.importLogToolStripMenuItem_Click);
+            // 
+            // m_openFileDialog
+            // 
+            this.m_openFileDialog.FileName = "m_openFileDialog";
             // 
             // LoggerWindow
             // 
@@ -190,6 +190,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.loggerDataGrid);
             this.Name = "LoggerWindow";
+            this.TabText = "LoggerWindow";
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).EndInit();
             this.gridContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -214,6 +215,6 @@
         private System.Windows.Forms.DataGridViewImageColumn ColorColumn;
         private System.Windows.Forms.DataGridViewImageColumn LineColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsY2Column;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem yAxisToolStripMenuItem;
     }
 }

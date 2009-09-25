@@ -979,6 +979,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
             bool current = m_lastSelectedNode is RevisionNode && m_lastSelectedNode.Text == Constants.xpathCurrent;
 
+            // Model
+            closeToolStripMenuItem.Enabled = !simulation;
+            projectSettingsToolStripMenuItem.Enabled = !simulation;
+
             // SimulationStatus
             configureSimulationSetToolStripMenuItem.Enabled = !simulation;
             // Revision
@@ -1587,7 +1591,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     return;
                 }
             }
-            m_owner.Environment.DataManager.CloseProject();
+            try
+            {
+                m_owner.Environment.DataManager.CloseProject();
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>

@@ -3892,7 +3892,7 @@ namespace Ecell
                         msg,
                         this));
 
-                while (m_currentProject.SimulationStatus == SimulationStatus.Run)
+                while (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     m_currentProject.Simulator.Step(m_defaultStepCount);
                     Application.DoEvents();

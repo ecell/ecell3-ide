@@ -720,7 +720,12 @@ namespace Ecell.IDE.Plugins.Simulation
                         {
                             sps.PerModelSimulationParameters.Add(new PerModelSimulationParameter(sp.PerModelSimulationParameters[i]));
                         }
-                        m_simParamSets.Add(sps);                        
+                        m_simParamSets.Add(sps);
+                    }
+                    else
+                    {
+                        if (Util.ShowYesNoDialog(String.Format(MessageResources.ConfirmOverride, parameterID)) == false)
+                            return;
                     }
 
                     int index = m_simParamSets.IndexOf(sps);

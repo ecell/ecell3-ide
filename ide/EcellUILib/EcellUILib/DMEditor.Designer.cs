@@ -179,8 +179,8 @@ namespace Ecell.IDE
         protected System.Windows.Forms.SaveFileDialog DMESaveFileDialog;
         private Fireball.Syntax.SyntaxDocument syntaxDocument1;
         //protected Ecell.IDE.EcellCodeEditor codeEditorControl;
-        private System.Windows.Forms.Label fileNameLabel;
         protected System.Windows.Forms.Button DMESaveAsButton;
         protected EcellCodeEditor codeEditorControl;
+        protected System.Windows.Forms.Label fileNameLabel;
     }
 }

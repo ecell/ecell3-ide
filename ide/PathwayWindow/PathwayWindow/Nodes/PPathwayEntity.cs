@@ -275,7 +275,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Dispose()
         {
             // Clear Lines
-            foreach (PPathwayEdge edge in m_edges)
+            foreach (PPathwayEdge edge in m_edges.ToArray())
             {
                 edge.RemoveFromParent();
                 edge.Dispose();
