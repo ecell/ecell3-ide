@@ -306,7 +306,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_proPoint = m_process.GetContactPoint(m_pIndex);
             
             DrawLine();
-            this.Visible = m_process.Visible && m_variable.Visible;
+            this.Visible = m_process.Visible && m_process.ShowEdge && m_variable.Visible;
             this.Pickable = this.Visible;
         }
 

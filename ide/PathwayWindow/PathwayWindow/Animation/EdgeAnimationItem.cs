@@ -221,8 +221,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             {
                 if (!process.Visible)
                     continue;
-                if(!process.ViewMode)
-                    process.ViewMode = true;
+                process.ViewMode = true;
                 // Line setting.
                 foreach (PPathwayEdge line in process.Edges)
                 {

@@ -174,7 +174,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (base.m_canvas == null || m_ecellObj == null || m_layer == null)
                 return;
             EcellProcess process = (EcellProcess)m_ecellObj;
-            if (process.ReferenceList == null || !_showEdge)
+            if (process.ReferenceList == null)
                 return;
 
             try
@@ -196,12 +196,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     {
                         if (edge.Info.VariableKey != info.VariableKey)
                             continue;
-                        
+                        //
                         exist = true;
                         temp = info;
                         edge.Info.Direction = info.Direction;
                         edge.Info.LineType = info.LineType;
                         edge.DrawLine();
+                        //
+                        PPathwayVariable var = base.m_canvas.Variables[info.VariableKey];
+                        edge.Visible = this.Visible && var.Visible && _showEdge;
+                        edge.Pickable = edge.Visible;
                         edges.Add(edge);
                         break;
                     }
@@ -224,7 +228,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     edge.EdgeWidth = width;
                     edge.EdgeBrush = brush;
                     edge.Selected = this.Selected || var.Selected;
-                    edge.Visible = this.Visible && var.Visible;
+                    edge.Visible = this.Visible && var.Visible && _showEdge;
                     edge.Pickable = edge.Visible;
                     m_layer.AddChild(edge);
                 }
