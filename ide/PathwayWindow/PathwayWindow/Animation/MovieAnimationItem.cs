@@ -82,6 +82,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public MovieAnimationItem()
         {
             InitializeComponent();
+            this.aviFileName.Filter = Constants.FilterAviFile;
         }
         /// <summary>
         /// 
@@ -92,6 +93,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             InitializeComponent();
             this.aviFileName.FileName = Path.Combine(Util.GetBaseDir(), MovieFile);
+            this.aviFileName.Filter = Constants.FilterAviFile;
         }
 
         /// <summary>

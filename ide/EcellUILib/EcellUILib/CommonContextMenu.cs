@@ -108,7 +108,7 @@ namespace Ecell.IDE
 
                 if (m_env == null)
                     return;
-                propertyToolStripMenuItem.Enabled = (m_env.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait);
+//                propertyToolStripMenuItem.Enabled = (m_env.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait);
                 SetLoggerMenus();
             }
         }

@@ -567,7 +567,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             using (fileDialog)
             {
                 fileDialog.Filter = m_filter;
-                fileDialog.FilterIndex = m_filterIndex;
+                fileDialog.FileName = FileName;
+//                fileDialog.FilterIndex = m_filterIndex;
                 fileDialog.InitialDirectory = Path.GetDirectoryName(m_textBox.Text);
                 fileDialog.OverwritePrompt = true;
                 DialogResult result = fileDialog.ShowDialog();

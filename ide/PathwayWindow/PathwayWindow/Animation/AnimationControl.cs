@@ -796,7 +796,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         internal void ShowDialog()
         {
-            AnimationDialog dlg = new AnimationDialog(this);
+            AnimationDialog dlg = new AnimationDialog(this);            
             using (dlg)
             {
                 if (dlg.ShowDialog() != DialogResult.OK)

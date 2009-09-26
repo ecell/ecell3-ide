@@ -174,6 +174,10 @@ namespace Ecell
 
         #region File Filters
         /// <summary>
+        /// File Filter for the avi file.
+        /// </summary>
+        public const string FilterAviFile = "Avi File (*.avi)|*.avi";
+        /// <summary>
         /// File Filter for the action file.
         /// </summary>
         public const string FilterActionFile = "Action File (*.xml)|*.xml";
