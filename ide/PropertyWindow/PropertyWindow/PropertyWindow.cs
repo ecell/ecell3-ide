@@ -1069,6 +1069,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     m_current.RemoveEcellValue(oldName);
                     m_current.SetEcellValue(propName, new EcellValue(value));
                     valueCell.Tag = m_current.GetEcellData(propName);
+                    NotifyDataChanged(m_current.ModelID,
+                        m_current.Key, m_current);
                 }
                 catch (Exception ex)
                 {

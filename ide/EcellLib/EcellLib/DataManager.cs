@@ -1807,6 +1807,10 @@ namespace Ecell
                 {
                     CheckParameterObservedData(oldObj, ecellObject.Key);
                 }
+                if (IsCheckNecessary(oldObj, ecellObject))
+                {
+                    CheckDeleteParameterData(oldObj, ecellObject);
+                }
                 CheckLoggerData(oldObj, ecellObject);                
 
                 //if (!oldObj.IsPosSet)
@@ -1824,6 +1828,26 @@ namespace Ecell
                     new object[] { key }),
                     ex);
             }
+        }
+
+        /// <summary>
+        /// Check whether the properties of this object is added or deleted.
+        /// </summary>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newObj">the new object.</param>
+        /// <returns>if changed, return true.</returns>
+        private bool IsCheckNecessary(EcellObject oldObj, EcellObject newObj)
+        {
+            if (oldObj.Value.Count > newObj.Value.Count)
+                return true;
+
+            foreach (EcellData d in oldObj.Value)
+            {
+                if (newObj.GetEcellData(d.Name) == null)
+                    return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -2553,11 +2577,13 @@ namespace Ecell
             {
                 foreach (EcellData srcEcellData in src.Value)
                 {
+                    bool isHit = false;
                     foreach (EcellData destEcellData in dest.Value)
                     {
                         if (!srcEcellData.Name.Equals(destEcellData.Name) ||
                             !srcEcellData.EntityPath.Equals(destEcellData.EntityPath))
                             continue;
+                        isHit = true;
 
                         if (!srcEcellData.Logged && destEcellData.Logged)
                         {
@@ -2633,6 +2659,10 @@ namespace Ecell
                             //}
                         }
                         break;
+                    }
+                    if (isHit == false)
+                    {
+
                     }
                 }
             }
@@ -2803,6 +2833,44 @@ namespace Ecell
                 {
                     if (od != null)
                         m_env.LoggerManager.LoggerRemoved(new LoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath));
+                }
+            }
+        }        
+
+        /// <summary>
+        /// Check the deleted property in paramater or observed data.
+        /// </summary>
+        /// <param name="oldObj">the old object.</param>
+        /// <param name="newObj">the new object.</param>
+        private void CheckDeleteParameterData(EcellObject oldObj, EcellObject newObj)
+        {           
+            List<string> delList = new List<string>();
+            foreach (EcellData oldData in oldObj.Value)
+            {
+                if (newObj.GetEcellData(oldData.Name) == null)
+                    delList.Add(oldData.EntityPath);
+            }
+
+            foreach (string entPath in delList)
+            {
+                EcellParameterData p = GetParameterData(entPath);
+                if (p != null)
+                    RemoveParameterData(p);
+                EcellObservedData o = GetObservedData(entPath);
+                if (o != null )
+                    RemoveObservedData(o);
+            }
+
+
+            foreach (string paramID in m_currentProject.InitialCondition.Keys)
+            {
+                foreach (string modelID in m_currentProject.InitialCondition[paramID].Keys)
+                {
+                    foreach (string entPath in delList)
+                    {
+                        if (m_currentProject.InitialCondition[paramID][modelID].ContainsKey(entPath))
+                            m_currentProject.InitialCondition[paramID][modelID].Remove(entPath);
+                    }
                 }
             }
         }

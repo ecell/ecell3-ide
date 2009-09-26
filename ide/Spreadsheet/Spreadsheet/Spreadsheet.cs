@@ -1424,6 +1424,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             m_dragObject = r.Tag as EcellObject;
             m_shiftIndex = -1;
+            this.Activate();
+            m_gridView.Focus();
         }
 
         private int m_shiftIndex = -1;

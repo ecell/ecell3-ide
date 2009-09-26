@@ -157,10 +157,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="isdispatch">the flag whether select event is dispatched.</param>
         public void SelectNodes(TreeNode tn, bool isdispatch)
         {
+            bool isAdd = false;
             if (m_isUpdate)
                 return;
             if (!this.SelNodes.Contains(tn))
+            {
                 this.SelNodes.Add(tn);
+                isAdd = true;
+            }
 
             HighLight(tn);
             if (!isdispatch)
@@ -169,7 +173,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (tn.Tag != null)
             {
                 TagData t = tn.Tag as TagData;
-                if (t != null)
+                if (t != null && isAdd)
                 {
                     m_isUpdate = true;
                     m_env.PluginManager.AddSelect(t.ModelID, t.Key, t.Type);
@@ -185,12 +189,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="isChanged">the flag whether SelectChanged is executed.</param>
         /// <param name="isScroll">the flag whether EnsureVisible is executed.</param>
         public void SelectNode(TreeNode tn, bool isChanged, bool isScroll)
-        {
+        {          
             if (m_isUpdate || tn == null)
                 return;
             ClearSelNode();
             if (!this.SelNodes.Contains(tn))
+            {
                 this.SelNodes.Add(tn);
+            }
 
             this.SelectedNode = null;
             HighLight(tn);
@@ -313,10 +319,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="bPrev">the flag whether the ranselection is previous.</param>
         private void SelectRange(TreeNode tn, bool bPrev)
         {
-            if (!m_isUpdate)
-                m_env.PluginManager.ResetSelect();
+            //if (!m_isUpdate)
+            //    m_env.PluginManager.ResetSelect();
             TreeNode tnTemp = tnMouseDown;
             if (tnTemp == null) return;
+            if (!m_isUpdate)
+            {
+                foreach (TreeNode n in SelNodes.ToArray())
+                {
+                    if ((n.Bounds.Y - tnTemp.Bounds.Y) *
+                        (n.Bounds.Y - tn.Bounds.Y) <= 0.0)
+                    {
+                        continue;
+                    }
+                    DeselectNode(n, true);
+                }
+            }
             SelectNodes(tnTemp, true);
             if (bPrev)
             {
@@ -426,7 +444,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     return;
                 bool isPrev = true;
                 if (m_RangeNode.Bounds.Y > tnMouseDown.Bounds.Y)
-                    isPrev = false;
+                    isPrev = false;                
                 SelectRange(m_RangeNode, isPrev);
             }
             else if (e.Shift == true && e.KeyCode == Keys.Down)

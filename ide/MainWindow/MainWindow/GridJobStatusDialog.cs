@@ -121,8 +121,18 @@ namespace Ecell.IDE.MainWindow
                 if (node.Text.Equals(name))
                 {
                     m_pointDic[analysisName].Nodes.Remove(node);
-                    return;
+                    break;
                 }
+            }
+            if (m_group != null && m_group.GroupName.Equals(name))
+            {
+                parameterDataGridView.Rows.Clear();
+                m_group = null;
+            }
+            if (m_job != null && m_job.GroupName.Equals(name))
+            {
+                parameterDataGridView.Rows.Clear();
+                m_job = null;
             }
         }
 
@@ -209,6 +219,16 @@ namespace Ecell.IDE.MainWindow
                     foreach (TreeNode n in delgList)
                     {
                         m_pointDic[analysisname].Nodes.Remove(n);
+                        if (m_group != null && m_group.GroupName.Equals(n.Text))
+                        {
+                            parameterDataGridView.Rows.Clear();
+                            m_group = null; 
+                        }
+                        if (m_job != null && m_job.GroupName.Equals(n.Text))
+                        {
+                            parameterDataGridView.Rows.Clear();
+                            m_job = null;
+                        }
                     }
                     if (m_pointDic[analysisname].Nodes.Count == 0)
                         delaList.Add(m_pointDic[analysisname]);
@@ -440,6 +460,16 @@ namespace Ecell.IDE.MainWindow
                     }
                 }
             }
+
+            if (m_job != null)
+            {
+                if (m_job.GroupName.Equals(groupName) &&
+                    m_job.JobID.ToString().Equals(jobid))
+                {
+                    m_job = null;
+                    parameterDataGridView.Rows.Clear();
+                }
+            }
         }
 
         /// <summary>
@@ -531,7 +561,7 @@ namespace Ecell.IDE.MainWindow
             string name = jnode.GroupName;
             DeleteJobGroup(name);
             m_manager.GroupDic[name].IsSaved = false;
-            m_manager.RemoveJobGroup(name);
+            m_manager.RemoveJobGroup(name);           
         }
 
         /// <summary>
