@@ -929,7 +929,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     foreach (EcellObject referer in copyNodes)
                     {
-                        if(referer.Key.Equals(er.Key))
+                        if(referer.Type.Equals(EcellObject.VARIABLE) && referer.Key.Equals(er.Key))
                             list.Add(er);
                     }
                 }
@@ -978,7 +978,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<EcellObject> copiedObjects = new List<EcellObject>();
             foreach (EcellObject eo in m_copiedNodes)
                 copiedObjects.Add(eo.Clone());
-            Dictionary<string, string> keyDic = new Dictionary<string, string>();
+            Dictionary<string, string> skeyDic = new Dictionary<string, string>();
+            Dictionary<string, string> pkeyDic = new Dictionary<string, string>();
+            Dictionary<string, string> vkeyDic = new Dictionary<string, string>();
             foreach (EcellObject eo in copiedObjects)
             {
                 //Create new EcellObject
@@ -988,14 +990,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
                 // Get new key.
                 string oldKey = eo.Key;
-                if( keyDic.ContainsKey(eo.ParentSystemID))
-                    eo.Key = GetCopiedID(eo.Type, Util.GetMovedKey(eo.Key, eo.ParentSystemID, keyDic[eo.ParentSystemID]));
+                if( skeyDic.ContainsKey(eo.ParentSystemID))
+                    eo.Key = GetCopiedID(eo.Type, Util.GetMovedKey(eo.Key, eo.ParentSystemID, skeyDic[eo.ParentSystemID]));
                 else if (eo is EcellText || eo is EcellStepper)
                     eo.Key = GetCopiedID(eo.Type, eo.Key);
                 else
                     eo.Key = GetCopiedID(eo.Type, Util.GetMovedKey(eo.Key, eo.ParentSystemID, newSysKey));
                 // Set Keydic.
-                keyDic.Add(oldKey, eo.Key);
+                switch (eo.Type)
+                {
+                    case EcellObject.PROCESS:
+                        pkeyDic.Add(oldKey, eo.Key);
+                        break;
+                    case EcellObject.VARIABLE:
+                        vkeyDic.Add(oldKey, eo.Key);
+                        break;
+                    case EcellObject.SYSTEM:
+                        skeyDic.Add(oldKey, eo.Key);
+                        break;
+                }
 
                 // Check child nodes.
                 foreach (EcellObject child in eo.Children)
@@ -1009,7 +1022,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     if (child is EcellVariable)
                     {
                         EcellVariable var = (EcellVariable)child;
-                        keyDic.Add(oldNodeKey, var.Key);
+                        vkeyDic.Add(oldNodeKey, var.Key);
                         foreach (EcellLayout alias in var.Aliases)
                         {
                             alias.X = alias.X + diff.X;
@@ -1064,13 +1077,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     if (!(child is EcellProcess))
                         continue;
                     EcellObject p2 = m_window.GetEcellObject(child);
-                    if (ReplaceVarRef(keyDic, p2))
+                    if (ReplaceVarRef(vkeyDic, p2))
                         processes.Add(p2);
                 }
                 if (!(obj is EcellProcess))
                     continue;
                 EcellObject p1 = m_window.GetEcellObject(obj);
-                if (ReplaceVarRef(keyDic, p1))
+                if (ReplaceVarRef(vkeyDic, p1))
                     processes.Add(p1);
             }
             foreach (EcellObject eo in processes)
