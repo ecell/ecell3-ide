@@ -1423,6 +1423,36 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get a class detail information file.
+        /// The detail information file is in ConfDir/ClassName/[name].[language(en/ja)].rtf.
+        /// </summary>
+        /// <param name="name">the class name.</param>
+        /// <returns></returns>
+        static public string GetClassInformationFile(string name)
+        {
+            string confDir = Util.GetWindowSettingDir();
+            string lang = Util.GetLanguage().TwoLetterISOLanguageName;
+            switch (lang)
+            {
+                case "en":
+                case "en-US":
+                    lang = "en";
+                    break;
+                case "ja":
+                    lang = "jp";
+                    break;
+                default:
+                    lang = "en";
+                    break;
+            }
+            string classFile = confDir + Constants.delimiterPath + Constants.xpathClassName +
+                Constants.delimiterPath + name + "." + lang + ".rtf";
+            if (File.Exists(classFile))
+                return classFile;
+            return null;
+        }
+
+        /// <summary>
         /// Get the plugin directory from register.
         /// </summary>
         /// <returns>plugin directory.</returns>

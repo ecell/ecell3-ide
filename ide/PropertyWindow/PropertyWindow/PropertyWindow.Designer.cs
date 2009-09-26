@@ -43,6 +43,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.defineANewPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteThisPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showTheClassDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.loggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.observedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,6 +121,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.defineANewPropertyToolStripMenuItem,
             this.deleteThisPropertyToolStripMenuItem,
+            this.showTheClassDetailToolStripMenuItem,
             this.toolStripSeparator1,
             this.loggingToolStripMenuItem,
             this.observedToolStripMenuItem,
@@ -139,6 +141,12 @@
             this.deleteThisPropertyToolStripMenuItem.Name = "deleteThisPropertyToolStripMenuItem";
             resources.ApplyResources(this.deleteThisPropertyToolStripMenuItem, "deleteThisPropertyToolStripMenuItem");
             this.deleteThisPropertyToolStripMenuItem.Click += new System.EventHandler(this.deleteThisPropertyToolStripMenuItem_Click);
+            // 
+            // showTheClassDetailToolStripMenuItem
+            // 
+            this.showTheClassDetailToolStripMenuItem.Name = "showTheClassDetailToolStripMenuItem";
+            resources.ApplyResources(this.showTheClassDetailToolStripMenuItem, "showTheClassDetailToolStripMenuItem");
+            this.showTheClassDetailToolStripMenuItem.Click += new System.EventHandler(this.ShowClassDetailDialog);
             // 
             // toolStripSeparator1
             // 
@@ -208,5 +216,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueColumn;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem showTheClassDetailToolStripMenuItem;
     }
 }

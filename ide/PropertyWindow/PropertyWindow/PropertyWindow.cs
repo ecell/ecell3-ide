@@ -1447,6 +1447,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
 
             m_data = tag != null ? tag as EcellData : null;
+            if (m_current == null ||
+                (!m_current.Type.Equals(EcellObject.PROCESS) &&
+                !m_current.Type.Equals(EcellObject.STEPPER)))
+                showTheClassDetailToolStripMenuItem.Visible = false;
+            else
+                showTheClassDetailToolStripMenuItem.Visible = true;
+                
         }
 
         /// <summary>
@@ -1678,6 +1685,22 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
+        /// Click the show the detail class.
+        /// </summary>
+        /// <param name="sender">ToolStrtipMenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void ShowClassDetailDialog(object sender, EventArgs e)
+        {
+            string classname = m_current.Classname;
+            string name = Util.GetClassInformationFile(classname);
+            if (name != null)
+            {
+                ClassDetailDialog dlg = new ClassDetailDialog(name);
+                dlg.ShowDialog();
+            }
+        }
+
+        /// <summary>
         /// Press key on DataGridView.
         /// </summary>
         /// <param name="msg">Message.</param>
@@ -1764,5 +1787,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         #endregion
+
     }
 }

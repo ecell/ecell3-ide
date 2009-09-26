@@ -117,37 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="IsShownColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="IsShownColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="IsShownColumn.HeaderText" xml:space="preserve">
     <value>Show</value>
   </data>
-  <metadata name="FullPNColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="FullPNColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="FullPNColumn.HeaderText" xml:space="preserve">
     <value>FullPN</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FullPNColumn.MinimumWidth" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
-  <metadata name="ColorColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ColorColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="ColorColumn.HeaderText" xml:space="preserve">
     <value>Color</value>
   </data>
-  <metadata name="LineColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="LineColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="LineColumn.HeaderText" xml:space="preserve">
     <value>Line</value>
   </data>
-  <metadata name="IsY2Column.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="IsY2Column.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="IsY2Column.HeaderText" xml:space="preserve">
     <value>Y2</value>
   </data>
@@ -177,12 +177,12 @@
   <data name="&gt;&gt;loggerDataGrid.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="m_colorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="m_colorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
-  <metadata name="gridContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  </data>
+  <data name="gridContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>138, 17</value>
-  </metadata>
+  </data>
   <data name="windowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -234,12 +234,12 @@
   <data name="&gt;&gt;gridContextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="m_openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="m_openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>302, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -312,7 +312,7 @@
     <value>0, 0</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>LoggerWindow</value>
+    <value>Logger</value>
   </data>
   <data name="&gt;&gt;IsShownColumn.Name" xml:space="preserve">
     <value>IsShownColumn</value>
@@ -409,5 +409,8 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3429.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="$this.TabText" xml:space="preserve">
+    <value>Logger </value>
   </data>
 </root>

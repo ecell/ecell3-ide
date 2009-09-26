@@ -663,6 +663,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (fileName == null)
                 {
+                    m_openFileDialog.FileName = "";
                     m_openFileDialog.Filter = Constants.FilterLogFile;
                     if (m_openFileDialog.ShowDialog() != DialogResult.OK)
                         return;

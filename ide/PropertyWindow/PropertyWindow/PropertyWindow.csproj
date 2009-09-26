@@ -93,6 +93,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassDetailDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDetailDialog.Designer.cs">
+      <DependentUpon>ClassDetailDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataGridViewOutOfPlaceEditableCell.cs" />
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -100,6 +106,12 @@
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ClassDetailDialog.ja.resx">
+      <DependentUpon>ClassDetailDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDetailDialog.resx">
+      <DependentUpon>ClassDetailDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

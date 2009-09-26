@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,47 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="nameColumn.HeaderText" xml:space="preserve">
-    <value>名称</value>
-  </data>
-  <data name="valueColumn.HeaderText" xml:space="preserve">
-    <value>値</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="defineANewPropertyToolStripMenuItem.Text" xml:space="preserve">
-    <value>新規プロパティ</value>
-  </data>
-  <data name="deleteThisPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="deleteThisPropertyToolStripMenuItem.Text" xml:space="preserve">
-    <value>このプロパテイを削除</value>
-  </data>
-  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 48</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>プロパティ</value>
+    <value>クラス詳細</value>
   </data>
-  <data name="$this.TabText" xml:space="preserve">
-    <value>プロパティ</value>
-  </data>
-  <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
-    <value>記録対象として設定</value>
-  </data>
-  <data name="observedToolStripMenuItem.Text" xml:space="preserve">
-    <value>観察パラメータとして設定</value>
-  </data>
-  <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
-    <value>未知パラメータとして設定</value>
-  </data>
-  <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロパティ</value>
-  </data>
-  <data name="showTheClassDetailToolStripMenuItem.Text" xml:space="preserve">
-    <value>クラス詳細の表示...</value>
+  <data name="ClassOKButton.Text" xml:space="preserve">
+    <value>閉じる</value>
   </data>
 </root>

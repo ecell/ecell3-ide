@@ -190,7 +190,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.loggerDataGrid);
             this.Name = "LoggerWindow";
-            this.TabText = "LoggerWindow";
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).EndInit();
             this.gridContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);

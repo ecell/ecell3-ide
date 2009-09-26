@@ -122,13 +122,13 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>96, 22</value>
   </data>
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
   <data name="spreadSheetContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 48</value>
+    <value>97, 26</value>
   </data>
   <data name="&gt;&gt;spreadSheetContextMenuStrip.Name" xml:space="preserve">
     <value>spreadSheetContextMenuStrip</value>
@@ -266,6 +266,6 @@
     <value>Spreadsheet</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3259.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3432.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

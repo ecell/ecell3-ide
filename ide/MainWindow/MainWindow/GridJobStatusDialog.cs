@@ -127,11 +127,15 @@ namespace Ecell.IDE.MainWindow
             if (m_group != null && m_group.GroupName.Equals(name))
             {
                 parameterDataGridView.Rows.Clear();
+                statusTextBox.Text = "";
+                jobIDTextBox.Text = "";
                 m_group = null;
             }
             if (m_job != null && m_job.GroupName.Equals(name))
             {
                 parameterDataGridView.Rows.Clear();
+                statusTextBox.Text = "";
+                jobIDTextBox.Text = "";
                 m_job = null;
             }
         }
@@ -222,11 +226,15 @@ namespace Ecell.IDE.MainWindow
                         if (m_group != null && m_group.GroupName.Equals(n.Text))
                         {
                             parameterDataGridView.Rows.Clear();
+                            statusTextBox.Text = "";
+                            jobIDTextBox.Text = "";
                             m_group = null; 
                         }
                         if (m_job != null && m_job.GroupName.Equals(n.Text))
                         {
                             parameterDataGridView.Rows.Clear();
+                            statusTextBox.Text = "";
+                            jobIDTextBox.Text = "";
                             m_job = null;
                         }
                     }
@@ -468,6 +476,8 @@ namespace Ecell.IDE.MainWindow
                 {
                     m_job = null;
                     parameterDataGridView.Rows.Clear();
+                    statusTextBox.Text = "";
+                    jobIDTextBox.Text = "";
                 }
             }
         }
