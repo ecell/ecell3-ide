@@ -1186,7 +1186,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     break;
 
                 }
-                if (m_gridView.SelectedRows.Count == 1)
+                if (m_gridView.SelectedRows.Count > 1)
                 {
                     m_isSelected = true;
                     m_env.PluginManager.SelectChanged(obj);
@@ -1368,6 +1368,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">MouseEventArgs</param>
         private void GridViewMouseUp(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("MouseUp");
             m_isSelected = false;
         }
 
@@ -1378,6 +1379,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">MouseEventArgs</param>
         private void GridViewMouseDown(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("MouseDown");
             DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
             if (e.Button != MouseButtons.Left)
                 return;
@@ -1387,11 +1389,13 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
             if (Control.ModifierKeys != Keys.Shift)
             {
+                Console.WriteLine("Line:A");
                 m_selectedRow = r;
                 m_lastSelected = r;
             }
             else if (m_lastSelected != null)
             {
+                Console.WriteLine("Line:B");
                 int startindex, endindex;
                 if (hti.RowIndex > m_lastSelected.Index)
                 {
@@ -1424,8 +1428,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             m_dragObject = r.Tag as EcellObject;
             m_shiftIndex = -1;
-            this.Activate();
-            m_gridView.Focus();
         }
 
         private int m_shiftIndex = -1;
@@ -1452,8 +1454,10 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">EventArgs</param>
         void GridViewSelectionChanged(object sender, EventArgs e)
         {
+            Console.WriteLine("SelectionChanged");
             if (m_isSelected && !m_isSelectionChanged && m_selectedRow != null)
             {
+                Console.WriteLine("Line1");
                 m_isSelectionChanged = true;
                 m_gridView.ClearSelection();
                 m_selectedRow.Selected = true;
@@ -1461,6 +1465,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             else if (!m_isSelected && m_gridView.SelectedRows.Count >= 2)
             {
+                Console.WriteLine("Line2");
                 m_isSelected = true;
                 foreach (DataGridViewRow r in m_gridView.SelectedRows)
                 {
@@ -1479,6 +1484,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">DataGridViewCellEventArgs</param>
         void GridViewClickObjectCell(object sender, DataGridViewCellEventArgs e)
         {
+            Console.WriteLine("clicked");
             int ind = e.RowIndex;
             if (ind < 0) return;
             EcellObject obj = m_gridView.Rows[ind].Tag as EcellObject;
@@ -1525,6 +1531,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <returns>whether this event is handled.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            Console.WriteLine("CmdKey");
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
             {
                 SetClipBoardText();

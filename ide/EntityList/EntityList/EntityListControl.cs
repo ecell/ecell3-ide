@@ -472,7 +472,7 @@ namespace Ecell.IDE.Plugins.EntityList
                     break;
 
                 }
-                if (objectListDataGrid.SelectedRows.Count == 1)
+                if (objectListDataGrid.SelectedRows.Count > 1)
                 {
                     m_isSelected = true;
                     m_owner.PluginManager.SelectChanged(obj);
