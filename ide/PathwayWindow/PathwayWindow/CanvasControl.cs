@@ -1974,7 +1974,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                                 alias.Offset = offset;
                             }
                         }
-
                     }
                 }
                 if (obj == m_systems["/"])
@@ -1984,7 +1983,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
                 obj.Refresh();
             }
-
         }
 
         /// <summary>

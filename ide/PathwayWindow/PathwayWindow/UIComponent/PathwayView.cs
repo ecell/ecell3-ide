@@ -182,7 +182,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if ((int)this.DockState != 1 && (int)keyData != (int)Keys.Control + (int)Keys.D)
+            if ((int)this.DockState != 1
+                && (int)keyData != (int)Keys.Control + (int)Keys.D
+                && (int)keyData != (int)Keys.Control + (int)Keys.V)
                 return base.ProcessCmdKey(ref msg, keyData);
 
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
@@ -195,7 +197,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 m_con.Canvas.PCanvas.Camera.Pickable = false;
                 try
                 {
-                    m_con.PasteNodes();
+                    m_con.PasteNodes(false);
                 }
                 catch (Exception e)
                 {

@@ -942,7 +942,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// PasteNodes
         /// </summary>
-        internal void PasteNodes()
+        internal void PasteNodes(bool isContext)
         {
             string ddd = Clipboard.GetText();
             string modelID = m_window.DataManager.CurrentProject.Model.ModelID;
@@ -950,12 +950,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (this.m_copiedNodes == null || this.m_copiedNodes.Count == 0)
                 return;
 
+            // Get position diff
+            PointF diff = new PointF(10, 10);
+            if (isContext) 
+                diff = GetDistance(this.m_mousePos, m_copiedNodes[0].PointF);
+            PointF newPos = new PointF(m_copiedNodes[0].PointF.X + diff.X, m_copiedNodes[0].PointF.Y + diff.Y);
+
             // Get parent System
             string oldSysKey = m_copiedNodes[0].ParentSystemID;
-            string newSysKey = m_canvas.GetSurroundingSystemKey(this.m_mousePos);
+            string newSysKey = m_canvas.GetSurroundingSystemKey(newPos);
 
-            // Get position diff
-            PointF diff = GetDistance(this.m_mousePos, m_copiedNodes[0].PointF);
             PPathwaySystem system = null;
             if (!string.IsNullOrEmpty(newSysKey))
             {

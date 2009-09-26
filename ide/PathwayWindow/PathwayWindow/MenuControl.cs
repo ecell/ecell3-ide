@@ -1591,7 +1591,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_con.Canvas.PCanvas.Camera.Pickable = false;
             try
             {
-                m_con.PasteNodes();
+                if(sender == this.toolMenuPaste)
+                    m_con.PasteNodes(false);
+                else
+                    m_con.PasteNodes(true);
             }
             catch (Exception ex)
             {

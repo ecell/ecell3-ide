@@ -66,6 +66,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         private bool _isNoLimit = true;
         /// <summary>
+        /// is limit.
+        /// </summary>
+        bool _isLimit = false;
+        /// <summary>
         /// Max size of output movie file.
         /// </summary>
         private double _maxSize = 300000;
@@ -217,7 +221,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set canvas
             _canvas = _control.Canvas;
             // Avi
-            if (_aviManager != null)
+            if (_aviManager != null || _isLimit)
                 return;
 
             // Set AviManager.
@@ -248,22 +252,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void UpdateAnimation()
         {
+            // Check status.
+            if (_stream == null || _isLimit)
+                return;
+            if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
+                return;
+
             // write video stream.
-            if (_stream != null)
+            Bitmap bmp = new Bitmap(
+                _canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush),
+                _stream.Width,
+                _stream.Height);
+            _stream.AddFrame(bmp);
+            if (!_isNoLimit)
             {
-                Bitmap bmp = new Bitmap(
-                    _canvas.PCanvas.Camera.ToImage(640, 480, _canvas.BackGroundBrush),
-                    _stream.Width,
-                    _stream.Height);
-                _stream.AddFrame(bmp);
-                if (!_isNoLimit)
+                System.IO.FileInfo f = new FileInfo(this.aviFileName.FileName);
+                if (f.Length > _maxSize * 1000)
                 {
-                    System.IO.FileInfo f = new FileInfo(this.aviFileName.FileName);
-                    if (f.Length > _maxSize * 1000)
-                    {
-                        Util.ShowErrorDialog(MessageResources.ErrMaxSize);
-                        CloseMovie();
-                    }
+                    _isLimit = true;
+                    Util.ShowErrorDialog(MessageResources.ErrMaxSize);
+                    CloseMovie();
                 }
             }
         }
@@ -274,6 +282,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void StopAnimation()
         {
             CloseMovie();
+            _isLimit = false;
         }
 
         /// <summary>
@@ -282,6 +291,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ResetAnimation()
         {
             CloseMovie();
+            _isLimit = false;
         }
 
         private void CloseMovie()
