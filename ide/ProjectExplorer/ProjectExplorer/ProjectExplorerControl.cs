@@ -2069,8 +2069,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">CancelEventArgs</param>
         private void contextMenuStripRevision_Opening(object sender, CancelEventArgs e)
         {
+            bool loaded = m_owner.PluginManager.Status == ProjectStatus.Loaded;
             ContextMenuStrip node = (ContextMenuStrip)sender;
-            exportRevisionZipMenuItem.Enabled = !Constants.xpathCurrent.Equals((string)m_lastSelectedNode.Tag);
+            exportRevisionZipMenuItem.Enabled = !Constants.xpathCurrent.Equals((string)m_lastSelectedNode.Tag) && loaded;
         }
 
         /// <summary>
