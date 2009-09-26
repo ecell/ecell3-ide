@@ -1512,7 +1512,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ComponentSetting cs = obj.Setting.Clone();
             cs.Name = m_con.ComponentManager.GetRandomKey();
             cs.IsDefault = false;
-            cs.IsStencil = false;
 
             // Show Setting Dialog.
             ComponentDialog dlg = new ComponentDialog(m_con.ComponentManager);
@@ -1524,6 +1523,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     return;
                 dlg.ApplyChange();
                 cs = dlg.Setting;
+                cs.IsStencil = false;
                 m_con.ComponentManager.RegisterSetting(cs);
                 m_con.SetNodeIcons();
                 // Register new stencil

@@ -217,6 +217,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             }
             cs.IsStencil = true;
             m_con.ComponentManager.RegisterSetting(cs);
+            m_con.ComponentManager.SaveSettings();
             SetNewItem(cs);
             m_con.SetNodeIcons();
         }
@@ -241,6 +242,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             m_stencil.Setting.IsStencil = false;
             this.flowLayoutPanel.Controls.Remove(m_stencil);
             m_stencil = null;
+            m_con.ComponentManager.SaveSettings();
         }
 
         private void propertyToolStripMenuItem_Click(object sender, System.EventArgs e)

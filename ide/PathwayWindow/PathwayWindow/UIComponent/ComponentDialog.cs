@@ -124,7 +124,12 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         void componentItem_ItemChange(object sender, System.EventArgs e)
         {
-            this.buttonOK.Enabled = componentItem.Changed || m_isExistSetting;
+            SetOKButton();
+        }
+
+        private void SetOKButton()
+        {
+            this.buttonOK.Enabled = (componentItem.Changed && (m_isExistSetting || Setting.IsStencil)) || !Setting.IsStencil;
         }
         #endregion
 
@@ -156,6 +161,7 @@ namespace Ecell.IDE
             StencilMenuItem item = (StencilMenuItem)sender;
             this.Setting = item.Setting;
             m_isExistSetting = true;
+            SetOKButton();
         }
 
         /// <summary>
@@ -192,7 +198,7 @@ namespace Ecell.IDE
 
         private void ComponentDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!componentItem.Changed && !m_isExistSetting)
+            if(!componentItem.Changed && !m_isExistSetting && !DoesRegister)
                 this.DialogResult = DialogResult.Cancel;
             else if(componentItem.Changed && m_isExistSetting)
             {
