@@ -80,15 +80,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_variable.Selected = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public override int GetConnectorIndex(PointF point)
+        {
+            int index = base.GetConnectorIndex(point);
+            index = index + (1 + m_variable.Aliases.IndexOf(this)) * 10;
+            return index;
+        }
 
         /// <summary>
         /// Refresh
         /// </summary>
         public override void Refresh()
         {
+            base.Refresh();
+            if (m_variable.Aliases.Count <= 0)
+                return;
             foreach (PPathwayEdge line in m_variable.Edges)
                 line.Refresh();
-            base.Refresh();
         }
 
     }

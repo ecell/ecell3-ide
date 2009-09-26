@@ -1541,6 +1541,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     PPathwayAlias alias = (PPathwayAlias)obj;
                     alias.Variable.Aliases.Remove(alias);
                     alias.RemoveFromParent();
+                    foreach (PPathwayEdge edge in alias.Variable.Edges)
+                    {
+                        edge.VIndex = -1;
+                    }
                     NotifyDataChanged(alias.Variable, isAnchor);
                 }
                 else
@@ -1834,6 +1838,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
                 i++;
                 node.isFixed = false;
+                PPathwayObject obj = m_canvas.GetObject(node.Key, node.Type);
+                if (obj is PPathwayEntity)
+                {
+                    foreach (PPathwayEdge edge in ((PPathwayEntity)obj).Edges)
+                    {
+                        edge.VIndex = -1;
+                        edge.PIndex = -1;
+                    }
+                }
 
                 if (isRecorded)
                 {

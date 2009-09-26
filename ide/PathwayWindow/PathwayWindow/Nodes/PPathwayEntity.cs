@@ -220,6 +220,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             PointF[] points = m_figure.ContactPoints;
             int i = 0;
             float length = GetDistance(point, points[0]);
+            index = 0;
             foreach (PointF pos in points)
             {
                 float temp = GetDistance(pos, point);
