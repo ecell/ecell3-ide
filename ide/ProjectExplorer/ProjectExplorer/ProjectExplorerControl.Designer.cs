@@ -197,6 +197,7 @@
             this.importDMToolStripMenuItem});
             this.contextMenuStripDMCollection.Name = "contextMenuStripDMCollection";
             resources.ApplyResources(this.contextMenuStripDMCollection, "contextMenuStripDMCollection");
+            this.contextMenuStripDMCollection.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripDMCollection_Opening);
             // 
             // importDMToolStripMenuItem
             // 
@@ -213,6 +214,7 @@
             this.addToolStripMenuItem});
             this.contextMenuStripModel.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripModel, "contextMenuStripModel");
+            this.contextMenuStripModel.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripModel_Opening);
             // 
             // exportModelToolStripMenuItem
             // 
@@ -284,6 +286,7 @@
             this.importSimParamToolStripMenuItem});
             this.contextMenuSimulationSetCollection.Name = "contextMenuSimulationSetCollection";
             resources.ApplyResources(this.contextMenuSimulationSetCollection, "contextMenuSimulationSetCollection");
+            this.contextMenuSimulationSetCollection.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuSimulationSetCollection_Opening);
             // 
             // addSimulationSetToolStripMenuItem
             // 
@@ -307,6 +310,7 @@
             this.configureSimulationSetToolStripMenuItem});
             this.contextMenuStripSimulationSet.Name = "contextMenuStripSimulationSet";
             resources.ApplyResources(this.contextMenuStripSimulationSet, "contextMenuStripSimulationSet");
+            this.contextMenuStripSimulationSet.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSimulationSet_Opening);
             // 
             // copySimulationSetToolStripMenuItem
             // 
