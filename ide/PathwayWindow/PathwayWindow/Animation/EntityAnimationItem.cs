@@ -266,6 +266,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 variable.Height = size * variable.Figure.Height;
                 variable.CenterPointF = pos;
                 variable.Brush = GetEntityBrush(molarConc, variable);
+
+                if (!_autoThreshold)
+                    continue;
+                SetThreshold(molarConc);
             }
         }
 

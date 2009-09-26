@@ -247,6 +247,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 process.Height = size * process.Figure.Height;
                 process.CenterPointF = pos;
                 process.Brush = GetEntityBrush(molarActivity, process);
+
+                if (!_autoThreshold)
+                    continue;
+                SetThreshold(molarActivity);
             }
         }
 

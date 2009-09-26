@@ -516,6 +516,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.OnMouseDown(e);
             if (m_canvas == null)
                 return;
+            if (!this.Path.IsVisible(e.Position))
+                return;
 
             bool isShift = (e.Modifiers == Keys.Shift);
             bool isCtrl = (e.Modifiers == Keys.Control);

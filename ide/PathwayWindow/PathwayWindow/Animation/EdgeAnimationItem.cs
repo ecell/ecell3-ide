@@ -260,8 +260,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                         line.SetEdge(brush, width);
                 }
                 // Set threshold
-                if (_autoThreshold)
-                    SetThreshold(activity);
+                if (!_autoThreshold)
+                    continue;
+                SetThreshold(activity);
             }
             foreach (PPathwayVariable variable in _variables)
             {
