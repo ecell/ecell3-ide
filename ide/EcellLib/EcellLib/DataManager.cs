@@ -3644,9 +3644,9 @@ namespace Ecell
                     }
                     perParameterStepperListDic[model.ModelID].Add(newStepper);
                 }
-                Debug.Assert(oldStepepr != null);
-                m_env.ActionManager.AddAction(
-                    new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
+                //Debug.Assert(oldStepepr != null);
+                //m_env.ActionManager.AddAction(
+                //    new ChangeStepperAction(newStepper.Key, orgStepperID, newStepper, oldStepepr));
             }
             else
             {

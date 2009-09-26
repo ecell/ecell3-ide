@@ -196,6 +196,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Can not import DefaultSets. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrorImportDefault {
+            get {
+                return ResourceManager.GetString("ErrorImportDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   There is at least one Entity that refers to the Stepper {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStepperStillInUse {

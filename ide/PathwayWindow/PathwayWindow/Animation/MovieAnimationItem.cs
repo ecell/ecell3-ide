@@ -318,8 +318,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 e.Cancel = true;
                 return;
             }
-            double dummy;
-            if (!double.TryParse(text, out dummy) || dummy <= 0)
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, maxSizeRadio.Text));
                 maxSizeTextBox.Text = Convert.ToString(_maxSize);

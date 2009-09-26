@@ -243,4 +243,7 @@
   <data name="ConfirmOverride" xml:space="preserve">
     <value>Are you sure to override the simulation parameter sets[ {0} ].</value>
   </data>
+  <data name="ErrorImportDefault" xml:space="preserve">
+    <value>Can not import DefaultSets.</value>
+  </data>
 </root>

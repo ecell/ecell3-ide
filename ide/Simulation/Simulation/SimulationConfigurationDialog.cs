@@ -700,6 +700,11 @@ namespace Ecell.IDE.Plugins.Simulation
             if (SSOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string parameterID = System.IO.Path.GetFileNameWithoutExtension(SSOpenFileDialog.FileName);
+                if (parameterID.Equals(Constants.defaultSimParam))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrorImportDefault);
+                    return;
+                }
                 try
                 {                    
                     SimulationParameterSet sps = null;

@@ -659,6 +659,8 @@ namespace Ecell.IDE.Plugins.Simulation
                 sim.Add(sps.Name, sps);
             }
 
+            string currentParameterID = m_dManager.CurrentProject.Info.SimulationParam;
+
             SimulationConfigurationDialog win = new SimulationConfigurationDialog(this, sim.Values);
             if (viewParamID != null)
                 win.ChangeParameterID(sim[viewParamID]);
@@ -718,7 +720,8 @@ namespace Ecell.IDE.Plugins.Simulation
                         m_env.PluginManager.ParameterUpdate(
                             m_env.DataManager.CurrentProjectID, sps.Name);
                     }
-                    m_env.DataManager.SetSimulationParameter(win.CurrentParameterID);
+                    if (!currentParameterID.Equals(win.CurrentParameterID))
+                        m_env.DataManager.SetSimulationParameter(win.CurrentParameterID);
                 }
                 catch (Exception ex)
                 {

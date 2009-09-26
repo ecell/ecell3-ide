@@ -243,4 +243,7 @@
   <data name="ConfirmOverride" xml:space="preserve">
     <value>シミュレーションパラメータ [ {0} ] を上書きしますか？</value>
   </data>
+  <data name="ErrorImportDefault" xml:space="preserve">
+    <value>DefaultSetsを読み込むことはできません。</value>
+  </data>
 </root>
