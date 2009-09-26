@@ -102,83 +102,57 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             // flowLayoutPanel
             // 
-            this.flowLayoutPanel.AccessibleDescription = null;
-            this.flowLayoutPanel.AccessibleName = null;
             resources.ApplyResources(this.flowLayoutPanel, "flowLayoutPanel");
             this.flowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
-            this.flowLayoutPanel.BackgroundImage = null;
             this.flowLayoutPanel.ContextMenuStrip = this.PanelMenuStrip;
-            this.flowLayoutPanel.Font = null;
             this.flowLayoutPanel.Name = "flowLayoutPanel";
             this.flowLayoutPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Stencil_MouseDown);
             // 
             // PanelMenuStrip
             // 
-            this.PanelMenuStrip.AccessibleDescription = null;
-            this.PanelMenuStrip.AccessibleName = null;
-            resources.ApplyResources(this.PanelMenuStrip, "PanelMenuStrip");
-            this.PanelMenuStrip.BackgroundImage = null;
-            this.PanelMenuStrip.Font = null;
             this.PanelMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddStencilMenuItem});
             this.PanelMenuStrip.Name = "contextMenuStrip";
+            resources.ApplyResources(this.PanelMenuStrip, "PanelMenuStrip");
+            this.PanelMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.PanelMenuStrip_Opening);
             // 
             // AddStencilMenuItem
             // 
-            this.AddStencilMenuItem.AccessibleDescription = null;
-            this.AddStencilMenuItem.AccessibleName = null;
-            resources.ApplyResources(this.AddStencilMenuItem, "AddStencilMenuItem");
-            this.AddStencilMenuItem.BackgroundImage = null;
             this.AddStencilMenuItem.Name = "AddStencilMenuItem";
-            this.AddStencilMenuItem.ShortcutKeyDisplayString = null;
+            resources.ApplyResources(this.AddStencilMenuItem, "AddStencilMenuItem");
             this.AddStencilMenuItem.Click += new System.EventHandler(this.AddStencilMenuItem_Click);
             // 
             // StencilMenuStrip
             // 
-            this.StencilMenuStrip.AccessibleDescription = null;
-            this.StencilMenuStrip.AccessibleName = null;
-            resources.ApplyResources(this.StencilMenuStrip, "StencilMenuStrip");
-            this.StencilMenuStrip.BackgroundImage = null;
-            this.StencilMenuStrip.Font = null;
             this.StencilMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeleteStencilMenuItem,
             this.propertyToolStripMenuItem});
             this.StencilMenuStrip.Name = "contextMenuStrip";
+            resources.ApplyResources(this.StencilMenuStrip, "StencilMenuStrip");
+            this.StencilMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.StencilMenuStrip_Opening);
             // 
             // DeleteStencilMenuItem
             // 
-            this.DeleteStencilMenuItem.AccessibleDescription = null;
-            this.DeleteStencilMenuItem.AccessibleName = null;
-            resources.ApplyResources(this.DeleteStencilMenuItem, "DeleteStencilMenuItem");
-            this.DeleteStencilMenuItem.BackgroundImage = null;
             this.DeleteStencilMenuItem.Name = "DeleteStencilMenuItem";
-            this.DeleteStencilMenuItem.ShortcutKeyDisplayString = null;
+            resources.ApplyResources(this.DeleteStencilMenuItem, "DeleteStencilMenuItem");
             this.DeleteStencilMenuItem.Click += new System.EventHandler(this.DeleteStencilMenuItem_Click);
             // 
             // propertyToolStripMenuItem
             // 
-            this.propertyToolStripMenuItem.AccessibleDescription = null;
-            this.propertyToolStripMenuItem.AccessibleName = null;
-            resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
-            this.propertyToolStripMenuItem.BackgroundImage = null;
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
-            this.propertyToolStripMenuItem.ShortcutKeyDisplayString = null;
+            resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
             this.propertyToolStripMenuItem.Click += new System.EventHandler(this.propertyToolStripMenuItem_Click);
             // 
             // Stencils
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.BackgroundImage = null;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.flowLayoutPanel);
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Stencils";
-            this.ToolTipText = null;
             this.PanelMenuStrip.ResumeLayout(false);
             this.StencilMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -283,6 +257,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 dlg.ApplyChange();
                 m_con.SetNodeIcons();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StencilMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DeleteStencilMenuItem.Enabled = !m_stencil.Setting.IsDefault;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PanelMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = m_con.CopiedNodes.Count == 0;
         }
     }
 }

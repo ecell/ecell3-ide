@@ -1963,6 +1963,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         system.Invalid = false;
                     foreach (PPathwayObject child in GetAllObjectUnder(system.EcellObject.Key))
                     {
+                        if (child is PPathwayText)
+                            continue;
                         child.Offset = offset;
 
                         if (child is PPathwayVariable)

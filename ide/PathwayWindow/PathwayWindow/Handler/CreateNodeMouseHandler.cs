@@ -142,19 +142,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 Util.ShowErrorDialog(MessageResources.ErrOutRoot);
                 return;
             }
+            // Reset
+            RectangleF rect = m_template.Rect;
+            m_con.Menu.ResetEventHandler();
 
             // Create EcellObject.
             EcellObject eo = m_con.CreateDefaultObject(canvas.ModelID, system, m_cs.Type);
-            eo.X = m_template.X;
-            eo.Y = m_template.Y;
-            eo.Width = m_template.Width;
-            eo.Height = m_template.Height;
+            eo.X = rect.X;
+            eo.Y = rect.Y;
+            eo.Width = rect.Width;
+            eo.Height = rect.Height;
 
             m_con.NotifyDataAdd(eo, true);
             PPathwayObject obj = m_con.Canvas.GetObject(eo.Key, eo.Type);
             if(obj != null)
                 m_con.Canvas.NotifySelectChanged(obj);
-            m_con.Menu.ResetEventHandler();
         }
         #endregion
 
