@@ -1929,16 +1929,26 @@ namespace Ecell
 
         private void CheckMassCalc(EcellObject src, EcellObject dest)
         {
+            // Check Process.
+            if (dest.Type != EcellObject.PROCESS)
+                return;
+            // check and update.
             EcellProcess process = (EcellProcess)dest;
             List<EcellReference> list = process.ReferenceList;
+            // if dest is MassCalculationProcess.
             if (dest.Classname == EcellProcess.MASSCALCULATIONPROCESS)
             {
                 foreach (EcellReference er in list)
                 {
-                    er.Name = "1";
                     er.Coefficient = 0;
+                    // check mass.
+                    float tmp = 0;
+                    if (float.TryParse(er.Name, out tmp))
+                        continue;
+                    er.Name = "1";
                 }
             }
+            // when changed from MassCalculationProcess.
             else if (src.Classname == EcellProcess.MASSCALCULATIONPROCESS)
             {
                 int i = 0;
@@ -1947,7 +1957,6 @@ namespace Ecell
                     er.Name = "C" + i.ToString();
                     i++;
                 }
-
             }
             process.ReferenceList = list;
         }
@@ -2488,12 +2497,13 @@ namespace Ecell
             else
                 message = "[" + parameterID + "][" + src.ModelID + "][" + src.Key + "]";
 
+            // Check MassCalculation.
+            CheckMassCalc(src, dest);
             // Check Class change.
             if (!src.Classname.Equals(dest.Classname))
             {
                 updated = true;
                 MessageUpdateData(Constants.xpathClassName, message, src.Classname, dest.Classname);
-                CheckMassCalc(src, dest);
             }
             // Check Key change.
             if (!src.Key.Equals(dest.Key))
