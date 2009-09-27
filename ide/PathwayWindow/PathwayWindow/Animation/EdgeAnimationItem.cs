@@ -214,23 +214,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetAnimation()
         {            
             base.SetAnimation();
+            List<PPathwayProcess> temp = new List<PPathwayProcess>(_processes);
+            foreach (PPathwayProcess process in temp)
+            {
+                if (process.EcellObject.Classname == EcellProcess.MASSCALCULATIONPROCESS)
+                    _processes.Remove(process);
+            }
 
-            if (_autoThreshold)
+            ProjectStatus status = _control.Control.ProjectStatus;
+            bool onGoing = status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended;
+
+            if (_autoThreshold && !onGoing)
                 _thresholdHigh = 0;
             foreach (PPathwayProcess process in _processes)
             {
                 if (!process.Visible)
                     continue;
                 process.ViewMode = true;
+
+                if (onGoing)
+                    continue;
                 // Line setting.
                 foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = _viewEdgeBrush;
                     line.EdgeWidth = _control.EdgeWidth;
                 }
-
                 // Set threshold
-                if (!_autoThreshold)
+                if (!_autoThreshold || onGoing)
                     continue;
                 double activity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 SetThreshold(activity);
@@ -426,8 +437,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="activity"></param>
         private void SetThreshold(double activity)
         {
-            if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
-                return;
             if (activity > _thresholdHigh)
                 _thresholdHigh = activity;
             if (activity < _thresholdLow)

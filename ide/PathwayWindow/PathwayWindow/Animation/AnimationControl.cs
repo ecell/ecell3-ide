@@ -348,7 +348,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _dManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(_dManager_ApplySteppingModelEvent);
             // Set Timer.
             _timer = new Timer();
-            _timer.Enabled = false;
             _timer.Interval = 200;
             _timer.Tick += new EventHandler(TimerFire);
         }
@@ -439,9 +438,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e">EventArgs</param>
         public void TimerFire(object sender, EventArgs e)
         {
-            _timer.Enabled = false;
             UpdateAnimation();
-            _timer.Enabled = true;
         }
         /// <summary>
         /// Start Simulation
@@ -464,7 +461,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             SetAnimation();
 
             TimerStart();
-            _isPausing = true;
+            _isPausing = false;
 
         }
         /// <summary>
@@ -491,8 +488,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void TimerStart()
         {
-            _isPausing = true;
-            _timer.Enabled = true;
+            _isPausing = false;
             _timer.Start();
         }
         /// <summary>
@@ -500,7 +496,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void TimerStop()
         {
-            _timer.Enabled = false;
             _timer.Stop();
         }
         #endregion

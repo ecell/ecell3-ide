@@ -210,8 +210,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetAnimation()
         {            
             base.SetAnimation();
+            ProjectStatus status = _control.Control.ProjectStatus;
+            bool onGoing = status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended;
 
-            if (_autoThreshold)
+            if (_autoThreshold && !onGoing)
                 _thresholdHigh = 0;
             List<PPathwayProcess> list = new List<PPathwayProcess>();
             foreach (PPathwayProcess process in _processes)
@@ -220,8 +222,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 list.Add(process);
                 process.ViewMode = false;
+                if (onGoing)
+                {
+                    double activity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
+                    float size = GetEntitySize(process.EcellObject, activity);
+                    PointF pos = process.CenterPointF;
+                    process.Width = size * process.Figure.Width;
+                    process.Height = size * process.Figure.Height;
+                    process.CenterPointF = pos;
+                    process.Brush = GetEntityBrush(activity, process);
+                }
                 // Set threshold
-                if (!_autoThreshold)
+                if (!_autoThreshold || onGoing)
                     continue;
                 double molarActivity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 SetThreshold(molarActivity);
@@ -240,7 +252,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
 
                 // Variable setting.
-                double molarActivity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                double molarActivity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 float size = GetEntitySize(process.EcellObject, molarActivity);
                 PointF pos = process.CenterPointF;
                 process.Width = size * process.Figure.Width;
@@ -393,8 +405,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="activity"></param>
         private void SetThreshold(double activity)
         {
-            if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
-                return;
             if (activity > _thresholdHigh)
                 _thresholdHigh = activity;
             if (activity < _thresholdLow)

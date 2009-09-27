@@ -210,8 +210,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetAnimation()
         {            
             base.SetAnimation();
+            ProjectStatus status = _control.Control.ProjectStatus;
+            bool onGoing = status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended;
 
-            if (_autoThreshold)
+            if (_autoThreshold && !onGoing)
                 _thresholdHigh = 0;
             foreach (PPathwayVariable variable in _variables)
             {
@@ -223,7 +225,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
                 // Reset size.
                 PointF pos = variable.CenterPointF;
-                if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
+                if (onGoing)
                 {
                     double activity = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                     float size = GetEntitySize(variable.EcellObject, activity);
@@ -241,7 +243,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 }
 
                 // Set threshold
-                if (!_autoThreshold)
+                if (!_autoThreshold || onGoing)
                     continue;
                 double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                 SetThreshold(molarConc);
@@ -413,9 +415,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="activity"></param>
         private void SetThreshold(double activity)
         {
-            if (_control.Control.ProjectStatus == ProjectStatus.Suspended)
-                return;
-
             if (activity > _thresholdHigh)
                 _thresholdHigh = activity;
             if (activity < _thresholdLow)
