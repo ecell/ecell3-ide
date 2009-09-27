@@ -1904,9 +1904,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 string fileName = m_openFileDialog.FileName;
                 string parameterID = Path.GetFileNameWithoutExtension(fileName);
+                if (parameterID.Equals(Constants.defaultSimParam))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrImportDefault);
+                    return;
+                }
                 try
                 {
                     string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
+                    List<string> paramList = m_owner.DataManager.GetSimulationParameterIDs();
+                    if (paramList.Contains(parameterID))
+                    {
+                        if (!Util.ShowYesNoDialog(String.Format(MessageResources.ConfirmOverride, parameterID)))
+                        {
+                            return;
+                        }
+                    }
                     Dictionary<string, double> data = SimulationParameter.ConvertSimulationParameter(fileName);
                     m_owner.DataManager.ImportSimulationParameter(modelID, parameterID, data);
                 }

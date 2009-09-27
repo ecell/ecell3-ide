@@ -61,6 +61,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Are you sure to override the simulation parameter sets[ {0} ]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmOverride {
+            get {
+                return ResourceManager.GetString("ConfirmOverride", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do you want to override the file [ {0} ]? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmOverrideFile {
@@ -120,6 +129,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         internal static string ErrExportSim {
             get {
                 return ResourceManager.GetString("ErrExportSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not import DefaultSets. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrImportDefault {
+            get {
+                return ResourceManager.GetString("ErrImportDefault", resourceCulture);
             }
         }
         

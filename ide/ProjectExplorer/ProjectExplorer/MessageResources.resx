@@ -228,4 +228,10 @@
   <data name="ErrProjectUnsavedDelete" xml:space="preserve">
     <value>Save this project before DM is deleted.</value>
   </data>
+  <data name="ConfirmOverride" xml:space="preserve">
+    <value>Are you sure to override the simulation parameter sets[ {0} ].</value>
+  </data>
+  <data name="ErrImportDefault" xml:space="preserve">
+    <value>Can not import DefaultSets.</value>
+  </data>
 </root>
