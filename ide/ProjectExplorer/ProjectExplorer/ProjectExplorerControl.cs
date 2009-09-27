@@ -2088,10 +2088,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// 
+        /// Opening the context menu of DM.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
         private void contextMenuStripDM_Opening(object sender, CancelEventArgs e)
         {
             bool menuFlag = m_owner.PluginManager.Status == ProjectStatus.Loaded;
@@ -2100,6 +2100,52 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             this.editToolStripMenuItem.Enabled = menuFlag;
             this.toolStripSeparator5.Enabled = menuFlag;
             this.deleteDMToolStripMenuItem.Enabled = menuFlag;
+        }
+
+        /// <summary>
+        /// Opening the context menu of simulation sets.
+        /// </summary>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void contextMenuStripSimulationSet_Opening(object sender, CancelEventArgs e)
+        {
+            contextMenuStripSimulationSet.Enabled = m_owner.PluginManager.Status == ProjectStatus.Loaded;
+        }
+
+        /// <summary>
+        /// Opening the context menu of model.
+        /// </summary>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void contextMenuStripModel_Opening(object sender, CancelEventArgs e)
+        {
+            bool loaded = m_owner.PluginManager.Status == ProjectStatus.Loaded;
+            bool suspended = m_owner.PluginManager.Status == ProjectStatus.Suspended;
+
+            this.exportModelToolStripMenuItem.Enabled = loaded || suspended;
+            this.exportModelSBMLToolStripMenuItem.Enabled = loaded || suspended;
+            this.toolStripSeparator4.Enabled = loaded;
+            this.addToolStripMenuItem.Enabled = loaded;
+        }
+
+        /// <summary>
+        /// Opening the context menu of DMs.
+        /// </summary>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void contextMenuStripDMCollection_Opening(object sender, CancelEventArgs e)
+        {
+            contextMenuStripDMCollection.Enabled = m_owner.PluginManager.Status == ProjectStatus.Loaded;
+        }
+
+        /// <summary>
+        /// Opening the context menu of simulation parameter sets.
+        /// </summary>
+        /// <param name="sender">ContextMenuToolStrip</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void contextMenuSimulationSetCollection_Opening(object sender, CancelEventArgs e)
+        {
+            contextMenuSimulationSetCollection.Enabled = m_owner.PluginManager.Status == ProjectStatus.Loaded;
         }
         #endregion
 
@@ -2156,33 +2202,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
-
-        private void contextMenuStripSimulationSet_Opening(object sender, CancelEventArgs e)
-        {
-            contextMenuStripSimulationSet.Enabled = m_owner.PluginManager.Status == ProjectStatus.Loaded;
-        }
-
-        private void contextMenuStripModel_Opening(object sender, CancelEventArgs e)
-        {
-            bool loaded = m_owner.PluginManager.Status == ProjectStatus.Loaded;
-            bool suspended = m_owner.PluginManager.Status == ProjectStatus.Suspended;
-
-            this.exportModelToolStripMenuItem.Enabled = loaded || suspended;
-            this.exportModelSBMLToolStripMenuItem.Enabled = loaded || suspended;
-            this.toolStripSeparator4.Enabled = loaded;
-            this.addToolStripMenuItem.Enabled = loaded;
-        }
-
-        private void contextMenuStripDMCollection_Opening(object sender, CancelEventArgs e)
-        {
-            contextMenuStripDMCollection.Enabled = m_owner.PluginManager.Status == ProjectStatus.Loaded;
-        }
-
-        private void contextMenuSimulationSetCollection_Opening(object sender, CancelEventArgs e)
-        {
-            contextMenuSimulationSetCollection.Enabled = m_owner.PluginManager.Status == ProjectStatus.Loaded;
-        }
-
     }
 
     #region Node classes

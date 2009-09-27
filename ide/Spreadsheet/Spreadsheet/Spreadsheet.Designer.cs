@@ -53,6 +53,7 @@
             this.m_gridView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GridViewMouseUp);
             this.m_gridView.MouseLeave += new System.EventHandler(this.GridViewMouseLeave);
             this.m_gridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridViewClickObjectCell);
+            this.m_gridView.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.GridViewQueryContinueDrag);
             this.m_gridView.CurrentCellChanged += new System.EventHandler(this.GridViewCurrentCellChanged);
             this.m_gridView.SelectionChanged += new System.EventHandler(this.GridViewSelectionChanged);
             // 

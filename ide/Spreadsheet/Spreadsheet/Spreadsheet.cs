@@ -1150,6 +1150,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             Clipboard.SetText(text);
         }
 
+        private bool m_isNoDrag = false;
         /// <summary>
         /// This plugin enter the drag mode.
         /// </summary>
@@ -1163,7 +1164,9 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 EcellObject obj = r.Tag as EcellObject;
                 if (obj == null)
+                {
                     continue;
+                }
 
                 // Create new EcellDragObject.
                 if (dobj == null)
@@ -1195,7 +1198,15 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             // Drag & Drop Event.
             if (dobj != null)
+            {
+                m_isNoDrag = false;
                 m_gridView.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+            }
+            else
+            {
+                m_isNoDrag = true;
+                m_gridView.DoDragDrop(new EcellDragObject(), DragDropEffects.Move | DragDropEffects.Copy);
+            }
         }
 
         #endregion
@@ -1442,7 +1453,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
                 return;
 
-            if (m_dragObject == null) return;
+            //if (m_dragObject == null) return;
             EnterDragMode();
             m_dragObject = null;
         }
@@ -1748,6 +1759,16 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     Brush b = new SolidBrush(SystemColors.ControlText);
                     using (b) graphics.DrawString(Convert.ToString(rowIndex + 1), cellStyle.Font, b, cellBounds, sf);
                 }
+            }
+        }
+
+        private void GridViewQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (m_isNoDrag == true)
+            {
+                e.Action = DragAction.Cancel;
+                m_isNoDrag = false;
+                return;
             }
         }
     }

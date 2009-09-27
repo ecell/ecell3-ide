@@ -883,7 +883,7 @@ namespace Ecell.IDE.MainWindow
             exportModelToolStripMenuItem.Enabled = (suspended || loaded);
             exportSBMLMenuItem.Enabled = (suspended || loaded);
             exportEMLToolStripMenuItem.Enabled = (suspended || loaded);
-            exportZipToolStripMenuItem.Enabled = (suspended || loaded) && isProject;
+            exportZipToolStripMenuItem.Enabled = (loaded) && isProject;
             // import
             importModelToolStripMenuItem.Enabled = unInitialized || loaded;
             importEMLToolStripMenuItem.Enabled = unInitialized || loaded;
