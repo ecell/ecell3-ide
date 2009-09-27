@@ -155,14 +155,14 @@ Source: "samples\Toy_Hybrid\*"; DestDir: "{commondocs}\My E-Cell Projects\Toy_Hy
 Source: "samples\Toy_Hybrid\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Toy_Hybrid\Model"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "samples\Toy_Hybrid\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Toy_Hybrid\Model"; Components: extension; CopyMode: alwaysoverwrite;
 
-Source: "conf\*"; DestDir: "{app}\conf"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Process\*"; DestDir: "{app}\conf\Process"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Templates\Empty\*"; DestDir: "{app}\conf\Templates\Empty"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Templates\Empty\Model\*"; DestDir: "{app}\conf\Templates\Empty\Model"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Templates\Oscillation\*"; DestDir: "{app}\conf\Templates\Oscillation"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Templates\Oscillation\Model\*"; DestDir: "{app}\conf\Templates\Oscillation\Model"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Templates\Simple\*"; DestDir: "{app}\conf\Templates\Simple"; Components: extension; CopyMode: alwaysoverwrite;
-Source: "conf\Templates\Simple\Model\*"; DestDir: "{app}\conf\Templates\Simple\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\*"; DestDir: "{app}\conf"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Process\*"; DestDir: "{app}\conf\Process"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Empty\*"; DestDir: "{app}\conf\Templates\Empty"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Empty\Model\*"; DestDir: "{app}\conf\Templates\Empty\Model"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Oscillation\*"; DestDir: "{app}\conf\Templates\Oscillation"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Oscillation\Model\*"; DestDir: "{app}\conf\Templates\Oscillation\Model"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Simple\*"; DestDir: "{app}\conf\Templates\Simple"; Components: main; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Simple\Model\*"; DestDir: "{app}\conf\Templates\Simple\Model"; Components: main; CopyMode: alwaysoverwrite;
 ;Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main; CopyMode: alwaysoverwrite;
 Source: "common\startup.html"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
 Source: "common\startup.ja.html"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
@@ -174,7 +174,7 @@ Source: "common\credit.info"; DestDir:"{app}\bin"; Components:main; CopyMode: al
 ; ======================================================
 ; document
 ; ======================================================
-Source: "doc\*"; DestDir: "{app}\doc"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "doc\*"; DestDir: "{app}\docs"; Components: extension; CopyMode: alwaysoverwrite;
 
 ; ======================================================
 ; bin/*.exe
@@ -294,6 +294,7 @@ Source: "Win32\lib\ecell-3.2\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\l
 Source: "Win32\lib\ecell-3.2\dms\SSystemProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\lib\ecell-3.2\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\lib\ecell-3.2\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\lib\ecell-3.2\dms\MassCalculationProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
 
 Source: "Win32\lib\ecell-3.2\dms\GillespieProcess.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\lib\ecell-3.2\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
@@ -330,6 +331,12 @@ Source: "SamplePluginProject\SamplePlugin\Properties\*"; DestDir: "{commondocs}\
 ; docs
 ; ======================================================
 Source: "doc\usermanual.pdf"; DestDir: "{app}\docs"; Components: main; CopyMode: alwaysoverwrite;
+
+; ======================================================
+; class information
+; ======================================================
+Source: "conf\ClassName\*"; DestDir: "{app}\conf\ClassName"; Components: main; CopyMode: alwaysoverwrite;
+
 
 ; ======================================================
 ; python
