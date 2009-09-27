@@ -108,6 +108,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        public const string xPathEdgeList = "EdgeList";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathEdge = "Edge";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string xPathName = "Name";
         /// <summary>
         /// 

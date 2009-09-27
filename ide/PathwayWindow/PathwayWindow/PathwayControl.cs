@@ -149,6 +149,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         private bool m_unreachedFlag = false;
 
+        private List<EdgeLoader> m_edgeLoaders = new List<EdgeLoader>();
         /// <summary>
         /// Report Session.
         /// </summary>
@@ -441,6 +442,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     Progress(mes, 100, 100);
                     m_canvas.RefreshEdges();
+                    foreach (PPathwayProcess process in m_canvas.Processes.Values)
+                    {
+                        SetEdgeConnector(process);
+                    }
                 }
             }
             catch (Exception e)
@@ -518,6 +523,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Load layout information from LEML.
             if (!isFirst)
                 return;
+
             if (!layoutFlag)
                 return;
 
@@ -568,22 +574,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Null check.
             if (eo == null)
                 return;
-
             // Load new project
-            if (EcellObject.PROJECT.Equals(eo.Type))
+            else if (eo.Type.Equals(EcellObject.PROJECT))
             {
                 return;
             }
-
             // create new canvas
-            if (eo.Type.Equals(EcellObject.MODEL))
+            else if (eo.Type.Equals(EcellObject.MODEL))
             {
                 this.CreateCanvas((EcellModel)eo);
                 return;
             }
-
             // Ignore system size.
-            if (eo.Type == Constants.xpathVariable && eo.LocalID == "SIZE")
+            else if (eo.Type == Constants.xpathVariable && eo.LocalID == "SIZE")
             {
                 return;
             }
@@ -1871,13 +1874,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
 
         /// <summary>
-        /// 
+        /// Save plugin settings to LEML.
         /// </summary>
         /// <returns></returns>
         public XmlNode GetPluginStatus()
         {
             XmlDocument doc =new XmlDocument();
             XmlElement status = doc.CreateElement(m_window.GetPluginName());
+            // Save ComponentSettings.
             XmlElement componentList = doc.CreateElement(ComponentConstants.xPathComponentList);
             status.AppendChild(componentList);
             foreach (ComponentSetting cs in m_csManager.GetAllSettings())
@@ -1886,19 +1890,100 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     continue;
                 componentList.AppendChild(ComponentManager.ConvertToXmlNode(doc, cs));
             }
+            // Save Edge connectors.
+            XmlElement edgeList = doc.CreateElement(ComponentConstants.xPathEdgeList);
+            status.AppendChild(edgeList);
+            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            {
+                foreach (PPathwayEdge edge in process.Edges)
+                {
+                    if (edge.VIndex == -1 && edge.PIndex == -1)
+                        continue;
+                    XmlElement xmlEdge = doc.CreateElement(ComponentConstants.xPathEdge);
+                    xmlEdge.SetAttribute("ProcessKey", edge.Info.ProcessKey);
+                    xmlEdge.SetAttribute("VariableKey", edge.Info.VariableKey);
+                    xmlEdge.SetAttribute("VIndex", edge.VIndex.ToString());
+                    xmlEdge.SetAttribute("PIndex", edge.PIndex.ToString());
+                    edgeList.AppendChild(xmlEdge);
+                }
+            }
 
             return status;
         }
 
         /// <summary>
-        /// 
+        /// load plugin settings from LEML.
         /// </summary>
         /// <param name="status"></param>
         public void SetPluginStatus(XmlNode status)
         {
+            // Load ComponentSettings.
             List<ComponentSetting> list = ComponentManager.LoadFromXML(status);
             m_csManager.UpdateComponent(list);
             SetNodeIcons();
+
+            // Load Edge connectors.
+            LoadEdgeConectors(status);
+
+        }
+
+        /// <summary>
+        /// Load Edge connectors from LEML.
+        /// </summary>
+        /// <param name="status"></param>
+        private void LoadEdgeConectors(XmlNode status)
+        {
+            m_edgeLoaders.Clear();
+            XmlElement edgeList = null;
+            foreach (XmlNode node in status.ChildNodes)
+            {
+                if (node.Name.Equals(ComponentConstants.xPathEdgeList))
+                    edgeList = (XmlElement)node;
+            }
+            if (edgeList == null)
+                return;
+
+            // Set edge connectors.
+            List<EdgeInfo> list = new List<EdgeInfo>();
+            foreach (XmlElement xmlEdge in edgeList.ChildNodes)
+            {
+                EdgeLoader loader = new EdgeLoader();
+                loader.ProcessKey = xmlEdge.GetAttribute("ProcessKey");
+                loader.VariableKey = xmlEdge.GetAttribute("VariableKey");
+                int.TryParse(xmlEdge.GetAttribute("PIndex"), out loader.PIndex);
+                int.TryParse(xmlEdge.GetAttribute("VIndex"), out loader.VIndex);
+                m_edgeLoaders.Add(loader);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="process"></param>
+        private void SetEdgeConnector(PPathwayProcess process)
+        {
+            foreach (PPathwayEdge edge in process.Edges)
+            {
+                foreach (EdgeLoader loader in m_edgeLoaders)
+                {
+                    if (edge.Info.VariableKey != loader.VariableKey || edge.Info.ProcessKey != loader.ProcessKey)
+                        continue;
+                    edge.VIndex = loader.VIndex;
+                    edge.PIndex = loader.PIndex;
+                    edge.Refresh();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal class EdgeLoader
+        {
+            internal string ProcessKey = "";
+            internal string VariableKey = "";
+            internal int PIndex = -1;
+            internal int VIndex = -1;
         }
     }
 }
