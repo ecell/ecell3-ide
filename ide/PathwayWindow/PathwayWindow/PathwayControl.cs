@@ -597,7 +597,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             NotifySetPosition(obj);
 
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
         }
 
@@ -647,7 +647,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
 
         }
@@ -675,7 +675,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_canvas.DataDelete(key, type);
 
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
         }
 
@@ -774,7 +774,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             m_canvas.SelectChanged(key, type);
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
 
         }
@@ -794,7 +794,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             m_canvas.AddSelect(key, type);
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
 
         }
@@ -814,7 +814,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             m_canvas.RemoveSelect(key, type);
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
 
         }
@@ -828,7 +828,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             m_canvas.ResetSelect();
             // Update Animation.
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
 
         }
@@ -841,7 +841,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
             SetNodeIcons();
-            if (m_animCon.DoesAnimationOnGoing)
+            if (IsAnimation)
                 m_animCon.SetAnimation();
         }
         /// <summary>

@@ -376,7 +376,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             if (double.IsNaN(activity))
             {
-                if (_canvas.Control.Session != null)
+                if (_canvas.Control.Session != null && obj.Type.Equals(EcellObject.PROCESS))
                 {
                     _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
                         MessageResources.WarnExtValue, Constants.groupDynamic, obj));
@@ -385,7 +385,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             else if (activity <= _thresholdLow || _thresholdLow == _thresholdHigh)
             {
-                if (_canvas.Control.Session != null)
+                if (_canvas.Control.Session != null && obj.Type.Equals(EcellObject.PROCESS))
                 {
                     _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
                         MessageResources.WarnExtValue, Constants.groupDynamic, obj));
@@ -394,7 +394,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             else if (activity >= _thresholdHigh)
             {
-                if (_canvas.Control.Session != null)
+                if (_canvas.Control.Session != null && obj.Type.Equals(EcellObject.PROCESS))
                 {
                     _canvas.Control.Session.Add(new ObjectReport(MessageType.Warning,
                         MessageResources.WarnExtValue, Constants.groupDynamic, obj));
