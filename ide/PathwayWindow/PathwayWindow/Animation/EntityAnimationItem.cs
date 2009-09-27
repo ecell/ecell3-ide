@@ -413,6 +413,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="activity"></param>
         private void SetThreshold(double activity)
         {
+            if (_control.IsPausing)
+                return;
+
             if (activity > _thresholdHigh)
                 _thresholdHigh = activity;
             if (activity < _thresholdLow)

@@ -1003,7 +1003,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isOneway = true;
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
-            bool isInsideRoot = m_con.Canvas.IsInsideRoot(m_con.MousePosition);
             bool isEditMode = m_con.ProjectStatus == ProjectStatus.Loaded;
             bool isSimulation = m_con.ProjectStatus == ProjectStatus.Running
                  || m_con.ProjectStatus == ProjectStatus.Suspended
@@ -1061,7 +1060,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Show Node / System edit menus.
             toolStripCut.Visible = isObject && !isRoot && isEditMode;
             toolStripCopy.Visible = isObject && !isRoot && isEditMode;
-            toolStripPaste.Visible = isCopiedObject && isInsideRoot && isEditMode;
+            toolStripPaste.Visible = isCopiedObject && isEditMode;
             toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isEditMode;
             toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isEditMode;
             // Set Alias

@@ -184,6 +184,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return doesAnimation;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        internal bool IsPausing
+        {
+            get { return _isPausing; }
+            set { _isPausing = value; }
+        }
 
         /// <summary>
         /// Get/Set m_thresholdHigh

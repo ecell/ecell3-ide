@@ -959,19 +959,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Get parent System
             string oldSysKey = m_copiedNodes[0].ParentSystemID;
             string newSysKey = m_canvas.GetSurroundingSystemKey(newPos);
+            if (newSysKey == null)
+                newSysKey = "/";
 
             PPathwaySystem system = null;
-            if (!string.IsNullOrEmpty(newSysKey))
+            system = m_canvas.Systems[newSysKey];
+            foreach (EcellObject eo in m_copiedNodes)
             {
-                system = m_canvas.Systems[newSysKey];
-                foreach (EcellObject eo in m_copiedNodes)
-                {
-                    //Create new EcellObject
-                    if (eo.X + diff.X < system.X + PPathwaySystem.SYSTEM_MARGIN)
-                        diff.X = system.X - eo.X + PPathwaySystem.SYSTEM_MARGIN;
-                    if (eo.Y + diff.Y < system.Y + PPathwaySystem.SYSTEM_MARGIN)
-                        diff.Y = system.Y - eo.Y + PPathwaySystem.SYSTEM_MARGIN;
-                }
+                //Create new EcellObject
+                if (eo.X + diff.X < system.X + PPathwaySystem.SYSTEM_MARGIN)
+                    diff.X = system.X - eo.X + PPathwaySystem.SYSTEM_MARGIN;
+                if (eo.Y + diff.Y < system.Y + PPathwaySystem.SYSTEM_MARGIN)
+                    diff.Y = system.Y - eo.Y + PPathwaySystem.SYSTEM_MARGIN;
             }
 
             // Set m_copiedNodes.
