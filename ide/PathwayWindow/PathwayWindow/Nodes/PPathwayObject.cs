@@ -517,7 +517,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_canvas == null)
                 return;
             if (!this.Path.IsVisible(e.Position))
+            {
+                m_canvas.NotifyResetSelect();
                 return;
+            }
 
             bool isShift = (e.Modifiers == Keys.Shift);
             bool isCtrl = (e.Modifiers == Keys.Control);
