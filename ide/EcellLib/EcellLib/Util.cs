@@ -1431,7 +1431,8 @@ namespace Ecell
         static public string GetClassInformationFile(string name)
         {
             string confDir = Util.GetWindowSettingDir();
-            string lang = Util.GetLanguage().TwoLetterISOLanguageName;
+
+            string lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
             switch (lang)
             {
                 case "en":
@@ -1447,6 +1448,10 @@ namespace Ecell
             }
             string classFile = confDir + Constants.delimiterPath + Constants.xpathClassName +
                 Constants.delimiterPath + name + "." + lang + ".rtf";
+            if (File.Exists(classFile))
+                return classFile;
+            classFile = confDir + Constants.delimiterPath + Constants.xpathClassName +
+                Constants.delimiterPath + name + ".en.rtf";
             if (File.Exists(classFile))
                 return classFile;
             return null;
