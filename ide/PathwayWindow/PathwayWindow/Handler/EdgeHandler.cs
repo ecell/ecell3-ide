@@ -271,13 +271,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
                 return;
             }
-            else if (m_selectedLine == null)
+            if (m_selectedLine == null)
             {
                 m_con.Menu.ResetEventHandler();
                 return;
             }
-            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
+                ResetSelectedLine();
                 return;
             }
 
@@ -359,8 +360,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 }
 
                 // Remove old edge.
-                if(info.ProcessKey != processKey || info.VariableKey != variableKey)
-                    m_con.NotifyVariableReferenceChanged(info.ProcessKey, info.VariableKey, RefChangeType.Delete, 0, false);
+                m_con.NotifyVariableReferenceChanged(info.ProcessKey, info.VariableKey, RefChangeType.Delete, 0, false);
                 // Add new edge.
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
 
