@@ -1954,6 +1954,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 return;
 
             m_saveFileDialog.Filter = Constants.FilterCSVFile;
+            m_saveFileDialog.FileName = "";
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try

@@ -1050,6 +1050,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> list = layer.GetNodes();
             foreach (PPathwayObject obj in list)
             {
+                if (obj.EcellObject == null) // for Alias
+                    continue;
                 obj.Layer = m_defaultLayer;
                 m_con.NotifyDataChanged(
                     obj.EcellObject.Key,

@@ -212,6 +212,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     if (exist)
                     {
                         infos.Remove(temp);
+                        int index = m_layer.IndexOfChild(edge);
+                        if (index < 0)
+                            m_layer.AddChild(edge);
                         continue;
                     }
                     edge.RemoveFromParent();
