@@ -196,6 +196,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_edge4reconnect.Info.LineType = m_selectedLine.Info.LineType;
             m_edge4reconnect.VarPoint = m_selectedLine.VarPoint;
             m_edge4reconnect.ProPoint = m_selectedLine.ProPoint;
+            m_edge4reconnect.PIndex = m_selectedLine.PIndex;
+            m_edge4reconnect.VIndex = m_selectedLine.VIndex;
             m_edge4reconnect.DrawLine();
 
             SetLineVisibility(true);
@@ -345,7 +347,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 }
 
                 // Remove old edge.
-                m_con.NotifyVariableReferenceChanged(info.ProcessKey, info.VariableKey, RefChangeType.Delete, 0, false);
+                if(info.ProcessKey != processKey || info.VariableKey != variableKey)
+                    m_con.NotifyVariableReferenceChanged(info.ProcessKey, info.VariableKey, RefChangeType.Delete, 0, false);
                 // Add new edge.
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
 
@@ -362,42 +365,39 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                             edgePointer = connector;
                     }
                     // set pointer.
+                    int vIndex = m_edge4reconnect.VIndex;
+                    int pIndex = m_edge4reconnect.PIndex;
                     if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer == null)
                     {
-                        edge.PIndex = -1;
-                        edge.DrawLine();
+                        pIndex = -1;
                     }
                     else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer == null)
                     {
-                        edge.VIndex = -1;
-                        edge.DrawLine();
+                        vIndex = -1;
                     }
                     else if (obj is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE && edgePointer == null)
                     {
-                        edge.VIndex = -1;
-                        edge.DrawLine();
+                        vIndex = -1;
                     }
                     //
                     else if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
                     {
                         edge.ProPoint = edgePointer.CenterPointF;
-                        edge.PIndex = process.GetConnectorIndex(edgePointer.CenterPointF);
-                        edge.DrawLine();
+                        pIndex = process.GetConnectorIndex(edgePointer.CenterPointF);
                     }
                     else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
-                        edge.VarPoint = edgePointer.CenterPointF;
                         PPathwayVariable variable = m_canvas.Variables[variableKey];
-                        edge.VIndex = variable.GetConnectorIndex(edgePointer.CenterPointF);
-                        edge.DrawLine();
+                        vIndex = variable.GetConnectorIndex(edgePointer.CenterPointF);
                     }
                     else if (obj is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
-                        edge.VarPoint = edgePointer.CenterPointF;
                         PPathwayAlias alias = (PPathwayAlias)obj;
-                        edge.VIndex = alias.GetConnectorIndex(edgePointer.CenterPointF);
-                        edge.DrawLine();
+                        vIndex = alias.GetConnectorIndex(edgePointer.CenterPointF);
                     }
+                    edge.PIndex = pIndex;
+                    edge.VIndex = vIndex;
+                    edge.Refresh();
                 }
             }
             catch (Exception)
