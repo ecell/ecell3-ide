@@ -154,12 +154,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // Prepare line handles
             m_lineHandle4V = new EdgeHandle();
             m_lineHandle4V.ComponentType = EcellObject.VARIABLE;
-            m_lineHandle4V.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
+            m_lineHandle4V.MouseDrag += new PInputEventHandler(LineHandle_MouseDrag);
             m_lineHandle4V.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
             m_lineHandle4P = new EdgeHandle();
             m_lineHandle4P.ComponentType = EcellObject.PROCESS;
-            m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
+            m_lineHandle4P.MouseDrag += new PInputEventHandler(LineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
             m_edge4reconnect = new PPathwayEdge(m_canvas);
@@ -265,10 +265,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_lineHandle_MouseDrag(object sender, PInputEventArgs e)
+        void LineHandle_MouseDrag(object sender, PInputEventArgs e)
         {
             if (m_edge4reconnect == null)
+            {
                 return;
+            }
+            else if (m_selectedLine == null)
+            {
+                m_con.Menu.ResetEventHandler();
+                return;
+            }
+            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                return;
+            }
+
             // Reset edge pointers
             foreach (EdgeHandle connector in m_connectors)
             {
@@ -433,7 +445,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// </summary>
             public EdgeHandle()
             {
-                base.AddInputEventListener(new PDragEventHandler());
+                base.AddInputEventListener(new EdgeHandleDragHandler());
                 base.Brush = new SolidBrush(Color.FromArgb(125, Color.Orange));
                 base.Pen = new Pen(Brushes.DarkCyan, 1);
                 GraphicsPath path = new GraphicsPath();
@@ -443,6 +455,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     2 * LINE_HANDLE_RADIUS,
                     2 * LINE_HANDLE_RADIUS);
                 base.AddPath(path, false);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        internal class EdgeHandleDragHandler : PDragEventHandler
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="e"></param>
+            /// <returns></returns>
+            public override bool DoesAcceptEvent(PInputEventArgs e)
+            {
+                return base.DoesAcceptEvent(e) && e.Button != System.Windows.Forms.MouseButtons.Right;
             }
         }
         #endregion

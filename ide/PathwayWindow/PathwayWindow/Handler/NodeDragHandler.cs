@@ -79,6 +79,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
+            if(m_canvas.GetPickedObject(e.Position) == null)
+                return;
             base.OnStartDrag(sender, e);
             PointF offset = e.PickedNode.Offset;
             if (offset == PointF.Empty)

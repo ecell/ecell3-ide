@@ -311,7 +311,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_pIndex == -1)
                 m_proPoint = m_process.GetContactPoint(m_varPoint);
             else
-                m_proPoint = m_process.GetContactPoint(m_varPoint);
+                m_proPoint = m_process.GetContactPoint(m_pIndex, m_varPoint);
             
             DrawLine();
             this.Visible = m_process.Visible && m_process.ShowEdge && m_variable.Visible;
