@@ -200,10 +200,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public virtual PointF GetContactPoint(int index)
+        public virtual PointF GetContactPoint(int index, PointF outer)
         {
-            PointF point = m_figure.ContactPoints[index];
-            point = new PointF(point.X + this.X + this.OffsetX, point.Y + this.Y + this.OffsetY);
+            PointF point;
+            PointF[] points = m_figure.ContactPoints;
+            if (index >= points.Length)
+            {
+                point = GetContactPoint(outer);
+            }
+            else
+            {
+                point = points[index];
+                point = new PointF(point.X + this.X + this.OffsetX, point.Y + this.Y + this.OffsetY);
+            }
             return point;
         }
 
@@ -216,7 +225,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             int index = -1;
             point = new PointF(point.X - this.X - this.OffsetX, point.Y - this.Y - this.OffsetY);
-
             PointF[] points = m_figure.ContactPoints;
             int i = 0;
             float length = GetDistance(point, points[0]);

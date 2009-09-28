@@ -129,19 +129,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         /// <param name="index"></param>
+        /// <param name="outer"></param>
         /// <returns></returns>
-        public override PointF GetContactPoint(int index)
+        public override PointF GetContactPoint(int index, PointF outer)
         {
             PointF point;
             int aliasIndex = (int)(index / 10) - 1;
-            if (index < 10 || aliasIndex < 0 || m_aliases.Count < aliasIndex + 1)
+            if (index < 10 || aliasIndex < 0)
             {
-                point = base.GetContactPoint(index);
+                point = base.GetContactPoint(index, outer);
+            }
+            else if (m_aliases.Count < aliasIndex + 1)
+            {
+                point = base.GetContactPoint(outer);
             }
             else
             {
                 PPathwayAlias alias = m_aliases[aliasIndex];
-                point = alias.GetContactPoint(index % 10);
+                point = alias.GetContactPoint(index % 10, outer);
             }
             return point;
         }

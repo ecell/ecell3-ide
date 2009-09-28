@@ -306,12 +306,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_vIndex == -1)
                 m_varPoint = m_variable.GetContactPoint(m_process.CenterPointF);
             else
-                m_varPoint = m_variable.GetContactPoint(m_vIndex);
+                m_varPoint = m_variable.GetContactPoint(m_vIndex, m_process.CenterPointF);
             //
             if (m_pIndex == -1)
-                m_proPoint = m_process.GetContactPoint(m_variable.CenterPointF);
+                m_proPoint = m_process.GetContactPoint(m_varPoint);
             else
-                m_proPoint = m_process.GetContactPoint(m_pIndex);
+                m_proPoint = m_process.GetContactPoint(m_varPoint);
             
             DrawLine();
             this.Visible = m_process.Visible && m_process.ShowEdge && m_variable.Visible;
