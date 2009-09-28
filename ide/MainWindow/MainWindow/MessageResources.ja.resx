@@ -208,7 +208,7 @@
     <value>削除</value>
   </data>
   <data name="MenuDockManual" xml:space="preserve">
-    <value>ドッキングウィンドウ操作法</value>
+    <value>ドッキングウインドウ操作法</value>
   </data>
   <data name="MenuManual" xml:space="preserve">
     <value>マニュアル</value>

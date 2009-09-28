@@ -229,6 +229,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
             }
         }
+
+        /// <summary>
+        /// get the connected process.
+        /// </summary>
+        public PPathwayProcess Process
+        {
+            get { return this.m_process; }
+        }
         #endregion
 
         /// <summary>

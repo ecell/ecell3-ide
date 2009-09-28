@@ -52,6 +52,7 @@
             // propertyTree
             // 
             resources.ApplyResources(this.propertyTree, "propertyTree");
+            this.propertyTree.HideSelection = false;
             this.propertyTree.Name = "propertyTree";
             this.propertyTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 

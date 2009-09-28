@@ -2202,6 +2202,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
     }
 
     #region Node classes

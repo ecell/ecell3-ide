@@ -220,7 +220,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.3433.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.3448.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -316,28 +316,28 @@
     <value>17, 91</value>
   </metadata>
   <data name="plotGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="plotGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>Plot to graph...</value>
   </data>
   <data name="editLogToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="editLogToolStripMenuItem.Text" xml:space="preserve">
     <value>Edit...</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="exportToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
     <value>Export...</value>
   </data>
   <data name="contextMenuStripLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 76</value>
+    <value>153, 98</value>
   </data>
   <data name="&gt;&gt;contextMenuStripLog.Name" xml:space="preserve">
     <value>contextMenuStripLog</value>
@@ -349,19 +349,19 @@
     <value>300, 17</value>
   </metadata>
   <data name="addSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>108, 22</value>
   </data>
   <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>Add...</value>
   </data>
   <data name="importSimParamToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>108, 22</value>
   </data>
   <data name="importSimParamToolStripMenuItem.Text" xml:space="preserve">
     <value>Import...</value>
   </data>
   <data name="contextMenuSimulationSetCollection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 70</value>
+    <value>109, 48</value>
   </data>
   <data name="&gt;&gt;contextMenuSimulationSetCollection.Name" xml:space="preserve">
     <value>contextMenuSimulationSetCollection</value>
@@ -809,6 +809,6 @@
     <value>ProjectExplorerControl</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3440.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3454.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

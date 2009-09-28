@@ -93,13 +93,13 @@ namespace Ecell.IDE
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode obj = propertyTree.GetNodeAt(e.X, e.Y);
+            propertyTree.SelectedNode = obj;
             if (!(obj is PropertyNode))
                 return;
             PropertyNode node = (PropertyNode)obj;
             propertyPanel.Controls.Clear();
             propertyPanel.Controls.Add(node.Page);
-            node.Page.Dock = DockStyle.Fill;
+            node.Page.Dock = DockStyle.Fill;            
         }
-
     }
 }

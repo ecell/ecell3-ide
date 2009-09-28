@@ -115,7 +115,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create new text box. に類似しているローカライズされた文字列を検索します。
+        ///   Create new text. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ButtonToolTipCreateText {
             get {

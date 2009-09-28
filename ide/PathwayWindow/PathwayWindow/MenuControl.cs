@@ -1007,6 +1007,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isSimulation = m_con.ProjectStatus == ProjectStatus.Running
                  || m_con.ProjectStatus == ProjectStatus.Suspended
                  ||  m_con.ProjectStatus == ProjectStatus.Stepping;
+            bool isCalculation = ((node is PPathwayEdge) &&
+                (((PPathwayEdge)node).Process != null &&
+                ((PPathwayEdge)node).Process.EcellObject.Classname.Equals(EcellProcess.MASSCALCULATIONPROCESS)));
 
             // Set Popup menu visibility.
             if ((isObject && node.Offset == PointF.Empty) || isEdge || isNull || isAlias)
@@ -1052,10 +1055,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripIdShow.Visible = isObject;
             toolStripSeparator1.Visible = isObject;
             // Show Line menus.
-            toolStripOneWayArrow.Visible = isEdge && !isOneway && isEditMode;
-            toolStripAnotherArrow.Visible = isEdge && isOneway && isEditMode;
-            toolStripBidirArrow.Visible = isEdge && (isOneway || isEffector) && isEditMode;
-            toolStripConstant.Visible = isEdge && !isEffector && isEditMode;
+            toolStripOneWayArrow.Visible = isEdge && !isOneway && isEditMode && !isCalculation;
+            toolStripAnotherArrow.Visible = isEdge && isOneway && isEditMode && !isCalculation;
+            toolStripBidirArrow.Visible = isEdge && (isOneway || isEffector) && isEditMode && !isCalculation;
+            toolStripConstant.Visible = isEdge && !isEffector && isEditMode && !isCalculation;
             toolStripDeleteArrow.Visible = isEdge && isEditMode;
             // Show Node / System edit menus.
             toolStripCut.Visible = isObject && !isRoot && isEditMode;

@@ -758,6 +758,7 @@ namespace Ecell
             if (!string.IsNullOrEmpty(ext) && ext.ToLower().Equals(".csv"))
             {
                 splitter = ',';
+                prop = Path.GetFileNameWithoutExtension(fileName);
             }
 
             while ((line = strread.ReadLine()) != null)

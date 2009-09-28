@@ -246,11 +246,6 @@ namespace Ecell.IDE.MainWindow
                     m_pointDic.Remove(n.Text);
                     m_topNode.Nodes.Remove(n);
                 }
-                if (m_topNode.Nodes.Count == 0)
-                {
-                    jobTreeView.Nodes.Remove(m_topNode);
-                    m_topNode = null;
-                }
             }
 
             foreach (string name in m_manager.GroupDic.Keys)

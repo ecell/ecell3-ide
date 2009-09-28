@@ -268,7 +268,7 @@
     <value>ファイル</value>
   </data>
   <data name="ButtonToolTipCreateText" xml:space="preserve">
-    <value>テキストボックスの追加</value>
+    <value>テキストの追加</value>
   </data>
   <data name="WindowLayer" xml:space="preserve">
     <value>レイヤー</value>
