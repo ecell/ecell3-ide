@@ -1952,14 +1952,28 @@ namespace Ecell
             // if dest is MassCalculationProcess.
             if (dest.Classname == EcellProcess.MASSCALCULATIONPROCESS)
             {
+                List<string> alreadyList = new List<string>();
+                List<EcellReference> delList = new List<EcellReference>();
                 foreach (EcellReference er in list)
                 {
                     er.Coefficient = 0;
+                    if (alreadyList.Contains(er.FullID))
+                    {
+                        delList.Add(er);
+                    }
+                    else
+                    {
+                        alreadyList.Add(er.FullID);
+                    }
                     // check mass.
                     float tmp = 0;
                     if (float.TryParse(er.Name, out tmp))
                         continue;
                     er.Name = "1";
+                }
+                foreach (EcellReference er in delList)
+                {
+                    list.Remove(er);
                 }
             }
             // when changed from MassCalculationProcess.
