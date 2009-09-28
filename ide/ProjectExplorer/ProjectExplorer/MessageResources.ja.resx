@@ -234,4 +234,7 @@
   <data name="ErrImportDefault" xml:space="preserve">
     <value>DefaultSetsを読み込むことはできません。</value>
   </data>
+  <data name="ErrProjectUnsavedZip" xml:space="preserve">
+    <value>Zip形式で出力する前にプロジェクトを保存してください。</value>
+  </data>
 </root>

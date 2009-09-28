@@ -489,6 +489,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void RenameLayerClick(object sender, EventArgs e)
         {
+            int rindex = -1;
+            foreach (DataGridViewRow r in dataGridView.SelectedRows)
+            {
+                rindex = r.Index;
+            }
+            if (rindex < 0)
+                return;
+
+            dataGridView.CurrentCell = dataGridView[LayerNameColumn.Index, rindex];
             dataGridView.BeginEdit(false);
         }
 

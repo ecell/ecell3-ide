@@ -177,6 +177,9 @@
   <data name="ErrProjectUnsaved" xml:space="preserve">
     <value>解析を保存する前にプロジェクトを保存してください。</value>
   </data>
+  <data name="ErrProjectUnsavedZip" xml:space="preserve">
+    <value>Zip形式で出力する前にプロジェクトを保存してください。</value>
+  </data>
   <data name="ErrSaveWindowSettings" xml:space="preserve">
     <value>ウィンドウ設定を保存できません。</value>
   </data>

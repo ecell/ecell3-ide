@@ -312,4 +312,7 @@
   <data name="NameProjectName" xml:space="preserve">
     <value>Project name</value>
   </data>
+  <data name="ErrProjectUnsavedZip" xml:space="preserve">
+    <value>Save this project before the project is compress by Zip.</value>
+  </data>
 </root>

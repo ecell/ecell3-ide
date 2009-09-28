@@ -46,6 +46,7 @@
             this.m_gridView.ContextMenuStrip = this.spreadSheetContextMenuStrip;
             resources.ApplyResources(this.m_gridView, "m_gridView");
             this.m_gridView.Name = "m_gridView";
+            this.m_gridView.RowHeadersVisible = false;
             this.m_gridView.RowTemplate.Height = 21;
             this.m_gridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.m_gridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GridViewMouseDown);

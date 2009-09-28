@@ -214,6 +214,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   Save this project before the project is compress by Zip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrProjectUnsavedZip {
+            get {
+                return ResourceManager.GetString("ErrProjectUnsavedZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot find any applications associated with this file type. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStartupApp {

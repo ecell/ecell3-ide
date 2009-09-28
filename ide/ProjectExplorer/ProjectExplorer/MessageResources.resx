@@ -234,4 +234,7 @@
   <data name="ErrImportDefault" xml:space="preserve">
     <value>Can not import DefaultSets.</value>
   </data>
+  <data name="ErrProjectUnsavedZip" xml:space="preserve">
+    <value>Save this project before the project is compress by Zip.</value>
+  </data>
 </root>

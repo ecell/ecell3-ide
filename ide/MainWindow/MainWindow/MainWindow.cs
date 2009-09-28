@@ -1287,7 +1287,7 @@ namespace Ecell.IDE.MainWindow
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
-                m_env.JobManager.Clear();
+                //m_env.JobManager.Clear();
 
                 if (!ConfirmOverwrite(m_env.DataManager.CurrentProject))
                     return;
@@ -1435,6 +1435,11 @@ namespace Ecell.IDE.MainWindow
         private void exportZipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Project project = m_env.DataManager.CurrentProject;
+            if (Environment.ActionManager.Undoable)
+            {
+                Util.ShowWarningDialog(MessageResources.ErrProjectUnsavedZip);
+                return;
+            }
             string dir = project.Info.ProjectPath;
 
             saveFileDialog.Filter = Constants.FilterZipFile;

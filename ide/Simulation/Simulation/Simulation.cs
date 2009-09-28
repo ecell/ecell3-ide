@@ -835,14 +835,7 @@ namespace Ecell.IDE.Plugins.Simulation
             try
             {
                 m_isSuspend = false;
-                if (m_isStepping)
-                {
-                    m_pManager.ChangeStatus(ProjectStatus.Stepping);
-                }
-                else
-                {
-                    m_pManager.ChangeStatus(ProjectStatus.Running);
-                }
+                m_pManager.ChangeStatus(ProjectStatus.Running);
 //                m_dManager.SimulationStart(0.0, 0);
                 m_dManager.StartSimulation(0.0);
             }

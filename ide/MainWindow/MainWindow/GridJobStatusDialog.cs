@@ -138,6 +138,13 @@ namespace Ecell.IDE.MainWindow
                 jobIDTextBox.Text = "";
                 m_job = null;
             }
+            if (m_pointDic[analysisName].Nodes.Count == 0)
+                m_topNode.Nodes.Remove(m_pointDic[analysisName]);
+            if (m_topNode.Nodes.Count == 0)
+            {
+                jobTreeView.Nodes.Remove(m_topNode);
+                m_topNode = null;
+            }
         }
 
         /// <summary>
@@ -284,6 +291,12 @@ namespace Ecell.IDE.MainWindow
                     SetImageAtJobStatus(jn, j.Status);
                     node.Nodes.Add(jn);
                 }
+            }
+
+            if (m_topNode != null && m_topNode.Nodes.Count == 0)
+            {
+                jobTreeView.Nodes.Remove(m_topNode);
+                m_topNode = null;
             }
         }
 

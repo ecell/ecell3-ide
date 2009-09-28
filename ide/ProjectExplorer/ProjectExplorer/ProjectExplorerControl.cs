@@ -1529,6 +1529,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewCompressZip(object sender, EventArgs e)
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
+            if (m_owner.Environment.ActionManager.Undoable &&
+                m_owner.Environment.DataManager.CurrentProject.Info.ProjectType != ProjectType.Revision)
+            {
+                Util.ShowWarningDialog(MessageResources.ErrProjectUnsavedZip);
+                return;
+            }
+
             string dir = project.Info.ProjectPath;
             string filename = project.Info.Name + Constants.FileExtZip;
             CompressZip(filename, dir);
@@ -1900,6 +1907,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeView_ImportSimulationParameter(object o, EventArgs e)
         {
             m_openFileDialog.Filter = Constants.FilterCSVFile;
+            m_openFileDialog.FileName = "";
             if (m_openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = m_openFileDialog.FileName;

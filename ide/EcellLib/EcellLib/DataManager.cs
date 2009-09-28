@@ -1118,6 +1118,9 @@ namespace Ecell
                 if (dlg != null)
                     dlg(logList);
 
+
+                SaveAnalysis();
+
                 EcellObject project = EcellObject.CreateObject(m_currentProject.Info.Name, "", Constants.xpathProject, "", new List<EcellData>());
                 project.SetEcellValue(Constants.textComment, new EcellValue(m_currentProject.Info.Comment));
                 m_env.PluginManager.DataChanged(project.ModelID, project.Key,project.ModelID, project);
@@ -1129,6 +1132,17 @@ namespace Ecell
             {
                 Trace.WriteLine(ex);
                 throw new EcellException(string.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name), ex);
+            }
+        }
+
+        private void SaveAnalysis()
+        {
+            foreach (JobGroup g in m_env.JobManager.GroupDic.Values)
+            {
+                if (!g.IsSaved) continue;
+                string path = CurrentProject.Info.ProjectPath;
+                string dirName = path + "/" + Constants.AnalysisDirName + "/" + g.GroupName;
+                g.SaveJobGroup(dirName);
             }
         }
 
@@ -2046,7 +2060,7 @@ namespace Ecell
             tempList.AddRange(systemList);
             foreach (EcellObject system in tempList)
             {
-                if (!system.Key.Equals(key) && !system.Key.StartsWith(key + Constants.delimiterPath))
+                if (!system.Key.Equals(key))
                     continue;
 
                 // Adds the new "System" object.

@@ -241,6 +241,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Save this project before the project is compress by Zip. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrProjectUnsavedZip {
+            get {
+                return ResourceManager.GetString("ErrProjectUnsavedZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot save the window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveWindowSettings {
