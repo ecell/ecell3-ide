@@ -2074,12 +2074,12 @@ namespace Ecell
             tempList.AddRange(systemList);
             foreach (EcellObject system in tempList)
             {
-                if (!system.Key.Equals(key))
+                if (!system.Key.Equals(key) && !system.Key.StartsWith(key + Constants.delimiterPath))
                     continue;
 
                 // Adds the new "System" object.
                 string newKey = ecellObject.Key + system.Key.Substring(key.Length);
-                oldKeyDic.Add(newKey, system.Key);
+//                oldKeyDic.Add(newKey, system.Key);
                 EcellSystem newSystem
                     = (EcellSystem)EcellObject.CreateObject(modelID, newKey, system.Type, system.Classname, system.Value);
                 if (newSystem.Key == ecellObject.Key)
@@ -2102,7 +2102,7 @@ namespace Ecell
                     CheckParameterObservedData(child, copy.Key);
                     CheckLogger(child, copy.Key);
 
-                    oldKeyDic.Add(copy.Key, child.Key);
+//                    oldKeyDic.Add(copy.Key, child.Key);
                     if (copy.Type.Equals(Constants.xpathVariable))
                         variableKeyDic.Add(child.Key, copy.Key);
                 }
