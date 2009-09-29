@@ -199,6 +199,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         /// <param name="index"></param>
+        /// <param name="outer"></param>
         /// <returns></returns>
         public virtual PointF GetContactPoint(int index, PointF outer)
         {

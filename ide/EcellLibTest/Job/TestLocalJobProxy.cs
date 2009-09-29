@@ -155,7 +155,7 @@ namespace Ecell.Job
         [Test()]
         public void TestGetDefaultScript()
         {
-            string expectedString = Util.GetAnalysisDir() + "/ipy.exe";
+            string expectedString = Util.GetAnalysisDir() + "/python.exe";
             string resultString = null;
             resultString = _unitUnderTest.GetDefaultScript();
             Assert.AreEqual(expectedString, resultString, "GetDefaultScript method returned unexpected result.");

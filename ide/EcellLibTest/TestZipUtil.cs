@@ -73,11 +73,11 @@ namespace Ecell
             try
             {
                 _unitUnderTest.ZipFile(zipname, filePath);
-                Assert.Fail("Failed to catch invalid file error.");
             }
             catch (EcellException e)
             {
                 Trace.WriteLine(e.StackTrace);
+                Assert.Fail("Failed to catch invalid file error.");
             }
 
             zipname = "";
@@ -85,11 +85,11 @@ namespace Ecell
             try
             {
                 _unitUnderTest.ZipFile(zipname, filePath);
-                Assert.Fail("Failed to catch invalid file error.");
             }
             catch (EcellException e)
             {
                 Trace.WriteLine(e.StackTrace);
+                Assert.Fail("Failed to catch invalid file error.");
             }
 
             zipname = TestConstant.TestDirectory + "rbc.zip";

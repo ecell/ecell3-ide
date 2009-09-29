@@ -100,7 +100,7 @@ namespace Ecell.Reporting
             Assert.IsFalse(testObjectReport1.Equals(testObjectReport2));
 
             ObjectReport testObjectReport3 = new ObjectReport(type, message, "Hoge", obj);
-            Assert.IsTrue(testObjectReport1.Equals(testObjectReport3));
+            Assert.IsFalse(testObjectReport1.Equals(testObjectReport3));
         }
     }
 }

@@ -1890,6 +1890,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     continue;
                 componentList.AppendChild(ComponentManager.ConvertToXmlNode(doc, cs));
             }
+            if(m_canvas == null)
+                return status;
+
             // Save Edge connectors.
             XmlElement edgeList = doc.CreateElement(ComponentConstants.xPathEdgeList);
             status.AppendChild(edgeList);

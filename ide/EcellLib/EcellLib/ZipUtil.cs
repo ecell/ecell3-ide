@@ -72,9 +72,9 @@ namespace Ecell.IDE
 
                 Util.ShowNoticeDialog(string.Format(MessageResources.InfoExportFile, output));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrSaveZip, output));
+                throw new EcellException(string.Format(MessageResources.ErrSaveZip, output), e);
             }
 
         }
