@@ -96,7 +96,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;XCOPY /Y &quot;$(OutDir)\$(ProjectName).pdb&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -176,7 +176,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;XCOPY /Y &quot;$(OutDir)\$(ProjectName).pdb&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -258,7 +258,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;XCOPY /Y &quot;$(OutDir)\$(ProjectName).pdb&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -339,7 +339,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;XCOPY /Y &quot;$(OutDir)\$(ProjectName).pdb&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

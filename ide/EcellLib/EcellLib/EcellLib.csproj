@@ -82,7 +82,7 @@
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Python.Runtime" />
-    <Reference Include="libsbmlcsP, Version=3.4.1.0, Culture=neutral" />
+    <Reference Include="libsbmlcsP" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -265,7 +265,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
+    <PostBuildEvent>
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
+XCOPY /Y "$(TargetName).pdb" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
 FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
 FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
 SETLOCAL
