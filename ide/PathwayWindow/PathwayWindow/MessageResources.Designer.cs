@@ -340,15 +340,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Layout に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CanvasMenuLayout {
-            get {
-                return ResourceManager.GetString("CanvasMenuLayout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Set oneway direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuOnewayArrow {
@@ -408,24 +399,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string CanvasMenuZOrder {
             get {
                 return ResourceManager.GetString("CanvasMenuZOrder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Reset Diagram settings. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogTextConfirmReset {
-            get {
-                return ResourceManager.GetString("DialogTextConfirmReset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Automatic setting of the threshold of Edge width. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogTooltipAutoThreshold {
-            get {
-                return ResourceManager.GetString("DialogTooltipAutoThreshold", resourceCulture);
             }
         }
         
@@ -520,15 +493,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Cannot load the layout information. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrLoadLEML {
-            get {
-                return ResourceManager.GetString("ErrLoadLEML", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Animation file is over the max file size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrMaxSize {
@@ -610,24 +574,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Cannot save the layout information. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSaveLEML {
-            get {
-                return ResourceManager.GetString("ErrSaveLEML", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The pointed place has no space to paste the System. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSystemOverlap {
-            get {
-                return ResourceManager.GetString("ErrSystemOverlap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   The type of added Entity is unknown. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrUnknowType {
@@ -660,42 +606,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string LayerColumnShow {
             get {
                 return ResourceManager.GetString("LayerColumnShow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please input the new layer name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LayerDialogChange {
-            get {
-                return ResourceManager.GetString("LayerDialogChange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please input the new layer name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LayerDialogMessage {
-            get {
-                return ResourceManager.GetString("LayerDialogMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Layer name に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LayerDialogTitle {
-            get {
-                return ResourceManager.GetString("LayerDialogTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Change layer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LayerMenuChange {
-            get {
-                return ResourceManager.GetString("LayerMenuChange", resourceCulture);
             }
         }
         
@@ -790,24 +700,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   &amp;Layout に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemLayout {
-            get {
-                return ResourceManager.GetString("MenuItemLayout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Diagram settings... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemSetup {
-            get {
-                return ResourceManager.GetString("MenuItemSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowID {
@@ -849,24 +741,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string MenuToolTipShowID {
             get {
                 return ResourceManager.GetString("MenuToolTipShowID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please select the merged layer. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MergeLayerDialogMessage {
-            get {
-                return ResourceManager.GetString("MergeLayerDialogMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Merge layer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MergeLayerDialogText {
-            get {
-                return ResourceManager.GetString("MergeLayerDialogText", resourceCulture);
             }
         }
         

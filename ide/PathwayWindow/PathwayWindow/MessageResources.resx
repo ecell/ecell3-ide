@@ -141,32 +141,17 @@
   <data name="MenuItemShowID" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>
   </data>
-  <data name="ErrLoadLEML" xml:space="preserve">
-    <value>Cannot load the layout information.</value>
-  </data>
-  <data name="ErrSaveLEML" xml:space="preserve">
-    <value>Cannot save the layout information.</value>
-  </data>
   <data name="LayerMenuCreate" xml:space="preserve">
     <value>New layer</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="LayerDialogMessage" xml:space="preserve">
-    <value>Please input the new layer name.</value>
-  </data>
-  <data name="LayerDialogTitle" xml:space="preserve">
-    <value>Layer name</value>
-  </data>
   <data name="LayerMenuRename" xml:space="preserve">
     <value>Rename</value>
   </data>
   <data name="LayerMenuMerge" xml:space="preserve">
     <value>Merge layer</value>
-  </data>
-  <data name="LayerMenuChange" xml:space="preserve">
-    <value>Change layer</value>
   </data>
   <data name="MenuItemAnimation" xml:space="preserve">
     <value>Animation</value>
@@ -195,9 +180,6 @@
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
     <value>Delete logger</value>
   </data>
-  <data name="CanvasMenuLayout" xml:space="preserve">
-    <value>Layout</value>
-  </data>
   <data name="CanvasMenuAnotherArrow" xml:space="preserve">
     <value>Set opposite direction</value>
   </data>
@@ -213,17 +195,8 @@
   <data name="MenuItemEdit" xml:space="preserve">
     <value>&amp;Edit</value>
   </data>
-  <data name="MenuItemLayout" xml:space="preserve">
-    <value>&amp;Layout</value>
-  </data>
   <data name="MenuItemView" xml:space="preserve">
     <value>&amp;View</value>
-  </data>
-  <data name="MenuItemSetup" xml:space="preserve">
-    <value>Diagram settings...</value>
-  </data>
-  <data name="ErrSystemOverlap" xml:space="preserve">
-    <value>The pointed place has no space to paste the System.</value>
   </data>
   <data name="ButtonToolTipAddConstant" xml:space="preserve">
     <value>Create effectors.</value>
@@ -297,20 +270,11 @@
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>Focus the selected entity.</value>
   </data>
-  <data name="MergeLayerDialogMessage" xml:space="preserve">
-    <value>Please select the merged layer.</value>
-  </data>
-  <data name="MergeLayerDialogText" xml:space="preserve">
-    <value>Merge layer</value>
-  </data>
   <data name="LayerColumnName" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="LayerColumnShow" xml:space="preserve">
     <value>Show</value>
-  </data>
-  <data name="LayerDialogChange" xml:space="preserve">
-    <value>Please input the new layer name.</value>
   </data>
   <data name="ErrUpdateConfig" xml:space="preserve">
     <value>Can not update the shape property.</value>
@@ -344,12 +308,6 @@
   </data>
   <data name="CanvasMenuTextAlign" xml:space="preserve">
     <value>Alignment</value>
-  </data>
-  <data name="DialogTextConfirmReset" xml:space="preserve">
-    <value>Reset Diagram settings.</value>
-  </data>
-  <data name="DialogTooltipAutoThreshold" xml:space="preserve">
-    <value>Automatic setting of the threshold of Edge width.</value>
   </data>
   <data name="ErrCreateAvi" xml:space="preserve">
     <value>Failed to create movie file.</value>

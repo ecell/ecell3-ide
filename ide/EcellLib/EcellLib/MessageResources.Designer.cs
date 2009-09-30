@@ -61,24 +61,6 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Change to a property that cannot be set during  analysis is attempted. Do you want to stop the analysis? に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ConfirmAnalysisReset {
-            get {
-                return ResourceManager.GetString("ConfirmAnalysisReset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Are you sure you want to merge the components to the supersystem? に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ConfirmMerge {
-            get {
-                return ResourceManager.GetString("ConfirmMerge", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Change to a property that cannot be set during  simulation is attempted. Do you want to stop the simulation? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmReset {
@@ -129,15 +111,6 @@ namespace Ecell {
         internal static string ErrCompile {
             get {
                 return ResourceManager.GetString("ErrCompile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cannot copy the object ({0}). に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrCopy {
-            get {
-                return ResourceManager.GetString("ErrCopy", resourceCulture);
             }
         }
         
@@ -286,15 +259,6 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Cannot initialize the simulator. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrInitSim {
-            get {
-                return ResourceManager.GetString("ErrInitSim", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   FullID string is invalid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidID {
@@ -412,29 +376,11 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Simulation is already started. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrRunning {
-            get {
-                return ResourceManager.GetString("ErrRunning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cannot start the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrRunSim {
             get {
                 return ResourceManager.GetString("ErrRunSim", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cannot save the action file {0}. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSaveAct {
-            get {
-                return ResourceManager.GetString("ErrSaveAct", resourceCulture);
             }
         }
         
@@ -489,15 +435,6 @@ namespace Ecell {
         internal static string ErrSaveZip {
             get {
                 return ResourceManager.GetString("ErrSaveZip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cannot set the initial parameters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSetInitParam {
-            get {
-                return ResourceManager.GetString("ErrSetInitParam", resourceCulture);
             }
         }
         
@@ -805,42 +742,6 @@ namespace Ecell {
         internal static string NameJobTopDir {
             get {
                 return ResourceManager.GetString("NameJobTopDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Model に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameModel {
-            get {
-                return ResourceManager.GetString("NameModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Simulation parameter に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameSimParam {
-            get {
-                return ResourceManager.GetString("NameSimParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Simulation result に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameSimResult {
-            get {
-                return ResourceManager.GetString("NameSimResult", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Project root folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameWorkDir {
-            get {
-                return ResourceManager.GetString("NameWorkDir", resourceCulture);
             }
         }
         

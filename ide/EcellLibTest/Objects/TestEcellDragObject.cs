@@ -93,6 +93,9 @@ namespace Ecell.Objects
             EcellDragObject dragObj = new EcellDragObject();
             Assert.IsNotNull(dragObj, "Constructor of type, EcellDragObject failed to create instance.");
             Assert.AreEqual("", dragObj.ModelID, "Key is unexpected value.");
+            Assert.AreEqual(false, dragObj.IsEnableChange, "IsEnableChange is unexpected value.");
+            dragObj.IsEnableChange = true;
+            Assert.AreEqual(true, dragObj.IsEnableChange, "IsEnableChange is unexpected value.");
             Assert.IsEmpty(dragObj.LogList, "LogList is unexpected value.");
             Assert.IsEmpty(dragObj.Entries, "Entries is unexpected value.");
 

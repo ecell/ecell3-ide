@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmMerge" xml:space="preserve">
-    <value>Are you sure you want to merge the components to the supersystem?</value>
-  </data>
   <data name="ConfirmReset" xml:space="preserve">
     <value>Change to a property that cannot be set during  simulation is attempted. Do you want to stop the simulation?</value>
   </data>
@@ -134,9 +131,6 @@
   </data>
   <data name="ErrCompile" xml:space="preserve">
     <value>Cannot compile this DM({0}).</value>
-  </data>
-  <data name="ErrCopy" xml:space="preserve">
-    <value>Cannot copy the object ({0}).</value>
   </data>
   <data name="ErrCreFile" xml:space="preserve">
     <value>Cannot create the file {0}.</value>
@@ -174,9 +168,6 @@
   <data name="ErrGetProp" xml:space="preserve">
     <value>Cannot obtain the properties of Entity {0}.</value>
   </data>
-  <data name="ErrInitSim" xml:space="preserve">
-    <value>Cannot initialize the simulator.</value>
-  </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>FullID string is invalid.</value>
   </data>
@@ -201,14 +192,8 @@
   <data name="ErrResetSim" xml:space="preserve">
     <value>Cannot reset the simulation.</value>
   </data>
-  <data name="ErrRunning" xml:space="preserve">
-    <value>Simulation is already started.</value>
-  </data>
   <data name="ErrRunSim" xml:space="preserve">
     <value>Cannot start the simulation.</value>
-  </data>
-  <data name="ErrSaveAct" xml:space="preserve">
-    <value>Cannot save the action file {0}.</value>
   </data>
   <data name="ErrSaveLog" xml:space="preserve">
     <value>Cannot save the log.</value>
@@ -221,9 +206,6 @@
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
     <value>Cannot save the script file {0}.</value>
-  </data>
-  <data name="ErrSetInitParam" xml:space="preserve">
-    <value>Cannot set the initial parameters.</value>
   </data>
   <data name="ErrSetProp" xml:space="preserve">
     <value>Cannot set the property of entity {0}.</value>
@@ -260,18 +242,6 @@
   </data>
   <data name="InfoSuspend" xml:space="preserve">
     <value>The simulation was suspended at [{0}].</value>
-  </data>
-  <data name="NameModel" xml:space="preserve">
-    <value>Model</value>
-  </data>
-  <data name="NameSimParam" xml:space="preserve">
-    <value>Simulation parameter</value>
-  </data>
-  <data name="NameSimResult" xml:space="preserve">
-    <value>Simulation result</value>
-  </data>
-  <data name="NameWorkDir" xml:space="preserve">
-    <value>Project root folder</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
     <value>Some Dynamic Modules (DM) cannot be loaded.</value>
@@ -355,9 +325,6 @@ New revision {0}:{1} was created.</value>
   </data>
   <data name="ErrSaveFile" xml:space="preserve">
     <value>Cannot save the file {0}.</value>
-  </data>
-  <data name="ConfirmAnalysisReset" xml:space="preserve">
-    <value>Change to a property that cannot be set during  analysis is attempted. Do you want to stop the analysis?</value>
   </data>
   <data name="NameJobPassword" xml:space="preserve">
     <value>Password</value>

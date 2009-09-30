@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmMerge" xml:space="preserve">
-    <value>Systemの内容を上位Systemにマージしますか？</value>
-  </data>
   <data name="ConfirmReset" xml:space="preserve">
     <value>シミュレーション実行中に設定できないプロパティを変更しようとしています。シミュレーションをリセットしますか？</value>
   </data>
@@ -134,9 +131,6 @@
   </data>
   <data name="ErrCompile" xml:space="preserve">
     <value>DM ({0}) のコンパイルができません。</value>
-  </data>
-  <data name="ErrCopy" xml:space="preserve">
-    <value>{0} をコピーできません。</value>
   </data>
   <data name="ErrCreFile" xml:space="preserve">
     <value>ファイル {0} を作成できません。</value>
@@ -174,9 +168,6 @@
   <data name="ErrGetProp" xml:space="preserve">
     <value>Entity {0} のプロパティを取得できません。</value>
   </data>
-  <data name="ErrInitSim" xml:space="preserve">
-    <value>シミュレーターを初期化できません。</value>
-  </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>FullID文字列が不正です。</value>
   </data>
@@ -201,14 +192,8 @@
   <data name="ErrResetSim" xml:space="preserve">
     <value>シミュレーションをリセットできません。</value>
   </data>
-  <data name="ErrRunning" xml:space="preserve">
-    <value>シミュレーション実行中です。</value>
-  </data>
   <data name="ErrRunSim" xml:space="preserve">
     <value>シミュレーションが実行できません。</value>
-  </data>
-  <data name="ErrSaveAct" xml:space="preserve">
-    <value>アクションファイル {0} を保存できません。</value>
   </data>
   <data name="ErrSaveLog" xml:space="preserve">
     <value>ログが保存できません。</value>
@@ -221,9 +206,6 @@
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
     <value>スクリプトファイル {0} を保存できません。</value>
-  </data>
-  <data name="ErrSetInitParam" xml:space="preserve">
-    <value>初期パラメータの設定に失敗しました。</value>
   </data>
   <data name="ErrSetProp" xml:space="preserve">
     <value>エンティティ {0} のプロパティを設定できません。</value>
@@ -260,18 +242,6 @@
   </data>
   <data name="InfoSuspend" xml:space="preserve">
     <value>シミュレーションを一時停止しました[{0}]。</value>
-  </data>
-  <data name="NameModel" xml:space="preserve">
-    <value>モデル</value>
-  </data>
-  <data name="NameSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータ</value>
-  </data>
-  <data name="NameSimResult" xml:space="preserve">
-    <value>シミュレーション結果</value>
-  </data>
-  <data name="NameWorkDir" xml:space="preserve">
-    <value>プロジェクトルートフォルダ</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
     <value>ロードできないダイナミックモジュール (DM) が存在します。</value>
@@ -353,9 +323,6 @@
   </data>
   <data name="ErrSaveFile" xml:space="preserve">
     <value>ファイル {0} を保存できません。</value>
-  </data>
-  <data name="ConfirmAnalysisReset" xml:space="preserve">
-    <value>解析実行中に設定できないプロパティを変更しようとしています。解析を中断しますか？</value>
   </data>
   <data name="NameJobPassword" xml:space="preserve">
     <value>パスワード</value>

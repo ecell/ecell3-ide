@@ -178,15 +178,6 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   {0} should be greater than {1}. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrLarger {
-            get {
-                return ResourceManager.GetString("ErrLarger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cannot load the file [ {0} ]. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadFile {
@@ -210,15 +201,6 @@ namespace Ecell.IDE.MainWindow {
         internal static string ErrLoadWindowSettings {
             get {
                 return ResourceManager.GetString("ErrLoadWindowSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Nothing selected. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNoSelect {
-            get {
-                return ResourceManager.GetString("ErrNoSelect", resourceCulture);
             }
         }
         
@@ -277,65 +259,11 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Export model に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ExportModelDialog {
-            get {
-                return ResourceManager.GetString("ExportModelDialog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   usermanual.pdf に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FileManual {
             get {
                 return ResourceManager.GetString("FileManual", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cannot find the specified file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FileNotFound {
-            get {
-                return ResourceManager.GetString("FileNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create a copy of this projct に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuCopy {
-            get {
-                return ResourceManager.GetString("MenuCopy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create new project に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuCreateNewProject {
-            get {
-                return ResourceManager.GetString("MenuCreateNewProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create new revision に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuCreateNewRevision {
-            get {
-                return ResourceManager.GetString("MenuCreateNewRevision", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuDelete {
-            get {
-                return ResourceManager.GetString("MenuDelete", resourceCulture);
             }
         }
         
@@ -358,29 +286,11 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Paste に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuPaste {
-            get {
-                return ResourceManager.GetString("MenuPaste", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recenty used projects. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuRecentProjects {
             get {
                 return ResourceManager.GetString("MenuRecentProjects", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Compress to Zip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuSaveZip {
-            get {
-                return ResourceManager.GetString("MenuSaveZip", resourceCulture);
             }
         }
         
@@ -399,15 +309,6 @@ namespace Ecell.IDE.MainWindow {
         internal static string MessageWebBrowse {
             get {
                 return ResourceManager.GetString("MessageWebBrowse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The concurrency に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameConc {
-            get {
-                return ResourceManager.GetString("NameConc", resourceCulture);
             }
         }
         
@@ -439,15 +340,6 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Model に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameModel {
-            get {
-                return ResourceManager.GetString("NameModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Project name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameProjectName {
@@ -462,24 +354,6 @@ namespace Ecell.IDE.MainWindow {
         internal static string NameScriptEditor {
             get {
                 return ResourceManager.GetString("NameScriptEditor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Simulation parameter に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameSimParam {
-            get {
-                return ResourceManager.GetString("NameSimParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Simulation result に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameSimResult {
-            get {
-                return ResourceManager.GetString("NameSimResult", resourceCulture);
             }
         }
         
@@ -547,15 +421,6 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   The project root folder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameWorkDir {
-            get {
-                return ResourceManager.GetString("NameWorkDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Create に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardCreate {
@@ -606,15 +471,6 @@ namespace Ecell.IDE.MainWindow {
         internal static string SelectDMDir {
             get {
                 return ResourceManager.GetString("SelectDMDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Web Browser に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string StartUpWindow {
-            get {
-                return ResourceManager.GetString("StartUpWindow", resourceCulture);
             }
         }
         

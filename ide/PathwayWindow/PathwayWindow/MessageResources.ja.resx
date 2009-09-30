@@ -141,32 +141,17 @@
   <data name="MenuItemShowID" xml:space="preserve">
     <value>ID表示/非表示(&amp;I)</value>
   </data>
-  <data name="ErrLoadLEML" xml:space="preserve">
-    <value>レイアウト情報の読み込みに失敗しました。</value>
-  </data>
-  <data name="ErrSaveLEML" xml:space="preserve">
-    <value>レイアウト情報の保存に失敗しました。</value>
-  </data>
   <data name="LayerMenuCreate" xml:space="preserve">
     <value>新規作成</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="LayerDialogMessage" xml:space="preserve">
-    <value>新規レイヤー名を入力してください。</value>
-  </data>
-  <data name="LayerDialogTitle" xml:space="preserve">
-    <value>レイヤー名入力</value>
-  </data>
   <data name="LayerMenuRename" xml:space="preserve">
     <value>レイヤー名の変更</value>
   </data>
   <data name="LayerMenuMerge" xml:space="preserve">
     <value>レイヤーの結合</value>
-  </data>
-  <data name="LayerMenuChange" xml:space="preserve">
-    <value>レイヤーを変更</value>
   </data>
   <data name="MenuItemAnimation" xml:space="preserve">
     <value>アニメーション</value>
@@ -195,9 +180,6 @@
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
     <value>ロガーの削除</value>
   </data>
-  <data name="CanvasMenuLayout" xml:space="preserve">
-    <value>レイアウト</value>
-  </data>
   <data name="CanvasMenuAnotherArrow" xml:space="preserve">
     <value>反対向きにする</value>
   </data>
@@ -213,17 +195,8 @@
   <data name="MenuItemEdit" xml:space="preserve">
     <value>編集(&amp;E)</value>
   </data>
-  <data name="MenuItemLayout" xml:space="preserve">
-    <value>レイアウト(&amp;L)</value>
-  </data>
   <data name="MenuItemView" xml:space="preserve">
     <value>表示(&amp;V)</value>
-  </data>
-  <data name="MenuItemSetup" xml:space="preserve">
-    <value>ダイアグラム表示設定...</value>
-  </data>
-  <data name="ErrSystemOverlap" xml:space="preserve">
-    <value>システムを作成するスペースがないため、指定した位置にペーストできません。</value>
   </data>
   <data name="ButtonToolTipAddConstant" xml:space="preserve">
     <value>エフェクターの作成</value>
@@ -297,29 +270,17 @@
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>選択したエンティティを自動的にフォーカスします。</value>
   </data>
-  <data name="MergeLayerDialogMessage" xml:space="preserve">
-    <value>結合先のレイヤーを選択してください。</value>
-  </data>
-  <data name="MergeLayerDialogText" xml:space="preserve">
-    <value>レイヤーの結合</value>
-  </data>
   <data name="LayerColumnName" xml:space="preserve">
     <value>名前</value>
   </data>
   <data name="LayerColumnShow" xml:space="preserve">
     <value>表示</value>
   </data>
-  <data name="LayerDialogChange" xml:space="preserve">
-    <value>変更後のレイヤー名を入力してください。</value>
-  </data>
   <data name="ErrUpdateConfig" xml:space="preserve">
     <value>形状設定を更新することができません。</value>
   </data>
   <data name="ButtonToolTipOverview" xml:space="preserve">
     <value>オーバービューの表示 /非表示を切り替えます。</value>
-  </data>
-  <data name="DialogTooltipAutoThreshold" xml:space="preserve">
-    <value>エッジのアニメーションの太さを自動設定します。</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>入力された値[ {0} ]が不正です。</value>
@@ -332,9 +293,6 @@
   </data>
   <data name="CanvasMenuOnewayArrow" xml:space="preserve">
     <value>片方向にする</value>
-  </data>
-  <data name="DialogTextConfirmReset" xml:space="preserve">
-    <value>ダイアグラム設定を初期値に戻します。よろしいですか？</value>
   </data>
   <data name="ErrCreateEdge" xml:space="preserve">
     <value>エッジの作成に失敗しました。</value>
