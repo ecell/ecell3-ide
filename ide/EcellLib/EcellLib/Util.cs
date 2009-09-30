@@ -1255,14 +1255,14 @@ namespace Ecell
             return path;
         }
 
-        /// <summary>
-        /// Get the startup file.
-        /// </summary>
-        /// <returns>the startup file.</returns>
-        public static string GetStartupFile()
-        {
-            return GetRegistryValue(Constants.registryStartup);
-        }
+        ///// <summary>
+        ///// Get the startup file.
+        ///// </summary>
+        ///// <returns>the startup file.</returns>
+        //public static string GetStartupFile()
+        //{
+        //    return GetRegistryValue(Constants.registryStartup);
+        //}
 
         /// <summary>
         /// Get the DM direcory from register.

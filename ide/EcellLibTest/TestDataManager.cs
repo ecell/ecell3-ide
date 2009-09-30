@@ -1634,7 +1634,17 @@ namespace Ecell
             _unitUnderTest.CreateNewRevision();
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
             _unitUnderTest.CreateNewRevision();
+            RemoveRevisions(TestConstant.Project_Drosophila);
+        }
 
+        private void RemoveRevisions(string path)
+        {
+            string project = Path.GetDirectoryName(path);
+            string[] revisions = Directory.GetDirectories(project, "Revision*");
+            foreach (string revision in revisions)
+            {
+                Directory.Delete(revision, true);
+            }
         }
 
         /// <summary>
@@ -1819,8 +1829,10 @@ namespace Ecell
             try
             {
                 _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+                _unitUnderTest.CreateNewRevision();
                 _unitUnderTest.LoadRevision("Revision1");
                 _unitUnderTest.LoadRevision("Revision1");
+                RemoveRevisions(TestConstant.Project_Drosophila);
             }
             catch (Exception)
             {
@@ -2060,8 +2072,7 @@ namespace Ecell
 
 
             Type type = _unitUnderTest.GetType();
-            FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
-            info.SetValue(_unitUnderTest, true);
+            FieldInfo info;
             info = type.GetField("m_remainTime", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 1);
             timer.Start();
@@ -2070,8 +2081,6 @@ namespace Ecell
             timer.Stop();
             _unitUnderTest.SimulationSuspend();
 
-            info = type.GetField("m_isStepStepping", BindingFlags.NonPublic | BindingFlags.Instance);
-            info.SetValue(_unitUnderTest, true);
             info = type.GetField("m_remainStep", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 1);
             timer.Start();
@@ -2157,8 +2166,7 @@ namespace Ecell
             _unitUnderTest.StartStepSimulation(l_step100, true);
 
             Type type = _unitUnderTest.GetType();
-            FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
-            info.SetValue(_unitUnderTest, true);
+            FieldInfo info;
             info = type.GetField("m_remainTime", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 10);
             info = type.GetField("m_defaultTime", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -2209,8 +2217,7 @@ namespace Ecell
             _unitUnderTest.StartStepSimulation(l_sec3, true);
 
             Type type = _unitUnderTest.GetType();
-            FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
-            info.SetValue(_unitUnderTest, true);
+            FieldInfo info;
             info = type.GetField("m_remainTime", BindingFlags.NonPublic | BindingFlags.Instance);
             info.SetValue(_unitUnderTest, 10);
             info = type.GetField("m_defaultTime", BindingFlags.NonPublic | BindingFlags.Instance);

@@ -385,6 +385,8 @@ namespace Ecell
         /// <param name="logList">the list of logger.</param>
         public void WriteLoggerPropertyUnix(string fileName, Encoding enc, List<string> logList)
         {
+            if (logList == null)
+                return;
             foreach (string name in logList)
             {
                 File.AppendAllText(fileName, "aLogger" + m_logCount + " = createLoggerStub(\"" + name + "\")\n", enc);
