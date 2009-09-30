@@ -90,5 +90,30 @@ namespace Ecell.Reporting
             Assert.IsNotNull(testObjectPropertyReport.ToString(), "ToString method returns unexpected value.");
 
         }
+
+        /// <summary>
+        /// TestConstructor
+        /// </summary>
+        [Test()]
+        public void TestEqual()
+        {
+            Ecell.MessageType type = MessageType.Error;
+            string message = "Error";
+            string group = "Group";
+            string propertyName = "Value";
+            EcellObject obj = EcellObject.CreateObject("Model", "/:S", EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
+            obj.SetEcellValue(propertyName, new EcellValue(0.1));
+
+            ObjectPropertyReport report = new ObjectPropertyReport(type, message, group, obj, propertyName);
+            bool equal = report.Equals(report);
+            Assert.AreEqual(true, equal, "Equals method returned unexpected value.");
+
+            equal = report.Equals(null);
+            Assert.AreEqual(false, equal, "Equals method returned unexpected value.");
+
+            // true
+            equal = report.Equals(new AnalysisReport(type, message, group, "job"));
+            Assert.AreEqual(true, equal, "Equals method returned unexpected value.");
+        }
     }
 }

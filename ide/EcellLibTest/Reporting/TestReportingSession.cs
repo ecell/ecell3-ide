@@ -46,8 +46,8 @@ namespace Ecell.Reporting
             _env = new ApplicationEnvironment();
 
             string group = "Group";
-            ReportManager rm = new ReportManager(_env);
-            _unitUnderTest = new ReportingSession(group, rm);
+            ReportManager rm = _env.ReportManager;
+            _unitUnderTest = rm.GetReportingSession(group);
         }
         /// <summary>
         /// 
@@ -92,6 +92,7 @@ namespace Ecell.Reporting
             string group = "Group";
             CompileReport item = new CompileReport(type, message, group);
             _unitUnderTest.Add(item);
+            _unitUnderTest.Add(item);
 
             IEnumerator<IReport> list = _unitUnderTest.GetEnumerator();
             Assert.IsTrue(_unitUnderTest.Count > 0, "Count is unexpected value.");
@@ -114,6 +115,7 @@ namespace Ecell.Reporting
         {
             try
             {
+                _env.ReportManager.Cleared += new ReportClearEventHandler(ReportManager_Cleared);
                 _unitUnderTest.Clear();
                 Assert.Fail("Clear method must return an exception.");
             }
@@ -121,6 +123,11 @@ namespace Ecell.Reporting
             {
             }
 
+        }
+
+        void ReportManager_Cleared(object o, EventArgs e)
+        {
+            ;
         }
         /// <summary>
         /// 

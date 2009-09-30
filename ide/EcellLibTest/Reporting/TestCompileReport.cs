@@ -72,5 +72,28 @@ namespace Ecell.Reporting
             Assert.AreNotEqual(0, testCompileReport.GetHashCode(), "GetHashCode method returns unexpected value.");
             Assert.IsNotNull(testCompileReport.ToString(), "ToString method returns unexpected value.");
         }
+
+        /// <summary>
+        /// TestConstructor
+        /// </summary>
+        [Test()]
+        public void TestEqual()
+        {
+            Report report = new CompileReport(MessageType.Error, "Compile Error: Hoge", "group");
+            bool equal = report.Equals(report);
+            Assert.AreEqual(true, equal, "Equals method returned unexpected value.");
+
+            equal = report.Equals(null);
+            Assert.AreEqual(false, equal, "Equals method returned unexpected value.");
+
+            equal = report.Equals(new object());
+            Assert.AreEqual(false, equal, "Equals method returned unexpected value.");
+
+            //
+            equal = report.Equals(new AnalysisReport(MessageType.Error, "Compile Error: Hoge", "group", "job"));
+            Assert.AreEqual(true, equal, "Equals method returned unexpected value.");
+           
+        }
+
     }
 }

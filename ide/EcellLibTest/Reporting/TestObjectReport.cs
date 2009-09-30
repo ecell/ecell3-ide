@@ -93,7 +93,10 @@ namespace Ecell.Reporting
             string message = "Error";
             string group = "Group";
             EcellObject obj = EcellObject.CreateObject("Model", "/:S", EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
+
             ObjectReport testObjectReport1 = new ObjectReport(type, message, group, obj);
+            Assert.IsTrue(testObjectReport1.Equals(testObjectReport1));
+
             Assert.IsFalse(testObjectReport1.Equals(new object()));
 
             ObjectReport testObjectReport2 = new ObjectReport(MessageType.Debug, message, group, obj);

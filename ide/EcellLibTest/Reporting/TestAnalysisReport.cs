@@ -74,6 +74,25 @@ namespace Ecell.Reporting
             Assert.AreEqual("Test", obj.Message, "Type is unexpected value.");
             Assert.AreEqual("group", obj.Group, "Type is unexpected value.");
             Assert.AreEqual("job", obj.Location, "Type is unexpected value.");
+            Assert.AreNotEqual(0, obj.GetHashCode(), "GetHashCode method returned unexpected value.");
+        }
+        
+        /// <summary>
+        /// TestConstructor
+        /// </summary>
+        [Test()]
+        public void TestEqual()
+        {
+            Report report = new AnalysisReport(MessageType.Information, "Test", "group", "job");
+            bool equal = report.Equals(report);
+            Assert.AreEqual(true, equal, "Equals method returned unexpected value.");
+
+            equal = report.Equals(null);
+            Assert.AreEqual(false, equal, "Equals method returned unexpected value.");
+
+            //
+            equal = report.Equals(new CompileReport(MessageType.Information, "Test", "group"));
+            Assert.AreEqual(true, equal, "Equals method returned unexpected value.");
         }
     }
 }

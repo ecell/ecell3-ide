@@ -82,8 +82,9 @@ namespace Ecell.Plugin
             Assert.AreEqual("TestLayout", layout.GetPluginName(), "GetToolBarMenuStrip method returned unexpected value.");
             Assert.AreEqual("TestLayout", layout.GetLayoutName(), "GetToolBarMenuStrip method returned unexpected value.");
             Assert.IsNull(layout.Panel, "Panel is not expected value.");
-            layout.SubIndex = 0;
             Assert.AreEqual(0, layout.SubIndex, "SubIndex is not expected value.");
+            layout.SubIndex = 1;
+            Assert.AreEqual(1, layout.SubIndex, "SubIndex is not expected value.");
             Assert.IsNull(layout.GetPluginStatus(), "GetPluginStatus method returned unexpected value.");
             Assert.IsNull(layout.GetPropertySettings(), "GetPropertySettings method returned unexpected value.");
             Assert.IsNull(layout.GetPublicDelegate(), "GetPublicDelegate method returned unexpected value.");
@@ -106,8 +107,96 @@ namespace Ecell.Plugin
 
             List<EcellObject> selected = TestLayout.GetSelectedObject(list);
             List<EcellObject> related = TestLayout.GetRelatedObject(list);
+            // Test GetSurroundingRect
             RectangleF rect = TestLayout.GetSurroundingRect(list);
+            list = new List<EcellObject>();
+            list.Add(_env.DataManager.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:R_toy5", "Process"));
+            list.Add(_env.DataManager.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process"));
+            rect = TestLayout.GetSurroundingRect(list);
 
+            PointF a = new PointF(0,0);
+            PointF b = new PointF(10,0);
+            PointF c = new PointF(0,5);
+            PointF d = new PointF(5,5);
+            PointF crossPoint;
+            // Test GetIntersectingPoint
+            try
+            {
+                crossPoint = TestLayout.GetIntersectingPoint(a, b, c, d);
+            }
+            catch (Exception)
+            {
+            }
+            d = new PointF(5, 0);
+            crossPoint = TestLayout.GetIntersectingPoint(a, b, c, d);
+            Assert.AreEqual(d, crossPoint, "GetIntersectingPoint method returned unexpected value.");
+
+            // Test DoesIntersect
+            d = new PointF(5, 5);
+            bool result = TestLayout.DoesIntersect(a, b, c, d);
+            Assert.AreEqual(false, result, "DoesIntersect method returned unexpected value.");
+
+            d = new PointF(5, 0);
+            result = TestLayout.DoesIntersect(a, b, c, d);
+            Assert.AreEqual(true, result, "DoesIntersect method returned unexpected value.");
+
+            d = new PointF(10, 5);
+            result = TestLayout.DoesIntersect(a, b, c, d);
+            Assert.AreEqual(false, result, "DoesIntersect method returned unexpected value.");
+
+            c = new PointF(0, -5);
+            d = new PointF(0, 0);
+            result = TestLayout.DoesIntersect(a, b, c, d);
+            Assert.AreEqual(true, result, "DoesIntersect method returned unexpected value.");
+
+            a = new PointF(0, 0);
+            b = new PointF(0, 5);
+            c = new PointF(0, 0);
+            d = new PointF(5, 0);
+            result = TestLayout.DoesIntersect(a, b, c, d);
+            Assert.AreEqual(true, result, "DoesIntersect method returned unexpected value.");
+
+            a = new PointF(0, 0);
+            b = new PointF(15, 5);
+            c = new PointF(10, 0);
+            d = new PointF(9, 2);
+            result = TestLayout.DoesIntersect(a, b, c, d);
+            Assert.AreEqual(false, result, "DoesIntersect method returned unexpected value.");
+
+        }
+        
+        /// <summary>
+        /// TestGridMethod
+        /// </summary>
+        [Test()]
+        public void TestGridMethod()
+        {
+            TestLayout layout = new TestLayout();
+            Assert.IsNotNull(layout, "Constructor of type, object failed to create instance.");
+            // env
+            layout.Environment = _env;
+
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            List<EcellObject> list = _env.DataManager.GetData("Drosophila", null);
+            // GetLayoutGrid
+            Dictionary<string, List<PointF>> plots = TestLayout.GetLayoutGrid(list, 100);
+            Assert.IsNotNull(plots, "GetLayoutGrid method returned unexpected value.");
+            // SetGrid
+            List<EcellObject> systems = new List<EcellObject>();
+            List<EcellObject> nodes = new List<EcellObject>();
+            foreach (EcellObject eo in list)
+            {
+                if (eo is EcellSystem)
+                {
+                    systems.Add(eo);
+                    foreach (EcellObject child in eo.Children)
+                    {
+                        if (child is EcellProcess || child is EcellVariable)
+                            nodes.Add(child);
+                    }
+                }
+            }
+            layout.SetGrid(nodes, systems, 5);
         }
 
         /// <summary>

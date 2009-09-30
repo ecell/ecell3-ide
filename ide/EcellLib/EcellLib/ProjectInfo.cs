@@ -432,7 +432,8 @@ namespace Ecell
                     }
                 }
                 project = new ProjectInfo(prjName, comment, createTime, param);
-                project.ProjectType = type;
+                if(type == ProjectType.Template || type == ProjectType.Revision)
+                    project.ProjectType = type;
                 project.ProjectPath = dirPath;
                 project.CreationTime = createTime;
                 project.Creator = creator;
@@ -607,7 +608,8 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textEditCount, project.EditCount.ToString());
                 xmlOut.WriteElementString(Constants.textComment, project.Comment);
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
-                xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.ProjectType).ToString());
+                if (project.ProjectType == ProjectType.Revision)
+                    xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.ProjectType).ToString());
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
 
