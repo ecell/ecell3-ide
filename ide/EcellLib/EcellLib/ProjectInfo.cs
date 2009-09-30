@@ -432,8 +432,9 @@ namespace Ecell
                     }
                 }
                 project = new ProjectInfo(prjName, comment, createTime, param);
-                if(type == ProjectType.Template || type == ProjectType.Revision)
-                    project.ProjectType = type;
+                if (!(type == ProjectType.Project || type == ProjectType.Template || type == ProjectType.Revision))
+                    type = ProjectType.Project;
+                project.ProjectType = type;
                 project.ProjectPath = dirPath;
                 project.CreationTime = createTime;
                 project.Creator = creator;
@@ -588,6 +589,8 @@ namespace Ecell
             string projectXML = Path.Combine(saveDir, Constants.fileProjectXML);
             try
             {
+                project.ProjectType = ProjectType.Project;
+
                 // Create xml file
                 xmlOut = new XmlTextWriter(projectXML, Encoding.UTF8);
 
@@ -608,15 +611,13 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textEditCount, project.EditCount.ToString());
                 xmlOut.WriteElementString(Constants.textComment, project.Comment);
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
-                if (project.ProjectType == ProjectType.Revision)
-                    xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.ProjectType).ToString());
+                xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.ProjectType).ToString());
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
 
                 project.ProjectPath = saveDir;
                 project.UpdateTime = DateTime.Now.ToString();
                 project.ProjectFile = projectXML;
-                project.ProjectType = ProjectType.Project;
             }
             finally
             {
