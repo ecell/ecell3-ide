@@ -1116,6 +1116,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 || m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
                 return;
 
+            if ((Control.ModifierKeys & Keys.Control) != 0 ||
+                (Control.ModifierKeys & Keys.Shift) != 0)
+            {
+                return;
+            }
+
             // Reset node.
             treeView1.ContextMenuStrip = null;
             TreeView t = (TreeView)sender;

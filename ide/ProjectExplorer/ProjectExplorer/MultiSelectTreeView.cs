@@ -407,7 +407,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             tnMouseDown = this.GetNodeAt(e.X, e.Y);
             ptMouseDown = new Point(e.X, e.Y);
-            SelectNode(tnMouseDown, false, false);
+            //SelectNode(tnMouseDown, false, false);
             base.OnMouseDown(e);
         }
 
