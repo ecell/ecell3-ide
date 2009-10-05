@@ -37,6 +37,7 @@
             // ClassOKButton
             // 
             resources.ApplyResources(ClassOKButton, "ClassOKButton");
+            ClassOKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             ClassOKButton.Name = "ClassOKButton";
             ClassOKButton.UseVisualStyleBackColor = true;
             // 
@@ -47,6 +48,7 @@
             // 
             // ClassDetailDialog
             // 
+            this.AcceptButton = ClassOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.classRichTextBox);
