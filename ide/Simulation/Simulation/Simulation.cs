@@ -321,7 +321,7 @@ namespace Ecell.IDE.Plugins.Simulation
 
             m_timeText = new ToolStripTextBox();
             m_timeText.Name = "TimeText";
-            m_timeText.Size = new System.Drawing.Size(80, 25);
+            m_timeText.Size = new System.Drawing.Size(100, 25);
             m_timeText.Text = "0";
             m_timeText.ReadOnly = true;
             m_timeText.Tag = 6;

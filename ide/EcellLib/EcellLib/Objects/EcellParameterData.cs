@@ -62,7 +62,7 @@ namespace Ecell.Objects
             m_key = key;
             m_max = current + Math.Abs(current * s_multi);
             m_min = current - Math.Abs(current * s_multi);
-            m_step = 0.0;
+            m_step = (m_max - m_min) / 10.0;
         }
 
         /// <summary>

@@ -282,6 +282,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_env.LoggerManager.LoggerDeleteEvent += new LoggerDeleteEventHandler(LoggerManager_LoggerDeleteEvent);
 
             m_env.DataManager.DisplayFormatEvent += new DisplayFormatChangedEventHandler(DataManager_DisplayFormatEvent);
+            m_dataformat = m_env.DataManager.DisplayStringFormat;
         }
         #endregion
 
