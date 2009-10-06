@@ -408,6 +408,17 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
+        /// Reset x axis.
+        /// </summary>
+        public void Reset()
+        {
+            if (!m_zCnt.GraphPane.IsZoomed)
+            {
+                m_zCnt.GraphPane.XAxis.Scale.Max = 10;
+            }
+        }
+
+        /// <summary>
         /// Call this function, when simulation start.
         /// </summary>
         public void StartSimulation()
@@ -439,7 +450,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                             max = tmp;
                     }
                 }
-            }
+            }            
 
             if (this.InvokeRequired)
             {
