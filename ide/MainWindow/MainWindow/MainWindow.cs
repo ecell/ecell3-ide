@@ -522,6 +522,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Save default window settings.
         /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="isClosing"></param>
         private void SaveWindowSetting(string filename, bool isClosing)
         {
             //Save current window settings.
@@ -540,21 +542,26 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Load window settings.
         /// </summary>
+        /// <param name="filename"></param>
         private bool LoadWindowSetting(string filename)
         {
-            return LoadWindowSetting(filename, false);
+            return LoadWindowSetting(filename, false, false);
         }
+
         /// <summary>
         /// Load window settings.
         /// </summary>
-        private bool LoadWindowSetting(string filename, bool initializeWindow)
+        /// <param name="filename"></param>
+        /// <param name="initializeWindow"></param>
+        /// <param name="isSimulation"></param>
+        private bool LoadWindowSetting(string filename, bool initializeWindow, bool isSimulation)
         {
             try
             {
                 if (File.Exists(filename))
                 {
                     Trace.WriteLine("Loading window settings: " + filename);
-                    DockWindowSerializer.LoadFromXML(this, filename, initializeWindow);
+                    DockWindowSerializer.LoadFromXML(this, filename, initializeWindow, isSimulation);
                     return true;
                 }
             }
@@ -600,7 +607,7 @@ namespace Ecell.IDE.MainWindow
         public void LoadDefaultWindowSetting()
         {
             // Load user window settings.
-            if (LoadWindowSetting(m_userWindowSettingPath, true))
+            if (LoadWindowSetting(m_userWindowSettingPath, true, false))
                 return;
 
             // Load default window settings when failed.
@@ -924,12 +931,12 @@ namespace Ecell.IDE.MainWindow
             if (m_status == ProjectStatus.Loaded && (status == ProjectStatus.Running || status == ProjectStatus.Stepping))
             {
                 SaveWindowSetting(m_userWindowSettingPath, true);
-                LoadWindowSetting(m_userWindowSettingPath2);
+                LoadWindowSetting(m_userWindowSettingPath2, false, true);
             }
             else if (status == ProjectStatus.Loaded && (m_status == ProjectStatus.Suspended || m_status == ProjectStatus.Running || m_status == ProjectStatus.Stepping))
             {
                 SaveWindowSetting(m_userWindowSettingPath2, true);
-                LoadWindowSetting(m_userWindowSettingPath);
+                LoadWindowSetting(m_userWindowSettingPath, false, false);
             }
 
             // Show status

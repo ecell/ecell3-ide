@@ -356,7 +356,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="window">MainWindow.</param>
         /// <param name="filename">the file path.</param>
         /// <param name="initializeWindow">whether this window is the initial window.</param>
-        public static void LoadFromXML(MainWindow window, string filename, bool initializeWindow)
+        public static void LoadFromXML(MainWindow window, string filename, bool initializeWindow, bool isSimulation)
         {
             DockPanel dockPanel = window.DockPanel;
             FileStream fs = null;
@@ -415,7 +415,8 @@ namespace Ecell.IDE.MainWindow
                 CreateFloatWindows(dockPanel, panes, floatWindows, paneList);
 
                 // Create float windows for unrecorded contents
-                CreateFloatWindowForUnrecordedContents(dockPanel, contentList, paneList);
+                if(isSimulation)
+                    CreateFloatWindowForUnrecordedContents(dockPanel, contentList, paneList);
 
                 // sort IDockContent by its Pane's ZOrder
                 int[] sortedContents = SortContents(dockPanel, contents, panes);
@@ -511,8 +512,8 @@ namespace Ecell.IDE.MainWindow
             foreach (DockContent content in dockPanel.Contents)
             {
                 // Pass Graph
-                if (content is EcellDockContent && ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
-                    continue;
+                //if (content is EcellDockContent && ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+                //    continue;
                 // Check Unrecorded content.
                 bool isRecorded = false;
                 foreach (DockContent recorded in contentList)
@@ -526,18 +527,19 @@ namespace Ecell.IDE.MainWindow
                 if (isRecorded)
                     continue;
                 // Create new content.
-                content.IsHidden = true;
-                content.AutoHidePortion = 0.25;
-                content.Pane = null;
-                content.PanelPane = null;
-                content.FloatPane = null;
-                contentList.Add(content);
-                DockPane pane = dockPanel.DockPaneFactory.CreateDockPane(content, DockState.Float, false);
-                content.DockHandler.FloatPane = pane;
+                // content.IsHidden = true;
+                //content.AutoHidePortion = 0.25;
+                content.DockState = DockState.Float;
+                //content.Pane = null;
+                //content.PanelPane = null;
+                //content.FloatPane = null;
+                //contentList.Add(content);
+                //DockPane pane = dockPanel.DockPaneFactory.CreateDockPane(content, DockState.Float, false);
+                //content.DockHandler.FloatPane = pane;
                 content.IsFloat = true;
-                paneList.Add(pane);
-                FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, content.Bounds);
-                NormalizeFormScreen(fw, 0);
+                //paneList.Add(pane);
+                //FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, content.Bounds);
+                //NormalizeFormScreen(fw, 0);
             }
         }
 
@@ -643,7 +645,8 @@ namespace Ecell.IDE.MainWindow
             for (int i = 0; i < contents.Length; i++)
             {
                 IDockContent content = SetDockContent(dockPanel, contents[i]);
-                if (content == null || ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+                //if (content == null || ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+                if (content == null)
                     content = new DockContent();
                 content.DockHandler.DockPanel = dockPanel;
                 content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
@@ -773,7 +776,8 @@ namespace Ecell.IDE.MainWindow
             foreach (DockContent cont in dockPanel.Contents)
                 if (cont.Name.Equals(contentStruct.Name))
                     content = cont;
-            if (content == null || ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+            //if (content == null || ((EcellDockContent)content).ContentType == DockContentType.GRAPH)
+            if (content == null)
                 return null;
             // Set parameter.
             content.Pane = null;
