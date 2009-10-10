@@ -65,7 +65,7 @@ namespace Ecell.SBML
             Event ev = sbmlModel.createEvent();
             ev.setId("Event");
             ev.setName("Event");
-            ev.setTrigger(new Trigger());
+            ev.setTrigger(new Trigger(2,3));
             EventAssignment ea = ev.createEventAssignment();
             ea.setId("Assignment");
             ea.setName("Assignment");
@@ -90,7 +90,7 @@ namespace Ecell.SBML
         [Test()]
         public void TestGetCompartmentSize()
         {
-            Compartment c = new Compartment();
+            Compartment c = new Compartment(2, 3);
             double value;
             value = SbmlFunctions.GetCompartmentSize(c);
             Assert.AreEqual(double.NaN, value, "GetCompartmentSize returns unexpected value.");
@@ -107,7 +107,7 @@ namespace Ecell.SBML
         [Test()]
         public void TestGetCompartmentVolume()
         {
-            Compartment c = new Compartment();
+            Compartment c = new Compartment(2, 3);
             double value;
             value = SbmlFunctions.GetCompartmentVolume(c);
             Assert.AreEqual(double.NaN, value, "GetCompartmentVolume returns unexpected value.");
@@ -123,7 +123,7 @@ namespace Ecell.SBML
         [Test()]
         public void TestGetInitialConcentration()
         {
-            Species s = new Species();
+            Species s = new Species(2, 3);
             double value;
             value = SbmlFunctions.GetInitialConcentration(s);
             Assert.AreEqual(double.NaN, value, "GetInitialConcentration returns unexpected value.");
@@ -139,7 +139,7 @@ namespace Ecell.SBML
         [Test()]
         public void TestGetInitialAmount()
         {
-            Species s = new Species();
+            Species s = new Species(2, 3);
             double value;
             value = SbmlFunctions.GetInitialAmount(s);
             Assert.AreEqual(double.NaN, value, "GetInitialAmount returns unexpected value.");
@@ -155,10 +155,12 @@ namespace Ecell.SBML
         [Test()]
         public void TestStoichiometryMath()
         {
-            SpeciesReference sr = new SpeciesReference("S0", 0.5);
-            sr.setStoichiometryMath(new StoichiometryMath());
+            SpeciesReference sr = new SpeciesReference(2,3);
+            sr.setId("S0");
+            sr.setStoichiometry(0);
+            sr.setStoichiometryMath(new StoichiometryMath(2, 3));
             string math = SbmlFunctions.GetStoichiometryMath(sr);
-            Assert.AreEqual("", math, "GetStoichiometryMath returns unexpected value.");
+            Assert.AreEqual(null, math, "GetStoichiometryMath returns unexpected value.");
         }
     }
 }

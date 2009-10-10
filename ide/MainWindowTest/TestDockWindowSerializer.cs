@@ -80,7 +80,7 @@ namespace Ecell.IDE.MainWindow
             string modelFile = Path.Combine(Util.GetUserDir(), "ComponentSettings.xml");
             try
             {
-                DockWindowSerializer.LoadFromXML(_window, modelFile, true);
+                DockWindowSerializer.LoadFromXML(_window, modelFile, true, false);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ namespace Ecell.IDE.MainWindow
                 Debug.WriteLine("Failed to load:" + modelFile);
             }
             modelFile = Path.Combine(Util.GetUserDir(), "window.config");
-            DockWindowSerializer.LoadFromXML(_window, modelFile, true);
+            DockWindowSerializer.LoadFromXML(_window, modelFile, true, false);
             Assert.IsNotNull(_window);
         }
     }

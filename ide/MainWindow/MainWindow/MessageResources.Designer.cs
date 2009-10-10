@@ -250,7 +250,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Please set the project root folder. Project is saved in this folder. に類似しているローカライズされた文字列を検索します。
+        ///   Set the project root folder. Project is saved in this folder. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ExpModelMes {
             get {
@@ -439,7 +439,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Please select a templete for the new project. に類似しているローカライズされた文字列を検索します。
+        ///   Select a template for the new project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardSelectTemplete {
             get {
@@ -466,7 +466,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Please select the DM directory. に類似しているローカライズされた文字列を検索します。
+        ///   Select a DM directory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SelectDMDir {
             get {

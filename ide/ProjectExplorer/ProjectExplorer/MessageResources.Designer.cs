@@ -376,7 +376,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
-        ///   Please select the DM directory. に類似しているローカライズされた文字列を検索します。
+        ///   Select the DM directory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SelectDMDir {
             get {
@@ -385,7 +385,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
-        ///   Please delete the tmp file in DM directory or restart E-Cell IDE. に類似しているローカライズされた文字列を検索します。
+        ///   Delete the tmp file in DM directory or restart E-Cell IDE. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnDeleteDM {
             get {
@@ -394,7 +394,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
-        ///   Please input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   Input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnDMName {
             get {

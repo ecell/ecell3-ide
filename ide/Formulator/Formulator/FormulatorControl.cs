@@ -1544,7 +1544,7 @@ namespace Ecell.UI.Components
         /// <summary>
         /// Create FNode for function with using the type of function.
         /// This function does not set the width of this data.
-        /// Please set the width to the return object.
+        /// Set the width to the return object.
         /// </summary>
         /// <param name="type">The function type.</param>
         /// <returns>FNode for function.</returns>

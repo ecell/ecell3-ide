@@ -143,13 +143,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // edgeHighBrush
             // 
             resources.ApplyResources(this.edgeHighBrush, "edgeHighBrush");
-            this.edgeHighBrush.Brush = null;
             this.edgeHighBrush.Name = "edgeHighBrush";
             // 
             // edgeLowBrush
             // 
             resources.ApplyResources(this.edgeLowBrush, "edgeLowBrush");
-            this.edgeLowBrush.Brush = null;
             this.edgeLowBrush.Name = "edgeLowBrush";
             // 
             // autoThresholdCheckBox
@@ -173,7 +171,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // edgeNGBrush
             // 
             resources.ApplyResources(this.edgeNGBrush, "edgeNGBrush");
-            this.edgeNGBrush.Brush = null;
             this.edgeNGBrush.Name = "edgeNGBrush";
             // 
             // variableBox
@@ -198,7 +195,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // propertyBrush
             // 
             resources.ApplyResources(this.propertyBrush, "propertyBrush");
-            this.propertyBrush.Brush = null;
             this.propertyBrush.Name = "propertyBrush";
             // 
             // AnimationSettings

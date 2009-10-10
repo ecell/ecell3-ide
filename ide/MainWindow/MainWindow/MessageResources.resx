@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SelectDMDir" xml:space="preserve">
-    <value>Please select the DM directory.</value>
+    <value>Select a DM directory.</value>
   </data>
   <data name="ProjectWizardGoForward" xml:space="preserve">
     <value>&amp;Next&gt;</value>
@@ -142,7 +142,7 @@
     <value>{0} contains some invalid chacters.</value>
   </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
-    <value>Please select a templete for the new project.</value>
+    <value>Select a template for the new project.</value>
   </data>
   <data name="TitleInitialSet" xml:space="preserve">
     <value>Please select the initial setting.</value>
@@ -160,7 +160,7 @@
     <value>Cannot load the window settings.</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
-    <value>Please set the project root folder. Project is saved in this folder.</value>
+    <value>Set the project root folder. Project is saved in this folder.</value>
   </data>
   <data name="DockClosing" xml:space="preserve">
     <value>Closing dockable pane {0}...</value>

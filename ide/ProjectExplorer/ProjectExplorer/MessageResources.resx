@@ -187,13 +187,13 @@
     <value>Do you want to save the project before closing this project?</value>
   </data>
   <data name="SelectDMDir" xml:space="preserve">
-    <value>Please select the DM directory.</value>
+    <value>Select the DM directory.</value>
   </data>
   <data name="WarnDeleteDM" xml:space="preserve">
-    <value>Please delete the tmp file in DM directory or restart E-Cell IDE.</value>
+    <value>Delete the tmp file in DM directory or restart E-Cell IDE.</value>
   </data>
   <data name="WarnDMName" xml:space="preserve">
-    <value>Please input the name whose suffix is "Process" or "Stepper".</value>
+    <value>Input the name whose suffix is "Process" or "Stepper".</value>
   </data>
   <data name="WarnUsedDM" xml:space="preserve">
     <value>This DM is in used.</value>
