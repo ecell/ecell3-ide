@@ -142,7 +142,7 @@
     <value>Show &amp;IDs(Pathway)</value>
   </data>
   <data name="LayerMenuCreate" xml:space="preserve">
-    <value>New layer</value>
+    <value>New Layer</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
     <value>Delete</value>
@@ -151,13 +151,13 @@
     <value>Rename</value>
   </data>
   <data name="LayerMenuMerge" xml:space="preserve">
-    <value>Merge layer</value>
+    <value>Merge Layer</value>
   </data>
   <data name="MenuItemAnimation" xml:space="preserve">
     <value>Animation</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>Select nodes on thie layer</value>
+    <value>Select nodes on thie Layer</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>Change Layer</value>
@@ -352,7 +352,7 @@
     <value>Set ZOrder</value>
   </data>
   <data name="NameArrowMaxWidth" xml:space="preserve">
-    <value>Max width of edge on Animation</value>
+    <value>Max width of edge on animation.</value>
   </data>
   <data name="NameArrowWidth" xml:space="preserve">
     <value>The width of edge</value>
@@ -367,7 +367,7 @@
     <value>Animation file is over the max file size.</value>
   </data>
   <data name="ErrMaxThreshold" xml:space="preserve">
-    <value>High threshold must be larger than Low Threshold.</value>
+    <value>Upper threshold must be larger than Lower threshold.</value>
   </data>
   <data name="CanvasMenuShowEdge" xml:space="preserve">
     <value>Show Edge</value>

@@ -136,7 +136,7 @@
     <value>Connectiing...</value>
   </data>
   <data name="SaveConfirm" xml:space="preserve">
-    <value>Do you want to save the project before closing this project?</value>
+    <value>Do you want to save this project before closing?</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
     <value>{0} contains some invalid chacters.</value>
@@ -160,7 +160,7 @@
     <value>Cannot load the window settings.</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
-    <value>Set the project root folder. Project is saved in this folder.</value>
+    <value>Set the Project root folder. Project is saved in this folder.</value>
   </data>
   <data name="DockClosing" xml:space="preserve">
     <value>Closing dockable pane {0}...</value>
@@ -175,7 +175,7 @@
     <value>Failed to parse {0}.</value>
   </data>
   <data name="MenuRecentProjects" xml:space="preserve">
-    <value>Recenty used projects.</value>
+    <value>Recenty used Projects.</value>
   </data>
   <data name="MenuTutorial" xml:space="preserve">
     <value>Tutorial</value>
@@ -184,7 +184,7 @@
     <value>Are you sure you want to overwrite?</value>
   </data>
   <data name="ErrExistProject" xml:space="preserve">
-    <value>The project "{0}" already exists. </value>
+    <value>The Project "{0}" already exists. </value>
   </data>
   <data name="ConfirmUnsavableWindows" xml:space="preserve">
     <value>The following windows are not saved in the Window setting.</value>
@@ -265,6 +265,6 @@
     <value>Project name</value>
   </data>
   <data name="ErrProjectUnsavedZip" xml:space="preserve">
-    <value>Save this project before the project is compress by Zip.</value>
+    <value>Save this project before the Project is compress by Zip.</value>
   </data>
 </root>

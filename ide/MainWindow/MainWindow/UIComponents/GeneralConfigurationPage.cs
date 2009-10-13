@@ -104,6 +104,11 @@ namespace Ecell.IDE.MainWindow.UIComponents
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
             // 
+            // detailDFLabel
+            // 
+            resources.ApplyResources(detailDFLabel, "detailDFLabel");
+            detailDFLabel.Name = "detailDFLabel";
+            // 
             // valueFormatComboBox
             // 
             this.valueFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -117,11 +122,6 @@ namespace Ecell.IDE.MainWindow.UIComponents
             resources.GetString("valueFormatComboBox.Items5")});
             resources.ApplyResources(this.valueFormatComboBox, "valueFormatComboBox");
             this.valueFormatComboBox.Name = "valueFormatComboBox";
-            // 
-            // detailDFLabel
-            // 
-            resources.ApplyResources(detailDFLabel, "detailDFLabel");
-            detailDFLabel.Name = "detailDFLabel";
             // 
             // GeneralConfigurationPage
             // 

@@ -372,7 +372,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             {
                 thresholdHigh.Text = Convert.ToString(_thresholdHigh);
                 thresholdLow.Text = Convert.ToString(_thresholdLow);
-                throw new PathwayException(this.Text + ":" + MessageResources.ErrMaxThreshold);
+                throw new PathwayException(this.Text + "; " + MessageResources.ErrMaxThreshold);
             }
         }
         #endregion

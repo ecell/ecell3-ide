@@ -124,7 +124,7 @@
     <value>Cannot add {0} ({1}).</value>
   </data>
   <data name="ErrClosePrj" xml:space="preserve">
-    <value>Can not close the project ({0}).</value>
+    <value>Can not close the Project ({0}).</value>
   </data>
   <data name="ErrCombiStepProc" xml:space="preserve">
     <value>The selected process cannot be used in combination with the stepper.</value>
@@ -136,7 +136,7 @@
     <value>Cannot create the file {0}.</value>
   </data>
   <data name="ErrCrePrj" xml:space="preserve">
-    <value>Cannot create the project ({0}).</value>
+    <value>Cannot create the Project ({0}).</value>
   </data>
   <data name="ErrCreSimParam" xml:space="preserve">
     <value>Cannot create the simulation parameter ({0}).</value>
@@ -148,13 +148,13 @@
     <value>Cannot delete the root system.</value>
   </data>
   <data name="ErrExistObj" xml:space="preserve">
-    <value>Entity {0} already exists in this project.</value>
+    <value>Entity {0} already exists in this Project.</value>
   </data>
   <data name="ErrExistSimParam" xml:space="preserve">
-    <value>Simulation parameter {0} already exists in this project.</value>
+    <value>Simulation parameter {0} already exists in this Project.</value>
   </data>
   <data name="ErrExistStepper" xml:space="preserve">
-    <value>Stepper {0} already exists in this project.</value>
+    <value>Stepper {0} already exists in this Project.</value>
   </data>
   <data name="ErrFindEnt" xml:space="preserve">
     <value>Cannot find Entity {0}.</value>
@@ -178,7 +178,7 @@
     <value>Cannot load the model {0}.</value>
   </data>
   <data name="ErrLoadPrj" xml:space="preserve">
-    <value>Cannot load the project {0}.</value>
+    <value>Cannot load the Project {0}.</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} is not set.</value>
@@ -202,7 +202,7 @@
     <value>Cannot save the model {0}.</value>
   </data>
   <data name="ErrSavePrj" xml:space="preserve">
-    <value>Cannot save the project {0}.</value>
+    <value>Cannot save the Project {0}.</value>
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
     <value>Cannot save the script file {0}.</value>
@@ -309,7 +309,7 @@ New revision {0}:{1} was created.</value>
     <value>Failed to load ProjectInfo.</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>At least one parameter set is required in the project.</value>
+    <value>At least one parameter set is required in the Project.</value>
   </data>
   <data name="ErrInvalidParam" xml:space="preserve">
     <value>Parameter [{0}] is invalid.</value>

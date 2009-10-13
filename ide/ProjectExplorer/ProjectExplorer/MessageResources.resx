@@ -139,10 +139,10 @@
     <value>Nothing is input in {0}</value>
   </data>
   <data name="ErrProjectUnsaved" xml:space="preserve">
-    <value>Save this project before adding new DM.</value>
+    <value>Save this Project before adding new DM.</value>
   </data>
   <data name="ErrProjectUnsavedImport" xml:space="preserve">
-    <value>Save this project before DM is imported.</value>
+    <value>Save this Project before DM is imported.</value>
   </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>Cannot find any applications associated with this file type.</value>
@@ -184,7 +184,7 @@
     <value>Project Explorer</value>
   </data>
   <data name="SaveConfirm" xml:space="preserve">
-    <value>Do you want to save the project before closing this project?</value>
+    <value>Do you want to save the project before closing this Project?</value>
   </data>
   <data name="SelectDMDir" xml:space="preserve">
     <value>Select the DM directory.</value>
@@ -220,13 +220,13 @@
     <value>The Entity [{0}] already exist.</value>
   </data>
   <data name="ErrUnderSystem" xml:space="preserve">
-    <value>Can not move the system to under the current system</value>
+    <value>Can not move the System to under the current System</value>
   </data>
   <data name="ErrProjectUnsavedCompile" xml:space="preserve">
-    <value>Save this project before DM is compiled.</value>
+    <value>Save this Project before DM is compiled.</value>
   </data>
   <data name="ErrProjectUnsavedDelete" xml:space="preserve">
-    <value>Save this project before DM is deleted.</value>
+    <value>Save this Project before DM is deleted.</value>
   </data>
   <data name="ConfirmOverride" xml:space="preserve">
     <value>Are you sure to override the simulation parameter sets[ {0} ].</value>
@@ -235,6 +235,6 @@
     <value>Can not import DefaultSets.</value>
   </data>
   <data name="ErrProjectUnsavedZip" xml:space="preserve">
-    <value>Save this project before the project is compress by Zip.</value>
+    <value>Save this Project before the Project is compress by Zip.</value>
   </data>
 </root>

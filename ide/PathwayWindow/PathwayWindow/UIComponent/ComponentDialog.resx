@@ -217,7 +217,7 @@
     <value>componentItem</value>
   </data>
   <data name="&gt;&gt;componentItem.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Components.ComponentItem, PathwayWindow, Version=1.1.3323.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Components.ComponentItem, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;componentItem.Parent" xml:space="preserve">
     <value>$this</value>
@@ -341,7 +341,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Figure Settings</value>
+    <value>Figure Setting Dialog</value>
   </data>
   <data name="&gt;&gt;setExistingStencilToolStripMenuItem.Name" xml:space="preserve">
     <value>setExistingStencilToolStripMenuItem</value>

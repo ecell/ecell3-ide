@@ -136,13 +136,13 @@
     <value>20, 170</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 12</value>
+    <value>59, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Error Color</value>
+    <value>Error color</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -166,13 +166,13 @@
     <value>248, 103</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 12</value>
+    <value>64, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Arrow Color</value>
+    <value>Arrow color</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -196,13 +196,13 @@
     <value>248, 73</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 12</value>
+    <value>64, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Arrow Color</value>
+    <value>Arrow color</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -229,7 +229,7 @@
     <value>6</value>
   </data>
   <data name="edgeLabel.Text" xml:space="preserve">
-    <value>Set upper and lower threshold of Process MolarActivity. The edge of each process whose MolarActivity exceeds the threshold is discolored. </value>
+    <value>Set upper and lower threshold of Process MolarActivity. The edge of each Process whose MolarActivity exceeds the threshold is discolored. </value>
   </data>
   <data name="&gt;&gt;edgeLabel.Name" xml:space="preserve">
     <value>edgeLabel</value>
@@ -259,7 +259,7 @@
     <value>edgeHighBrush</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -283,7 +283,7 @@
     <value>edgeLowBrush</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -310,7 +310,7 @@
     <value>autoThresholdCheckBox</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -337,7 +337,7 @@
     <value>thresholdHigh</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -364,7 +364,7 @@
     <value>thresholdLow</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -388,7 +388,7 @@
     <value>edgeNGBrush</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Parent" xml:space="preserve">
     <value>edgeBox</value>
@@ -493,7 +493,7 @@
     <value>propertyBrush</value>
   </data>
   <data name="&gt;&gt;propertyBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3474.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.BrushComboBox, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;propertyBrush.Parent" xml:space="preserve">
     <value>variableBox</value>

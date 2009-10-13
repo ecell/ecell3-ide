@@ -184,6 +184,6 @@
     <value>property name</value>
   </data>
   <data name="WarnDMName" xml:space="preserve">
-    <value>Please input the name whose suffix is "Process" or "Stepper".</value>
+    <value>Input the name of DM whose suffix is "Process" or "Stepper".</value>
   </data>
 </root>

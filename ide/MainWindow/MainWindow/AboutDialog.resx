@@ -265,13 +265,13 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="ecellLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 17</value>
+    <value>266, 17</value>
   </data>
   <data name="ecellLink.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="ecellLink.Text" xml:space="preserve">
-    <value>Visit E-Cell IDE project page for more information.</value>
+    <value>Visit E-Cell IDE Project page for more information.</value>
   </data>
   <data name="&gt;&gt;ecellLink.Name" xml:space="preserve">
     <value>ecellLink</value>

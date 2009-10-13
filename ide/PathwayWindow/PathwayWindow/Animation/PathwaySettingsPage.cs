@@ -112,40 +112,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // label1
             // 
-            this.label1.AccessibleDescription = null;
-            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
-            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // m_viewModeItems
             // 
-            this.m_viewModeItems.AccessibleDescription = null;
-            this.m_viewModeItems.AccessibleName = null;
             resources.ApplyResources(this.m_viewModeItems, "m_viewModeItems");
-            this.m_viewModeItems.BackgroundImage = null;
-            this.m_viewModeItems.Font = null;
             this.m_viewModeItems.Name = "m_viewModeItems";
             // 
             // m_editModeItems
             // 
-            this.m_editModeItems.AccessibleDescription = null;
-            this.m_editModeItems.AccessibleName = null;
             resources.ApplyResources(this.m_editModeItems, "m_editModeItems");
-            this.m_editModeItems.BackgroundImage = null;
-            this.m_editModeItems.Font = null;
             this.m_editModeItems.Name = "m_editModeItems";
             // 
             // PathwaySettingsPage
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.m_viewModeItems);
             this.Controls.Add(this.m_editModeItems);
-            this.Font = null;
             this.Name = "PathwaySettingsPage";
             this.ResumeLayout(false);
             this.PerformLayout();

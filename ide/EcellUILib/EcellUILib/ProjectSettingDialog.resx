@@ -133,13 +133,13 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="labelName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 12</value>
+    <value>74, 12</value>
   </data>
   <data name="labelName.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelName.Text" xml:space="preserve">
-    <value>&amp;Project Name:</value>
+    <value>&amp;Project name:</value>
   </data>
   <data name="&gt;&gt;labelName.Name" xml:space="preserve">
     <value>labelName</value>
@@ -445,13 +445,13 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="labelUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
+    <value>63, 12</value>
   </data>
   <data name="labelUpdate.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelUpdate.Text" xml:space="preserve">
-    <value>LastUpdate:</value>
+    <value>Lastupdate:</value>
   </data>
   <data name="&gt;&gt;labelUpdate.Name" xml:space="preserve">
     <value>labelUpdate</value>
@@ -508,13 +508,13 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="labelEditCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 12</value>
+    <value>59, 12</value>
   </data>
   <data name="labelEditCount.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelEditCount.Text" xml:space="preserve">
-    <value>Edit Count:</value>
+    <value>Edit count:</value>
   </data>
   <data name="&gt;&gt;labelEditCount.Name" xml:space="preserve">
     <value>labelEditCount</value>
@@ -571,13 +571,13 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="labelDefaultParameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 12</value>
+    <value>99, 12</value>
   </data>
   <data name="labelDefaultParameter.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="labelDefaultParameter.Text" xml:space="preserve">
-    <value>Default Parameter:</value>
+    <value>Default parameter:</value>
   </data>
   <data name="&gt;&gt;labelDefaultParameter.Name" xml:space="preserve">
     <value>labelDefaultParameter</value>

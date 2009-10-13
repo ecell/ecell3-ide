@@ -369,54 +369,6 @@
   <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
-  </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
-  </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 64</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>590, 70</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Analysis simulation</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="label9.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -482,6 +434,30 @@
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 64</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>590, 70</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Analysis simulation</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="bifurcationMaxInputTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -609,6 +585,12 @@
   <metadata name="paramBContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>162, 17</value>
   </metadata>
+  <data name="deleteBParamToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 22</value>
+  </data>
+  <data name="deleteBParamToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="paramBContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 26</value>
   </data>
@@ -639,12 +621,6 @@
   <data name="&gt;&gt;bifurcationParameterDataGrid.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="deleteBParamToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
-  </data>
-  <data name="deleteBParamToolStripMenuItem.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
   <data name="bifurcationObservedDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -666,6 +642,12 @@
   <metadata name="observedBContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>347, 17</value>
   </metadata>
+  <data name="deleteBObservedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 22</value>
+  </data>
+  <data name="deleteBObservedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="observedBContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 26</value>
   </data>
@@ -696,12 +678,6 @@
   <data name="&gt;&gt;bifurcationObservedDataGrid.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="deleteBObservedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
-  </data>
-  <data name="deleteBObservedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
   <metadata name="bifurcationToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -721,7 +697,7 @@
     <value>7</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>This analysis examines the stability of system by the parameter change.Two parameter are set as the changed parameters.</value>
+    <value>This analysis examines the stability of system for the parameter change.Two parameter are set as the changed parameters.</value>
   </data>
   <data name="&gt;&gt;abstractTextBox.Name" xml:space="preserve">
     <value>abstractTextBox</value>
@@ -962,6 +938,6 @@
     <value>BifurcationSettingDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3478.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

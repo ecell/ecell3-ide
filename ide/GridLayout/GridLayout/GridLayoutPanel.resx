@@ -333,7 +333,7 @@
     <value>8</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Grid layout with Simulated Annealing.</value>
+    <value>Grid layout with simulated annealing.</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -354,13 +354,13 @@
     <value>20, 157</value>
   </data>
   <data name="scratchCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 16</value>
+    <value>92, 16</value>
   </data>
   <data name="scratchCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="scratchCheckBox.Text" xml:space="preserve">
-    <value>From Scratch</value>
+    <value>From scratch</value>
   </data>
   <data name="&gt;&gt;scratchCheckBox.Name" xml:space="preserve">
     <value>scratchCheckBox</value>
@@ -384,6 +384,6 @@
     <value>GridLayoutPanel</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.LayoutPanel, EcellUILib, Version=1.1.3265.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.LayoutPanel, EcellUILib, Version=1.1.3477.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
