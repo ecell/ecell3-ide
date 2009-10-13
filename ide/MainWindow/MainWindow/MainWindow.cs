@@ -890,9 +890,10 @@ namespace Ecell.IDE.MainWindow
             exportModelToolStripMenuItem.Enabled = (suspended || loaded);
             exportSBMLMenuItem.Enabled = (suspended || loaded);
             exportEMLToolStripMenuItem.Enabled = (suspended || loaded);
+            exportProjectToolStripMenuItem.Enabled = (loaded) && isProject;
             exportZipToolStripMenuItem.Enabled = (loaded) && isProject;
             // import
-            importModelToolStripMenuItem.Enabled = unInitialized || loaded;
+            importProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             importEMLToolStripMenuItem.Enabled = unInitialized || loaded;
             importScriptToolStripMenuItem.Enabled = loaded;
             // 
