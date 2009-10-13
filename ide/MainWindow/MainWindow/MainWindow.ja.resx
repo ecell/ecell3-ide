@@ -373,7 +373,7 @@
     <value>246, 22</value>
   </data>
   <data name="importProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロジェクト入力（&amp;I）</value>
+    <value>プロジェクト読み込み（&amp;I）</value>
   </data>
   <data name="exportProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>246, 22</value>
