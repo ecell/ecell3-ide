@@ -33,7 +33,7 @@ DefaultDirName=C:\Program Files\E-Cell IDE
 ;AppName = E-Cell IDE
 AppName = E-Cell IDE 1.0
 AppID = ECell_IDE
-AppModifyPath="{app}\UninsHs.exe" /m3=ECell_IDE
+;AppModifyPath="{app}\UninsHs.exe" "/r3=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\i.exe"
 LicenseFile=License.txt
 UninstallDisplayIcon={app}\bin\ecell-ide.exe
 
@@ -407,10 +407,10 @@ en.IDE_DotNet=This application needs Microsoft .NET Framework version 2.0. %nPle
 jp.IDE_DotNet=Microsoft .NET Frameworkがインストールされていません。%nダウンロード及びインストール手順の確認は以下のURLにアクセスしてください。%n%n (http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&DisplayLang=ja)
 en.IDE_Installed=E-Cell IDE is already installed, please unistall E-Cell IDE.
 jp.IDE_Installed=E-Cell IDEがインストールされています。E-Cell IDEをアンインストールしてください。
-en.Python_Installed=Python(version 2.5) is not installed. This application need Python 2.5. Please select [Install for all users] on Python installer.
-jp.Python_Installed=Python(version2.5)がインストールされていません。E-Cell IDEはPython2.5が必要です。 Pythonのインストーラーで[Install for all users]を選択してください。
-en.Python_NotInstalled=Can not install Python(version 2.5). Please select [Install for all users] on Python installer.
-jp.Python_NotInstalled=Python(version2.5)がインストールできませんでした。 Pythonのインストーラーで[Install for all users]を選択してください。
+en.Python_Installed=Python(version 2.5) is not installed. This application need Python 2.5. %n%nPlease select [Install for all users] on Python installer.
+jp.Python_Installed=Python(version2.5)がインストールされていません。E-Cell IDEはPython2.5が必要です。 %n%nPythonのインストーラーで[Install for all users]を選択してください。
+en.Python_NotInstalled=Can not install Python(version 2.5). %nPlease select [Install for all users] on Python installer.
+jp.Python_NotInstalled=Python(version2.5)がインストールできませんでした。%nPythonのインストーラーで[Install for all users]を選択してください。
 
 [Tasks]
 Name: "desktopiconen"; Description: "Create a desktop shortcut"; Languages: en;
