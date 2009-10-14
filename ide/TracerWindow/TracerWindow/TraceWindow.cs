@@ -163,7 +163,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.IsEnableWheelZoom = false;
             m_zCnt.IsEnableHPan = false;
             m_zCnt.IsEnableVPan = false;
-            m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);            
+            m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);                       
             m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
             m_zCnt.GraphPane.Margin.Top = 35.0f;
             m_zCnt.GraphPane.YAxis.MajorGrid.IsVisible = true;
@@ -881,15 +881,31 @@ namespace Ecell.IDE.Plugins.TracerWindow
         void ZcntZoomEvent(ZedGraphControl control, ZoomState oldState, ZoomState newState)
         {
             if (m_current == 0.0) return;
+            double sx = m_zCnt.GraphPane.XAxis.Scale.Min;
+            double ex = m_zCnt.GraphPane.XAxis.Scale.Max;
+            double m_step = (ex - sx) / TracerWindow.s_count;
+            List<LogData> list = m_owner.DataManager.GetLogData(sx, ex, m_step);
+
+            if (list == null)
+            {
+                m_zCnt.ZoomOut(m_zCnt.GraphPane);
+                return;
+            }
+            foreach (LogData l in list)
+            {
+                if (l.logValueList.Count <= 3)
+                {
+                    m_zCnt.ZoomOut(m_zCnt.GraphPane);
+                    return;
+                }
+            }
+                         
             foreach (string key in m_entryDic.Keys)
             {
                 if (m_entryDic[key].IsLoaded) continue;
                 m_entryDic[key].ClearPoint();
             }
-            double sx = m_zCnt.GraphPane.XAxis.Scale.Min;
-            double ex = m_zCnt.GraphPane.XAxis.Scale.Max;
-            double m_step = (ex - sx) / TracerWindow.s_count;
-            List<LogData> list;
+
             if (!m_zCnt.GraphPane.IsZoomed)
             {
                 double nextTime = m_owner.DataManager.GetCurrentSimulationTime();
@@ -899,6 +915,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     ex = m_zCnt.GraphPane.XAxis.Scale.Max;
   
                     m_step = (ex - sx) / TracerWindow.s_count;
+                    list = m_owner.DataManager.GetLogData(sx, ex, m_step);
                 }
             }
             if (m_zCnt.GraphPane.IsZoomed)
@@ -916,8 +933,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_zCnt.GraphPane.YAxis.Scale.MinAuto = true;
             }
 
-            list = m_owner.DataManager.GetLogData(sx, ex, m_step);
-            if (list == null) return;
             foreach (LogData l in list)
             {
                 string p = l.type + ":" + l.key + ":" + l.propName + ":";
