@@ -145,7 +145,7 @@
     <value>Redraw interval is too large[0-3600].</value>
   </data>
   <data name="ErrProjectUnsaved" xml:space="preserve">
-    <value>Save this project before the simulation log is saved.</value>
+    <value>Save this project before saving the simulation log.</value>
   </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The same parameter is selected for X-axis and Y-axis.</value>
@@ -205,6 +205,6 @@
     <value>Graph plotter</value>
   </data>
   <data name="WarnNoLog" xml:space="preserve">
-    <value>The log data is exist in {0}.</value>
+    <value>The log data is not exist in {0}.</value>
   </data>
 </root>
