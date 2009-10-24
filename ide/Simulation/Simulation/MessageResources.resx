@@ -127,19 +127,19 @@
     <value>Create the new Stepper</value>
   </data>
   <data name="DialogToolTipDeleteSim" xml:space="preserve">
-    <value>Delete simulation configration</value>
+    <value>Delete this configration</value>
   </data>
   <data name="DialogToolTipDelStepper" xml:space="preserve">
-    <value>Delete the Stepper</value>
+    <value>Delete this Stepper</value>
   </data>
   <data name="ErrAlreadyExist" xml:space="preserve">
     <value>{0} is already exist.</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>At least one parameter set is required in the project.</value>
+    <value>At least a parameter set is required in the project.</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
-    <value>At least one Stepper is required in the model.</value>
+    <value>At least a Stepper is required in the model.</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
     <value>ID string is not valid.</value>
@@ -151,7 +151,7 @@
     <value>Nothing is input in {0}</value>
   </data>
   <data name="ErrStepperStillInUse" xml:space="preserve">
-    <value>There is at least one Entity that refers to the Stepper {0}</value>
+    <value>There is at least an Entity that refers to the Stepper {0}.</value>
   </data>
   <data name="ErrUpdateLog" xml:space="preserve">
     <value>Cannot update the simulation parameters.</value>
@@ -172,7 +172,7 @@
     <value>&amp;Suspend</value>
   </data>
   <data name="MenuToolTipParamCombo" xml:space="preserve">
-    <value>Select the parameter used in simulation.</value>
+    <value>Select the parameter using in simulation.</value>
   </data>
   <data name="MenuToolTipReset" xml:space="preserve">
     <value>Reset the simulation.</value>
@@ -187,13 +187,13 @@
     <value>Input the step.</value>
   </data>
   <data name="MenuToolTipStepUnitCombo" xml:space="preserve">
-    <value>Select unit of the step.</value>
+    <value>Choose unit of the step.</value>
   </data>
   <data name="MenuToolTipSuspend" xml:space="preserve">
     <value>Stop the simulation.</value>
   </data>
   <data name="NameMaxSize" xml:space="preserve">
-    <value>Log file size</value>
+    <value>Logfile size</value>
   </data>
   <data name="NameName" xml:space="preserve">
     <value>Name</value>

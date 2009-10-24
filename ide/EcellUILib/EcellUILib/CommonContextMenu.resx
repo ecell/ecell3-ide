@@ -117,16 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolStripSeparator1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="toolStripSeparator1.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>268, 6</value>
   </data>
-  <metadata name="commonContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="commonContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="addSystemToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 22</value>
   </data>
@@ -161,25 +162,25 @@
     <value>271, 22</value>
   </data>
   <data name="mergeSystemToolStripMenuItem.Text" xml:space="preserve">
-    <value>Merge to supersystem</value>
+    <value>Merge into supersystem</value>
   </data>
   <data name="loggingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
   <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark the property as logging</value>
+    <value>Mark the property for logging</value>
   </data>
   <data name="observedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
   <data name="observedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark the analytic property as observed</value>
+    <value>Mark the analytic property for observed</value>
   </data>
   <data name="parameterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
   <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark the analytic property as unknown</value>
+    <value>Mark the analytic property for unknown</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>268, 6</value>
@@ -199,10 +200,10 @@
   <data name="&gt;&gt;commonContextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.TrayLargeIcon" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
 </root>

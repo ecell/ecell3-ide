@@ -300,7 +300,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>プロジェクトを開く</value>
+    <value>プロジェクトマネージャ</value>
   </data>
   <data name="condLabel.Text" xml:space="preserve">
     <value>開くプロジェクトを選択してください</value>

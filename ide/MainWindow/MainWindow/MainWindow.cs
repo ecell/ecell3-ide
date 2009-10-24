@@ -901,7 +901,10 @@ namespace Ecell.IDE.MainWindow
             printToolStripMenuItem.Enabled = !unInitialized;
             exitToolStripMenuItem.Enabled = true;
             // layout
-            MenuItemLayout.Enabled = loaded;
+            foreach (ToolStripMenuItem item in MenuItemLayout.DropDownItems)
+            {
+                item.Enabled = loaded;
+            }
             importSBMLMenuItem.Enabled = unInitialized || loaded;
 
             // Button.

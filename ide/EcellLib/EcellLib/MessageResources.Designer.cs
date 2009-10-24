@@ -61,7 +61,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Change to a property that cannot be set during  simulation is attempted. Do you want to stop the simulation? に類似しているローカライズされた文字列を検索します。
+        ///   Changing a property that cannot configure while simulation is running. Do you want to stop the simulation? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmReset {
             get {
@@ -97,7 +97,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The selected process cannot be used in combination with the stepper. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot choose this Process because it does not match the Stepper. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCombiStepProc {
             get {
@@ -160,7 +160,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   At least one parameter set is required in the Project. に類似しているローカライズされた文字列を検索します。
+        ///   At least single parameter set is required in the project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelParam {
             get {
@@ -178,7 +178,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   At least one Stepper is required in the model. に類似しているローカライズされた文字列を検索します。
+        ///   At least single Stepper is required in the model. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelStep {
             get {
@@ -250,7 +250,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Cannot obtain the properties of Entity {0}. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot obtain properties of Entity {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetProp {
             get {
@@ -313,7 +313,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Failed to load ProjectInfo. に類似しているローカライズされた文字列を検索します。
+        ///   Failed to load Project information. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadProjectInfo {
             get {
@@ -358,7 +358,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Cannotget the property value {0}. に類似しているローカライズされた文字列を検索します。
+        ///   Cannotget the value of property {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrPropData {
             get {
@@ -457,7 +457,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   There is at least one Entity that refers to the Stepper {0} に類似しているローカライズされた文字列を検索します。
+        ///   There is at least single Entity that refers to the Stepper {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStepperStillInUse {
             get {
@@ -556,7 +556,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Script file {0} was completed. に類似しているローカライズされた文字列を検索します。
+        ///   Script file {0} was executed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoExecScript {
             get {
@@ -737,7 +737,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Top directory に類似しているローカライズされた文字列を検索します。
+        ///   Root directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameJobTopDir {
             get {

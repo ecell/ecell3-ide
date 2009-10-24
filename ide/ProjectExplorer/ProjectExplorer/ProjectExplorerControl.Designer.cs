@@ -85,6 +85,7 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteJobGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.compileAllDMsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             createNewDMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStrip1.SuspendLayout();
@@ -194,7 +195,8 @@
             // 
             this.contextMenuStripDMCollection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             createNewDMToolStripMenuItem,
-            this.importDMToolStripMenuItem});
+            this.importDMToolStripMenuItem,
+            this.compileAllDMsToolStripMenuItem});
             this.contextMenuStripDMCollection.Name = "contextMenuStripDMCollection";
             resources.ApplyResources(this.contextMenuStripDMCollection, "contextMenuStripDMCollection");
             this.contextMenuStripDMCollection.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripDMCollection_Opening);
@@ -458,6 +460,12 @@
             // 
             this.m_openFileDialog.FileName = "m_openFileDialog";
             // 
+            // compileAllDMsToolStripMenuItem
+            // 
+            this.compileAllDMsToolStripMenuItem.Name = "compileAllDMsToolStripMenuItem";
+            resources.ApplyResources(this.compileAllDMsToolStripMenuItem, "compileAllDMsToolStripMenuItem");
+            this.compileAllDMsToolStripMenuItem.Click += new System.EventHandler(this.compileAllDMsToolStripMenuItem_Click);
+            // 
             // ProjectExplorerControl
             // 
             resources.ApplyResources(this, "$this");
@@ -537,6 +545,7 @@
         private System.Windows.Forms.ToolStripMenuItem importSimParamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportSimParamToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog m_openFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem compileAllDMsToolStripMenuItem;
 
     }
 }

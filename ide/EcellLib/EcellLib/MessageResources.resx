@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmReset" xml:space="preserve">
-    <value>Change to a property that cannot be set during  simulation is attempted. Do you want to stop the simulation?</value>
+    <value>Changing a property that cannot configure while simulation is running. Do you want to stop the simulation?</value>
   </data>
   <data name="ErrAdd" xml:space="preserve">
     <value>Cannot add {0} ({1}).</value>
@@ -127,7 +127,7 @@
     <value>Can not close the Project ({0}).</value>
   </data>
   <data name="ErrCombiStepProc" xml:space="preserve">
-    <value>The selected process cannot be used in combination with the stepper.</value>
+    <value>Cannot choose this Process because it does not match the Stepper.</value>
   </data>
   <data name="ErrCompile" xml:space="preserve">
     <value>Cannot compile this DM({0}).</value>
@@ -166,7 +166,7 @@
     <value>Cannot retrieve the log data.</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
-    <value>Cannot obtain the properties of Entity {0}.</value>
+    <value>Cannot obtain properties of Entity {0}.</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>FullID string is invalid.</value>
@@ -214,7 +214,7 @@
     <value>Cannot set the simulation parameter.</value>
   </data>
   <data name="ErrPropData" xml:space="preserve">
-    <value>Cannotget the property value {0}.</value>
+    <value>Cannotget the value of property {0}.</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>Cannot suspend the simulation.</value>
@@ -275,7 +275,7 @@
     <value>Project {0} was created.</value>
   </data>
   <data name="InfoExecScript" xml:space="preserve">
-    <value>Script file {0} was completed.</value>
+    <value>Script file {0} was executed.</value>
   </data>
   <data name="InfoLoadModel" xml:space="preserve">
     <value>Model {0} was loaded.</value>
@@ -306,10 +306,10 @@ New revision {0}:{1} was created.</value>
     <value>{0} is used on the simulation . Do you want to stop the simulation?</value>
   </data>
   <data name="ErrLoadProjectInfo" xml:space="preserve">
-    <value>Failed to load ProjectInfo.</value>
+    <value>Failed to load Project information.</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>At least one parameter set is required in the Project.</value>
+    <value>At least single parameter set is required in the project.</value>
   </data>
   <data name="ErrInvalidParam" xml:space="preserve">
     <value>Parameter [{0}] is invalid.</value>
@@ -339,7 +339,7 @@ New revision {0}:{1} was created.</value>
     <value>Server name</value>
   </data>
   <data name="NameJobTopDir" xml:space="preserve">
-    <value>Top directory</value>
+    <value>Root directory</value>
   </data>
   <data name="InfoStartSim" xml:space="preserve">
     <value>Start simulation.</value>
@@ -348,10 +348,10 @@ New revision {0}:{1} was created.</value>
     <value>Start step simulation [{0}].</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
-    <value>At least one Stepper is required in the model.</value>
+    <value>At least single Stepper is required in the model.</value>
   </data>
   <data name="ErrStepperStillInUse" xml:space="preserve">
-    <value>There is at least one Entity that refers to the Stepper {0}</value>
+    <value>There is at least single Entity that refers to the Stepper {0}.</value>
   </data>
   <data name="ErrCreRevision" xml:space="preserve">
     <value>Cannot create the revision ({0}).</value>

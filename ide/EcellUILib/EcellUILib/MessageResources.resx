@@ -124,13 +124,13 @@
     <value>Delete</value>
   </data>
   <data name="ConfirmMerge" xml:space="preserve">
-    <value>Are you sure you want to merge the components to the supersystem?</value>
+    <value>Are you sure you want to merge the components into the supersystem?</value>
   </data>
   <data name="DialogToolTipAddVar" xml:space="preserve">
-    <value>Create the Variable References.</value>
+    <value>Create Variable References.</value>
   </data>
   <data name="DialogToolTipDeleteVar" xml:space="preserve">
-    <value>Delete the Variable References.</value>
+    <value>Delete Variable References.</value>
   </data>
   <data name="ErrAddProperty" xml:space="preserve">
     <value>Cannot add the property.</value>
@@ -166,7 +166,7 @@
     <value>The {0} is not set.</value>
   </data>
   <data name="ErrNoSystem" xml:space="preserve">
-    <value>Cannot found the set system {0}.</value>
+    <value>Cannot find the set system {0}.</value>
   </data>
   <data name="ErrReserved" xml:space="preserve">
     <value>{0} is the reserved name.</value>
@@ -175,7 +175,7 @@
     <value>Cannot set the property of Entity {0}.</value>
   </data>
   <data name="MergeSystem" xml:space="preserve">
-    <value>Merge to supersystem</value>
+    <value>Merge into supersystem</value>
   </data>
   <data name="NameExecute" xml:space="preserve">
     <value>Execute</value>

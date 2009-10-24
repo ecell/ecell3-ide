@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMEComileButton.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -175,7 +175,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMESaveButton.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="DMELoadButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMELoadButton.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <metadata name="DMEOpenFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -235,7 +235,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMESaveAsButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <metadata name="DMESaveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>169, 17</value>
@@ -268,13 +268,13 @@
     <value>codeEditorControl</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.Type" xml:space="preserve">
-    <value>Ecell.IDE.EcellCodeEditor, EcellUILib, Version=1.1.3419.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.EcellCodeEditor, EcellUILib, Version=1.1.3485.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;codeEditorControl.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="fileNameLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -416,6 +416,6 @@
     <value>DMEditor</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3429.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3485.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

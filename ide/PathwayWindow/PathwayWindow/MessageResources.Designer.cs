@@ -61,7 +61,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create effectors. に類似しているローカライズされた文字列を検索します。
+        ///   Create new effector. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ButtonToolTipAddConstant {
             get {
@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create reversible reactions. に類似しているローカライズされた文字列を検索します。
+        ///   Create new reversible reaction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ButtonToolTipAddMutualReaction {
             get {
@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create irreversible reactions. に類似しているローカライズされた文字列を検索します。
+        ///   Create new irreversible reaction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ButtonToolTipAddOnewayReaction {
             get {
@@ -457,7 +457,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Can&apos;t delete default setting. に類似しているローカライズされた文字列を検索します。
+        ///   Can&apos;t delete default settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDeleteDefaultStencil {
             get {
@@ -484,7 +484,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Autolayout process failed with an unexpected error. に類似しているローカライズされた文字列を検索します。
+        ///   An unexpected error was occurred during autolayout process. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLayout {
             get {
@@ -520,7 +520,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Copy one object before adding stencil. に類似しているローカライズされた文字列を検索します。
+        ///   Copy single object before adding stencil. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoStencil {
             get {
@@ -547,7 +547,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Cannot put any objects to outside root System. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot put any objects on outside root System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutRoot {
             get {
@@ -556,7 +556,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Cannot put alias to outside of parent System. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot put alias to outside of the parent System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutSystemAlias {
             get {
@@ -646,7 +646,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Select nodes on thie Layer に類似しているローカライズされた文字列を検索します。
+        ///   Select nodes on this Layer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuSelectNodes {
             get {
@@ -691,7 +691,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Auto Zoom に類似しているローカライズされた文字列を検索します。
+        ///   Auto zoom に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemFocus {
             get {
@@ -718,7 +718,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Set animation of canvas. に類似しているローカライズされた文字列を検索します。
+        ///   Set canvas animation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipAnimation {
             get {

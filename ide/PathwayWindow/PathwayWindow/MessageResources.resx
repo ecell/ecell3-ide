@@ -127,10 +127,10 @@
     <value>Cannot create the shape of entities.</value>
   </data>
   <data name="ErrLayout" xml:space="preserve">
-    <value>Autolayout process failed with an unexpected error.</value>
+    <value>An unexpected error was occurred during autolayout process.</value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
-    <value>Cannot put any objects to outside root System.</value>
+    <value>Cannot put any objects on outside root System.</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
     <value>Cannot overlap Systems.</value>
@@ -157,7 +157,7 @@
     <value>Animation</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>Select nodes on thie Layer</value>
+    <value>Select nodes on this Layer.</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>Change Layer</value>
@@ -190,7 +190,7 @@
     <value>Change the visibility mode of each object ID.</value>
   </data>
   <data name="MenuToolTipAnimation" xml:space="preserve">
-    <value>Set animation of canvas.</value>
+    <value>Set canvas animation.</value>
   </data>
   <data name="MenuItemEdit" xml:space="preserve">
     <value>&amp;Edit</value>
@@ -199,13 +199,13 @@
     <value>&amp;View</value>
   </data>
   <data name="ButtonToolTipAddConstant" xml:space="preserve">
-    <value>Create effectors.</value>
+    <value>Create new effector.</value>
   </data>
   <data name="ButtonToolTipAddMutualReaction" xml:space="preserve">
-    <value>Create reversible reactions.</value>
+    <value>Create new reversible reaction.</value>
   </data>
   <data name="ButtonToolTipAddOnewayReaction" xml:space="preserve">
-    <value>Create irreversible reactions.</value>
+    <value>Create new irreversible reaction.</value>
   </data>
   <data name="ButtonToolTipCreateProcess" xml:space="preserve">
     <value>Create new Process.</value>
@@ -265,7 +265,7 @@
     <value>Now loading model ...</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
-    <value>Auto Zoom</value>
+    <value>Auto zoom</value>
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>Focus the selected entity.</value>
@@ -325,16 +325,16 @@
     <value>This stencil is already exist.</value>
   </data>
   <data name="ErrDeleteDefaultStencil" xml:space="preserve">
-    <value>Can't delete default setting.</value>
+    <value>Can't delete default settings.</value>
   </data>
   <data name="ErrNoStencil" xml:space="preserve">
-    <value>Copy one object before adding stencil.</value>
+    <value>Copy single object before adding stencil.</value>
   </data>
   <data name="ButtonToolTipCreateStepper" xml:space="preserve">
     <value>Create new Stepper.</value>
   </data>
   <data name="ErrOutSystemAlias" xml:space="preserve">
-    <value>Cannot put alias to outside of parent System.</value>
+    <value>Cannot put alias to outside of the parent System.</value>
   </data>
   <data name="ErrOnSimulation" xml:space="preserve">
     <value>This operation is not allowed during simulation.</value>

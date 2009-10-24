@@ -199,7 +199,7 @@
     <value>This DM is in used.</value>
   </data>
   <data name="ErrNoDescription" xml:space="preserve">
-    <value>This DM do not set the description.</value>
+    <value>This DM does not set the description.</value>
   </data>
   <data name="WarnNoLoad" xml:space="preserve">
     <value>This DM is not loaded.</value>

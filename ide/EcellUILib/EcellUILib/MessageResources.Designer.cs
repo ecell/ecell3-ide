@@ -79,7 +79,7 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
-        ///   Are you sure you want to merge the components to the supersystem? に類似しているローカライズされた文字列を検索します。
+        ///   Are you sure you want to merge the components into the supersystem? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmMerge {
             get {
@@ -88,7 +88,7 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
-        ///   Create the Variable References. に類似しているローカライズされた文字列を検索します。
+        ///   Create Variable References. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogToolTipAddVar {
             get {
@@ -97,7 +97,7 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
-        ///   Delete the Variable References. に類似しているローカライズされた文字列を検索します。
+        ///   Delete Variable References. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogToolTipDeleteVar {
             get {
@@ -205,7 +205,7 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
-        ///   Cannot found the set system {0}. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot find the set system {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoSystem {
             get {
@@ -232,7 +232,7 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
-        ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
+        ///   Merge into supersystem に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MergeSystem {
             get {

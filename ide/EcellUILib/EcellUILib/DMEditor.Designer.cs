@@ -146,11 +146,11 @@ namespace Ecell.IDE
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.fileNameLabel);
-            this.Controls.Add(this.codeEditorControl);
             this.Controls.Add(this.DMESaveAsButton);
             this.Controls.Add(this.DMEComileButton);
             this.Controls.Add(this.DMELoadButton);
             this.Controls.Add(this.DMESaveButton);
+            this.Controls.Add(this.codeEditorControl);
             this.Name = "DMEditor";
             this.Shown += new System.EventHandler(this.DMEditorShown);
             this.ResumeLayout(false);

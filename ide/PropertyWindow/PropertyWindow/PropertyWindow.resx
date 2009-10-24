@@ -159,24 +159,24 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="nameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="nameColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="nameColumn.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="nameColumn.Width" type="System.Int32, mscorlib">
     <value>96</value>
   </data>
-  <metadata name="valueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="valueColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="valueColumn.HeaderText" xml:space="preserve">
     <value>Value</value>
   </data>
-  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>21, 20</value>
-  </metadata>
+  </data>
   <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
@@ -202,19 +202,19 @@
     <value>271, 22</value>
   </data>
   <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark the property as logging</value>
+    <value>Mark the property for logging</value>
   </data>
   <data name="observedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
   <data name="observedToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark the analytic property as observed</value>
+    <value>Mark the analytic property for observed</value>
   </data>
   <data name="parameterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
   <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark the analytic property as unknown</value>
+    <value>Mark the analytic property for unknown</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>272, 164</value>
@@ -264,12 +264,12 @@
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
     <value>Value</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>171, 20</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>

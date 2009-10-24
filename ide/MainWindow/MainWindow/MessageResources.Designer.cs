@@ -322,7 +322,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Job manage に類似しているローカライズされた文字列を検索します。
+        ///   Job management に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameJobManage {
             get {

@@ -127,7 +127,7 @@
     <value>The minimum value is greater than the maximum value.</value>
   </data>
   <data name="ErrNoConnect" xml:space="preserve">
-    <value>Entity has no connection to any Entity.</value>
+    <value>Entity has no connection to any other Entity.</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>The value of this property is not set.</value>
@@ -136,7 +136,7 @@
     <value>This Stepper does not exist.</value>
   </data>
   <data name="ErrNoVariable" xml:space="preserve">
-    <value>Some Variables referred to by this Process are lost.</value>
+    <value>This Process refers to the nonexistent Variable.</value>
   </data>
   <data name="ErrPositive" xml:space="preserve">
     <value>This property value should be a positive number.</value>
@@ -145,7 +145,7 @@
     <value>The property value should be a positive number including zero.</value>
   </data>
   <data name="ErrSameVariable" xml:space="preserve">
-    <value>This Process is referred to the same Variables.</value>
+    <value>This Process has redundant Variable Reference which refer to the same Variable.</value>
   </data>
   <data name="MenuItemAutoDebug" xml:space="preserve">
     <value>&amp;Auto static debugger</value>

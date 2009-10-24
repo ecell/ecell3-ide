@@ -1026,7 +1026,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 return;
             }
             string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
-            if (path == null) return;
+            if (path == null)
+                return;
             DMCompiler.Compile(path, m_owner.Environment);
         }
 
@@ -2217,6 +2218,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             return base.ProcessCmdKey(ref msg, keyData);
         }
         #endregion
+
+        private void compileAllDMsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string dmDir = m_owner.Environment.DataManager.GetDMDir();
+            if (dmDir == null || m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedCompile);
+                return;
+            }
+            foreach (TreeNode node in m_lastSelectedNode.Nodes)
+            {
+                string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)node.Tag);
+                if (path == null)
+                    return;
+                DMCompiler.Compile(path, m_owner.Environment);
+            }
+        }
 
     }
 
