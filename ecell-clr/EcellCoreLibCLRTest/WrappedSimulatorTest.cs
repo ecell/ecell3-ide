@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using EcellCoreLib;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace EcellCoreLibCLRTest
 {
@@ -35,7 +34,7 @@ namespace EcellCoreLibCLRTest
         {
             IList<string> entities = s.GetEntityList("System", "");
             Assert.That(entities, Is.Not.Null);
-            Assert.That(entities, Has.Count(1));
+            Assert.That(entities, Has.Count.EqualTo(1));
             Assert.That(entities[0], Is.EqualTo("/"));
         }
 
@@ -47,20 +46,20 @@ namespace EcellCoreLibCLRTest
             {
                 IList<string> entities = s.GetEntityList("System", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(1));
+                Assert.That(entities, Has.Count.EqualTo(1));
                 Assert.That(entities[0], Is.EqualTo("TEST"));
             }
 
             {
                 IList<string> entities = s.GetEntityList("Variable", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(0));
+                Assert.That(entities, Has.Count.EqualTo(0));
             }
 
             {
                 IList<string> entities = s.GetEntityList("Process", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(0));
+                Assert.That(entities, Has.Count.EqualTo(0));
             }
         }
 
@@ -72,20 +71,20 @@ namespace EcellCoreLibCLRTest
             {
                 IList<string> entities = s.GetEntityList("Variable", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(1));
+                Assert.That(entities, Has.Count.EqualTo(1));
                 Assert.That(entities[0], Is.EqualTo("TEST"));
             }
 
             {
                 IList<string> entities = s.GetEntityList("System", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(0));
+                Assert.That(entities, Has.Count.EqualTo(0));
             }
 
             {
                 IList<string> entities = s.GetEntityList("Process", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(0));
+                Assert.That(entities, Has.Count.EqualTo(0));
             }
         }
 
@@ -97,20 +96,20 @@ namespace EcellCoreLibCLRTest
             {
                 IList<string> entities = s.GetEntityList("Process", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(1));
+                Assert.That(entities, Has.Count.EqualTo(1));
                 Assert.That(entities[0], Is.EqualTo("TEST"));
             }
 
             {
                 IList<string> entities = s.GetEntityList("System", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(0));
+                Assert.That(entities, Has.Count.EqualTo(0));
             }
 
             {
                 IList<string> entities = s.GetEntityList("Variable", "/");
                 Assert.That(entities, Is.Not.Null);
-                Assert.That(entities, Has.Count(0));
+                Assert.That(entities, Has.Count.EqualTo(0));
             }
         }
 
@@ -136,7 +135,7 @@ namespace EcellCoreLibCLRTest
                     "System::/:StepperID",
                     stepperID);
                 object o = s.GetEntityProperty("System::/:StepperID");
-                Assert.That(o, Is.InstanceOfType(typeof(string)));
+                Assert.That(o, Is.InstanceOf(typeof(string)));
                 Assert.That(o, Is.EqualTo(stepperID));
                 try
                 {
@@ -145,7 +144,7 @@ namespace EcellCoreLibCLRTest
                 }
                 catch (Exception e)
                 {
-                    Assert.That(e, Is.InstanceOfType(typeof(WrappedLibecsException)));
+                    Assert.That(e, Is.InstanceOf(typeof(WrappedLibecsException)));
                     Assert.That(e.Source, Is.EqualTo("NoSlot"));
                 }
             }
@@ -164,7 +163,7 @@ namespace EcellCoreLibCLRTest
                 }
                 catch (Exception e)
                 {
-                    Assert.That(e, Is.InstanceOfType(typeof(WrappedLibecsException)));
+                    Assert.That(e, Is.InstanceOf(typeof(WrappedLibecsException)));
                     Assert.That(e.Source, Is.EqualTo("InvalidEntityType"));
                 }
                 try
@@ -174,8 +173,8 @@ namespace EcellCoreLibCLRTest
                 }
                 catch (Exception e)
                 {
-                    Assert.That(e, Is.InstanceOfType(typeof(WrappedLibecsException)));
-                    Assert.That(e.Source, Is.EqualTo("BadSystemPath"));
+                    Assert.That(e, Is.InstanceOf(typeof(WrappedLibecsException)));
+                    Assert.That(e.Source, Is.EqualTo("NotFound"));
                 }
                 try
                 {
@@ -184,7 +183,7 @@ namespace EcellCoreLibCLRTest
                 }
                 catch (Exception e)
                 {
-                    Assert.That(e, Is.InstanceOfType(typeof(WrappedLibecsException)));
+                    Assert.That(e, Is.InstanceOf(typeof(WrappedLibecsException)));
                     Assert.That(e.Source, Is.EqualTo("BadID"));
                 }
                 try
@@ -194,7 +193,7 @@ namespace EcellCoreLibCLRTest
                 }
                 catch (Exception e)
                 {
-                    Assert.That(e, Is.InstanceOfType(typeof(WrappedLibecsException)));
+                    Assert.That(e, Is.InstanceOf(typeof(WrappedLibecsException)));
                     Assert.That(e.Source, Is.EqualTo("NotFound"));
                 }
                 try
@@ -204,7 +203,7 @@ namespace EcellCoreLibCLRTest
                 }
                 catch (Exception e)
                 {
-                    Assert.That(e, Is.InstanceOfType(typeof(WrappedLibecsException)));
+                    Assert.That(e, Is.InstanceOf(typeof(WrappedLibecsException)));
                     Assert.That(e.Source, Is.EqualTo("NoSlot"));
                 }
             }
