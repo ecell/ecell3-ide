@@ -1,7 +1,8 @@
-Beta Software License Agreement Keio university owns all rights, 
-title and interest in and to the Beta Software. 
-All rights not expressly granted to you are retained by Keio University. 
-THE BETA SOFTWARE IS BEING DELIVERED TO YOU "AS IS" KEIO UNIVERSITY AND 
+End User License Agreement(EULA)
+
+All rights not expressly granted to you are retained by Keio University and E-Cell Project.
+
+THE SOFTWARE IS BEING DELIVERED TO YOU "AS IS" KEIO UNIVERSITY AND 
 E-CELL PROJECT MAKE NO WARRANTY AS TO ITS USE, RELIABILITY OR PERFORMANCE. 
 
 
