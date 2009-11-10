@@ -37,6 +37,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Event;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -100,6 +101,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             PointF offset = e.PickedNode.Offset;
             if (offset == PointF.Empty)
                 return;
+            PointF canvasPos = e.CanvasPosition;
+            RectangleF canvasRectF = e.Canvas.Bounds;
+            PPathwayNode node = (PPathwayNode)e.PickedNode;
+            if (!canvasRectF.Contains(canvasPos))
+                offset = PointF.Empty;
+            else if(!node.Rect.Contains(e.Position))
+                offset = new PointF(e.Position.X - node.CenterPointF.X, e.Position.Y - node.CenterPointF.Y);
 
             m_canvas.MoveSelectedObjects(offset);
         }
