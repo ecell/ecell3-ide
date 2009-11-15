@@ -128,6 +128,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             else if (e.ColumnIndex == IsY2Column.Index)
             {
+                if (m_isChanged) return;
                 bool isCheck = (bool)c.Value;
                 entry.IsY2Axis = isCheck;
                 m_isChanged = true;
@@ -367,12 +368,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
                 entry.IsY2Axis = !entry.IsY2Axis;
 
-                loggerDataGrid[IsY2Column.Index, r.Index].Value = entry.IsY2Axis;
-
-                m_isChanged = true;
+//                m_isChanged = true;
+//                loggerDataGrid[IsY2Column.Index, r.Index].Value = entry.IsY2Axis;
                 m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
-                m_isChanged = false;
-                loggerDataGrid.Rows[r.Index].Tag = entry;
+//                m_isChanged = false;
+//                loggerDataGrid.Rows[r.Index].Tag = entry;
+                loggerDataGrid.Refresh();
             }
         }
         #endregion
@@ -583,8 +584,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             loggerDataGrid[FullPNColumn.Index, rindex].Value = entry.FullPN;
             loggerDataGrid[ColorColumn.Index, rindex].Value = b;
             loggerDataGrid[LineColumn.Index, rindex].Value = b1;
+            m_isChanged = true;
             loggerDataGrid[IsY2Column.Index, rindex].Value = entry.IsY2Axis;
+            m_isChanged = false;
             loggerDataGrid.Rows[rindex].Tag = entry;
+            loggerDataGrid.EndEdit();
+            loggerDataGrid.Refresh();
         }
 
         /// <summary>
