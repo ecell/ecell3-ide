@@ -882,7 +882,108 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if(!m_con.Canvas.PCanvas.Focus())
                 e.Cancel = true;
-            SetPopupMenus();
+
+
+            // Set popup menu visibility flags.
+            PPathwayObject obj = m_con.Canvas.GetPickedObject(m_con.MousePosition);
+            PNode node = m_con.Canvas.FocusNode;
+            if ((obj != node) && !(node is PPathwayEdge))
+                node = obj;
+
+            bool isNull = (node == null);
+            bool isAlias = (node is PPathwayAlias);
+            bool isObject = (node is PPathwayObject) && !isAlias;
+            bool isEntity = (node is PPathwayEntity);
+            bool isVariable = (node is PPathwayVariable);
+            bool isSystem = (node is PPathwaySystem);
+            bool isText = (node is PPathwayText);
+            bool isRoot = false;
+            bool isEdge = (node is PPathwayEdge);
+            bool isMassCalc = false;
+            bool isOneway = true;
+            bool isEffector = false;
+            bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
+            bool isEditMode = m_con.ProjectStatus == ProjectStatus.Loaded;
+            bool isSimulation = m_con.ProjectStatus == ProjectStatus.Running
+                 || m_con.ProjectStatus == ProjectStatus.Suspended
+                 || m_con.ProjectStatus == ProjectStatus.Stepping;
+            bool isCalculation = ((node is PPathwayEdge) &&
+                (((PPathwayEdge)node).Process != null &&
+                ((PPathwayEdge)node).Process.EcellObject.Classname.Equals(EcellProcess.MASSCALCULATIONPROCESS)));
+
+            // Set Popup menu visibility.
+            if ( !((isObject && node.Offset == PointF.Empty) || isEdge || isNull || isAlias) )
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            // Set popup menu text.
+            if (isObject)
+            {
+                EcellObject eo = ((PPathwayObject)node).EcellObject;
+                commonMenu.Object = eo;
+                toolStripIdShow.Text = eo.FullID;
+                SetLayerManu(eo);
+                if (eo.Key.Equals(Constants.delimiterPath))
+                    isRoot = true;
+                // MassCalc
+                isMassCalc = (eo.Classname == EcellProcess.MASSCALCULATIONPROCESS);
+                if (isMassCalc)
+                    toolStripShowEdge.Checked = ((PPathwayProcess)node).ShowEdge;
+            }
+            if (isEdge)
+            {
+                PPathwayEdge line = (PPathwayEdge)node;
+                SetLineMenu(line);
+                isOneway = line.Info.Coefficient != 0;
+                isEffector = line.Info.Direction == EdgeDirection.None;
+            }
+            if (isText)
+            {
+                SetTextAlignmenu((PPathwayText)node);
+            }
+            if (isNull)
+            {
+                toolStripShowID.Checked = toolMenuShowID.Checked;
+                toolStripSetHandIcon.Checked = toolButtonHand.Checked;
+            }
+            // Show ObjectID(key).
+            toolStripIdShow.Visible = isObject;
+            toolStripSeparator1.Visible = isObject;
+            // Show Line menus.
+            toolStripOneWayArrow.Visible = isEdge && !isOneway && isEditMode && !isCalculation;
+            toolStripAnotherArrow.Visible = isEdge && isOneway && isEditMode && !isCalculation;
+            toolStripBidirArrow.Visible = isEdge && (isOneway || isEffector) && isEditMode && !isCalculation;
+            toolStripConstant.Visible = isEdge && !isEffector && isEditMode && !isCalculation;
+            toolStripDeleteArrow.Visible = isEdge && isEditMode;
+            // Show Node / System edit menus.
+            toolStripCut.Visible = isObject && !isRoot && isEditMode;
+            toolStripCopy.Visible = isObject && !isRoot && isEditMode;
+            toolStripPaste.Visible = isCopiedObject && isEditMode;
+            toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isEditMode;
+            toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isEditMode;
+            // Set Alias
+            toolStripAlias.Visible = isVariable && isEditMode;
+            toolStripShowEdge.Visible = isMassCalc && isEditMode;
+            toolStripDeleteAlias.Visible = isAlias && isEditMode;
+            // Set Text menu.
+            toolStripTextAlign.Visible = isText && isEditMode;
+            // Show Layer menu.
+            toolStripChangeLayer.Visible = isObject && !isRoot && isEditMode;
+            toolStripSetZOrder.Visible = isObject && !isRoot;
+            toolStripFigureSetting.Visible = isObject && isEditMode;
+            toolStripShowID.Visible = isNull && isEditMode;
+            toolStripSetHandIcon.Visible = isNull && isEditMode;
+            toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
+            toolStripSeparator3.Visible = isObject && !isRoot && !isText;
+            // Show Logger menu.
+            commonMenu.addToolStripMenuItem.Visible = isSystem;
+            commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
+            commonMenu.loggingToolStripMenuItem.Visible = isObject && !isText;
+            commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
+            commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
+            commonMenu.propertyToolStripMenuItem.Visible = isObject;
         }
         #endregion
 
@@ -984,109 +1085,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         internal void SetPopupMenus()
         {
 
-            // Set popup menu visibility flags.
-            PPathwayObject obj = m_con.Canvas.GetPickedObject(m_con.MousePosition);
-            PNode node = m_con.Canvas.FocusNode;
-            if((obj != node) && !(node is PPathwayEdge))
-                node = null;
-
-            bool isNull = (node == null);
-            bool isAlias = (node is PPathwayAlias);
-            bool isObject = (node is PPathwayObject) && !isAlias;
-            bool isEntity = (node is PPathwayEntity);
-            bool isVariable = (node is PPathwayVariable);
-            bool isSystem = (node is PPathwaySystem);
-            bool isText = (node is PPathwayText);
-            bool isRoot = false;
-            bool isEdge = (node is PPathwayEdge);
-            bool isMassCalc = false;
-            bool isOneway = true;
-            bool isEffector = false;
-            bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
-            bool isEditMode = m_con.ProjectStatus == ProjectStatus.Loaded;
-            bool isSimulation = m_con.ProjectStatus == ProjectStatus.Running
-                 || m_con.ProjectStatus == ProjectStatus.Suspended
-                 ||  m_con.ProjectStatus == ProjectStatus.Stepping;
-            bool isCalculation = ((node is PPathwayEdge) &&
-                (((PPathwayEdge)node).Process != null &&
-                ((PPathwayEdge)node).Process.EcellObject.Classname.Equals(EcellProcess.MASSCALCULATIONPROCESS)));
-
-            // Set Popup menu visibility.
-            if ((isObject && node.Offset == PointF.Empty) || isEdge || isNull || isAlias)
-            {
-                m_con.Canvas.PCanvas.ContextMenuStrip.Enabled = true;
-            }
-            else
-            {
-                m_con.Canvas.PCanvas.ContextMenuStrip.Enabled = false;
-            }
-
-            // Set popup menu text.
-            if (isObject)
-            {
-                EcellObject eo = ((PPathwayObject)node).EcellObject;
-                commonMenu.Object = eo;
-                toolStripIdShow.Text = eo.FullID;
-                SetLayerManu(eo);
-                if (eo.Key.Equals(Constants.delimiterPath))
-                    isRoot = true;
-                // MassCalc
-                isMassCalc = (eo.Classname == EcellProcess.MASSCALCULATIONPROCESS);
-                if (isMassCalc)
-                    toolStripShowEdge.Checked = ((PPathwayProcess)node).ShowEdge;
-            }
-            if (isEdge)
-            {
-                PPathwayEdge line = (PPathwayEdge)node;
-                SetLineMenu(line);
-                isOneway = line.Info.Coefficient != 0;
-                isEffector = line.Info.Direction == EdgeDirection.None;
-            }
-            if (isText)
-            {
-                SetTextAlignmenu((PPathwayText)node);
-            }
-            if (isNull)
-            {
-                toolStripShowID.Checked = toolMenuShowID.Checked;
-                toolStripSetHandIcon.Checked = toolButtonHand.Checked;
-            }
-            // Show ObjectID(key).
-            toolStripIdShow.Visible = isObject;
-            toolStripSeparator1.Visible = isObject;
-            // Show Line menus.
-            toolStripOneWayArrow.Visible = isEdge && !isOneway && isEditMode && !isCalculation;
-            toolStripAnotherArrow.Visible = isEdge && isOneway && isEditMode && !isCalculation;
-            toolStripBidirArrow.Visible = isEdge && (isOneway || isEffector) && isEditMode && !isCalculation;
-            toolStripConstant.Visible = isEdge && !isEffector && isEditMode && !isCalculation;
-            toolStripDeleteArrow.Visible = isEdge && isEditMode;
-            // Show Node / System edit menus.
-            toolStripCut.Visible = isObject && !isRoot && isEditMode;
-            toolStripCopy.Visible = isObject && !isRoot && isEditMode;
-            toolStripPaste.Visible = isCopiedObject && isEditMode;
-            toolStripDelete.Visible = ((isObject && !isRoot) || isText) && isEditMode;
-            toolStripSeparator2.Visible = ((isObject && !isRoot) || isCopiedObject) && isEditMode;
-            // Set Alias
-            toolStripAlias.Visible = isVariable && isEditMode;
-            toolStripShowEdge.Visible = isMassCalc && isEditMode;
-            toolStripDeleteAlias.Visible = isAlias && isEditMode;
-            // Set Text menu.
-            toolStripTextAlign.Visible = isText && isEditMode;
-            // Show Layer menu.
-            toolStripChangeLayer.Visible = isObject && !isRoot && isEditMode;
-            toolStripSetZOrder.Visible = isObject && !isRoot;
-            toolStripFigureSetting.Visible = isObject && isEditMode;
-            toolStripShowID.Visible = isNull && isEditMode;
-            toolStripSetHandIcon.Visible = isNull && isEditMode;
-            toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
-            toolStripSeparator3.Visible = isObject && !isRoot && !isText;
-            // Show Logger menu.
-            commonMenu.addToolStripMenuItem.Visible = isSystem;
-            commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
-            commonMenu.loggingToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.propertyToolStripMenuItem.Visible = isObject;
         }
 
         /// <summary>

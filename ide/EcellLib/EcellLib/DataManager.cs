@@ -1576,6 +1576,19 @@ namespace Ecell
                 throw new EcellException(string.Format(MessageResources.ErrAdd,
                     new object[] { type, system.Key }));
             }
+
+            // Check Stepper
+            EcellSystem obj = (EcellSystem)system;
+            string stepperID = obj.StepperID;
+            EcellObject stepper = null;
+            foreach (EcellObject s in GetStepper(modelID))
+            {
+                if (s.Key.Equals(stepperID))
+                    stepper = s;
+            }
+            if (stepper == null)
+                obj.StepperID = GetStepper(obj.ModelID)[0].Key;
+
             CheckEntityPath(system);
             m_currentProject.AddSystem(system);
 

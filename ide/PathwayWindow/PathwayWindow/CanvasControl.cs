@@ -385,7 +385,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ResetSelectedLine();
             foreach (PPathwayProcess process in m_processes.Values)
             {
-                process.SetEdges();
+                foreach (PPathwayEdge edge in process.Edges)
+                {
+                    edge.Refresh();
+                }
             }
         }
 
@@ -1254,7 +1257,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 foreach (PPathwayObject obj in layer.GetNodes())
                 {
-                    if (!obj.Visible || !obj.Path.IsVisible(pointF))
+                    PointF pos = new PointF(pointF.X - obj.OffsetX, pointF.Y - obj.OffsetY);
+                    if (!obj.Visible || !obj.Path.IsVisible(pos))
                         continue;
                     pickedObj = obj;
                 }

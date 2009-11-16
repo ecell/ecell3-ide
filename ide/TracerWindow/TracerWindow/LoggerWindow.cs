@@ -362,9 +362,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
             {
-                if (r.Tag == null) continue;
+                if (r.Tag == null)
+                    continue;
                 LoggerEntry entry = r.Tag as LoggerEntry;
-                if (entry == null) continue;
+                if (entry == null)
+                    continue;
 
                 entry.IsY2Axis = !entry.IsY2Axis;
 
@@ -553,7 +555,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="entry">the changed logger entry.</param>
         public void LoggerChanged(string orgFullPN, LoggerEntry entry)
         {
-            if (m_isChanged) return;
+            if (m_isChanged)
+                return;
 
             int findex = FullPNColumn.Index;
             int rindex = -1;
@@ -567,7 +570,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
             }
 
-            if (rindex == -1) return;
+            if (rindex == -1)
+                return;
             Bitmap b = new Bitmap(20, 20);
             Graphics g = Graphics.FromImage(b);
             Pen pen = new Pen(entry.Color);
