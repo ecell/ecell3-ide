@@ -63,6 +63,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// Event when auto command is reset.
             /// </summary>
             private AutoResetEvent m_event;
+            private ScriptCommandWindow m_win;
             #endregion
 
             /// <summary>
@@ -108,11 +109,14 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// <summary>
             /// Constructors.
             /// </summary>
-            public ScriptRunner()
+            public ScriptRunner(ScriptCommandWindow win)
             {
                 int i;
+                m_win = win;
                 m_event = new AutoResetEvent(false);
-                PythonEngine.InitExt();
+                //PythonEngine.InitExt();
+                PythonEngine.Initialize();                
+                //
 
                 i = PythonEngine.RunSimpleString("import sys");
                 i = PythonEngine.RunSimpleString("import getopt");
@@ -129,7 +133,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                                 "    aDict[ aKey ] = getattr (aSession, aKey)";
                 i = PythonEngine.RunSimpleString(ddd);
                 i = PythonEngine.RunSimpleString("aContext.update( aDict )");
-
             }
 
             /// <summary>
@@ -138,10 +141,27 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// <param name="cmd">the script command.</param>
             public void Execute(string cmd)
             {
-                string name = Util.GetTmpDir() + "/tmp.cmd";
-                File.WriteAllText(name, cmd);
-                name = name.Replace("\\", "\\\\");
-                PythonEngine.RunSimpleString("execfile('" + name + "', aContext)");
+                if (cmd.ToUpper().StartsWith("PRINT"))
+                {
+                    IntPtr gs = PythonEngine.AcquireLock();
+                    MemoryStream s = new MemoryStream();
+                    using (PyObject p = PyObject.FromManagedObject(s))
+                    {
+                        PythonEngine.SetSysObject("stdout", p);
+                        PythonEngine.RunSimpleString(cmd);
+                    }
+                    PythonEngine.ReleaseLock(gs);
+                    string ddd = Encoding.Default.GetString(s.ToArray());
+                    Console.WriteLine(ddd);
+                    m_win.WriteToConsole(ddd);
+                }
+                else
+                {
+                    string name = Util.GetTmpDir() + "/tmp.cmd";
+                    File.WriteAllText(name, cmd);
+                    name = name.Replace("\\", "\\\\");
+                    PythonEngine.RunSimpleString("execfile('" + name + "', aContext)");
+                }
             }
 
             /// <summary>
@@ -259,7 +279,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 };
             m_statementBuffer = new StringBuilder();
             m_currentPromptCharCount = 0;
-            m_scriptRunner = new ScriptRunner();
+            m_scriptRunner = new ScriptRunner(this);
             ResetCommandLineControl();
             Flush();
             Disposed +=
