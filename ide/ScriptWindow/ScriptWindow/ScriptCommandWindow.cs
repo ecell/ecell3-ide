@@ -141,27 +141,20 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             /// <param name="cmd">the script command.</param>
             public void Execute(string cmd)
             {
-                if (cmd.ToUpper().StartsWith("PRINT"))
+                IntPtr gs = PythonEngine.AcquireLock();
+                string name = Util.GetTmpDir() + "/tmp.cmd";
+                File.WriteAllText(name, cmd);
+                name = name.Replace("\\", "\\\\");
+                MemoryStream s = new MemoryStream();
+                using (PyObject p = PyObject.FromManagedObject(s))
                 {
-                    IntPtr gs = PythonEngine.AcquireLock();
-                    MemoryStream s = new MemoryStream();
-                    using (PyObject p = PyObject.FromManagedObject(s))
-                    {
-                        PythonEngine.SetSysObject("stdout", p);
-                        PythonEngine.RunSimpleString(cmd);
-                    }
-                    PythonEngine.ReleaseLock(gs);
-                    string ddd = Encoding.Default.GetString(s.ToArray());
-                    Console.WriteLine(ddd);
-                    m_win.WriteToConsole(ddd);
-                }
-                else
-                {
-                    string name = Util.GetTmpDir() + "/tmp.cmd";
-                    File.WriteAllText(name, cmd);
-                    name = name.Replace("\\", "\\\\");
+                    PythonEngine.SetSysObject("stdout", p);
                     PythonEngine.RunSimpleString("execfile('" + name + "', aContext)");
                 }
+                PythonEngine.ReleaseLock(gs);
+                string ddd = Encoding.Default.GetString(s.ToArray());
+                Console.WriteLine(ddd);
+                m_win.WriteToConsole(ddd);
             }
 
             /// <summary>
