@@ -109,6 +109,7 @@
             // 
             // estimationTypeComboBox
             // 
+            this.estimationTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.estimationTypeComboBox.FormattingEnabled = true;
             this.estimationTypeComboBox.Items.AddRange(new object[] {
             resources.GetString("estimationTypeComboBox.Items"),

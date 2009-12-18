@@ -106,6 +106,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the input parameter object.</returns>
         public ParameterEstimationParameter GetParameter()
         {
+            m_param.Type = GetFormulatorType();
             m_param.Param = m_simParam;
             return m_param;
         }
