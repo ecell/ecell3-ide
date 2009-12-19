@@ -295,7 +295,7 @@
     <value>反映</value>
   </data>
   <data name="SensitivityResult" xml:space="preserve">
-    <value>解析結果(感度解析)</value>
+    <value>解析結果(感受性解析)</value>
   </data>
   <data name="WarnNoBifurcation" xml:space="preserve">
     <value>分岐したデータがありません。</value>
