@@ -1451,14 +1451,13 @@ namespace Ecell
             /// </summary>
             /// <param name="fullPN">the property</param>
             /// <param name="value">the value</param>
-            public void SetProperty(string fullPN, string value)
+            public void SetProperty(string propName, string value)
             {
                 //
                 // Get a current EcellObject.
                 //
                 this.RefinedEcellObject();
-                string[] ele = fullPN.Split(new char[] { ':' });
-                string propertyName = ele[ele.Length - 1];
+                string propertyName = propName;
                 //
                 // Set.
                 //
@@ -1471,6 +1470,7 @@ namespace Ecell
                 // Add new parameter.
                 if (data == null)
                 {
+                    string fullPN = Util.BuildFullPN(this.m_ecellObject.FullID, propertyName);
                     EcellData newData
                         = new EcellData(
                             propertyName,
@@ -1480,12 +1480,12 @@ namespace Ecell
                     this.m_ecellObject.Value.Add(newData);
                 }
                 // Update current parameter.
-                else if (data.EntityPath.Equals(fullPN))
+                else if (data.Name.Equals(propertyName))
                 {
                     if (!data.Settable)
                     {
                         throw new EcellException(string.Format(MessageResources.ErrSetProp,
-                            new object[] { fullPN }));
+                            new object[] { propertyName }));
                     }
                     else if (data.Name.Equals(Constants.xpathVRL))
                     {
