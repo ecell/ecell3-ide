@@ -567,6 +567,32 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <returns>the flag whether this event is handled.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            // Shortcuts to control searchTextBox
+            if (this.searchTextBox.Focused)
+            {
+                if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+                {
+                    searchTextBox.Copy();
+                    return true;
+                }
+                else if ((int)keyData == (int)Keys.Control + (int)Keys.X)
+                {
+                    searchTextBox.Cut();
+                    return true;
+                }
+                else if ((int)keyData == (int)Keys.Control + (int)Keys.V)
+                {
+                    searchTextBox.Paste();
+                    return true;
+                }
+                else if ((int)keyData == (int)Keys.Control + (int)Keys.A)
+                {
+                    searchTextBox.SelectAll();
+                    return true;
+                }
+            }
+
+            // Shortcuts to select entities.
             if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
                 (int)keyData == (int)Keys.Delete)
             {

@@ -78,6 +78,11 @@ namespace Ecell.IDE.Plugins.Console
                     Clipboard.SetText(simText.SelectedText);
                 return true;
             }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.A)
+            {
+                simText.SelectAll();
+                return true;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }

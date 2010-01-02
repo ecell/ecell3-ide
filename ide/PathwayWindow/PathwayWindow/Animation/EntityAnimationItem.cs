@@ -262,6 +262,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Variable setting.
                 double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+
                 float size = GetEntitySize(variable.EcellObject, molarConc);
                 PointF pos = variable.CenterPointF;
                 variable.Width = size * variable.Figure.Width;

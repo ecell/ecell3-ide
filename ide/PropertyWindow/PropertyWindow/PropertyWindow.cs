@@ -1710,17 +1710,58 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             if (m_dgv.CurrentCell != null && m_dgv.CurrentCell is DataGridViewComboBoxCell)
                 return base.ProcessCmdKey(ref msg, keyData);
-            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+
+            // Select all
+            if ((int)keyData == (int)Keys.Control + (int)Keys.A)
             {
-                if (m_dgv.CurrentCell != null && m_dgv.CurrentCell.Value != null)
+                // Cut selected text.
+                if (m_dgv.EditingControl is DataGridViewTextBoxEditingControl)
                 {
-                    string copytext = m_dgv.CurrentCell.Value.ToString();
-                    Clipboard.SetText(copytext);
+                    TextBox tBox = (TextBox)m_dgv.EditingControl;
+                    tBox.SelectAll();
                 }
                 return true;
             }
+            // Copy
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                // Copy selected text.
+                if (m_dgv.EditingControl is DataGridViewTextBoxEditingControl)
+                {
+                    TextBox tBox = (TextBox)m_dgv.EditingControl;
+                    tBox.Copy();
+                    return true;
+                }
+                // Copy cell
+                else if (m_dgv.CurrentCell != null && m_dgv.CurrentCell.Value != null)
+                {
+                    string copytext = m_dgv.CurrentCell.Value.ToString();
+                    Clipboard.SetText(copytext);
+                    return true;
+                }
+            }
+            // Cut
+            if ((int)keyData == (int)Keys.Control + (int)Keys.X)
+            {
+                // Cut selected text.
+                if (m_dgv.EditingControl is DataGridViewTextBoxEditingControl)
+                {
+                    TextBox tBox = (TextBox)m_dgv.EditingControl;
+                    tBox.Cut();
+                    return true;
+                }
+            }
+            // Paste
             if ((int)keyData == (int)Keys.Control + (int)Keys.V)
             {
+                // Paste to selected location.
+                if (m_dgv.EditingControl is DataGridViewTextBoxEditingControl)
+                {
+                    TextBox tBox = (TextBox)m_dgv.EditingControl;
+                    tBox.Paste();
+                    return true;
+                }
+                // Paste
                 string pastetext = Clipboard.GetText();
                 if (!String.IsNullOrEmpty(pastetext) && m_dgv.CurrentCell != null &&
                     m_dgv.CurrentCell.ReadOnly == false)
