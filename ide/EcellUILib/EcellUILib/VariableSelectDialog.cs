@@ -109,16 +109,15 @@ namespace Ecell.IDE
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
-            string tag = (string)t.Tag;
-            if (tag == null || tag.Equals(""))
+            TagData tag = (TagData)t.Tag;
+            if (string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
 
                 return;
             }
 
-            string key = tag;
-            m_win.AddReference(key, "P");
+            m_win.AddReference(tag.Key, "P");
         }
 
         /// <summary>
@@ -134,15 +133,14 @@ namespace Ecell.IDE
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
-            string tag = (string)t.Tag;
-            if (tag == null || tag.Equals(""))
+            TagData tag = (TagData)t.Tag;
+            if (string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
 
-            string key = tag;
-            m_win.AddReference(key, "S");
+            m_win.AddReference(tag.Key, "S");
         }
 
         /// <summary>
@@ -158,16 +156,15 @@ namespace Ecell.IDE
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
-            string tag = (string)t.Tag;
-            if (tag == null || tag.Equals(""))
+            TagData tag = (TagData)t.Tag;
+            if (string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
 
                 return;
             }
 
-            string key = tag;
-            m_win.AddReference(key, "C");
+            m_win.AddReference(tag.Key, "C");
         }
 
         /// <summary>
@@ -183,15 +180,14 @@ namespace Ecell.IDE
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
-            string tag = (string)t.Tag;
-            if (tag == null || tag.Equals(""))
+            TagData tag = (TagData)t.Tag;
+            if (string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
 
-            string key = tag;
-            m_win.AddReference(key, "P");
+            m_win.AddReference(tag.Key, "P");
         }
         #endregion
     }

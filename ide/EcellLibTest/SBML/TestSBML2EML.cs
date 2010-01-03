@@ -90,24 +90,5 @@ namespace Ecell.SBML
             {
             }
         }
-        
-        /// <summary>
-        /// TestConstructor
-        /// </summary>
-        [Test()]
-        public void TestConvertGEM()
-        {
-            try
-            {
-                EcellObject model = SBML2EML.Convert(TestConstant.TestDirectory + "ecoli.xml");
-                Assert.IsNotNull(model, "Convert method returned unexpected value.");
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.StackTrace);
-            }
-
-        }
     }
-
 }

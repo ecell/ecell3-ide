@@ -84,6 +84,7 @@ namespace Ecell.IDE
             {
                 AddReference(er);
             }
+            dgv.Sort(dgv.Columns[0], ListSortDirection.Ascending);
         }
 
         /// <summary>
@@ -113,6 +114,7 @@ namespace Ecell.IDE
                     if (obj.Key == "/")
                     {
                         node = new TreeNode(obj.Key);
+                        node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
                         node.ImageIndex = m_pManager.GetImageIndex(obj);
                         node.SelectedImageIndex = node.ImageIndex;
                         current.Nodes.Add(node);
@@ -131,6 +133,7 @@ namespace Ecell.IDE
                         if (target != null)
                         {
                             node = new TreeNode(elements[elements.Length - 1]);
+                            node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
                             node.ImageIndex = m_pManager.GetImageIndex(obj);
                             node.SelectedImageIndex = node.ImageIndex;
                             target.Nodes.Add(node);
@@ -158,14 +161,16 @@ namespace Ecell.IDE
                             if (isHit == true) continue;
 
                             TreeNode childNode = new TreeNode(names[names.Length - 1]);
+                            childNode.Tag = new TagData(eo.ModelID, eo.Key, eo.Type);
                             childNode.ImageIndex = m_pManager.GetImageIndex(eo);
                             childNode.SelectedImageIndex = childNode.ImageIndex;
-                            childNode.Tag = eo.FullID;
                             node.Nodes.Add(childNode);
                         }
                     }
                 }
             }
+            m_selectWindow.selectTree.TreeViewNodeSorter = new TypeSorter();
+            m_selectWindow.selectTree.Sort();
             m_selectWindow.selectTree.ExpandAll();
 
         }
@@ -432,6 +437,110 @@ namespace Ecell.IDE
             }
             // Set new list.
             this.m_refList = refList;
+        }
+    }
+
+    /// <summary>
+    /// Sort class by type of object.
+    /// </summary>
+    public class TypeSorter : IComparer<TreeNode>, System.Collections.IComparer
+    {
+        /// <summary>
+        /// Compare with two object.
+        /// The first, system sort by the type of object.
+        /// The second, system sort by the name of object.
+        /// </summary>
+        /// <param name="tx">the compared object.</param>
+        /// <param name="ty">the compare object.</param>
+        /// <returns>the compare result.</returns>
+        public int Compare(TreeNode tx, TreeNode ty)
+        {
+            TagData tagx = tx.Tag as TagData;
+            TagData tagy = ty.Tag as TagData;
+
+            if (tagx == null && tagy == null) return string.Compare(tx.Text, ty.Text);
+            if (tagx == null) return 1;
+            if (tagy == null) return -1;
+            if (tagx.Type == tagy.Type)
+            {
+                return string.Compare(tx.Text, ty.Text);
+            }
+            return GetTypeNum(tagx.Type) - GetTypeNum(tagy.Type);
+        }
+        /// <summary>
+        /// Compare with two object.
+        /// </summary>
+        /// <param name="x">the compared object.</param>
+        /// <param name="y">the compare object.</param>
+        /// <returns>the compare result.</returns>
+        int System.Collections.IComparer.Compare(object x, object y)
+        {
+            return Compare(x as TreeNode, y as TreeNode);
+        }
+
+        /// <summary>
+        /// Get the number of type.
+        /// </summary>
+        /// <param name="type">type of object.</param>
+        /// <returns>type number.</returns>
+        private static int GetTypeNum(string type)
+        {
+            switch (type)
+            {
+                case Constants.xpathProject:
+                    return 0;
+                case Constants.xpathModel:
+                    return 1;
+                case Constants.xpathSystem:
+                    return 2;
+                case Constants.xpathProcess:
+                    return 3;
+                case Constants.xpathVariable:
+                    return 4;
+            }
+            return 5;
+        }
+    }
+
+    /// <summary>
+    /// Tag Object with the node in ProjectExplorer.
+    /// </summary>
+    public class TagData
+    {
+        /// <summary>
+        /// m_modelID (model ID of tree node tag) 
+        /// </summary>
+        public string ModelID;
+        /// <summary>
+        /// m_key (key ID of tree node tag)
+        /// </summary>
+        public string Key;
+        /// <summary>
+        /// m_type (type ID of tree node tag)
+        /// </summary>
+        public string Type;
+
+        /// <summary>
+        /// constructor for TagData.
+        /// </summary>
+        public TagData()
+        {
+            this.ModelID = "";
+            this.Key = "";
+            this.Type = "project";
+        }
+
+        /// <summary>
+        /// constructor for TagData with initial value.
+        /// </summary>
+        /// <param name="modelID">the initial model ID</param>
+        /// <param name="key">the initial key ID</param>
+        /// <param name="type">the initial type ID</param>
+        public TagData(string modelID, string key, string type)
+        {
+            this.ModelID = modelID;
+            this.Key = key;
+            this.Type = type;
         }
     }
 }
