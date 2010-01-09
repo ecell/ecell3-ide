@@ -36,6 +36,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -130,7 +131,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _control = control;
             _dManager = control.Control.Window.DataManager;
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -156,6 +157,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region IAnimationItem メンバ
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual XmlElement GetAnimationStatus(XmlDocument doc)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public virtual void SetAnimationStatus(XmlElement status)
+        {
+        }
+
         /// <summary>
         /// Set up animation.
         /// </summary>

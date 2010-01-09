@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -39,6 +40,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// </summary>
     public interface IAnimationItem
     {
+        /// <summary>
+        /// Get Animation Status in XML format.
+        /// </summary>
+        /// <returns></returns>
+        XmlElement GetAnimationStatus(XmlDocument doc);
+
+        /// <summary>
+        /// Set Animation Status from XML format.
+        /// </summary>
+        void SetAnimationStatus(XmlElement status);
+
         /// <summary>
         /// Initialize Animation
         /// </summary>

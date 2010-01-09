@@ -37,6 +37,8 @@ using System.Drawing;
 using Ecell.Objects;
 using Ecell.Reporting;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using System.Xml;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -204,6 +206,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region IAnimationItem メンバ
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
+        {
+            XmlElement status = doc.CreateElement("MassCalculationAnimationItem");
+            status.SetAttribute("AutoThreshold", _autoThreshold.ToString());
+            status.SetAttribute("ThresholdHigh", _thresholdHigh.ToString());
+            status.SetAttribute("ThresholdLow", _thresholdLow.ToString());
+            status.SetAttribute("HighBrush", BrushManager.ParseBrushToString(_highEdgeBrush));
+            status.SetAttribute("LowBrush", BrushManager.ParseBrushToString(_lowEdgeBrush));
+            status.SetAttribute("NGBrush", BrushManager.ParseBrushToString(_ngEdgeBrush));
+            return status;
+
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void SetAnimationStatus(System.Xml.XmlElement status)
+        {
+            _autoThreshold = bool.Parse(status.GetAttribute("AutoThreshold"));
+            _thresholdHigh = float.Parse(status.GetAttribute("ThresholdHigh"));
+            _thresholdLow = float.Parse(status.GetAttribute("ThresholdLow"));
+            _highEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("HighBrush"));
+            _lowEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("LowBrush"));
+            _ngEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("NGBrush"));
+        }
+
         /// <summary>
         /// 
         /// </summary>

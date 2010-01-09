@@ -736,13 +736,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void Clear()
         {
             // Reset Animation.
-            m_animCon.Reset();
+            m_animCon.Clear();
+            m_menu.SetAnimation(false);
+
             // Clear Canvas dictionary.
             if (m_canvas != null)
                 m_canvas.Dispose();
             Canvas = null;
+            // Clear ComponentSettings
             m_csManager.ClearSettings();
             SetNodeIcons();
+            // Clear ReportingSession.
             if (m_session != null)
             {
                 m_session.Close();
@@ -1911,6 +1915,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
             }
 
+            // Save Animation Settings.
+            XmlElement animationSettings = doc.CreateElement(AnimationConstants.xPathAnimationSettings);
+            animationSettings.SetAttribute("IsAnimation", this.IsAnimation.ToString());
+            status.AppendChild(animationSettings);
+            foreach (IAnimationItem animation in m_animCon.Items)
+            {
+                animationSettings.AppendChild(animation.GetAnimationStatus(doc));
+            }
+
             return status;
         }
 
@@ -1927,6 +1940,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Load Edge connectors.
             LoadEdgeConectors(status);
+
+            // Load AnimationSettings.
+            m_animCon.LoadAnimationSettings(status);
 
         }
 

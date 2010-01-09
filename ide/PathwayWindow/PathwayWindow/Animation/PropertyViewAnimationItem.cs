@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -172,6 +173,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region Inherited methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
+        {
+            XmlElement status = doc.CreateElement("PropertyViewAnimationItem");
+            status.SetAttribute("Activity", checkBoxActivity.Checked.ToString());
+            status.SetAttribute("MolarActivity", checkBoxMolarActivity.Checked.ToString());
+            status.SetAttribute("MolarConc", checkBoxMolarConc.Checked.ToString());
+            status.SetAttribute("NumberConc", checkBoxNumberConc.Checked.ToString());
+            status.SetAttribute("Value", checkBoxValue.Checked.ToString());
+            return status;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void SetAnimationStatus(System.Xml.XmlElement status)
+        {
+            checkBoxActivity.Checked = bool.Parse(status.GetAttribute("Activity"));
+            checkBoxMolarActivity.Checked = bool.Parse(status.GetAttribute("MolarActivity"));
+            checkBoxMolarConc.Checked = bool.Parse(status.GetAttribute("MolarConc"));
+            checkBoxNumberConc.Checked = bool.Parse(status.GetAttribute("NumberConc"));
+            checkBoxValue.Checked = bool.Parse(status.GetAttribute("Value"));
+        }
+
         /// <summary>
         /// 
         /// </summary>

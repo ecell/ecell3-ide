@@ -35,6 +35,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
 using Ecell.Objects;
 using Ecell.Logger;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -198,6 +199,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region Inherited methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
+        {
+            XmlElement status = doc.CreateElement("GraphAnimationItem");
+            return status;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void SetAnimationStatus(System.Xml.XmlElement status)
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>

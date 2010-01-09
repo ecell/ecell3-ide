@@ -36,6 +36,7 @@ using System.Drawing;
 using AviFile;
 using System.IO;
 using System.Security.AccessControl;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -191,6 +192,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region Inherited methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
+        {
+            XmlElement status = doc.CreateElement("MovieAnimationItem");
+            status.SetAttribute("Filename", aviFileName.FileName);
+            status.SetAttribute("NoLimitCheck", noLimitRadio.Checked.ToString());
+            status.SetAttribute("MaxSizeCheck", maxSizeRadio.Checked.ToString());
+            status.SetAttribute("MaxSize", maxSizeTextBox.Text);
+            return status;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void SetAnimationStatus(System.Xml.XmlElement status)
+        {
+            aviFileName.FileName = status.GetAttribute("Filename");
+            noLimitRadio.Checked = bool.Parse(status.GetAttribute("NoLimitCheck"));
+            maxSizeRadio.Checked = bool.Parse(status.GetAttribute("MaxSizeCheck"));
+            maxSizeTextBox.Text = status.GetAttribute("MaxSize");
+        }
+
         /// <summary>
         /// 
         /// </summary>

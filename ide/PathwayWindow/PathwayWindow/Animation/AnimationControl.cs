@@ -660,6 +660,63 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        internal void LoadAnimationSettings(XmlNode status)
+        {
+            // Get animation settings node.
+            XmlElement animationSettings = null;
+            foreach (XmlNode node in status.ChildNodes)
+            {
+                if (node.Name.Equals(AnimationConstants.xPathAnimationSettings))
+                    animationSettings = (XmlElement)node;
+            }
+            if (animationSettings == null)
+                return;
+
+            // load animation settings
+            foreach (XmlElement animationSetting in animationSettings.ChildNodes)
+            {
+                // create animation item
+                AnimationItemBase animationItem = null;
+                switch (animationSetting.Name)
+                {
+                    case "EdgeAnimationItem":
+                        animationItem = new EdgeAnimationItem(this);
+                        break;
+                    case "EntityAnimationItem":
+                        animationItem = new EntityAnimationItem(this);
+                        break;
+                    case "GraphAnimationItem":
+                        animationItem = new GraphAnimationItem(this);
+                        break;
+                    case "MassCalculationAnimationItem":
+                        animationItem = new MassCalculationAnimationItem(this);
+                        break;
+                    case "MovieAnimationItem":
+                        animationItem = new MovieAnimationItem(this);
+                        break;
+                    case "PropertyViewAnimationItem":
+                        animationItem = new PropertyViewAnimationItem(this);
+                        break;
+                    default:
+                        break;
+                }
+                if (animationItem == null)
+                    continue;
+                // setup animation item.
+                animationItem.SetAnimationStatus(animationSetting);
+                _items.Add(animationItem);
+            }
+
+            // Activate animation.
+            bool isAnimation = false;
+            bool.TryParse(animationSettings.GetAttribute("IsAnimation"), out isAnimation);
+            _con.Menu.SetAnimation(isAnimation);
+        }
+
+        /// <summary>
         /// Load Settings.
         /// </summary>
         public void LoadSettings()
@@ -825,7 +882,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        internal void Reset()
+        internal void Clear()
         {
             ResetAnimation();
             _items.Clear();

@@ -37,6 +37,10 @@ using System.Drawing;
 using Ecell.Objects;
 using Ecell.Reporting;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
+using System.Drawing.Drawing2D;
+using Ecell.IDE.Plugins.PathwayWindow.Graphics;
+using System.Xml;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -60,11 +64,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Low threshold of edge animation.
         /// </summary>
         private double _thresholdLow = 0f;
-
-        /// <summary>
-        /// Max edge width on edge animation.
-        /// </summary>
-        private float _maxEdgeWidth = 20f;
         
         /// <summary>
         /// Low threshold edge brush on ViewMode.
@@ -114,7 +113,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this._lowEdgeBrush = _control.LowEdgeBrush;
             this._ngEdgeBrush = _control.NgEdgeBrush;
             this._autoThreshold = _control.AutoThreshold;
-            this._maxEdgeWidth = _control.MaxEdgeWidth;
             this._thresholdHigh = _control.ThresholdHigh;
             this._thresholdLow = _control.ThresholdLow;
         }
@@ -207,6 +205,36 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
+        {
+            XmlElement status = doc.CreateElement("EntityAnimationItem");
+            status.SetAttribute("AutoThreshold", _autoThreshold.ToString());
+            status.SetAttribute("ThresholdHigh", _thresholdHigh.ToString());
+            status.SetAttribute("ThresholdLow", _thresholdLow.ToString());
+            status.SetAttribute("HighBrush", BrushManager.ParseBrushToString(_highEdgeBrush));
+            status.SetAttribute("LowBrush", BrushManager.ParseBrushToString(_lowEdgeBrush));
+            status.SetAttribute("NGBrush", BrushManager.ParseBrushToString(_ngEdgeBrush));
+            return status;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public override void SetAnimationStatus(System.Xml.XmlElement status)
+        {
+            _autoThreshold = bool.Parse(status.GetAttribute("AutoThreshold"));
+            _thresholdHigh = float.Parse(status.GetAttribute("ThresholdHigh"));
+            _thresholdLow = float.Parse(status.GetAttribute("ThresholdLow"));
+            _highEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("HighBrush"));
+            _lowEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("LowBrush"));
+            _ngEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("NGBrush"));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public override void SetAnimation()
         {            
             base.SetAnimation();
@@ -215,6 +243,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             if (_autoThreshold && !onGoing)
                 _thresholdHigh = 0;
+
             foreach (PPathwayVariable variable in _variables)
             {
                 if (!variable.Visible)
@@ -224,31 +253,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Line setting.
 
                 // Reset size.
-                PointF pos = variable.CenterPointF;
                 if (onGoing)
                 {
-                    double activity = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                    float size = GetEntitySize(variable.EcellObject, activity);
-                    variable.Width = size * variable.Figure.Width;
-                    variable.Height = size * variable.Figure.Height;
-                    variable.CenterPointF = pos;
-                    variable.Brush = GetEntityBrush(activity, variable);
+                    SetVariableAnimation(variable);
                 }
                 else
                 {
-                    variable.Width = variable.Figure.Width;
-                    variable.Height = variable.Figure.Height;
-                    variable.CenterPointF = pos;
-                    variable.Brush = variable.Setting.CreateBrush(variable.Path);
+                    ResetVariableAnimation(variable);
+                    // Set threshold
+                    if (!_autoThreshold)
+                        continue;
+
+                    double value = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+                    SetThreshold(value);
                 }
-
-                // Set threshold
-                if (!_autoThreshold || onGoing)
-                    continue;
-                double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-                SetThreshold(molarConc);
             }
-
         }
 
         /// <summary>
@@ -258,22 +277,42 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             foreach (PPathwayVariable variable in _variables)
             {
+                // Variable setting.
                 if (!variable.Visible)
                     continue;
-                // Variable setting.
-                double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-
-                float size = GetEntitySize(variable.EcellObject, molarConc);
-                PointF pos = variable.CenterPointF;
-                variable.Width = size * variable.Figure.Width;
-                variable.Height = size * variable.Figure.Height;
-                variable.CenterPointF = pos;
-                variable.Brush = GetEntityBrush(molarConc, variable);
-
-                if (!_autoThreshold)
-                    continue;
-                SetThreshold(molarConc);
+                SetVariableAnimation(variable);
             }
+        }
+
+        private void SetVariableAnimation(PPathwayVariable variable)
+        {
+            double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+            float size = GetEntitySize(variable.EcellObject, molarConc);
+            float width =  size * variable.Figure.Width;
+            float height =  size * variable.Figure.Height;
+            PointF pos = variable.CenterPointF;
+            
+            // set variable.
+            variable.Width = width;
+            variable.Height = height;
+            variable.CenterPointF = pos;
+            variable.Brush = GetEntityBrush(molarConc, variable.Setting, variable.Path);
+
+            // set alias
+            foreach (PPathwayAlias alias in variable.Aliases)
+            {
+                pos = alias.CenterPointF;
+
+                alias.Width = width;
+                alias.Height = height;
+                alias.CenterPointF = pos;
+                alias.Brush = GetEntityBrush(molarConc, alias.Setting, alias.Path);
+            }
+
+            // set threshold
+            if (!_autoThreshold)
+                return;
+            SetThreshold(molarConc);
         }
 
         /// <summary>
@@ -293,15 +332,43 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             {
                 if (!variable.Visible)
                     continue;
-                variable.ViewMode = false;
-                PointF pos = variable.CenterPointF;
-                variable.Width = variable.Figure.Width;
-                variable.Height = variable.Figure.Height;
-                variable.CenterPointF = pos;
-                variable.RefreshView();
+
+                ResetVariableAnimation(variable);
             }
 
             base.ResetAnimation();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="variable"></param>
+        private void ResetVariableAnimation(PPathwayVariable variable)
+        {
+            double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
+            float size = GetEntitySize(variable.EcellObject, molarConc);
+
+            variable.ViewMode = false;
+            float width = variable.Figure.Width;
+            float height = variable.Figure.Height;
+            PointF pos = variable.CenterPointF;
+            Brush brush = GetEntityBrush(molarConc, variable.Setting, variable.Path);
+
+            // set variable.
+            variable.Width = width;
+            variable.Height = height;
+            variable.CenterPointF = pos;
+            variable.RefreshView();
+
+            // set alias
+            foreach (PPathwayAlias alias in variable.Aliases)
+            {
+                pos = alias.CenterPointF;
+                alias.Width = width;
+                alias.Height = height;
+                alias.CenterPointF = pos;
+                alias.RefreshView();
+            }
         }
 
         /// <summary>
@@ -399,7 +466,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="activity"></param>
         /// <param name="variable"></param>
         /// <returns></returns>
-        private Brush GetEntityBrush(double activity, PPathwayVariable variable)
+        private Brush GetEntityBrush(double activity, ComponentSetting setting, GraphicsPath path)
         {
             if (double.IsNaN(activity) || double.IsInfinity(activity))
                 return _ngEdgeBrush;
@@ -407,7 +474,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return _lowEdgeBrush;
             else if (activity >= _thresholdHigh)
                 return _highEdgeBrush;
-            return variable.Setting.CreateBrush(variable.Path);
+            return setting.CreateBrush(path);
         }
 
         /// <summary>
