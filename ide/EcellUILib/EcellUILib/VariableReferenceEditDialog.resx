@@ -121,25 +121,25 @@
   <data name="dgv.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ReferenceName.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="ReferenceName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="ReferenceName.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ReferenceName.Width" type="System.Int32, mscorlib">
     <value>128</value>
   </data>
-  <data name="FullID.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="FullID.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="FullID.HeaderText" xml:space="preserve">
     <value>FullID</value>
   </data>
-  <data name="Coefficient.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="Coefficient.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="Coefficient.HeaderText" xml:space="preserve">
     <value>Coefficient</value>
   </data>
@@ -276,12 +276,15 @@
   <data name="&gt;&gt;AddVarButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="variableReferenceToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="variableReferenceToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>39</value>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>

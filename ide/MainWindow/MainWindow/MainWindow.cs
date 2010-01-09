@@ -1231,6 +1231,8 @@ namespace Ecell.IDE.MainWindow
                 Project project = m_env.DataManager.CurrentProject;
                 if (!ConfirmOverwrite(project))
                     return;
+                if (!ConfirmReset(project))
+                    return;
 
                 m_env.DataManager.SaveProject();
                 CheckAndReplaceRecentProject(project.Info);
@@ -1279,6 +1281,18 @@ namespace Ecell.IDE.MainWindow
             return true;
         }
 
+        /// <summary>
+        /// Return true if reset simulation
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        private bool ConfirmReset(Project project)
+        {
+            if (project.SimulationStatus == SimulationStatus.Wait)
+                return true;
+            string msg = MessageResources.ConfirmReset;
+            return Util.ShowOKCancelDialog(msg);
+        }
         /// <summary>
         /// Click ToolStripMenuItem to save as ...
         /// </summary>

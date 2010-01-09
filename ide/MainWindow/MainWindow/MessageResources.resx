@@ -267,4 +267,7 @@
   <data name="ErrProjectUnsavedZip" xml:space="preserve">
     <value>Save this project before the Project is compress by Zip.</value>
   </data>
+  <data name="ConfirmReset" xml:space="preserve">
+    <value>Are you sure to reset simulation?</value>
+  </data>
 </root>

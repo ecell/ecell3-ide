@@ -88,6 +88,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Are you sure to reset simulation? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmReset {
+            get {
+                return ResourceManager.GetString("ConfirmReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The language setting will be applied after you restart this application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmRestart {

@@ -126,6 +126,9 @@
   <data name="ConfirmOverwrite" xml:space="preserve">
     <value>上書きしてもよろしいですか？</value>
   </data>
+  <data name="ConfirmReset" xml:space="preserve">
+    <value>シミュレーションをリセットしてもよろしいですか？</value>
+  </data>
   <data name="ConfirmRestart" xml:space="preserve">
     <value>言語設定の変更は次回起動時から有効になります。</value>
   </data>

@@ -412,7 +412,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void Reset()
         {
-            if (!m_zCnt.GraphPane.IsZoomed)
+            if (m_zCnt.GraphPane.IsZoomed)
+            {
+                m_zCnt.ZoomOutAll(m_zCnt.GraphPane);
+            }
+            else
             {
                 m_zCnt.GraphPane.XAxis.Scale.Max = 10;
             }
