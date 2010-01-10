@@ -242,8 +242,9 @@ namespace Ecell.Job
         /// <param name="num">the number of sample.</param>
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        /// <param name="isRandom">the flag this parameter is random,</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        Dictionary<int, ExecuteParameter> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count, bool isStep);
+        Dictionary<int, ExecuteParameter> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count, bool isStep, bool isRandom);
         /// <summary>
         /// Execute the simulation with using the set parameters.
         /// </summary>

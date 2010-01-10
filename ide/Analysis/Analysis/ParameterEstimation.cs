@@ -333,7 +333,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     m_group.Status = AnalysisStatus.Running;
                     if (m_generation == 0)
                     {
-                        m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                        m_execParamList = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, m_model, m_param.Population, m_param.SimulationTime, false, true);
                     }
                     else
                     {
@@ -823,6 +823,20 @@ namespace Ecell.IDE.Plugins.Analysis
                 foreach (string key in m_execParamList[m_eliteNum].ParamDic.Keys)
                 {
                     p.ParamDic.Add(key, aCk[pos]);
+                    foreach (EcellParameterData d in m_paramList)
+                    {
+                        if (d.Key.Equals(key))
+                        {
+                            if (d.Max < aCk[pos] || d.Min > aCk[pos])
+                            {
+                                double maxV = d.Max;
+                                double minV = d.Min;
+                                double V = (maxV - minV) * hRandom.NextDouble() + minV;
+                                p.ParamDic[key] = V;
+                            }
+                            break;
+                        }
+                    }
                     pos++;
                 }
                 crossList.Add(pPos, p);

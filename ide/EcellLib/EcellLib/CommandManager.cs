@@ -1044,7 +1044,7 @@ namespace Ecell
             }
             JobManager.SetLoggerData(sList);
 
-            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterRange(groupName, topDir, modelName, num, count, false);
+            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterRange(groupName, topDir, modelName, num, count, false, false);
             List<int> result = new List<int>();
             foreach (int jobid in jobList.Keys)
                 result.Add(jobid);
@@ -1449,7 +1449,7 @@ namespace Ecell
             /// <summary>
             /// Sets the value of the property.
             /// </summary>
-            /// <param name="fullPN">the property</param>
+            /// <param name="propName">the property</param>
             /// <param name="value">the value</param>
             public void SetProperty(string propName, string value)
             {

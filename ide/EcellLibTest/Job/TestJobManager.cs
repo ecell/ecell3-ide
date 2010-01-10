@@ -679,12 +679,12 @@ namespace Ecell.Job
             JobGroup g = _unitUnderTest.CreateJobGroup(analysisName,
                 _env.DataManager.CurrentProject.SystemDic[modelName],
                 _env.DataManager.CurrentProject.StepperDic[modelName]);
-            resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep);
+            resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep, false);
             Assert.IsNotEmpty(resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
             isStep = true;
             SetLoggerData();
-            resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep);
+            resultDictionary = _unitUnderTest.RunSimParameterRange(g.GroupName, topDir, modelName, num, count, isStep, false);
             Assert.IsNotEmpty(resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
             if (Directory.Exists(topDir))

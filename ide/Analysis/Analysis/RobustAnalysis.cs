@@ -419,7 +419,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_group.AnalysisParameter = GetAnalysisProperty();
                 if (m_param.IsRandomCheck == true)
                 {
-                    m_paramDic = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, model, num, simTime, false);
+                    m_paramDic = m_owner.JobManager.RunSimParameterRange(m_group.GroupName, tmpDir, model, num, simTime, false, false);
                 }
                 else
                 {

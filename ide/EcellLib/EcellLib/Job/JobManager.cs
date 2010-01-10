@@ -947,8 +947,9 @@ namespace Ecell.Job
         /// <param name="num">the number of sample.</param>
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        /// <param name="isRandom">the flag this parameter is random,</param>
         /// <returns>Dictionary of jobid and the execution parameter.</returns>
-        public Dictionary<int, ExecuteParameter> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count, bool isStep)
+        public Dictionary<int, ExecuteParameter> RunSimParameterRange(string groupName, string topDir, string modelName, int num, double count, bool isStep, bool isRandom)
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             Project prj = m_env.DataManager.CurrentProject;
@@ -967,7 +968,7 @@ namespace Ecell.Job
                 foreach (EcellParameterData p in m_paramList)
                 {
                     double data = 0.0;
-                    if (p.Step <= 0.0)
+                    if (p.Step <= 0.0 || isRandom)
                     {
                         double d = hRandom.NextDouble();
                         data = d  * (p.Max - p.Min) + p.Min;
