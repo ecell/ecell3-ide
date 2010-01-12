@@ -480,7 +480,7 @@ namespace Ecell
         public void ImportDM(string path)
         {
             // Copy DMs.
-            if (m_currentProject == null || m_currentProject.Info.ProjectType != ProjectType.Project)
+            if (m_currentProject == null || m_currentProject.Info.Type != ProjectType.Project)
                 return;
             string dmDir = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
             if (!Directory.Exists(dmDir))
@@ -508,7 +508,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 throw new EcellException(string.Format(MessageResources.ErrLoadPrj,
-                    new object[] { filename }), ex);
+                    new object[] { filename }) + "\n" + ex.Message, ex);
             }
         }
 
@@ -519,8 +519,8 @@ namespace Ecell
         public void LoadProject(ProjectInfo info)
         {
             List<EcellObject> passList = new List<EcellObject>();
-            string message = null;
-            string projectID = null;
+            string message = "";
+            string projectID = "";
             Project project = null;
 
             try
@@ -534,6 +534,9 @@ namespace Ecell
                 // Create project.
                 projectID = info.Name;
                 message = "[" + projectID + "]";
+                // Confirm Locked file.
+                ConfirmLock(info);
+
                 project = new Project(info, m_env);
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
 
@@ -576,7 +579,7 @@ namespace Ecell
             {
                 passList = null;
                 CloseProject();
-                throw new EcellException(string.Format(MessageResources.ErrLoadPrj, projectID), ex);
+                throw new EcellException(string.Format(MessageResources.ErrLoadPrj, projectID)+ "\n" + ex.Message, ex);
             }
             finally
             {
@@ -591,7 +594,7 @@ namespace Ecell
                         this.m_env.PluginManager.ParameterAdd(projectID, paramID);
                     }
 
-                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.ProjectFile));
+                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.Filename));
 
                     // Send Message.
                     m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
@@ -810,7 +813,7 @@ namespace Ecell
             if (!File.Exists(revision))
                 throw new EcellException(string.Format(MessageResources.ErrCreRevision, revNo));
             ProjectInfo info = ProjectInfoLoader.Load(revision);
-            info.ProjectType = ProjectType.Revision;
+            info.Type = ProjectType.Revision;
             info.ProjectPath = targetDir;
             info.Save();
 
@@ -839,7 +842,7 @@ namespace Ecell
             filename = Path.Combine(revDir, Constants.fileProjectXML);
             ProjectInfo info = ProjectInfoLoader.Load(filename);
             info.Name = m_currentProject.Info.Name + "_" + revision;
-            info.ProjectType = ProjectType.Revision;
+            info.Type = ProjectType.Revision;
 
             LoadProject(info);
             m_currentProject.Info.ProjectPath = oldDir;
@@ -1131,7 +1134,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                throw new EcellException(string.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name), ex);
+                throw new EcellException(string.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name) +"\n" + ex.Message, ex);
             }
         }
 
@@ -2842,6 +2845,26 @@ namespace Ecell
                 returnList.Add(process);
             }
             return returnList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public void ConfirmLock(ProjectInfo info)
+        {
+            if (info.Type != ProjectType.Project)
+                return;
+            string filename = info.Filename;
+            try
+            {
+                FileStream stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
+            }
+            catch(Exception e)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrLockedFile, filename), e);
+            }
         }
 
         /// <summary>

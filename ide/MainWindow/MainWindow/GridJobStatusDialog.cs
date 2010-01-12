@@ -599,7 +599,7 @@ namespace Ecell.IDE.MainWindow
 
             string path = m_manager.Environment.DataManager.CurrentProject.Info.ProjectPath;
             if (string.IsNullOrEmpty(path) || 
-                m_manager.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+                m_manager.Environment.DataManager.CurrentProject.Info.Type == ProjectType.Revision)
             {
                 Util.ShowWarningDialog(MessageResources.ErrProjectUnsaved);
                 return;

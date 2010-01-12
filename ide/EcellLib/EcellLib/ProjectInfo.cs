@@ -149,7 +149,7 @@ namespace Ecell
         /// <summary>
         /// The ProjectType of this project.
         /// </summary>
-        public ProjectType ProjectType
+        public ProjectType Type
         {
             get { return m_type; }
             set { this.m_type = value; }
@@ -248,7 +248,7 @@ namespace Ecell
         /// <summary>
         /// The Loaded ProjectFile of this project.
         /// </summary>
-        public string ProjectFile
+        public string Filename
         {
             get { return m_prjFile; }
             set { this.m_prjFile = value; }
@@ -333,21 +333,27 @@ namespace Ecell
     /// </summary>
     public class ProjectInfoLoader
     {
+        public static ProjectInfo Load(string filepath)
+        {
+            return Load(filepath, FileAccess.Read);
+        }
         /// <summary>
         /// Load Project from setting file.
+        /// this function supports project.xml, project.info, and *.eml.
         /// </summary>
-        /// <param name="filepath">this function supports project.xml, project.info, and *.eml</param>
+        /// <param name="filepath">Project File.</param>
+        /// <param name="access">Access Mode.</param>
         /// <returns></returns>
-        public static ProjectInfo Load(string filepath)
+        public static ProjectInfo Load(string filepath, FileAccess access)
         {
             ProjectInfo project = null;
             try
             {
                 string ext = Path.GetExtension(filepath);
                 if (ext.Equals(Constants.FileExtXML))
-                    project = LoadProjectFromXML(filepath);
+                    project = LoadProjectFromXML(filepath, access);
                 else if (ext.Equals(Constants.FileExtINFO))
-                    project = LoadProjectFromInfo(filepath);
+                    project = LoadProjectFromInfo(filepath, access);
                 else if (ext.Equals(Constants.FileExtEML))
                     project = LoadProjectFromEml(filepath);
                 //else if (ext.Equals(Constants.FileExtSBML))
@@ -355,7 +361,7 @@ namespace Ecell
                 else
                     throw new EcellException("Unknown file type :" + filepath);
 
-                project.ProjectFile = filepath;
+                project.Filename = filepath;
             }
             catch (Exception e)
             {
@@ -370,8 +376,9 @@ namespace Ecell
         /// Get Project from XML file.
         /// </summary>
         /// <param name="filepath">the xml file path.</param>
+        /// <param name="access">Access Mode.</param>
         /// <returns>the project information object.</returns>
-        private static ProjectInfo LoadProjectFromXML(string filepath)
+        private static ProjectInfo LoadProjectFromXML(string filepath, FileAccess access)
         {
             ProjectInfo project = null;
             string dirPath = Path.GetDirectoryName(filepath);
@@ -385,8 +392,9 @@ namespace Ecell
             try
             {
                 // Load XML file
+                FileStream stream = new FileStream(filepath, FileMode.Open, access, FileShare.Read);
                 XmlDocument xmlD = new XmlDocument();
-                xmlD.Load(filepath);
+                xmlD.Load(stream);
 
                 XmlNode settings = null;
                 foreach (XmlNode node in xmlD.ChildNodes)
@@ -431,15 +439,20 @@ namespace Ecell
                             break;
                     }
                 }
+                // File close
+                stream.Close();
+
+                // Setup
                 project = new ProjectInfo(prjName, comment, createTime, param);
                 if (!(type == ProjectType.Project || type == ProjectType.Template || type == ProjectType.Revision))
                     type = ProjectType.Project;
-                project.ProjectType = type;
+                project.Type = type;
                 project.ProjectPath = dirPath;
                 project.CreationTime = createTime;
                 project.Creator = creator;
                 project.EditCount = editCount;
                 project.UpdateTime = File.GetLastWriteTime(filepath).ToString();
+
                 // Set DM Path.
                 string dmPath = Path.Combine(dirPath, Constants.DMDirName);
                 if(Directory.Exists(dmPath))
@@ -456,8 +469,9 @@ namespace Ecell
         /// Get Project from Info file.
         /// </summary>
         /// <param name="filepath">the project information file path.</param>
+        /// <param name="access">Access Mode.</param>
         /// <returns>the project information object.</returns>
-        private static ProjectInfo LoadProjectFromInfo(string filepath)
+        private static ProjectInfo LoadProjectFromInfo(string filepath, FileAccess access)
         {
             ProjectInfo project = null;
             string line = "";
@@ -467,7 +481,8 @@ namespace Ecell
 
             string dirPathName = Path.GetDirectoryName(filepath);
             string prjName = Path.GetFileName(dirPathName);
-            TextReader reader = new StreamReader(filepath);
+            FileStream stream = new FileStream(filepath, FileMode.Open, access, FileShare.Read);
+            TextReader reader = new StreamReader(stream);
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.IndexOf(Constants.textComment) == 0)
@@ -501,9 +516,10 @@ namespace Ecell
                     }
                 }
             }
+            stream.Close();
             reader.Close();
             project = new ProjectInfo(prjName, comment, time, simParam);
-            project.ProjectType = ProjectType.Project;
+            project.Type = ProjectType.Project;
             project.ProjectPath = dirPathName;
 
             return project;
@@ -522,7 +538,7 @@ namespace Ecell
             string time = File.GetLastWriteTime(filepath).ToString();
             project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
             project.Models.Add(filepath);
-            project.ProjectType = ProjectType.Model;
+            project.Type = ProjectType.Model;
             return project;
         }
     }
@@ -550,7 +566,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(ex.Message);
+                throw new EcellException(ex.Message, ex);
             }
         }
 
@@ -589,7 +605,7 @@ namespace Ecell
             string projectXML = Path.Combine(saveDir, Constants.fileProjectXML);
             try
             {
-                project.ProjectType = ProjectType.Project;
+                project.Type = ProjectType.Project;
 
                 // Create xml file
                 xmlOut = new XmlTextWriter(projectXML, Encoding.UTF8);
@@ -611,13 +627,13 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textEditCount, project.EditCount.ToString());
                 xmlOut.WriteElementString(Constants.textComment, project.Comment);
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
-                xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.ProjectType).ToString());
+                xmlOut.WriteElementString(Constants.xpathType, ((Int32)project.Type).ToString());
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
 
                 project.ProjectPath = saveDir;
                 project.UpdateTime = DateTime.Now.ToString();
-                project.ProjectFile = projectXML;
+                project.Filename = projectXML;
             }
             finally
             {

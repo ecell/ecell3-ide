@@ -873,10 +873,10 @@ namespace Ecell.IDE.MainWindow
             bool suspended = status == ProjectStatus.Suspended;
             bool isRevision = false;
             if (m_env.DataManager.CurrentProject != null)
-                isRevision = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
+                isRevision = m_env.DataManager.CurrentProject.Info.Type == ProjectType.Revision;
             bool isProject = false;
             if (m_env.DataManager.CurrentProject != null)
-                isProject = m_env.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
+                isProject = m_env.DataManager.CurrentProject.Info.Type == ProjectType.Project;
 
             // file menu.
             newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
@@ -977,7 +977,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="info">the recent project.</param>
         private void CheckAndReplaceRecentProject(ProjectInfo info)
         {
-            if (info.ProjectType == ProjectType.Template)
+            if (info.Type == ProjectType.Template)
                 return;
             KeyValuePair<string, string> oldProject = new KeyValuePair<string,string>();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
@@ -987,8 +987,8 @@ namespace Ecell.IDE.MainWindow
             }
             if (oldProject.Key != null)
                 m_recentProjects.Remove(oldProject);
-            if (File.Exists(info.ProjectFile))
-                m_recentProjects.Add(new KeyValuePair<string, string>(info.Name, info.ProjectFile));
+            if (File.Exists(info.Filename))
+                m_recentProjects.Add(new KeyValuePair<string, string>(info.Name, info.Filename));
             ResetRecentProjectMenu();
         }
 
@@ -1129,7 +1129,7 @@ namespace Ecell.IDE.MainWindow
             }
             // No change
             Project project = m_env.DataManager.CurrentProject;
-            if (project == null || (m_editCount == 0 && project.Info.ProjectType == ProjectType.Project))
+            if (project == null || (m_editCount == 0 && project.Info.Type == ProjectType.Project))
                 return state;
 
             // Confirm saving.
@@ -1197,7 +1197,7 @@ namespace Ecell.IDE.MainWindow
                 if (CloseConfirm() == ConfirmState.Canceled)
                     return;
                 ProjectInfo info = win.SelectedProject;
-                info.ProjectType = ProjectType.Template;
+                info.Type = ProjectType.Template;
                 info.DMDirList.AddRange(win.DMList);
                 try
                 {
@@ -1268,7 +1268,7 @@ namespace Ecell.IDE.MainWindow
                 return true;
 
             // If Already exists.
-            if (project.Info.ProjectType != ProjectType.Project)
+            if (project.Info.Type != ProjectType.Project)
             {
                 msg = string.Format(MessageResources.ErrExistProject, project.Info.Name)
                         + "\n" + MessageResources.ConfirmOverwrite;

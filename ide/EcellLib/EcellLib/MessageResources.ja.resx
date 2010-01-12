@@ -360,4 +360,7 @@
   <data name="InfoDataAdd" xml:space="preserve">
     <value>{0}の描画中です。</value>
   </data>
+  <data name="ErrLockedFile" xml:space="preserve">
+    <value>このファイルは現在ロックされています。</value>
+  </data>
 </root>

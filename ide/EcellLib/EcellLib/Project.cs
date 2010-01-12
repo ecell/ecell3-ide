@@ -376,11 +376,13 @@ namespace Ecell
             m_logableEntityPathDic = new Dictionary<string, string>();
 
             // Loads the model.
-            if (info.ProjectType != ProjectType.Model)
+            if (info.Type != ProjectType.Model)
                 info.FindModels();
 
             SetDMList();
             m_simulator = CreateSimulatorInstance();
+            //
+            Lock();
         }
 
         /// <summary>
@@ -441,7 +443,7 @@ namespace Ecell
                     }
 
                     // If this project is template.
-                    if (m_info.ProjectType == ProjectType.Template)
+                    if (m_info.Type == ProjectType.Template)
                         modelObj.ModelID = m_info.Name;
                     modelID = modelObj.ModelID;
 
@@ -718,6 +720,32 @@ namespace Ecell
             // Dispose simulator.
             this.m_simulator.Dispose();
             this.m_simulator = null;
+            //
+            UnLock();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        FileStream locked = null;
+        /// <summary>
+        /// Lock project file.
+        /// </summary>
+        public void Lock()
+        {
+            if (string.IsNullOrEmpty(m_info.Filename))
+                return;
+            locked = new FileStream(m_info.Filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+        }
+        /// <summary>
+        /// UnLock project.
+        /// </summary>
+        public void UnLock()
+        {
+            if (locked == null)
+                return;
+            locked.Close();
+            locked = null;
         }
 
         /// <summary>
@@ -795,12 +823,14 @@ namespace Ecell
         public void Save()
         {
             // get old path
+            UnLock();
             string oldPath = m_info.ProjectPath;
+
             // set new path
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
 
             // Delete old project before overwrite.
-            if (m_info.ProjectType == ProjectType.Revision)
+            if (m_info.Type == ProjectType.Revision)
             {
                 string projectFile = Path.Combine(m_info.ProjectPath, Constants.fileProjectXML);
                 if (File.Exists(projectFile))
@@ -810,7 +840,7 @@ namespace Ecell
                         Directory.Delete(m_info.ProjectPath, true);
                 }
             }
-            else if (m_info.ProjectType != ProjectType.Project)
+            else if (m_info.Type != ProjectType.Project)
             {
                 // new project.
                 if (Util.IsExistProject(m_info.Name))
@@ -821,15 +851,16 @@ namespace Ecell
             else
             {
                 // renamed project.
-                string oldDir = Path.GetDirectoryName(m_info.ProjectFile).Replace("\\", "/");
+                string oldDir = Path.GetDirectoryName(m_info.Filename).Replace("\\", "/");
                 string newDir = m_info.ProjectPath.Replace("\\", "/");
                 if (Util.IsExistProject(m_info.Name) && !Path.Equals(oldDir, newDir))
                     Directory.Delete(m_info.ProjectPath, true);
             }
 
             // Save ProjectInfo
-            m_info.ProjectType = ProjectType.Project;
+            m_info.Type = ProjectType.Project;
             m_info.Save();
+            Lock();
 
             // Copy DMs.
             string dmDir = Path.Combine(m_info.ProjectPath, Constants.DMDirName);

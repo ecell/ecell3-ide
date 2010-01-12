@@ -331,6 +331,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   This file is locked now. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLockedFile {
+            get {
+                return ResourceManager.GetString("ErrLockedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoSet {

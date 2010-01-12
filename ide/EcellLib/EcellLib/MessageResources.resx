@@ -362,4 +362,7 @@ New revision {0}:{1} was created.</value>
   <data name="InfoDataAdd" xml:space="preserve">
     <value>Drawing {0} plugin.</value>
   </data>
+  <data name="ErrLockedFile" xml:space="preserve">
+    <value>This file is locked now.</value>
+  </data>
 </root>

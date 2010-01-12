@@ -40,6 +40,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using Ecell.Exceptions;
+using System.Diagnostics;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -106,11 +108,42 @@ namespace Ecell.IDE.MainWindow
             }
 
             // Check project.xml and load.
+            try
+            {
+                SetProjectNode(node, path);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                return;
+            }
+
+            // Create Directory node.
+            string[] dirs = Directory.GetDirectories(path);
+            foreach (string dir in dirs)
+            {
+                if (Util.IsIgnoredDir(dir) || Util.IsHidden(dir))
+                    continue;
+
+                ProjectTreeNode childNode = new ProjectTreeNode(dir);
+                node.Nodes.Add(childNode);
+
+                CreateProjectTreeView(childNode, dir);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="path"></param>
+        private void SetProjectNode(TreeNode node, string path)
+        {
             string prjXMLFileName = Path.Combine(path, Constants.fileProjectXML);
             string prjInfoFileName = Path.Combine(path, Constants.fileProjectInfo);
             if (File.Exists(prjXMLFileName))
             {
-                if (!IsExistModelFile(path)) 
+                if (!IsExistModelFile(path))
                     return;
                 TreeNode childNode = new ProjectTreeNode(prjXMLFileName);
                 node.Nodes.Add(childNode);
@@ -131,18 +164,6 @@ namespace Ecell.IDE.MainWindow
                     TreeNode childNode = new ProjectTreeNode(file);
                     node.Nodes.Add(childNode);
                 }
-            }
-
-            string[] dirs = Directory.GetDirectories(path);
-            foreach (string dir in dirs)
-            {
-                if (Util.IsIgnoredDir(dir) || Util.IsHidden(dir))
-                    continue;
-
-                ProjectTreeNode childNode = new ProjectTreeNode(dir);
-                node.Nodes.Add(childNode);
-
-                CreateProjectTreeView(childNode, dir);
             }
         }
 
