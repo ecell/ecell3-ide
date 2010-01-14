@@ -2857,13 +2857,19 @@ namespace Ecell
             if (info.Type != ProjectType.Project)
                 return;
             string filename = info.Filename;
+            FileStream stream = null;
             try
             {
-                FileStream stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
+                stream = File.Open(filename, FileMode.Open, FileAccess.ReadWrite);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new EcellException(string.Format(MessageResources.ErrLockedFile, filename), e);
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
             }
         }
 
