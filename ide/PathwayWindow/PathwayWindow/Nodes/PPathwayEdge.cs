@@ -312,10 +312,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_proPoint = m_process.GetContactPoint(m_varPoint);
             else
                 m_proPoint = m_process.GetContactPoint(m_pIndex, m_varPoint);
+
+            PPathwayEntity entity = GetEntity();
             
             DrawLine();
-            this.Visible = m_process.Visible && m_process.ShowEdge && m_variable.Visible;
+            this.Visible = m_process.Visible && m_process.ShowEdge && entity.Visible;
+            entity.Layer.AddChild(this);
             this.Pickable = this.Visible;
+        }
+
+        private PPathwayEntity GetEntity()
+        {
+            PPathwayEntity entity = null;
+            if (m_vIndex < 10)
+                entity = m_variable;
+            else
+                entity = m_variable.Aliases[(int)(m_vIndex / 10)];
+            return null;
         }
 
         /// <summary>

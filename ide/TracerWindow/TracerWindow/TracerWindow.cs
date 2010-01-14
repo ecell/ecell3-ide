@@ -846,7 +846,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     {
                         if (win.SaveList.Count <= 0) return;
                         if (String.IsNullOrEmpty(DataManager.CurrentProject.Info.ProjectPath) ||
-                            DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+                            DataManager.CurrentProject.Info.Type == ProjectType.Revision)
                         {
                             Util.ShowWarningDialog(MessageResources.ErrProjectUnsaved);
                             return;

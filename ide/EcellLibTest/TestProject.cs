@@ -132,7 +132,7 @@ namespace Ecell
             Assert.IsNull(testProject.Simulator, "Simulator is unexpected value.");
 
             info = ProjectInfoLoader.Load(TestConstant.Project_Drosophila);
-            info.ProjectType = ProjectType.Template;
+            info.Type = ProjectType.Template;
             testProject = new Project(info, _env);
             Assert.AreEqual(info, testProject.Info, "Info is unexpected value.");
 

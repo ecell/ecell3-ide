@@ -970,7 +970,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set Text menu.
             toolStripTextAlign.Visible = isText && isEditMode;
             // Show Layer menu.
-            toolStripChangeLayer.Visible = isObject && !isRoot && isEditMode;
+            toolStripChangeLayer.Visible = ((isObject && !isRoot) || isAlias) && isEditMode;
             toolStripSetZOrder.Visible = isObject && !isRoot;
             toolStripFigureSetting.Visible = isObject && isEditMode;
             toolStripShowID.Visible = isNull && isEditMode;
@@ -1078,13 +1078,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             commonMenu.observedToolStripMenuItem.Visible = false;
             commonMenu.parameterToolStripMenuItem.Visible = false;
             commonMenu.propertyToolStripMenuItem.Visible = false;
-        }
-        /// <summary>
-        /// SetPopupMenus
-        /// </summary>
-        internal void SetPopupMenus()
-        {
-
         }
 
         /// <summary>

@@ -974,8 +974,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void SetPopupMenuAvailability()
         {
             ProjectStatus status = m_owner.PluginManager.Status;
-            bool saved = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Project;
-            bool revision = m_owner.Environment.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision;
+            bool saved = m_owner.Environment.DataManager.CurrentProject.Info.Type == ProjectType.Project;
+            bool revision = m_owner.Environment.DataManager.CurrentProject.Info.Type == ProjectType.Revision;
             bool simulation = (status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended);
             bool current = m_lastSelectedNode is RevisionNode && m_lastSelectedNode.Text == Constants.xpathCurrent;
 
@@ -1020,7 +1020,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
             if (dmDir == null ||
-                m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+                m_owner.DataManager.CurrentProject.Info.Type == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedCompile);
                 return;
@@ -1043,8 +1043,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             // Get DM dir.
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
-            if (dmDir == null || 
-                m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+            if (dmDir == null ||
+                m_owner.DataManager.CurrentProject.Info.Type == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsaved);
                 return;
@@ -1537,7 +1537,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
             if (m_owner.Environment.ActionManager.Undoable &&
-                m_owner.Environment.DataManager.CurrentProject.Info.ProjectType != ProjectType.Revision)
+                m_owner.Environment.DataManager.CurrentProject.Info.Type != ProjectType.Revision)
             {
                 Util.ShowWarningDialog(MessageResources.ErrProjectUnsavedZip);
                 return;
@@ -1591,7 +1591,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs</param>
         private void TreeViewCloseProject(object sender, EventArgs e)
         {
-            if (m_owner.Environment.ActionManager.Undoable && m_owner.Environment.DataManager.CurrentProject.Info.ProjectType != ProjectType.Revision)
+            if (m_owner.Environment.ActionManager.Undoable && m_owner.Environment.DataManager.CurrentProject.Info.Type != ProjectType.Revision)
             {
                 try
                 {
@@ -1624,7 +1624,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             // Get DM dir.
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
-            if (dmDir == null || m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+            if (dmDir == null || m_owner.DataManager.CurrentProject.Info.Type == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedImport);
                 return;
@@ -1830,7 +1830,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
             if (dmDir == null ||
-                m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+                m_owner.DataManager.CurrentProject.Info.Type == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedDelete);
                 return;
@@ -2222,7 +2222,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void compileAllDMsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
-            if (dmDir == null || m_owner.DataManager.CurrentProject.Info.ProjectType == ProjectType.Revision)
+            if (dmDir == null || m_owner.DataManager.CurrentProject.Info.Type == ProjectType.Revision)
             {
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedCompile);
                 return;
