@@ -1,7 +1,9 @@
 #pragma warning(disable:4793)
 #include <boost/shared_array.hpp>
+#include <boost/python.hpp>
 #include <libecs/libecs.hpp>
 #include <dmtool/ModuleMaker.hpp>
+#include <dmtool/SharedModuleMakerInterface.hpp>
 #include <libecs/Model.hpp>
 #include <libecs/System.hpp>
 #include <libecs/Variable.hpp>
@@ -11,6 +13,8 @@
 #include "WrappedException.hpp"
 
 #undef GetCurrentTime
+
+namespace py = boost::python;
 
 namespace EcellCoreLib {
     using namespace System;
@@ -310,6 +314,602 @@ namespace EcellCoreLib {
 		ModuleMaker<libecs::EcsObject>* theEntry;
 	};
 
+	inline py::object generic_getattr( py::object anObj, const char* aName )
+	{
+		py::handle<> aRetval( py::allow_null( PyObject_GenericGetAttr(
+			anObj.ptr(),
+			py::handle<>(
+				PyString_InternFromString(
+					const_cast< char* >( aName ) ) ).get() ) ) );
+		if ( !aRetval )
+		{
+			py::throw_error_already_set();
+		}
+
+		return py::object( aRetval );
+	}
+
+	template< typename T >
+	class PythonDynamicModule;
+
+	struct PythonEntityBaseBase
+	{
+	protected:
+		static void appendDictToSet( std::set< libecs::String >& retval, std::string const& aPrivPrefix, PyObject* aObject )
+		{
+			py::handle<> aSelfDict( py::allow_null( PyObject_GetAttrString( aObject, const_cast< char* >( "__dict__" ) ) ) );
+			if ( !aSelfDict )
+			{
+				PyErr_Clear();
+				return;
+			}
+
+			if ( !PyMapping_Check( aSelfDict.get() ) )
+			{
+				return;
+			}
+
+			py::handle<> aKeyList( PyMapping_Items( aSelfDict.get() ) );
+			BOOST_ASSERT( PyList_Check( aKeyList.get() ) );
+			for ( py::ssize_t i( 0 ), e( PyList_GET_SIZE( aKeyList.get() ) ); i < e; ++i )
+			{
+				py::handle<> aKeyValuePair( py::borrowed( PyList_GET_ITEM( aKeyList.get(), i ) ) );
+				BOOST_ASSERT( PyTuple_Check( aKeyValuePair.get() ) && PyTuple_GET_SIZE( aKeyValuePair.get() ) == 2 );
+				py::handle<> aKey( py::borrowed( PyTuple_GET_ITEM( aKeyValuePair.get(), 0 ) ) );
+				BOOST_ASSERT( PyString_Check( aKey.get() ) );
+				if ( PyString_GET_SIZE( aKey.get() ) >= static_cast< py::ssize_t >( aPrivPrefix.size() )
+						&& memcmp( PyString_AS_STRING( aKey.get() ), aPrivPrefix.data(), aPrivPrefix.size() ) == 0 )
+				{
+					continue;
+				}
+
+				if ( PyString_GET_SIZE( aKey.get() ) >= 2
+						&& memcmp( PyString_AS_STRING( aKey.get() ), "__", 2 ) == 0 )
+				{
+					continue;
+				}
+
+				py::handle<> aValue( py::borrowed( PyTuple_GET_ITEM( aKeyValuePair.get(), 1 ) ) );
+				// if ( !PolymorphRetriever::isConvertible( aValue.get() ) )
+				// {
+				//	continue;
+				// }
+
+				retval.insert( libecs::String( PyString_AS_STRING( aKey.get() ), PyString_GET_SIZE( aKey.get() ) ) );
+			}
+		}
+
+		static void addAttributesFromBases( std::set< libecs::String >& retval, std::string const& aPrivPrefix, PyObject* anUpperBound, PyObject* tp )
+		{
+			BOOST_ASSERT( PyType_Check( tp ) );
+
+			if ( anUpperBound == tp )
+			{
+				return;
+			}
+
+			py::handle<> aBasesList( py::allow_null( PyObject_GetAttrString( tp, const_cast< char* >( "__bases__" ) ) ) );
+			if ( !aBasesList )
+			{
+				PyErr_Clear();
+				return;
+			}
+
+			if ( !PyTuple_Check( aBasesList.get() ) )
+			{
+				return;
+			}
+
+			for ( py::ssize_t i( 0 ), ie( PyTuple_GET_SIZE( aBasesList.get() ) ); i < ie; ++i )
+			{
+				py::handle<> aBase( py::borrowed( PyTuple_GET_ITEM( aBasesList.get(), i ) ) );
+				appendDictToSet( retval, aPrivPrefix, aBase.get() );
+				addAttributesFromBases( retval, aPrivPrefix, anUpperBound, aBase.get() );
+			}
+		}
+
+		static void removeAttributesFromBases( std::set< libecs::String >& retval, PyObject *tp )
+		{
+			BOOST_ASSERT( PyType_Check( tp ) );
+
+			py::handle<> aBasesList( py::allow_null( PyObject_GetAttrString( tp, const_cast< char* >( "__bases__" ) ) ) );
+			if ( !aBasesList )
+			{
+				PyErr_Clear();
+				return;
+			}
+
+			if ( !PyTuple_Check( aBasesList.get() ) )
+			{
+				return;
+			}
+
+			for ( py::ssize_t i( 0 ), ie( PyTuple_GET_SIZE( aBasesList.get() ) ); i < ie; ++i )
+			{
+				py::handle<> aBase( py::borrowed( PyTuple_GET_ITEM( aBasesList.get(), i ) ) );
+				removeAttributesFromBases( retval, aBase.get() );
+
+				py::handle<> aBaseDict( py::allow_null( PyObject_GetAttrString( aBase.get(), const_cast< char* >( "__dict__" ) ) ) );
+				if ( !aBaseDict )
+				{
+					PyErr_Clear();
+					return;
+				}
+
+				if ( !PyMapping_Check( aBaseDict.get() ) )
+				{
+					return;
+				}
+
+				py::handle<> aKeyList( PyMapping_Keys( aBaseDict.get() ) );
+				BOOST_ASSERT( PyList_Check( aKeyList.get() ) );
+				for ( py::ssize_t j( 0 ), je( PyList_GET_SIZE( aKeyList.get() ) ); j < je; ++j )
+				{
+					py::handle<> aKey( py::borrowed( PyList_GET_ITEM( aKeyList.get(), i ) ) );
+					BOOST_ASSERT( PyString_Check( aKey.get() ) );
+					libecs::String aKeyStr( PyString_AS_STRING( aKey.get() ), PyString_GET_SIZE( aKey.get() ) );  
+					retval.erase( aKeyStr );
+				}
+			}
+		}
+
+		PythonEntityBaseBase() {}
+	};
+
+	template< typename Tderived_, typename Tbase_ >
+	class PythonEntityBase: public Tbase_, public PythonEntityBaseBase, public py::wrapper< Tbase_ >
+	{
+	public:
+		virtual ~PythonEntityBase()
+		{
+			py::decref( py::detail::wrapper_base_::owner( this ) );
+		}
+
+		PythonDynamicModule< Tderived_ > const& getModule() const
+		{
+			return theModule;
+		}
+
+		const libecs::Polymorph defaultGetProperty( libecs::String const& aPropertyName ) const
+		{
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			py::handle<> aValue( py::allow_null( PyObject_GenericGetAttr( aSelf, py::handle<>( PyString_InternFromString( const_cast< char* >( aPropertyName.c_str() ) ) ).get() ) ) );
+			if ( !aValue )
+			{
+				PyErr_Clear();
+				THROW_EXCEPTION_INSIDE( libecs::NoSlot, 
+						"failed to retrieve property attributes "
+						"for [" + aPropertyName + "]" );
+			}
+
+			return py::extract< libecs::Polymorph >( aValue.get() );
+		}
+
+		const libecs::PropertyAttributes defaultGetPropertyAttributes( libecs::String const& aPropertyName ) const
+		{
+			return libecs::PropertyAttributes( libecs::PropertySlotBase::POLYMORPH, true, true, true, true, true );
+		}
+
+
+		void defaultSetProperty( libecs::String const& aPropertyName, libecs::Polymorph const& aValue )
+		{
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			PyObject_GenericSetAttr( aSelf, py::handle<>( PyString_InternFromString( const_cast< char* >( aPropertyName.c_str() ) ) ).get(), py::object( aValue ).ptr() );
+			if ( PyErr_Occurred() )
+			{
+				PyErr_Clear();
+				THROW_EXCEPTION_INSIDE( libecs::NoSlot, 
+								"failed to set property [" + aPropertyName + "]" );
+			}
+		}
+
+		const libecs::StringVector defaultGetPropertyList() const
+		{
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			std::set< libecs::String > aPropertySet;
+
+			if ( thePrivPrefix.empty() )
+			{
+				PyObject* anOwner( py::detail::wrapper_base_::owner( this ) );
+				BOOST_ASSERT( anOwner != NULL );
+				thePrivPrefix = libecs::String( "_" ) + anOwner->ob_type->tp_name;
+			}
+
+			appendDictToSet( aPropertySet, thePrivPrefix, aSelf );
+
+			PyObject* anUpperBound(
+					reinterpret_cast< PyObject* >(
+						py::objects::registered_class_object(
+							typeid( Tbase_ ) ).get() ) );
+			addAttributesFromBases( aPropertySet, thePrivPrefix, anUpperBound,
+					reinterpret_cast< PyObject* >( aSelf->ob_type ) );
+			removeAttributesFromBases( aPropertySet, anUpperBound );
+
+			libecs::StringVector retval;
+			for ( std::set< libecs::String >::iterator i( aPropertySet.begin() ), e( aPropertySet.end() ); i != e; ++i )
+			{
+				retval.push_back( *i );
+			}
+
+			return retval;
+		}
+
+		libecs::PropertyInterface< Tbase_ > const& _getPropertyInterface() const;
+
+		libecs::PropertySlotBase const* getPropertySlot( libecs::String const& aPropertyName ) const
+		{
+			return _getPropertyInterface().getPropertySlot( aPropertyName ); \
+		}
+
+		virtual void setProperty( libecs::String const& aPropertyName, libecs::Polymorph const& aValue )
+		{
+		}
+
+		const libecs::Polymorph getProperty( libecs::String const& aPropertyName ) const
+		{
+			return _getPropertyInterface().getProperty( *this, aPropertyName );
+		}
+
+		void loadProperty( libecs::String const& aPropertyName, libecs::Polymorph const& aValue )
+		{
+			return _getPropertyInterface().loadProperty( *this, aPropertyName, aValue );
+		}
+
+		const libecs::Polymorph saveProperty( libecs::String const& aPropertyName ) const
+		{
+			return _getPropertyInterface().saveProperty( *this, aPropertyName );
+		}
+
+		const libecs::StringVector getPropertyList() const
+		{
+			return _getPropertyInterface().getPropertyList( *this );
+		}
+
+		libecs::PropertySlotProxy* createPropertySlotProxy( libecs::String const& aPropertyName )
+		{
+			return _getPropertyInterface().createPropertySlotProxy( *this, aPropertyName );
+		}
+
+		const libecs::PropertyAttributes
+			getPropertyAttributes( libecs::String const& aPropertyName ) const
+		{
+			return _getPropertyInterface().getPropertyAttributes( *this, aPropertyName );
+		}
+
+		virtual libecs::PropertyInterfaceBase const& getPropertyInterface() const
+		{
+			return _getPropertyInterface();
+		}
+
+		PythonEntityBase( PythonDynamicModule< Tderived_ > const& aModule )
+			: theModule( aModule ) {}
+
+		static void addToRegistry()
+		{
+			py::objects::register_dynamic_id< Tderived_ >();
+			py::objects::register_dynamic_id< Tbase_ >();
+			py::objects::register_conversion< Tderived_, Tbase_ >( false );
+			py::objects::register_conversion< Tbase_, Tderived_ >( true );
+		}
+
+	protected:
+
+		PythonDynamicModule< Tderived_ > const& theModule;
+		mutable libecs::String thePrivPrefix;
+	};
+
+	class PythonProcess: public PythonEntityBase< PythonProcess, libecs::Process >
+	{
+	public:
+		virtual ~PythonProcess() {}
+
+		LIBECS_DM_INIT_PROP_INTERFACE()
+		{
+			INHERIT_PROPERTIES( libecs::Process );
+		}
+
+		virtual void initialize()
+		{
+			Process::initialize();
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			generic_getattr( py::object( py::borrowed( aSelf ) ), "initialize" )();
+			theFireMethod = generic_getattr( py::object( py::borrowed( aSelf ) ), "fire" );
+		}
+
+		virtual void fire()
+		{
+			py::object retval( theFireMethod() );
+			if ( retval )
+			{
+				setActivity( py::extract< libecs::Real >( retval ) );
+			} 
+		}
+
+		virtual const bool isContinuous() const
+		{
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			py::handle<> anIsContinuousDescr( py::allow_null( PyObject_GenericGetAttr( reinterpret_cast< PyObject* >( aSelf->ob_type ), py::handle<>( PyString_InternFromString( "IsContinuous" ) ).get() ) ) );
+			if ( !anIsContinuousDescr )
+			{
+				PyErr_Clear();
+				return Process::isContinuous();
+			}
+
+			descrgetfunc aDescrGetFunc( anIsContinuousDescr.get()->ob_type->tp_descr_get );
+			if ( ( anIsContinuousDescr.get()->ob_type->tp_flags & Py_TPFLAGS_HAVE_CLASS ) && aDescrGetFunc )
+			{
+				return py::extract< bool >( py::handle<>( aDescrGetFunc( anIsContinuousDescr.get(), aSelf, reinterpret_cast< PyObject* >( aSelf->ob_type ) ) ).get() );
+			}
+
+			return py::extract< bool >( anIsContinuousDescr.get() );
+		}
+
+		PythonProcess( PythonDynamicModule< PythonProcess > const& aModule )
+			: PythonEntityBase< PythonProcess, Process >( aModule ) {}
+
+		py::object theFireMethod;
+	};
+
+
+	class PythonVariable: public PythonEntityBase< PythonVariable, libecs::Variable >
+	{
+	public:
+		LIBECS_DM_INIT_PROP_INTERFACE()
+		{
+			INHERIT_PROPERTIES( libecs::Variable );
+		}
+
+		virtual void initialize()
+		{
+			libecs::Variable::initialize();
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			py::getattr( py::object( py::borrowed( aSelf ) ), "initialize" )();
+			theOnValueChangingMethod = py::handle<>( py::allow_null( PyObject_GenericGetAttr( aSelf, py::handle<>( PyString_InternFromString( const_cast< char* >( "onValueChanging" ) ) ).get() ) ) );
+			if ( !theOnValueChangingMethod )
+			{
+				PyErr_Clear();
+			}
+		}
+
+		virtual SET_METHOD( libecs::Real, Value )
+		{
+			if ( theOnValueChangingMethod )
+			{
+				if ( !PyCallable_Check( theOnValueChangingMethod.get() ) )
+				{
+					PyErr_SetString( PyExc_TypeError, "object is not callable" );
+					py::throw_error_already_set();
+				}
+
+				py::handle<> aResult( PyObject_CallFunction( theOnValueChangingMethod.get(), "f", value ) );
+				if ( !aResult )
+				{
+					py::throw_error_already_set();
+				}
+				else
+				{
+					if ( !PyObject_IsTrue( aResult.get() ) )
+					{
+						return;
+					}
+				}
+			}
+			else
+			{
+				PyErr_Clear();
+			}
+			libecs::Variable::setValue( value );
+		}
+
+		PythonVariable( PythonDynamicModule< PythonVariable > const& aModule )
+			: PythonEntityBase< PythonVariable, Variable >( aModule ) {}
+
+		py::handle<> theOnValueChangingMethod;
+	};
+
+
+	class PythonSystem: public PythonEntityBase< PythonSystem, libecs::System >
+	{
+	public:
+		LIBECS_DM_INIT_PROP_INTERFACE()
+		{
+			INHERIT_PROPERTIES( libecs::System );
+		}
+
+		virtual void initialize()
+		{
+			libecs::System::initialize();
+			PyObject* aSelf( py::detail::wrapper_base_::owner( this ) );
+			py::getattr( py::object( py::borrowed( aSelf ) ), "initialize" )();
+		}
+
+		PythonSystem( PythonDynamicModule< PythonSystem > const& aModule )
+			: PythonEntityBase< PythonSystem, libecs::System >( aModule ) {}
+	};
+
+	template<typename T_>
+	struct DeduceEntityType
+	{
+		static libecs::EntityType value;
+	};
+
+	template<>
+	libecs::EntityType DeduceEntityType< PythonProcess >::value( libecs::EntityType::PROCESS );
+
+	template<>
+	libecs::EntityType DeduceEntityType< PythonVariable >::value( libecs::EntityType::VARIABLE );
+
+	template<>
+	libecs::EntityType DeduceEntityType< PythonSystem >::value( libecs::EntityType::SYSTEM );
+
+	template< typename T_ >
+	class PythonDynamicModule: public DynamicModule< libecs::EcsObject >
+	{
+	public:
+		typedef DynamicModule< libecs::EcsObject > Base;
+
+		struct make_ptr_instance: public py::objects::make_instance_impl< T_, py::objects::pointer_holder< T_*, T_ >, make_ptr_instance > 
+		{
+			typedef py::objects::pointer_holder< T_*, T_ > holder_t;
+
+			template <class Arg>
+			static inline holder_t* construct(void* storage, PyObject* arg, Arg& x)
+			{
+				py::detail::initialize_wrapper( py::incref( arg ), boost::get_pointer(x) );
+				return new (storage) holder_t(x);
+			}
+
+			template<typename Ptr>
+			static inline PyTypeObject* get_class_object(Ptr const& x)
+			{
+				return static_cast< T_ const* >( boost::get_pointer(x) )->getModule().getPythonType();
+			}
+		};
+
+		virtual libecs::EcsObject* createInstance() const;
+
+		virtual const char* getFileName() const
+		{
+			const char* aRetval( 0 );
+			try
+			{
+				py::handle<> aPythonModule( PyImport_Import( py::getattr( thePythonClass, "__module__" ).ptr() ) );
+				if ( !aPythonModule )
+				{
+					py::throw_error_already_set();
+				}
+				aRetval = py::extract< const char * >( py::getattr( py::object( aPythonModule ), "__file__" ) );
+			}
+			catch ( py::error_already_set )
+			{
+				PyErr_Clear();
+			}
+			return aRetval;
+		}
+
+		virtual const char *getModuleName() const 
+		{
+			return reinterpret_cast< PyTypeObject* >( thePythonClass.ptr() )->tp_name;
+		}
+
+		virtual const DynamicModuleInfo* getInfo() const
+		{
+			return &thePropertyInterface;
+		}
+
+		PyTypeObject* getPythonType() const
+		{
+			return reinterpret_cast< PyTypeObject* >( thePythonClass.ptr() );
+		}
+	 
+		PythonDynamicModule( py::object aPythonClass )
+			: Base( DM_TYPE_DYNAMIC ),
+			   thePythonClass( aPythonClass ),
+			   thePropertyInterface( getModuleName(),
+									 DeduceEntityType< T_ >::value.asString() )
+		{
+		}
+
+	private:
+		py::object thePythonClass;
+		libecs::PropertyInterface< T_ > thePropertyInterface;
+	};
+
+	template< typename Tderived_, typename Tbase_ >
+	inline libecs::PropertyInterface< Tbase_ > const&
+	PythonEntityBase< Tderived_, Tbase_ >::_getPropertyInterface() const
+	{
+		return *reinterpret_cast< libecs::PropertyInterface< Tbase_ > const* >( theModule.getInfo() );
+	}
+
+	template< typename T_ >
+	libecs::EcsObject* PythonDynamicModule< T_ >::createInstance() const
+	{
+		T_* retval( new T_( *this ) );
+		py::handle<> aNewObject( make_ptr_instance::execute( retval ) );
+
+		if ( !aNewObject )
+		{
+			delete retval;
+			std::string anErrorStr( "Instantiation failure" );
+			PyObject* aPyErrObj( PyErr_Occurred() );
+			if ( aPyErrObj )
+			{
+				anErrorStr += "(";
+				anErrorStr += aPyErrObj->ob_type->tp_name;
+				anErrorStr += ": ";
+				py::handle<> aPyErrStrRepr( PyObject_Str( aPyErrObj ) );
+				BOOST_ASSERT( PyString_Check( aPyErrStrRepr.get() ) );
+				anErrorStr.insert( anErrorStr.size(),
+					PyString_AS_STRING( aPyErrStrRepr.get() ),
+					PyString_GET_SIZE( aPyErrStrRepr.get() ) );
+				anErrorStr += ")";
+				PyErr_Clear();
+			}
+			throw std::runtime_error( anErrorStr );
+		}
+
+		return retval;
+	}
+
+	struct CompositeModuleMaker: public ModuleMaker< libecs::EcsObject >,
+                                 public SharedModuleMakerInterface
+    {
+        virtual ~CompositeModuleMaker() {}
+
+        virtual void setSearchPath( const std::string& path )
+        {
+            SharedModuleMakerInterface* anInterface(
+                dynamic_cast< SharedModuleMakerInterface* >( &theDefaultModuleMaker ) );
+            if ( anInterface )
+            {
+                anInterface->setSearchPath( path );
+            }
+        }
+
+        virtual const std::string getSearchPath() const
+        {
+            SharedModuleMakerInterface* anInterface(
+                dynamic_cast< SharedModuleMakerInterface* >( &theDefaultModuleMaker ) );
+            if ( anInterface )
+            {
+                return anInterface->getSearchPath();
+            }
+			return "";
+        }
+
+        virtual const Module& getModule( const std::string& aClassName, bool forceReload = false )
+        {
+            ModuleMap::iterator i( theRealModuleMap.find( aClassName ) );
+            if ( i == theRealModuleMap.end() )
+            {
+                const Module& retval( theDefaultModuleMaker.getModule( aClassName, forceReload ) );
+                theRealModuleMap[ retval.getModuleName() ] = const_cast< Module* >( &retval );
+                return retval;
+            }
+            return *(*i).second;
+        }
+
+        virtual void addClass( Module* dm )
+        {
+            assert( dm != NULL && dm->getModuleName() != NULL );
+            this->theRealModuleMap[ dm->getModuleName() ] = dm;
+			ModuleMaker< libecs::EcsObject >::addClass( dm );
+        }
+
+        virtual const ModuleMap& getModuleMap() const
+        {
+            return theRealModuleMap;
+        }
+
+		CompositeModuleMaker( ModuleMaker< libecs::EcsObject >& aDefaultModuleMaker )
+            : theDefaultModuleMaker( aDefaultModuleMaker ) {}
+
+    private:
+		ModuleMaker< libecs::EcsObject >& theDefaultModuleMaker;
+        ModuleMap theRealModuleMap;
+    };
+
     public ref class WrappedSimulator
     {
     public:
@@ -340,40 +940,40 @@ namespace EcellCoreLib {
         static WrappedSimulator()
         {
             libecs::initialize();
+			Py_Initialize();
+			PythonVariable::addToRegistry();
+			PythonProcess::addToRegistry();
+			PythonSystem::addToRegistry();
         }
 
         WrappedSimulator(System::Collections::IEnumerable^ l_dmPath)
-            try: theEventCheckInterval(30)
+            try: theEventCheckInterval(30),
+			     theDefaultPropertiedObjectMaker( libecs::createDefaultModuleMaker() ),
+				 thePropertiedObjectMaker( new CompositeModuleMaker( *theDefaultPropertiedObjectMaker ) ),
+				 theModel( new libecs::Model( *thePropertiedObjectMaker ) )
         {
+			theModel->setup();
             StringBuilder^ dmPathRepr = gcnew StringBuilder();
             for each (String^ i in l_dmPath) {
                 dmPathRepr->Append(i);
                 dmPathRepr->Append(static_cast<wchar_t>(libecs::Model::PATH_SEPARATOR));
             }
             --dmPathRepr->Length;
-			if (theModuleDic->ContainsKey(dmPathRepr->ToString()))
-			{
-				thePropertiedObjectMaker = theModuleDic[dmPathRepr->ToString()]->Maker;
-			}
-			else
-			{
-				thePropertiedObjectMaker = libecs::createDefaultModuleMaker();
-				theModuleDic->Add(dmPathRepr->ToString(), gcnew ModuleMakerEntry(thePropertiedObjectMaker));
-			}
-			theModel = new libecs::Model(*thePropertiedObjectMaker);
             theModel->setDMSearchPath(WrappedCString(dmPathRepr->ToString()));
         }
         catch ( std::exception const& e )
         {
             delete theModel;
             delete thePropertiedObjectMaker;
+			delete theDefaultPropertiedObjectMaker;
             throw gcnew WrappedStdException( e );
         }
 
         ~WrappedSimulator()
         {
             delete theModel;
-            //delete thePropertiedObjectMaker;
+            delete thePropertiedObjectMaker;
+			delete theDefaultPropertiedObjectMaker;
         }
 
         void Initialize()
@@ -473,11 +1073,10 @@ namespace EcellCoreLib {
 				String^ module = FromCString(i->second->getModuleName());
 
                 retval->Add(DMInfo(
-                    FromCString(info->getTypeName()),
+                    FromCString( info->getTypeName() ),
                     module,
-                    FromCString(i->second->getFileName()),
-					GetDescription(module)
-					));
+                    FromCString( i->second->getFileName() ),
+					(String^)GetInfoField(*info, "Description" ) ) );
             }
 
             return retval;
@@ -485,27 +1084,14 @@ namespace EcellCoreLib {
 
 		String^ GetDescription(String^ className)
 		{
-			String^ description = FromCString("");
 			try
 			{
-			    for ( DynamicModuleInfo::EntryIterator* anInfo(
-					theModel->getPropertyInterface( WrappedCString(className) ).getInfoFields() );
-					  anInfo->next(); )
-				{
-					if(FromCString(anInfo->current().first) != "Description")
-						continue;
-
-					const libecs::Polymorph value = 
-						*reinterpret_cast< const libecs::Polymorph* >( anInfo->current().second );
-					description = (String^)FromPolymorph(value);
-				}
-
+				return (String^)GetInfoField( theModel->getPropertyInterface( WrappedCString( className ) ), "Description" );
 			}
 			catch (std::exception const& e)
 			{
+				throw gcnew WrappedStdException(e);
 			}
-
-			return description;
 		}
 
         IList<String^>^ GetEntityList(String^ l_entityTypeString, String^ l_systemPathString)
@@ -1056,7 +1642,20 @@ namespace EcellCoreLib {
         }
 
     private:
-        libecs::LoggerPtr getLogger(String^ aFullPNString)
+		Object^ GetInfoField(libecs::PropertyInterfaceBase const& aPropIface, String^ aPropName)
+		{
+			std::auto_ptr<DynamicModuleInfo::EntryIterator> anInfo( aPropIface.getInfoFields() );
+            while ( anInfo->next() )
+			{
+				if(FromCString(anInfo->current().first) != "Description")
+					continue;
+
+				return FromPolymorph( *reinterpret_cast< const libecs::Polymorph* >( anInfo->current().second ) );
+			}
+			return nullptr;
+		}
+		
+		libecs::LoggerPtr getLogger(String^ aFullPNString)
         {
             return theModel->getLoggerBroker().getLogger(libecs::FullPN(WrappedCString(aFullPNString)));
         }
@@ -1101,11 +1700,11 @@ namespace EcellCoreLib {
 
         libecs::Integer               theEventCheckInterval;
 
-        ModuleMaker<libecs::EcsObject> *thePropertiedObjectMaker;
-        libecs::Model                 *theModel;
+		ModuleMaker<libecs::EcsObject>* theDefaultPropertiedObjectMaker;
+		CompositeModuleMaker*         thePropertiedObjectMaker;
+        libecs::Model*                theModel;
 
         System::EventHandler^         theEventHandler;
-		static Dictionary<String^, ModuleMakerEntry^>^ theModuleDic = gcnew Dictionary<String^, ModuleMakerEntry^>();
-    };
+   };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
