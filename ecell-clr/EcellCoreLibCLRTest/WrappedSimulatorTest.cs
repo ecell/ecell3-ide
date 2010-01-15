@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using EcellCoreLib;
 using NUnit.Framework;
 
@@ -230,11 +231,32 @@ namespace EcellCoreLibCLRTest
         [Test]
         public void TestGetDescriptor()
         {
-            String desc = s.GetDescription("");
-            Assert.AreEqual("", desc);
+            try
+            {
+                s.GetDescription("");
+                Assert.Fail();
+            }
+            catch (WrappedStdException)
+            {
+            }
 
-            desc = s.GetDescription("ExpressionFluxProcess");
-            Assert.IsNotEmpty(desc);
+            Assert.IsNotEmpty(s.GetDescription("ExpressionFluxProcess"));
+            foreach (string dmFile in Directory.GetFiles(GetDMDirectory(), "*.dll"))
+            {
+                FileInfo fi = new FileInfo(dmFile);
+                string className = fi.Name.Replace(fi.Extension, "");
+                try
+                {
+                    Console.WriteLine(s.GetDescription(className));
+                }
+                catch (Exception) { }
+            }
+        }
+
+        [Test]
+        public void TestCreateFluxDistributionStepper()
+        {
+            s.CreateStepper("FluxDistributionStepper", "default");
         }
     }
 }
