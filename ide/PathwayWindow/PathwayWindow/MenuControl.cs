@@ -924,13 +924,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 EcellObject eo = ((PPathwayObject)node).EcellObject;
                 commonMenu.Object = eo;
                 toolStripIdShow.Text = eo.FullID;
-                SetLayerManu(eo);
+                SetLayerMenu(eo.Layer);
                 if (eo.Key.Equals(Constants.delimiterPath))
                     isRoot = true;
                 // MassCalc
                 isMassCalc = (eo.Classname == EcellProcess.MASSCALCULATIONPROCESS);
                 if (isMassCalc)
                     toolStripShowEdge.Checked = ((PPathwayProcess)node).ShowEdge;
+            }
+            else if (isAlias)
+            {
+                SetLayerMenu(obj.Layer.Name);
             }
             if (isEdge)
             {
@@ -1084,14 +1088,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Set layer menu items.
         /// </summary>
         /// <param name="obj"></param>
-        private void SetLayerManu(EcellObject obj)
+        private void SetLayerMenu(string layer)
         {
             ToolStripMenuItem layerMenu = toolStripChangeLayer;
             layerMenu.DropDown.Items.Clear();
             foreach (string layerName in m_con.Canvas.GetLayerNameList())
             {
                 ToolStripMenuItem layerItem = new ToolStripMenuItem(layerName);
-                layerItem.Checked = layerName.Equals(obj.Layer);
+                layerItem.Checked = layerName.Equals(layer);
                 layerItem.Enabled = !layerItem.Checked;
                 layerItem.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
                 layerMenu.DropDown.Items.Add(layerItem);

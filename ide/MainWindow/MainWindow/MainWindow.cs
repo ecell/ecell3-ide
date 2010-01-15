@@ -1138,7 +1138,7 @@ namespace Ecell.IDE.MainWindow
                 // Save if answer is yes.
                 if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm, MessageBoxDefaultButton.Button3))
                 {
-                    SaveProject();
+                    SaveProject(project.Info);
                     state = ConfirmState.Yes;
                 }
                 else
@@ -1218,24 +1218,23 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
-            SaveProject();
+            Project project = m_env.DataManager.CurrentProject;
+            if (!ConfirmOverwrite(project))
+                return;
+            if (!ConfirmReset(project))
+                return;
+            SaveProject(project.Info);
         }
 
         /// <summary>
         /// Save Project
         /// </summary>
-        private void SaveProject()
+        private void SaveProject(ProjectInfo info)
         {
             try
             {
-                Project project = m_env.DataManager.CurrentProject;
-                if (!ConfirmOverwrite(project))
-                    return;
-                if (!ConfirmReset(project))
-                    return;
-
                 m_env.DataManager.SaveProject();
-                CheckAndReplaceRecentProject(project.Info);
+                CheckAndReplaceRecentProject(info);
                 m_editCount = 0;
             }
             catch (Util.CancelException)
@@ -1311,14 +1310,12 @@ namespace Ecell.IDE.MainWindow
             {
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
-
-                //m_env.JobManager.Clear();
-
                 if (!ConfirmOverwrite(m_env.DataManager.CurrentProject))
                     return;
 
+                //m_env.JobManager.Clear();
                 // Save as new project.
-                m_env.DataManager.SaveProject();
+                SaveProject(info);
             }
         }
 
