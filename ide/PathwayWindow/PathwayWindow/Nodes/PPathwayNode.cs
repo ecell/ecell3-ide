@@ -224,6 +224,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.m_pText.MoveToFront();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="refPoint"></param>
+        /// <param name="contactPoint"></param>
+        /// <returns></returns>
+        public static double GetDistance(PointF refPoint, PointF contactPoint)
+        {
+            return Math.Sqrt(Math.Pow((double)(refPoint.X - contactPoint.X), 2) + Math.Pow((double)(refPoint.Y - contactPoint.Y), 2));
+        }
+
 
         #region IDisposable メンバ
         /// <summary>

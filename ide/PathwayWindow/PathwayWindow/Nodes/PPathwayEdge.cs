@@ -313,22 +313,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             else
                 m_proPoint = m_process.GetContactPoint(m_pIndex, m_varPoint);
 
-            PPathwayEntity entity = GetEntity();
+            PPathwayEntity entity = GetConnectingAlias();
             
             DrawLine();
-            this.Visible = m_process.Visible && m_process.ShowEdge && entity.Visible;
             entity.Layer.AddChild(this);
+            this.Visible = m_process.Visible && m_process.ShowEdge && entity.Visible;
             this.Pickable = this.Visible;
         }
 
-        private PPathwayEntity GetEntity()
+        private PPathwayEntity GetConnectingAlias()
         {
-            PPathwayEntity entity = null;
-            if (m_vIndex < 10)
-                entity = m_variable;
-            else
-                entity = m_variable.Aliases[(int)(m_vIndex / 10)];
-            return null;
+            PPathwayEntity entity = m_variable;
+
+            double dist = GetDistance(m_variable.CenterPointF, m_process.CenterPointF);
+            double temp = 0;
+            foreach (PPathwayAlias alias in m_variable.Aliases)
+            {
+                temp = GetDistance(alias.CenterPointF, m_process.CenterPointF);
+                if (temp < dist)
+                    entity = alias;
+            }
+            return entity;
         }
 
         /// <summary>

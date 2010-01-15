@@ -162,13 +162,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_aliases.Count <= 0)
                 return contactPoint;
 
-            double length =GetLength(refPoint, contactPoint);
+            double length = GetDistance(refPoint, contactPoint);
             double tempLength;
             PointF tempPoint;
             foreach (PPathwayAlias alias in m_aliases)
             {
                 tempPoint = m_figure.GetContactPoint(refPoint, alias.CenterPointF);
-                tempLength = GetLength(refPoint, tempPoint);
+                tempLength = GetDistance(refPoint, tempPoint);
                 if (tempLength < length)
                 {
                     length = tempLength;
@@ -176,17 +176,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 }
             }
             return contactPoint;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="refPoint"></param>
-        /// <param name="contactPoint"></param>
-        /// <returns></returns>
-        private static double GetLength(PointF refPoint, PointF contactPoint)
-        {
-            return Math.Sqrt(Math.Pow((double)(refPoint.X - contactPoint.X), 2) + Math.Pow((double)(refPoint.Y - contactPoint.Y), 2));
         }
 
         /// <summary>
@@ -210,7 +199,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 alias.Y = layout.Y;
                 alias.Brush = m_setting.CreateBrush(alias.Path);
                 alias.Refresh();
-                m_canvas.SetLayer(alias, variable.Layer);
+                m_canvas.SetLayer(alias, layout.Layer);
                 m_aliases.Add(alias);
             }
         }

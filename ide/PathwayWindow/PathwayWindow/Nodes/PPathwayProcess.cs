@@ -189,14 +189,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 List<PPathwayEdge> edges = new List<PPathwayEdge>();
                 foreach (PPathwayEdge edge in m_edges)
                 {
-                    // Check existing edge.
                     bool exist = false;
                     EdgeInfo temp = null;
                     foreach (EdgeInfo info in infos)
                     {
                         if (edge.Info.VariableKey != info.VariableKey)
                             continue;
-                        //
+                        // Check existing edge.
                         exist = true;
                         temp = info;
                         edge.Info.Direction = info.Direction;
@@ -204,21 +203,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                         edge.DrawLine();
                         //
                         PPathwayVariable var = base.m_canvas.Variables[info.VariableKey];
-                        edge.Visible = this.Visible && var.Visible && _showEdge;
-                        edge.Pickable = edge.Visible;
+                        edge.Refresh();
                         edges.Add(edge);
                         break;
                     }
-                    if (exist)
+                    // Delete
+                    if (!exist)
                     {
-                        infos.Remove(temp);
-                        int index = m_layer.IndexOfChild(edge);
-                        if (index < 0)
-                            m_layer.AddChild(edge);
+                        edge.RemoveFromParent();
+                        edge.Dispose();
                         continue;
                     }
-                    edge.RemoveFromParent();
-                    edge.Dispose();
+                    //
+                    infos.Remove(temp);
+                    int index = m_layer.IndexOfChild(edge);
+                    if (index < 0)
+                        m_layer.AddChild(edge);
                 }
                 m_edges.Clear();
                 m_edges = edges;
@@ -231,8 +231,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     edge.EdgeWidth = width;
                     edge.EdgeBrush = brush;
                     edge.Selected = this.Selected || var.Selected;
-                    edge.Visible = this.Visible && var.Visible && _showEdge;
-                    edge.Pickable = edge.Visible;
+                    edge.Refresh();
                     m_layer.AddChild(edge);
                 }
             }
