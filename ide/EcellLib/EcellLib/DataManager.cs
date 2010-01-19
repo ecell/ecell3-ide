@@ -538,6 +538,8 @@ namespace Ecell
                 ConfirmLock(info);
 
                 project = new Project(info, m_env);
+                // Set current project.
+                m_currentProject = project;
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
 
                 // Create EcellProject.

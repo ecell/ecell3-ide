@@ -143,6 +143,7 @@ namespace Ecell
             }
 
             // Searches the DM paths
+            string errmsg = "";
             foreach (string dmPath in m_dmPaths)
             {
                 if (!Directory.Exists(dmPath))
@@ -163,7 +164,6 @@ namespace Ecell
                 perDirectoryModuleList[Constants.xpathVariable] = new List<DMModuleInfo>();
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
-
                 WrappedSimulator sim = new WrappedSimulator(new string[] { dmPath });
                 foreach (string modulePath in modulePaths)
                 {
@@ -180,7 +180,15 @@ namespace Ecell
                         infoList = new List<DMModuleInfo>();
                         maps[moduleType][moduleName] = infoList;
                     }
-                    string description = sim.GetDescription(moduleName);
+                    string description = "";
+                    try
+                    {
+                        description = sim.GetDescription(moduleName);
+                    }
+                    catch (Exception e)
+                    {
+                        errmsg += e.Message + "\n";
+                    }
                     DMModuleInfo info = new DMModuleInfo(modulePath, moduleName, description);
                     infoList.Add(info);
                     perDirectoryModuleList[moduleType].Add(info);
@@ -232,6 +240,8 @@ namespace Ecell
                 // 20090727
                 sim.Dispose();
             }
+            if (!string.IsNullOrEmpty(errmsg))
+                Util.ShowErrorDialog(errmsg);
 
             m_descs = descs;
         }

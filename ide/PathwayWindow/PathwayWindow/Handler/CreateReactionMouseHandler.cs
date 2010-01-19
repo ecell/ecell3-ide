@@ -111,6 +111,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             int coef = 0;
             PPathwayProcess process;
             PPathwayVariable variable;
+            //
+            if (m_start is PPathwayAlias)
+            {
+                m_start = ((PPathwayAlias)m_start).Variable;
+            }
+            if (newNode is PPathwayAlias)
+            {
+                newNode = ((PPathwayAlias)newNode).Variable;
+            }
+            //
             if (newNode is PPathwayProcess)
             {
                 process = (PPathwayProcess)newNode;
