@@ -86,6 +86,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             PointF offset = e.PickedNode.Offset;
             if (offset == PointF.Empty)
                 return;
+            PPathwayObject obj = (PPathwayObject)e.PickedNode;
+            if (!obj.Selected)
+                m_canvas.NotifyAddSelect(obj);
             m_canvas.MoveSelectedObjects(offset);
         }
 
@@ -103,12 +106,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             PointF canvasPos = e.CanvasPosition;
             RectangleF canvasRectF = e.Canvas.Bounds;
-            PPathwayNode node = (PPathwayNode)e.PickedNode;
+            PPathwayObject obj = (PPathwayObject)e.PickedNode;
             if (!canvasRectF.Contains(canvasPos))
                 offset = PointF.Empty;
-            else if(!node.Rect.Contains(e.Position))
-                offset = new PointF(e.Position.X - node.CenterPointF.X, e.Position.Y - node.CenterPointF.Y);
-
+            else if (!obj.Rect.Contains(e.Position))
+                offset = new PointF(e.Position.X - obj.CenterPointF.X, e.Position.Y - obj.CenterPointF.Y);
+            if (!obj.Selected)
+                m_canvas.NotifyAddSelect(obj);
             m_canvas.MoveSelectedObjects(offset);
         }
 

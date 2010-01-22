@@ -246,7 +246,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             foreach (PPathwayVariable variable in _variables)
             {
-                if (!variable.Visible)
+                if (!variable.Visible && variable.Aliases.Count == 0)
                     continue;
                 if(!variable.ViewMode)
                     variable.ViewMode = true;
