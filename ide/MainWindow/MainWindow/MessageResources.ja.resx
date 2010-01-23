@@ -138,6 +138,9 @@
   <data name="ConfirmUnsaved" xml:space="preserve">
     <value>モデルの変更は保存されていません。本当に閉じてよろしいですか？</value>
   </data>
+  <data name="CreateNewProject" xml:space="preserve">
+    <value>新規プロジェクトの作成</value>
+  </data>
   <data name="DialogTitleSaveAs" xml:space="preserve">
     <value>新しいプロジェクトとして保存</value>
   </data>

@@ -528,6 +528,22 @@ namespace Ecell.Job
         }
 
         /// <summary>
+        /// Get the number of running jobs.
+        /// </summary>
+        /// <returns>number of running jobs</returns>
+        public List<string> GetRunningAnalysisJobs()
+        {
+            List<string> result = new List<string>();
+            foreach (string name in m_groupDic.Keys)
+            {
+                if (m_groupDic[name].Status == AnalysisStatus.Running ||
+                    m_groupDic[name].Status == AnalysisStatus.Waiting)
+                    result.Add(name);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Get the list of finished jobs.
         /// </summary>
         /// <returns>List of SessionProxy.</returns>

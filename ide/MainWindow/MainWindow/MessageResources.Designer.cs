@@ -124,6 +124,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Create new project. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CreateNewProject {
+            get {
+                return ResourceManager.GetString("CreateNewProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save as new Project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTitleSaveAs {

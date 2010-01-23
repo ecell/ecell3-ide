@@ -2897,6 +2897,32 @@ namespace Ecell
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool ConfirmClose()
+        {
+            int editCount = m_env.ActionManager.Count;
+            if (m_currentProject == null || (editCount == 0 && m_currentProject.Info.Type == ProjectType.Project))
+                return true;
+            // Confirm saving.
+            try
+            {
+                // Save if answer is yes.
+                if (Util.ShowYesNoCancelDialog(MessageResources.ConfirmSave, MessageBoxDefaultButton.Button3))
+                {
+                    SaveProject();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            // when canceled
+            return false;
+        }
+
 
         private void CheckLoggerData(EcellObject oldObj, EcellObject newObj)
         {

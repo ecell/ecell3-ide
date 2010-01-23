@@ -363,4 +363,7 @@
   <data name="ErrLockedFile" xml:space="preserve">
     <value>このファイルは現在ロックされています。</value>
   </data>
+  <data name="ConfirmSave" xml:space="preserve">
+    <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
+  </data>
 </root>

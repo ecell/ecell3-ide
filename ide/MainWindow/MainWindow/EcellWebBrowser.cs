@@ -654,9 +654,19 @@ namespace Ecell.IDE.MainWindow
             /// </summary>
             public void CreateNewProject()
             {
-                m_browser.Environment.DataManager.CreateNewProject(
-                    "NewProject",
-                    "");
+                if (m_browser.Environment.DataManager.ConfirmClose())
+                    return;
+                m_browser.Environment.DataManager.CreateNewProject(Util.GetNewProjectName(), "");
+            }
+
+            private bool ConfirmClose()
+            {
+                Project project = m_browser.Environment.DataManager.CurrentProject;
+                int editCount = m_browser.Environment.ActionManager.Count;
+                if (project == null || (editCount == 0 && project.Info.Type == ProjectType.Project))
+                    return false;
+
+                throw new NotImplementedException();
             }
 
             /// <summary>
@@ -685,7 +695,14 @@ namespace Ecell.IDE.MainWindow
             {
                 return MessageResources.MenuTutorial;
             }
-
+            /// <summary>
+            /// Get the new project label.
+            /// </summary>
+            /// <returns></returns>
+            public string GetLabelForNewProject()
+            {
+                return MessageResources.CreateNewProject;
+            }
             /// <summary>
             /// Get the manual label.
             /// </summary>

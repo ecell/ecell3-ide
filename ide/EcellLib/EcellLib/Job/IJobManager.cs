@@ -180,6 +180,11 @@ namespace Ecell.Job
         /// <returns>List of SessionProxy.</returns>
         List<Job> GetRunningJobList();
         /// <summary>
+        /// Get the number of running jobs.
+        /// </summary>
+        /// <returns>number of running jobs</returns>
+        List<string> GetRunningAnalysisJobs();
+        /// <summary>
         /// Check whther there are any error jobs.
         /// </summary>
         /// <param name="name">the group name</param>

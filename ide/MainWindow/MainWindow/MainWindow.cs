@@ -132,7 +132,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Result of save confirm
         /// </summary>
-        private enum ConfirmState
+        internal enum ConfirmState
         {
             /// <summary>
             /// Save
@@ -1110,7 +1110,8 @@ namespace Ecell.IDE.MainWindow
         private ConfirmState CloseConfirm()
         {
             ConfirmState state = ConfirmState.No;
-            List<string> runGroupList = GetRunningAnalysisCount();
+            // Confirm Stop Analysis.
+            List<string> runGroupList = m_env.JobManager.GetRunningAnalysisJobs();
             if (runGroupList.Count > 0)
             {
                 string mes = "\n" + runGroupList[0];
@@ -1127,6 +1128,7 @@ namespace Ecell.IDE.MainWindow
                         m_env.JobManager.Stop(name, 0);
                 }
             }
+
             // No change
             Project project = m_env.DataManager.CurrentProject;
             if (project == null || (m_editCount == 0 && project.Info.Type == ProjectType.Project))
@@ -1711,18 +1713,6 @@ namespace Ecell.IDE.MainWindow
                 dialog.ApplyChanges();
             }
 
-        }
-
-        private List<string> GetRunningAnalysisCount()
-        {
-            List<string> result = new List<string>();
-            foreach (string name in m_env.JobManager.GroupDic.Keys)
-            {
-                if (m_env.JobManager.GroupDic[name].Status == AnalysisStatus.Running ||
-                    m_env.JobManager.GroupDic[name].Status == AnalysisStatus.Waiting)
-                    result.Add(name);
-            }
-            return result;
         }
 
         /// <summary>

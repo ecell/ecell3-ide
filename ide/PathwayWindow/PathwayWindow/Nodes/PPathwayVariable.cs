@@ -158,15 +158,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <returns></returns>
         public override PointF GetContactPoint(PointF refPoint)
         {
+            // Get base pointer.
             PointF contactPoint = base.GetContactPoint(refPoint);
             if (m_aliases.Count <= 0)
                 return contactPoint;
 
+            // Get Alias pointer.
             double length = GetDistance(refPoint, contactPoint);
             double tempLength;
             PointF tempPoint;
             foreach (PPathwayAlias alias in m_aliases)
             {
+                if (!alias.Visible)
+                    continue;
                 tempPoint = m_figure.GetContactPoint(refPoint, alias.CenterPointF);
                 tempLength = GetDistance(refPoint, tempPoint);
                 if (tempLength < length)
@@ -202,7 +206,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_canvas.SetLayer(alias, layout.Layer);
                 m_aliases.Add(alias);
             }
+            // Set Edge.
+            foreach (PPathwayEdge edge in m_edges)
+            {
+                edge.Refresh();
+            }
         }
-
     }
 }

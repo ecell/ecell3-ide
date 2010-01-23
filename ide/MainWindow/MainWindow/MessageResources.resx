@@ -270,4 +270,7 @@
   <data name="ConfirmReset" xml:space="preserve">
     <value>Are you sure to reset simulation?</value>
   </data>
+  <data name="CreateNewProject" xml:space="preserve">
+    <value>Create new project.</value>
+  </data>
 </root>

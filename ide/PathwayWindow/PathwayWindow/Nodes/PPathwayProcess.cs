@@ -200,9 +200,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                         temp = info;
                         edge.Info.Direction = info.Direction;
                         edge.Info.LineType = info.LineType;
-                        edge.DrawLine();
                         //
-                        PPathwayVariable var = base.m_canvas.Variables[info.VariableKey];
                         edge.Refresh();
                         edges.Add(edge);
                         break;

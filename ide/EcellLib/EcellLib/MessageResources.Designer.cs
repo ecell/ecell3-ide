@@ -70,6 +70,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Do you want to save this project before closing? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmSave {
+            get {
+                return ResourceManager.GetString("ConfirmSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot add {0} ({1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAdd {

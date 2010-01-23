@@ -365,4 +365,7 @@ New revision {0}:{1} was created.</value>
   <data name="ErrLockedFile" xml:space="preserve">
     <value>This file is locked now.</value>
   </data>
+  <data name="ConfirmSave" xml:space="preserve">
+    <value>Do you want to save this project before closing?</value>
+  </data>
 </root>
