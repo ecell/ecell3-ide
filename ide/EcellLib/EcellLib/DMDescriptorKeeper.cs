@@ -129,21 +129,21 @@ namespace Ecell
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
 
-                WrappedSimulator sim = new WrappedSimulator(new string[] { "" });
-                foreach (DMInfo entry in sim.GetDMInfo())
+                using (WrappedSimulator sim = new WrappedSimulator(new string[] { "" }))
                 {
-                    if (string.IsNullOrEmpty(entry.FileName))
+                    foreach (DMInfo entry in sim.GetDMInfo())
                     {
-                        perDirectoryModuleList[entry.TypeName].Add(
-                            new DMModuleInfo(dmPath, entry));
+                        if (string.IsNullOrEmpty(entry.FileName))
+                        {
+                            perDirectoryModuleList[entry.TypeName].Add(
+                                new DMModuleInfo(dmPath, entry));
+                        }
                     }
                 }
-                // 20090727
-               sim.Dispose();
             }
 
             // Searches the DM paths
-            string errmsg = "";
+            List<Exception> errors = new List<Exception>();
             foreach (string dmPath in m_dmPaths)
             {
                 if (!Directory.Exists(dmPath))
@@ -164,37 +164,37 @@ namespace Ecell
                 perDirectoryModuleList[Constants.xpathVariable] = new List<DMModuleInfo>();
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
-                WrappedSimulator sim = new WrappedSimulator(new string[] { dmPath });
-                foreach (string modulePath in modulePaths)
+                using (WrappedSimulator sim = new WrappedSimulator(new string[] { dmPath }))
                 {
-                    string moduleName = Path.GetFileNameWithoutExtension(modulePath);
-                    string moduleType = GetModuleType(moduleName);
+                    foreach (string modulePath in modulePaths)
+                    {
+                        string moduleName = Path.GetFileNameWithoutExtension(modulePath);
+                        string moduleType = GetModuleType(moduleName);
 
-                    if (moduleType == null)
-                        continue; // XXX: what are we supposed to do here?
+                        if (moduleType == null)
+                            continue; // XXX: what are we supposed to do here?
 
-                    List<DMModuleInfo> infoList = null;
-                    maps[moduleType].TryGetValue(moduleName, out infoList);
-                    if (infoList == null)
-                    {
-                        infoList = new List<DMModuleInfo>();
-                        maps[moduleType][moduleName] = infoList;
+                        List<DMModuleInfo> infoList = null;
+                        maps[moduleType].TryGetValue(moduleName, out infoList);
+                        if (infoList == null)
+                        {
+                            infoList = new List<DMModuleInfo>();
+                            maps[moduleType][moduleName] = infoList;
+                        }
+                        string description = null;
+                        try
+                        {
+                            description = sim.GetDescription(moduleName);
+                        }
+                        catch (Exception e)
+                        {
+                            errors.Add(e);
+                        }
+                        DMModuleInfo info = new DMModuleInfo(modulePath, moduleName, description);
+                        infoList.Add(info);
+                        perDirectoryModuleList[moduleType].Add(info);
                     }
-                    string description = "";
-                    try
-                    {
-                        description = sim.GetDescription(moduleName);
-                    }
-                    catch (Exception e)
-                    {
-                        errmsg += e.Message + "\n";
-                    }
-                    DMModuleInfo info = new DMModuleInfo(modulePath, moduleName, description);
-                    infoList.Add(info);
-                    perDirectoryModuleList[moduleType].Add(info);
                 }
-                // 20090727
-                sim.Dispose();
             }
 
             Dictionary<string, Dictionary<string, DMDescriptor>> descs =
@@ -206,43 +206,43 @@ namespace Ecell
 
             foreach (KeyValuePair<string, Dictionary<string, List<DMModuleInfo>>> kv in modulesToLookup)
             {
-                WrappedSimulator sim = new WrappedSimulator(new string[] { kv.Key });
+                using (WrappedSimulator sim = new WrappedSimulator(new string[] { kv.Key }))
                 {
-                    sim.CreateStepper("PassiveStepper", "tmp");
-                    string id = Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID");
-                    sim.SetEntityProperty(id, "tmp");
-                }
-                Trace.WriteLine("Checking DMs in " + kv.Key);
+                    {
+                        sim.CreateStepper("PassiveStepper", "tmp");
+                        string id = Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID");
+                        sim.SetEntityProperty(id, "tmp");
+                    }
+                    Trace.WriteLine("Checking DMs in " + kv.Key);
 
-                // Test System DMs.
-                foreach (DMModuleInfo info in kv.Value[Constants.xpathSystem])
-                {
-                    descs[Constants.xpathSystem][info.ModuleName] = LoadEntityDM(sim, info, Constants.xpathSystem);
-                }
+                    // Test System DMs.
+                    foreach (string kind in new String[] { Constants.xpathSystem,
+                                                           Constants.xpathProcess,
+                                                           Constants.xpathVariable })
+                    {
+                        foreach (DMModuleInfo info in kv.Value[kind])
+                        {
+                            descs[kind][info.ModuleName] = LoadEntityDM(sim, info, kind);
+                        }
+                    }
 
-                // Test Process DMs.
-                foreach (DMModuleInfo info in kv.Value[Constants.xpathProcess])
-                {
-                    descs[Constants.xpathProcess][info.ModuleName] = LoadEntityDM(sim, info, Constants.xpathProcess);
+                    // Test Stepper DMs.
+                    foreach (DMModuleInfo info in kv.Value[Constants.xpathStepper])
+                    {
+                        descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
+                    }
                 }
-
-                // Test Variable DMs.
-                foreach (DMModuleInfo info in kv.Value[Constants.xpathVariable])
-                {
-                    descs[Constants.xpathVariable][info.ModuleName] = LoadEntityDM(sim, info, Constants.xpathVariable);
-                }
-
-                // Test Stepper DMs.
-                foreach (DMModuleInfo info in kv.Value[Constants.xpathStepper])
-                {
-                    descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
-                }
-                // 20090727
-                sim.Dispose();
             }
-            if (!string.IsNullOrEmpty(errmsg))
-                Util.ShowErrorDialog(errmsg);
-
+            if (errors.Count != 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception e in errors)
+                {
+                    sb.Append(e.ToString());
+                    sb.Append("\n");
+                }
+                Util.ShowErrorDialog(sb.ToString());
+            }
             m_descs = descs;
         }
 
