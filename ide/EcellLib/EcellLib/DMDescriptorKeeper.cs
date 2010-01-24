@@ -241,7 +241,7 @@ namespace Ecell
                     sb.Append(e.ToString());
                     sb.Append("\n");
                 }
-                Util.ShowErrorDialog(sb.ToString());
+                Trace.WriteLine(sb.ToString());
             }
             m_descs = descs;
         }
