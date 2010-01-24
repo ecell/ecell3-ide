@@ -414,6 +414,9 @@ namespace Ecell
             {
                 foreach (string filename in m_info.Models)
                 {
+                    if (m_simulator != null)
+                        m_simulator.Dispose();
+                    m_simulator = CreateSimulatorInstance();
                     // Load model
                     string modelID = null;
                     EcellModel modelObj = null;

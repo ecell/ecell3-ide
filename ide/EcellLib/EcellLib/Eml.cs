@@ -736,6 +736,8 @@ namespace Ecell
                     // Initialize Entity
                     foreach (EcellObject entity in obj.Children)
                     {
+                        if (entity.Type.Equals(EcellObject.TEXT))
+                            continue;
                         bool isCreated = true;
                         // 4 "EcellCoreLib"
                         try

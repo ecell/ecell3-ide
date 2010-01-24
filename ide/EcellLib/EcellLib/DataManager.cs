@@ -777,6 +777,8 @@ namespace Ecell
             }
             catch (Exception ex)
             {
+                if (m_currentProject != null)
+                    m_currentProject.Close();
                 m_currentProject = null;
                 string message = string.Format(
                         MessageResources.ErrCrePrj,
@@ -2921,7 +2923,7 @@ namespace Ecell
             }
             // when canceled
             return false;
-        }
+        }   
 
 
         private void CheckLoggerData(EcellObject oldObj, EcellObject newObj)
@@ -4936,14 +4938,11 @@ namespace Ecell
                     continue;
 
                 existSystem = true;
-                string parentPath = system.ParentSystemID;
-                string childPath = system.LocalID;
                 if (!system.Key.Equals(Constants.delimiterPath))
                 {
                     simulator.CreateEntity(
                         system.Classname,
-                        system.Classname + Constants.delimiterColon
-                            + parentPath + Constants.delimiterColon + childPath);
+                        system.FullID);
                 }
                 // 4 property
                 if (system.Value == null || system.Value.Count <= 0)
@@ -5033,7 +5032,7 @@ namespace Ecell
                     continue;
                 simulator.CreateEntity(
                     entity.Classname,
-                    entity.Type + Constants.delimiterColon + entity.Key);
+                    entity.FullID);
                 if (entity.Value == null || entity.Value.Count <= 0)
                     continue;
 
