@@ -39,6 +39,7 @@ namespace Ecell
     using Ecell.Objects;
     using System.Reflection;
     using System.IO;
+    using EcellCoreLib;
 
     /// <summary>
     /// 
@@ -680,6 +681,27 @@ namespace Ecell
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             _env.DataManager.CreateSimulationParameter(paramID);
             _env.DataManager.CurrentProject.SetInitialCondition(paramID, paramID, 0.1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestWrappedSimulator()
+        {
+            WrappedSimulator sim = new WrappedSimulator(_unitUnderTest.GetDMDirs());
+            EmlReader.Parse(TestConstant.Model_Drosophila, sim);
+            Console.WriteLine(sim.GetEntityProperty("System::/:Name"));
+            sim.Initialize();
+            try
+            {
+                sim.Dispose();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                Assert.Fail(e.Message);
+            }
         }
     }
 }
