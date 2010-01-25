@@ -392,7 +392,7 @@ namespace Ecell
         {
             if (m_simulator != null)
             {
-                m_simulator.Dispose();
+                //m_simulator.Dispose();
                 m_simulator = null;
             }
         }
@@ -410,19 +410,18 @@ namespace Ecell
         /// </summary>
         public void LoadModel()
         {
+            WrappedSimulator simulator = null;
             try
             {
                 foreach (string filename in m_info.Models)
                 {
-                    if (m_simulator != null)
-                        m_simulator.Dispose();
-                    m_simulator = CreateSimulatorInstance();
+                    simulator = CreateSimulatorInstance();
                     // Load model
                     string modelID = null;
                     EcellModel modelObj = null;
                     try
                     {
-                        modelObj = EmlReader.Parse(filename, m_simulator);
+                        modelObj = EmlReader.Parse(filename, simulator);
                     }
                     catch (EcellException e)
                     {
@@ -453,7 +452,7 @@ namespace Ecell
                     // Initialize
                     try
                     {
-                        m_simulator.Initialize();
+                        simulator.Initialize();
                     }
                     catch (Exception e)
                     {
@@ -471,7 +470,7 @@ namespace Ecell
 
                     // Sets initial conditions.
                     SetSimParams(modelID);
-                    InitializeModel(modelObj);
+                    InitializeModel(modelObj, simulator);
 
                     try
                     {
@@ -500,13 +499,15 @@ namespace Ecell
             {
                 throw new EcellException(string.Format(MessageResources.ErrLoadModel, ""), ex);
             }
+
+            m_simulator = simulator;
         }
 
         /// <summary>
         /// InitializeModel
         /// </summary>
         /// <param name="ecellObject">The model object.</param>
-        private void InitializeModel(EcellObject ecellObject)
+        private void InitializeModel(EcellObject ecellObject, WrappedSimulator simulator)
         {
             // Sets the "EcellObject".
             string modelID = ecellObject.ModelID;
@@ -516,7 +517,7 @@ namespace Ecell
             {
                 m_modelList.Add((EcellModel)ecellObject);
                 DataStorer.DataStored(
-                    m_simulator,
+                    simulator,
                     m_env.DMDescriptorKeeper,
                     ecellObject,
                     m_initialCondition[simParam][modelID]);
@@ -540,7 +541,7 @@ namespace Ecell
             }
             foreach (EcellObject childEcellObject in ecellObject.Children)
             {
-                InitializeModel(childEcellObject);
+                InitializeModel(childEcellObject, simulator);
             }
         }
 
@@ -720,10 +721,7 @@ namespace Ecell
         /// </summary>
         public void Close()
         {
-            // Dispose simulator.
-            this.m_simulator.Dispose();
-            this.m_simulator = null;
-            //
+            UnloadSimulator();
             UnLock();
         }
 

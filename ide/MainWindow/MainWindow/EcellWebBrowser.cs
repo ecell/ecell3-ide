@@ -654,7 +654,7 @@ namespace Ecell.IDE.MainWindow
             /// </summary>
             public void CreateNewProject()
             {
-                if (m_browser.Environment.DataManager.ConfirmClose())
+                if (!m_browser.Environment.DataManager.ConfirmClose())
                     return;
                 m_browser.Environment.DataManager.CreateNewProject(Util.GetNewProjectName(), "");
             }
