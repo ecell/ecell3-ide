@@ -143,7 +143,6 @@ namespace Ecell
             }
 
             // Searches the DM paths
-            List<Exception> errors = new List<Exception>();
             foreach (string dmPath in m_dmPaths)
             {
                 if (!Directory.Exists(dmPath))
@@ -188,7 +187,7 @@ namespace Ecell
                         }
                         catch (Exception e)
                         {
-                            errors.Add(e);
+                            Trace.WriteLine(e);
                         }
                         DMModuleInfo info = new DMModuleInfo(modulePath, moduleName, description);
                         infoList.Add(info);
@@ -232,16 +231,6 @@ namespace Ecell
                         descs[Constants.xpathStepper][info.ModuleName] = LoadStepperDM(sim, info);
                     }
                 }
-            }
-            if (errors.Count != 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (Exception e in errors)
-                {
-                    sb.Append(e.ToString());
-                    sb.Append("\n");
-                }
-                Trace.WriteLine(sb.ToString());
             }
             m_descs = descs;
         }
