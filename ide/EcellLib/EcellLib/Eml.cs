@@ -780,7 +780,6 @@ namespace Ecell
                 }
                 catch (WrappedException e)
                 {
-                    e.ToString();
                     isWarn = true;
                     errMsg += pair.Key + ":" + e.Message + "\n";
                 }
