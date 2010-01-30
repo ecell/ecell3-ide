@@ -392,7 +392,7 @@ namespace Ecell
         {
             if (m_simulator != null)
             {
-                //m_simulator.Dispose();
+                m_simulator.Dispose();
                 m_simulator = null;
             }
         }
@@ -402,6 +402,7 @@ namespace Ecell
         /// </summary>
         public void ReloadSimulator()
         {
+            UnloadSimulator();
             m_simulator = CreateSimulatorInstance();
         }
 
