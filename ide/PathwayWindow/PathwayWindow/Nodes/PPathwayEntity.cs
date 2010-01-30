@@ -228,11 +228,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             point = new PointF(point.X - this.X - this.OffsetX, point.Y - this.Y - this.OffsetY);
             PointF[] points = m_figure.ContactPoints;
             int i = 0;
-            float length = GetDistance(point, points[0]);
+            double length = GetDistance(point, points[0]);
             index = 0;
             foreach (PointF pos in points)
             {
-                float temp = GetDistance(pos, point);
+                double temp = GetDistance(pos, point);
                 if (temp < length)
                 {
                     length = temp;
@@ -241,18 +241,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 i++;
             }
             return index;
-        }
-
-        /// <summary>
-        /// Get distance between two points
-        /// </summary>
-        /// <param name="point1">point 1</param>
-        /// <param name="point2">point 2</param>
-        /// <returns>Distance between point 1 and point 2</returns>
-        public float GetDistance(PointF point1, PointF point2)
-        {
-            float dist = (float)Math.Sqrt(Math.Pow((double)(point1.X - point2.X), 2d) + Math.Pow((double)(point1.Y - point2.Y), 2d));
-            return dist;
         }
 
         /// <summary>

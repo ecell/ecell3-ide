@@ -464,7 +464,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// Get line color
         /// </summary>
         /// <param name="activity"></param>
-        /// <param name="variable"></param>
+        /// <param name="setting"></param>
+        /// <param name="path"></param>
         /// <returns></returns>
         private Brush GetEntityBrush(double activity, ComponentSetting setting, GraphicsPath path)
         {

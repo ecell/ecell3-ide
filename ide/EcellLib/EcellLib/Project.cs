@@ -293,7 +293,7 @@ namespace Ecell
         {
             get { return m_simulator; }
             set {
-                UnloadSimulator();
+                //UnloadSimulator();
                 m_simulator = value; 
             }
         }

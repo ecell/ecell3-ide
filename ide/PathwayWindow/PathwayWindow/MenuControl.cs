@@ -1087,7 +1087,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Set layer menu items.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="layer"></param>
         private void SetLayerMenu(string layer)
         {
             ToolStripMenuItem layerMenu = toolStripChangeLayer;

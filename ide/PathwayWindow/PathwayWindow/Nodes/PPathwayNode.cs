@@ -224,15 +224,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.m_pText.MoveToFront();
         }
 
+
         /// <summary>
-        /// 
+        /// Get distance between two points
         /// </summary>
-        /// <param name="refPoint"></param>
-        /// <param name="contactPoint"></param>
-        /// <returns></returns>
+        /// <param name="refPoint">point 1</param>
+        /// <param name="contactPoint">point 2</param>
+        /// <returns>Distance between point 1 and point 2</returns>
         public static double GetDistance(PointF refPoint, PointF contactPoint)
         {
-            return Math.Sqrt(Math.Pow((double)(refPoint.X - contactPoint.X), 2) + Math.Pow((double)(refPoint.Y - contactPoint.Y), 2));
+            double dist = Math.Sqrt(Math.Pow((double)(refPoint.X - contactPoint.X), 2d) + Math.Pow((double)(refPoint.Y - contactPoint.Y), 2d));
+            return dist;
         }
 
 
