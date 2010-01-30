@@ -103,10 +103,9 @@ namespace Ecell
         /// <param name="env">Application Environmant object.</param>
         public void Compile(ApplicationEnvironment env)
         {
+            // Check error.
             if (m_sourceFile == null || !File.Exists(m_sourceFile))
-            {
                 return;
-            }
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
             if (string.IsNullOrEmpty(stageHome))
             {
@@ -114,6 +113,7 @@ namespace Ecell
                     new object[] { "E-Cell SDK" }));
                 return;
             }
+            // Set up compile environment.
             string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
             if (string.IsNullOrEmpty(VS80))
             {
@@ -142,6 +142,8 @@ namespace Ecell
                     count++;
                 }
             }
+
+            // Compile
             using (rs)
             {
                 ProcessStartInfo psi = new ProcessStartInfo();
@@ -168,8 +170,8 @@ namespace Ecell
 
                 string opt = "cl.exe /O2 /GL /I \"{0}\\Win32\\Release\\include\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\\libecs\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\\libemc\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_WIN32_WINNT=0x500\" /D \"_SECURE_SCL=0\" /D \"_MBCS\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
                 string cmd = string.Format(opt, new object[] {
-                stageHome, m_sourceFile, m_outputFile, arch1, arch2
-            });
+                    stageHome, m_sourceFile, m_outputFile, arch1, arch2
+                    });
 
                 p.StandardInput.WriteLine(cmd);
                 p.StandardInput.WriteLine("exit");
@@ -205,9 +207,7 @@ namespace Ecell
                 p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
 
                 string mopt = "mt.exe /outputresource:\"{0};#2\" /manifest \"{0}.intermediate.manifest\" /nologo";
-                cmd = string.Format(mopt, new object[] {
-                m_outputFile
-            });
+                cmd = string.Format(mopt, m_outputFile);
                 p.StandardInput.WriteLine(cmd);
                 p.StandardInput.WriteLine("exit");
                 p.StandardInput.Close();
@@ -217,6 +217,7 @@ namespace Ecell
                 env.Console.WriteLine(mes);
                 Console.WriteLine(mes);
 
+                // error
                 if (mes.Contains(" error"))
                 {
                     string[] ele = mes.Split(new char[] { '\n' });
@@ -240,14 +241,17 @@ namespace Ecell
                 p.WaitForExit();
                 p.Close();
 
+                // Reload DMs.
                 try
                 {
+                    env.DataManager.CurrentProject.UnloadSimulator();
                     File.Move(OutputFile, DMFile);
                     Util.ShowNoticeDialog(string.Format(MessageResources.InfoCompile, 
                         Path.GetFileNameWithoutExtension(DMFile)));
                     env.Console.WriteLine(string.Format(MessageResources.InfoCompile,
                         Path.GetFileNameWithoutExtension(DMFile)));
                     env.Console.Flush();
+                    env.DataManager.CurrentProject.ReloadSimulator();
                 }
                 catch (Exception)
                 {
