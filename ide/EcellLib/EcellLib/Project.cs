@@ -143,7 +143,6 @@ namespace Ecell
                     }
                 }
                 stepperList.Sort();
-                // 20090727
                 sim.Dispose();
                 return stepperList;
             }
@@ -294,9 +293,7 @@ namespace Ecell
         {
             get { return m_simulator; }
             set {
-                // 20090623
-                //if (m_simulator != null)
-                //    m_simulator.Dispose();
+                UnloadSimulator();
                 m_simulator = value; 
             }
         }

@@ -2,7 +2,7 @@
 //
 //       This file is part of the E-Cell System
 //
-//       Copyright (C) 1996-2009 Keio University
+//       Copyright (C) 1996-2010 Keio University
 //       Copyright (C) 2005-2008 The Molecular Sciences Institute
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -28,7 +28,7 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 // Created    :2009/01/14
-// Last Update:2009/02/02
+// Last Update:2010/02/02
 //
 
 using System;
@@ -72,7 +72,6 @@ namespace Ecell.SBML
             WrappedSimulator sim = new WrappedSimulator(Util.GetDMDirs());
             EcellModel model = EmlReader.Parse(emlfile, sim);
             SaveSBML(model, output);
-            // 20090727
             sim.Dispose();
         }
 

@@ -452,7 +452,6 @@ namespace Ecell
             }
             finally
             {
-                // 20090727
                 if (sim != null)
                     sim.Dispose();
             }
@@ -3239,7 +3238,6 @@ namespace Ecell
                 dummyEcellObject,
                 new Dictionary<string, double>());
             SetPropertyList(dummyEcellObject, dic); 
-            // 20090727
             sim.Dispose();
             return dic;
         }
@@ -3328,7 +3326,6 @@ namespace Ecell
             }
             finally
             {
-                // 20090727
                 sim.Dispose();
                 sim = null;
                 variableObject = null;
@@ -3360,7 +3357,6 @@ namespace Ecell
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
-                // 20090727
                 sim.Dispose();
             }
             finally
@@ -3393,17 +3389,7 @@ namespace Ecell
                         m_env.DMDescriptorKeeper,
                         dummyEcellObject,
                         new Dictionary<string, double>());
-                //string key = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
-                //BuildDefaultSimulator(sim, dmName, "ODEStepper");
-                //EcellObject dummyEcellObject = EcellObject.CreateObject("",
-                //    key, EcellObject.PROCESS, dmName, null);
-                //DataStorer.DataStored4Process(
-                //        sim,
-                //        m_env.DMDescriptorKeeper,
-                //        dummyEcellObject,
-                //        new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
-                // 20090727
                 sim.Dispose();
             }
             catch (Exception ex)
@@ -3431,7 +3417,6 @@ namespace Ecell
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
                 DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
                 list = dummyEcellObject.Value;
-                // 20090727
                 sim.Dispose();
             }
             finally
@@ -5165,8 +5150,7 @@ namespace Ecell
                 // Parses the simulation parameter.
                 WrappedSimulator simulator = project.CreateSimulatorInstance();
                 simParam = SimulationParameterReader.Parse(fileName, simulator);
-                //20090623
-                //simulator.Dispose();
+                simulator.Dispose();
             }
             catch (Exception ex)
             {

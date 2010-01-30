@@ -1,5 +1,5 @@
 ﻿// Formulator C# Library
-// COPYRIGHT (C) 2006-2009  MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// COPYRIGHT (C) 2006-2010  MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public

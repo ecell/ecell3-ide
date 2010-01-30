@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2009 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -1645,8 +1645,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     Util.ShowErrorDialog(MessageResources.ErrImportDM);
                 }
-                // 20090727
-                m_owner.DataManager.UnloadSimulator();
                 m_owner.DataManager.ReloadSimulator();
                 m_DMNode.Nodes.Clear();
                 SetDMNodes();
