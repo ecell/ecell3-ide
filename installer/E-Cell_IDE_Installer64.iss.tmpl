@@ -1,10 +1,7 @@
 [Setup]
-VersionInfoVersion=1.1.$WCREV$
 PrivilegesRequired=poweruser
-AppComments=E-Cell IDE
 InternalCompressLevel=max
 Compression=lzma/ultra
-VersionInfoTextVersion=E-Cell IDE 1.1.$WCREV$
 EnableDirDoesntExistWarning=Yes
 WizardSmallImageFile=img\ecell-logo1.bmp
 WizardImageFile=img\test.bmp
@@ -12,28 +9,31 @@ WizardImageStretch=no
 ChangesEnvironment=Yes
 AppPublisherURL=http://sourceforge.net/project/showfiles.php?group_id=72485
 AppPublisher=Keio University and Mitsubishi Space Software CO., LTD.
+DefaultGroupName=E-Cell IDE
+AppID = ECell_IDE
+;AppName = E-Cell IDE
+AppName = E-Cell IDE 1.1
+AppComments=E-Cell IDE
+;AppVerName=E-Cell IDE 1.1.$WCREV$
+AppVerName=E-Cell IDE 1.1
 OnlyBelowVersion=0,7
 MinVersion=0,5.0.2195
-DefaultGroupName=E-Cell IDE
+VersionInfoVersion=1.1.$WCREV$
+VersionInfoTextVersion=E-Cell IDE 1.1.$WCREV$
+VersionInfoDescription=E-Cell IDE 1.1
+VersionInfoCompany=Keio University and Mitsubishi Space Software CO., LTD.
 OutputDir=.
 VersionInfoCopyright=Copyright (C) Keio University\r\nCopyright (C) Mitsubishi Space Software CO., LTD.
-;AppVerName=E-Cell IDE 1.1.$WCREV$
-AppVerName=E-Cell IDE 1.0
 SetupIconFile=img\ECellIDE.ico
 BackColor2=$004080FF
 BackColor=$0086ADFF
 DisableProgramGroupPage=Yes
 AllowNoIcons=Yes
-VersionInfoDescription=E-Cell IDE 1.0
-VersionInfoCompany=Keio University and Mitsubishi Space Software CO., LTD.
 ;ArchitecturesInstallIn64BitMode=x64
 ArchitecturesAllowed=x64
 ;DefaultDirName={pf}\E-Cell IDE
 OutputBaseFilename=E-Cell_IDE_installer64
 DefaultDirName=C:\Program Files\E-Cell IDE
-;AppName = E-Cell IDE
-AppName = E-Cell IDE 1.0
-AppID = ECell_IDE
 ;AppModifyPath="{app}\UninsHs.exe" /m3=ECell_IDE
 LicenseFile=License.txt
 UninstallDisplayIcon={app}\bin\ecell-ide.exe
@@ -331,7 +331,7 @@ Source: "conf\ClassName\*"; DestDir: "{app}\conf\ClassName"; Components: main; C
 ; ======================================================
 ; python
 ; ======================================================
-Source: "python-2.5.2.amd64.msi" ; Flags: dontcopy
+Source: "python-2.5.4.amd64.msi" ; Flags: dontcopy
 
 [Registry]
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
@@ -481,8 +481,8 @@ begin
     else
     begin
       MsgBox(CustomMessage('Python_Installed'), mbInformation, MB_OK);
-      ExtractTemporaryFile( 'python-2.5.2.amd64.msi' );
-      if (Exec('MSIEXEC.EXE',ExpandConstant('/i {tmp}\python-2.5.2.amd64.msi') , '', SW_SHOW, ewWaitUntilTerminated, ResultCode)) then
+      ExtractTemporaryFile( 'python-2.5.4.amd64.msi' );
+      if (Exec('MSIEXEC.EXE',ExpandConstant('/i {tmp}\python-2.5.4.amd64.msi') , '', SW_SHOW, ewWaitUntilTerminated, ResultCode)) then
       begin
       end;
       if (RegKeyExists(HKEY_LOCAL_MACHINE_64, 'SOFTWARE\Python\PythonCore\2.5\PythonPath')) then
