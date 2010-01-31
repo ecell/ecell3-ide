@@ -193,6 +193,7 @@ Source: "Win32\bin\Python.Runtime.dll"; DestDir: "{app}\bin";  Components: main;
 ; ======================================================
 ; bin/*.dll
 ; ======================================================
+Source: "Win32\bin\boost_*.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\EcellLib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\EcellUILib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
