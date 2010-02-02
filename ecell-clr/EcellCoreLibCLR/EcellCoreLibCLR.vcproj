@@ -127,7 +127,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
-				AdditionalIncludeDirectories="&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2&quot;;&quot;$(INCLUDE)&quot;"
+				AdditionalIncludeDirectories="&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2&quot;;&quot;$(PYTHONHOME)\include&quot;;&quot;$(INCLUDE)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;__STDC__;_SECURE_SCL=0;BOOST_ALL_NO_LIB=1"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -148,7 +148,7 @@
 				AdditionalOptions=""
 				AdditionalDependencies="ecs.lib $(BOOST_PYTHON_LIBNAME).lib python*.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib;$(LIB)"
+				AdditionalLibraryDirectories="&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib&quot;;&quot;$(PYTHONHOME)\libs&quot;;&quot;$(LIB)&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 				KeyFile="ecell.snk"
