@@ -266,14 +266,20 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 if (!d.Value.IsDouble || !d.Gettable)
                     continue;
-                double value;
-                if (m_current.Type.Equals(Constants.xpathStepper))
+                double value = 0;
+                try
                 {
-                    value = m_env.DataManager.GetPropertyValue4Stepper(m_current.Key, d.Name);
+                    if (m_current.Type.Equals(Constants.xpathStepper))
+                    {
+                        value = m_env.DataManager.GetPropertyValue4Stepper(m_current.Key, d.Name);
+                    }
+                    else
+                    {
+                        value = m_env.DataManager.GetPropertyValue(d.EntityPath);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    value = m_env.DataManager.GetPropertyValue(d.EntityPath);
                 }
                 foreach (DataGridViewRow row in m_dgv.Rows)
                 {
@@ -458,7 +464,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     propValueCell = new DataGridViewComboBoxCell();
                     bool isHit = false;
-                    List<string> stepList = m_env.DataManager.CurrentProject.StepperDmList;
+                    List<string> stepList = m_env.DMDescriptorKeeper.StepperDmList;
                     foreach (string sName in stepList)
                     {
                         ((DataGridViewComboBoxCell)propValueCell).Items.Add(sName);
@@ -482,7 +488,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     propValueCell = new DataGridViewComboBoxCell();
                     bool isHit = false;
-                    List<string> procList = m_env.DataManager.CurrentProject.ProcessDmList;
+                    List<string> procList = m_env.DMDescriptorKeeper.ProcessDmList;
                     foreach (string pName in procList)
                     {
                         ((DataGridViewComboBoxCell)propValueCell).Items.Add(pName);

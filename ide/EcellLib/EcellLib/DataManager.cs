@@ -3209,40 +3209,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Returns the list of the "System" property. 
-        /// </summary>
-        /// <returns>The dictionary of the "System" property</returns>
-        public Dictionary<string, EcellData> GetSystemProperty()
-        {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
-            BuildDefaultSimulator(sim, null, null);
-            ArrayList list = new ArrayList();
-            list.Clear();
-            list.Add("");
-            sim.LoadEntityProperty(
-                Constants.xpathSystem + Constants.delimiterColon +
-                Constants.delimiterColon +
-                Constants.delimiterPath + Constants.delimiterColon +
-                Constants.xpathName,
-                list
-                );
-            EcellObject dummyEcellObject = EcellObject.CreateObject(
-                "",
-                Constants.delimiterPath,
-                EcellObject.SYSTEM,
-                EcellObject.SYSTEM,
-                null);
-            DataStorer.DataStored4System(
-                sim,
-                dummyEcellObject,
-                new Dictionary<string, double>());
-            SetPropertyList(dummyEcellObject, dic); 
-            sim.Dispose();
-            return dic;
-        }
-
-        /// <summary>
         /// Update the property when DataChanged is executed,
         /// </summary>
         /// <param name="variable">the variable object.</param>
@@ -3338,32 +3304,7 @@ namespace Ecell
         /// <returns>The dictionary of the "Variable" property</returns>
         public Dictionary<string, EcellData> GetVariableProperty()
         {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator sim = null;
-            EcellObject dummyEcellObject = null;
-            try
-            {
-                sim = m_currentProject.CreateSimulatorInstance();
-                BuildDefaultSimulator(sim, null, null);
-                dummyEcellObject = EcellObject.CreateObject(
-                    "",
-                    Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
-                    EcellObject.VARIABLE,
-                    EcellObject.VARIABLE,
-                    null
-                    );
-                DataStorer.DataStored4Variable(
-                        sim,
-                        dummyEcellObject,
-                        new Dictionary<string, double>());
-                SetPropertyList(dummyEcellObject, dic);
-                sim.Dispose();
-            }
-            finally
-            {
-                sim = null;
-                dummyEcellObject = null;
-            }
+            Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.VARIABLE, EcellObject.VARIABLE);
             return dic;
         }
 
@@ -3374,30 +3315,17 @@ namespace Ecell
         /// <returns>The dictionary of the "Process" property</returns>
         public Dictionary<string, EcellData> GetProcessProperty(string dmName)
         {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            try
-            {
-                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
-                string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
-                //sim.CreateStepper("ODEStepper", "temporaryStepper");
-                //sim.SetEntityProperty("System::/:StepperID", "temporaryStepper");
-                sim.CreateEntity(dmName,
-                    Constants.xpathProcess + Constants.delimiterColon + key);
-                EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, new List<EcellData>());
-                DataStorer.DataStored4Process(
-                        sim,
-                        m_env.DMDescriptorKeeper,
-                        dummyEcellObject,
-                        new Dictionary<string, double>());
-                SetPropertyList(dummyEcellObject, dic);
-                sim.Dispose();
-            }
-            catch (Exception ex)
-            {
-                throw new EcellException(
-                    string.Format(MessageResources.ErrGetProp,
-                    new object[] { dmName }), ex);
-            }
+            Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.PROCESS, dmName);
+            return dic;
+        }
+
+        /// <summary>
+        /// Returns the list of the "System" property. 
+        /// </summary>
+        /// <returns>The dictionary of the "System" property</returns>
+        public Dictionary<string, EcellData> GetSystemProperty()
+        {
+            Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.SYSTEM, EcellObject.SYSTEM);
             return dic;
         }
 
@@ -3408,21 +3336,9 @@ namespace Ecell
         /// <returns>The dictionary of the "Stepper" property</returns>
         public List<EcellData> GetStepperProperty(string dmName)
         {
-            List<EcellData> list;
-            EcellObject dummyEcellObject = null;
-            try
-            {
-                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
-                sim.CreateStepper(dmName, Constants.textKey);
-                dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
-                DataStorer.DataStored4Stepper(sim, m_env.DMDescriptorKeeper, dummyEcellObject);
-                list = dummyEcellObject.Value;
-                sim.Dispose();
-            }
-            finally
-            {
-                dummyEcellObject = null;
-            }
+            List<EcellData> list = new List<EcellData>();
+            Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.STEPPER, dmName);
+            list.AddRange(dic.Values);
             return list;
         }
 

@@ -73,6 +73,14 @@ namespace Ecell
 
         #region Accessors
         /// <summary>
+        /// get ApplicationEnvironment
+        /// </summary>
+        public ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+        }
+
+        /// <summary>
         /// get DataManager.
         /// </summary>
         public DataManager DataManager
@@ -1102,6 +1110,11 @@ namespace Ecell
             private CommandManager m_cManager = null;
 
             /// <summary>
+            /// ApplicationEnvironment instance.
+            /// </summary>
+            private ApplicationEnvironment m_env = null;
+
+            /// <summary>
             /// Creates the new "EntityStub" instance with the full ID.
             /// </summary>
             /// <param name="cManager">CommandManager instance to associate</param>
@@ -1185,15 +1198,15 @@ namespace Ecell
                 List<string> entityList = null;
                 if (type.Equals(Constants.xpathSystem))
                 {
-                    entityList = m_cManager.DataManager.CurrentProject.SystemDmList;
+                    entityList = m_env.DMDescriptorKeeper.SystemDmList;
                 }
                 else if (type.Equals(Constants.xpathProcess))
                 {
-                    entityList = m_cManager.DataManager.CurrentProject.ProcessDmList;
+                    entityList = m_env.DMDescriptorKeeper.ProcessDmList;
                 }
                 else if (type.Equals(Constants.xpathVariable))
                 {
-                    entityList = m_cManager.DataManager.CurrentProject.VariableDmList;
+                    entityList = m_env.DMDescriptorKeeper.VariableDmList;
                 }
 
                 if (entityList != null && entityList.Count > 0)
@@ -1995,6 +2008,11 @@ namespace Ecell
             private CommandManager m_cManager = null;
 
             /// <summary>
+            /// ApplicationEnvironment instance.
+            /// </summary>
+            private ApplicationEnvironment m_env = null;
+
+            /// <summary>
             /// Creates the stepper stub with no argument.
             /// </summary>
             private StepperStub()
@@ -2009,6 +2027,7 @@ namespace Ecell
             public StepperStub(CommandManager cManager, string ID)
             {
                 this.m_cManager = cManager;
+                this.m_env = cManager.Environment;
                 this.m_ID = ID;
             }
 
@@ -2092,7 +2111,7 @@ namespace Ecell
             /// <param name="className">the class name</param>
             private void Create(string key, string className)
             {
-                List<string> entityList = m_cManager.DataManager.CurrentProject.StepperDmList;
+                List<string> entityList = m_env.DMDescriptorKeeper.StepperDmList;
                 if (entityList != null && entityList.Count > 0)
                 {
                     foreach (string entity in entityList)

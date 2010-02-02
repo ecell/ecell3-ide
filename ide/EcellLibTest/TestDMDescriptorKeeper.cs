@@ -292,6 +292,12 @@ namespace Ecell
         [Test()]
         public void TestGetDMDescriptor()
         {
+            // Check DM list.
+            Assert.IsNotEmpty(_unitUnderTest.StepperDmList, "StepperDmList is unexpected value.");
+            Assert.IsNotEmpty(_unitUnderTest.SystemDmList, "SystemDmList is unexpected value.");
+            Assert.IsNotEmpty(_unitUnderTest.ProcessDmList, "ProcessDmList is unexpected value.");
+            Assert.IsNotEmpty(_unitUnderTest.VariableDmList, "VariableDmList is unexpected value.");
+
             // Check BuiltIn DMs.
             TestDMDescriptor("System", "System");
             TestDMDescriptor("Variable", "Variable");
@@ -354,7 +360,7 @@ namespace Ecell
                 Assert.AreEqual(module.Name, dmName);
                 Assert.AreNotEqual(module.Path, "");
                 Assert.IsNotNull(((IEnumerable)module).GetEnumerator());
-                Assert.IsNotNull(module.Property);
+                Assert.IsNotNull(module.Properties);
 
                 Trace.WriteLine("DynamicModule:" + module.Name);
                 foreach (PropertyDescriptor prop in module)

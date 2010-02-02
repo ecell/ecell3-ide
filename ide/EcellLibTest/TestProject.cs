@@ -102,10 +102,6 @@ namespace Ecell
             Assert.IsNotNull(testProject, "Constructor of type, Project failed to create instance.");
 
             Assert.IsNotEmpty(testProject.DmDic, "DmDic is unexpected value.");
-            Assert.IsNotEmpty(testProject.StepperDmList, "StepperDmList is unexpected value.");
-            Assert.IsNotEmpty(testProject.SystemDmList, "SystemDmList is unexpected value.");
-            Assert.IsNotEmpty(testProject.ProcessDmList, "ProcessDmList is unexpected value.");
-            Assert.IsNotEmpty(testProject.VariableDmList, "VariableDmList is unexpected value.");
 
             Assert.IsNotEmpty(testProject.InitialCondition, "InitialCondition is unexpected value.");
             Assert.IsEmpty(testProject.LogableEntityPathDic, "LogableEntityPathDic is unexpected value.");

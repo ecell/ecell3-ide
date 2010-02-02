@@ -34,6 +34,7 @@ using System.IO;
 using System.Diagnostics;
 using EcellCoreLib;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -52,6 +53,52 @@ namespace Ecell
         /// </summary>
         private Dictionary<string, Dictionary<string, DMDescriptor>> m_descs = null;
         #endregion
+
+
+        /// <summary>
+        /// Returns the list of the "Stepper" DM.
+        /// </summary>
+        public List<string> StepperDmList
+        {
+            get
+            {
+                return GetDMNameList(EcellObject.STEPPER);
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of the "System" DM.
+        /// </summary>
+        public List<string> SystemDmList
+        {
+            get
+            {
+                return GetDMNameList(EcellObject.SYSTEM);
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of the "Variable" DM.
+        /// </summary>
+        public List<string> VariableDmList
+        {
+            get
+            {
+                return GetDMNameList(EcellObject.VARIABLE);
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of the "Process" DM.
+        /// </summary>
+        public List<string> ProcessDmList
+        {
+            get
+            {
+                return GetDMNameList(EcellObject.PROCESS);
+            }
+        }
+
 
         #region Constructor
         /// <summary>
@@ -97,6 +144,55 @@ namespace Ecell
         public ICollection<DMDescriptor> GetDMDescriptors(string type)
         {
             return m_descs[type].Values;
+        }
+
+        /// <summary>
+        /// Get DM list of selected type.
+        /// </summary>
+        /// <param name="type">Type of DM</param>
+        /// <returns></returns>
+        public List<string> GetDMNameList(string type)
+        {
+            List<string> dmList = new List<string>();
+            ICollection<DMDescriptor> descs = GetDMDescriptors(type);
+            foreach (DMDescriptor desc in descs)
+            {
+                dmList.Add(desc.Name);
+            }
+            return dmList;
+        }
+
+        /// <summary>
+        /// Get the default parameter of DMDescriptor.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="dmName"></param>
+        /// <returns></returns>
+        public Dictionary<string, EcellData> GetDefaultParameter(string type, string dmName)
+        {
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            try
+            {
+                DMDescriptor desc = GetDMDescriptor(type, dmName);
+                if (desc == null)
+                    return dic;
+                // Load params.
+                foreach (PropertyDescriptor prop in desc.Properties.Values)
+                {
+                    EcellData data = new EcellData(prop.Name, prop.DefaultValue, null);
+                    data.Gettable = prop.Gettable;
+                    data.Settable = prop.Settable;
+                    data.Loadable = prop.Loadable;
+                    data.Logable = prop.Logable;
+                    data.Saveable = prop.Saveable;
+                    dic.Add(prop.Name, data);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrGetProp,dmName), ex);
+            }
+            return dic;
         }
 
         /// <summary>

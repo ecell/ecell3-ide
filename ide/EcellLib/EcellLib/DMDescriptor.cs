@@ -138,7 +138,7 @@ namespace Ecell
         /// <summary>
         /// get the dictionary of properties.
         /// </summary>
-        public Dictionary<string, PropertyDescriptor> Property
+        public Dictionary<string, PropertyDescriptor> Properties
         {
             get { return m_props; }
         }
