@@ -319,8 +319,8 @@ namespace Ecell.IDE
             else if (e.ColumnIndex == 1)
             {
                 DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
-                float dummy;
-                if (!float.TryParse((string)e.FormattedValue, out dummy))
+                double dummy;
+                if (!double.TryParse((string)e.FormattedValue, out dummy))
                 {
                     e.Cancel = true;
                     dgv.CancelEdit();

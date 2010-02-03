@@ -216,12 +216,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             string hightext = thresholdHigh.Text;
             string lowtext = thresholdLow.Text;
-            float high, low;
-            if (!float.TryParse(hightext, out high))
+            double high, low;
+            if (!double.TryParse(hightext, out high))
             {
                 throw new EcellException(string.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
             }
-            if (!float.TryParse(lowtext, out low))
+            if (!double.TryParse(lowtext, out low))
             {
                 throw new EcellException(string.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
             }
@@ -242,8 +242,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 e.Cancel = true;
                 return;
             }
-            float dummy;
-            if (!float.TryParse(text, out dummy))
+            double dummy;
+            if (!double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
                 thresholdHigh.Text = Convert.ToString(animCon.ThresholdHigh);
@@ -262,8 +262,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 e.Cancel = true;
                 return;
             }
-            float dummy;
-            if (!float.TryParse(text, out dummy))
+            double dummy;
+            if (!double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
                 thresholdLow.Text = Convert.ToString(animCon.ThresholdLow);

@@ -488,8 +488,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 e.Cancel = true;
                 return;
             }
-            float dummy;
-            if (!float.TryParse(text, out dummy))
+            double dummy;
+            if (!double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
                 thresholdHigh.Text = Convert.ToString(_control.ThresholdHigh);
@@ -508,8 +508,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 e.Cancel = true;
                 return;
             }
-            float dummy;
-            if (!float.TryParse(text, out dummy))
+            double dummy;
+            if (!double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
                 thresholdLow.Text = Convert.ToString(_control.ThresholdLow);
