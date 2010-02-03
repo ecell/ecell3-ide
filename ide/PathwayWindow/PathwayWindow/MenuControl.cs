@@ -1830,7 +1830,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 sfd.Filter = Constants.FilterSVGFile + "|" + Constants.FilterImageFile;
                 sfd.CheckPathExists = true;
-                sfd.FileName = m_con.Canvas.ModelID + Constants.FileExtSVG;
+                sfd.FileName = m_con.Canvas.ModelID;
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return;
                 if (string.IsNullOrEmpty(sfd.FileName))

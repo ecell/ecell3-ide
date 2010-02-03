@@ -289,13 +289,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private void GraphSizeDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
-            if (m_setting.YMax < m_setting.YMin)
+            if (m_setting.YMax <= m_setting.YMin)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 e.Cancel = true;
                 return;
             }
-            if (m_setting.Y2Max < m_setting.Y2Min)
+            if (m_setting.Y2Max <= m_setting.Y2Min)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 e.Cancel = true;

@@ -301,7 +301,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (j.Status == JobStatus.ERROR)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
-                    m_group.IsGroupError = true;
+//                    m_group.IsGroupError = true;
+                    m_group.Status = AnalysisStatus.Error;
                     return;
                 }
             }
