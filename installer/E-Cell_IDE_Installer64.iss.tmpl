@@ -332,7 +332,7 @@ Source: "conf\ClassName\*"; DestDir: "{app}\conf\ClassName"; Components: main; C
 ; ======================================================
 ; python
 ; ======================================================
-Source: "python-2.5.4.amd64.msi" ; Flags: dontcopy
+Source: "python-2.6.2.amd64.msi" ; Flags: dontcopy
 
 [Registry]
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
@@ -397,10 +397,10 @@ en.IDE_DotNet=This application needs Microsoft .NET Framework version 2.0 or lat
 jp.IDE_DotNet=Microsft .NET Framework version 2.0以降がインストールされていません。%nダウンロード及びインストール手順の確認は以下のURLにアクセスしてください。%n%n http://msdn.microsoft.com/ja-jp/netframework/
 en.IDE_Installed=E-Cell IDE is already installed, please unistall E-Cell IDE.
 jp.IDE_Installed=E-Cell IDEがインストールされています。E-Cell IDEをアンインストールしてください。
-en.Python_Installed=Python(version 2.5) is not installed. This application need Python 2.5. Please select [Install for all users] on Python installer.
-jp.Python_Installed=Python(version2.5)がインストールされていません。E-Cell IDEはPython2.5が必要です。 Pythonのインストーラーで[Install for all users]を選択してください。
-en.Python_NotInstalled=Can not install Python(version 2.5). Please select [Install for all users] on Python installer.
-jp.Python_NotInstalled=Python(version2.5)がインストールできませんでした。 Pythonのインストーラーで[Install for all users]を選択してください。
+en.Python_Installed=Python(version 2.6) is not installed. This application need Python 2.6. Please select [Install for all users] on Python installer.
+jp.Python_Installed=Python(version2.6)がインストールされていません。E-Cell IDEはPython2.6が必要です。 Pythonのインストーラーで[Install for all users]を選択してください。
+en.Python_NotInstalled=Can not install Python(version 2.6). Please select [Install for all users] on Python installer.
+jp.Python_NotInstalled=Python(version2.6)がインストールできませんでした。 Pythonのインストーラーで[Install for all users]を選択してください。
 
 [Tasks]
 Name: "desktopiconen"; Description: "Create a desktop shortcut";  Languages: en;
@@ -478,15 +478,15 @@ begin
   
   if (Result = true) then
   begin
-    if (RegKeyExists(HKEY_LOCAL_MACHINE_64, 'SOFTWARE\Python\PythonCore\2.5\PythonPath')) then
+    if (RegKeyExists(HKEY_LOCAL_MACHINE_64, 'SOFTWARE\Python\PythonCore\2.6\PythonPath')) then
     else
     begin
       MsgBox(CustomMessage('Python_Installed'), mbInformation, MB_OK);
-      ExtractTemporaryFile( 'python-2.5.4.amd64.msi' );
-      if (Exec('MSIEXEC.EXE',ExpandConstant('/i {tmp}\python-2.5.4.amd64.msi') , '', SW_SHOW, ewWaitUntilTerminated, ResultCode)) then
+      ExtractTemporaryFile( 'python-2.6.2.amd64.msi' );
+      if (Exec('MSIEXEC.EXE',ExpandConstant('/i {tmp}\python-2.6.2.amd64.msi') , '', SW_SHOW, ewWaitUntilTerminated, ResultCode)) then
       begin
       end;
-      if (RegKeyExists(HKEY_LOCAL_MACHINE_64, 'SOFTWARE\Python\PythonCore\2.5\PythonPath')) then
+      if (RegKeyExists(HKEY_LOCAL_MACHINE_64, 'SOFTWARE\Python\PythonCore\2.6\PythonPath')) then
       else
       begin
         MsgBox(CustomMessage('Python_NotInstalled'), mbInformation, MB_OK);
