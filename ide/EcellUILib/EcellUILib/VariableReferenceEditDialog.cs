@@ -259,7 +259,9 @@ namespace Ecell.IDE
                 }
                 j++;
             }
-            dgv.Rows.Add(new object[] { id, "Variable:" + key, p });
+            string fullID = "Variable:" + key;
+
+            dgv.Rows.Add(new object[] { id, fullID, p});
         }
 
         /// <summary>

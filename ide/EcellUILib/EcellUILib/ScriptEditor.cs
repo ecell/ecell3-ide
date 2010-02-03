@@ -81,10 +81,6 @@ namespace Ecell.IDE
         /// <param name="status">the project status.</param>
         public override void ChangeStatus(ProjectStatus status)
         {
-            if (status == ProjectStatus.Uninitialized)
-            {
-                DMEComileButton.Enabled = false;
-            }
         }
 
         /// <summary>
@@ -98,6 +94,7 @@ namespace Ecell.IDE
 
             if (m_path == null) return;
             LoadFile();
+            DMEComileButton.Enabled = true;
         }
 
         /// <summary>
@@ -115,6 +112,7 @@ namespace Ecell.IDE
             codeEditorControl.Text = "";
             m_path = DMEOpenFileDialog.FileName;
             LoadFile();
+            DMEComileButton.Enabled = true;
         }
 
         /// <summary>

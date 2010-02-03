@@ -116,6 +116,8 @@ namespace Ecell.IDE
 
                 return;
             }
+            if (tag.Type.Equals(Ecell.Objects.EcellObject.SYSTEM))
+                return;
 
             m_win.AddReference(tag.Key, "P");
         }
@@ -139,6 +141,8 @@ namespace Ecell.IDE
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
+            if (tag.Type.Equals(Ecell.Objects.EcellObject.SYSTEM))
+                return;
 
             m_win.AddReference(tag.Key, "S");
         }
@@ -163,6 +167,8 @@ namespace Ecell.IDE
 
                 return;
             }
+            if (tag.Type.Equals(Ecell.Objects.EcellObject.SYSTEM))
+                return;
 
             m_win.AddReference(tag.Key, "C");
         }
@@ -186,6 +192,8 @@ namespace Ecell.IDE
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
+            if (tag.Type.Equals(Ecell.Objects.EcellObject.SYSTEM))
+                return;
 
             m_win.AddReference(tag.Key, "P");
         }

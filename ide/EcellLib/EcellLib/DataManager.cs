@@ -5132,6 +5132,7 @@ namespace Ecell
                     string modelID = m_currentProject.Model.ModelID;
                     if (parameterID.Equals(Constants.defaultSimParam))
                     {
+                        m_currentProject.Info.SimulationParam = parameterID;
                         foreach (string entityPath in m_currentProject.InitialCondition[oldParameterID][modelID].Keys)
                         {
                             string type;

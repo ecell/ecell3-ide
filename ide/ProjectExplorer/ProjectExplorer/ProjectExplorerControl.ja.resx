@@ -350,4 +350,7 @@
   <data name="importSimParamToolStripMenuItem.Text" xml:space="preserve">
     <value>読み込み...</value>
   </data>
+  <data name="compileAllDMsToolStripMenuItem.Text" xml:space="preserve">
+    <value>全DMコンパイル</value>
+  </data>
 </root>

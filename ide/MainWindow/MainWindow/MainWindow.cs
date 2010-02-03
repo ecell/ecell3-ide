@@ -1436,6 +1436,13 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
+                    // Check current project and save it.
+                    if (CloseConfirm() == ConfirmState.Canceled)
+                        return;
+                    // Close project
+                    if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
+                        CloseProject();
+
                     // Unzip project
                     string filename = openFileDialog.FileName;
                     ZipUtil zip = new ZipUtil();
