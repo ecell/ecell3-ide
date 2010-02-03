@@ -438,8 +438,8 @@ namespace Ecell
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
-            string key = Constants.xpathVariable + Constants.delimiterColon + ecellObject.Key;
-            IList<string> wrappedPolymorph = simulator.GetEntityPropertyList(key);
+            string fullID = ecellObject.FullID;
+            IList<string> wrappedPolymorph = simulator.GetEntityPropertyList(fullID);
             //
             // Checks the stored "EcellData"
             //
@@ -457,7 +457,7 @@ namespace Ecell
             }
             foreach (string name in wrappedPolymorph)
             {
-                string entityPath = key + Constants.delimiterColon + name;
+                string entityPath = fullID + Constants.delimiterColon + name;
                 PropertyAttributes flag = simulator.GetEntityPropertyAttributes(entityPath);
                 if (!flag.Gettable)
                 {

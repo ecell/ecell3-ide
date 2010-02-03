@@ -211,6 +211,7 @@ namespace Ecell.IDE.MainWindow
             m_statusDialog = new GridJobStatusDialog(m_env.JobManager);
             SetDockContent(m_statusDialog);
             m_scriptEditor = new ScriptEditor(m_env);
+            m_scriptEditor.Name = "ScriptEditor";
             m_scriptEditor.Text = MessageResources.NameScriptEditor;
             m_scriptEditor.TabText = MessageResources.NameScriptEditor;
             SetDockContent(m_scriptEditor);

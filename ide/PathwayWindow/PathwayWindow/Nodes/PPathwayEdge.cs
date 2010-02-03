@@ -328,13 +328,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
             double dist = GetDistance(m_variable.CenterPointF, m_process.CenterPointF);
             double temp = 0;
+            bool notset = !m_variable.Visible;
             foreach (PPathwayAlias alias in m_variable.Aliases)
             {
                 if (!alias.Visible)
                     continue;
                 temp = GetDistance(alias.CenterPointF, m_process.CenterPointF);
-                if (temp < dist)
-                    entity = alias;
+                if (temp > dist && !notset)
+                    continue;
+                // Set Alias.
+                entity = alias;
+                dist = temp;
+                notset = false;
             }
             return entity;
         }
