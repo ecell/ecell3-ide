@@ -6,7 +6,7 @@
   <DockPanel DockLeftPortion="0.226210705182668" DockRightPortion="0.239939637826961" DockTopPortion="0.25" DockBottomPortion="0.25" ActiveDocumentPane="0" ActivePane="0">
     <Contents Count="23">
       <Content ID="0" Name="GridJobStatusDialog" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
-      <Content ID="1" Name="スクリプトエディタ" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
+      <Content ID="1" Name="ScriptEditor" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
       <Content ID="2" Name="GraphResullt" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
       <Content ID="3" Name="SensitivityResullt" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
       <Content ID="4" Name="ParameterEstimationResullt" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
@@ -22,7 +22,7 @@
       <Content ID="14" Name="Stencils" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
       <Content ID="15" Name="LayoutPane" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
       <Content ID="16" Name="ProjectExplorerControl" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="17" Name="ダイナミックモジュールエディタ" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
+      <Content ID="17" Name="DMEditor" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
       <Content ID="18" Name="PropertyWindow" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
       <Content ID="19" Name="ScriptWindow" AutoHidePortion="0.25" IsHidden="True" IsFloat="False" />
       <Content ID="20" Name="Spreadsheet" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
@@ -38,8 +38,8 @@
           <Content ID="3" Name="GraphResullt" RefID="2" />
           <Content ID="4" Name="SensitivityResullt" RefID="3" />
           <Content ID="5" Name="ScriptWindow" RefID="19" />
-          <Content ID="6" Name="ダイナミックモジュールエディタ" RefID="17" />
-          <Content ID="7" Name="スクリプトエディタ" RefID="1" />
+          <Content ID="6" Name="DMEditor" RefID="17" />
+          <Content ID="7" Name="ScriptEditor" RefID="1" />
           <Content ID="8" Name="GridJobStatusDialog" RefID="0" />
           <Content ID="9" Name="ParameterEstimationResullt" RefID="4" />
         </Contents>
