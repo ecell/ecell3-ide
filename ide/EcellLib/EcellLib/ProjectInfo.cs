@@ -333,6 +333,11 @@ namespace Ecell
     /// </summary>
     public class ProjectInfoLoader
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
         public static ProjectInfo Load(string filepath)
         {
             return Load(filepath, FileAccess.Read);

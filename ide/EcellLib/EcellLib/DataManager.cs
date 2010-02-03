@@ -2732,6 +2732,7 @@ namespace Ecell
         /// <param name="ecellObject">The checked "EcellObject"</param>
         private static void CheckEntityPath(EcellObject ecellObject)
         {
+            // System
             if (ecellObject.Type.Equals(Constants.xpathSystem))
             {
                 string entityPath = ecellObject.FullID + Constants.delimiterColon;
@@ -2739,10 +2740,7 @@ namespace Ecell
                 {
                     foreach (EcellData data in ecellObject.Value)
                     {
-                        if (!data.EntityPath.Equals(entityPath + data.Name))
-                        {
-                            data.EntityPath = entityPath + data.Name;
-                        }
+                        data.EntityPath = entityPath + data.Name;
                     }
                 }
                 if (ecellObject.Children != null && ecellObject.Children.Count > 0)
@@ -2753,6 +2751,7 @@ namespace Ecell
                     }
                 }
             }
+            // Process Variable Stepper
             else if (ecellObject.Type.Equals(Constants.xpathProcess) || 
                 ecellObject.Type.Equals(Constants.xpathVariable) || 
                 ecellObject.Type.Equals(Constants.xpathStepper))
@@ -2762,10 +2761,7 @@ namespace Ecell
                 {
                     foreach (EcellData data in ecellObject.Value)
                     {
-                        if (!data.EntityPath.Equals(entityPath + data.Name))
-                        {
-                            data.EntityPath = entityPath + data.Name;
-                        }
+                        data.EntityPath = entityPath + data.Name;
                     }
                 }
             }
@@ -3326,6 +3322,7 @@ namespace Ecell
         public Dictionary<string, EcellData> GetSystemProperty()
         {
             Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.SYSTEM, EcellObject.SYSTEM);
+            dic.Add(Constants.xpathSize, new EcellData(Constants.xpathSize, new EcellValue(EcellSystem.DefaultSize), null));
             return dic;
         }
 

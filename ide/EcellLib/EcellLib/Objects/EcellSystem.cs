@@ -90,6 +90,7 @@ namespace Ecell.Objects
         {
             get
             {
+                double size = DefaultSize;
                 // Get size object.
                 foreach (EcellObject child in m_children)
                 {
@@ -99,10 +100,10 @@ namespace Ecell.Objects
                 }
                 // Get size parameter
                 if (IsEcellValueExists(Constants.xpathSize))
-                    return (double)GetEcellValue(Constants.xpathSize);
+                    size = (double)GetEcellValue(Constants.xpathSize);
 
                 // return 1 when Size doesn't exist.
-                return DefaultSize;
+                return size;
             }
             set
             {

@@ -438,6 +438,7 @@ namespace Ecell
         /// InitializeModel
         /// </summary>
         /// <param name="ecellObject">The model object.</param>
+        /// <param name="simulator">The simulator.</param>
         private void InitializeModel(EcellObject ecellObject, WrappedSimulator simulator)
         {
             // Sets the "EcellObject".

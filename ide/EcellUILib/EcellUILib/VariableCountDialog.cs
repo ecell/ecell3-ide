@@ -113,6 +113,7 @@ namespace Ecell.IDE
                     if (obj.Key == "/")
                     {
                         node = new TreeNode(obj.Key);
+                        node.Tag = new TagData(obj.ModelID, obj.Key + ":SIZE", EcellObject.VARIABLE);
                         node.ImageIndex = m_pManager.GetImageIndex(obj);
                         node.SelectedImageIndex = node.ImageIndex;
                         current.Nodes.Add(node);
@@ -131,6 +132,7 @@ namespace Ecell.IDE
                         if (target != null)
                         {
                             node = new TreeNode(elements[elements.Length - 1]);
+                            node.Tag = new TagData(obj.ModelID, obj.Key + ":SIZE", EcellObject.VARIABLE);
                             node.ImageIndex = m_pManager.GetImageIndex(obj);
                             node.SelectedImageIndex = node.ImageIndex;
                             target.Nodes.Add(node);
@@ -141,8 +143,10 @@ namespace Ecell.IDE
                         if (obj.Children == null) continue;
                         foreach (EcellObject eo in obj.Children)
                         {
-                            if (eo.Type != "Variable") continue;
-                            if (eo.LocalID == "SIZE") continue;
+                            if (eo.Type != "Variable")
+                                continue;
+                            if (eo.LocalID == "SIZE")
+                                continue;
                             string[] names = eo.Key.Split(new char[] { ':' });
                             IEnumerator iter = node.Nodes.GetEnumerator();
                             bool isHit = false;
@@ -158,9 +162,9 @@ namespace Ecell.IDE
                             if (isHit == true) continue;
 
                             TreeNode childNode = new TreeNode(names[names.Length - 1]);
+                            childNode.Tag = new TagData(eo.ModelID, eo.Key, eo.Type);
                             childNode.ImageIndex = m_pManager.GetImageIndex(eo);
                             childNode.SelectedImageIndex = childNode.ImageIndex;
-                            childNode.Tag = eo.FullID;
                             node.Nodes.Add(childNode);
                         }
                     }
@@ -227,7 +231,7 @@ namespace Ecell.IDE
                 }
             }
 
-            dgv.Rows.Add(new object[] { key, 1});
+            dgv.Rows.Add(new object[] { "Variable:"+key, 1});
         }
 
         /// <summary>
