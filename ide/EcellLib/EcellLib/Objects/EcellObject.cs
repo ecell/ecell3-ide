@@ -119,7 +119,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Fixed flag.
         /// </summary>
-        protected bool m_isFixed = false;
+        protected bool m_isLayouted = false;
         #endregion
 
         #region Constractor
@@ -312,12 +312,12 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get / set whether this parameter is fix.
+        /// get / set whether the layout is fixed.
         /// </summary>
-        public virtual bool isFixed
+        public virtual bool IsLayouted
         {
-            get { return m_isFixed; }
-            set { this.m_isFixed = value; }
+            get { return m_isLayouted; }
+            set { this.m_isLayouted = value; }
         }
         #endregion
 
@@ -504,6 +504,10 @@ namespace Ecell.Objects
         public void SetEcellDatas(List<EcellData> list)
         {
             this.m_ecellDatas = list;
+            foreach (EcellData data in m_ecellDatas)
+            {
+                data.EntityPath = this.FullID + ":" + data.Name;
+            }
         }
 
         /// <summary>
@@ -656,7 +660,7 @@ namespace Ecell.Objects
                 CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
             newEcellObject.Layout = this.m_layout.Clone();
             newEcellObject.Children = this.CopyChildren();
-            newEcellObject.isFixed = m_isFixed;
+            newEcellObject.IsLayouted = m_isLayouted;
             return newEcellObject;
         }
 

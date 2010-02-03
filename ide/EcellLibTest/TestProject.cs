@@ -271,7 +271,7 @@ namespace Ecell
 
             resultList = (List<string>)methodInfo.Invoke(_unitUnderTest, new object[] { });
             //resultList = _unitUnderTest.GetSavableModel();
-            Assert.AreEqual(expectedList, resultList, "GetSavableModel method returned unexpected result.");
+            Assert.AreEqual(expectedList[0], resultList[0], "GetSavableModel method returned unexpected result.");
 
         }
 

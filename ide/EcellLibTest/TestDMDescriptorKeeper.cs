@@ -368,7 +368,7 @@ namespace Ecell
                     Trace.WriteLine("PropertyName:" + prop.Name);
                     Trace.WriteLine("IsGettable  :" + prop.Gettable);
                     Trace.WriteLine("IsLoadable  :" + prop.Loadable);
-                    Trace.WriteLine("IsLoadable  :" + prop.Logable);
+                    Trace.WriteLine("IsLogable  :" + prop.Logable);
                     Trace.WriteLine("IsSavable   :" + prop.Saveable);
                     Trace.WriteLine("IsSettable  :" + prop.Settable);
                     Trace.WriteLine("IsDynamic  :" + prop.Dynamic);
@@ -400,8 +400,14 @@ namespace Ecell
             string desc = "";
 
             WrappedSimulator sim = new WrappedSimulator(paths);
-            desc = sim.GetDescription("");
-            Assert.AreEqual("", desc, "GetDescription method returns unexpected value.");
+            try
+            {
+                desc = sim.GetDescription("HogeProcess");
+                Assert.AreEqual("", desc, "GetDescription method returns unexpected value.");
+            }
+            catch(Exception)
+            {
+            }
 
             desc = sim.GetDescription("ExpressionFluxProcess");
             Assert.IsNotEmpty(desc, "GetDescription method returns unexpected value.");

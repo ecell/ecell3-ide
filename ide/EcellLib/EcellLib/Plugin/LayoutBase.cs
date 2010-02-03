@@ -94,7 +94,7 @@ namespace Ecell.Plugin
         {
             List<EcellObject> returnList = new List<EcellObject>();
             foreach (EcellObject eo in objList)
-                if (eo.isFixed)
+                if (eo.IsLayouted)
                     returnList.Add(eo);
 
             return returnList;
@@ -109,7 +109,7 @@ namespace Ecell.Plugin
         {
             List<EcellObject> returnList = new List<EcellObject>();
             foreach (EcellObject eo in objList)
-                if (eo.isFixed)
+                if (eo.IsLayouted)
                     returnList.Add(eo);
 
             return returnList;

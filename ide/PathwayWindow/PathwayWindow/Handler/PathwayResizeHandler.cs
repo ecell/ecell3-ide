@@ -439,7 +439,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <returns></returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
-            return true;
+            return e.Button == MouseButtons.Left;
         }
     }
 }

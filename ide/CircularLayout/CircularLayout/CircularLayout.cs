@@ -459,7 +459,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
             Dictionary<string, EcellObject> outDict = new Dictionary<string, EcellObject>();
 
             foreach (EcellObject node in nodeList)
-                if (node.isFixed)
+                if (node.IsLayouted)
                 {
                     returnNodes.Add(node);
                     if (node is EcellVariable)
@@ -476,7 +476,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
                 {
                     EcellProcess pro = (EcellProcess)node;
 
-                    if (pro.isFixed)
+                    if (pro.IsLayouted)
                     {
                         foreach (EcellReference er in pro.ReferenceList)
                         {

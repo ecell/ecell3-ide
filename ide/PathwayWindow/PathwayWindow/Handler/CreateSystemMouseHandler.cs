@@ -257,7 +257,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             eo.Y = rect.Y;
             eo.Width = rect.Width;
             eo.Height = rect.Height;
-            eo.isFixed = true;
+            eo.IsLayouted = true;
             m_con.NotifyDataAdd(eo, false);
 
             m_canvas.ResetSelect();

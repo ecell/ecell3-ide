@@ -228,11 +228,8 @@ namespace Ecell
                 {
                     foreach (DMInfo entry in sim.GetDMInfo())
                     {
-                        if (string.IsNullOrEmpty(entry.FileName))
-                        {
-                            perDirectoryModuleList[entry.TypeName].Add(
-                                new DMModuleInfo(dmPath, entry));
-                        }
+                        perDirectoryModuleList[entry.TypeName].Add(
+                            new DMModuleInfo(dmPath, entry));
                     }
                 }
             }
@@ -361,7 +358,7 @@ namespace Ecell
             DMDescriptor desc = null;
             try
             {
-                Trace.WriteLine("Checking properties for " + info.ModuleName);
+                Trace.WriteLine("  Checking properties for " + info.ModuleName);
                 string stepper = info.ModuleName;
                 sim.CreateStepper(stepper, stepper);
 
@@ -394,7 +391,7 @@ namespace Ecell
             DMDescriptor desc = null;
             try
             {
-                Trace.WriteLine("Checking properties for " + info.ModuleName);
+                Trace.WriteLine("  Checking properties for " + info.ModuleName);
                 string id = Util.BuildFullID(type, "/", info.ModuleName);
                 sim.CreateEntity(info.ModuleName, id);
 
@@ -438,7 +435,7 @@ namespace Ecell
                     }
                     catch (Exception)
                     {
-                        Trace.WriteLine(string.Format("Failed to load Property {0} on {1}", propName, stepper));
+                        Trace.WriteLine(string.Format("    Failed to get default value of property, {0}:{1}.", stepper, propName));
                     }
                 }
                 pdescs[propName] = new PropertyDescriptor(
@@ -475,14 +472,14 @@ namespace Ecell
                 {
                     if (propName.Equals(Constants.xpathMolarActivity) || propName.Equals(Constants.xpathActivity))
                         defaultValue = new EcellValue(0.0);
-                    
                     try
                     {
-                        defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
+                        object obj = sim.GetEntityProperty(fullPN);
+                        defaultValue = new EcellValue(obj);
                     }
                     catch (Exception)
                     {
-                        Trace.WriteLine(string.Format("Failed to load Property {0} on {1}", propName, fullID));
+                        Trace.WriteLine(string.Format("    Failed to get default value of property, {0}:{1}.", fullID, propName));
                     }
                 }
                 pdescs[propName] = new PropertyDescriptor(
@@ -607,6 +604,16 @@ namespace Ecell
             m_description = description;
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string str = string.Format("({0}, {1}, {2})", m_path, m_moduleName, m_description);
+            return str;
+        }
     }
 
 }

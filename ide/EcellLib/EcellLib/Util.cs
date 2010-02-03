@@ -917,7 +917,14 @@ namespace Ecell
                 }
             }
             if (type != null && key != null && classname != null)
-            {                
+            {
+                //
+                string sysKey;
+                string localID;
+                Util.ParseKey(key, out sysKey, out localID);
+                string fullID = Util.BuildFullID(type, sysKey, localID);
+
+                // 
                 Dictionary<string, EcellData> list = new Dictionary<string,EcellData>();
                 if (type.Equals(Constants.xpathProcess))
                     list = dManager.GetProcessProperty(classname);
@@ -935,12 +942,12 @@ namespace Ecell
                     list = dManager.GetSystemProperty();
                 else if (type.Equals(Constants.xpathText))
                 {
-                    string fullID = type + ":" + key;
                     string entityPath = Util.BuildFullPN(fullID, EcellText.COMMENT);
                     list.Add(EcellText.COMMENT, new EcellData(EcellText.COMMENT, new EcellValue(""), entityPath));
                     entityPath = Util.BuildFullPN(fullID, EcellText.ALIGN);
                     list.Add(EcellText.ALIGN, new EcellData(EcellText.ALIGN, new EcellValue(0), entityPath));
                 }
+                //
                 foreach (EcellData d in list.Values)
                 {
                     if (tmpValue.ContainsKey(d.Name))
@@ -957,15 +964,15 @@ namespace Ecell
                     }
                     values.Add(d);
                 }
+                //
                 foreach (string name in tmpValue.Keys)
                 {
-                    string fullID = type + ":" + key;
                     string entityPath = Util.BuildFullPN(fullID, name);
                     EcellValue v = new EcellValue(double.Parse(tmpValue[name]));
                     EcellData d = new EcellData(name, v, entityPath);
                     values.Add(d);
                 }
-
+                //
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, values);
                 obj.Layout.X = (float)x;
                 obj.Layout.Y = (float)y;

@@ -57,7 +57,7 @@ namespace Ecell.Action
         public DataAddAction(EcellObject obj, bool isUndoable)
         {
             m_obj = obj.Clone();
-            m_obj.isFixed = true;
+            m_obj.IsLayouted = true;
             m_isUndoable = isUndoable;
         }
 

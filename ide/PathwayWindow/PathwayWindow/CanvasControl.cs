@@ -610,7 +610,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
                 else if (!DoesSystemContains(sysKey, obj.CenterPointF))
                 {
-                    if (!obj.EcellObject.isFixed)
+                    if (!obj.EcellObject.IsLayouted)
                     {
                         MakeSpace(system, obj, false);
                     }
@@ -643,7 +643,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 else if (!hasCoords)
                     SetSystemSize(obj);
 
-                if (!obj.EcellObject.isFixed && system != null)
+                if (!obj.EcellObject.IsLayouted && system != null)
                     MakeSpace(system, obj, false);
 
 
@@ -1902,21 +1902,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (string.IsNullOrEmpty(sysKey))
                 sysKey = Constants.delimiterPath;
             PPathwaySystem sys = m_systems[sysKey];
-            PointF basePos = new PointF(point.X, point.Y);
-            double rad = Math.PI * 0.25f;
-            float r = 0f;
+            // Set parameter.
+            float r = 5f;
+            PointF start = new PointF(point.X, point.Y);
+            PointF dest = sys.CenterPointF;
+            PointF diff = new PointF(dest.X - start.X, dest.Y - start.Y);
+            double len = Math.Sqrt( Math.Pow((double)diff.X, 2d) + Math.Pow((double)diff.Y, 2d) );
+            PointF vector = new PointF( (float)(diff.X / len), (float)(diff.Y / len));
 
             do
             {
-                // Check 
+                // Check System Area.
                 if (DoesSystemContains(sysKey, point))
-                    return new PointF(point.X, point.Y);
-                r += 1f;
-                point.X = basePos.X + r * (float)Math.Cos(rad * r);
-                point.Y = basePos.Y + r * (float)Math.Sin(rad * r);
-            } while (r < sys.Width || r < sys.Height);
+                    return point;
+                r += 5f;
+                point.X = start.X + r * vector.X;
+                point.Y = start.Y + r * vector.Y;
+            } while (r < len);
             // if there si no vacant point, return basePos.
-            return basePos;
+            return new PointF(sys.X + 5f, sys.Y + 5f); ;
         }
         /// <summary>
         /// Return nearest vacant point for system.

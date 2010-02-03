@@ -1070,7 +1070,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     var.Aliases.Clear();
                 }
 
-                eo.isFixed = false;
+                eo.IsLayouted = false;
                 NotifyDataAdd(eo, false);
             }
 
@@ -1793,9 +1793,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 foreach (EcellObject node in GetNodeList())
                 {
-                    node.isFixed = m_canvas.GetObject(node.Key, node.Type).Selected;
+                    node.IsLayouted = m_canvas.GetObject(node.Key, node.Type).Selected;
                     nodeList.Add(node);
-                    if (node.isFixed)
+                    if (node.IsLayouted)
                         nodeNum++;
                 }
             }
@@ -1803,7 +1803,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 foreach (EcellObject node in GetNodeList())
                 {
-                    node.isFixed = true;
+                    node.IsLayouted = true;
                     nodeList.Add(node);
                     nodeNum++;
                 }
@@ -1823,9 +1823,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set Layout.
             foreach (EcellObject system in systemList)
             {
-                if (!system.isFixed)
+                if (!system.IsLayouted)
                     continue;
-                system.isFixed = false;
+                system.IsLayouted = false;
                 NotifySetPosition(system);
             }
             int i = 0;
@@ -1835,7 +1835,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Progress(mes, 100, 50);
             foreach (EcellObject node in nodeList)
             {
-                if (!node.isFixed)
+                if (!node.IsLayouted)
                 {
                     Progress(mes, 100, count * 50 / allcount + 50);
                     count++;
@@ -1843,7 +1843,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
 
                 i++;
-                node.isFixed = false;
+                node.IsLayouted = false;
                 PPathwayObject obj = m_canvas.GetObject(node.Key, node.Type);
                 if (obj is PPathwayEntity)
                 {

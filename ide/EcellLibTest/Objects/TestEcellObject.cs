@@ -151,7 +151,7 @@ namespace Ecell.Objects
             Assert.AreEqual("", eo.LocalID, "LocalID is not expected value.");
             Assert.AreEqual(true, eo.IsUsable, "IsUsable is not expected value.");
             Assert.AreEqual(false, eo.IsPosSet, "IsPosSet is not expected value.");
-            Assert.AreEqual(false, eo.isFixed, "isFixed is not expected value.");
+            Assert.AreEqual(false, eo.IsLayouted, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
             eo.ModelID = "";
             Assert.AreEqual(false, eo.IsUsable, "IsUsable is not expected value.");
@@ -175,7 +175,7 @@ namespace Ecell.Objects
             Assert.AreEqual("", eo.LocalID, "LocalID is not expected value.");
             Assert.AreEqual(true, eo.IsUsable, "IsUsable is not expected value.");
             Assert.AreEqual(false, eo.IsPosSet, "IsPosSet is not expected value.");
-            Assert.AreEqual(false, eo.isFixed, "isFixed is not expected value.");
+            Assert.AreEqual(false, eo.IsLayouted, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
             Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
@@ -197,7 +197,7 @@ namespace Ecell.Objects
             Assert.AreEqual("", eo.LocalID, "LocalID is not expected value.");
             Assert.AreEqual(false, eo.IsUsable, "IsUsable is not expected value.");
             Assert.AreEqual(false, eo.IsPosSet, "IsPosSet is not expected value.");
-            Assert.AreEqual(false, eo.isFixed, "isFixed is not expected value.");
+            Assert.AreEqual(false, eo.IsLayouted, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
             eo.Classname = "FixedODEStepper";
             Assert.AreEqual("FixedODEStepper", eo.Classname, "Classname is not expected value.");
@@ -227,10 +227,10 @@ namespace Ecell.Objects
             Assert.AreEqual("/Hoge", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("S1", eo.LocalID, "LocalID is not expected value.");
             eo.Classname = "";
-            eo.isFixed = true;
+            eo.IsLayouted = true;
             Assert.AreEqual(false, eo.IsUsable, "IsUsable is not expected value.");
             Assert.AreEqual(false, eo.IsPosSet, "IsPosSet is not expected value.");
-            Assert.AreEqual(true, eo.isFixed, "isFixed is not expected value.");
+            Assert.AreEqual(true, eo.IsLayouted, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
             Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
@@ -255,7 +255,7 @@ namespace Ecell.Objects
             eo.X = 10;
             Assert.AreEqual(true, eo.IsUsable, "IsUsable is not expected value.");
             Assert.AreEqual(true, eo.IsPosSet, "IsPosSet is not expected value.");
-            Assert.AreEqual(false, eo.isFixed, "isFixed is not expected value.");
+            Assert.AreEqual(false, eo.IsLayouted, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
 
             Assert.AreEqual(10, eo.X, "X is not expected value.");

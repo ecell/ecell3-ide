@@ -242,7 +242,7 @@ namespace Ecell
                 eo.Height = GetFloatAttribute(node, LemlConstants.xPathHeight);
                 eo.Layer = GetStringAttribute(node, LemlConstants.xPathLayer);
                 eo.Layout.Figure  = GetStringAttribute(node, LemlConstants.xPathFigure);
-                eo.isFixed = true;
+                eo.IsLayouted = true;
             }
         }
 
