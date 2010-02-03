@@ -79,7 +79,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             writer.Flush();
             writer.Close();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private static string CreateSVGObject(PPathwayObject obj)
         {
             // Set key
@@ -194,7 +198,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             }
             return svgObj;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         private static string CreateSVGLine(PPathwayEdge line)
         {
             string obj = "";
@@ -229,59 +237,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             }
             return obj;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <returns></returns>
         private static string CreateSVGHeader(CanvasControl canvas)
         {
-            // Set root system's rect.
-            PPathwaySystem system = canvas.Systems[Constants.delimiterPath];
-            RectangleF rect = system.Rect;
-
-            // Update position
-            List<PPathwayObject> list = canvas.GetAllObjects();
-            float top = rect.Y;
-            float left = rect.X;
-            float right = rect.X;
-            float bottom = rect.Y;
-            foreach (PPathwayObject obj in list)
-            {
-                //
-                if (obj.Top < top)
-                    top = obj.Top;
-                //
-                if (obj.Left < left)
-                    left = obj.Left;
-                //
-                float tmpRight = obj.Right;
-                if (obj is PPathwayEntity && ((PPathwayEntity)obj).Property.Visible)
-                    tmpRight = ((PPathwayEntity)obj).Property.Right;
-                if (tmpRight > right)
-                    right = tmpRight;
-                // 
-                if (obj.Bottom > bottom)
-                    bottom = obj.Bottom;
-            }
-            // Set Top position.
-            rect.Y = top;
-            // Set Left position.
-            rect.X = left;
-            // Set Right position.
-            rect.Width = right - rect.X;
-            // Set Bottom position.
-            rect.Height = bottom - rect.Y;
-
-            // Set Margin
-            rect.X -= 50f;
-            rect.Y -= 50f;
-            rect.Width += 100f;
-            rect.Height += 100f;
-
+            // Get canvas rect.
+            RectangleF rect = canvas.OverviewCanvas.GetCanvasRect();
 
             // Create SVG canvas.
-            float viewWidth = rect.Width * 0.7f;
-            float viewHeight = rect.Height * 0.7f;
             string header = "<svg xmlns=\"http://www.w3.org/2000/svg\""
-            + " width=\"" + viewWidth.ToString() + "\""
-            + " height=\"" + viewHeight.ToString() + "\""
+            + " width=\"" + rect.Width.ToString() + "\""
+            + " height=\"" + rect.Height.ToString() + "\""
             + " viewBox=\""
             + rect.X.ToString() + " "
             + rect.Y.ToString() + " "
@@ -292,7 +261,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphics
             header += SVGUtil.Rectangle(rect, brush, brush);
             return header;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="setting"></param>
+        /// <returns></returns>
         private static string GetGradationBrush(ComponentSetting setting)
         {
             string fillBrush = BrushManager.ParseBrushToString(setting.FillBrush);

@@ -212,7 +212,7 @@ namespace Ecell.IDE.MainWindow
             SetDockContent(m_statusDialog);
             m_scriptEditor = new ScriptEditor(m_env);
             m_scriptEditor.Text = MessageResources.NameScriptEditor;
-            m_scriptEditor.Name = MessageResources.NameScriptEditor;
+            m_scriptEditor.TabText = MessageResources.NameScriptEditor;
             SetDockContent(m_scriptEditor);
             m_title = this.Text;
             m_env.ReportManager.StatusUpdated += new StatusUpdatedEventHandler(ReportManager_StatusUpdated);

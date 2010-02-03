@@ -3225,22 +3225,22 @@ namespace Ecell
         /// <param name="updateData">the update data.</param>
         public void UpdatePropertyForDataChanged(EcellObject variable, EcellData updateData)
         {
-            if (variable.Key.EndsWith(EcellSystem.SIZE)) return;
-            string variablePath = Constants.delimiterPath + Constants.delimiterColon + "V0";
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            string sysID = variable.ParentSystemID;
-            EcellObject sys = GetEcellObject(variable.ModelID, sysID, Constants.xpathSystem);           
-//            EcellData updateData = null;
-            EcellObject org = GetEcellObject(variable.ModelID, variable.Key, variable.Type);
-            if (org == null) return;
+            if (variable.LocalID.Equals(EcellSystem.SIZE))
+                return;
 
+            //  check old data;
+            EcellObject old = GetEcellObject(variable.ModelID, variable.Key, variable.Type);
+            if (old == null)
+                return;
             if (updateData == null)
             {
-                foreach (EcellData orgdata in org.Value)
+                foreach (EcellData orgdata in old.Value)
                 {
-                    if (!orgdata.Settable) continue;
+                    if (!orgdata.Settable)
+                        continue;
                     updateData = variable.GetEcellData(orgdata.Name);
-                    if (updateData == null) continue;
+                    if (updateData == null)
+                        continue;
                     if (!updateData.Value.ToString().Equals(orgdata.Value.ToString()))
                     {
                         break;
@@ -3248,14 +3248,18 @@ namespace Ecell
                     updateData = null;
                 }
             }
-            if (updateData == null) return;
+            if (updateData == null)
+                return;
 
+            EcellObject sys = GetEcellObject(variable.ModelID, variable.ParentSystemID, Constants.xpathSystem);
+            string variablePath = Constants.delimiterPath + Constants.delimiterColon + "V0";
             string sizePath = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
             string sizeValuePath = Constants.xpathVariable + Constants.delimiterColon + sizePath +
                 Constants.delimiterColon + Constants.xpathValue;
             WrappedSimulator sim = null;
             EcellObject dummySizeObject = null;
             EcellObject variableObject = null;
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
             try
             {
                 sim = m_currentProject.CreateSimulatorInstance();

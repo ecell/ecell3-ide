@@ -97,7 +97,6 @@ namespace Ecell.IDE.MainWindow
         {
             m_env = env;
             InitializeComponent();
-            Util.InitialLanguage();
             webBrowser.ObjectForScripting = new AutomationStub(this);
             m_recentFiles = recentFiles;
             m_startupPage = FindStartPage();
@@ -282,30 +281,22 @@ namespace Ecell.IDE.MainWindow
 
         }
 
+        /// <summary>
+        /// Get startup URI
+        /// </summary>
+        /// <returns></returns>
         private Uri FindStartPage()
         {
             List<string> candidates = new List<string>();
-
+            // Check file.
             string documentDir = Util.GetWindowSettingDir();
-            CultureInfo lang = Util.GetLanguage();
-            if (documentDir != null)
-            {
-                candidates.Add(Path.Combine(documentDir, Constants.fileStartupHTML + "."
-                    + lang.TwoLetterISOLanguageName.ToLower() + Constants.FileExtHTML));
-                candidates.Add(Path.Combine(documentDir,
-                    Constants.fileStartupHTML + Constants.FileExtHTML));
-            }
-            foreach (string candidate in candidates)
-            {
-                Trace.WriteLine("Checking if " + candidate + " exists");
-                if (File.Exists(candidate))
-                {
-                    UriBuilder ub = new UriBuilder("file", null);
-                    ub.Path = candidate;
-                    return ub.Uri;
-                }
-            }
-            return null;
+            string candidate = Path.Combine(documentDir, Constants.fileStartupHTML + Constants.FileExtHTML);
+            if (!File.Exists(candidate))
+                return null;
+            // Get startup html.
+            UriBuilder ub = new UriBuilder("file", null);
+            ub.Path = candidate;
+            return ub.Uri;
         }
         #endregion
 

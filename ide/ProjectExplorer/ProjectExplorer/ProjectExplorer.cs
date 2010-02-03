@@ -84,7 +84,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_editor = new DMEditor();
             m_editor.Environment = m_env;
             m_editor.Text = MessageResources.NameDMEditor;
-            m_editor.Name = MessageResources.NameDMEditor;
+            m_editor.TabText = MessageResources.NameDMEditor;
         }
         /// <summary>
         /// Get the window form for ProjectExplorer.

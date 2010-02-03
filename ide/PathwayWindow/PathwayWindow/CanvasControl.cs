@@ -303,6 +303,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     node.ShowingID = m_showingId;
                 foreach (PPathwaySystem system in m_systems.Values)
                     system.ShowingID = m_showingId;
+                foreach (PPathwayStepper stepper in m_steppers.Values)
+                    stepper.ShowingID = m_showingId;
             }
         }
 
@@ -385,10 +387,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ResetSelectedLine();
             foreach (PPathwayProcess process in m_processes.Values)
             {
-                foreach (PPathwayEdge edge in process.Edges)
-                {
-                    edge.Refresh();
-                }
+                process.SetEdges();
             }
         }
 

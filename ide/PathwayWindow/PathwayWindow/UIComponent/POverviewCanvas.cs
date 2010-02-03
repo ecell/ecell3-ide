@@ -36,6 +36,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Util;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -147,17 +148,44 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (m_canvas.Systems.Count <= 0)
                 return;
 
-            RectangleF root = m_canvas.Systems[Constants.delimiterPath].Rect;
-            root.X -= 500;
-            root.Y -= 500;
-            root.Width += 1000;
-            root.Height += 1000;
+            RectangleF root = GetCanvasRect();
             Camera.ViewBounds = root;
 
             m_area.Offset = PointF.Empty;
             m_area.Rect = rect;
             UpdateTransparent();
             Refresh();
+        }
+
+        /// <summary>
+        /// Get canvas rect.
+        /// </summary>
+        /// <returns></returns>
+        internal RectangleF GetCanvasRect()
+        {
+            RectangleF rect = m_canvas.Systems[Constants.delimiterPath].Rect;
+            float margin = rect.Height / 4;
+            rect.X -= margin;
+            rect.Y -= margin;
+            rect.Width += margin * 2;
+            rect.Height += margin * 2;
+
+            float maxX = rect.Right;
+            float maxY = rect.Bottom;
+            foreach (PPathwayStepper stepper in m_canvas.Steppers.Values)
+            {
+                float right = stepper.PText.X + stepper.PText.Width + margin;
+                float bottom = stepper.Bottom + margin;
+                if (right > maxX)
+                    maxX = right;
+                if (bottom > maxY)
+                    maxY = bottom;
+            }
+
+            rect.Width = maxX - rect.X;
+            rect.Height = maxY - rect.Y;
+
+            return rect;
         }
 
         /// <summary>

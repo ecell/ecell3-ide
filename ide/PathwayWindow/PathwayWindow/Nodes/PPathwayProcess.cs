@@ -199,6 +199,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                         // Check existing edge.
                         exist = true;
                         temp = info;
+                        edge.EdgeWidth = width;
                         edge.Info.Direction = info.Direction;
                         edge.Info.LineType = info.LineType;
                         //
