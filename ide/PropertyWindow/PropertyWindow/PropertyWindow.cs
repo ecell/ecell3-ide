@@ -287,7 +287,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         continue;
 
                     row.Cells[1].Value = value.ToString(m_env.DataManager.DisplayStringFormat);
-                    if (d.Name == "FullID")
+                    if (d.Name == "FullID" || !d.Settable)
                         row.Cells[1].ReadOnly = true;
                     break;
                 }
@@ -591,6 +591,30 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             label1.Text = m_current.FullID;
         }
 
+        private void ResetReadOnly()
+        {
+            if (m_current == null)
+                return;
+
+            foreach (DataGridViewRow r in m_dgv.Rows)
+            {
+                EcellData prop = r.Cells[1].Tag as EcellData;
+                if (prop == null)
+                {
+                    string data = r.Cells[1].Tag as string;
+                    if (data.Equals("ModelID"))
+                        r.Cells[1].ReadOnly = true;
+                    continue;
+                }
+                EcellData d = m_current.GetEcellData(prop.Name);
+                if (d == null)
+                {
+                    continue;
+                }
+                r.Cells[1].ReadOnly = !prop.Settable;
+            }
+        }
+
         /// <summary>
         /// Update the property of object in the simulation.
         /// </summary>
@@ -774,6 +798,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 try
                 {
                     UpdatePropForSimulation();
+                    ResetReadOnly();
                 }
                 catch (Exception)
                 {
@@ -794,6 +819,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if (m_current != null)
                         m_current = m_env.DataManager.GetEcellObject(m_current.ModelID, m_current.Key, m_current.Type);
                     ResetProperty();
+                    ResetReadOnly();
                 }
             }
             else if (type == ProjectStatus.Uninitialized)
@@ -808,6 +834,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 try
                 {
                     UpdatePropForSimulation();
+                    ResetReadOnly();
                 }
                 catch (Exception)
                 {

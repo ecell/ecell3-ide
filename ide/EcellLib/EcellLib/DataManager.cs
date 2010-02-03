@@ -1192,6 +1192,20 @@ namespace Ecell
                         }
                     }
                 }
+                foreach (EcellObject stepper in m_currentProject.StepperDic[modelID])
+                {
+                    foreach (EcellData data in stepper.Value)
+                    {
+                        if (data.Settable && data.Value.IsDouble)
+                        {
+                            if (!parameterID.Equals(Constants.defaultSimParam) &&
+                                m_currentProject.InitialCondition[parameterID][modelID].ContainsKey(data.EntityPath))
+                                writer.WriteLine(data.EntityPath + "," + m_currentProject.InitialCondition[parameterID][modelID][data.EntityPath].ToString());
+                            else
+                                writer.WriteLine(data.EntityPath + "," + data.Value.Value.ToString());
+                        }
+                    }
+                }
             }
             catch (Exception)
             {
@@ -3636,8 +3650,19 @@ namespace Ecell
         {
             EcellObject oldStepepr = null;
             Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic;
+            foreach (EcellObject model in m_currentProject.ModelList)
+            {
+                foreach (EcellObject obj in perParameterStepperListDic[model.ModelID])
+                {
+                    if (obj.Key.Equals(orgStepperID))
+                    {
+                        oldStepepr = obj;
+                    }
+                }
+            }
             if (m_currentProject.Info.SimulationParam.Equals(Constants.defaultSimParam) ||
-                !newStepper.Key.Equals(orgStepperID))
+                !newStepper.Key.Equals(orgStepperID) ||
+                !oldStepepr.Classname.Equals(newStepper.Classname))
             {
                 foreach (EcellObject model in m_currentProject.ModelList)
                 {

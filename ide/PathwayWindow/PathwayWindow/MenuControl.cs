@@ -982,12 +982,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
             toolStripSeparator3.Visible = isObject && !isRoot && !isText;
             // Show Logger menu.
-            commonMenu.addToolStripMenuItem.Visible = isSystem;
-            commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
-            commonMenu.loggingToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.propertyToolStripMenuItem.Visible = isObject;
+            //commonMenu.addToolStripMenuItem.Visible = isSystem;
+            //commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
+            //commonMenu.loggingToolStripMenuItem.Visible = isObject && !isText;
+            //commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
+            //commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
+            //commonMenu.propertyToolStripMenuItem.Visible = isObject;
         }
         #endregion
 
