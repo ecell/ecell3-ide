@@ -161,13 +161,18 @@ namespace Ecell
                 EcellValue defaultValue)
         {
             m_name = name;
+            // Set attributes.
             m_isGettable = gettable;
             m_isSettable = settable;
             m_isLoadable = loadable;
             m_isSavable = saveable;
             m_dynamic = dynamic;
             m_isLogable = logable;
-            m_defaultValue = defaultValue;
+            // Set default value.
+            if (defaultValue == null)
+                m_defaultValue = new EcellValue(0.0d);
+            else
+                m_defaultValue = defaultValue;
         }
         #endregion
 

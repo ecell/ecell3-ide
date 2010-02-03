@@ -3178,19 +3178,15 @@ namespace Ecell
                     continue;
                 stepperID = d.Value.ToString();
             }
+            // Get parameter
+            Dictionary<string, EcellData> data = this.GetSystemProperty();
+            List<EcellData> list = new List<EcellData>();
+            list.AddRange(data.Values);
+            // Create System.
+            EcellSystem obj = (EcellSystem)EcellObject.CreateObject(modelID, tmpID, Constants.xpathSystem, Constants.xpathSystem, list);
+            obj.SizeInVolume = EcellSystem.DefaultSize;
+            obj.StepperID = stepperID;
 
-            Dictionary<string, EcellData> list = this.GetSystemProperty();
-            List<EcellData> data = new List<EcellData>();
-            foreach (EcellData d in list.Values)
-            {
-                if (d.Name.Equals(Constants.xpathStepperID))
-                {
-                    d.Value = new EcellValue(stepperID);
-                }
-                data.Add(d);
-            }
-            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
-                Constants.xpathSystem, Constants.xpathSystem, data);
             return obj;
         }
 
@@ -3340,7 +3336,6 @@ namespace Ecell
         public Dictionary<string, EcellData> GetSystemProperty()
         {
             Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.SYSTEM, EcellObject.SYSTEM);
-            dic.Add(Constants.xpathSize, new EcellData(Constants.xpathSize, new EcellValue(EcellSystem.DefaultSize), null));
             return dic;
         }
 

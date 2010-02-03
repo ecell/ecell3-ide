@@ -952,7 +952,7 @@ namespace Ecell
                 {
                     if (tmpValue.ContainsKey(d.Name))
                     {
-                        if (d.Value.IsDouble)
+                        if (d.Value == null || d.Value.IsDouble)
                             d.Value = new EcellValue(double.Parse(tmpValue[d.Name]));
                         else if (d.Value.IsInt)
                             d.Value = new EcellValue(Int32.Parse(tmpValue[d.Name]));

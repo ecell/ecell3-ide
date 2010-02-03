@@ -58,6 +58,7 @@ namespace Ecell
             _env = new ApplicationEnvironment();
             ProjectInfo info = ProjectInfoLoader.Load(TestConstant.Project_Drosophila);
             _unitUnderTest = new Project(info, _env);
+            _unitUnderTest.UnLock();
             _unitUnderTest.LoadModel();
         }
         /// <summary>
@@ -66,6 +67,7 @@ namespace Ecell
         [TearDown()]
         public void TearDown()
         {
+            _unitUnderTest.Close();
             _unitUnderTest = null;
         }
         /// <summary>
@@ -81,6 +83,7 @@ namespace Ecell
             try
             {
                 testProject = new Project(info, _env);
+                testProject.UnLock();
                 Assert.Fail("Error param");
             }
             catch (EcellException)
@@ -90,6 +93,7 @@ namespace Ecell
             {
                 info = ProjectInfoLoader.Load(TestConstant.Model_Oscillation);
                 testProject = new Project(info, null);
+                testProject.UnLock();
                 Assert.Fail("Error param");
             }
             catch (EcellException)
@@ -98,6 +102,7 @@ namespace Ecell
 
             info = ProjectInfoLoader.Load(TestConstant.Model_Oscillation);
             testProject = new Project(info, _env);
+            testProject.UnLock();
             testProject.LoadModel();
             Assert.IsNotNull(testProject, "Constructor of type, Project failed to create instance.");
 
@@ -131,6 +136,7 @@ namespace Ecell
             info = ProjectInfoLoader.Load(TestConstant.Project_Drosophila);
             info.Type = ProjectType.Template;
             testProject = new Project(info, _env);
+            testProject.UnLock();
             Assert.AreEqual(info, testProject.Info, "Info is unexpected value.");
 
         }
@@ -290,7 +296,7 @@ namespace Ecell
 
             resultList = (List<string>)methodInfo.Invoke(_unitUnderTest, new object[] { });
             //resultList = _unitUnderTest.GetSavableSimulationParameter();
-            Assert.AreEqual(expectedList, resultList, "GetSavableSimulationParameter method returned unexpected result.");
+            Assert.AreEqual(expectedList[0], resultList[0], "GetSavableSimulationParameter method returned unexpected result.");
 
         }
         /// <summary>
@@ -308,7 +314,7 @@ namespace Ecell
 
             resultList = (List<string>)methodInfo.Invoke(_unitUnderTest, new object[] { });
             //resultList = _unitUnderTest.GetSavableSimulationResult();
-            Assert.AreEqual(expectedList, resultList, "GetSavableSimulationResult method returned unexpected result.");
+            Assert.AreEqual(expectedList[0], resultList[0], "GetSavableSimulationResult method returned unexpected result.");
 
         }
         /// <summary>
@@ -554,6 +560,7 @@ namespace Ecell
         {
             EcellObject system = _unitUnderTest.GetEcellObject("Drosophila", "System", "/CELL/CYTOPLASM", true);
             _unitUnderTest.DeleteSystem(system);
+            _unitUnderTest.Close();
 
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
 
@@ -571,6 +578,7 @@ namespace Ecell
 
             system = _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathSystem, key, true);
             _env.DataManager.CurrentProject.DeleteSystem(system);
+            _env.DataManager.CloseProject();
         }
         /// <summary>
         /// 
@@ -581,6 +589,7 @@ namespace Ecell
             string parameterID = "NewParam";
             string modelID = "Drosophila";
             string path = "Variable:/CELL/CYTOPLASM:P0:Value";
+
             Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
             foreach (EcellObject model in _unitUnderTest.ModelList)
             {
@@ -591,7 +600,7 @@ namespace Ecell
 
             EcellObject entity = _unitUnderTest.GetEcellObject("Drosophila", "Variable", "/CELL/CYTOPLASM:P0", true);
             _unitUnderTest.DeleteEntity(entity);
-
+            _unitUnderTest.Close();
         }
 
         /// <summary>
@@ -600,6 +609,8 @@ namespace Ecell
         [Test()]
         public void TestDeleteInitialCondition()
         {
+            _unitUnderTest.Close();
+
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
 
             string parameterID = "NewParam";
@@ -619,6 +630,7 @@ namespace Ecell
             EcellObject variable = _env.DataManager.GetEcellObject(modelID, key, Constants.xpathVariable);
             _unitUnderTest.InitialCondition[parameterID][modelID][path] = 1.0;
             _unitUnderTest.DeleteInitialCondition(variable);
+            _env.DataManager.CloseProject();
         }
 
         /// <summary>
@@ -627,6 +639,8 @@ namespace Ecell
         [Test()]
         public void TestGetStepper()
         {
+            _unitUnderTest.Close();
+
             string paramID = "NewParam";
             string modelID = "Drosophila";
             string path = "Stepper::DE:MinStepInterval";
@@ -635,6 +649,7 @@ namespace Ecell
             string skey = "/CELL";
 
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _env.DataManager.CurrentProject.UnLock();
             _env.DataManager.CreateSimulationParameter(paramID);
             _env.DataManager.CurrentProject.InitialCondition[paramID][modelID][path] = 1.0;
             _env.DataManager.CurrentProject.InitialCondition[paramID][modelID][spath] = 100.0;
@@ -642,6 +657,7 @@ namespace Ecell
 
             _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathStepper, key, false);
             _env.DataManager.CurrentProject.GetEcellObject(modelID, Constants.xpathSystem, skey, false);
+            _env.DataManager.CloseProject();
         }
 
         /// <summary>
@@ -654,6 +670,7 @@ namespace Ecell
             string modelID = "Drosophila";
             string path = "Variable:/CELL/CYTOPLASM:P0:Value";
             string key = "/CELL/CYTOPLASM:P0";
+            _unitUnderTest.Close();
 
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             _env.DataManager.CreateSimulationParameter(paramID);
@@ -665,6 +682,8 @@ namespace Ecell
             EcellData d = nobj.GetEcellData(Constants.xpathValue);
             d.Value = new EcellValue(100.0);
             _env.DataManager.CurrentProject.UpdateInitialCondition(oobj, nobj);
+            _env.DataManager.CloseProject();
+
         }
         /// <summary>
         /// 
@@ -673,10 +692,13 @@ namespace Ecell
         public void TestSetInitialCondition()
         {
             string paramID = "NewParam";
+            _unitUnderTest.Close();
 
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             _env.DataManager.CreateSimulationParameter(paramID);
             _env.DataManager.CurrentProject.SetInitialCondition(paramID, paramID, 0.1);
+            _env.DataManager.CloseProject();
+
         }
 
         /// <summary>
