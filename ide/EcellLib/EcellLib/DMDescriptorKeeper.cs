@@ -154,10 +154,9 @@ namespace Ecell
         public List<string> GetDMNameList(string type)
         {
             List<string> dmList = new List<string>();
-            ICollection<DMDescriptor> descs = GetDMDescriptors(type);
-            foreach (DMDescriptor desc in descs)
+            foreach (string name in m_descs[type].Keys)
             {
-                dmList.Add(desc.Name);
+                dmList.Add(name);
             }
             return dmList;
         }

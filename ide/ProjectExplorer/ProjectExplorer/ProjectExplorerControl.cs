@@ -2109,9 +2109,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void contextMenuStripDM_Opening(object sender, CancelEventArgs e)
         {
             bool menuFlag = m_owner.PluginManager.Status == ProjectStatus.Loaded;
+            string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)m_lastSelectedNode.Tag);
+            bool isSource = !string.IsNullOrEmpty(path);
 
-            this.compileToolStripMenuItem.Enabled = menuFlag;
-            this.editToolStripMenuItem.Enabled = menuFlag;
+            this.compileToolStripMenuItem.Enabled = menuFlag && isSource;
+            this.editToolStripMenuItem.Enabled = menuFlag && isSource;
             this.toolStripSeparator5.Enabled = menuFlag;
             this.deleteDMToolStripMenuItem.Enabled = menuFlag;
         }

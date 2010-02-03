@@ -162,6 +162,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 base.AddPath(m_figure.GraphicsPath, false);
             }
             base.CenterPointF = centerPos;
+            MemorizePosition();
             //RefreshStepperIcon();
         }
 
