@@ -171,7 +171,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         protected override void ResizeHandle_MouseDown(object sender, PInputEventArgs e)
         {
             // If selected system overlaps another, reset system region.
-            if (m_canvas.DoesSystemOverlaps((PPathwaySystem)m_obj))
+            if (m_canvas.DoesSystemOverlaps((PPathwaySystem)m_obj) || !m_obj.Offset.IsEmpty)
             {
                 ResetSystemResize();
                 return;

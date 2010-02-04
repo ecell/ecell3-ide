@@ -113,7 +113,7 @@ namespace Ecell.IDE
                     if (obj.Key == "/")
                     {
                         node = new TreeNode(obj.Key);
-                        node.Tag = new TagData(obj.ModelID, obj.Key + ":SIZE", EcellObject.VARIABLE);
+                        node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
                         node.ImageIndex = m_pManager.GetImageIndex(obj);
                         node.SelectedImageIndex = node.ImageIndex;
                         current.Nodes.Add(node);
@@ -132,7 +132,7 @@ namespace Ecell.IDE
                         if (target != null)
                         {
                             node = new TreeNode(elements[elements.Length - 1]);
-                            node.Tag = new TagData(obj.ModelID, obj.Key + ":SIZE", EcellObject.VARIABLE);
+                            node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
                             node.ImageIndex = m_pManager.GetImageIndex(obj);
                             node.SelectedImageIndex = node.ImageIndex;
                             target.Nodes.Add(node);
