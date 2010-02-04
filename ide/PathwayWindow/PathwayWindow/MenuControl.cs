@@ -955,6 +955,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 toolStripShowID.Checked = toolMenuShowID.Checked;
                 toolStripSetHandIcon.Checked = toolButtonHand.Checked;
             }
+            //
+            popupMenu.SuspendLayout();
             // Show ObjectID(key).
             toolStripIdShow.Visible = isObject;
             toolStripSeparator1.Visible = isObject;
@@ -983,7 +985,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripShowID.Visible = isNull && isEditMode;
             toolStripSetHandIcon.Visible = isNull && isEditMode;
             toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
-            toolStripSeparator3.Visible = isObject && !isRoot && !isText;
+            toolStripSeparator3.Visible = isObject && !isText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
             commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
@@ -991,6 +993,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
             commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
             commonMenu.propertyToolStripMenuItem.Visible = isObject;
+
+            popupMenu.ResumeLayout(true);
         }
         #endregion
 

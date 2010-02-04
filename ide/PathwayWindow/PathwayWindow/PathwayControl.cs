@@ -877,6 +877,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             if (m_copiedNodes == null || m_copiedNodes.Count == 0)
                 return;
+            if (this.ProjectStatus != ProjectStatus.Loaded)
+                return;
+
             String clipboardString = Util.GetClipBoardString(m_copiedNodes);
             Clipboard.SetText(clipboardString);
         }
@@ -955,6 +958,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string modelID = m_window.DataManager.CurrentProject.Model.ModelID;
             this.m_copiedNodes = Util.GetClipboardObject(m_window.DataManager, modelID, ddd);
             if (this.m_copiedNodes == null || this.m_copiedNodes.Count == 0)
+                return;
+            if (this.ProjectStatus != ProjectStatus.Loaded)
                 return;
 
             // Get position diff
@@ -1165,7 +1170,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void CutNodes()
         {
+            if (this.ProjectStatus != ProjectStatus.Loaded)
+                return;
             CopyNodes();
+            if (m_copiedNodes == null || m_copiedNodes.Count == 0)
+                return;
+
 
             int i = 0;
             bool isAnchor;

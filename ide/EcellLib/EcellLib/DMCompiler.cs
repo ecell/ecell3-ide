@@ -37,6 +37,7 @@ using System.Text;
 
 using Ecell.Reporting;
 using Ecell.Logging;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -101,7 +102,8 @@ namespace Ecell
         /// Compile the source of DM.
         /// </summary>
         /// <param name="env">Application Environmant object.</param>
-        public void Compile(ApplicationEnvironment env)
+        /// <param name="showErrorDialog">Show ErrorDialog or not.</param>
+        private void Compile(ApplicationEnvironment env, bool showDialog)
         {
             // Check error.
             if (m_sourceFile == null || !File.Exists(m_sourceFile))
@@ -109,18 +111,18 @@ namespace Ecell
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
             if (string.IsNullOrEmpty(stageHome))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrNotInstall,
-                    new object[] { "E-Cell SDK" }));
-                return;
+                string errmes = string.Format(MessageResources.ErrNotInstall, "E-Cell SDK");
+                throw new EcellException(errmes);
             }
+
             // Set up compile environment.
             string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
             if (string.IsNullOrEmpty(VS80))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrNotInstall,
-                    new object[] { "Visual Studio" }));
-                return;
+                string errmes = string.Format(MessageResources.ErrNotInstall, "Visual Studio");
+                throw new EcellException(errmes);
             }
+
             string groupname = Constants.groupCompile + ":" + m_sourceFile;
             int maxCount = 10;
             int count = 0;
@@ -133,11 +135,11 @@ namespace Ecell
                 }
                 catch (Exception)
                 {
+                    string errmes = string.Format(MessageResources.ErrCompile, m_sourceFile);
                     System.Threading.Thread.Sleep(100);
                     if (maxCount < count)
                     {
-                        Util.ShowErrorDialog(string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile }));
-                        return;
+                        throw new EcellException(errmes);
                     }
                     count++;
                 }
@@ -179,6 +181,10 @@ namespace Ecell
 
                 string mes = p.StandardOutput.ReadToEnd();
                 env.Console.Write(mes);
+                p.StandardOutput.Close();
+                p.WaitForExit();
+                p.Close();
+
                 if (mes.Contains(" error"))
                 {
                     string[] ele = mes.Split(new char[] { '\n' });
@@ -191,17 +197,9 @@ namespace Ecell
                         }
                     }
 
-                    string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
-                    Util.ShowErrorDialog(errmes);
-                    p.StandardOutput.Close();
-                    p.WaitForExit();
-                    p.Close();
-                    return;
+                    string errmes = string.Format(MessageResources.ErrCompile, m_sourceFile);
+                    throw new EcellException(errmes);
                 }
-
-                p.StandardOutput.Close();
-                p.WaitForExit();
-                p.Close();
 
                 p = Process.Start(psi);
                 p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
@@ -212,10 +210,12 @@ namespace Ecell
                 p.StandardInput.WriteLine("exit");
                 p.StandardInput.Close();
 
-
                 mes = p.StandardOutput.ReadToEnd();
                 env.Console.WriteLine(mes);
                 Console.WriteLine(mes);
+                p.StandardOutput.Close();
+                p.WaitForExit();
+                p.Close();
 
                 // error
                 if (mes.Contains(" error"))
@@ -229,38 +229,31 @@ namespace Ecell
                             env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
                         }
                     }
-                    string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
-                    Util.ShowErrorDialog(errmes);
-                    p.StandardOutput.Close();
-                    p.WaitForExit();
-                    p.Close();
-                    return;
+                    string errmes = string.Format(MessageResources.ErrCompile, m_sourceFile);
+                    throw new EcellException(errmes);
                 }
-
-                p.StandardOutput.Close();
-                p.WaitForExit();
-                p.Close();
 
                 // Reload DMs.
                 try
                 {
                     env.DataManager.CurrentProject.UnloadSimulator();
                     File.Move(OutputFile, DMFile);
-                    Util.ShowNoticeDialog(string.Format(MessageResources.InfoCompile, 
-                        Path.GetFileNameWithoutExtension(DMFile)));
-                    env.Console.WriteLine(string.Format(MessageResources.InfoCompile,
-                        Path.GetFileNameWithoutExtension(DMFile)));
+                    string msg = string.Format(MessageResources.InfoCompile,
+                            Path.GetFileNameWithoutExtension(DMFile));
+                    env.Console.WriteLine(msg);
                     env.Console.Flush();
                     env.DataManager.CurrentProject.ReloadSimulator();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // 移動先のDMがロードされているため移動できなかった。
                     // よってこの例外は無視するものとする。
-                    Util.ShowNoticeDialog(string.Format(MessageResources.WarnMoveDM,
-                        DMFile, OutputFile));
-                    env.Console.WriteLine(string.Format(MessageResources.WarnMoveDM,
-                        DMFile, OutputFile));
+                    string errmsg = string.Format(MessageResources.WarnMoveDM, DMFile, OutputFile);
+                    if (showDialog)
+                    {
+                        Util.ShowNoticeDialog(errmsg);
+                    }
+                    env.Console.WriteLine(e.ToString());
                     env.Console.Flush();
                 }
             }
@@ -285,8 +278,70 @@ namespace Ecell
             string dmfile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + Constants.FileExtDM);
             cm.OutputFile = outfile;
             cm.DMFile = dmfile;
+            try
+            {
+                cm.Compile(env, true);
+                string msg = string.Format(MessageResources.InfoCompile,
+                    Path.GetFileNameWithoutExtension(dmfile));
+                Util.ShowNoticeDialog(msg);
 
-            cm.Compile(env);            
+            }
+            catch (Exception e)
+            {
+                env.Console.WriteLine(e.ToString());
+                env.Console.Flush();
+                Util.ShowErrorDialog(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Compile DMs.
+        /// </summary>
+        /// <param name="files">source files.</param>
+        /// <param name="env">Application Environment</param>
+        public static void Compile(List<string> files, ApplicationEnvironment env)
+        {
+            if (files == null || files.Count == 0)
+                return;
+            DMCompiler cm = new DMCompiler();
+            string errmes = "";
+            string finished = "";
+            foreach (string filename in files)
+            {
+                cm.SourceFile = filename;
+                string outdir = Path.Combine(Path.GetDirectoryName(filename), Constants.TmpDirName);
+                if (!Directory.Exists(outdir))
+                    Directory.CreateDirectory(outdir);
+                string dmname = Path.GetFileNameWithoutExtension(filename);
+                string outfile = Path.Combine(outdir, dmname + Constants.FileExtDM);
+                string dmfile = Path.Combine(Path.GetDirectoryName(filename), dmname + Constants.FileExtDM);
+                cm.OutputFile = outfile;
+                cm.DMFile = dmfile;
+                try
+                {
+                    cm.Compile(env, true);
+                    finished += " " + dmname;
+
+                }
+                catch (Exception e)
+                {
+                    errmes += e.Message + "\n";
+                    env.Console.WriteLine(e.ToString());
+                    env.Console.Flush();
+                }
+            }
+            // Error
+            if (!string.IsNullOrEmpty(errmes))
+            {
+                Util.ShowErrorDialog(errmes);
+            }
+            // Finished
+            if (!string.IsNullOrEmpty(finished))
+            {
+                string msg = string.Format(MessageResources.InfoCompile,
+                    Path.GetFileNameWithoutExtension(finished));
+                Util.ShowNoticeDialog(msg);
+            }
         }
     }
 }

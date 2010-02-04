@@ -401,10 +401,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (obj is PPathwayAlias)
             {
-                ResetSelect();
-                m_selectedNodes.Add(obj);
-                obj.Selected = true;
+                PPathwayAlias alias = (PPathwayAlias)obj;
+                NotifySelectChanged(alias.Variable);
+                m_selectedNodes.Add(alias);
+                alias.Selected = true;
             }
+
             if (obj.EcellObject == null)
                 return;
             m_isOwner = true;
@@ -422,8 +424,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (obj is PPathwayAlias)
             {
-                m_selectedNodes.Add(obj);
-                obj.Selected = true;
+                PPathwayAlias alias = (PPathwayAlias)obj;
+                NotifyAddSelect(alias.Variable);
+                m_selectedNodes.Add(alias);
+                alias.Selected = true;
+                return;
             }
             if (obj.EcellObject == null)
                 return;

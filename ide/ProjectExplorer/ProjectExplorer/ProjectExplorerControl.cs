@@ -2229,13 +2229,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 Util.ShowErrorDialog(MessageResources.ErrProjectUnsavedCompile);
                 return;
             }
+            List<string> sources = new List<string>();
             foreach (TreeNode node in m_lastSelectedNode.Nodes)
             {
                 string path = m_owner.Environment.DataManager.GetDMSourceFileName((string)node.Tag);
                 if (path == null)
-                    return;
-                DMCompiler.Compile(path, m_owner.Environment);
+                    continue;
+                sources.Add(path);
             }
+            DMCompiler.Compile(sources, m_owner.Environment);
         }
 
     }
