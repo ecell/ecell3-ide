@@ -225,8 +225,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void SetAnimationStatus(System.Xml.XmlElement status)
         {
             _autoThreshold = bool.Parse(status.GetAttribute("AutoThreshold"));
-            _thresholdHigh = float.Parse(status.GetAttribute("ThresholdHigh"));
-            _thresholdLow = float.Parse(status.GetAttribute("ThresholdLow"));
+            _thresholdHigh = double.Parse(status.GetAttribute("ThresholdHigh"));
+            _thresholdLow = double.Parse(status.GetAttribute("ThresholdLow"));
             _highEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("HighBrush"));
             _lowEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("LowBrush"));
             _ngEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("NGBrush"));
@@ -346,7 +346,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private void ResetVariableAnimation(PPathwayVariable variable)
         {
             double molarConc = GetValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
-            float size = GetEntitySize(variable.EcellObject, molarConc);
 
             variable.ViewMode = false;
             float width = variable.Figure.Width;
@@ -410,8 +409,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (this.autoThresholdCheckBox.Checked)
                 return;
 
-            float high = float.Parse(thresholdHigh.Text);
-            float low = float.Parse(thresholdLow.Text);
+            double high = double.Parse(thresholdHigh.Text);
+            double low = double.Parse(thresholdLow.Text);
 
             if (high <= low)
             {

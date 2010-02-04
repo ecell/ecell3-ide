@@ -59,6 +59,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// </summary>
         public ScriptWindow()
         {
+            m_control = new ScriptCommandWindow();
         }
         #endregion
 
@@ -70,7 +71,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> res = new List<EcellDockContent>();
-            m_control = new ScriptCommandWindow();
             res.Add(m_control);
 
             return res;

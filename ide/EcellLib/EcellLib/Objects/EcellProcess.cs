@@ -55,6 +55,10 @@ namespace Ecell.Objects
         /// </summary>
         public const string ACTIVITY = "Activity";
         /// <summary>
+        /// MolarActivity.
+        /// </summary>
+        public const string MOLARACTIVITY = "MolarActivity";
+        /// <summary>
         /// Expression. The reserved name.
         /// </summary>
         public const string EXPRESSION = "Expression";
@@ -115,6 +119,24 @@ namespace Ecell.Objects
             set
             {
                 SetEcellValue(ACTIVITY, new EcellValue(value));
+            }
+        }
+
+        /// <summary>
+        /// get /set the activity.
+        /// </summary>
+        public double MolarActivity
+        {
+            get
+            {
+                if (IsEcellValueExists(MOLARACTIVITY))
+                    return (double)GetEcellValue(MOLARACTIVITY);
+                else
+                    return 0;
+            }
+            set
+            {
+                SetEcellValue(MOLARACTIVITY, new EcellValue(value));
             }
         }
 

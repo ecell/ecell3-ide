@@ -110,10 +110,9 @@ namespace Ecell.IDE
                 return;
             }
             TagData tag = (TagData)t.Tag;
-            if (string.IsNullOrEmpty(tag.Key))
+            if (tag == null || string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
-
                 return;
             }
             if (tag.Type.Equals(Ecell.Objects.EcellObject.SYSTEM))
@@ -136,7 +135,7 @@ namespace Ecell.IDE
                 return;
             }
             TagData tag = (TagData)t.Tag;
-            if (string.IsNullOrEmpty(tag.Key))
+            if (tag == null || string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
@@ -161,12 +160,12 @@ namespace Ecell.IDE
                 return;
             }
             TagData tag = (TagData)t.Tag;
-            if (string.IsNullOrEmpty(tag.Key))
+            if (tag == null || string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
-
                 return;
             }
+
             if (tag.Type.Equals(Ecell.Objects.EcellObject.SYSTEM))
                 return;
 
@@ -187,7 +186,7 @@ namespace Ecell.IDE
                 return;
             }
             TagData tag = (TagData)t.Tag;
-            if (string.IsNullOrEmpty(tag.Key))
+            if (tag == null || string.IsNullOrEmpty(tag.Key))
             {
                 Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;

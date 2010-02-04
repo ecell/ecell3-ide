@@ -74,12 +74,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             : base(control)
         {
             InitializeComponent();
-            foreach (PPathwayEntity entity in _control.Canvas.GetNodeList())
-            {
-                if (entity.Graph != null)
-                    entity.Graph.Dispose();
-                entity.Graph = null;
-            }
         }
 
         /// <summary>
@@ -207,6 +201,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
         {
             XmlElement status = doc.CreateElement("GraphAnimationItem");
+            status.SetAttribute("IsProcess", this.checkBoxProcess.Checked.ToString());
+            status.SetAttribute("IsVariable", this.checkBoxVariable.Checked.ToString());
+            status.SetAttribute("Activity", this.radioButtonActivity.Checked.ToString());
+            status.SetAttribute("MolarActivity", this.radioButtonMolarActivity.Checked.ToString());
+            status.SetAttribute("MolarConc", this.radioButtonMolarConc.Checked.ToString());
+            status.SetAttribute("NumberConc", this.radioButtonNumberConc.Checked.ToString());
+            status.SetAttribute("Value", this.radioButtonValue.Checked.ToString());
             return status;
         }
 
@@ -216,6 +217,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="status"></param>
         public override void SetAnimationStatus(System.Xml.XmlElement status)
         {
+            this.checkBoxProcess.Checked = bool.Parse(status.GetAttribute("IsProcess"));
+            this.checkBoxVariable.Checked = bool.Parse(status.GetAttribute("IsVariable"));
+            this.radioButtonActivity.Checked = bool.Parse(status.GetAttribute("Activity"));
+            this.radioButtonMolarActivity.Checked = bool.Parse(status.GetAttribute("MolarActivity"));
+            this.radioButtonMolarConc.Checked = bool.Parse(status.GetAttribute("MolarConc"));
+            this.radioButtonNumberConc.Checked = bool.Parse(status.GetAttribute("NumberConc"));
+            this.radioButtonValue.Checked = bool.Parse(status.GetAttribute("Value"));
+
         }
 
         /// <summary>
@@ -231,7 +240,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public override void SetAnimation()
         {
-            LoggerManager manager = _control.Control.Window.Environment.LoggerManager;
             ResetGraphs();
             base.SetAnimation();
 
@@ -381,6 +389,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             foreach (PPathwayGraph graph in _graphs)
             {
                 graph.RemoveFromParent();
+                graph.Dispose();
             }
             _graphs.Clear();
         }
