@@ -919,11 +919,18 @@ namespace Ecell
             if (type != null && key != null && classname != null)
             {
                 //
-                string sysKey;
-                string localID;
-                Util.ParseKey(key, out sysKey, out localID);
-                string fullID = Util.BuildFullID(type, sysKey, localID);
-
+                string fullID;
+                if (type == EcellObject.STEPPER)
+                {
+                    fullID = type + ":" + key;
+                }
+                else
+                {
+                    string sysKey;
+                    string localID;
+                    Util.ParseKey(key, out sysKey, out localID);
+                    fullID = Util.BuildFullID(type, sysKey, localID);
+                }
                 // 
                 Dictionary<string, EcellData> list = new Dictionary<string,EcellData>();
                 if (type.Equals(Constants.xpathProcess))

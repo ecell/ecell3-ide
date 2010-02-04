@@ -95,21 +95,31 @@ namespace Ecell.IDE
                     parentSys = value.ParentSystemID;
 
                 // 
+                bool isObject = value != null && value is EcellObject;
                 bool isSystem = (value is EcellSystem);
-                bool isParentSys = string.IsNullOrEmpty(parentSys);
+                bool isStepper = (value is EcellStepper);
+                bool isParentSys = !string.IsNullOrEmpty(parentSys);
                 bool isLoaded = m_env.PluginManager.Status == ProjectStatus.Loaded;
+                SetLoggerMenus();
 
                 // Set Menu Visibility.
+                this.commonContextMenuStrip.SuspendLayout();
                 addToolStripMenuItem.Visible = isSystem && isLoaded;
-                deleteToolStripMenuItem.Visible = !isParentSys && isLoaded;
-                mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys && isLoaded;
-                mergeSystemToolStripMenuItem.Text = MessageResources.MergeSystem + "(" + parentSys + ")";
-                toolStripSeparator1.Visible = isLoaded;
+                deleteToolStripMenuItem.Visible = isParentSys && isLoaded;
 
-                if (m_env == null)
-                    return;
-//                propertyToolStripMenuItem.Enabled = (m_env.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait);
-                SetLoggerMenus();
+                mergeSystemToolStripMenuItem.Visible = isSystem && isParentSys && isLoaded;
+                mergeSystemToolStripMenuItem.Text = MessageResources.MergeSystem + "(" + parentSys + ")";
+                
+                toolStripSeparator1.Visible = isLoaded;
+                
+                loggingToolStripMenuItem.Visible = isObject && !isStepper;
+                observedToolStripMenuItem.Visible = isObject && !isStepper;
+                parameterToolStripMenuItem.Visible = isObject && !isStepper;
+
+                toolStripSeparator2.Visible = !isStepper;
+
+                propertyToolStripMenuItem.Visible = isObject;
+                this.commonContextMenuStrip.ResumeLayout(false);
             }
         }
         #endregion
@@ -153,16 +163,9 @@ namespace Ecell.IDE
         /// </summary>
         private void SetLoggerMenus()
         {
-            loggingToolStripMenuItem.DropDownItems.Clear();
-            observedToolStripMenuItem.DropDownItems.Clear();
-            parameterToolStripMenuItem.DropDownItems.Clear();
-
-            if (m_object == null || m_object.Type.Equals(Constants.xpathStepper))
-                return;
-
-            loggingToolStripMenuItem.DropDownItems.AddRange(CreateLoggerPopupMenu(m_object));
-            observedToolStripMenuItem.DropDownItems.AddRange(CreateObservedPopupMenu(m_object));
-            parameterToolStripMenuItem.DropDownItems.AddRange(CreateParameterPopupMenu(m_object));
+            CreateLoggerPopupMenu(m_object);
+            CreateParameterPopupMenu(m_object);
+            CreateObservedPopupMenu(m_object);
         }
 
         /// <summary>
@@ -170,21 +173,24 @@ namespace Ecell.IDE
         /// </summary>
         /// <param name="obj">object to display the popup menu.</param>
         /// <returns>the list of menu.</returns>
-        private ToolStripItem[] CreateLoggerPopupMenu(EcellObject obj)
+        private void CreateLoggerPopupMenu(EcellObject obj)
         {
-            List<ToolStripItem> retval = new List<ToolStripItem>();
-            foreach (EcellData d in obj.Value)
-            {                
-                if (d.Logable)
+            loggingToolStripMenuItem.DropDownItems.Clear();
+            List<ToolStripItem> loggers = new List<ToolStripItem>();
+            if (obj != null && !obj.Type.Equals(Constants.xpathStepper))
+            {
+                foreach (EcellData d in obj.Value)
                 {
+                    if (!d.Logable)
+                        continue;
                     ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
                     item.Tag = d.Name;
                     item.Click += new EventHandler(ClickCreateLogger);
                     item.Checked = d.Logged;
-                    retval.Add(item);
+                    loggers.Add(item);
                 }
             }
-            return retval.ToArray();
+            loggingToolStripMenuItem.DropDownItems.AddRange(loggers.ToArray());
         }
 
         /// <summary>
@@ -192,30 +198,34 @@ namespace Ecell.IDE
         /// </summary>
         /// <param name="obj">object to display the popup menu.</param>
         /// <returns>the list of menu.</returns>
-        private ToolStripItem[] CreateParameterPopupMenu(EcellObject obj)
+        private void CreateParameterPopupMenu(EcellObject obj)
         {
-            List<ToolStripItem> retval = new List<ToolStripItem>();
-            foreach (EcellData d in obj.Value)
+            parameterToolStripMenuItem.DropDownItems.Clear();
+            List<ToolStripItem> parameters = new List<ToolStripItem>();
+            if (obj != null && !obj.Type.Equals(Constants.xpathStepper))
             {
-                if (d.Value == null)
-                    continue;
-                if (!d.Settable || !d.Value.IsDouble || d.Name.Equals(Constants.xpathSize))
-                    continue;
-                ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
-                item.Tag = d.Name;
-                item.Checked = m_env.DataManager.IsContainsParameterData(d.EntityPath);
-                item.Click += new EventHandler(ClickCreateParameterData);
-                retval.Add(item);
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Value == null)
+                        continue;
+                    if (!d.Settable || !d.Value.IsDouble || d.Name.Equals(Constants.xpathSize))
+                        continue;
+                    ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
+                    item.Tag = d.Name;
+                    item.Checked = m_env.DataManager.IsContainsParameterData(d.EntityPath);
+                    item.Click += new EventHandler(ClickCreateParameterData);
+                    parameters.Add(item);
+                }
+                if (obj.Type.Equals(EcellObject.SYSTEM))
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem(Constants.xpathSize);
+                    item.Tag = Constants.xpathSize;
+                    item.Checked = m_env.DataManager.IsContainsParameterData(Constants.xpathVariable + ":" + obj.Key + ":SIZE:Value");
+                    item.Click += new EventHandler(ClickCreateParameterData);
+                    parameters.Add(item);
+                }
             }
-            if (obj.Type.Equals(EcellObject.SYSTEM))
-            {
-                ToolStripMenuItem item = new ToolStripMenuItem(Constants.xpathSize);
-                item.Tag = Constants.xpathSize;
-                item.Checked = m_env.DataManager.IsContainsParameterData(Constants.xpathVariable + ":" + obj.Key + ":SIZE:Value");
-                item.Click += new EventHandler(ClickCreateParameterData);
-                retval.Add(item);
-            }
-            return retval.ToArray();
+            parameterToolStripMenuItem.DropDownItems.AddRange(parameters.ToArray());
         }
 
         /// <summary>
@@ -223,20 +233,25 @@ namespace Ecell.IDE
         /// </summary>
         /// <param name="obj">object to display the popup menu.</param>
         /// <returns>the list of menu.</returns>
-        private ToolStripItem[] CreateObservedPopupMenu(EcellObject obj)
+        private void CreateObservedPopupMenu(EcellObject obj)
         {
-            List<ToolStripItem> retval = new List<ToolStripItem>();
+            observedToolStripMenuItem.DropDown.Items.Clear();
+            List<ToolStripItem> ovserved = new List<ToolStripItem>();
 
-            foreach (EcellData d in obj.Value)
+            if (obj != null && !obj.Type.Equals(Constants.xpathStepper))
             {
-                if (!d.Logable) continue;
-                ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
-                item.Tag = d.Name;
-                item.Checked = m_env.DataManager.IsContainsObservedData(d.EntityPath);
-                item.Click += new EventHandler(ClickCreateObservedData);
-                retval.Add(item);
+                foreach (EcellData d in obj.Value)
+                {
+                    if (!d.Logable)
+                        continue;
+                    ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
+                    item.Tag = d.Name;
+                    item.Checked = m_env.DataManager.IsContainsObservedData(d.EntityPath);
+                    item.Click += new EventHandler(ClickCreateObservedData);
+                    ovserved.Add(item);
+                }
             }
-            return retval.ToArray();
+            observedToolStripMenuItem.DropDown.Items.AddRange(ovserved.ToArray());
         }
 
         #region Eventhandler

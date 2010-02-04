@@ -871,11 +871,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 _items.AddRange(dlg.Items);
 
                 // Set Animation Status.
-                if (_items.Count > 0)
-                    _con.Menu.SetAnimation(true);
-                else
-                    _con.Menu.SetAnimation(false);
-                SetAnimationStatus();
+                _con.Menu.SetAnimation(_items.Count > 0);
             }
         }
 

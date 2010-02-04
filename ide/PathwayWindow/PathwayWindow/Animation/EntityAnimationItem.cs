@@ -278,8 +278,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             foreach (PPathwayVariable variable in _variables)
             {
                 // Variable setting.
-                if (!variable.Visible)
-                    continue;
                 SetVariableAnimation(variable);
             }
         }
@@ -293,14 +291,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             PointF pos = variable.CenterPointF;
             
             // set variable.
-            variable.Width = width;
-            variable.Height = height;
-            variable.CenterPointF = pos;
-            variable.Brush = GetEntityBrush(molarConc, variable.Setting, variable.Path);
-
+            if (variable.Visible)
+            {
+                variable.Width = width;
+                variable.Height = height;
+                variable.CenterPointF = pos;
+                variable.Brush = GetEntityBrush(molarConc, variable.Setting, variable.Path);
+            }
             // set alias
             foreach (PPathwayAlias alias in variable.Aliases)
             {
+                if (!alias.Visible)
+                    continue;
+
                 pos = alias.CenterPointF;
 
                 alias.Width = width;

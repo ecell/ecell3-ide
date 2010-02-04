@@ -458,6 +458,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 project.Remove();
             }
+            this.treeView1.ContextMenuStrip = null;
+            m_lastSelectedNode = null;
             m_modelNode = null;
             m_paramNode = null;
             m_logNode = null;
