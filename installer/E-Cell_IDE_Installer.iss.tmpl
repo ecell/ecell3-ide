@@ -52,6 +52,8 @@ jp.LanguageName = "<65e5><672c><8a9e>"
 ; common
 ; ======================================================
 Source: "lib\ironpython\*.py"; DestDir: "{app}\bin"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "Win32\Release\bin\clr.pyd"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: extension; CopyMode: alwaysoverwrite;
+Source: "x64\Release\bin\clr.pyd"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64(); Components: extension; CopyMode: alwaysoverwrite;
 
 Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Arti_Class1"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Arti_Class1"; Components: extension; CopyMode: alwaysoverwrite;

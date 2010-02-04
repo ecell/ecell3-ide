@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EcellCoreLibCLR", "EcellCoreLibCLR\EcellCoreLibCLR.vcproj", "{C616CE5D-C031-4F80-9177-D0E136453858}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcellCoreLibCLRTest", "EcellCoreLibCLRTest\EcellCoreLibCLRTest.csproj", "{57032B24-4F22-4C36-AFB0-40E8C1813794}"

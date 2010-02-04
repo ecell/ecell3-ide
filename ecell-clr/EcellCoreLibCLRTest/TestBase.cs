@@ -17,12 +17,14 @@ namespace EcellCoreLibCLRTest
 
         protected static string GetStagingHomeDirectory()
         {
-            return System.Environment.GetEnvironmentVariable("_STG_HOME");
+            string path = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
+            return path;
         }
 
         protected static string GetDMDirectory()
         {
-            return Path.Combine(GetStagingHomeDirectory(), "lib\\ecell-3.2\\dms");
+            string path = Path.Combine(GetStagingHomeDirectory(), "Win32\\Release\\lib\\ecell-3.2\\dms");
+            return path;
         }
 
         protected double GenerateRandomDouble()
