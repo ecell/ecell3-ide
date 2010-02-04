@@ -117,11 +117,15 @@ namespace Ecell
 
             // Set up compile environment.
             string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
-            if (string.IsNullOrEmpty(VS80))
+            string VS90 = System.Environment.GetEnvironmentVariable("VS90COMNTOOLS");
+            if (string.IsNullOrEmpty(VS80) && string.IsNullOrEmpty(VS90))
             {
                 string errmes = string.Format(MessageResources.ErrNotInstall, "Visual Studio");
                 throw new EcellException(errmes);
             }
+            string DEVENV = VS90;
+            if (VS90 == null)
+                DEVENV = VS80;
 
             string groupname = Constants.groupCompile + ":" + m_sourceFile;
             int maxCount = 10;
@@ -168,7 +172,7 @@ namespace Ecell
                 }
 
                 Process p = Process.Start(psi);
-                p.StandardInput.WriteLine("call \"" + VS80 + "..\\..\\VC\\vcvarsall.bat\" " + arch3);
+                p.StandardInput.WriteLine("call \"" + DEVENV + "..\\..\\VC\\vcvarsall.bat\" " + arch3);
 
                 string opt = "cl.exe /O2 /GL /I \"{0}\\{3}\\Release\\include\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\\libecs\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\\libemc\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_WIN32_WINNT=0x500\" /D \"_SECURE_SCL=0\" /D \"_MBCS\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
                 string cmd = string.Format(opt, new object[] {
@@ -202,7 +206,7 @@ namespace Ecell
                 }
 
                 p = Process.Start(psi);
-                p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
+                p.StandardInput.WriteLine("call \"" + DEVENV + "\\vsvars32.bat\"");
 
                 string mopt = "mt.exe /outputresource:\"{0};#2\" /manifest \"{0}.intermediate.manifest\" /nologo";
                 cmd = string.Format(mopt, m_outputFile);
