@@ -102,10 +102,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private ProjectStatus m_status = ProjectStatus.Uninitialized;
         /// <summary>
-        /// The number of edit after project is opened.
-        /// </summary>
-        private int m_editCount = 0;
-        /// <summary>
         /// Docking Windows object.
         /// </summary>
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
@@ -749,7 +745,6 @@ namespace Ecell.IDE.MainWindow
         /// <param name="data">The value of the adding object.</param>
         public void DataAdd(List<EcellObject> data)
         {
-            m_editCount++;
         }
 
         /// <summary>
@@ -765,10 +760,8 @@ namespace Ecell.IDE.MainWindow
             {
                 string projectID = m_env.DataManager.CurrentProjectID;
                 this.Text = projectID + " - " + m_title;
-                m_editCount = 0;
                 return;
             }
-            m_editCount++;
         }
 
         /// <summary>
@@ -777,7 +770,6 @@ namespace Ecell.IDE.MainWindow
         /// <param name="entry">the logger entry.</param>
         public void LoggerAdd(LoggerEntry entry)
         {
-            m_editCount++;
         }
 
         /// <summary>
@@ -788,7 +780,6 @@ namespace Ecell.IDE.MainWindow
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            m_editCount++;
         }
 
         /// <summary>
@@ -850,7 +841,6 @@ namespace Ecell.IDE.MainWindow
         public void Clear()
         {
             this.Text = m_title;
-            m_editCount = 0;
             m_statusDialog.Clear();
         }
 
@@ -915,9 +905,6 @@ namespace Ecell.IDE.MainWindow
 
             m_scriptEditor.ChangeStatus(status);            
 
-            // Reset edit count.
-            if (unInitialized || (m_status == ProjectStatus.Loading && loaded))
-                m_editCount = 0;
             // Set recent Project.
             if (loaded)
             {
@@ -1132,7 +1119,7 @@ namespace Ecell.IDE.MainWindow
 
             // No change
             Project project = m_env.DataManager.CurrentProject;
-            if (project == null || (m_editCount == 0 && project.Info.Type == ProjectType.Project))
+            if (project == null || (m_env.DataManager.EditCount == 0 && project.Info.Type == ProjectType.Project))
                 return state;
 
             // Confirm saving.
@@ -1238,7 +1225,6 @@ namespace Ecell.IDE.MainWindow
             {
                 m_env.DataManager.SaveProject();
                 CheckAndReplaceRecentProject(info);
-                m_editCount = 0;
             }
             catch (Util.CancelException)
             {

@@ -987,14 +987,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripShowID.Visible = isNull && isEditMode;
             toolStripSetHandIcon.Visible = isNull && isEditMode;
             toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
-            toolStripSeparator3.Visible = isObject && !isText;
+            toolStripSeparator3.Visible = (isObject && !isText) || (isAlias && isEditMode);
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
             commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
-            commonMenu.loggingToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.observedToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.parameterToolStripMenuItem.Visible = isObject && !isText;
-            commonMenu.propertyToolStripMenuItem.Visible = isObject;
+            commonMenu.loggingToolStripMenuItem.Visible = (isObject && !isText) || isAlias;
+            commonMenu.observedToolStripMenuItem.Visible = (isObject && !isText) || isAlias;
+            commonMenu.parameterToolStripMenuItem.Visible = (isObject && !isText) || isAlias;
+            commonMenu.propertyToolStripMenuItem.Visible = isObject || isAlias;
 
             popupMenu.ResumeLayout(true);
         }

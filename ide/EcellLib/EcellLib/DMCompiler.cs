@@ -102,14 +102,14 @@ namespace Ecell
         /// Compile the source of DM.
         /// </summary>
         /// <param name="env">Application Environmant object.</param>
-        /// <param name="showErrorDialog">Show ErrorDialog or not.</param>
+        /// <param name="showDialog">ShowDialog or not.</param>
         private void Compile(ApplicationEnvironment env, bool showDialog)
         {
             // Check error.
             if (m_sourceFile == null || !File.Exists(m_sourceFile))
                 return;
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
-            if (string.IsNullOrEmpty(stageHome))
+            if (string.IsNullOrEmpty(stageHome) )
             {
                 string errmes = string.Format(MessageResources.ErrNotInstall, "E-Cell SDK");
                 throw new EcellException(errmes);
@@ -123,9 +123,9 @@ namespace Ecell
                 string errmes = string.Format(MessageResources.ErrNotInstall, "Visual Studio");
                 throw new EcellException(errmes);
             }
-            string DEVENV = VS90;
+            string VSPATH = VS90;
             if (VS90 == null)
-                DEVENV = VS80;
+                VSPATH = VS80;
 
             string groupname = Constants.groupCompile + ":" + m_sourceFile;
             int maxCount = 10;
@@ -172,11 +172,21 @@ namespace Ecell
                 }
 
                 Process p = Process.Start(psi);
-                p.StandardInput.WriteLine("call \"" + DEVENV + "..\\..\\VC\\vcvarsall.bat\" " + arch3);
+                p.StandardInput.WriteLine("call \"" + VSPATH + "..\\..\\VC\\vcvarsall.bat\" " + arch3);
 
-                string opt = "cl.exe /O2 /GL /I \"{0}\\{3}\\Release\\include\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\\libecs\" /I \"{0}\\{3}\\Release\\include\\ecell-3.2\\libemc\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_WIN32_WINNT=0x500\" /D \"_SECURE_SCL=0\" /D \"_MBCS\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
+                string INCLUDEPATH = "";
+                string path1 = Path.Combine(stageHome, "include");
+                string path2 = string.Format("{0}\\{1}\\Release\\include", stageHome, arch1);
+                if (Directory.Exists(path1))
+                    INCLUDEPATH = path1;
+                else if (Directory.Exists(path2))
+                    INCLUDEPATH = path2;
+                else
+                    throw new EcellException(string.Format("Can not find INCLUDE path, {0}, {1}", path1, path2));
+
+                string opt = "cl.exe /O2 /GL /I \"{0}\" /I \"{0}\\ecell-3.2\" /I \"{0}\\ecell-3.2\\libecs\" /I \"{0}\\ecell-3.2\\libemc\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_WIN32_WINNT=0x500\" /D \"_SECURE_SCL=0\" /D \"_MBCS\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
                 string cmd = string.Format(opt, new object[] {
-                    stageHome, m_sourceFile, m_outputFile, arch1, arch2
+                    INCLUDEPATH, m_sourceFile, m_outputFile, arch1, arch2
                     });
 
                 p.StandardInput.WriteLine(cmd);
@@ -206,7 +216,7 @@ namespace Ecell
                 }
 
                 p = Process.Start(psi);
-                p.StandardInput.WriteLine("call \"" + DEVENV + "\\vsvars32.bat\"");
+                p.StandardInput.WriteLine("call \"" + VSPATH + "\\vsvars32.bat\"");
 
                 string mopt = "mt.exe /outputresource:\"{0};#2\" /manifest \"{0}.intermediate.manifest\" /nologo";
                 cmd = string.Format(mopt, m_outputFile);

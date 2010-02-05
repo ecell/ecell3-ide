@@ -117,6 +117,10 @@ namespace Ecell
         /// </summary>
         private Project m_currentProject = null;
         /// <summary>
+        /// Edit count.
+        /// </summary>
+        private int m_editCount = 0;
+        /// <summary>
         /// ObservedDatas
         /// </summary>
         private Dictionary<string, EcellObservedData> m_observedList;
@@ -302,6 +306,13 @@ namespace Ecell
         {
             get { return m_env; }
         }
+        /// <summary>
+        /// Edit Count for project.
+        /// </summary>
+        public int EditCount
+        {
+            get { return m_editCount; }
+        }
 
         /// <summary>
         /// Checks whether the simulator is running.
@@ -436,6 +447,7 @@ namespace Ecell
                 sim = new WrappedSimulator(Util.GetDMDirs());
                 EcellModel model = SBML2EML.Convert(filename);
                 EmlReader.InitializeModel(model, sim);
+                sim.Dispose();
                 // Save eml.
                 string dir = Util.GetTmpDir();
                 string modelFileName = Path.GetFileNameWithoutExtension(filename) + Constants.FileExtEML;
@@ -449,11 +461,6 @@ namespace Ecell
                 m_env.Console.WriteLine("Failed to convert SBML:" + filename);
                 m_env.Console.WriteLine(e.ToString());
                 throw new EcellException("Failed to convert SBML.", e);
-            }
-            finally
-            {
-                if (sim != null)
-                    sim.Dispose();
             }
 
         }
@@ -547,9 +554,11 @@ namespace Ecell
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
                 // Load DMs.
+                project.UnloadSimulator();
                 m_env.DMDescriptorKeeper.Load(project.GetDMDirs());
 
                 // Prepare datas.
+                project.ReloadSimulator();
                 project.LoadModel();
                 foreach (EcellObject model in project.ModelList)
                 {
@@ -573,7 +582,7 @@ namespace Ecell
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
                 m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
-
+                m_editCount = 0;
                 ClearSteppingModel();
             }
             catch (Exception ex)
@@ -1133,6 +1142,7 @@ namespace Ecell
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
                 m_env.Console.Flush();
+                m_editCount = 0;
             }
             catch (Exception ex)
             {
@@ -1374,6 +1384,7 @@ namespace Ecell
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 this.ClearSteppingModel();
                 m_deleteParameterList.Clear();
+                m_editCount = 0;
             }
             catch (Exception ex)
             {
@@ -1454,6 +1465,7 @@ namespace Ecell
                     isUndoable = false;
                     DataAdd4Model(ecellObject, usableList);
                 }
+                m_editCount++;
             }
             catch (IgnoreException)
             {
@@ -1870,6 +1882,7 @@ namespace Ecell
                 // Record Action.
                 if (isRecorded && isAnchor)
                     this.m_env.ActionManager.AddAction(new AnchorAction());
+                m_editCount++;
             }
             catch (Exception ex)
             {
@@ -2274,6 +2287,7 @@ namespace Ecell
                 m_env.PluginManager.RaiseRefreshEvent();
             if (isRecorded && isAnchor)
                 this.m_env.ActionManager.AddAction(new AnchorAction());
+            m_editCount++;
         }
 
         ///// <summary>
@@ -2919,7 +2933,7 @@ namespace Ecell
         public bool ConfirmClose()
         {
             int editCount = m_env.ActionManager.Count;
-            if (m_currentProject == null || (editCount == 0 && m_currentProject.Info.Type == ProjectType.Project))
+            if (m_currentProject == null || (editCount <= 1 && m_currentProject.Info.Type == ProjectType.Project))
                 return true;
             // Confirm saving.
             try
@@ -2928,11 +2942,12 @@ namespace Ecell
                 if (Util.ShowYesNoCancelDialog(MessageResources.ConfirmSave, MessageBoxDefaultButton.Button3))
                 {
                     SaveProject();
-                    return true;
                 }
+                return true;
             }
             catch (Exception)
             {
+                // Canceled
             }
             // when canceled
             return false;
@@ -3996,6 +4011,7 @@ namespace Ecell
                         msg,
                         this));
 
+                bool limitFlag = true;
                 while (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     m_currentProject.Simulator.Step(m_defaultStepCount);
@@ -4008,6 +4024,15 @@ namespace Ecell
                         {
                             Thread.Sleep(1000);
                             Application.DoEvents();
+                        }
+                    }
+                    if (currentTime > long.MaxValue && limitFlag)
+                    {
+                        limitFlag = false;
+                        bool doContinue = Util.ShowOKCancelDialog(MessageResources.ConfirmTimeLimit);
+                        if (!doContinue)
+                        {
+                            SimulationSuspend();
                         }
                     }
                 }

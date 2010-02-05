@@ -366,4 +366,9 @@
   <data name="ConfirmSave" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>
+  <data name="ConfirmTimeLimit" xml:space="preserve">
+    <value>シミュレーション時間の限界が近づいています。
+この先予期せぬ動作をする可能性があります。
+構わず続ける場合はOKを、停止する場合はキャンセルを選択して下さい。</value>
+  </data>
 </root>

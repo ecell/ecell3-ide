@@ -1542,7 +1542,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewCompressZip(object sender, EventArgs e)
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
-            if (m_owner.Environment.ActionManager.Undoable &&
+            if (m_owner.Environment.DataManager.EditCount == 0 &&
                 m_owner.Environment.DataManager.CurrentProject.Info.Type != ProjectType.Revision)
             {
                 Util.ShowWarningDialog(MessageResources.ErrProjectUnsavedZip);
