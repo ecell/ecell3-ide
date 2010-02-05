@@ -248,6 +248,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 button.Visible = menuFlag;
             }
+
+            ResetEventHandler();
         }
 
         private void InitializeComponent()

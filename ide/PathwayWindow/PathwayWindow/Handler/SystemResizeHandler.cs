@@ -246,6 +246,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     float newY = y + (obj.EcellObject.CenterPointF.Y - oldY) * yy;
                     obj.OffsetX = newX - obj.EcellObject.CenterPointF.X;
                     obj.OffsetY = newY - obj.EcellObject.CenterPointF.Y;
+                    if (obj is PPathwayVariable)
+                    {
+                        PPathwayVariable variable = (PPathwayVariable)obj;
+                        foreach (PPathwayAlias alias in variable.Aliases)
+                        {
+                            float aX = x + (alias.X + alias.Width / 2 - oldX) * xx;
+                            float aY = y + (alias.Y + alias.Height /2 - oldY) * yy;
+                            alias.OffsetX = aX - (alias.X + alias.Width / 2);
+                            alias.OffsetY = aY - (alias.Y + alias.Height / 2);
+                        }
+                    }
                 }
             }
 

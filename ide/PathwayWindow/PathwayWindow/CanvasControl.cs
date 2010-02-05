@@ -1141,6 +1141,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_layers.TryGetValue(layerName, out layer);
             if (layer == null)
                 return;
+            NotifyResetSelect();
             foreach (PPathwayObject obj in layer.GetNodes())
             {
                 NotifyAddSelect(obj);
