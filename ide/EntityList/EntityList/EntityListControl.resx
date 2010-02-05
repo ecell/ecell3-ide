@@ -309,30 +309,6 @@
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 261</value>
   </data>
-  <data name="&gt;&gt;typeToolStripMenuItem.Name" xml:space="preserve">
-    <value>typeToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;typeToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;classToolStripMenuItem.Name" xml:space="preserve">
-    <value>classToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;classToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pathIDToolStripMenuItem.Name" xml:space="preserve">
-    <value>pathIDToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;pathIDToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;nameToolStripMenuItem.Name" xml:space="preserve">
-    <value>nameToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;nameToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;Type.Name" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -356,6 +332,30 @@
   </data>
   <data name="&gt;&gt;ObjectName.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;typeToolStripMenuItem.Name" xml:space="preserve">
+    <value>typeToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;typeToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;classToolStripMenuItem.Name" xml:space="preserve">
+    <value>classToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;classToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pathIDToolStripMenuItem.Name" xml:space="preserve">
+    <value>pathIDToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;pathIDToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nameToolStripMenuItem.Name" xml:space="preserve">
+    <value>nameToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;nameToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>EntityListControl</value>

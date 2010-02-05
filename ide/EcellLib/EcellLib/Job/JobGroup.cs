@@ -464,6 +464,11 @@ namespace Ecell.Job
                 string logdir = topdir + "/" + j.JobID;
                 if (!Directory.Exists(logdir))
                     Directory.CreateDirectory(logdir);
+                else
+                {
+                    Directory.Delete(logdir, true);
+                    Directory.CreateDirectory(logdir);
+                }
 
                 // save parameter file.
                 string paramFile = logdir + "/" + GroupName + "_" + j.JobID + ".param";

@@ -556,7 +556,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
             {
-                writer.Write(m_valueList[i]);
+                writer.Write(m_valueList[i] + ",");
                 for (int j = 0; j < m_scaledCCCMatrix.ColumnCount; j++)
                 {
                     writer.Write(m_scaledCCCMatrix[i, j] + ",");
@@ -574,7 +574,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
             {
-                writer.Write(m_activityList[i]);
+                writer.Write(m_activityList[i] + ",");
                 for (int j = 0; j < m_scaledFCCMatrix.ColumnCount; j++)
                 {
                     writer.Write(m_scaledFCCMatrix[i, j] + ",");

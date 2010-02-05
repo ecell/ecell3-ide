@@ -1179,6 +1179,8 @@ namespace Ecell
                 {
                     foreach (EcellObject child in sysobj.Children)
                     {
+                        if (child.LocalID.Equals(EcellSystem.SIZE))
+                            continue;
                         foreach (EcellData data in child.Value)
                         {
                             if (data.Settable && data.Value.IsDouble)
@@ -1244,6 +1246,8 @@ namespace Ecell
                 Util.ParseFullPN(fullPN, out type, out key, out propName);
                 EcellObject obj = m_currentProject.GetEcellObject(modelID, type, key, true);
                 if (obj == null)
+                    continue;
+                if (obj.LocalID.Equals(EcellSystem.SIZE))
                     continue;
                 EcellData d = obj.GetEcellData(propName);
                 if (!d.Settable || !d.Value.IsDouble)

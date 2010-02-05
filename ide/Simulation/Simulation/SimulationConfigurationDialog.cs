@@ -743,18 +743,6 @@ namespace Ecell.IDE.Plugins.Simulation
                         bool isHitParam = false;
                         foreach (MutableKeyValuePair<string, double> delData in p.InitialConditions)
                         {
-                            string ptype, pkey, pname;
-                            Util.ParseFullPN(delData.Key, out ptype, out pkey, out pname);
-                           
-                            string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
-                            EcellObject pobj = m_owner.DataManager.GetEcellObject(modelID, pkey, ptype);
-                            if (pobj != null)
-                            {
-                                EcellData pd = pobj.GetEcellData(pname);
-                                if (!pd.Settable || !pd.Value.IsDouble)
-                                    continue;
-                            }
-
                             if (delData.Key.Equals(pair.Key))
                             {
                                 if (delData.Value == pair.Value)
@@ -764,6 +752,36 @@ namespace Ecell.IDE.Plugins.Simulation
                                 break;
                             }
                         }
+
+                        string ptype, pkey, pname;
+                        Util.ParseFullPN(pair.Key, out ptype, out pkey, out pname);
+
+                        string modelID = m_owner.DataManager.CurrentProject.Model.ModelID;
+                        EcellObject pobj = m_owner.DataManager.GetEcellObject(modelID, pkey, ptype);
+                        if (pobj == null)
+                        {
+                            isHitParam = true;
+                            continue;
+                        }
+                        if (pobj.LocalID.Equals(EcellSystem.SIZE))
+                        {
+                            isHitParam = true;
+                            continue;
+                        }
+
+                        EcellData pd = pobj.GetEcellData(pname);
+                        if (!pd.Settable || !pd.Value.IsDouble)
+                        {
+                            isHitParam = true;
+                            continue;
+                        }
+
+                        if (pair.Value == Convert.ToDouble(pd.Value.ToString()))
+                        {
+                            isHitParam = true;
+                            continue;
+                        }
+
                         if (!isHitParam)
                         {
                             initialConditionsBindingSource.Add(
