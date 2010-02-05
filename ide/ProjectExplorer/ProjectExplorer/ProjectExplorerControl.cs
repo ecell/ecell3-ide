@@ -1542,8 +1542,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewCompressZip(object sender, EventArgs e)
         {
             Project project = m_owner.Environment.DataManager.CurrentProject;
-            if (m_owner.Environment.DataManager.EditCount == 0 &&
-                m_owner.Environment.DataManager.CurrentProject.Info.Type != ProjectType.Revision)
+            if (m_owner.Environment.DataManager.EditCount != 0 ||
+                m_owner.Environment.DataManager.CurrentProject.Info.Type != ProjectType.Project)
             {
                 Util.ShowWarningDialog(MessageResources.ErrProjectUnsavedZip);
                 return;
@@ -1551,7 +1551,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             string dir = project.Info.ProjectPath;
             string filename = project.Info.Name + Constants.FileExtZip;
-            CompressZip(filename, dir);
+            try
+            {
+                CompressZip(filename, dir);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>

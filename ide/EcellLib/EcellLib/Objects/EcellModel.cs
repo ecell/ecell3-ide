@@ -139,6 +139,26 @@ namespace Ecell.Objects
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public List<EcellStepper> Steppers
+        {
+            get
+            {
+                List<EcellStepper> list = new List<EcellStepper>();
+                foreach (string key in m_stepperDic.Keys)
+                {
+                    if (!m_modelID.Equals(key))
+                        continue;
+                    foreach (EcellObject stepper in m_stepperDic[key])
+                    {
+                        list.Add((EcellStepper)stepper);
+                    }
+                }
+                return list;
+            }
+        }
+        /// <summary>
         /// List of EcellSystems int this model.
         /// </summary>
         public List<EcellObject> Systems

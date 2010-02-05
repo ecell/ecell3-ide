@@ -709,17 +709,17 @@ namespace Ecell
         {
             // When you do not carry out Initialize, Dispose is available.
             WrappedSimulator sim1 = new WrappedSimulator(_unitUnderTest.GetDMDirs());
-            EmlReader.Parse(TestConstant.Model_Drosophila, sim1);
+            EmlReader.Parse(TestConstant.Model_RBC, sim1);
             Console.WriteLine(sim1.GetEntityProperty("System::/:Name"));
             sim1.Dispose();
 
             // when I carry out Initialize, Dispose returns error.
             WrappedSimulator sim2 = new WrappedSimulator(_unitUnderTest.GetDMDirs());
-            EmlReader.Parse(TestConstant.Model_Drosophila, sim2);
+            EmlReader.Parse(TestConstant.Model_RBC, sim2);
             Console.WriteLine(sim2.GetEntityProperty("System::/:Name"));
-            sim2.Initialize();
             try
             {
+                sim2.Initialize();
                 sim2.Dispose();
             }
             catch (Exception e)

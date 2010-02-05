@@ -1453,7 +1453,8 @@ namespace Ecell.IDE.MainWindow
         private void exportZipToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Project project = m_env.DataManager.CurrentProject;
-            if (Environment.ActionManager.Undoable)
+            if (m_env.DataManager.EditCount != 0 ||
+                m_env.DataManager.CurrentProject.Info.Type != ProjectType.Project)
             {
                 Util.ShowWarningDialog(MessageResources.ErrProjectUnsavedZip);
                 return;
@@ -1466,7 +1467,15 @@ namespace Ecell.IDE.MainWindow
             {
                 string filename = saveFileDialog.FileName;
                 ZipUtil zip = new ZipUtil();
-                zip.ZipFolder(filename, dir);
+                try
+                {
+                    zip.ZipFolder(filename, dir);
+                }
+                catch (Exception ex)
+                {
+
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrSaveFile, saveFileDialog.FileName) + "\n" + ex.Message);
+                }
             }
         }
 

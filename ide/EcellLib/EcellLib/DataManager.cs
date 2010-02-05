@@ -1069,6 +1069,7 @@ namespace Ecell
 
                 // Save Leml.
                 EcellModel model = (EcellModel)m_currentProject.Model;
+                model.StepperDic[modelID] = m_currentProject.StepperDic[modelID];
                 model.Children = m_currentProject.SystemDic[modelID];
 
                 string leml = Path.GetDirectoryName(modelFileName) + Path.DirectorySeparatorChar +

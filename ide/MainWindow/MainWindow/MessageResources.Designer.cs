@@ -250,6 +250,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Cannot save file: {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveFile {
+            get {
+                return ResourceManager.GetString("ErrSaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot save the window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveWindowSettings {

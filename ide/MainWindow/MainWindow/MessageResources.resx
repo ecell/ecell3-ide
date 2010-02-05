@@ -273,4 +273,7 @@
   <data name="CreateNewProject" xml:space="preserve">
     <value>Create new project.</value>
   </data>
+  <data name="ErrSaveFile" xml:space="preserve">
+    <value>Cannot save file: {0}.</value>
+  </data>
 </root>

@@ -938,6 +938,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else if (isAlias)
             {
                 EcellObject eo = ((PPathwayAlias)node).Variable.EcellObject;
+                toolStripIdShow.Text = eo.FullID;
                 commonMenu.Object = eo;
                 SetLayerMenu(obj.Layer.Name);
             }
@@ -960,8 +961,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             //
             popupMenu.SuspendLayout();
             // Show ObjectID(key).
-            toolStripIdShow.Visible = isObject;
-            toolStripSeparator1.Visible = isObject;
+            toolStripIdShow.Visible = isObject || isAlias;
+            toolStripSeparator1.Visible = isObject || (isAlias && isEditMode);
             // Show Line menus.
             toolStripOneWayArrow.Visible = isEdge && !isOneway && isEditMode && !isCalculation;
             toolStripAnotherArrow.Visible = isEdge && isOneway && isEditMode && !isCalculation;
@@ -987,7 +988,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripShowID.Visible = isNull && isEditMode;
             toolStripSetHandIcon.Visible = isNull && isEditMode;
             toolStripAnimationSetting.Visible = isNull || (isEdge && isSimulation);
-            toolStripSeparator3.Visible = (isObject && !isText) || (isAlias && isEditMode);
+            toolStripSeparator3.Visible = (isObject && !isText) || isAlias;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
             commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;

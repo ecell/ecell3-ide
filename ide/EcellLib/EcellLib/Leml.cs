@@ -256,7 +256,7 @@ namespace Ecell
         private static EcellObject GetEcellObject(EcellModel model, string type, string key)
         {
             EcellObject eo = null;
-
+            // Check entity
             foreach (EcellObject sys in model.Children)
             {
                 // Check
@@ -396,6 +396,10 @@ namespace Ecell
 
                 // Object settings
                 xmlOut.WriteStartElement(LemlConstants.xPathEcellObjectList);
+                foreach (EcellObject stepper in model.Steppers)
+                {
+                    WriteObjectElement(xmlOut, stepper);
+                }
                 foreach (EcellObject eo in model.Children)
                 {
                     WriteObjectElement(xmlOut, eo);
