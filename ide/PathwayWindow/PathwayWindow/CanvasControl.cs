@@ -404,7 +404,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayAlias alias = (PPathwayAlias)obj;
                 bool selectFlag = alias.Variable.Selected;
                 NotifySelectChanged(alias.Variable);
-                NotifyRemoveSelect(alias.Variable);
+                NotifyResetSelect();
                 m_selectedNodes.Add(alias);
                 alias.Selected = true;
             }
@@ -516,17 +516,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
         public bool DoesSystemContains(string sysKey, RectangleF rect)
         {
-            bool contains = true;
-            foreach (PPathwaySystem system in m_systems.Values)
+            PPathwayObject parent = null;
+            foreach (PPathwaySystem sys in this.m_systems.Values)
             {
-                if (system.EcellObject.Key.Equals(Constants.delimiterPath)
-                    || sysKey.Equals(system.EcellObject.Key)
-                    || sysKey.StartsWith(system.EcellObject.Key + Constants.delimiterPath))
-                    contains = contains & system.Rect.Contains(rect);
-                else
-                    contains = contains & !system.Rect.Contains(rect);
+                PPathwaySystem temp = null;
+                if (!sys.Rect.Contains(rect))
+                    continue;
+
+                temp = sys;
+                if (parent == null)
+                    parent = temp;
+                else if (parent.Rect.Contains(temp.Rect))
+                    parent = temp;
+
             }
-            return contains;
+            if (parent == null)
+                return false;
+            else
+                return sysKey.Equals(parent.EcellObject.Key);
         }
         /// <summary>
         /// Check if any system of this canvas overlaps given rectangle.
@@ -536,17 +543,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
         public bool DoesSystemContains(string sysKey, PointF point)
         {
-            bool contains = true;
-            foreach (PPathwaySystem system in m_systems.Values)
-            {
-                if (system.EcellObject.Key.Equals(Constants.delimiterPath)
-                    || sysKey.Equals(system.EcellObject.Key)
-                    || sysKey.StartsWith(system.EcellObject.Key + Constants.delimiterPath))
-                    contains = contains & system.Rect.Contains(point);
-                else
-                    contains = contains & !system.Rect.Contains(point);
-            }
-            return contains;
+            string parent = GetSurroundingSystemKey(point);
+            return sysKey.Equals(parent);
         }
         /// <summary>
         /// Convert CanvasPos to SystemPos
@@ -1569,6 +1567,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     return;
 
                 obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                if (obj is PPathwayVariable)
+                {
+                    foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
+                    {
+                        alias.CenterPointF = GetVacantPoint(sysKey, alias.CenterPointF);
+                    }
+                }
                 m_con.NotifyDataChanged(obj, false);
             }
             // Move System.
@@ -1594,6 +1599,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     {
                         child.OffsetX = obj.OffsetX;
                         child.OffsetY = obj.OffsetY;
+                        if(child is PPathwayVariable)
+                        {
+                            foreach(PPathwayAlias alias in ((PPathwayVariable)child).Aliases)
+                            {
+                                alias.OffsetX = obj.OffsetX;
+                                alias.OffsetY = obj.OffsetY;
+                            }
+                        }
                     }
                     // make space and move object.
                     MakeSpace(system, obj, true);
