@@ -326,11 +326,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 throw new EcellException(String.Format(MessageResources.ErrInvalidValue, MessageResources.NamePlotNumber));
             }
-            if (m_settings.YMax < m_settings.YMin)
+            if (m_settings.YMax <= m_settings.YMin)
             {
                 throw new EcellException(MessageResources.ErrInvalidValue);
             }
-            if (m_settings.Y2Max < m_settings.Y2Min)
+            if (m_settings.Y2Max <= m_settings.Y2Min)
             {
                 throw new EcellException(MessageResources.ErrInvalidValue);
             }
