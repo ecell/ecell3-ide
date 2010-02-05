@@ -101,7 +101,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Sorter by type.
         /// </summary>
         System.Collections.IComparer m_typeSorter;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_isDispatch = true;
         #endregion
 
         #region Constructor
@@ -260,6 +263,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="data">the new object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
+            m_isDispatch = true;
             // Set Project
             if (data is EcellProject)
             {
@@ -2086,8 +2090,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             foreach (EcellObject src in updataList.Keys)
             {
-                m_owner.DataManager.DataChanged(src.ModelID, src.Key, src.Type, updataList[src]);
+                m_isDispatch = false;
+                
+                m_owner.DataManager.DataChanged(src.ModelID, src.Key, src.Type, updataList[src], true, false);
+                if (!m_isDispatch)
+                    return;
             }
+            m_owner.Environment.ActionManager.AddAction(new Ecell.Action.AnchorAction());
         }
 
 
