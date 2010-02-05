@@ -493,8 +493,10 @@ namespace Ecell
                 Directory.CreateDirectory(dmDir);
             Util.CopyDirectory(path, dmDir, true);
 
+            m_currentProject.UnloadSimulator();
             m_currentProject.SetDMList();
             m_env.DMDescriptorKeeper.Load(m_currentProject.GetDMDirs());
+            m_currentProject.ReloadSimulator();
         }
 
         #endregion

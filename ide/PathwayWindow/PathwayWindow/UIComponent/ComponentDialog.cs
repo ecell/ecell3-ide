@@ -124,12 +124,17 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         void componentItem_ItemChange(object sender, System.EventArgs e)
         {
-            SetOKButton();
+            SetRegCheck();
         }
 
-        private void SetOKButton()
+        private void SetRegCheck()
         {
-            this.buttonOK.Enabled = (componentItem.Changed && (m_isExistSetting || Setting.IsStencil)) || !Setting.IsStencil;
+            bool changed = componentItem.Changed;
+            bool isStencil = Setting.IsStencil;
+            bool register = registerCheckBox.Checked;
+
+            this.registerCheckBox.Enabled = !isStencil || (m_isExistSetting && changed) || (isStencil && changed);
+            this.buttonOK.Enabled = changed || m_isExistSetting;
         }
         #endregion
 
@@ -161,7 +166,8 @@ namespace Ecell.IDE
             StencilMenuItem item = (StencilMenuItem)sender;
             this.Setting = item.Setting;
             m_isExistSetting = true;
-            SetOKButton();
+            this.registerCheckBox.Checked = false;
+            SetRegCheck();
         }
 
         /// <summary>

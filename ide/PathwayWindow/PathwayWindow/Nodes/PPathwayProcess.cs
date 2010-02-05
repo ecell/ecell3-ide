@@ -88,7 +88,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return base.ViewMode; }
             set
             {
-                ChangePath(value);
+                if(ViewMode != value)
+                    ChangePath(value);
                 Stepper.Visible = !value;
                 if(!value)
                     RefreshStepperIcon();

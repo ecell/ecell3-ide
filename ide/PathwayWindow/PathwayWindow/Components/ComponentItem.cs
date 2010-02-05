@@ -87,7 +87,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                     return true;
                 if (pCanvas.Setting.CenterBrush != centerBrush.Brush)
                     return true;
-                if (pCanvas.Setting.IconFile != iconFile.FileName)
+                if (pCanvas.Setting.ImageStream != Util.ImgToBase64(iconFile.FileName))
                     return true;
                 return false;
             }

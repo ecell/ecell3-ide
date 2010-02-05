@@ -1829,7 +1829,7 @@ namespace Ecell
         /// <returns></returns>
         public static string ImgToBase64(string imgFile)
         {
-            string base64 = null;
+            string base64 = "";
             if (string.IsNullOrEmpty(imgFile) || !File.Exists(imgFile))
                 return base64;
 
