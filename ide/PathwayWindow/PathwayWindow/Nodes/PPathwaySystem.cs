@@ -308,16 +308,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             List<PPathwayObject> list = m_canvas.GetAllObjectUnder(m_ecellObj.Key);
             // Remove Text.
             List<PPathwayObject> texts = new List<PPathwayObject>();
+            List<PPathwayObject> aliases = new List<PPathwayObject>();
             foreach (PPathwayObject obj in list)
             {
                 if (obj is PPathwayText)
                     texts.Add(obj);
+                if (obj is PPathwayVariable)
+                    aliases.AddRange(((PPathwayVariable)obj).Aliases.ToArray());
             }
             foreach (PPathwayObject text in texts)
             {
                 list.Remove(text);
             }
-
+            list.AddRange(aliases);
             // Get smallest rect.
             if (list.Count <= 0)
                 return;

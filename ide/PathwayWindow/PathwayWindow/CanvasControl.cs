@@ -404,8 +404,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayAlias alias = (PPathwayAlias)obj;
                 bool selectFlag = alias.Variable.Selected;
                 NotifySelectChanged(alias.Variable);
-                if (!selectFlag)
-                    NotifyRemoveSelect(alias.Variable);
+                NotifyRemoveSelect(alias.Variable);
                 m_selectedNodes.Add(alias);
                 alias.Selected = true;
             }
@@ -1182,12 +1181,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
         public PPathwayObject GetSurroundingSystem(PointF point, string excludedSystem)
         {
-            PPathwayObject obj = null;
+            PPathwayObject parent = null;
 
             foreach (PPathwaySystem sys in this.m_systems.Values)
-                if (sys.Rect.Contains(point) && !sys.EcellObject.Key.Equals(excludedSystem))
-                    obj = sys;
-            return obj;
+            {
+                PPathwaySystem temp = null;
+                if (!sys.Rect.Contains(point))
+                    continue;
+                if (sys.EcellObject.Key.Equals(excludedSystem))
+                    continue;
+
+                temp = sys;
+                if (parent == null)
+                    parent = temp;
+                else if(parent.Rect.Contains(temp.Rect))
+                    parent = temp;
+
+            }
+            return parent;
         }
 
         /// <summary>

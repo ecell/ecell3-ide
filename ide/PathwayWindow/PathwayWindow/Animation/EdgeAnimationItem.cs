@@ -258,6 +258,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             ProjectStatus status = _control.Control.ProjectStatus;
             bool onGoing = status == ProjectStatus.Running || status == ProjectStatus.Stepping || status == ProjectStatus.Suspended;
 
+            float width = _control.EdgeWidth;
             if (_autoThreshold && !onGoing)
                 _thresholdHigh = 0;
             foreach (PPathwayProcess process in _processes)
@@ -270,7 +271,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Line setting.
                 EcellProcess ep = (EcellProcess)process.EcellObject;
-                float width = GetEdgeWidth(ep, ep.MolarActivity);
                 foreach (PPathwayEdge line in process.Edges)
                 {
                     line.EdgeBrush = _viewEdgeBrush;
