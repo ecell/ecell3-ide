@@ -707,6 +707,8 @@ namespace Ecell
         [Test()]
         public void TestWrappedSimulator()
         {
+            _unitUnderTest.UnloadSimulator();
+
             // When you do not carry out Initialize, Dispose is available.
             WrappedSimulator sim1 = new WrappedSimulator(_unitUnderTest.GetDMDirs());
             EmlReader.Parse(TestConstant.Model_RBC, sim1);

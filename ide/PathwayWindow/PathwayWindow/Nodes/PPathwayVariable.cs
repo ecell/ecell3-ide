@@ -160,25 +160,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             // Get base pointer.
             PointF contactPoint = base.GetContactPoint(refPoint);
-
-            // Get Alias pointer.
-            //if (m_aliases.Count <= 0)
-            //    return contactPoint;
-            //double length = GetDistance(refPoint, contactPoint);
-            //double tempLength;
-            //PointF tempPoint;
-            //foreach (PPathwayAlias alias in m_aliases)
-            //{
-            //    if (!alias.Visible)
-            //        continue;
-            //    tempPoint = m_figure.GetContactPoint(refPoint, alias.CenterPointF);
-            //    tempLength = GetDistance(refPoint, tempPoint);
-            //    if (tempLength < length)
-            //    {
-            //        length = tempLength;
-            //        contactPoint = tempPoint;
-            //    }
-            //}
             return contactPoint;
         }
 
@@ -191,7 +172,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 return;
             // Remove current alias
             foreach (PPathwayAlias alias in m_aliases)
+            {
                 alias.RemoveFromParent();
+                alias.Dispose();
+            }
             m_aliases.Clear();
 
             // Set alias

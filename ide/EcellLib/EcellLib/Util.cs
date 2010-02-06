@@ -811,12 +811,22 @@ namespace Ecell
                         result += d.Name + "=" + refString + "\n";
                     }
                     else
-                        result += d.Name + "=" + d.Value.ToString()+ "\n";
+                        result += d.Name + "=" + ConvertReturnTo(d.Value.ToString()) + "\n";
                 }
                 result += "//\n"; // object separator.
             }
 
             return result;
+        }
+
+        private static string ConvertReturnTo(string str)
+        {
+            return str.Replace("\n", "$$");
+        }
+
+        private static string ConvertReturnFrom(string str)
+        {
+            return str.Replace("$$", "\n");
         }
 
         /// <summary>
@@ -966,7 +976,7 @@ namespace Ecell
                         else if (d.Name.Equals(Constants.xpathVRL))
                             d.Value = EcellValue.ConvertFromListString(tmpValue[d.Name]);
                         else
-                            d.Value = new EcellValue(tmpValue[d.Name]);
+                            d.Value = new EcellValue(ConvertReturnFrom(tmpValue[d.Name]));
                         tmpValue.Remove(d.Name);
                     }
                     values.Add(d);
