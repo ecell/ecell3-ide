@@ -1364,7 +1364,8 @@ namespace Ecell
                 return false;
             }
             string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
-            if (string.IsNullOrEmpty(VS80))
+            string VS90 = System.Environment.GetEnvironmentVariable("VS90COMNTOOLS");
+            if (string.IsNullOrEmpty(VS80) && string.IsNullOrEmpty(VS90))
             {
                 return false;
             }

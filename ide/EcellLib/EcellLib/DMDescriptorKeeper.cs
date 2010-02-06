@@ -438,6 +438,10 @@ namespace Ecell
                         Trace.WriteLine(string.Format("    Failed to get default value of property, {0}:{1}.", stepper, propName));
                     }
                 }
+                // Set default value.
+                if (defaultValue == null)
+                    defaultValue = new EcellValue(0.0d);
+                bool logable = defaultValue.IsDouble;
                 pdescs[propName] = new PropertyDescriptor(
                     propName,
                     attrs.Settable, // settable
@@ -445,7 +449,7 @@ namespace Ecell
                     attrs.Loadable, // loadable
                     attrs.Savable,  // saveable
                     attrs.Dynamic,  // dynamic
-                    attrs.Gettable, // logable
+                    logable, // logable
                     defaultValue
                 );
             }
@@ -484,6 +488,13 @@ namespace Ecell
                         Trace.WriteLine(string.Format("    Failed to get default value of property, {0}:{1}.", fullID, propName));
                     }
                 }
+                // Set default value.
+                if (defaultValue == null)
+                    defaultValue = new EcellValue(0.0d);
+                bool logable = defaultValue.IsDouble;
+                if (fullID.StartsWith(EcellObject.PROCESS))
+                    logable = logable && (!attrs.Settable || !attrs.Savable);
+
                 pdescs[propName] = new PropertyDescriptor(
                     propName,
                     attrs.Settable, // settable
@@ -491,7 +502,7 @@ namespace Ecell
                     attrs.Loadable, // loadable
                     attrs.Savable,  // saveable
                     attrs.Dynamic,  // dynamic
-                    (attrs.Settable == false || attrs.Savable == false) && (defaultValue != null && defaultValue.IsDouble), // logable
+                    logable, // logable
                     defaultValue
                 );
             }

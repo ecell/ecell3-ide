@@ -4019,17 +4019,20 @@ namespace Ecell
                         MessageType.Information,
                         msg,
                         this));
-
+                // param
                 bool limitFlag = true;
                 double timeLimit = Math.Sqrt(double.MaxValue);
                 string stepperID = GetStepper(m_currentProject.Model.ModelID)[0].Key;
+                //
                 while (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     m_currentProject.Simulator.Step(m_defaultStepCount);
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();
                     double nextTime = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextTime");
+                    double nextInterval = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextStepInterval");
                     this.m_env.PluginManager.AdvancedTime(currentTime);
+                    Trace.WriteLine(nextInterval);
                     if (m_waitTime > 0 && m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
                         for (int i = 0; i < m_waitTime; i++)
@@ -4038,7 +4041,7 @@ namespace Ecell
                             Application.DoEvents();
                         }
                     }
-                    if (nextTime > timeLimit && limitFlag)
+                    if ((nextTime > timeLimit || nextInterval > int.MaxValue) && limitFlag)
                     {
                         limitFlag = false;
                         bool doContinue = Util.ShowOKCancelDialog(MessageResources.ConfirmTimeLimit);
