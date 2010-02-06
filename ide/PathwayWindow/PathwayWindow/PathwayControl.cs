@@ -624,6 +624,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 m_layerView.ResetLayers(((EcellModel)eo).Layers);
                 m_canvas.RefreshEdges();
+                m_animCon.SetAnimationSettings((XmlElement)((EcellModel)eo).Animations);
             }
 
             PPathwayObject obj;
@@ -1566,6 +1567,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="isAnchored"></param>
+        public void NotifyAnimaitionChanged(string modelID, bool isAnchored)
+        {
+            EcellModel model = (EcellModel)m_window.GetEcellObject(modelID, null, EcellObject.MODEL);
+            XmlDocument doc = new XmlDocument();
+            model.Animations = m_animCon.GetAnimationSettings(doc);
+            bool isRecorded = !(m_status == ProjectStatus.Loading);
+            NotifyDataChanged("", model, isRecorded, isRecorded && isAnchored);
+        }
+        /// <summary>
         /// Notify DataDelete event to outsite.
         /// </summary>
         /// <param name="obj">the deleted object.</param>
@@ -1948,13 +1962,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
 
             // Save Animation Settings.
-            XmlElement animationSettings = doc.CreateElement(AnimationConstants.xPathAnimationSettings);
-            animationSettings.SetAttribute("IsAnimation", this.IsAnimation.ToString());
+            XmlElement animationSettings = m_animCon.GetAnimationSettings(doc);
             status.AppendChild(animationSettings);
-            foreach (IAnimationItem animation in m_animCon.Items)
-            {
-                animationSettings.AppendChild(animation.GetAnimationStatus(doc));
-            }
 
             return status;
         }

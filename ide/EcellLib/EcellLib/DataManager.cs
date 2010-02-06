@@ -443,7 +443,7 @@ namespace Ecell
             WrappedSimulator sim = null;
             try
             {
-                if(ConfirmClose());
+                if(ConfirmClose())
                     CloseProject();
                 // Load model
                 sim = new WrappedSimulator(Util.GetDMDirs());
@@ -1936,8 +1936,12 @@ namespace Ecell
                 // Caution! 現時点ではモデル名の変更はできません。
                 throw new Exception("The method to change ModelID is not implemented.");
             }
-
-            m_currentProject.ModelList[0].Layers = ((EcellModel)ecellObject).Layers;
+            EcellModel model = (EcellModel)ecellObject;
+            m_currentProject.ModelList[0].Layers = model.Layers;
+            if (model.Animations != null)
+                m_currentProject.ModelList[0].Animations = model.Animations.Clone();
+            else
+                m_currentProject.ModelList[0].Animations = null;
             m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
         }
 

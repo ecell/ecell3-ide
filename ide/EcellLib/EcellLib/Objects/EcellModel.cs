@@ -36,6 +36,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace Ecell.Objects
 {
@@ -63,6 +64,10 @@ namespace Ecell.Objects
         /// The error message.
         /// </summary>
         private string m_err = "";
+        /// <summary>
+        /// 
+        /// </summary>
+        private XmlNode m_animations = null;
         #endregion
 
         #region Constractors
@@ -136,6 +141,15 @@ namespace Ecell.Objects
                 SetEcellValue(EcellLayer.Layers, layers);
                 GetEcellData(EcellLayer.Layers).Settable = false;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public XmlNode Animations
+        {
+            get { return m_animations; }
+            set { m_animations = value; }
         }
 
         /// <summary>
@@ -223,6 +237,18 @@ namespace Ecell.Objects
                 break;
             }
             return system;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override EcellObject Clone()
+        {
+            EcellModel newModel = (EcellModel)base.Clone();
+            if(this.Animations != null)
+                newModel.Animations = this.Animations.Clone();
+            return newModel;
         }
     }
 }

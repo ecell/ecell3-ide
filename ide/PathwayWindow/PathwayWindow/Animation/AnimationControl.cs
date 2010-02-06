@@ -676,6 +676,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
 
             // load animation settings
+            SetAnimationSettings(animationSettings);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="animationSettings"></param>
+        internal void SetAnimationSettings(XmlElement animationSettings)
+        {
+            // Reset Animation.
+            ResetAnimation();
+            _items.Clear();
+            if (animationSettings == null)
+            {
+                _con.Menu.SetAnimation(false);
+                return;
+            }
+
             foreach (XmlElement animationSetting in animationSettings.ChildNodes)
             {
                 // create animation item
@@ -708,12 +725,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // setup animation item.
                 animationItem.SetAnimationStatus(animationSetting);
                 _items.Add(animationItem);
+
             }
 
             // Activate animation.
             bool isAnimation = false;
             bool.TryParse(animationSettings.GetAttribute("IsAnimation"), out isAnimation);
             _con.Menu.SetAnimation(isAnimation);
+
         }
 
         /// <summary>
@@ -728,7 +747,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Get Animation settings.
             XmlDocument xmlD = new XmlDocument();
             xmlD.Load(filename);
-            XmlNode settings = GetAnimationSettings(xmlD);
+            XmlNode settings = LoadAnimationSettings(xmlD);
             if (settings == null)
                 return;
 
@@ -802,7 +821,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="xmlD"></param>
         /// <returns></returns>
-        private static XmlNode GetAnimationSettings(XmlDocument xmlD)
+        private static XmlNode LoadAnimationSettings(XmlDocument xmlD)
         {
             XmlNode settings = null;
             foreach (XmlNode node in xmlD.ChildNodes)
@@ -812,6 +831,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             return settings;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        internal XmlElement GetAnimationSettings(XmlDocument doc)
+        {
+            XmlElement animationSettings = doc.CreateElement(AnimationConstants.xPathAnimationSettings);
+            animationSettings.SetAttribute("IsAnimation", _con.IsAnimation.ToString());
+            foreach (IAnimationItem animation in _items)
+            {
+                animationSettings.AppendChild(animation.GetAnimationStatus(doc));
+            }
+            return animationSettings;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -872,6 +908,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
                 // Set Animation Status.
                 _con.Menu.SetAnimation(_items.Count > 0);
+                _con.NotifyAnimaitionChanged(_canvas.ModelID, true);
             }
         }
 
