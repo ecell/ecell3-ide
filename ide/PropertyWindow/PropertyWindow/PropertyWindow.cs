@@ -411,7 +411,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             row.Cells.Add(propValueCell);
             m_dgv.Rows.Add(row);
 
-            if (d.Settable)
+            if (d.Settable && !d.Name.Equals(Constants.xpathVRL))
             {
                 propValueCell.ReadOnly = false;
             }
