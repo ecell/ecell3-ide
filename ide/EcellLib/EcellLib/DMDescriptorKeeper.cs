@@ -472,6 +472,8 @@ namespace Ecell
                 {
                     if (propName.Equals(Constants.xpathMolarActivity) || propName.Equals(Constants.xpathActivity))
                         defaultValue = new EcellValue(0.0);
+                    if (propName.Equals(Constants.xpathMolarConc) || propName.Equals(Constants.xpathNumberConc))
+                        defaultValue = new EcellValue(0.0);
                     try
                     {
                         object obj = sim.GetEntityProperty(fullPN);
@@ -489,7 +491,7 @@ namespace Ecell
                     attrs.Loadable, // loadable
                     attrs.Savable,  // saveable
                     attrs.Dynamic,  // dynamic
-                    attrs.Gettable, // logable
+                    (attrs.Settable == false || attrs.Savable == false) && (defaultValue != null && defaultValue.IsDouble), // logable
                     defaultValue
                 );
             }
