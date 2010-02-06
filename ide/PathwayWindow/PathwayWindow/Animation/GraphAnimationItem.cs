@@ -277,7 +277,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 process.Graph.Pickable = process.Visible;
 
                 _graphs.Add(process.Graph);
-                _canvas.ControlLayer.AddChild(process.Graph);
+                process.Layer.AddChild(process.Graph);
             }
         }
 
@@ -308,7 +308,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 variable.Graph.Pickable = variable.Visible;
 
                 _graphs.Add(variable.Graph);
-                _canvas.ControlLayer.AddChild(variable.Graph);
+                variable.Layer.AddChild(variable.Graph);
             }
         }
 

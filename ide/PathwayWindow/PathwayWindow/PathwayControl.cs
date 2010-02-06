@@ -922,6 +922,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (m_canvas.SelectedNodes.Contains(obj))
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));
 
+            // Reset logger and reference.
             foreach (EcellObject eo in copyNodes)
             {
                 // Reset logger
@@ -944,6 +945,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     }
                 }
                 ep.ReferenceList = list;
+            }
+
+            // sort systems.
+            List<EcellObject> tempList = new List<EcellObject>();
+            if (copyNodes.Count >= 2)
+            {
+                for (int i = 1; i < copyNodes.Count; i++)
+                {
+                    for (int j = 1; j < copyNodes.Count - i; j++)
+                    {
+                        EcellObject obj1 = copyNodes[j - 1];
+                        EcellObject obj2 = copyNodes[j];
+                        if (!(obj1 is EcellSystem) || !(obj2 is EcellSystem))
+                            break;
+                        if (obj1.X > obj2.X)
+                        {
+                            copyNodes[j - 1] = obj2;
+                            copyNodes[j] = obj1;
+                        }
+                    }
+                }
             }
 
             return copyNodes;

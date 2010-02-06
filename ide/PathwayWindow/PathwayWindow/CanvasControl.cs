@@ -368,8 +368,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             AddLayer(m_defaultLayer);
             // Preparing control layer
             m_ctrlLayer = new PPathwayLayer("");
-            m_pCanvas.Root.AddChild(m_ctrlLayer);
-            m_pCanvas.Camera.AddLayer(m_ctrlLayer);
+            AddLayer(m_ctrlLayer);
+            //m_pCanvas.Root.AddChild(m_ctrlLayer);
+            //m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
             // Preparing system ResizeHandlers
             m_lineHandler = new EdgeHandler(this);
@@ -786,20 +787,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     continue;
                 if (!child.EcellObject.ParentSystemID.Equals(system.EcellObject.Key))
                     continue;
-
-                if (obj is PPathwaySystem && ((rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect))))
+                // move system
+                if (obj is PPathwaySystem && ( rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect) ) )
                 {
                     enlargeFlag = true;
                     offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - child.X;
                     if (offsetx > offset.X)
                         offset.X = offsetx;
                 }
-                else if (child is PPathwaySystem && (rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect)))
+                // Move entity.
+                else if (child is PPathwayEntity && ( rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect) ) )
                 {
                     enlargeFlag = true;
                     offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - child.X;
                     if (offsetx > offset.X)
                         offset.X = offsetx;
+                }
+                // move alias
+                if (child is PPathwayVariable)
+                {
+                    foreach (PPathwayAlias alias in ((PPathwayVariable)child).Aliases)
+                    {
+                        if (alias is PPathwayEntity && (rect.IntersectsWith(alias.Rect) || rect.Contains(alias.Rect) || alias.Rect.Contains(rect)))
+                        {
+                            enlargeFlag = true;
+                            offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - alias.X;
+                            if (offsetx > offset.X)
+                                offset.X = offsetx;
+                        }
+                    }
                 }
             }
             if (enlargeFlag)
@@ -817,14 +833,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     if (child.X >= obj.X || rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect))
                         child.OffsetX = offset.X;
 
-                    if (child.OffsetX == 0 && child.OffsetY == 0)
-                        continue;
-
                     if (child is PPathwayVariable)
                     {
                         foreach (PPathwayAlias alias in ((PPathwayVariable)child).Aliases)
-                            alias.Offset = offset;
+                            if (alias.X >= obj.X || rect.IntersectsWith(alias.Rect) || rect.Contains(alias.Rect) || alias.Rect.Contains(rect))
+                                alias.OffsetX = offset.X;
                     }
+
+                    if (child.OffsetX == 0 && child.OffsetY == 0)
+                        continue;
+
                     offset = child.Offset;
                     m_con.NotifyDataChanged(child, false);
 
