@@ -443,6 +443,8 @@ namespace Ecell
             WrappedSimulator sim = null;
             try
             {
+                if(ConfirmClose());
+                    CloseProject();
                 // Load model
                 sim = new WrappedSimulator(Util.GetDMDirs());
                 EcellModel model = SBML2EML.Convert(filename);
@@ -4015,11 +4017,14 @@ namespace Ecell
                         this));
 
                 bool limitFlag = true;
+                double timeLimit = Math.Sqrt(double.MaxValue);
+                string stepperID = GetStepper(m_currentProject.Model.ModelID)[0].Key;
                 while (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     m_currentProject.Simulator.Step(m_defaultStepCount);
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();
+                    double nextTime = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextTime");
                     this.m_env.PluginManager.AdvancedTime(currentTime);
                     if (m_waitTime > 0 && m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
@@ -4029,7 +4034,7 @@ namespace Ecell
                             Application.DoEvents();
                         }
                     }
-                    if (currentTime > long.MaxValue && limitFlag)
+                    if (nextTime > timeLimit && limitFlag)
                     {
                         limitFlag = false;
                         bool doContinue = Util.ShowOKCancelDialog(MessageResources.ConfirmTimeLimit);
@@ -4216,6 +4221,7 @@ namespace Ecell
             {
                 throw new SimulationException(MessageResources.ErrSuspendSim, ex);
             }
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
         }
 
         /// <summary>
@@ -4249,6 +4255,7 @@ namespace Ecell
             finally
             {
                 m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             }
         }
 

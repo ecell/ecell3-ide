@@ -895,6 +895,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isNull = (node == null);
             bool isAlias = (node is PPathwayAlias);
             bool isObject = (node is PPathwayObject) && !isAlias;
+            bool isStepper = node is PPathwayStepper;
             bool isEntity = (node is PPathwayEntity);
             bool isVariable = (node is PPathwayVariable);
             bool isSystem = (node is PPathwaySystem);
@@ -992,9 +993,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isSystem;
             commonMenu.mergeSystemToolStripMenuItem.Visible = isSystem && !isRoot;
-            commonMenu.loggingToolStripMenuItem.Visible = (isObject && !isText) || isAlias;
-            commonMenu.observedToolStripMenuItem.Visible = (isObject && !isText) || isAlias;
-            commonMenu.parameterToolStripMenuItem.Visible = (isObject && !isText) || isAlias;
+            commonMenu.loggingToolStripMenuItem.Visible = (isObject && !isText && !isStepper) || isAlias;
+            commonMenu.observedToolStripMenuItem.Visible = (isObject && !isText && !isStepper) || isAlias;
+            commonMenu.parameterToolStripMenuItem.Visible = (isObject && !isText && !isStepper) || isAlias;
             commonMenu.propertyToolStripMenuItem.Visible = isObject || isAlias;
 
             popupMenu.ResumeLayout(true);

@@ -134,7 +134,7 @@ namespace Ecell.IDE
             bool register = registerCheckBox.Checked;
 
             this.registerCheckBox.Enabled = !isStencil || (m_isExistSetting && changed) || (isStencil && changed);
-            this.buttonOK.Enabled = changed || m_isExistSetting;
+            this.buttonOK.Enabled = changed || m_isExistSetting || registerCheckBox.Checked;
         }
         #endregion
 
@@ -152,7 +152,7 @@ namespace Ecell.IDE
             List<ComponentSetting> list = m_csManager.GetSettings(type);
             foreach (ComponentSetting cs in list)
             {
-                if (!cs.IsStencil)
+                if (!cs.IsStencil && !cs.IsDefault)
                     continue;
                 StencilMenuItem item = new StencilMenuItem(cs.Icon);
                 item.Setting = cs;

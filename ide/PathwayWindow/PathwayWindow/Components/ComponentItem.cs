@@ -244,6 +244,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.centerBrush.Brush = cs.CenterBrush;
             this.isGradation.Checked = cs.IsGradation;
             this.iconFile.FileName = cs.IconFile;
+            RaiseItemChange();
         }
 
         /// <summary>
