@@ -251,7 +251,7 @@ namespace Ecell
                 try
                 {
                     env.DataManager.CurrentProject.UnloadSimulator();
-                    File.Move(OutputFile, DMFile);
+                    File.Copy(OutputFile, DMFile, true);
                     string msg = string.Format(MessageResources.InfoCompile,
                             Path.GetFileNameWithoutExtension(DMFile));
                     env.Console.WriteLine(msg);
