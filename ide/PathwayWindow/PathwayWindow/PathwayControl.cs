@@ -1321,7 +1321,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (objList == null || objList.Count <= 0)
                 return;
             m_canvas.PCanvas.Camera.Pickable = false;
+            // Check Alias
+            List<PPathwayObject> list = new List<PPathwayObject>();
             foreach (PPathwayObject obj in objList)
+            {
+                if (obj is PPathwayAlias)
+                {
+                    PPathwayAlias alias = (PPathwayAlias)obj;
+                    if( !(objList.Contains(alias.Variable )) )
+                        list.Add(alias.Variable);
+                }
+                else
+                {
+                    list.Add(obj);
+                }
+            }
+            foreach (PPathwayObject obj in list)
             {
                 NotifyDataChanged(obj, false);
             }
@@ -1397,8 +1412,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             foreach (PPathwayAlias alias in variable.Aliases)
             {
                 EcellLayout layout = new EcellLayout();
-                layout.X = alias.Left;
-                layout.Y = alias.Top;
+                layout.Rect = alias.Rect;
                 layout.Layer = alias.Layer.Name;
                 ev.Aliases.Add(layout);
             }

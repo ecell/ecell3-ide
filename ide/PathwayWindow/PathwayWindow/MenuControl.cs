@@ -1284,7 +1284,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Check active canvas.
             if (m_con.Canvas == null || !m_con.Canvas.PCanvas.Focused)
                 return;
-            m_con.DeteleNodes();
+
+            CanvasControl canvas = m_con.Canvas;
+            if (!(canvas.FocusNode is PPathwayAlias))
+                return;
+            PPathwayAlias alias = (PPathwayAlias)canvas.FocusNode;
+            m_con.NotifyDataDelete(alias, true);
 
         }
 

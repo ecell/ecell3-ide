@@ -170,25 +170,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             if (m_ecellObj == null)
                 return;
-            // Remove current alias
-            foreach (PPathwayAlias alias in m_aliases)
-            {
-                alias.RemoveFromParent();
-                alias.Dispose();
-            }
-            m_aliases.Clear();
-
-            // Set alias
             EcellVariable variable = (EcellVariable)m_ecellObj;
-            foreach (EcellLayout layout in variable.Aliases)
+            // Reset Alias.
+            if (variable.Aliases.Count != m_aliases.Count)
             {
-                PPathwayAlias alias = new PPathwayAlias(this);
-                alias.X = layout.X;
-                alias.Y = layout.Y;
+                foreach (PPathwayAlias alias in m_aliases)
+                {
+                    alias.RemoveFromParent();
+                    alias.Dispose();
+                }
+                m_aliases.Clear();
+                foreach (EcellLayout layout in variable.Aliases)
+                {
+                    PPathwayAlias alias = new PPathwayAlias(this);
+                    m_aliases.Add(alias);
+                }
+            }
+            // Set alias layout.
+            for (int i = 0; i < variable.Aliases.Count; i++)
+            {
+                EcellLayout layout = variable.Aliases[i];
+                PPathwayAlias alias = m_aliases[i];
+                alias.Offset = PointF.Empty;
+                alias.CenterPointF = layout.Center;
                 alias.Brush = m_setting.CreateBrush(alias.Path);
                 alias.Refresh();
                 m_canvas.SetLayer(alias, layout.Layer);
-                m_aliases.Add(alias);
             }
             // Set Edge.
             foreach (PPathwayEdge edge in m_edges)

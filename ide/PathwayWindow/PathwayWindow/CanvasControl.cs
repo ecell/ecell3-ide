@@ -1881,8 +1881,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void ResetSelectedNodes()
         {
             foreach (PPathwayObject obj in GetAllObjects())
+            {
                 if (obj.Selected)
                     obj.Selected = false;
+                if (!(obj is PPathwayVariable))
+                    continue;
+                PPathwayVariable variable = (PPathwayVariable)obj;
+                foreach (PPathwayAlias alias in variable.Aliases)
+                {
+                    if (alias.Selected)
+                        alias.Selected = false;
+                }
+            }
             lock (this)
                 m_selectedNodes.Clear();
         }
