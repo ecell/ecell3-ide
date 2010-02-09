@@ -239,10 +239,18 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 fwin.AddReserveString(list);
 
-                fwin.ImportFormulate(formula);
-                if (fwin.ShowDialog() != DialogResult.OK)
-                    return null;
-
+                // Edit Formula
+                try
+                {
+                    fwin.ImportFormulate(formula);
+                    if (fwin.ShowDialog() != DialogResult.OK)
+                        return null;
+                }
+                catch (Exception e)
+                {
+                    Util.ShowErrorDialog(e.Message);
+                    return formula;
+                }
                 return fwin.Result;
             }
         }

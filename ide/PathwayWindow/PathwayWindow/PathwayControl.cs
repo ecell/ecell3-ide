@@ -451,7 +451,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                throw new PathwayException(MessageResources.ErrUnknowType, e);
+                throw new PathwayException(MessageResources.ErrCreateComponent, e);
             }
         }
 

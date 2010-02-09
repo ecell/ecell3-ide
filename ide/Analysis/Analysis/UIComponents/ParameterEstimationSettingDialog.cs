@@ -280,17 +280,24 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
             m_fwin.AddReserveString(list);
-            m_fwin.ImportFormulate(estimationFormulatorTextBox.Text);
-
-            using (m_fwin)
+            try
             {
-                DialogResult res = m_fwin.ShowDialog();
-                if (res == DialogResult.OK)
+                m_fwin.ImportFormulate(estimationFormulatorTextBox.Text);
+                using (m_fwin)
                 {
-                    string ext = m_fwin.Result;
-                    estimationFormulatorTextBox.Text = ext;
-                    m_param.EstimationFormulator = ext;
+                    DialogResult res = m_fwin.ShowDialog();
+                    if (res == DialogResult.OK)
+                    {
+                        string ext = m_fwin.Result;
+                        estimationFormulatorTextBox.Text = ext;
+                        m_param.EstimationFormulator = ext;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+                return;
             }
         }
         /// <summary>

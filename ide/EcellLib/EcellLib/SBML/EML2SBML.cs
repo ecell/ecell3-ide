@@ -427,36 +427,30 @@ namespace Ecell.SBML
 
                         }
 
+                        // set EmptySet Species, because if it didn"t define,
+                        // Reactant or Product can not be defined.
+                        //if (!aReactantFlag)
+                        //{
+                        //    // create Reactant object
+                        //    SpeciesReference aReactant = aSBMLModel.createReactant();
 
-                        if ( !aReactantFlag || !aProductFlag )
-                        {
-                            // set EmptySet Species, because if it didn"t define,
-                            // Reactant or Product can not be defined.
-                        
-                            if ( aReactantFlag == false )
-                            {
-                                // create Reactant object
-                                SpeciesReference aReactant = aSBMLModel.createReactant();
-                                
-                                // set Species Id to Reactant object
-                                aReactant.setSpecies( "EmptySet" );
-                        
-                                // set Stoichiometry 
-                                aReactant.setStoichiometry( 0 );
-                            }
+                        //    // set Species Id to Reactant object
+                        //    aReactant.setSpecies("EmptySet");
 
-                            else if( aProductFlag == false )
-                            {
-                                // create Product object
-                                SpeciesReference aProduct = aSBMLModel.createProduct();
-                                
-                                // set Species Id
-                                aProduct.setSpecies( "EmptySet" );
-                                
-                                // set Stoichiometry
-                                aProduct.setStoichiometry( 0 );
-                            }
-                        }
+                        //    // set Stoichiometry 
+                        //    aReactant.setStoichiometry(0);
+                        //}
+                        //else if (!aProductFlag)
+                        //{
+                        //    // create Product object
+                        //    SpeciesReference aProduct = aSBMLModel.createProduct();
+
+                        //    // set Species Id
+                        //    aProduct.setSpecies("EmptySet");
+
+                        //    // set Stoichiometry
+                        //    aProduct.setStoichiometry(0);
+                        //}
                     }
                     // These properties are not defined in SBML Lv2
                     else if ( aProperty.Name == "Priority" ||
@@ -819,30 +813,30 @@ namespace Ecell.SBML
             // ------------
             // set EmptySet
             // ------------
-            bool isEmptySet = false;
-            foreach (SpeciesStruct aSpecies in SbmlFunctions.getSpecies(aSBMLModel))
-            {
-                if (aSBMLModel.getLevel() == 1 && aSpecies.Name == "EmptySet")
-                    isEmptySet = true;
-                else if (aSBMLModel.getLevel() == 2 && aSpecies.ID == "EmptySet")
-                    isEmptySet = true;
-            }
-            if (!isEmptySet)
-            {
-                // create Species object
-                Species aSpecies = aSBMLModel.createSpecies();
-                // set Species Name
-                if (aSBMLModel.getLevel() == 1)
-                    aSpecies.setName("EmptySet");
-                else if (aSBMLModel.getLevel() == 2)
-                    aSpecies.setId("EmptySet");
-                // set Species Compartment
-                aSpecies.setCompartment("default");
-                // set Species Amount
-                aSpecies.setInitialAmount(0);
-                // set Species Constant
-                aSpecies.setConstant(true);
-            }
+            //bool isEmptySet = false;
+            //foreach (SpeciesStruct aSpecies in SbmlFunctions.getSpecies(aSBMLModel))
+            //{
+            //    if (aSBMLModel.getLevel() == 1 && aSpecies.Name == "EmptySet")
+            //        isEmptySet = true;
+            //    else if (aSBMLModel.getLevel() == 2 && aSpecies.ID == "EmptySet")
+            //        isEmptySet = true;
+            //}
+            //if (!isEmptySet)
+            //{
+            //    // create Species object
+            //    Species aSpecies = aSBMLModel.createSpecies();
+            //    // set Species Name
+            //    if (aSBMLModel.getLevel() == 1)
+            //        aSpecies.setName("EmptySet");
+            //    else if (aSBMLModel.getLevel() == 2)
+            //        aSpecies.setId("EmptySet");
+            //    // set Species Compartment
+            //    aSpecies.setCompartment("default");
+            //    // set Species Amount
+            //    aSpecies.setInitialAmount(0);
+            //    // set Species Constant
+            //    aSpecies.setConstant(true);
+            //}
         }
     }
 }

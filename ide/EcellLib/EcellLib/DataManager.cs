@@ -443,28 +443,56 @@ namespace Ecell
             WrappedSimulator sim = null;
             try
             {
-                if(ConfirmClose())
-                    CloseProject();
+                CloseProject();
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
+
                 // Load model
-                sim = new WrappedSimulator(Util.GetDMDirs());
                 EcellModel model = SBML2EML.Convert(filename);
-                EmlReader.InitializeModel(model, sim);
-                sim.Dispose();
-                // Save eml.
-                string dir = Util.GetTmpDir();
-                string modelFileName = Path.GetFileNameWithoutExtension(filename) + Constants.FileExtEML;
-                modelFileName = Path.Combine(dir, modelFileName);
-                EmlWriter.Create(modelFileName, model.Children, false);
-                LoadProject(modelFileName);
+
+                // Initialize
+                try
+                {
+                    sim = new WrappedSimulator(Util.GetDMDirs());
+                    EmlReader.InitializeModel(model, sim);
+                    sim.Initialize();
+                }
+                catch (Exception e)
+                {
+                    if (m_env.PluginManager.DockPanel != null)
+                        Util.ShowWarningDialog(MessageResources.WarnInvalidData + "\n" + e.Message);
+                    Trace.WriteLine(e.ToString());
+                }
+
+                // Create Project
+                string projectID = model.ModelID;
+                string comment = "Convert from SBML: " + Path.GetFileName(filename);
+                ProjectInfo info = new ProjectInfo(projectID, comment, DateTime.Now.ToString(), Constants.defaultSimParam);
+                info.Type = ProjectType.SBML;
+                Project project = new Project(info, m_env);
+                project.LoggerPolicyDic[Constants.defaultSimParam] = new LoggerPolicy();
+                m_currentProject = project;
+                project.Simulator = sim;
+                project.InitializeModel(model, sim);
+
+                // Load model
+                List<EcellObject> passList = new List<EcellObject>();
+                List<EcellData> ecellDataList = new List<EcellData>();
+                ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(comment), null));
+                passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
+                passList.Add(model);
+                passList.AddRange(model.Children);
+                m_env.PluginManager.DataAdd(passList);
+                m_env.PluginManager.ParameterSet(projectID, Constants.defaultSimParam);
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
 
             }
             catch (Exception e)
             {
-                m_env.Console.WriteLine("Failed to convert SBML:" + filename);
+                CloseProject();
+                m_env.Console.WriteLine("Failed to convert SBML: " + filename);
                 m_env.Console.WriteLine(e.ToString());
-                throw new EcellException("Failed to convert SBML.", e);
+                throw new EcellException("Failed to convert SBML. " + filename, e);
             }
-
         }
 
         /// <summary>
@@ -552,17 +580,17 @@ namespace Ecell
                 m_currentProject = project;
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
 
+                // Load DMs.
+                project.UnloadSimulator();
+                m_env.DMDescriptorKeeper.Load(project.GetDMDirs());
+                project.ReloadSimulator();
+
                 // Create EcellProject.
                 List<EcellData> ecellDataList = new List<EcellData>();
                 ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
-                // Load DMs.
-                project.UnloadSimulator();
-                m_env.DMDescriptorKeeper.Load(project.GetDMDirs());
-
                 // Prepare datas.
-                project.ReloadSimulator();
                 project.LoadModel();
                 foreach (EcellObject model in project.ModelList)
                 {
@@ -1386,10 +1414,10 @@ namespace Ecell
                 this.m_observedList.Clear();
                 this.m_loggerEntry.Clear();
 
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 this.ClearSteppingModel();
                 m_deleteParameterList.Clear();
                 m_editCount = 0;
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
             }
             catch (Exception ex)
             {
@@ -3374,9 +3402,7 @@ namespace Ecell
         /// <returns>The dictionary of the "Stepper" property</returns>
         public List<EcellData> GetStepperProperty(string dmName)
         {
-            List<EcellData> list = new List<EcellData>();
-            Dictionary<string, EcellData> dic = m_env.DMDescriptorKeeper.GetDefaultParameter(EcellObject.STEPPER, dmName);
-            list.AddRange(dic.Values);
+            List<EcellData> list = m_env.DMDescriptorKeeper.GetDefaultParameterList(EcellObject.STEPPER, dmName);
             return list;
         }
 

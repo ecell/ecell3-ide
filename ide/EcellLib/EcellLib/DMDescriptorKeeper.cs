@@ -195,6 +195,17 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get the default parameter list of DMDescriptor.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="dmName"></param>
+        public List<EcellData> GetDefaultParameterList(string type, string dmName)
+        {
+            List<EcellData> data = new List<EcellData>();
+            data.AddRange(GetDefaultParameter(type,dmName).Values);
+            return data;
+        }
+        /// <summary>
         /// Load DMDescriptions.
         /// </summary>
         /// <param name="dmPaths">DM path.</param>

@@ -76,6 +76,10 @@ namespace Ecell.SBML
             //Eml eml = new Eml(null);
             string modelId = Path.GetFileNameWithoutExtension(filename);
             EcellModel modelObject = (EcellModel)EcellObject.CreateObject(modelId, "", Constants.xpathModel, "", new List<EcellData>());
+            // Set Layer
+            List<EcellLayer> layers = new List<EcellLayer>();
+            layers.Add(new EcellLayer(SbmlConstant.GlobalParameters, true));
+            modelObject.Layers = layers;
 
             //
             // Set Stepper.
@@ -86,11 +90,12 @@ namespace Ecell.SBML
             //
             // Set Compartment ( System ).
             //
-            EcellSystem system = (EcellSystem)EcellObject.CreateObject(modelId, "/", EcellObject.SYSTEM, EcellObject.SYSTEM, new List<EcellData>());
-            system.SetEcellValue("StepperID", new EcellValue("DE"));
-            system.SetEcellValue("Name", new EcellValue("Default"));
-            modelObject.Children.Add(system);
+            EcellSystem rootSystem = (EcellSystem)EcellObject.CreateObject(modelId, "/", EcellObject.SYSTEM, EcellObject.SYSTEM, new List<EcellData>());
+            rootSystem.SetEcellValue("StepperID", new EcellValue("DE"));
+            rootSystem.SetEcellValue("Name", new EcellValue("Default"));
+            modelObject.Children.Add(rootSystem);
 
+            EcellSystem system = rootSystem;
             foreach (CompartmentStruct aCompartment in theModel.CompartmentList)
             {
                 // getPath
@@ -129,18 +134,13 @@ namespace Ecell.SBML
             // Set GlobalParameter ( Variable )
             if ( theModel.ParameterList.Count > 0)
             {
-                // setGlobalParameterSystem
-                EcellObject globalParameter = EcellObject.CreateObject(modelId, "/SBMLParameter", EcellObject.SYSTEM, EcellObject.SYSTEM, new List<EcellData>());
-                globalParameter.SetEcellValue("StepperID", new EcellValue("DE"));
-                globalParameter.SetEcellValue("Name", new EcellValue("Global Parameter"));
-                modelObject.Children.Add(globalParameter);
-
                 foreach(ParameterStruct aParameter in theModel.ParameterList)
                 {
                     // setFullID
                     string parameterKey = theParameter.getParameterID( aParameter );
                     EcellObject parameter = EcellObject.CreateObject(modelId, parameterKey, EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
-                        
+                    // Set Layer
+                    parameter.Layer = SbmlConstant.GlobalParameters;
                     // setName
                     if ( aParameter.Name != "" )
                         parameter.SetEcellValue("Name", new EcellValue(aParameter.Name));
@@ -153,17 +153,16 @@ namespace Ecell.SBML
                         parameter.SetEcellValue("Fixed", new EcellValue(1));
 
                     // set to system.
-                    globalParameter.Children.Add(parameter);
+                    rootSystem.Children.Add(parameter);
                 }
             }
 
             // Set Species ( Variable )
             foreach(SpeciesStruct aSpecies in theModel.SpeciesList)
             {
-                // setSpeciesID
+                // Create
                 string aSpeciesID = theSpecies.getSpeciesID( aSpecies );
                 EcellObject variable = EcellObject.CreateObject(modelId, aSpeciesID, EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
-                modelObject.AddEntity(variable);
                 // setName
                 if( theModel.Level == 2 )
                     if ( aSpecies.Name != "" )
@@ -174,6 +173,9 @@ namespace Ecell.SBML
 
                 // setFixed
                 variable.SetEcellValue("Fixed", new EcellValue(theSpecies.getConstant( aSpecies )));
+                
+                // add
+                modelObject.AddEntity(variable);
             }
 
             // Set Rule ( Process )
@@ -256,8 +258,7 @@ namespace Ecell.SBML
 
                 // setFullID
                 string aReactionID = theReaction.getReactionID( aReaction );
-                EcellObject process = EcellObject.CreateObject(modelId, aReactionID, EcellObject.PROCESS, "ExpressionFluxProcess", new List<EcellData>());
-                modelObject.AddEntity(process);
+                EcellProcess process = (EcellProcess)EcellObject.CreateObject(modelId, aReactionID, EcellObject.PROCESS, "ExpressionFluxProcess", new List<EcellData>());
 
                 // setName
                 if ( theModel.Level == 2 )
@@ -337,6 +338,27 @@ namespace Ecell.SBML
                         process.SetEcellValue("VariableReferenceList", new EcellValue(theReaction.GetVariableReferenceList()));
                     }
                 }
+                // Set Parent System.
+                string sysKey = process.ParentSystemID;
+                foreach (EcellReference er in process.ReferenceList)
+                {
+                    if (er.Coefficient == -1)
+                        sysKey = er.Key.Split(':')[0];
+                }
+                foreach (EcellReference er in process.ReferenceList)
+                {
+                    if (er.Coefficient == 1)
+                        sysKey = er.Key.Split(':')[0];
+                }
+                process.Key = sysKey + ":" + process.LocalID;
+                // Update EntityPath.
+                foreach (EcellData data in process.Value)
+                {
+                    data.EntityPath = process.FullID + ":" + data.Name;
+                }
+
+                modelObject.AddEntity(process);
+
             }
 
             return modelObject;

@@ -802,7 +802,14 @@ namespace Ecell.UI.Components
         public void ImportFormulate(string text)
         {
             FNode n = new FNode();
-            ConvertToFNode(text, 0, n);
+            try
+            {
+                ConvertToFNode(text, 0, n);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(MessageResources.ErrConvertFormula, e);
+            }
             if (n != null)
                 m_top = n.Next;
             UpdateFormulator();

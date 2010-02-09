@@ -171,26 +171,25 @@ namespace Ecell.SBML
                     string aName = anASTNode.getName();
                     string variableName = "";
 
+                    // Check Species
                     foreach(SpeciesStruct aSpecies in this.Model.SpeciesList)
                     {
                         if ( aSpecies.ID != aName && aSpecies.Name != aName)
                             continue;
 
+                        // Check VariableReference
                         foreach(VariableReferenceStruct aVariableReference in this.VariableReferenceList)
                             if (aVariableReference.Variable.Split(':')[2] == aName)
                                 variableName =  aVariableReference.Name;
-
-                        if( this.Model.Level == 2 && variableName == "" )
-                            throw new EcellException( "in libSBML :" + aName + " isn't defined in VariableReferenceList");
-                        else if (this.Model.Level == 1 && variableName == "")
+                        if (variableName == "")
                         {
-                            string aModifierID = this.Model.getSpeciesReferenceID( aName );
+                            string aModifierID = this.Model.getSpeciesReferenceID(aName);
 
                             VariableReferenceStruct varRef = new VariableReferenceStruct(
                                 "C" + this.ModifierNumber.ToString(),
                                 "Variable:" + aModifierID,
                                 0);
-                            this.VariableReferenceList.Add( varRef );
+                            this.VariableReferenceList.Add(varRef);
 
                             variableName = varRef.Name;
                             this.ModifierNumber++;
@@ -204,31 +203,31 @@ namespace Ecell.SBML
                         anASTNode.setName(variableName + ".Value");
                         return anASTNode;
                     }
-    //                if variableName == '':
+
+                    // Check Parameters.
                     foreach(ParameterStruct aParameter in this.Model.ParameterList)
                     {
-                        if ( aParameter.ID == aName || aParameter.Name == aName )
+                        if (aParameter.ID != aName && aParameter.Name != aName)
+                            continue;
+                        foreach(VariableReferenceStruct aVariableReference in this.VariableReferenceList)
+                            if (aVariableReference.Variable.Split(':')[2] == aName)
+                                variableName = aVariableReference.Name;
+
+                        if( variableName == "" )
                         {
-                            foreach(VariableReferenceStruct aVariableReference in this.VariableReferenceList)
-                                if (aVariableReference.Variable.Split(':')[2] == aName)
-                                    variableName = aVariableReference.Name;
+                            VariableReferenceStruct varRef = new VariableReferenceStruct(
+                                aName,
+                                "Variable:/:" + aName,
+                                0 );
+                            this.VariableReferenceList.Add( varRef );
 
-                            if( variableName == "" )
-                            {
-                                VariableReferenceStruct varRef = new VariableReferenceStruct(
-                                    aName,
-                                    "Variable:/SBMLParameter:" + aName,
-                                    0 );
-                                this.VariableReferenceList.Add( varRef );
-
-                                this.ParameterNumber++;
-                                variableName = varRef.Name;
-                            }
-
-                            anASTNode.setName( variableName + ".Value" );
-                            
-                            return anASTNode;
+                            this.ParameterNumber++;
+                            variableName = varRef.Name;
                         }
+
+                        anASTNode.setName( variableName + ".Value" );
+                        
+                        return anASTNode;
                     }
     //                if variableName == '':
                     variableName = this.setCompartmentToVariableReference( aName );

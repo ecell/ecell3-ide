@@ -123,6 +123,9 @@
   <data name="DEGRADATION" xml:space="preserve">
     <value>Degradation</value>
   </data>
+  <data name="ErrConvertFormula" xml:space="preserve">
+    <value>Failed to convert formula.</value>
+  </data>
   <data name="MICHAELIS" xml:space="preserve">
     <value>Michaelis-Menten</value>
   </data>

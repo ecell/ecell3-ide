@@ -299,11 +299,11 @@ namespace Ecell
 
             m_info = info;
             m_env = env;
-            m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_stepperDic = new Dictionary<string, List<EcellObject>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
             m_logableEntityPathDic = new Dictionary<string, string>();
+            m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
 
             // Loads the model.
             if (info.Type != ProjectType.Model)
@@ -400,7 +400,6 @@ namespace Ecell
                     }
 
                     // Sets initial conditions.
-                    SetSimParams(modelID);
                     InitializeModel(modelObj, simulator);
 
                     try
@@ -439,7 +438,7 @@ namespace Ecell
         /// </summary>
         /// <param name="ecellObject">The model object.</param>
         /// <param name="simulator">The simulator.</param>
-        private void InitializeModel(EcellObject ecellObject, WrappedSimulator simulator)
+        internal void InitializeModel(EcellObject ecellObject, WrappedSimulator simulator)
         {
             // Sets the "EcellObject".
             string modelID = ecellObject.ModelID;
@@ -447,6 +446,7 @@ namespace Ecell
             string simParam = m_info.SimulationParam;
             if (ecellObject.Type.Equals(Constants.xpathModel))
             {
+                SetSimParams(modelID);
                 m_modelList.Add((EcellModel)ecellObject);
                 DataStorer.DataStored(
                     simulator,

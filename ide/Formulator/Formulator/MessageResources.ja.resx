@@ -123,6 +123,9 @@
   <data name="DEGRADATION" xml:space="preserve">
     <value>分解</value>
   </data>
+  <data name="ErrConvertFormula" xml:space="preserve">
+    <value>数式のパースに失敗しました。</value>
+  </data>
   <data name="MICHAELIS" xml:space="preserve">
     <value>ミカエリス・メンテン</value>
   </data>

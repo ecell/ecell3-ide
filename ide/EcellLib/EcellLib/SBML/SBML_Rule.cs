@@ -188,7 +188,7 @@ namespace Ecell.SBML
                     this.ParameterNumber++;
                     VariableReferenceStruct varRef = new VariableReferenceStruct(
                         variableName,
-                        "Variable:/SBMLParameter:" + aName,
+                        "Variable:/:" + aName,
                         aStoichiometry );
                     this.VariableReferenceList.Add( varRef );
 

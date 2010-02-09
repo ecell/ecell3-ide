@@ -40,6 +40,17 @@ using Ecell.Exceptions;
 namespace Ecell.SBML
 {
     /// <summary>
+    /// Class for Constants
+    /// </summary>
+    public class SbmlConstant
+    {
+        /// <summary>
+        /// Key of GlobalParameters.
+        /// </summary>
+        public const string GlobalParameters = "GlobalParameters";
+    }
+
+    /// <summary>
     /// static functions which parse SBML to structs for converter.
     /// </summary>
     public class SbmlFunctions
@@ -688,6 +699,14 @@ namespace Ecell.SBML
             this.Outside = outside;
             this.Constant = constant;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3}, {4})", new object[]{ID, Name, Outside, Size} );
+        }
     }
 
     /// <summary>
@@ -743,6 +762,16 @@ namespace Ecell.SBML
             this.TimeUnits = timeUnits;
             this.EventAssignments = eventAssignments;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3}, {4})", new object[] { ID, Name, Trigger, Delay });
+        }
+
     }
 
     /// <summary>
@@ -799,6 +828,16 @@ namespace Ecell.SBML
             this.Name = name;
             this.Formula = formula;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { ID, Name, Formula });
+        }
+
     }
 
     /// <summary>
@@ -847,6 +886,16 @@ namespace Ecell.SBML
             this.Unit = unit;
             this.Constant = constant;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { ID, Name, Value, Constant });
+        }
+
     }
 
     /// <summary>
@@ -916,6 +965,16 @@ namespace Ecell.SBML
             this.Products = products;
             this.Modifiers = modifiers;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { ID, Name});
+        }
+
     }
 
     /// <summary>
@@ -971,6 +1030,16 @@ namespace Ecell.SBML
             this.Parameters = parameters;
             this.ExpressionAnnotation = annotation;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("KineticLaw({0})", new object[] { Formula });
+        }
+
     }
 
     /// <summary>
@@ -1012,6 +1081,16 @@ namespace Ecell.SBML
             this.Formula = formula;
             this.Denominator = denominator;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { Species, Stoichiometry, Formula, Denominator });
+        }
+
     }
 
     /// <summary>
@@ -1053,6 +1132,16 @@ namespace Ecell.SBML
             this.Formula = formula;
             this.Denominator = denominator;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { Species, Stoichiometry, Formula, Denominator });
+        }
+
     }
 
     /// <summary>
@@ -1087,6 +1176,16 @@ namespace Ecell.SBML
             this.Formula = formula;
             this.Variable = variable;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1})", new object[] { Formula, Variable });
+        }
+
     }
 
     /// <summary>
@@ -1184,6 +1283,16 @@ namespace Ecell.SBML
             this.Charge = charge;
             this.Constant = constant;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { ID, Name, Compartment, InitialAmount });
+        }
+
     }
 
     /// <summary>
@@ -1218,6 +1327,16 @@ namespace Ecell.SBML
             this.Name = name;
             this.Units = units;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1})", new object[] { ID, Name });
+        }
+
     }
 
     /// <summary>
@@ -1266,6 +1385,15 @@ namespace Ecell.SBML
             this.Multiplier = multiplier;
             this.Offset = offset;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2}, {3})", new object[] { Kind, Exponent, Scale, Multiplier });
+        }
     }
 
     /// <summary>
@@ -1300,6 +1428,15 @@ namespace Ecell.SBML
             this.Variable = variable;
             this.Coefficient = coefficient;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1}, {2})", new object[] { Name, Variable, Coefficient });
+        }
+
     }
 
     /// <summary>
@@ -1325,5 +1462,15 @@ namespace Ecell.SBML
             this.Name = name;
             this.Value = value;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("({0}, {1})", new object[] { Name, Value });
+        }
+
     }
 }
