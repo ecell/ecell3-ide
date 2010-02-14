@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -196,7 +196,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (canvas.PCanvas.Camera.ViewBounds.Contains(point))
             {
                 canvas.ControlLayer.AddChild(m_template);
-                m_template.CenterPointF = point;
+                m_template.Center = point;
                 m_template.Pickable = false;
                 m_template.RefreshView();
                 m_template.Visible = true;

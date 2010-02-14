@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -80,7 +80,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 base.Selected = value;
                 foreach (PPathwayAlias alias in m_aliases)
                 {
-                    alias.Selected = value;
+                    if(m_canvas.SelectedNodes.Contains(alias))
+                        alias.Selected = true;
+                    else
+                        alias.Selected = value;
                 }
             }
         }
@@ -191,11 +194,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 EcellLayout layout = variable.Aliases[i];
                 PPathwayAlias alias = m_aliases[i];
+                alias.Text = string.Format("[{0}]", variable.LocalID);
                 alias.Offset = PointF.Empty;
-                alias.CenterPointF = layout.Center;
+                alias.Center = layout.Center;
                 alias.Brush = m_setting.CreateBrush(alias.Path);
-                alias.Refresh();
                 m_canvas.SetLayer(alias, layout.Layer);
+                alias.Refresh();
             }
             // Set Edge.
             foreach (PPathwayEdge edge in m_edges)

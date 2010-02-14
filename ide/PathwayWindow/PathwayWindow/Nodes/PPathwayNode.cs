@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -146,7 +146,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for X coordinate.
         /// </summary>
-        public PointF CenterPointF
+        public PointF Center
         {
             get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
             set

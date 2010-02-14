@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -110,7 +110,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (!canvasRectF.Contains(canvasPos))
                 offset = PointF.Empty;
             else if (!obj.Rect.Contains(e.Position))
-                offset = new PointF(e.Position.X - obj.CenterPointF.X, e.Position.Y - obj.CenterPointF.Y);
+                offset = new PointF(e.Position.X - obj.Center.X, e.Position.Y - obj.Center.Y);
             if (!obj.Selected)
                 m_canvas.NotifyAddSelect(obj);
             m_canvas.MoveSelectedObjects(offset);

@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -199,6 +199,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 this.m_layer = value;
+                if (value == null)
+                    return;
+                // Set Layer
                 this.m_layer.AddChild(this);
                 this.Visible = value.Visible;
                 this.Pickable = this.Visible;
@@ -263,9 +266,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 this.m_figure = value;
-                PointF point = this.CenterPointF;
+                PointF point = this.Center;
                 AddPath(m_figure.GraphicsPath, false);
-                this.CenterPointF = point;
+                this.Center = point;
             }
         }
 
@@ -358,7 +361,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 {
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
-                    this.CenterPointF = m_ecellObj.CenterPointF;
+                    this.Center = m_ecellObj.CenterPointF;
                 }
                 MemorizePosition();
             }
@@ -526,12 +529,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             bool isCtrl = (e.Modifiers == Keys.Control);
             bool isRight = (e.Button == MouseButtons.Right);
             // Set Focus
-            if (isShift || (!isCtrl && (!isRight || !m_selected)) )
-            {
-                m_canvas.NotifySelectChanged(this);
-                m_canvas.FocusNode = this;
-            }
-            else if (!m_selected && isCtrl)
+            if (!m_selected && isCtrl)
             {
                 m_canvas.NotifyAddSelect(this);
                 m_canvas.FocusNode = this;
@@ -541,7 +539,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_canvas.NotifyRemoveSelect(this);
                 m_canvas.FocusNode = null;
             }
-            else
+            else if (isShift || (!isCtrl && (!isRight || !m_selected)) )
+            {
+                m_canvas.NotifySelectChanged(this);
+                m_canvas.FocusNode = this;
+            }
+            else 
             {
                 m_canvas.NotifyAddSelect(this);
                 m_canvas.FocusNode = this;

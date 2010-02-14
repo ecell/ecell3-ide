@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -153,7 +153,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="value"></param>
         private void ChangePath(bool value)
         {
-            PointF centerPos = base.CenterPointF;
+            PointF centerPos = base.Center;
             if (value)
             {
                 base.AddPath(m_tempFigure.GraphicsPath, false);
@@ -162,7 +162,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 base.AddPath(m_figure.GraphicsPath, false);
             }
-            base.CenterPointF = centerPos;
+            base.Center = centerPos;
             MemorizePosition();
             //RefreshStepperIcon();
         }
@@ -316,7 +316,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override PointF GetContactPoint(PointF refPoint)
         {
             if (m_isViewMode)
-                return m_tempFigure.GetContactPoint(refPoint, CenterPointF);
+                return m_tempFigure.GetContactPoint(refPoint, Center);
             else
                 return base.GetContactPoint(refPoint);
         }

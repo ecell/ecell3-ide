@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2008 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -500,18 +500,25 @@ namespace Ecell
                     }
                 }
                 // Set default value.
-                if (defaultValue == null)
+                bool isMatrix = false;
+                if (defaultValue == null && !propName.Contains("Matrix"))
                     defaultValue = new EcellValue(0.0d);
+                else if(propName.Contains("Matrix"))
+                {
+                    defaultValue = new EcellValue("");
+                    isMatrix =true;
+                }
+
                 bool logable = defaultValue.IsDouble;
                 if (fullID.StartsWith(EcellObject.PROCESS))
                     logable = logable && (!attrs.Settable || !attrs.Savable);
 
                 pdescs[propName] = new PropertyDescriptor(
                     propName,
-                    attrs.Settable, // settable
+                    attrs.Settable && !isMatrix, // settable
                     attrs.Gettable, // gettable
-                    attrs.Loadable, // loadable
-                    attrs.Savable,  // saveable
+                    attrs.Loadable && !isMatrix, // loadable
+                    attrs.Savable && !isMatrix,  // saveable
                     attrs.Dynamic,  // dynamic
                     logable, // logable
                     defaultValue

@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -192,7 +192,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <returns></returns>
         public virtual PointF GetContactPoint(PointF refPoint)
         {
-            return m_figure.GetContactPoint(refPoint, CenterPointF);
+            return m_figure.GetContactPoint(refPoint, Center);
         }
 
         /// <summary>

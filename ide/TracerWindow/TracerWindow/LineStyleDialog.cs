@@ -8,7 +8,7 @@ using System.Text;
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2007 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //

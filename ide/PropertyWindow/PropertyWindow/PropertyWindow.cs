@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -455,8 +455,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
             if (propName == Constants.xpathClassName)
             {
-                if (m_current.Type == Constants.xpathSystem ||
-                    m_current.Type == Constants.xpathVariable)
+                if (m_current.Type == Constants.xpathSystem || m_current.Type == Constants.xpathVariable)
                 {
                     propValueCell = new DataGridViewComboBoxCell();
                     ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);

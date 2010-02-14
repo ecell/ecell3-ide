@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -260,10 +260,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 {
                     double activity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                     float size = GetEntitySize(process.EcellObject, activity);
-                    PointF pos = process.CenterPointF;
+                    PointF pos = process.Center;
                     process.Width = size * process.Figure.Width;
                     process.Height = size * process.Figure.Height;
-                    process.CenterPointF = pos;
+                    process.Center = pos;
                     process.Brush = GetEntityBrush(activity, process);
                 }
                 // Set threshold
@@ -288,10 +288,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 // Variable setting.
                 double molarActivity = GetValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 float size = GetEntitySize(process.EcellObject, molarActivity);
-                PointF pos = process.CenterPointF;
+                PointF pos = process.Center;
                 process.Width = size * process.Figure.Width;
                 process.Height = size * process.Figure.Height;
-                process.CenterPointF = pos;
+                process.Center = pos;
                 process.Brush = GetEntityBrush(molarActivity, process);
 
                 if (!_autoThreshold)
@@ -318,10 +318,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 process.ViewMode = false;
-                PointF pos = process.CenterPointF;
+                PointF pos = process.Center;
                 process.Width = process.Figure.Width;
                 process.Height = process.Figure.Height;
-                process.CenterPointF = pos;
+                process.Center = pos;
                 process.RefreshView();
             }
 
@@ -348,8 +348,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ApplyChange()
         {
             _autoThreshold = autoThresholdCheckBox.Checked;
-            _thresholdHigh = float.Parse(thresholdHigh.Text);
-            _thresholdLow = float.Parse(thresholdLow.Text);
+            _thresholdHigh = double.Parse(thresholdHigh.Text);
+            _thresholdLow = double.Parse(thresholdLow.Text);
             _highEdgeBrush = edgeHighBrush.Brush;
             _lowEdgeBrush = edgeLowBrush.Brush;
             _ngEdgeBrush = edgeNGBrush.Brush;

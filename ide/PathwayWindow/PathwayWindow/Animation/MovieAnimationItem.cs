@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -53,7 +53,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// default filename.
         /// </summary>
-        private const string MovieFile = "ecell.avi";
+        private const string MovieFile = "ecell-ide.avi";
         /// <summary>
         /// AVI output manager.
         /// </summary>
@@ -97,6 +97,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             : base(control)
         {
             InitializeComponent();
+            string movieFile = MovieFile;
+            if (control.Canvas != null)
+                movieFile = control.Canvas.ModelID + ".avi";
             this.aviFileName.FileName = Path.Combine(Util.GetBaseDir(), MovieFile);
             this.aviFileName.Filter = Constants.FilterAviFile;
         }
@@ -172,7 +175,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // aviFileName
             // 
             resources.ApplyResources(this.aviFileName, "aviFileName");
-            this.aviFileName.FileName = "ecell.avi";
+            this.aviFileName.FileName = "ecell-ide.avi";
             this.aviFileName.Filter = null;
             this.aviFileName.FilterIndex = 0;
             this.aviFileName.Name = "aviFileName";
@@ -248,7 +251,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set canvas
             _canvas = _control.Canvas;
             // Avi
-            if (_aviManager != null || _isLimit)
+            if (_aviManager != null || _isLimit || string.IsNullOrEmpty(this.aviFileName.FileName))
                 return;
 
             // Set AviManager.
@@ -269,6 +272,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             catch (Exception e)
             {
                 Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
+                this.aviFileName.FileName = "";
                 _stream = null;
                 _aviManager = null;
             }

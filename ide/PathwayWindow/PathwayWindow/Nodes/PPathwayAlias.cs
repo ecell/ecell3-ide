@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -63,6 +63,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.AddPath(variable.Figure.GraphicsPath, false);
             this.Brush = variable.Setting.CreateBrush(m_path);
             this.Text = string.Format("[{0}]", variable.EcellObject.LocalID);
+            this.Layer = variable.Layer;
             this.Setting = variable.Setting;
 
             this.AddInputEventListener(new NodeDragHandler(variable.Canvas));
@@ -98,7 +99,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override void Refresh()
         {
             base.Refresh();
-            if (m_variable.Aliases.Count <= 0)
+            if (m_variable.Aliases.Count <= 0 || m_layer == null)
                 return;
             foreach (PPathwayEdge line in m_variable.Edges)
                 line.Refresh();

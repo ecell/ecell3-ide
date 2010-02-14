@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -403,11 +403,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj is PPathwayAlias)
             {
                 PPathwayAlias alias = (PPathwayAlias)obj;
-                bool selectFlag = alias.Variable.Selected;
-                NotifySelectChanged(alias.Variable);
-                NotifyResetSelect();
-                m_selectedNodes.Add(alias);
+                EcellAlias ea = new EcellAlias(m_modelId, alias.Variable.EcellObject.Key, "", "", new List<EcellData>());
                 alias.Selected = true;
+                m_selectedNodes.Add(alias);
+                m_con.Window.NotifySelectChanged(
+                    ea.ModelID,
+                    ea.Key,
+                    ea.Type);
+                return;
             }
 
             if (obj.EcellObject == null)
@@ -428,13 +431,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj is PPathwayAlias)
             {
                 PPathwayAlias alias = (PPathwayAlias)obj;
-                bool selectFlag = alias.Variable.Selected;
-                NotifyAddSelect(alias.Variable);
-                if (!selectFlag)
-                    NotifyRemoveSelect(alias.Variable);
+                EcellAlias ea = new EcellAlias(m_modelId, alias.Variable.EcellObject.Key, "", "", new List<EcellData>());
                 m_selectedNodes.Add(alias);
                 alias.Selected = true;
+                m_con.Window.NotifySelectChanged(
+                    ea.ModelID,
+                    ea.Key,
+                    ea.Type);
                 return;
+
             }
             if (obj.EcellObject == null)
                 return;
@@ -615,9 +620,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
                 else if (!hasCoords)
                 {
-                    obj.CenterPointF = GetVacantPoint(sysKey);
+                    obj.Center = GetVacantPoint(sysKey);
                 }
-                else if (!DoesSystemContains(sysKey, obj.CenterPointF))
+                else if (!DoesSystemContains(sysKey, obj.Center))
                 {
                     if (!obj.EcellObject.IsLayouted)
                     {
@@ -625,7 +630,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     }
                     else
                     {
-                        obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                        obj.Center = GetVacantPoint(sysKey, obj.Center);
                     }
                 }
             }
@@ -1078,14 +1083,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> list = layer.GetNodes();
             foreach (PPathwayObject obj in list)
             {
-                if (obj.EcellObject == null) // for Alias
-                    continue;
                 obj.Layer = m_defaultLayer;
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    obj.EcellObject.Key,
                     obj,
-                    true,
                     false);
             }
 
@@ -1140,10 +1140,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 obj.Layer = newlayer;
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    obj.EcellObject.Key,
                     obj,
-                    true,
                     false);
             }
             NotifyRemoveLayer(oldName, true);
@@ -1581,15 +1578,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Move Node.
             if (obj is PPathwayEntity)
             {
-                if (DoesSystemContains(sysKey, obj.CenterPointF))
+                if (DoesSystemContains(sysKey, obj.Center))
                     return;
 
-                obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                obj.Center = GetVacantPoint(sysKey, obj.Center);
                 if (obj is PPathwayVariable)
                 {
                     foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
                     {
-                        alias.CenterPointF = GetVacantPoint(sysKey, alias.CenterPointF);
+                        alias.Center = GetVacantPoint(sysKey, alias.Center);
                     }
                 }
                 m_con.NotifyDataChanged(obj, false);
@@ -1748,12 +1745,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Error check.
             if (key == null || type == null)
                 return;
+            ResetSelect();
             PPathwayObject obj = GetObject(key, type);
             m_focusNode = obj;
             if (obj == null)
                 return;
             // Set select change.
-            ResetSelect();
             AddSelectedNode(obj);
 
             // Exit if the event came from this plugin.
@@ -1969,7 +1966,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set parameter.
             float r = 5f;
             PointF start = new PointF(point.X, point.Y);
-            PointF dest = sys.CenterPointF;
+            PointF dest = sys.Center;
             PointF diff = new PointF(dest.X - start.X, dest.Y - start.Y);
             double len = Math.Sqrt( Math.Pow((double)diff.X, 2d) + Math.Pow((double)diff.Y, 2d) );
             PointF vector = new PointF( (float)(diff.X / len), (float)(diff.Y / len));
@@ -2176,7 +2173,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (node is PPathwayText)
                 newKey = node.EcellObject.Key;
             else
-                newKey = GetSurroundingSystemKey(node.CenterPointF) + ":" + node.EcellObject.LocalID;
+                newKey = GetSurroundingSystemKey(node.Center) + ":" + node.EcellObject.LocalID;
 
             //if (oldKey == newKey && node.OffsetX == 0.0 && node.OffsetY == 0.0)
             //    return;
@@ -2246,7 +2243,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     continue;
                 if (obj is PPathwaySystem && !rect.Contains(obj.Rect))
                     continue;
-                if (obj is PPathwayEntity && !rect.Contains(obj.CenterPointF))
+                if (obj is PPathwayEntity && !rect.Contains(obj.Center))
                     continue;
 
                 string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.Key, parentSystemName, newSysKey);
@@ -2310,7 +2307,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             else if (obj is PPathwayEntity)
             {
-                newSysKey = GetSurroundingSystemKey(obj.CenterPointF);
+                newSysKey = GetSurroundingSystemKey(obj.Center);
                 // When node is out of root.
                 if (newSysKey == null)
                 {
@@ -2331,7 +2328,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     foreach (PPathwayAlias alias in ((PPathwayVariable)obj).Aliases)
                     {
-                        if(!DoesSystemContains(newSysKey, alias.CenterPointF))
+                        if(!DoesSystemContains(newSysKey, alias.Center))
                             throw new PathwayException(MessageResources.ErrOutSystemAlias);
                     }
                 }

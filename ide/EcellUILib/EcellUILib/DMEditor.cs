@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2008 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -226,7 +226,10 @@ namespace Ecell.IDE
         protected virtual void DMECompileButtonClick(object sender, EventArgs e)
         {
             DMESaveButtonClick(DMESaveButton, e);
-            DMCompiler.Compile(m_path, m_env);
+            if (!(m_env.PluginManager.Status == ProjectStatus.Loaded))
+                DMCompiler.Compile(m_path, m_env);
+            else
+                Util.ShowErrorDialog(MessageResources.ErrSimRunning);
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -116,7 +116,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (obj is PPathwayEntity)
             {
-                eo.CenterPointF = obj.CenterPointF;
+                eo.CenterPointF = obj.Center;
             }
             else
             {

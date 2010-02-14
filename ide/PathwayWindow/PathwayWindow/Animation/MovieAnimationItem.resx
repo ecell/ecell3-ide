@@ -307,7 +307,7 @@
     <value>aviFileName</value>
   </data>
   <data name="&gt;&gt;aviFileName.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3584.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;aviFileName.Parent" xml:space="preserve">
     <value>outputBox</value>
@@ -355,6 +355,6 @@
     <value>MovieAnimationItem</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3484.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3584.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

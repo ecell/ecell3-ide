@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -297,7 +297,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 foreach (PointF point in entity.Figure.ContactPoints)
                 {
                     EdgeHandler.EdgeHandle connector = new EdgeHandler.EdgeHandle();
-                    connector.CenterPointF = new PointF(point.X + entity.X, point.Y + entity.Y);
+                    connector.Center = new PointF(point.X + entity.X, point.Y + entity.Y);
                     m_canvas.ControlLayer.AddChild(connector);
                     m_connectors.Add(connector);
                 }
@@ -394,18 +394,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     //
                     else if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS && edgePointer != null)
                     {
-                        edge.ProPoint = edgePointer.CenterPointF;
-                        pIndex = process.GetConnectorIndex(edgePointer.CenterPointF);
+                        edge.ProPoint = edgePointer.Center;
+                        pIndex = process.GetConnectorIndex(edgePointer.Center);
                     }
                     else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
                         PPathwayVariable variable = m_canvas.Variables[variableKey];
-                        vIndex = variable.GetConnectorIndex(edgePointer.CenterPointF);
+                        vIndex = variable.GetConnectorIndex(edgePointer.Center);
                     }
                     else if (obj is PPathwayAlias && handle.ComponentType == EcellObject.VARIABLE && edgePointer != null)
                     {
                         PPathwayAlias alias = (PPathwayAlias)obj;
-                        vIndex = alias.GetConnectorIndex(edgePointer.CenterPointF);
+                        vIndex = alias.GetConnectorIndex(edgePointer.Center);
                     }
                     edge.PIndex = pIndex;
                     edge.VIndex = vIndex;

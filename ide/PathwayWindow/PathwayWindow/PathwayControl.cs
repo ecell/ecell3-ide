@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -1412,7 +1412,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             foreach (PPathwayAlias alias in variable.Aliases)
             {
                 EcellLayout layout = new EcellLayout();
-                layout.Rect = alias.Rect;
+                layout.Center = alias.Center;
                 layout.Layer = alias.Layer.Name;
                 ev.Aliases.Add(layout);
             }

@@ -30,24 +30,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
 
 namespace Ecell.Objects
 {
     /// <summary>
-    /// EcellText
+    /// 
     /// </summary>
-    public class EcellText : EcellObject
+    public class EcellAlias : EcellObject
     {
+        public const string ORIGINAL = "Original";
         /// <summary>
-        /// Comment. The reserved name.
+        /// 
         /// </summary>
-        public const string COMMENT = "Comment";
-        /// <summary>
-        /// Comment. The reserved name.
-        /// </summary>
-        public const string ALIGN = "Align";
-
+        private string m_original = "";
+        
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
@@ -56,59 +52,32 @@ namespace Ecell.Objects
         /// <param name="type">type(="Variable").</param>
         /// <param name="classname">class name.</param>
         /// <param name="data">properties.</param>
-        public EcellText(string modelID, string key,
+        public EcellAlias(string modelID, string key,
             string type, string classname, List<EcellData> data)
-            : base(modelID, key, TEXT, TEXT, data)
+            : base(modelID, key, ALIAS, ALIAS, data)
         {
-            if (string.IsNullOrEmpty(this.Comment))
-                this.Comment = this.LocalID;
+            if (string.IsNullOrEmpty(this.Original))
+                this.Original = key;
         }
 
         #region Accessors
         /// <summary>
         /// get /set the activity.
         /// </summary>
-        public string Comment
+        public string Original
         {
             get
             {
-                if (IsEcellValueExists(COMMENT))
-                    return GetEcellValue(COMMENT).ToString();
+                if (IsEcellValueExists(ORIGINAL))
+                    return GetEcellValue(ORIGINAL).ToString();
                 else
                     return null;
             }
             set
             {
-                SetEcellValue(COMMENT, new EcellValue(value));
-            }
-        }
-        /// <summary>
-        /// get /set the activity.
-        /// </summary>
-        public StringAlignment Alignment
-        {
-            get
-            {
-                int align = 0;
-                if (IsEcellValueExists(ALIGN))
-                    align = (int)GetEcellValue(ALIGN);
-                if (align == 0 || align == 1 || align == 2)
-                {
-                    return (StringAlignment)align;
-                }
-                else
-                {
-                    this.Alignment = StringAlignment.Near;
-                    return StringAlignment.Near;
-                }
-            }
-            set
-            {
-                SetEcellValue(ALIGN, new EcellValue((int)value));
+                SetEcellValue(ORIGINAL, new EcellValue(value));
             }
         }
         #endregion
-
     }
-
 }

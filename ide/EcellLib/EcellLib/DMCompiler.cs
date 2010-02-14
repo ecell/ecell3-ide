@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2008 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -174,6 +174,7 @@ namespace Ecell
                 Process p = Process.Start(psi);
                 p.StandardInput.WriteLine("call \"" + VSPATH + "..\\..\\VC\\vcvarsall.bat\" " + arch3);
 
+                // Set INCLUDE path
                 string INCLUDEPATH = "";
                 string path1 = Path.Combine(stageHome, "include");
                 string path2 = string.Format("{0}\\{1}\\Release\\include", stageHome, arch1);
@@ -184,11 +185,23 @@ namespace Ecell
                 else
                     throw new EcellException(string.Format("Can not find INCLUDE path, {0}, {1}", path1, path2));
 
-                string opt = "cl.exe /O2 /GL /I \"{0}\" /I \"{0}\\ecell-3.2\" /I \"{0}\\ecell-3.2\\libecs\" /I \"{0}\\ecell-3.2\\libemc\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_WIN32_WINNT=0x500\" /D \"_SECURE_SCL=0\" /D \"_MBCS\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
-                string cmd = string.Format(opt, new object[] {
-                    INCLUDEPATH, m_sourceFile, m_outputFile, arch1, arch2
-                    });
+                // Set LIB path
+                string LIBPATH = "";
+                string libpath1 = Path.Combine(stageHome, "lib");
+                string libpath2 = string.Format("{0}\\{1}\\Release\\lib", stageHome, arch1);
+                if (Directory.Exists(libpath1))
+                    LIBPATH = libpath1;
+                else if (Directory.Exists(libpath2))
+                    LIBPATH = libpath2;
+                else
+                    throw new EcellException(string.Format("Can not find LIB path, {0}, {1}", path1, path2));
 
+                // construct compile option.
+                string opt = "cl.exe /O2 /GL /I \"{0}\" /I \"{0}\\ecell-3.2\" /I \"{0}\\ecell-3.2\\libecs\" /I \"{0}\\ecell-3.2\\libemc\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_WIN32_WINNT=0x500\" /D \"_SECURE_SCL=0\" /D \"_MBCS\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{5}\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
+                string cmd = string.Format(opt, new object[] {
+                    INCLUDEPATH, m_sourceFile, m_outputFile, arch1, arch2, LIBPATH });
+
+                // Compile.
                 p.StandardInput.WriteLine(cmd);
                 p.StandardInput.WriteLine("exit");
                 p.StandardInput.Close();
@@ -199,6 +212,7 @@ namespace Ecell
                 p.WaitForExit();
                 p.Close();
 
+                // Check Error.
                 if (mes.Contains(" error"))
                 {
                     string[] ele = mes.Split(new char[] { '\n' });
@@ -250,13 +264,11 @@ namespace Ecell
                 // Reload DMs.
                 try
                 {
-                    env.DataManager.CurrentProject.UnloadSimulator();
                     File.Copy(OutputFile, DMFile, true);
                     string msg = string.Format(MessageResources.InfoCompile,
                             Path.GetFileNameWithoutExtension(DMFile));
                     env.Console.WriteLine(msg);
                     env.Console.Flush();
-                    env.DataManager.CurrentProject.ReloadSimulator();
                 }
                 catch (Exception e)
                 {
@@ -294,9 +306,13 @@ namespace Ecell
             cm.DMFile = dmfile;
             try
             {
+                env.DataManager.CurrentProject.UnloadSimulator();
                 cm.Compile(env, true);
                 string msg = string.Format(MessageResources.InfoCompile,
                     Path.GetFileNameWithoutExtension(dmfile));
+                env.DMDescriptorKeeper.Load(env.DataManager.CurrentProject.GetDMDirs());
+                env.DataManager.CurrentProject.ReloadSimulator();
+
                 Util.ShowNoticeDialog(msg);
 
             }
@@ -320,6 +336,7 @@ namespace Ecell
             DMCompiler cm = new DMCompiler();
             string errmes = "";
             string finished = "";
+            env.DataManager.CurrentProject.UnloadSimulator();
             foreach (string filename in files)
             {
                 cm.SourceFile = filename;
@@ -335,7 +352,6 @@ namespace Ecell
                 {
                     cm.Compile(env, true);
                     finished += " " + dmname;
-
                 }
                 catch (Exception e)
                 {
@@ -344,6 +360,8 @@ namespace Ecell
                     env.Console.Flush();
                 }
             }
+            env.DMDescriptorKeeper.Load(env.DataManager.CurrentProject.GetDMDirs());
+            env.DataManager.CurrentProject.ReloadSimulator();
             // Error
             if (!string.IsNullOrEmpty(errmes))
             {

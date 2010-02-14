@@ -161,6 +161,7 @@
     <Compile Include="Logger\LoggerEventArgs.cs" />
     <Compile Include="Logger\LoggerManager.cs" />
     <Compile Include="Logging\LogEntryEventArgs.cs" />
+    <Compile Include="Objects\EcellAlias.cs" />
     <Compile Include="Objects\EcellLayer.cs" />
     <Compile Include="Objects\EcellProject.cs" />
     <Compile Include="Objects\EcellStepper.cs" />

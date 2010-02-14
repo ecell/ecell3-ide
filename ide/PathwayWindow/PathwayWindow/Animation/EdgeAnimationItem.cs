@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -382,8 +382,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ApplyChange()
         {
             _autoThreshold = autoThresholdCheckBox.Checked;
-            _thresholdHigh = float.Parse(thresholdHigh.Text);
-            _thresholdLow = float.Parse(thresholdLow.Text);
+            _thresholdHigh = double.Parse(thresholdHigh.Text);
+            _thresholdLow = double.Parse(thresholdLow.Text);
             _highEdgeBrush = edgeHighBrush.Brush;
             _lowEdgeBrush = edgeLowBrush.Brush;
             _ngEdgeBrush = edgeNGBrush.Brush;

@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -288,14 +288,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float size = GetEntitySize(variable.EcellObject, molarConc);
             float width =  size * variable.Figure.Width;
             float height =  size * variable.Figure.Height;
-            PointF pos = variable.CenterPointF;
+            PointF pos = variable.Center;
             
             // set variable.
             if (variable.Visible)
             {
                 variable.Width = width;
                 variable.Height = height;
-                variable.CenterPointF = pos;
+                variable.Center = pos;
                 variable.Brush = GetEntityBrush(molarConc, variable.Setting, variable.Path);
             }
             // set alias
@@ -304,11 +304,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!alias.Visible)
                     continue;
 
-                pos = alias.CenterPointF;
+                pos = alias.Center;
 
                 alias.Width = width;
                 alias.Height = height;
-                alias.CenterPointF = pos;
+                alias.Center = pos;
                 alias.Brush = GetEntityBrush(molarConc, alias.Setting, alias.Path);
             }
 
@@ -353,22 +353,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             variable.ViewMode = false;
             float width = variable.Figure.Width;
             float height = variable.Figure.Height;
-            PointF pos = variable.CenterPointF;
+            PointF pos = variable.Center;
             Brush brush = GetEntityBrush(molarConc, variable.Setting, variable.Path);
 
             // set variable.
             variable.Width = width;
             variable.Height = height;
-            variable.CenterPointF = pos;
+            variable.Center = pos;
             variable.RefreshView();
 
             // set alias
             foreach (PPathwayAlias alias in variable.Aliases)
             {
-                pos = alias.CenterPointF;
+                pos = alias.Center;
                 alias.Width = width;
                 alias.Height = height;
-                alias.CenterPointF = pos;
+                alias.Center = pos;
                 alias.RefreshView();
             }
         }
@@ -393,8 +393,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override void ApplyChange()
         {
             _autoThreshold = autoThresholdCheckBox.Checked;
-            _thresholdHigh = float.Parse(thresholdHigh.Text);
-            _thresholdLow = float.Parse(thresholdLow.Text);
+            _thresholdHigh = double.Parse(thresholdHigh.Text);
+            _thresholdLow = double.Parse(thresholdLow.Text);
             _highEdgeBrush = edgeHighBrush.Brush;
             _lowEdgeBrush = edgeLowBrush.Brush;
             _ngEdgeBrush = edgeNGBrush.Brush;

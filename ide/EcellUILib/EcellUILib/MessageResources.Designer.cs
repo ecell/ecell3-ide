@@ -232,6 +232,15 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Can not compile DM while the simulation is running. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSimRunning {
+            get {
+                return ResourceManager.GetString("ErrSimRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Merge into supersystem に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MergeSystem {

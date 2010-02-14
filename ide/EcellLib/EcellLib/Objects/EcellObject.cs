@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -85,6 +85,10 @@ namespace Ecell.Objects
         /// Type string of "Variable".
         /// </summary>
         public const string STEPPER = Constants.xpathStepper;
+        /// <summary>
+        /// Type string of "Alias".
+        /// </summary>
+        public const string ALIAS = "Alias";
         #endregion
 
         #region Fields

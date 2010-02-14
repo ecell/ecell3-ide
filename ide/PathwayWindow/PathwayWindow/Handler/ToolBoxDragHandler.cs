@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -99,7 +99,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             recta.Location = m_con.PathwayView.GetDesktopLocation();
             Point systemPos = GetSystemPos(e);
 
-            m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
+            m_object.Center = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.RefreshView();
             if (recta.Contains(systemPos))
             {
@@ -225,7 +225,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void AddObject()
         {
             m_eventFlag = false;
-            string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
+            string systemKey = m_canvas.GetSurroundingSystemKey(m_object.Center);
             if (!(m_object is PPathwayText) && !(m_object is PPathwayStepper) && string.IsNullOrEmpty(systemKey))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOutRoot);
@@ -246,10 +246,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 {
                     if (variable.Aliases.Count <= 0)
                         continue;
-                    bool contein = rect.Contains(variable.CenterPointF);
+                    bool contein = rect.Contains(variable.Center);
                     foreach (PPathwayAlias alias in variable.Aliases)
                     {
-                        if (rect.Contains(alias.CenterPointF) == contein)
+                        if (rect.Contains(alias.Center) == contein)
                             continue;
 
                         Util.ShowErrorDialog(MessageResources.ErrOutSystemAlias);
@@ -282,7 +282,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
                 if (obj.EcellObject.ParentSystemID.StartsWith(eo.Key))
                     continue;
-                if (!m_canvas.DoesSystemContains(eo.Key, obj.CenterPointF))
+                if (!m_canvas.DoesSystemContains(eo.Key, obj.Center))
                     continue;
 
                 string newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, eo.ParentSystemID, eo.Key);
@@ -321,7 +321,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_canvas = m_con.Canvas;
 
             Point systemPos = GetSystemPos(e);
-            m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
+            m_object.Center = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.Pickable = false;
         }
 

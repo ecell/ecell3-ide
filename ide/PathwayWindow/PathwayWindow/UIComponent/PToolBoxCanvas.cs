@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -140,7 +140,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 m_object.RemoveFromParent();
             m_object = setting.CreateTemplate();
             m_object.Pickable = false;
-            m_object.CenterPointF = center;
+            m_object.Center = center;
             m_object.RefreshView();
             base.Layer.AddChild(m_object);
         }

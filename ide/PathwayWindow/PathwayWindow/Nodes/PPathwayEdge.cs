@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -278,7 +278,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.Pickable = (variable.Visible && process.Visible);
             base.Visible = (variable.Visible && process.Visible);
 
-            m_varPoint = variable.GetContactPoint(process.CenterPointF);
+            m_varPoint = variable.GetContactPoint(process.Center);
             m_proPoint = process.GetContactPoint(m_varPoint);
             this.DrawLine();
             
@@ -303,11 +303,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_variable == null || m_process == null)
                 return;
             // get connectiong point
-            PPathwayEntity entity = GetConnectingAlias();
+            PPathwayEntity entity = GetConnectingAlias(m_vIndex);
             if (m_vIndex == -1)
-                m_varPoint = entity.GetContactPoint(m_process.CenterPointF);
+                m_varPoint = entity.GetContactPoint(m_process.Center);
             else
-                m_varPoint = m_variable.GetContactPoint(m_vIndex, m_process.CenterPointF);
+                m_varPoint = m_variable.GetContactPoint(m_vIndex, m_process.Center);
             //
             if (m_pIndex == -1)
                 m_proPoint = m_process.GetContactPoint(m_varPoint);
@@ -322,18 +322,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.Pickable = this.Visible;
         }
 
-        private PPathwayEntity GetConnectingAlias()
+        private PPathwayEntity GetConnectingAlias(int index)
         {
             PPathwayEntity entity = m_variable;
-
-            double dist = GetDistance(m_variable.CenterPointF, m_process.CenterPointF);
+            // Check Pointer.
+            if (index >= 0)
+            {
+                int aliasIndex = (int)(index / 10) - 1;
+                if (index < 10 || aliasIndex < 0)
+                {
+                    entity = m_variable;
+                }
+                else
+                {
+                    PPathwayAlias alias = m_variable.Aliases[aliasIndex];
+                    entity = alias;
+                }
+                return entity;
+            }
+            //
+            double dist = GetDistance(m_variable.Center, m_process.Center);
             double temp = 0;
             bool notset = !m_variable.Visible;
             foreach (PPathwayAlias alias in m_variable.Aliases)
             {
                 if (!alias.Visible)
                     continue;
-                temp = GetDistance(alias.CenterPointF, m_process.CenterPointF);
+                temp = GetDistance(alias.Center, m_process.Center);
                 if (temp > dist && !notset)
                     continue;
                 // Set Alias.

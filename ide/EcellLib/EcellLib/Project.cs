@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2010 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -1105,6 +1105,8 @@ namespace Ecell
             EcellObject system = GetSystem(model, Util.GetSuperSystemPath(key),isDefault);
             if (system == null || system.Children == null || system.Children.Count <= 0)
                 return null;
+            if (type.Equals(EcellObject.ALIAS))
+                type = EcellObject.VARIABLE;
 
             EcellObject entity = null;
             foreach (EcellObject child in system.Children)
