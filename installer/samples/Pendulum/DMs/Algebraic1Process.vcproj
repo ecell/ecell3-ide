@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="shift_jis"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="Algebraic1Process"
 	ProjectGUID="{0BB0F42D-E0E5-4F94-A05F-352C728C2E54}"
 	RootNamespace="Algebraic1Process"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -69,6 +70,8 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -90,7 +93,73 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\samples\Pendulum\DMs"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				WholeProgramOptimization="true"
+				AdditionalIncludeDirectories="$(INCLUDE);&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2\libecs&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2\libemc&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GSL_DLL;__STDC__=1;_WIN32_WINNT=0x500;_SECURE_SCL=0"
+				RuntimeLibrary="2"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="ecs.lib"
+				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -177,73 +246,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Default|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_HOME)\include;$(ECELL_HOME)\include\ecell-3.1\libecs;$(ECELL_HOME)\include\ecell-3.1\libemc"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="ecs.lib"
-				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Default|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\samples\Pendulum\DMs"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			>
 			<Tool
@@ -264,7 +269,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_HOME)\include;$(ECELL_HOME)\include\ecell-3.1\libecs;$(ECELL_HOME)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2\libecs&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2\libemc&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
