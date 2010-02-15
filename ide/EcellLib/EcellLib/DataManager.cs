@@ -4015,19 +4015,9 @@ namespace Ecell
         public void StartSimulation(double time)
         {
             m_steppingData = null;
-            //if (m_isTimeStepping && m_remainTime > 0.0)
-            //{
-            //    StartStepSimulation(m_remainTime, false);
-            //    return;
-            //}
-            //else if (m_isStepStepping && m_remainStep > 0)
-            //{
-            //    StartStepSimulation(m_remainStep, false);
-            //    return;
-            //}
-
             try
             {
+                // Send Message.
                 string msg;
                 if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
                 {
@@ -4045,35 +4035,44 @@ namespace Ecell
                         MessageType.Information,
                         msg,
                         this));
-                // param
+
+                // Set parameters
                 bool limitFlag = true;
                 double timeLimit = Math.Sqrt(double.MaxValue);
-                string stepperID = GetStepper(m_currentProject.Model.ModelID)[0].Key;
+                List<EcellObject> steppers = GetStepper(m_currentProject.Model.ModelID);
                 //
                 while (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     m_currentProject.Simulator.Step(m_defaultStepCount);
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();
-                    double nextTime = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextTime");
-                    double nextInterval = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextStepInterval");
                     this.m_env.PluginManager.AdvancedTime(currentTime);
-                    Trace.WriteLine(nextInterval);
+
+                    // Check Stepper Limit.
+                    foreach (EcellObject stepper in steppers)
+                    {
+                        string stepperID = stepper.Key;
+                        double nextTime = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextTime");
+                        double nextInterval = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextStepInterval");
+                        // Check Time Limit.
+                        if (!((nextTime > timeLimit || nextInterval > int.MaxValue) && limitFlag))
+                            continue;
+                        // Confirm Limit or suspend.
+                        limitFlag = false;
+                        msg = string.Format(MessageResources.ConfirmTimeLimit, stepperID);
+                        bool doContinue = Util.ShowOKCancelDialog(msg);
+                        if (doContinue)
+                            continue;
+                        // Suspend
+                        SimulationSuspend();
+                    }
+                    // Sleep
                     if (m_waitTime > 0 && m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
                         for (int i = 0; i < m_waitTime; i++)
                         {
                             Thread.Sleep(1000);
                             Application.DoEvents();
-                        }
-                    }
-                    if ((nextTime > timeLimit || nextInterval > int.MaxValue) && limitFlag)
-                    {
-                        limitFlag = false;
-                        bool doContinue = Util.ShowOKCancelDialog(MessageResources.ConfirmTimeLimit);
-                        if (!doContinue)
-                        {
-                            SimulationSuspend();
                         }
                     }
                 }

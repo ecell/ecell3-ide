@@ -170,6 +170,72 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// 
         /// </summary>
         /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected string GetStringStatus(XmlElement status, string name)
+        {
+            string param = "";
+            if (status.HasAttribute(name))
+                param = status.GetAttribute(name);
+            return param;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected bool GetBoolStatus(XmlElement status, string name)
+        {
+            string param = GetStringStatus(status, name);
+            bool value = false;
+            bool.TryParse(param, out value);
+            return value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected int GetIntStatus(XmlElement status, string name)
+        {
+            string param = GetStringStatus(status, name);
+            int value = 0;
+            int.TryParse(param, out value);
+            return value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected double GetDoubleStatus(XmlElement status, string name)
+        {
+            string param = GetStringStatus(status, name);
+            double value = 0.0;
+            double.TryParse(param, out value);
+            return value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected float GetFloatStatus(XmlElement status, string name)
+        {
+            string param = GetStringStatus(status, name);
+            float value = 0.0f;
+            float.TryParse(param, out value);
+            return value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
         public virtual void SetAnimationStatus(XmlElement status)
         {
         }

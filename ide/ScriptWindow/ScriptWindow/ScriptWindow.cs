@@ -36,6 +36,7 @@ using System.Text;
 
 using Ecell;
 using Ecell.Plugin;
+using System.Diagnostics;
 
 namespace Ecell.IDE.Plugins.ScriptWindow
 {
@@ -57,7 +58,15 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// </summary>
         public ScriptWindow()
         {
-            m_control = new ScriptCommandWindow();
+            try
+            {
+                m_control = new ScriptCommandWindow();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                Util.ShowErrorDialog(MessageResources.ErrPythonRuntime);
+            }
         }
         #endregion
 
@@ -69,7 +78,8 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> res = new List<EcellDockContent>();
-            res.Add(m_control);
+            if(m_control != null)
+                res.Add(m_control);
 
             return res;
         }

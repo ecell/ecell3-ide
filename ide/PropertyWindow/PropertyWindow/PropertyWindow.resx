@@ -159,65 +159,65 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="nameColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="nameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="nameColumn.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="nameColumn.Width" type="System.Int32, mscorlib">
     <value>96</value>
   </data>
-  <data name="valueColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+  <metadata name="valueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="valueColumn.HeaderText" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>21, 20</value>
-  </data>
+  </metadata>
   <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 22</value>
+    <value>273, 22</value>
   </data>
   <data name="defineANewPropertyToolStripMenuItem.Text" xml:space="preserve">
     <value>New property</value>
   </data>
   <data name="deleteThisPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 22</value>
+    <value>273, 22</value>
   </data>
   <data name="deleteThisPropertyToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete this property</value>
   </data>
   <data name="showTheClassDetailToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 22</value>
+    <value>273, 22</value>
   </data>
   <data name="showTheClassDetailToolStripMenuItem.Text" xml:space="preserve">
     <value>Show the class detail...</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>268, 6</value>
+    <value>270, 6</value>
   </data>
   <data name="loggingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 22</value>
+    <value>273, 22</value>
   </data>
   <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
     <value>Mark the property for logging</value>
   </data>
   <data name="observedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 22</value>
+    <value>273, 22</value>
   </data>
   <data name="observedToolStripMenuItem.Text" xml:space="preserve">
     <value>Mark the analytic property for observed</value>
   </data>
   <data name="parameterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 22</value>
+    <value>273, 22</value>
   </data>
   <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
     <value>Mark the analytic property for unknown</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>272, 164</value>
+    <value>274, 142</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
@@ -264,12 +264,12 @@
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>171, 20</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -437,6 +437,6 @@
     <value>PropertyWindow</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3433.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.Plugin.EcellDockContent, EcellLib, Version=1.1.3585.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

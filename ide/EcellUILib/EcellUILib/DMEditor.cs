@@ -226,7 +226,7 @@ namespace Ecell.IDE
         protected virtual void DMECompileButtonClick(object sender, EventArgs e)
         {
             DMESaveButtonClick(DMESaveButton, e);
-            if (!(m_env.PluginManager.Status == ProjectStatus.Loaded))
+            if (m_env.PluginManager.Status == ProjectStatus.Loaded)
                 DMCompiler.Compile(m_path, m_env);
             else
                 Util.ShowErrorDialog(MessageResources.ErrSimRunning);

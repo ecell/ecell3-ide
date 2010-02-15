@@ -194,6 +194,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 EcellLayout layout = variable.Aliases[i];
                 PPathwayAlias alias = m_aliases[i];
+                alias.Setting = this.Setting;
                 alias.Text = string.Format("[{0}]", variable.LocalID);
                 alias.Offset = PointF.Empty;
                 alias.Center = layout.Center;

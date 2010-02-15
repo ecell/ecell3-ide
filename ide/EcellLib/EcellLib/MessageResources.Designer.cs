@@ -79,7 +79,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   A limit of simulation time is approaching. Simulation may do unexpected movement after now. 
+        ///   A limit of simulation time is approaching on stepper [{0}]. Simulation may do unexpected movement after now. 
         ///Please select OK if you do not mind this, or select cancel button to stop simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmTimeLimit {

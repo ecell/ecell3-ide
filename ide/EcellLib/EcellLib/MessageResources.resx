@@ -369,7 +369,7 @@ New revision {0}:{1} was created.</value>
     <value>Do you want to save this project before closing?</value>
   </data>
   <data name="ConfirmTimeLimit" xml:space="preserve">
-    <value>A limit of simulation time is approaching. Simulation may do unexpected movement after now. 
+    <value>A limit of simulation time is approaching on stepper [{0}]. Simulation may do unexpected movement after now. 
 Please select OK if you do not mind this, or select cancel button to stop simulation.</value>
   </data>
 </root>

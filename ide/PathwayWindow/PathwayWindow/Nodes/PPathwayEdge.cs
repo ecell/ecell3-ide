@@ -303,8 +303,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (m_variable == null || m_process == null)
                 return;
             // get connectiong point
-            PPathwayEntity entity = GetConnectingAlias(m_vIndex);
-            if (m_vIndex == -1)
+            int varIndex;
+            PPathwayEntity entity = GetConnectingAlias(m_vIndex, out varIndex);
+            if (varIndex == -1)
                 m_varPoint = entity.GetContactPoint(m_process.Center);
             else
                 m_varPoint = m_variable.GetContactPoint(m_vIndex, m_process.Center);
@@ -322,27 +323,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.Pickable = this.Visible;
         }
 
-        private PPathwayEntity GetConnectingAlias(int index)
+        private PPathwayEntity GetConnectingAlias(int index, out int newIndex)
         {
             PPathwayEntity entity = m_variable;
-            // Check Pointer.
+            newIndex = index;
+            // Get pointer.
             if (index >= 0)
             {
                 int aliasIndex = (int)(index / 10) - 1;
                 if (index < 10 || aliasIndex < 0)
                 {
-                    entity = m_variable;
+                    if(m_variable.Visible)
+                        return m_variable;
                 }
                 else
                 {
                     PPathwayAlias alias = m_variable.Aliases[aliasIndex];
-                    entity = alias;
+                    if(alias.Visible)
+                        return alias;
                 }
-                return entity;
             }
-            //
+            // Get Nearest Entity.
             double dist = GetDistance(m_variable.Center, m_process.Center);
             double temp = 0;
+            newIndex = -1;
             bool notset = !m_variable.Visible;
             foreach (PPathwayAlias alias in m_variable.Aliases)
             {

@@ -644,9 +644,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj != null)
             {
                 // Change data.
-                obj.EcellObject = eo;
                 if (!obj.Setting.Name.Equals(eo.Layout.Figure))
                     obj.Setting = m_csManager.GetSetting(eo.Type, eo.Layout.Figure);
+                obj.EcellObject = eo;
                 m_canvas.DataChanged(oldKey, eo.Key, obj);
             }
 

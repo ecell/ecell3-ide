@@ -151,4 +151,7 @@
   <data name="sizeDetailLabel.Text" xml:space="preserve">
     <value>出力する動画ファイルのファイルサイズを設定してください。</value>
   </data>
+  <data name="outputCheckBox.Text" xml:space="preserve">
+    <value>動画出力を行う。</value>
+  </data>
 </root>

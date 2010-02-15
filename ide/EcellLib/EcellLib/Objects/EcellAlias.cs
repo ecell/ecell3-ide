@@ -38,6 +38,9 @@ namespace Ecell.Objects
     /// </summary>
     public class EcellAlias : EcellObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const string ORIGINAL = "Original";
         /// <summary>
         /// 

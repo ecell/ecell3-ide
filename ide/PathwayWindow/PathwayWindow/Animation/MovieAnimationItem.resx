@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>251, 153</value>
+    <value>251, 198</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 12</value>
@@ -147,16 +147,43 @@
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="outputBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="outputCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="outputCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 34</value>
+  </data>
+  <data name="outputCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 16</value>
+  </data>
+  <data name="outputCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="outputCheckBox.Text" xml:space="preserve">
+    <value>Output Movie.</value>
+  </data>
+  <data name="&gt;&gt;outputCheckBox.Name" xml:space="preserve">
+    <value>outputCheckBox</value>
+  </data>
+  <data name="&gt;&gt;outputCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;outputCheckBox.Parent" xml:space="preserve">
+    <value>outputBox</value>
+  </data>
+  <data name="&gt;&gt;outputCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="sizeDetailLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="sizeDetailLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 99</value>
+    <value>23, 144</value>
   </data>
   <data name="sizeDetailLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 12</value>
@@ -177,13 +204,13 @@
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;sizeDetailLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="maxSizeTextBox.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="maxSizeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 150</value>
+    <value>145, 195</value>
   </data>
   <data name="maxSizeTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 19</value>
@@ -204,13 +231,13 @@
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;maxSizeTextBox.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="maxSizeRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="maxSizeRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 151</value>
+    <value>37, 196</value>
   </data>
   <data name="maxSizeRadio.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 16</value>
@@ -231,13 +258,13 @@
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;maxSizeRadio.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="noLimitRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="noLimitRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 129</value>
+    <value>37, 174</value>
   </data>
   <data name="noLimitRadio.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 16</value>
@@ -258,14 +285,14 @@
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;noLimitRadio.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 26</value>
+    <value>23, 71</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>347, 23</value>
@@ -286,7 +313,7 @@
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="aviFileName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -295,7 +322,7 @@
     <value>Avi filename</value>
   </data>
   <data name="aviFileName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 52</value>
+    <value>25, 96</value>
   </data>
   <data name="aviFileName.Size" type="System.Drawing.Size, System.Drawing">
     <value>243, 28</value>
@@ -307,13 +334,13 @@
     <value>aviFileName</value>
   </data>
   <data name="&gt;&gt;aviFileName.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3584.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem, PathwayWindow, Version=1.1.3585.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;aviFileName.Parent" xml:space="preserve">
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;aviFileName.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="outputBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -322,7 +349,7 @@
     <value>0, 0</value>
   </data>
   <data name="outputBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>403, 187</value>
+    <value>403, 232</value>
   </data>
   <data name="outputBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -346,7 +373,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>403, 285</value>
+    <value>403, 238</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Output Movie</value>
@@ -355,6 +382,6 @@
     <value>MovieAnimationItem</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3584.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Animation.AnimationItemBase, PathwayWindow, Version=1.1.3585.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

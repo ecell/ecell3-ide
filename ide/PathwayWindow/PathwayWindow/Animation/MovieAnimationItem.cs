@@ -77,6 +77,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private System.Windows.Forms.TextBox maxSizeTextBox;
         private System.Windows.Forms.RadioButton maxSizeRadio;
         private System.Windows.Forms.Label sizeDetailLabel;
+        private System.Windows.Forms.CheckBox outputCheckBox;
         private System.Windows.Forms.RadioButton noLimitRadio;
         #endregion
 
@@ -112,6 +113,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             System.Windows.Forms.Label label2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieAnimationItem));
             this.outputBox = new System.Windows.Forms.GroupBox();
+            this.outputCheckBox = new System.Windows.Forms.CheckBox();
             this.sizeDetailLabel = new System.Windows.Forms.Label();
             this.maxSizeTextBox = new System.Windows.Forms.TextBox();
             this.maxSizeRadio = new System.Windows.Forms.RadioButton();
@@ -130,6 +132,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // outputBox
             // 
             resources.ApplyResources(this.outputBox, "outputBox");
+            this.outputBox.Controls.Add(this.outputCheckBox);
             this.outputBox.Controls.Add(this.sizeDetailLabel);
             this.outputBox.Controls.Add(label2);
             this.outputBox.Controls.Add(this.maxSizeTextBox);
@@ -139,6 +142,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.outputBox.Controls.Add(this.aviFileName);
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
+            // 
+            // outputCheckBox
+            // 
+            resources.ApplyResources(this.outputCheckBox, "outputCheckBox");
+            this.outputCheckBox.Checked = true;
+            this.outputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.outputCheckBox.Name = "outputCheckBox";
+            this.outputCheckBox.UseVisualStyleBackColor = true;
             // 
             // sizeDetailLabel
             // 
@@ -203,6 +214,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public override System.Xml.XmlElement GetAnimationStatus(System.Xml.XmlDocument doc)
         {
             XmlElement status = doc.CreateElement("MovieAnimationItem");
+            status.SetAttribute("Enabled", outputCheckBox.Checked.ToString());
             status.SetAttribute("Filename", aviFileName.FileName);
             status.SetAttribute("NoLimitCheck", noLimitRadio.Checked.ToString());
             status.SetAttribute("MaxSizeCheck", maxSizeRadio.Checked.ToString());
@@ -215,10 +227,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="status"></param>
         public override void SetAnimationStatus(System.Xml.XmlElement status)
         {
-            aviFileName.FileName = status.GetAttribute("Filename");
-            noLimitRadio.Checked = bool.Parse(status.GetAttribute("NoLimitCheck"));
-            maxSizeRadio.Checked = bool.Parse(status.GetAttribute("MaxSizeCheck"));
-            maxSizeTextBox.Text = status.GetAttribute("MaxSize");
+            outputCheckBox.Checked = GetBoolStatus(status, "Enabled");
+            aviFileName.FileName = GetStringStatus(status, "Filename");
+            noLimitRadio.Checked = GetBoolStatus(status, "NoLimitCheck");
+            maxSizeRadio.Checked = GetBoolStatus(status, "MaxSizeCheck");
+            maxSizeTextBox.Text = GetStringStatus(status, "MaxSize");
         }
 
         /// <summary>
@@ -251,7 +264,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Set canvas
             _canvas = _control.Canvas;
             // Avi
-            if (_aviManager != null || _isLimit || string.IsNullOrEmpty(this.aviFileName.FileName))
+            if (_aviManager != null || _isLimit || !outputCheckBox.Checked)
                 return;
 
             // Set AviManager.
@@ -272,7 +285,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             catch (Exception e)
             {
                 Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
-                this.aviFileName.FileName = "";
+                outputCheckBox.Checked = false;
                 _stream = null;
                 _aviManager = null;
             }

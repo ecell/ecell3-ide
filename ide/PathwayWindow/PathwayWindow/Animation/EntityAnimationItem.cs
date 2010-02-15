@@ -224,7 +224,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="status"></param>
         public override void SetAnimationStatus(System.Xml.XmlElement status)
         {
-            _autoThreshold = bool.Parse(status.GetAttribute("AutoThreshold"));
+            _autoThreshold = GetBoolStatus(status, "AutoThreshold");
             _thresholdHigh = double.Parse(status.GetAttribute("ThresholdHigh"));
             _thresholdLow = double.Parse(status.GetAttribute("ThresholdLow"));
             _highEdgeBrush = BrushManager.ParseStringToBrush(status.GetAttribute("HighBrush"));

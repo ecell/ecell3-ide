@@ -57,6 +57,7 @@
             // 
             // label1
             // 
+            this.label1.AutoEllipsis = true;
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             this.label1.UseMnemonic = false;

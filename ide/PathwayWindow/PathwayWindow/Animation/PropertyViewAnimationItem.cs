@@ -194,11 +194,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="status"></param>
         public override void SetAnimationStatus(System.Xml.XmlElement status)
         {
-            checkBoxActivity.Checked = bool.Parse(status.GetAttribute("Activity"));
-            checkBoxMolarActivity.Checked = bool.Parse(status.GetAttribute("MolarActivity"));
-            checkBoxMolarConc.Checked = bool.Parse(status.GetAttribute("MolarConc"));
-            checkBoxNumberConc.Checked = bool.Parse(status.GetAttribute("NumberConc"));
-            checkBoxValue.Checked = bool.Parse(status.GetAttribute("Value"));
+            checkBoxActivity.Checked = GetBoolStatus(status, "Activity");
+            checkBoxMolarActivity.Checked = GetBoolStatus(status, "MolarActivity");
+            checkBoxMolarConc.Checked = GetBoolStatus(status, "MolarConc");
+            checkBoxNumberConc.Checked = GetBoolStatus(status, "NumberConc");
+            checkBoxValue.Checked = GetBoolStatus(status, "Value");
         }
 
         /// <summary>

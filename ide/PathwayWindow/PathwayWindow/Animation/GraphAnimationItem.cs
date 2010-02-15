@@ -217,13 +217,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="status"></param>
         public override void SetAnimationStatus(System.Xml.XmlElement status)
         {
-            this.checkBoxProcess.Checked = bool.Parse(status.GetAttribute("IsProcess"));
-            this.checkBoxVariable.Checked = bool.Parse(status.GetAttribute("IsVariable"));
-            this.radioButtonActivity.Checked = bool.Parse(status.GetAttribute("Activity"));
-            this.radioButtonMolarActivity.Checked = bool.Parse(status.GetAttribute("MolarActivity"));
-            this.radioButtonMolarConc.Checked = bool.Parse(status.GetAttribute("MolarConc"));
-            this.radioButtonNumberConc.Checked = bool.Parse(status.GetAttribute("NumberConc"));
-            this.radioButtonValue.Checked = bool.Parse(status.GetAttribute("Value"));
+            this.checkBoxProcess.Checked = GetBoolStatus(status, "IsProcess");
+            this.checkBoxVariable.Checked = GetBoolStatus(status, "IsVariable");
+            this.radioButtonActivity.Checked = GetBoolStatus(status, "Activity");
+            this.radioButtonMolarActivity.Checked = GetBoolStatus(status, "MolarActivity");
+            this.radioButtonMolarConc.Checked = GetBoolStatus(status, "MolarConc");
+            this.radioButtonNumberConc.Checked = GetBoolStatus(status, "NumberConc");
+            this.radioButtonValue.Checked = GetBoolStatus(status, "Value");
 
         }
 

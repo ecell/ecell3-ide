@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrPythonRuntime" xml:space="preserve">
+    <value>Python runtime error. Please confirm existence and version of Python.</value>
+  </data>
   <data name="ScriptWindow" xml:space="preserve">
     <value>Script</value>
   </data>

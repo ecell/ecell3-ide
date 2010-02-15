@@ -404,12 +404,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 PPathwayAlias alias = (PPathwayAlias)obj;
                 EcellAlias ea = new EcellAlias(m_modelId, alias.Variable.EcellObject.Key, "", "", new List<EcellData>());
-                alias.Selected = true;
-                m_selectedNodes.Add(alias);
                 m_con.Window.NotifySelectChanged(
                     ea.ModelID,
                     ea.Key,
                     ea.Type);
+                alias.Selected = true;
+                m_selectedNodes.Add(alias);
                 return;
             }
 
@@ -432,14 +432,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 PPathwayAlias alias = (PPathwayAlias)obj;
                 EcellAlias ea = new EcellAlias(m_modelId, alias.Variable.EcellObject.Key, "", "", new List<EcellData>());
-                m_selectedNodes.Add(alias);
-                alias.Selected = true;
-                m_con.Window.NotifySelectChanged(
+                m_con.Window.NotifyAddSelect(
                     ea.ModelID,
                     ea.Key,
                     ea.Type);
+                m_selectedNodes.Add(alias);
+                alias.Selected = true;
                 return;
-
             }
             if (obj.EcellObject == null)
                 return;

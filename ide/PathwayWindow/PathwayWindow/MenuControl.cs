@@ -1268,7 +1268,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PPathwayVariable var = (PPathwayVariable)canvas.FocusNode;
             EcellVariable variable = (EcellVariable)var.EcellObject.Clone();
             PathUtil.SetLayout(variable, var);
-            EcellLayout alias = new EcellLayout(m_con.MousePosition);
+
+            // Create New Alias
+            PPathwaySystem system = canvas.Systems[variable.ParentSystemID];
+            PointF pos = m_con.MousePosition;
+            if (!system.Rect.Contains(pos))
+                pos = canvas.GetVacantPoint(variable.ParentSystemID, pos);
+            EcellLayout alias = new EcellLayout(pos);
             alias.Layer = variable.Layer;
             variable.Aliases.Add(alias);
             m_con.NotifyDataChanged(variable.Key, variable, true, true);
