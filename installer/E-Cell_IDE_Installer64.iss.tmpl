@@ -169,15 +169,14 @@ Source: "common\credit.info"; DestDir:"{app}\bin"; Components:main; CopyMode: al
 ; ======================================================
 Source: "doc\*"; DestDir: "{app}\doc"; Components: extension; CopyMode: alwaysoverwrite;
 
-
 ; ======================================================
 ; bin/*.exe
 ; ======================================================
 Source: "x64\bin\ecell-ide.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "common\x64\ecell-ide.exe.manifest"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
-Source: "common\ipy.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-Source: "common\ipyw.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+;Source: "common\ipy.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+;Source: "common\ipyw.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
 Source: "lib\idesession"; DestDir: "{app}\bin"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "lib\EcellIDE.py"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
@@ -185,19 +184,16 @@ Source: "x64\bin\python.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: 
 Source: "x64\bin\Python.Runtime.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\clr.pyd"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
-
 ; ======================================================
 ; bin/*.dll
 ; ======================================================
-Source: "Win32\bin\boost-*.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\boost_*.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\EcellLib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\EcellUILib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\ecs.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\emc.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\Formulator.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-;Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
@@ -224,10 +220,6 @@ Source: "x64\bin\Fireball.SyntaxDocument.dll"; DestDir: "{app}\bin"; Components:
 Source: "x64\bin\Fireball.Win32.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\Fireball.Windows.Forms.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
-
-; 2008/05/07  for XP and 2000 machine.
-Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
 ; ======================================================
 ; bin/ja/*
