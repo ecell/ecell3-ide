@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{09B09DC1-3D77-4D58-BDAF-FF451E3D511D}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -112,7 +112,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>IF "$(Platform)"=="Win32" goto Win32 else goto x64
+    <PreBuildEvent>IF "$(Platform)"=="Win32" goto Win32
+IF "$(Platform)"=="x64" goto x64
 goto end
 
 :Win32
@@ -130,7 +131,8 @@ XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\$(Platform)\Release\lib\ecell-3.2\dms" 
 
 SET REDIST_DIR=$(DevEnvDir)\..\..\VC\redist
 
-IF "$(Platform)"=="Win32" goto Win32 else goto x64
+IF "$(Platform)"=="Win32" goto Win32
+IF "$(Platform)"=="x64" goto x64
 goto :EOF
 
 :Win32
