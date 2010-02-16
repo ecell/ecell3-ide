@@ -985,11 +985,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (this.ProjectStatus != ProjectStatus.Loaded)
                 return;
 
+            // Get LeftTop position.
+            PointF leftTop = m_copiedNodes[0].PointF;
+            foreach (EcellObject eo in m_copiedNodes)
+            {
+                if (eo.X < leftTop.X)
+                    leftTop.X = eo.X;
+                if (eo.Y < leftTop.Y)
+                    leftTop.Y = eo.Y;
+            }
+            
             // Get position diff
             PointF diff = new PointF(10, 10);
-            if (isContext) 
-                diff = GetDistance(this.m_mousePos, m_copiedNodes[0].PointF);
-            PointF newPos = new PointF(m_copiedNodes[0].PointF.X + diff.X, m_copiedNodes[0].PointF.Y + diff.Y);
+            if (isContext)
+                diff = GetDistance(this.m_mousePos, leftTop);
+            PointF newPos = new PointF(leftTop.X + diff.X, leftTop.Y + diff.Y);
 
             // Get parent System
             string oldSysKey = m_copiedNodes[0].ParentSystemID;
@@ -1097,9 +1107,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     EcellVariable var = (EcellVariable)eo;
                     var.Aliases.Clear();
                 }
-
+                // DataAdd
                 eo.IsLayouted = false;
-                //NotifyDataAdd(eo, false);
+                NotifyDataAdd(eo, false);
             }
 
             // Reset edges.
@@ -1110,15 +1120,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     if (!(child is EcellProcess))
                         continue;
-                    ReplaceVarRef(vkeyDic, child);
+                    EcellObject p2 = m_window.GetEcellObject(child);
+                    if (ReplaceVarRef(vkeyDic, p2))
+                        processes.Add(p2);
                 }
                 if (!(obj is EcellProcess))
                     continue;
-                ReplaceVarRef(vkeyDic, obj);
+                EcellObject p1 = m_window.GetEcellObject(obj);
+                if (ReplaceVarRef(vkeyDic, p1))
+                    processes.Add(p1);
+            }
+            foreach (EcellObject eo in processes)
+            {
+                NotifyDataChanged(eo.Key, eo.Clone(), true, false);
             }
 
-            // DataAdd
-            NotifyDataAdd(copiedObjects);
+            // Set Anchor.
+            m_window.Environment.ActionManager.AddAction(new AnchorAction());
         }
 
         /// <summary>

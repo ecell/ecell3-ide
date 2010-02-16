@@ -621,7 +621,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     obj.Center = GetVacantPoint(sysKey);
                 }
-                else if (!DoesSystemContains(sysKey, obj.Center))
+                if (!DoesSystemContains(sysKey, obj.Center))
                 {
                     if (!obj.EcellObject.IsLayouted)
                     {
@@ -800,7 +800,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         offset.X = offsetx;
                 }
                 // Move entity.
-                else if (child is PPathwayEntity && ( rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect) ) )
+                else if (obj is PPathwayEntity && ( rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect) ) )
                 {
                     enlargeFlag = true;
                     offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - child.X;
@@ -812,7 +812,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     foreach (PPathwayAlias alias in ((PPathwayVariable)child).Aliases)
                     {
-                        if (alias is PPathwayEntity && (rect.IntersectsWith(alias.Rect) || rect.Contains(alias.Rect) || alias.Rect.Contains(rect)))
+                        if ( rect.IntersectsWith(alias.Rect) || rect.Contains(alias.Rect) || alias.Rect.Contains(rect) )
                         {
                             enlargeFlag = true;
                             offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - alias.X;
