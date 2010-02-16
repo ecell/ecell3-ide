@@ -296,6 +296,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Failed to load simulation engine. Please confirm your DMs and installation of the Python package. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadCore {
+            get {
+                return ResourceManager.GetString("ErrLoadCore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot load the file {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadFile {

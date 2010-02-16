@@ -1099,7 +1099,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
 
                 eo.IsLayouted = false;
-                NotifyDataAdd(eo, false);
+                //NotifyDataAdd(eo, false);
             }
 
             // Reset edges.
@@ -1110,23 +1110,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     if (!(child is EcellProcess))
                         continue;
-                    EcellObject p2 = m_window.GetEcellObject(child);
-                    if (ReplaceVarRef(vkeyDic, p2))
-                        processes.Add(p2);
+                    ReplaceVarRef(vkeyDic, child);
                 }
                 if (!(obj is EcellProcess))
                     continue;
-                EcellObject p1 = m_window.GetEcellObject(obj);
-                if (ReplaceVarRef(vkeyDic, p1))
-                    processes.Add(p1);
-            }
-            foreach (EcellObject eo in processes)
-            {
-                NotifyDataChanged(eo.Key, eo.Clone(), true, false);
+                ReplaceVarRef(vkeyDic, obj);
             }
 
-            // Set Anchor.
-            m_window.Environment.ActionManager.AddAction(new AnchorAction());
+            // DataAdd
+            NotifyDataAdd(copiedObjects);
         }
 
         /// <summary>

@@ -414,24 +414,6 @@ namespace Ecell
             string res = fileName;
             res = res.Replace("\\", "\\\\");
             i = PythonEngine.RunSimpleString("execfile('" + res + "', aContext)");            
-
-            //PythonEngine m_engine = new PythonEngine();
-
-            //m_engine.AddToPath(Directory.GetCurrentDirectory());
-            //m_engine.AddToPath(Util.GetAnalysisDir());
-
-            //MemoryStream standardOutput = new MemoryStream();
-            //m_engine.SetStandardOutput(standardOutput);
-            //m_engine.Execute("from EcellIDE import *");
-            //m_engine.Execute("import time");
-            //m_engine.Execute("import System.Threading");
-            //m_engine.Execute("session=Session()");
-            //m_engine.ExecuteFile(scriptFile);            
-            //string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
-
-            //m_env.Console.WriteLine(stdOut);
-            //m_env.Console.Flush();
-            //m_engine = null;
         }
 
         /// <summary>

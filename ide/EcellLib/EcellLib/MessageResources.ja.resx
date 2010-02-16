@@ -371,4 +371,7 @@
 この先予期せぬ動作をする可能性があります。
 構わず続ける場合はOKを、停止する場合はキャンセルを選択して下さい。</value>
   </data>
+  <data name="ErrLoadCore" xml:space="preserve">
+    <value>シミュレーションエンジンのロードに失敗しました。DMが正しくコンパイルされているかどうかとPythonのインストール状況を確認してください。</value>
+  </data>
 </root>

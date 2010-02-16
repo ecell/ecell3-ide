@@ -209,7 +209,24 @@ namespace Ecell
         /// Load DMDescriptions.
         /// </summary>
         /// <param name="dmPaths">DM path.</param>
+
         public void Load(string[] dmPaths)
+        {
+            try
+            {
+                LoadDMs(dmPaths);
+            }
+            catch (Exception e)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrLoadCore + "\n" + e.Message);
+                Trace.WriteLine(e.ToString());
+            }
+        }
+        /// <summary>
+        /// Load DMDescriptions.
+        /// </summary>
+        /// <param name="dmPaths">DM path.</param>
+        private void LoadDMs(string[] dmPaths)
         {
             m_dmPaths = dmPaths;
 

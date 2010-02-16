@@ -229,10 +229,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="obj">node which is to be connected</param>
         public void SetStartNode(PPathwayEntity obj)
         {
-            if (obj is PPathwayAlias)
-                m_start = ((PPathwayAlias)obj).Variable;
-            else
-                m_start = obj;
+            m_start = obj;
         }
 
         /// <summary>
