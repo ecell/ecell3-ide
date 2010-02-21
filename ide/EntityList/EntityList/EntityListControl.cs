@@ -398,6 +398,8 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <returns>the hit row.</returns>
         private DataGridViewRow SearchIndex(string type, string id)
         {
+            if (type.Equals(EcellObject.ALIAS))
+                type = EcellObject.VARIABLE;
             foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
                 EcellObject obj = r.Tag as EcellObject;

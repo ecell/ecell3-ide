@@ -801,6 +801,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <returns>Insert index.</returns>
         private DataGridViewRow SearchIndex(string type, string key)
         {
+            if (type.Equals(EcellObject.ALIAS))
+                type = EcellObject.VARIABLE;
             foreach (DataGridViewRow r in m_gridView.Rows)
             {
                 EcellObject obj = r.Tag as EcellObject;
