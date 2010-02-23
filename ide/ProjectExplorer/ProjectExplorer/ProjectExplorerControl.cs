@@ -891,7 +891,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             string[] keydata;
             if (current.Nodes.Count <= 0)
                 return null;
-            if (type.Equals(EcellObject.ALIAS))
+            if (EcellObject.ALIAS.Equals(type))
                 type = EcellObject.VARIABLE;
 
             keydata = key.Split(new Char[] { '/' });
