@@ -320,11 +320,18 @@ namespace Ecell
         /// </summary>
         public void UnloadSimulator()
         {
-            if (m_simulator != null)
+            if (m_simulator == null)
+                return;
+            try
             {
                 m_simulator.Dispose();
-                m_simulator = null;
             }
+            catch (Exception e)
+            {
+                m_env.Console.WriteLine(e.ToString());
+                m_env.Console.Flush();
+            }
+            m_simulator = null;
         }
 
         /// <summary>

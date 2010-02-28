@@ -116,16 +116,13 @@ namespace Ecell
             }
 
             // Set up compile environment.
-            string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
             string VS90 = System.Environment.GetEnvironmentVariable("VS90COMNTOOLS");
-            if (string.IsNullOrEmpty(VS80) && string.IsNullOrEmpty(VS90))
+            if (string.IsNullOrEmpty(VS90))
             {
-                string errmes = string.Format(MessageResources.ErrNotInstall, "Visual Studio");
+                string errmes = string.Format(MessageResources.ErrNotInstall, "Visual Studio 2008");
                 throw new EcellException(errmes);
             }
             string VSPATH = VS90;
-            if (VS90 == null)
-                VSPATH = VS80;
 
             string groupname = Constants.groupCompile + ":" + m_sourceFile;
             int maxCount = 10;
@@ -336,7 +333,16 @@ namespace Ecell
             DMCompiler cm = new DMCompiler();
             string errmes = "";
             string finished = "";
-            env.DataManager.CurrentProject.UnloadSimulator();
+            try
+            {
+                env.DataManager.CurrentProject.UnloadSimulator();
+            }
+            catch (Exception e)
+            {
+                env.Console.WriteLine(e.ToString());
+                env.Console.Flush();
+                Util.ShowErrorDialog(e.Message);
+            }
             foreach (string filename in files)
             {
                 cm.SourceFile = filename;

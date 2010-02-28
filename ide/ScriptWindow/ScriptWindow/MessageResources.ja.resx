@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrPythonRuntime" xml:space="preserve">
-    <value>Pythonランタイムのエラーです。Pｙthonがインストールされているか、バージョンが正しいかどうかを確認して下さい。</value>
+    <value>Pythonランタイムのエラーです。Pythonがインストールされているか、バージョンが正しいかどうかを確認して下さい。</value>
   </data>
   <data name="ScriptWindow" xml:space="preserve">
     <value>スクリプト</value>

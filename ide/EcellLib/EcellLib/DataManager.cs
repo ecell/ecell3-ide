@@ -4033,11 +4033,25 @@ namespace Ecell
                     // Check Stepper Limit.
                     foreach (EcellObject stepper in steppers)
                     {
+                        double nextTime = 0;
+                        double nextInterval = 0;
                         string stepperID = stepper.Key;
-                        double nextTime = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextTime");
-                        double nextInterval = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextStepInterval");
+                        try
+                        {
+                            nextTime = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextTime");
+                        }
+                        catch(Exception)
+                        {
+                        }
+                        try
+                        {
+                            nextInterval = (double)m_currentProject.Simulator.GetStepperProperty(stepperID, "NextStepInterval");
+                        }
+                        catch (Exception)
+                        {
+                        }
                         // Check Time Limit.
-                        if (!((nextTime > timeLimit || nextInterval > int.MaxValue) && limitFlag))
+                        if ( !( (nextTime > timeLimit || nextInterval > int.MaxValue) && limitFlag ) )
                             continue;
                         // Confirm Limit or suspend.
                         limitFlag = false;
