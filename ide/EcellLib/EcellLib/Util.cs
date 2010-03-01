@@ -1185,7 +1185,7 @@ namespace Ecell
         /// <returns>the tmporary directory.</returns>
         public static string GetTmpDir()
         {
-            string topDir = Path.GetTempPath() + Path.DirectorySeparatorChar + "E-Cell IDE";
+            string topDir = Path.Combine(Path.GetTempPath(), "E-Cell IDE");
             if (!Directory.Exists(topDir))
             {
                 Directory.CreateDirectory(topDir);
