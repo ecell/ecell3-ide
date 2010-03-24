@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     m_con.Canvas.RefreshEdges();
 
                 // Set canvas BG brush.
-                m_con.SetAnimationStatus();
+                m_con.ResetAnimationStatus();
             }
             catch (Exception)
             {

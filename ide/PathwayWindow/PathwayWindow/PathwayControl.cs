@@ -388,7 +388,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         void PluginManager_Refresh(object sender, EventArgs e)
         {
             m_canvas.RefreshEdges();
-            m_animCon.SetAnimationStatus();
+            m_animCon.ResetAnimationStatus();
         }
         #endregion
 
@@ -622,9 +622,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             if (type.Equals(EcellObject.MODEL))
             {
-                m_layerView.ResetLayers(((EcellModel)eo).Layers);
+                EcellModel model = (EcellModel)eo;
+                m_layerView.ResetLayers(model.Layers);
                 m_canvas.RefreshEdges();
-                m_animCon.SetAnimationSettings((XmlElement)((EcellModel)eo).Animations);
+                m_animCon.SetAnimationSettings((XmlElement)model.Animations);
             }
 
             PPathwayObject obj;

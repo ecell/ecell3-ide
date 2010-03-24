@@ -343,7 +343,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             _con.CanvasChange += new EventHandler(Control_CanvasChange);
             _con.ProjectStatusChange += new EventHandler(Control_ProjectStatusChange);
             _con.AnimationChange += new EventHandler(m_con_AnimationChange);
-            LoadSettings();
+            LoadDefaultSettings();
             _dManager = _con.Window.DataManager;
             _dManager.ApplySteppingModelEvent += new ApplySteppingModelEnvetHandler(_dManager_ApplySteppingModelEvent);
             // Set Timer.
@@ -354,18 +354,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         void _dManager_ApplySteppingModelEvent(object o, Ecell.Events.SteppingModelEventArgs e)
         {
-            SetAnimationStatus();
+            ResetAnimationStatus();
         }
 
         void m_con_AnimationChange(object sender, EventArgs e)
         {
-            SetAnimationStatus();
+            ResetAnimationStatus();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void SetAnimationStatus()
+        public void ResetAnimationStatus()
         {
             if (_con.IsAnimation)
             {
@@ -677,6 +677,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             // load animation settings
             SetAnimationSettings(animationSettings);
+            //
+            _con.NotifyAnimaitionChanged(_canvas.ModelID, false);
+
         }
         /// <summary>
         /// 
@@ -738,7 +741,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// Load Settings.
         /// </summary>
-        public void LoadSettings()
+        public void LoadDefaultSettings()
         {
             string filename = Path.Combine(Util.GetUserDir(), AnimationConstants.xPathFileName);
             if (!File.Exists(filename))
@@ -747,7 +750,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // Get Animation settings.
             XmlDocument xmlD = new XmlDocument();
             xmlD.Load(filename);
-            XmlNode settings = LoadAnimationSettings(xmlD);
+            XmlNode settings = FindAnimationSettings(xmlD);
             if (settings == null)
                 return;
 
@@ -821,7 +824,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         /// <param name="xmlD"></param>
         /// <returns></returns>
-        private static XmlNode LoadAnimationSettings(XmlDocument xmlD)
+        private static XmlNode FindAnimationSettings(XmlDocument xmlD)
         {
             XmlNode settings = null;
             foreach (XmlNode node in xmlD.ChildNodes)
