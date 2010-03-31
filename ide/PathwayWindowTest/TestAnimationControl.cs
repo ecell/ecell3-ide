@@ -160,7 +160,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         [Test()]
         public void TestLoadSettings()
         {
-            _unitUnderTest.LoadSettings();
+            _unitUnderTest.LoadDefaultSettings();
             Assert.Fail("Create or modify test(s).");
 
         }

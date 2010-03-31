@@ -334,31 +334,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 if (index < 10 || aliasIndex < 0)
                 {
                     if(m_variable.Visible)
-                        return m_variable;
+                        return entity;
                 }
                 else
                 {
                     PPathwayAlias alias = m_variable.Aliases[aliasIndex];
-                    if(alias.Visible)
-                        return alias;
+                    //if(alias.Visible)
+                    return alias;
                 }
             }
             // Get Nearest Entity.
             double dist = GetDistance(m_variable.Center, m_process.Center);
             double temp = 0;
             newIndex = -1;
-            bool notset = !m_variable.Visible;
             foreach (PPathwayAlias alias in m_variable.Aliases)
             {
-                if (!alias.Visible)
-                    continue;
+                //if (!alias.Visible)
+                //    continue;
                 temp = GetDistance(alias.Center, m_process.Center);
-                if (temp > dist && !notset)
+                if (temp > dist)
                     continue;
                 // Set Alias.
                 entity = alias;
                 dist = temp;
-                notset = false;
             }
             return entity;
         }

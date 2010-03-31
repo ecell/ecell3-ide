@@ -677,9 +677,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
             // load animation settings
             SetAnimationSettings(animationSettings);
-            //
-            _con.NotifyAnimaitionChanged(_canvas.ModelID, false);
-
         }
         /// <summary>
         /// 

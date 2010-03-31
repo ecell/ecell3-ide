@@ -2009,7 +2009,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Load AnimationSettings.
             m_animCon.LoadAnimationSettings(status);
-
+            //
+            EcellModel model = m_window.DataManager.CurrentProject.Model;
+            XmlDocument doc = new XmlDocument();
+            model.Animations = m_animCon.GetAnimationSettings(doc);
         }
 
         /// <summary>
