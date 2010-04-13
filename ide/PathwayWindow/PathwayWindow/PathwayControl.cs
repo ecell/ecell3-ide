@@ -1182,7 +1182,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     line.Info.VariableKey,
                     RefChangeType.Delete,
                     0,
-                    true);
+                    false);
                 m_canvas.ResetSelectedLine();
                 delete = true;
             }
